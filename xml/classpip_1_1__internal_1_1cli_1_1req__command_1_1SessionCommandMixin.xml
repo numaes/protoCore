@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::cli::req_command::SessionCommandMixin</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn" prot="public" virt="non-virtual">pip._internal.cli.command_context.CommandContextMixIn</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand" prot="public" virt="non-virtual">pip._internal.cli.req_command.IndexGroupCommand</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1commands_1_1search_1_1SearchCommand" prot="public" virt="non-virtual">pip._internal.commands.search.SearchCommand</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1commands_1_1uninstall_1_1UninstallCommand" prot="public" virt="non-virtual">pip._internal.commands.uninstall.UninstallCommand</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1aad78629751b02ff0294b0097aedfc1ec" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.cli.req_command.SessionCommandMixin::_session</definition>
+        <argsstring></argsstring>
+        <name>_session</name>
+        <qualifiedname>pip._internal.cli.req_command.SessionCommandMixin._session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="95" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1ac480f445a6007b6d6a3d23fe774cd7b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.req_command.SessionCommandMixin.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.cli.req_command.SessionCommandMixin.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn_1ac66381e0cf691286a57b0a13471236f7">__init__</reimplements>
+        <reimplementedby refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a089338b2d4b4c63ced3e4bb1cb94ce31">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1add86b11c55c7f86ec33d9f6777aaf758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PipSession</type>
+        <definition> PipSession pip._internal.cli.req_command.SessionCommandMixin.get_default_session</definition>
+        <argsstring>(self, Values options)</argsstring>
+        <name>get_default_session</name>
+        <qualifiedname>pip._internal.cli.req_command.SessionCommandMixin.get_default_session</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a default-managed session.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="92" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="92" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1a1c15abfb2428eb1a1ab48da456153cc7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[List[str]]</type>
+        <definition> Optional[List[str]] pip._internal.cli.req_command.SessionCommandMixin._get_index_urls</definition>
+        <argsstring>(cls, Values options)</argsstring>
+        <name>_get_index_urls</name>
+        <qualifiedname>pip._internal.cli.req_command.SessionCommandMixin._get_index_urls</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of index urls from user-provided options.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="79" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="79" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1a832833eec75860ac7be37c86958ccd91" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PipSession</type>
+        <definition> PipSession pip._internal.cli.req_command.SessionCommandMixin._build_session</definition>
+        <argsstring>(self, Values options, Optional[int] retries=None, Optional[int] timeout=None, bool fallback_to_certifi=False)</argsstring>
+        <name>_build_session</name>
+        <qualifiedname>pip._internal.cli.req_command.SessionCommandMixin._build_session</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>retries</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>timeout</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fallback_to_certifi</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="102" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="108" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A class mixin for command classes needing _build_session().
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.req_command.RequirementCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.commands.download.DownloadCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pip._internal.commands.index.IndexCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1index_1_1IndexCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._internal.commands.install.InstallCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>pip._internal.commands.list.ListCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>pip._internal.commands.search.SearchCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1search_1_1SearchCommand"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>pip._internal.commands.uninstall.UninstallCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1uninstall_1_1UninstallCommand"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pip._internal.commands.wheel.WheelCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1wheel_1_1WheelCommand"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="68" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="68" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1ac480f445a6007b6d6a3d23fe774cd7b5" prot="public" virt="non-virtual"><scope>pip::_internal::cli::req_command::SessionCommandMixin</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1a832833eec75860ac7be37c86958ccd91" prot="protected" virt="non-virtual"><scope>pip::_internal::cli::req_command::SessionCommandMixin</scope><name>_build_session</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1a1c15abfb2428eb1a1ab48da456153cc7" prot="protected" virt="non-virtual"><scope>pip::_internal::cli::req_command::SessionCommandMixin</scope><name>_get_index_urls</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1aad78629751b02ff0294b0097aedfc1ec" prot="protected" virt="non-virtual"><scope>pip::_internal::cli::req_command::SessionCommandMixin</scope><name>_session</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin_1add86b11c55c7f86ec33d9f6777aaf758" prot="public" virt="non-virtual"><scope>pip::_internal::cli::req_command::SessionCommandMixin</scope><name>get_default_session</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

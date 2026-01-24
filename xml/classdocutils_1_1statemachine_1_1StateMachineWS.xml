@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1statemachine_1_1StateMachineWS" kind="class" language="Python" prot="public">
+    <compoundname>docutils::statemachine::StateMachineWS</compoundname>
+    <basecompoundref refid="classdocutils_1_1statemachine_1_1StateMachine" prot="public" virt="non-virtual">docutils.statemachine.StateMachine</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1NestedStateMachine" prot="public" virt="non-virtual">docutils.parsers.rst.states.NestedStateMachine</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTStateMachine" prot="public" virt="non-virtual">docutils.parsers.rst.states.RSTStateMachine</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1statemachine_1_1SearchStateMachineWS" prot="public" virt="non-virtual">docutils.statemachine.SearchStateMachineWS</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateMachineWS_1ab02979462f590cdfed06f53bf4cc0d7e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StateMachineWS::line_offset</definition>
+        <argsstring></argsstring>
+        <name>line_offset</name>
+        <qualifiedname>docutils.statemachine.StateMachineWS.line_offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="807" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="807" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateMachineWS_1a2527cf21369a4009ba28ac8883d80e2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateMachineWS.get_indented</definition>
+        <argsstring>(self, until_blank=False, strip_indent=True)</argsstring>
+        <name>get_indented</name>
+        <qualifiedname>docutils.statemachine.StateMachineWS.get_indented</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>until_blank</type>
+          <defname>until_blank</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>strip_indent</type>
+          <defname>strip_indent</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a block of indented lines of text, and info.
+
+Extract an indented block where the indent is unknown for all lines.
+
+:Parameters:
+    - `until_blank`: Stop collecting at the first blank line if true.
+    - `strip_indent`: Strip common leading indent if true (default).
+
+:Return:
+    - the indented block (a list of lines of text),
+    - its indent,
+    - its first line offset from BOF, and
+    - whether or not it finished with a blank line.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="789" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="789" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateMachineWS_1ad32950cc171aa4255b608b7559a50cc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateMachineWS.get_known_indented</definition>
+        <argsstring>(self, indent, until_blank=False, strip_indent=True)</argsstring>
+        <name>get_known_indented</name>
+        <qualifiedname>docutils.statemachine.StateMachineWS.get_known_indented</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>indent</type>
+          <defname>indent</defname>
+        </param>
+        <param>
+          <type>until_blank</type>
+          <defname>until_blank</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>strip_indent</type>
+          <defname>strip_indent</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an indented block and info.
+
+Extract an indented block where the indent is known for all lines.
+Starting with the current line, extract the entire text block with at
+least `indent` indentation (which must be whitespace, except for the
+first line).
+
+:Parameters:
+    - `indent`: The number of indent columns/characters.
+    - `until_blank`: Stop collecting at the first blank line if true.
+    - `strip_indent`: Strip `indent` characters of indentation if true
+      (default).
+
+:Return:
+    - the indented block,
+    - its first line offset from BOF, and
+    - whether or not it finished with a blank line.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="815" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="815" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateMachineWS_1a45f50a4b60487ab55d3b62dd8365af64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateMachineWS.get_first_known_indented</definition>
+        <argsstring>(self, indent, until_blank=False, strip_indent=True, strip_top=True)</argsstring>
+        <name>get_first_known_indented</name>
+        <qualifiedname>docutils.statemachine.StateMachineWS.get_first_known_indented</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>indent</type>
+          <defname>indent</defname>
+        </param>
+        <param>
+          <type>until_blank</type>
+          <defname>until_blank</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>strip_indent</type>
+          <defname>strip_indent</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>strip_top</type>
+          <defname>strip_top</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an indented block and info.
+
+Extract an indented block where the indent is known for the first line
+and unknown for all other lines.
+
+:Parameters:
+    - `indent`: The first line&apos;s indent (# of columns/characters).
+    - `until_blank`: Stop collecting at the first blank line if true
+      (1).
+    - `strip_indent`: Strip `indent` characters of indentation if true
+      (1, default).
+    - `strip_top`: Strip blank lines from the beginning of the block.
+
+:Return:
+    - the indented block,
+    - its indent,
+    - its first line offset from BOF, and
+    - whether or not it finished with a blank line.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="845" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="846" bodyend="878"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>`StateMachine` subclass specialized for whitespace recognition.
+
+There are three methods provided for extracting indented text blocks:
+
+- `get_indented()`: use when the indent is unknown.
+- `get_known_indented()`: use when the indent is known for all lines.
+- `get_first_known_indented()`: use when only the first line&apos;s indent is
+  known.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.statemachine.StateMachineWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateMachineWS"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.states.NestedStateMachine</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1NestedStateMachine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.parsers.rst.states.RSTStateMachine</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTStateMachine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.statemachine.SearchStateMachineWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1SearchStateMachineWS"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.StateMachine</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateMachine"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.statemachine.StateMachineWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateMachineWS"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.StateMachine</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateMachine"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="776" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="776" bodyend="878"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1statemachine_1_1StateMachineWS_1a45f50a4b60487ab55d3b62dd8365af64" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateMachineWS</scope><name>get_first_known_indented</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateMachineWS_1a2527cf21369a4009ba28ac8883d80e2a" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateMachineWS</scope><name>get_indented</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateMachineWS_1ad32950cc171aa4255b608b7559a50cc4" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateMachineWS</scope><name>get_known_indented</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateMachineWS_1ab02979462f590cdfed06f53bf4cc0d7e" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateMachineWS</scope><name>line_offset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

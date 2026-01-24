@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1asc_1_1AscLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::asc::AscLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a8336f1285e27ab3b32d860be07ef95df" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.asc.AscLexer::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.name</qualifiedname>
+        <initializer>=  &apos;ASCII armored&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1ab8ee6fa063712a5a30fff0673008d3b4" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.asc.AscLexer::aliases</definition>
+        <argsstring></argsstring>
+        <name>aliases</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.aliases</qualifiedname>
+        <initializer>=  [&apos;asc&apos;, &apos;pem&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1abc82514deca3e9bb1c95bc5688783d98" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.asc.AscLexer::filenames</definition>
+        <argsstring></argsstring>
+        <name>filenames</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.filenames</qualifiedname>
+        <initializer>=  [
+        &apos;*.asc&apos;,  # PGP; *.gpg, *.pgp, and *.sig too, but those can be binary
+        &apos;*.pem&apos;,  # X.509; *.cer, *.crt, *.csr, and key etc too, but those can be binary
+        &apos;id_dsa&apos;, &apos;id_ecdsa&apos;, &apos;id_ecdsa_sk&apos;, &apos;id_ed25519&apos;, &apos;id_ed25519_sk&apos;,
+        &apos;id_rsa&apos;,  # SSH private keys
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a8192187e01b15be54d7b05ab06085889" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.asc.AscLexer::mimetypes</definition>
+        <argsstring></argsstring>
+        <name>mimetypes</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.mimetypes</qualifiedname>
+        <initializer>=  [&apos;application/pgp-keys&apos;, &apos;application/pgp-encrypted&apos;,
+                 &apos;application/pgp-signature&apos;, &apos;application/pem-certificate-chain&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a68f1d0153ff40bc02b641ee53849702b" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.asc.AscLexer::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.url</qualifiedname>
+        <initializer>=  &apos;https://www.openpgp.org&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1aa6f05b5ef2c8e8c1bc5b158387bd39ad" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.asc.AscLexer::version_added</definition>
+        <argsstring></argsstring>
+        <name>version_added</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.version_added</qualifiedname>
+        <initializer>=  &apos;2.10&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1ae07730883b2cd769ea1d11abf501b298" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.asc.AscLexer::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.flags</qualifiedname>
+        <initializer>=  re.MULTILINE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a25c292096f8a2fb65f707c8cb8d07f91" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.asc.AscLexer::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.tokens</qualifiedname>
+        <initializer>=  {
+        &apos;root&apos;: [
+            (r&apos;\s+&apos;, Whitespace),
+            (r&apos;^-----BEGIN [^\n]+-----$&apos;, Generic.Heading, &apos;data&apos;),
+            (r&apos;\S+&apos;, Comment),
+        ],
+        &apos;data&apos;: [
+            (r&apos;\s+&apos;, Whitespace),
+            (r&apos;^([^:]+)(:)([ \t]+)(.*)&apos;,
+             bygroups(Name.Attribute, Operator, Whitespace, String)),
+            (r&apos;^-----END [^\n]+-----$&apos;, Generic.Heading, &apos;root&apos;),
+            (r&apos;\S+&apos;, String),
+        ],
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a3a2977e9dddc2d1bba920774ec3bb74b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.asc.AscLexer.analyse_text</definition>
+        <argsstring>(text)</argsstring>
+        <name>analyse_text</name>
+        <qualifiedname>pygments.lexers.asc.AscLexer.analyse_text</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1Lexer_1acb2d7eefc23ce9b9ae69e1477461533a">analyse_text</reimplements>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A static method which is called for lexer guessing.
+
+It should analyse the text and return a float in the range
+from ``0.0`` to ``1.0``.  If it returns ``0.0``, the lexer
+will not be selected as the most probable one, if it returns
+``1.0``, it will be selected immediately.  This is used by
+`guess_lexer`.
+
+The `LexerMeta` metaclass automatically wraps this function so
+that it works like a static method (no ``self`` or ``cls``
+parameter) and the return value is automatically converted to
+`float`. If the return value is an object that is boolean `False`
+it&apos;s the same as if the return values was ``0.0``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="53" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Lexer for ASCII armored files, containing `-----BEGIN/END ...-----` wrapped
+base64 data.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.asc.AscLexer</label>
+        <link refid="classpygments_1_1lexers_1_1asc_1_1AscLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="9">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.asc.AscLexer</label>
+        <link refid="classpygments_1_1lexers_1_1asc_1_1AscLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>name</edgelabel>
+          <edgelabel>url</edgelabel>
+          <edgelabel>version_added</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>filenames</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>alias_filenames</edgelabel>
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>filenames</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/asc.py" bodystart="18" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1ab8ee6fa063712a5a30fff0673008d3b4" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>aliases</name></member>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a3a2977e9dddc2d1bba920774ec3bb74b" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>analyse_text</name></member>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1abc82514deca3e9bb1c95bc5688783d98" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>filenames</name></member>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1ae07730883b2cd769ea1d11abf501b298" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>flags</name></member>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a8192187e01b15be54d7b05ab06085889" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>mimetypes</name></member>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a8336f1285e27ab3b32d860be07ef95df" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>name</name></member>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a25c292096f8a2fb65f707c8cb8d07f91" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>tokens</name></member>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1a68f1d0153ff40bc02b641ee53849702b" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>url</name></member>
+      <member refid="classpygments_1_1lexers_1_1asc_1_1AscLexer_1aa6f05b5ef2c8e8c1bc5b158387bd39ad" prot="public" virt="non-virtual"><scope>pygments::lexers::asc::AscLexer</scope><name>version_added</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

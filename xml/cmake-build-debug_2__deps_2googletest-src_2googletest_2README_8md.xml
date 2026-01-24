@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2googletest_2README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">###<sp/>Generic<sp/>Build<sp/>Instructions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Setup</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>build<sp/>GoogleTest<sp/>and<sp/>your<sp/>tests<sp/>that<sp/>use<sp/>it,<sp/>you<sp/>need<sp/>to<sp/>tell<sp/>your<sp/>build</highlight></codeline>
+<codeline><highlight class="normal">system<sp/>where<sp/>to<sp/>find<sp/>its<sp/>headers<sp/>and<sp/>source<sp/>files.<sp/>The<sp/>exact<sp/>way<sp/>to<sp/>do<sp/>it</highlight></codeline>
+<codeline><highlight class="normal">depends<sp/>on<sp/>which<sp/>build<sp/>system<sp/>you<sp/>use,<sp/>and<sp/>is<sp/>usually<sp/>straightforward.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Build<sp/>with<sp/>CMake</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>comes<sp/>with<sp/>a<sp/>CMake<sp/>build<sp/>script</highlight></codeline>
+<codeline><highlight class="normal">([CMakeLists.txt](https://github.com/google/googletest/blob/main/CMakeLists.txt))</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>can<sp/>be<sp/>used<sp/>on<sp/>a<sp/>wide<sp/>range<sp/>of<sp/>platforms<sp/>(&quot;C&quot;<sp/>stands<sp/>for<sp/>cross-platform.).</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>don&apos;t<sp/>have<sp/>CMake<sp/>installed<sp/>already,<sp/>you<sp/>can<sp/>download<sp/>it<sp/>for<sp/>free<sp/>from</highlight></codeline>
+<codeline><highlight class="normal">&lt;http://www.cmake.org/&gt;.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">CMake<sp/>works<sp/>by<sp/>generating<sp/>native<sp/>makefiles<sp/>or<sp/>build<sp/>projects<sp/>that<sp/>can<sp/>be<sp/>used<sp/>in</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>compiler<sp/>environment<sp/>of<sp/>your<sp/>choice.<sp/>You<sp/>can<sp/>either<sp/>build<sp/>GoogleTest<sp/>as<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">standalone<sp/>project<sp/>or<sp/>it<sp/>can<sp/>be<sp/>incorporated<sp/>into<sp/>an<sp/>existing<sp/>CMake<sp/>build<sp/>for</highlight></codeline>
+<codeline><highlight class="normal">another<sp/>project.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Standalone<sp/>CMake<sp/>Project</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>building<sp/>GoogleTest<sp/>as<sp/>a<sp/>standalone<sp/>project,<sp/>the<sp/>typical<sp/>workflow<sp/>starts</highlight></codeline>
+<codeline><highlight class="normal">with</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">git<sp/>clone<sp/>https://github.com/google/googletest.git<sp/>-b<sp/>v1.13.0</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>googletest<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>Main<sp/>directory<sp/>of<sp/>the<sp/>cloned<sp/>repository.</highlight></codeline>
+<codeline><highlight class="normal">mkdir<sp/>build<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>Create<sp/>a<sp/>directory<sp/>to<sp/>hold<sp/>the<sp/>build<sp/>output.</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>build</highlight></codeline>
+<codeline><highlight class="normal">cmake<sp/>..<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>Generate<sp/>native<sp/>build<sp/>scripts<sp/>for<sp/>GoogleTest.</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>above<sp/>command<sp/>also<sp/>includes<sp/>GoogleMock<sp/>by<sp/>default.<sp/>And<sp/>so,<sp/>if<sp/>you<sp/>want<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">build<sp/>only<sp/>GoogleTest,<sp/>you<sp/>should<sp/>replace<sp/>the<sp/>last<sp/>command<sp/>with</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">cmake<sp/>..<sp/>-DBUILD_GMOCK=OFF</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>are<sp/>on<sp/>a<sp/>\*nix<sp/>system,<sp/>you<sp/>should<sp/>now<sp/>see<sp/>a<sp/>Makefile<sp/>in<sp/>the<sp/>current</highlight></codeline>
+<codeline><highlight class="normal">directory.<sp/>Just<sp/>type<sp/>`make`<sp/>to<sp/>build<sp/>GoogleTest.<sp/>And<sp/>then<sp/>you<sp/>can<sp/>simply<sp/>install</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>if<sp/>you<sp/>are<sp/>a<sp/>system<sp/>administrator.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">make</highlight></codeline>
+<codeline><highlight class="normal">sudo<sp/>make<sp/>install<sp/><sp/><sp/><sp/>#<sp/>Install<sp/>in<sp/>/usr/local/<sp/>by<sp/>default</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>use<sp/>Windows<sp/>and<sp/>have<sp/>Visual<sp/>Studio<sp/>installed,<sp/>a<sp/>`gtest.sln`<sp/>file<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">several<sp/>`.vcproj`<sp/>files<sp/>will<sp/>be<sp/>created.<sp/>You<sp/>can<sp/>then<sp/>build<sp/>them<sp/>using<sp/>Visual</highlight></codeline>
+<codeline><highlight class="normal">Studio.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">On<sp/>Mac<sp/>OS<sp/>X<sp/>with<sp/>Xcode<sp/>installed,<sp/>a<sp/>`.xcodeproj`<sp/>file<sp/>will<sp/>be<sp/>generated.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Incorporating<sp/>Into<sp/>An<sp/>Existing<sp/>CMake<sp/>Project</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>want<sp/>to<sp/>use<sp/>GoogleTest<sp/>in<sp/>a<sp/>project<sp/>which<sp/>already<sp/>uses<sp/>CMake,<sp/>the<sp/>easiest</highlight></codeline>
+<codeline><highlight class="normal">way<sp/>is<sp/>to<sp/>get<sp/>installed<sp/>libraries<sp/>and<sp/>headers.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Import<sp/>GoogleTest<sp/>by<sp/>using<sp/>`find_package`<sp/>(or<sp/>`pkg_check_modules`).<sp/>For</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>example,<sp/>if<sp/>`find_package(GTest<sp/>CONFIG<sp/>REQUIRED)`<sp/>succeeds,<sp/>you<sp/>can<sp/>use<sp/>the</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>libraries<sp/>as<sp/>`GTest::gtest`,<sp/>`GTest::gmock`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">And<sp/>a<sp/>more<sp/>robust<sp/>and<sp/>flexible<sp/>approach<sp/>is<sp/>to<sp/>build<sp/>GoogleTest<sp/>as<sp/>part<sp/>of<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">project<sp/>directly.<sp/>This<sp/>is<sp/>done<sp/>by<sp/>making<sp/>the<sp/>GoogleTest<sp/>source<sp/>code<sp/>available<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>main<sp/>build<sp/>and<sp/>adding<sp/>it<sp/>using<sp/>CMake&apos;s<sp/>`add_subdirectory()`<sp/>command.<sp/>This</highlight></codeline>
+<codeline><highlight class="normal">has<sp/>the<sp/>significant<sp/>advantage<sp/>that<sp/>the<sp/>same<sp/>compiler<sp/>and<sp/>linker<sp/>settings<sp/>are</highlight></codeline>
+<codeline><highlight class="normal">used<sp/>between<sp/>GoogleTest<sp/>and<sp/>the<sp/>rest<sp/>of<sp/>your<sp/>project,<sp/>so<sp/>issues<sp/>associated<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>incompatible<sp/>libraries<sp/>(eg<sp/>debug/release),<sp/>etc.<sp/>are<sp/>avoided.<sp/>This<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">particularly<sp/>useful<sp/>on<sp/>Windows.<sp/>Making<sp/>GoogleTest&apos;s<sp/>source<sp/>code<sp/>available<sp/>to<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">main<sp/>build<sp/>can<sp/>be<sp/>done<sp/>a<sp/>few<sp/>different<sp/>ways:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Download<sp/>the<sp/>GoogleTest<sp/>source<sp/>code<sp/>manually<sp/>and<sp/>place<sp/>it<sp/>at<sp/>a<sp/>known</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>location.<sp/>This<sp/>is<sp/>the<sp/>least<sp/>flexible<sp/>approach<sp/>and<sp/>can<sp/>make<sp/>it<sp/>more<sp/>difficult</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>to<sp/>use<sp/>with<sp/>continuous<sp/>integration<sp/>systems,<sp/>etc.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Embed<sp/>the<sp/>GoogleTest<sp/>source<sp/>code<sp/>as<sp/>a<sp/>direct<sp/>copy<sp/>in<sp/>the<sp/>main<sp/>project&apos;s</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>source<sp/>tree.<sp/>This<sp/>is<sp/>often<sp/>the<sp/>simplest<sp/>approach,<sp/>but<sp/>is<sp/>also<sp/>the<sp/>hardest<sp/>to</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>keep<sp/>up<sp/>to<sp/>date.<sp/>Some<sp/>organizations<sp/>may<sp/>not<sp/>permit<sp/>this<sp/>method.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Add<sp/>GoogleTest<sp/>as<sp/>a<sp/>git<sp/>submodule<sp/>or<sp/>equivalent.<sp/>This<sp/>may<sp/>not<sp/>always<sp/>be</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>possible<sp/>or<sp/>appropriate.<sp/>Git<sp/>submodules,<sp/>for<sp/>example,<sp/>have<sp/>their<sp/>own<sp/>set<sp/>of</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>advantages<sp/>and<sp/>drawbacks.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Use<sp/>CMake<sp/>to<sp/>download<sp/>GoogleTest<sp/>as<sp/>part<sp/>of<sp/>the<sp/>build&apos;s<sp/>configure<sp/>step.<sp/>This</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>approach<sp/>doesn&apos;t<sp/>have<sp/>the<sp/>limitations<sp/>of<sp/>the<sp/>other<sp/>methods.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>last<sp/>of<sp/>the<sp/>above<sp/>methods<sp/>is<sp/>implemented<sp/>with<sp/>a<sp/>small<sp/>piece<sp/>of<sp/>CMake<sp/>code</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>downloads<sp/>and<sp/>pulls<sp/>the<sp/>GoogleTest<sp/>code<sp/>into<sp/>the<sp/>main<sp/>build.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Just<sp/>add<sp/>to<sp/>your<sp/>`CMakeLists.txt`:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cmake</highlight></codeline>
+<codeline><highlight class="normal">include(FetchContent)</highlight></codeline>
+<codeline><highlight class="normal">FetchContent_Declare(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>googletest</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>#<sp/>Specify<sp/>the<sp/>commit<sp/>you<sp/>depend<sp/>on<sp/>and<sp/>update<sp/>it<sp/>regularly.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>URL<sp/>https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip</highlight></codeline>
+<codeline><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>For<sp/>Windows:<sp/>Prevent<sp/>overriding<sp/>the<sp/>parent<sp/>project&apos;s<sp/>compiler/linker<sp/>settings</highlight></codeline>
+<codeline><highlight class="normal">set(gtest_force_shared_crt<sp/>ON<sp/>CACHE<sp/>BOOL<sp/>&quot;&quot;<sp/>FORCE)</highlight></codeline>
+<codeline><highlight class="normal">FetchContent_MakeAvailable(googletest)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Now<sp/>simply<sp/>link<sp/>against<sp/>gtest<sp/>or<sp/>gtest_main<sp/>as<sp/>needed.<sp/>Eg</highlight></codeline>
+<codeline><highlight class="normal">add_executable(example<sp/>example.cpp)</highlight></codeline>
+<codeline><highlight class="normal">target_link_libraries(example<sp/>gtest_main)</highlight></codeline>
+<codeline><highlight class="normal">add_test(NAME<sp/>example_test<sp/>COMMAND<sp/>example)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>this<sp/>approach<sp/>requires<sp/>CMake<sp/>3.14<sp/>or<sp/>later<sp/>due<sp/>to<sp/>its<sp/>use<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">`FetchContent_MakeAvailable()`<sp/>command.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Visual<sp/>Studio<sp/>Dynamic<sp/>vs<sp/>Static<sp/>Runtimes</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">By<sp/>default,<sp/>new<sp/>Visual<sp/>Studio<sp/>projects<sp/>link<sp/>the<sp/>C<sp/>runtimes<sp/>dynamically<sp/>but</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>links<sp/>them<sp/>statically.<sp/>This<sp/>will<sp/>generate<sp/>an<sp/>error<sp/>that<sp/>looks</highlight></codeline>
+<codeline><highlight class="normal">something<sp/>like<sp/>the<sp/>following:<sp/>gtest.lib(gtest-all.obj)<sp/>:<sp/>error<sp/>LNK2038:<sp/>mismatch</highlight></codeline>
+<codeline><highlight class="normal">detected<sp/>for<sp/>&apos;RuntimeLibrary&apos;:<sp/>value<sp/>&apos;MTd_StaticDebug&apos;<sp/>doesn&apos;t<sp/>match<sp/>value</highlight></codeline>
+<codeline><highlight class="normal">&apos;MDd_DynamicDebug&apos;<sp/>in<sp/>main.obj</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>already<sp/>has<sp/>a<sp/>CMake<sp/>option<sp/>for<sp/>this:<sp/>`gtest_force_shared_crt`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Enabling<sp/>this<sp/>option<sp/>will<sp/>make<sp/>gtest<sp/>link<sp/>the<sp/>runtimes<sp/>dynamically<sp/>too,<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">match<sp/>the<sp/>project<sp/>in<sp/>which<sp/>it<sp/>is<sp/>included.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>C++<sp/>Standard<sp/>Version</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">An<sp/>environment<sp/>that<sp/>supports<sp/>C++14<sp/>is<sp/>required<sp/>in<sp/>order<sp/>to<sp/>successfully<sp/>build</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest.<sp/>One<sp/>way<sp/>to<sp/>ensure<sp/>this<sp/>is<sp/>to<sp/>specify<sp/>the<sp/>standard<sp/>in<sp/>the<sp/>top-level</highlight></codeline>
+<codeline><highlight class="normal">project,<sp/>for<sp/>example<sp/>by<sp/>using<sp/>the<sp/>`set(CMAKE_CXX_STANDARD<sp/>14)`<sp/>command<sp/>along</highlight></codeline>
+<codeline><highlight class="normal">with<sp/>`set(CMAKE_CXX_STANDARD_REQUIRED<sp/>ON)`.<sp/>If<sp/>this<sp/>is<sp/>not<sp/>feasible,<sp/>for<sp/>example</highlight></codeline>
+<codeline><highlight class="normal">in<sp/>a<sp/>C<sp/>project<sp/>using<sp/>GoogleTest<sp/>for<sp/>validation,<sp/>then<sp/>it<sp/>can<sp/>be<sp/>specified<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">adding<sp/>it<sp/>to<sp/>the<sp/>options<sp/>for<sp/>cmake<sp/>via<sp/>the`-DCMAKE_CXX_FLAGS`<sp/>option.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Tweaking<sp/>GoogleTest</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>can<sp/>be<sp/>used<sp/>in<sp/>diverse<sp/>environments.<sp/>The<sp/>default<sp/>configuration<sp/>may</highlight></codeline>
+<codeline><highlight class="normal">not<sp/>work<sp/>(or<sp/>may<sp/>not<sp/>work<sp/>well)<sp/>out<sp/>of<sp/>the<sp/>box<sp/>in<sp/>some<sp/>environments.<sp/>However,</highlight></codeline>
+<codeline><highlight class="normal">you<sp/>can<sp/>easily<sp/>tweak<sp/>GoogleTest<sp/>by<sp/>defining<sp/>control<sp/>macros<sp/>on<sp/>the<sp/>compiler</highlight></codeline>
+<codeline><highlight class="normal">command<sp/>line.<sp/>Generally,<sp/>these<sp/>macros<sp/>are<sp/>named<sp/>like<sp/>`GTEST_XYZ`<sp/>and<sp/>you<sp/>define</highlight></codeline>
+<codeline><highlight class="normal">them<sp/>to<sp/>either<sp/>1<sp/>or<sp/>0<sp/>to<sp/>enable<sp/>or<sp/>disable<sp/>a<sp/>certain<sp/>feature.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">We<sp/>list<sp/>the<sp/>most<sp/>frequently<sp/>used<sp/>macros<sp/>below.<sp/>For<sp/>a<sp/>complete<sp/>list,<sp/>see<sp/>file</highlight></codeline>
+<codeline><highlight class="normal">[include/gtest/internal/gtest-port.h](https://github.com/google/googletest/blob/main/googletest/include/gtest/internal/gtest-port.h).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Multi-threaded<sp/>Tests</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>is<sp/>thread-safe<sp/>where<sp/>the<sp/>pthread<sp/>library<sp/>is<sp/>available.<sp/>After</highlight></codeline>
+<codeline><highlight class="normal">`#include<sp/>&lt;gtest/gtest.h&gt;`,<sp/>you<sp/>can<sp/>check<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">`GTEST_IS_THREADSAFE`<sp/>macro<sp/>to<sp/>see<sp/>whether<sp/>this<sp/>is<sp/>the<sp/>case<sp/>(yes<sp/>if<sp/>the<sp/>macro<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">`#defined`<sp/>to<sp/>1,<sp/>no<sp/>if<sp/>it&apos;s<sp/>undefined.).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>GoogleTest<sp/>doesn&apos;t<sp/>correctly<sp/>detect<sp/>whether<sp/>pthread<sp/>is<sp/>available<sp/>in<sp/>your</highlight></codeline>
+<codeline><highlight class="normal">environment,<sp/>you<sp/>can<sp/>force<sp/>it<sp/>with</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_HAS_PTHREAD=1</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">or</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_HAS_PTHREAD=0</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>GoogleTest<sp/>uses<sp/>pthread,<sp/>you<sp/>may<sp/>need<sp/>to<sp/>add<sp/>flags<sp/>to<sp/>your<sp/>compiler<sp/>and/or</highlight></codeline>
+<codeline><highlight class="normal">linker<sp/>to<sp/>select<sp/>the<sp/>pthread<sp/>library,<sp/>or<sp/>you&apos;ll<sp/>get<sp/>link<sp/>errors.<sp/>If<sp/>you<sp/>use<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">CMake<sp/>script,<sp/>this<sp/>is<sp/>taken<sp/>care<sp/>of<sp/>for<sp/>you.<sp/>If<sp/>you<sp/>use<sp/>your<sp/>own<sp/>build<sp/>script,</highlight></codeline>
+<codeline><highlight class="normal">you&apos;ll<sp/>need<sp/>to<sp/>read<sp/>your<sp/>compiler<sp/>and<sp/>linker&apos;s<sp/>manual<sp/>to<sp/>figure<sp/>out<sp/>what<sp/>flags</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>add.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>As<sp/>a<sp/>Shared<sp/>Library<sp/>(DLL)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>is<sp/>compact,<sp/>so<sp/>most<sp/>users<sp/>can<sp/>build<sp/>and<sp/>link<sp/>it<sp/>as<sp/>a<sp/>static<sp/>library</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>the<sp/>simplicity.<sp/>You<sp/>can<sp/>choose<sp/>to<sp/>use<sp/>GoogleTest<sp/>as<sp/>a<sp/>shared<sp/>library<sp/>(known</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>a<sp/>DLL<sp/>on<sp/>Windows)<sp/>if<sp/>you<sp/>prefer.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>compile<sp/>*gtest*<sp/>as<sp/>a<sp/>shared<sp/>library,<sp/>add</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_CREATE_SHARED_LIBRARY=1</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">to<sp/>the<sp/>compiler<sp/>flags.<sp/>You&apos;ll<sp/>also<sp/>need<sp/>to<sp/>tell<sp/>the<sp/>linker<sp/>to<sp/>produce<sp/>a<sp/>shared</highlight></codeline>
+<codeline><highlight class="normal">library<sp/>instead<sp/>-<sp/>consult<sp/>your<sp/>linker&apos;s<sp/>manual<sp/>for<sp/>how<sp/>to<sp/>do<sp/>it.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>compile<sp/>your<sp/>*tests*<sp/>that<sp/>use<sp/>the<sp/>gtest<sp/>shared<sp/>library,<sp/>add</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_LINKED_AS_SHARED_LIBRARY=1</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">to<sp/>the<sp/>compiler<sp/>flags.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note:<sp/>while<sp/>the<sp/>above<sp/>steps<sp/>aren&apos;t<sp/>technically<sp/>necessary<sp/>today<sp/>when<sp/>using<sp/>some</highlight></codeline>
+<codeline><highlight class="normal">compilers<sp/>(e.g.<sp/>GCC),<sp/>they<sp/>may<sp/>become<sp/>necessary<sp/>in<sp/>the<sp/>future,<sp/>if<sp/>we<sp/>decide<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">improve<sp/>the<sp/>speed<sp/>of<sp/>loading<sp/>the<sp/>library<sp/>(see</highlight></codeline>
+<codeline><highlight class="normal">&lt;https://gcc.gnu.org/wiki/Visibility&gt;<sp/>for<sp/>details).<sp/>Therefore<sp/>you<sp/>are</highlight></codeline>
+<codeline><highlight class="normal">recommended<sp/>to<sp/>always<sp/>add<sp/>the<sp/>above<sp/>flags<sp/>when<sp/>using<sp/>GoogleTest<sp/>as<sp/>a<sp/>shared</highlight></codeline>
+<codeline><highlight class="normal">library.<sp/>Otherwise<sp/>a<sp/>future<sp/>release<sp/>of<sp/>GoogleTest<sp/>may<sp/>break<sp/>your<sp/>build<sp/>script.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Avoiding<sp/>Macro<sp/>Name<sp/>Clashes</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>C++,<sp/>macros<sp/>don&apos;t<sp/>obey<sp/>namespaces.<sp/>Therefore<sp/>two<sp/>libraries<sp/>that<sp/>both<sp/>define<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">macro<sp/>of<sp/>the<sp/>same<sp/>name<sp/>will<sp/>clash<sp/>if<sp/>you<sp/>`#include`<sp/>both<sp/>definitions.<sp/>In<sp/>case<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>macro<sp/>clashes<sp/>with<sp/>another<sp/>library,<sp/>you<sp/>can<sp/>force<sp/>GoogleTest<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">rename<sp/>its<sp/>macro<sp/>to<sp/>avoid<sp/>the<sp/>conflict.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Specifically,<sp/>if<sp/>both<sp/>GoogleTest<sp/>and<sp/>some<sp/>other<sp/>code<sp/>define<sp/>macro<sp/>FOO,<sp/>you<sp/>can</highlight></codeline>
+<codeline><highlight class="normal">add</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_DONT_DEFINE_FOO=1</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">to<sp/>the<sp/>compiler<sp/>flags<sp/>to<sp/>tell<sp/>GoogleTest<sp/>to<sp/>change<sp/>the<sp/>macro&apos;s<sp/>name<sp/>from<sp/>`FOO`</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>`GTEST_FOO`.<sp/>Currently<sp/>`FOO`<sp/>can<sp/>be<sp/>`ASSERT_EQ`,<sp/>`ASSERT_FALSE`,<sp/>`ASSERT_GE`,</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_GT`,<sp/>`ASSERT_LE`,<sp/>`ASSERT_LT`,<sp/>`ASSERT_NE`,<sp/>`ASSERT_TRUE`,</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_FALSE`,<sp/>`EXPECT_TRUE`,<sp/>`FAIL`,<sp/>`SUCCEED`,<sp/>`TEST`,<sp/>or<sp/>`TEST_F`.<sp/>For</highlight></codeline>
+<codeline><highlight class="normal">example,<sp/>with<sp/>`-DGTEST_DONT_DEFINE_TEST=1`,<sp/>you&apos;ll<sp/>need<sp/>to<sp/>write</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">GTEST_TEST(SomeTest,<sp/>DoesThis)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">instead<sp/>of</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">TEST(SomeTest,<sp/>DoesThis)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">in<sp/>order<sp/>to<sp/>define<sp/>a<sp/>test.</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/README.md"/>
+  </compounddef>
+</doxygen>

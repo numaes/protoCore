@@ -1,0 +1,572 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig" kind="class" language="Python" prot="public">
+    <compoundname>docutils::utils::math::math2html::FormulaConfig</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a0d9d479d20a2be078d26efd9c3821319" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::alphacommands</definition>
+        <argsstring></argsstring>
+        <name>alphacommands</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.alphacommands</qualifiedname>
+        <initializer>=  {
+        &apos;\\AmS&apos;: &apos;&lt;span class=&quot;textsc&quot;&gt;AmS&lt;/span&gt;&apos;,
+        &apos;\\AA&apos;:        &apos;Å&apos;,
+        &apos;\\AE&apos;:        &apos;Æ&apos;,
+        &apos;\\DH&apos;:        &apos;Ð&apos;,
+        &apos;\\L&apos;:         &apos;Ł&apos;,
+        &apos;\\O&apos;:         &apos;Ø&apos;,
+        &apos;\\OE&apos;:        &apos;Œ&apos;,
+        &apos;\\TH&apos;:        &apos;Þ&apos;,
+        &apos;\\aa&apos;:        &apos;å&apos;,
+        &apos;\\ae&apos;:        &apos;æ&apos;,
+        &apos;\\dh&apos;:        &apos;ð&apos;,
+        &apos;\\<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>&apos;:         &apos;ı&apos;,
+        &apos;\\j&apos;:         &apos;ȷ&apos;,
+        &apos;\\l&apos;:         &apos;ł&apos;,
+        &apos;\\o&apos;:         &apos;ø&apos;,
+        &apos;\\oe&apos;:        &apos;œ&apos;,
+        &apos;\\ss&apos;:        &apos;ß&apos;,
+        &apos;\\th&apos;:        &apos;þ&apos;,
+        &apos;\\hbar&apos;:      &apos;ħ&apos;,  # cf. \hslash: ℏ in tex2unichar
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="118" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a5d2c68bc2eea7865a6ffecf0c0e9a55d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::array</definition>
+        <argsstring></argsstring>
+        <name>array</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.array</qualifiedname>
+        <initializer>=  {
+        &apos;begin&apos;: r&apos;\begin&apos;,
+        &apos;cellseparator&apos;: &apos;&amp;&apos;,
+        &apos;end&apos;: r&apos;\end&apos;,
+        &apos;rowseparator&apos;: r&apos;\\&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="142" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1acfe33fef3617ec07b2d6c8cdcaaa2c71" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::bigbrackets</definition>
+        <argsstring></argsstring>
+        <name>bigbrackets</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.bigbrackets</qualifiedname>
+        <initializer>=  {&apos;(&apos;: [&apos;⎛&apos;, &apos;⎜&apos;, &apos;⎝&apos;],
+                   &apos;)&apos;: [&apos;⎞&apos;, &apos;⎟&apos;, &apos;⎠&apos;],
+                   &apos;[&apos;: [&apos;⎡&apos;, &apos;⎢&apos;, &apos;⎣&apos;],
+                   &apos;]&apos;: [&apos;⎤&apos;, &apos;⎥&apos;, &apos;⎦&apos;],
+                   &apos;{&apos;: [&apos;⎧&apos;, &apos;⎪&apos;, &apos;⎨&apos;, &apos;⎩&apos;],
+                   &apos;}&apos;: [&apos;⎫&apos;, &apos;⎪&apos;, &apos;⎬&apos;, &apos;⎭&apos;],
+                   # TODO: 2-row brackets with ⎰⎱ (\lmoustache \rmoustache)
+                   &apos;|&apos;: [&apos;|&apos;],  # 007C VERTICAL LINE
+                   # &apos;|&apos;: [&apos;⎮&apos;],  # 23AE INTEGRAL EXTENSION
+                   # &apos;|&apos;: [&apos;⎪&apos;],  # 23AA CURLY BRACKET EXTENSION
+                   &apos;‖&apos;: [&apos;‖&apos;],  # 2016 DOUBLE VERTICAL LINE
+                   # &apos;∥&apos;: [&apos;∥&apos;],  # 2225 PARALLEL TO
+                   }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="149" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a52aae5561e61db0cb96b6f1d559a701c" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::bracketcommands</definition>
+        <argsstring></argsstring>
+        <name>bracketcommands</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.bracketcommands</qualifiedname>
+        <initializer>=  {
+        &apos;\\left&apos;: &apos;span class=&quot;stretchy&quot;&apos;,
+        &apos;\\left.&apos;: &apos;&lt;span class=&quot;leftdot&quot;&gt;&lt;/span&gt;&apos;,
+        &apos;\\middle&apos;: &apos;span class=&quot;stretchy&quot;&apos;,
+        &apos;\\right&apos;: &apos;span class=&quot;stretchy&quot;&apos;,
+        &apos;\\right.&apos;: &apos;&lt;span class=&quot;rightdot&quot;&gt;&lt;/span&gt;&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="163" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a15829eb3eabd1b249dba9335bdc23335" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::combiningfunctions</definition>
+        <argsstring></argsstring>
+        <name>combiningfunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.combiningfunctions</qualifiedname>
+        <initializer>=  {
+        &quot;\\&apos;&quot;:           &apos;\u0301&apos;,  # x́
+        &apos;\\&quot;&apos;:           &apos;\u0308&apos;,  # ẍ
+        &apos;\\^&apos;:           &apos;\u0302&apos;,  # x̂
+        &apos;\\`&apos;:           &apos;\u0300&apos;,  # x̀
+        &apos;\\~&apos;:           &apos;\u0303&apos;,  # x̃
+        &apos;\\c&apos;:           &apos;\u0327&apos;,  # x̧
+        &apos;\\r&apos;:           &apos;\u030a&apos;,  # x̊
+        &apos;\\s&apos;:           &apos;\u0329&apos;,  # x̩
+        &apos;\\textcircled&apos;: &apos;\u20dd&apos;,  # x⃝
+        &apos;\\textsubring&apos;: &apos;\u0325&apos;,  # x̥
+        &apos;\\v&apos;:           &apos;\u030c&apos;,  # x̌
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="171" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a0876fddf347e534dbfad6c1b94d6be11" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::commands</definition>
+        <argsstring></argsstring>
+        <name>commands</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.commands</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="187" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a298ecb3623025bc999b40bbcd8ce20ad" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::cmddict</definition>
+        <argsstring></argsstring>
+        <name>cmddict</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.cmddict</qualifiedname>
+        <initializer>=  {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="272" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a2e57da3d03cbe226ef1752449e7ad0ee" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::oversetfunctions</definition>
+        <argsstring></argsstring>
+        <name>oversetfunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.oversetfunctions</qualifiedname>
+        <initializer>=  {
+        # math accents (cf. <ref refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a15829eb3eabd1b249dba9335bdc23335" kindref="member">combiningfunctions</ref>)
+        # &apos;\\acute&apos;:    &apos;´&apos;,
+        &apos;\\bar&apos;:      &apos;‒&apos;,  # FIGURE DASH
+        # &apos;\\breve&apos;:    &apos;˘&apos;,
+        # &apos;\\check&apos;:    &apos;ˇ&apos;,
+        &apos;\\dddot&apos;:    &apos;&lt;span class=&quot;smallsymbol&quot;&gt;⋯&lt;/span&gt;&apos;,
+        # &apos;\\ddot&apos;:     &apos;··&apos;, # ¨ too high
+        # &apos;\\dot&apos;:      &apos;·&apos;,
+        # &apos;\\grave&apos;:    &apos;`&apos;,
+        # &apos;\\hat&apos;:      &apos;^&apos;,
+        # &apos;\\mathring&apos;: &apos;˚&apos;,
+        # &apos;\\tilde&apos;:    &apos;~&apos;,
+        &apos;\\vec&apos;:      &apos;&lt;span class=&quot;smallsymbol&quot;&gt;→&lt;/span&gt;&apos;,
+        # embellishments
+        &apos;\\overleftarrow&apos;: &apos;⟵&apos;,
+        &apos;\\overleftrightarrow&apos;: &apos;⟷&apos;,
+        &apos;\\overrightarrow&apos;: &apos;⟶&apos;,
+        &apos;\\widehat&apos;: &apos;^&apos;,
+        &apos;\\widetilde&apos;: &apos;～&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="282" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a0f78689cd9827f5ec95e039d711f8385" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::undersetfunctions</definition>
+        <argsstring></argsstring>
+        <name>undersetfunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.undersetfunctions</qualifiedname>
+        <initializer>=  {
+        &apos;\\underleftarrow&apos;: &apos;⟵&apos;,
+        &apos;\\underleftrightarrow&apos;: &apos;⟷&apos;,
+        &apos;\\underrightarrow&apos;: &apos;⟶&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="304" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1ae12c7675d2300da3117e2aeefbe9dde3" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::endings</definition>
+        <argsstring></argsstring>
+        <name>endings</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.endings</qualifiedname>
+        <initializer>=  {
+        &apos;bracket&apos;: &apos;}&apos;,
+        &apos;complex&apos;: &apos;\\]&apos;,
+        &apos;endafter&apos;: &apos;}&apos;,
+        &apos;endbefore&apos;: &apos;\\end{&apos;,
+        &apos;squarebracket&apos;: &apos;]&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="310" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a20a954974ec36612dcd67664769cf9ee" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::environments</definition>
+        <argsstring></argsstring>
+        <name>environments</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.environments</qualifiedname>
+        <initializer>=  {
+        &apos;align&apos;: [&apos;r&apos;, &apos;l&apos;],
+        &apos;eqnarray&apos;: [&apos;r&apos;, &apos;c&apos;, &apos;l&apos;],
+        &apos;gathered&apos;: [&apos;l&apos;, &apos;l&apos;],
+        &apos;smallmatrix&apos;: [&apos;c&apos;, &apos;c&apos;],
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="318" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a337632ab9df5eddf52a57f79bf010e69" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::fontfunctions</definition>
+        <argsstring></argsstring>
+        <name>fontfunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.fontfunctions</qualifiedname>
+        <initializer>=  {
+        &apos;\\boldsymbol&apos;: &apos;b&apos;, &apos;\\mathbb&apos;: &apos;span class=&quot;blackboard&quot;&apos;,
+        &apos;\\mathbb{A}&apos;: &apos;𝔸&apos;, &apos;\\mathbb{B}&apos;: &apos;𝔹&apos;, &apos;\\mathbb{C}&apos;: &apos;ℂ&apos;,
+        &apos;\\mathbb{D}&apos;: &apos;𝔻&apos;, &apos;\\mathbb{E}&apos;: &apos;𝔼&apos;, &apos;\\mathbb{F}&apos;: &apos;𝔽&apos;,
+        &apos;\\mathbb{G}&apos;: &apos;𝔾&apos;, &apos;\\mathbb{H}&apos;: &apos;ℍ&apos;, &apos;\\mathbb{J}&apos;: &apos;𝕁&apos;,
+        &apos;\\mathbb{K}&apos;: &apos;𝕂&apos;, &apos;\\mathbb{L}&apos;: &apos;𝕃&apos;, &apos;\\mathbb{N}&apos;: &apos;ℕ&apos;,
+        &apos;\\mathbb{O}&apos;: &apos;𝕆&apos;, &apos;\\mathbb{P}&apos;: &apos;ℙ&apos;, &apos;\\mathbb{Q}&apos;: &apos;ℚ&apos;,
+        &apos;\\mathbb{R}&apos;: &apos;ℝ&apos;, &apos;\\mathbb{S}&apos;: &apos;𝕊&apos;, &apos;\\mathbb{T}&apos;: &apos;𝕋&apos;,
+        &apos;\\mathbb{W}&apos;: &apos;𝕎&apos;, &apos;\\mathbb{Z}&apos;: &apos;ℤ&apos;, &apos;\\mathbf&apos;: &apos;b&apos;,
+        &apos;\\mathcal&apos;: &apos;span class=&quot;scriptfont&quot;&apos;,
+        &apos;\\mathcal{B}&apos;: &apos;ℬ&apos;, &apos;\\mathcal{E}&apos;: &apos;ℰ&apos;, &apos;\\mathcal{F}&apos;:
+        &apos;ℱ&apos;, &apos;\\mathcal{H}&apos;: &apos;ℋ&apos;, &apos;\\mathcal{I}&apos;: &apos;ℐ&apos;,
+        &apos;\\mathcal{L}&apos;: &apos;ℒ&apos;, &apos;\\mathcal{M}&apos;: &apos;ℳ&apos;, &apos;\\mathcal{R}&apos;: &apos;ℛ&apos;,
+        &apos;\\mathfrak&apos;: &apos;span class=&quot;fraktur&quot;&apos;,
+        &apos;\\mathfrak{C}&apos;: &apos;ℭ&apos;, &apos;\\mathfrak{F}&apos;: &apos;𝔉&apos;, &apos;\\mathfrak{H}&apos;: &apos;ℌ&apos;,
+        &apos;\\mathfrak{I}&apos;: &apos;ℑ&apos;, &apos;\\mathfrak{R}&apos;: &apos;ℜ&apos;, &apos;\\mathfrak{Z}&apos;: &apos;ℨ&apos;,
+        &apos;\\mathit&apos;: &apos;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>&apos;,
+        &apos;\\mathring{A}&apos;: &apos;Å&apos;, &apos;\\mathring{U}&apos;: &apos;Ů&apos;,
+        &apos;\\mathring{a}&apos;: &apos;å&apos;, &apos;\\mathring{u}&apos;: &apos;ů&apos;, &apos;\\mathring{w}&apos;: &apos;ẘ&apos;,
+        &apos;\\mathring{<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>}&apos;: &apos;ẙ&apos;,
+        &apos;\\mathrm&apos;: &apos;span class=&quot;mathrm&quot;&apos;,
+        &apos;\\mathscr&apos;: &apos;span class=&quot;mathscr&quot;&apos;,
+        &apos;\\mathscr{B}&apos;: &apos;ℬ&apos;, &apos;\\mathscr{E}&apos;: &apos;ℰ&apos;, &apos;\\mathscr{F}&apos;: &apos;ℱ&apos;,
+        &apos;\\mathscr{H}&apos;: &apos;ℋ&apos;, &apos;\\mathscr{I}&apos;: &apos;ℐ&apos;, &apos;\\mathscr{L}&apos;: &apos;ℒ&apos;,
+        &apos;\\mathscr{M}&apos;: &apos;ℳ&apos;, &apos;\\mathscr{R}&apos;: &apos;ℛ&apos;,
+        &apos;\\mathsf&apos;: &apos;span class=&quot;mathsf&quot;&apos;,
+        &apos;\\mathtt&apos;: &apos;span class=&quot;mathtt&quot;&apos;,
+        &apos;\\operatorname&apos;: &apos;span class=&quot;mathrm&quot;&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="325" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1ad57072d8efd08e2c96a5c7ea910dfc3e" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::hybridfunctions</definition>
+        <argsstring></argsstring>
+        <name>hybridfunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.hybridfunctions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="355" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1af020e6e7c39669ca1084c0ced424ca66" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::hybridsizes</definition>
+        <argsstring></argsstring>
+        <name>hybridsizes</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.hybridsizes</qualifiedname>
+        <initializer>=  {
+        &apos;\\binom&apos;: &apos;$1+$2&apos;, &apos;\\cfrac&apos;: &apos;$1+$2&apos;, &apos;\\dbinom&apos;: &apos;$1+$2+1&apos;,
+        &apos;\\dfrac&apos;: &apos;$1+$2&apos;, &apos;\\frac&apos;: &apos;$1+$2&apos;, &apos;\\tbinom&apos;: &apos;$1+$2+1&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="403" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a83f442b492155b12a3710cc45ce5a172" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::labelfunctions</definition>
+        <argsstring></argsstring>
+        <name>labelfunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.labelfunctions</qualifiedname>
+        <initializer>=  {
+        &apos;\\label&apos;: &apos;a name=&quot;#&quot;&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="408" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a7c36aaec3a7d324fa11112133115cba2" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::limitcommands</definition>
+        <argsstring></argsstring>
+        <name>limitcommands</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.limitcommands</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="412" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a844c5c4faa16027754ea8662c7668db6" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::modified</definition>
+        <argsstring></argsstring>
+        <name>modified</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.modified</qualifiedname>
+        <initializer>=  {
+        &apos;\n&apos;: &apos;&apos;, &apos; &apos;: &apos;&apos;, &apos;$&apos;: &apos;&apos;, &apos;&amp;&apos;: &apos;	&apos;, &apos;\&apos;&apos;: &apos;’&apos;, &apos;+&apos;: &apos;\u2009+\u2009&apos;,
+        &apos;,&apos;: &apos;,\u2009&apos;, &apos;-&apos;: &apos;\u2009−\u2009&apos;, &apos;/&apos;: &apos;\u2009⁄\u2009&apos;, &apos;:&apos;: &apos; : &apos;, &apos;&lt;&apos;: &apos;\u2009&amp;lt;\u2009&apos;,
+        &apos;=&apos;: &apos;\u2009=\u2009&apos;, &apos;&gt;&apos;: &apos;\u2009&amp;gt;\u2009&apos;, &apos;@&apos;: &apos;&apos;, &apos;~&apos;: &apos;\u00a0&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="454" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1af857ec11291428478d12c52a62a50c82" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::onefunctions</definition>
+        <argsstring></argsstring>
+        <name>onefunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.onefunctions</qualifiedname>
+        <initializer>=  {
+        &apos;\\big&apos;: &apos;span class=&quot;bigdelimiter size1&quot;&apos;,
+        &apos;\\bigl&apos;: &apos;span class=&quot;bigdelimiter size1&quot;&apos;,
+        &apos;\\bigr&apos;: &apos;span class=&quot;bigdelimiter size1&quot;&apos;,
+        &apos;\\Big&apos;: &apos;span class=&quot;bigdelimiter size2&quot;&apos;,
+        &apos;\\Bigl&apos;: &apos;span class=&quot;bigdelimiter size2&quot;&apos;,
+        &apos;\\Bigr&apos;: &apos;span class=&quot;bigdelimiter size2&quot;&apos;,
+        &apos;\\bigg&apos;: &apos;span class=&quot;bigdelimiter size3&quot;&apos;,
+        &apos;\\biggl&apos;: &apos;span class=&quot;bigdelimiter size3&quot;&apos;,
+        &apos;\\biggr&apos;: &apos;span class=&quot;bigdelimiter size3&quot;&apos;,
+        &apos;\\Bigg&apos;: &apos;span class=&quot;bigdelimiter size4&quot;&apos;,
+        &apos;\\Biggl&apos;: &apos;span class=&quot;bigdelimiter size4&quot;&apos;,
+        &apos;\\Biggr&apos;: &apos;span class=&quot;bigdelimiter size4&quot;&apos;,
+        # &apos;\\bar&apos;: &apos;span class=&quot;bar&quot;&apos;,
+        &apos;\\begin{<ref refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a5d2c68bc2eea7865a6ffecf0c0e9a55d" kindref="member">array</ref>}&apos;: &apos;span class=&quot;arraydef&quot;&apos;,
+        &apos;\\centering&apos;: &apos;span class=&quot;align-center&quot;&apos;,
+        &apos;\\ensuremath&apos;: &apos;span class=&quot;ensuremath&quot;&apos;,
+        &apos;\\hphantom&apos;: &apos;span class=&quot;phantom&quot;&apos;,
+        &apos;\\noindent&apos;: &apos;span class=&quot;noindent&quot;&apos;,
+        &apos;\\overbrace&apos;: &apos;span class=&quot;overbrace&quot;&apos;,
+        &apos;\\overline&apos;: &apos;span class=&quot;overline&quot;&apos;,
+        &apos;\\phantom&apos;: &apos;span class=&quot;phantom&quot;&apos;,
+        &apos;\\underbrace&apos;: &apos;span class=&quot;underbrace&quot;&apos;,
+        &apos;\\underline&apos;: &apos;&apos;,
+        &apos;\\vphantom&apos;: &apos;span class=&quot;phantom&quot;&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="460" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a3a1c41d92065defa2684ec94d4d75d2b" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::spacedcommands</definition>
+        <argsstring></argsstring>
+        <name>spacedcommands</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.spacedcommands</qualifiedname>
+        <initializer>=  {
+        # negated symbols without pre-composed Unicode character
+        &apos;\\nleqq&apos;:      &apos;\u2266\u0338&apos;,  # ≦̸
+        &apos;\\ngeqq&apos;:      &apos;\u2267\u0338&apos;,  # ≧̸
+        &apos;\\nleqslant&apos;:  &apos;\u2a7d\u0338&apos;,  # ⩽̸
+        &apos;\\ngeqslant&apos;:  &apos;\u2a7e\u0338&apos;,  # ⩾̸
+        &apos;\\nsubseteqq&apos;: &apos;\u2AC5\u0338&apos;,  # ⫅̸
+        &apos;\\nsupseteqq&apos;: &apos;\u2AC6\u0338&apos;,  # ⫆̸
+        &apos;\\nsqsubset&apos;:  &apos;\u2276\u228F&apos;,  # ⊏̸
+        # <ref refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a844c5c4faa16027754ea8662c7668db6" kindref="member">modified</ref> glyphs
+        &apos;\\shortmid&apos;: &apos;&lt;span class=&quot;smallsymbol&quot;&gt;∣&lt;/span&gt;&apos;,
+        &apos;\\shortparallel&apos;: &apos;&lt;span class=&quot;smallsymbol&quot;&gt;∥&lt;/span&gt;&apos;,
+        &apos;\\nshortmid&apos;: &apos;&lt;span class=&quot;smallsymbol&quot;&gt;∤&lt;/span&gt;&apos;,
+        &apos;\\nshortparallel&apos;: &apos;&lt;span class=&quot;smallsymbol&quot;&gt;∦&lt;/span&gt;&apos;,
+        &apos;\\smallfrown&apos;: &apos;&lt;span class=&quot;smallsymbol&quot;&gt;⌢&lt;/span&gt;&apos;,
+        &apos;\\smallsmile&apos;: &apos;&lt;span class=&quot;smallsymbol&quot;&gt;⌣&lt;/span&gt;&apos;,
+        &apos;\\thickapprox&apos;: &apos;&lt;span class=&quot;boldsymbol&quot;&gt;≈&lt;/span&gt;&apos;,
+        &apos;\\thicksim&apos;: &apos;&lt;span class=&quot;boldsymbol&quot;&gt;∼&lt;/span&gt;&apos;,
+        &apos;\\varpropto&apos;: &apos;&lt;span class=&quot;mathsf&quot;&gt;\u221d&lt;/span&gt;&apos;,  # ∝ PROPORTIONAL TO
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="488" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1aae9e2726ca7f935e1a796cf74c7c7956" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::starts</definition>
+        <argsstring></argsstring>
+        <name>starts</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.starts</qualifiedname>
+        <initializer>=  {
+        &apos;beginafter&apos;: &apos;}&apos;, &apos;beginbefore&apos;: &apos;\\begin{&apos;, &apos;bracket&apos;: &apos;{&apos;,
+        &apos;command&apos;: &apos;\\&apos;, &apos;comment&apos;: &apos;%&apos;, &apos;complex&apos;: &apos;\\[&apos;, &apos;simple&apos;: &apos;$&apos;,
+        &apos;squarebracket&apos;: &apos;[&apos;, &apos;unnumbered&apos;: &apos;*&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="510" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1af051777da7603778b7e3323115fe3959" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::symbolfunctions</definition>
+        <argsstring></argsstring>
+        <name>symbolfunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.symbolfunctions</qualifiedname>
+        <initializer>=  {
+        &apos;^&apos;: &apos;sup&apos;, &apos;_&apos;: &apos;sub&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="516" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1ace3b63a28c99a1c891b6481133d2f850" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::textfunctions</definition>
+        <argsstring></argsstring>
+        <name>textfunctions</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.textfunctions</qualifiedname>
+        <initializer>=  {
+        &apos;\\mbox&apos;: &apos;span class=&quot;mbox&quot;&apos;,
+        &apos;\\text&apos;: &apos;span class=&quot;text&quot;&apos;,
+        &apos;\\textbf&apos;: &apos;span class=&quot;textbf&quot;&apos;,
+        &apos;\\textit&apos;: &apos;span class=&quot;textit&quot;&apos;,
+        &apos;\\textnormal&apos;: &apos;span class=&quot;textnormal&quot;&apos;,
+        &apos;\\textrm&apos;: &apos;span class=&quot;textrm&quot;&apos;,
+        &apos;\\textsc&apos;: &apos;span class=&quot;textsc&quot;&apos;,
+        &apos;\\textsf&apos;: &apos;span class=&quot;textsf&quot;&apos;,
+        &apos;\\textsl&apos;: &apos;span class=&quot;textsl&quot;&apos;,
+        &apos;\\texttt&apos;: &apos;span class=&quot;texttt&quot;&apos;,
+        &apos;\\textup&apos;: &apos;span class=&quot;normal&quot;&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="520" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a06666698b0ac729d431ca45fcb07bd28" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.math.math2html.FormulaConfig::unmodified</definition>
+        <argsstring></argsstring>
+        <name>unmodified</name>
+        <qualifiedname>docutils.utils.math.math2html.FormulaConfig.unmodified</qualifiedname>
+        <initializer>=  {
+        &apos;characters&apos;: [&apos;.&apos;, &apos;*&apos;, &apos;€&apos;, &apos;(&apos;, &apos;)&apos;, &apos;[&apos;, &apos;]&apos;,
+                       &apos;·&apos;, &apos;!&apos;, &apos;;&apos;, &apos;|&apos;, &apos;§&apos;, &apos;&quot;&apos;, &apos;?&apos;],
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="534" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="534" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" line="115" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/math2html.py" bodystart="115" bodyend="539"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a0d9d479d20a2be078d26efd9c3821319" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>alphacommands</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a5d2c68bc2eea7865a6ffecf0c0e9a55d" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>array</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1acfe33fef3617ec07b2d6c8cdcaaa2c71" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>bigbrackets</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a52aae5561e61db0cb96b6f1d559a701c" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>bracketcommands</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a298ecb3623025bc999b40bbcd8ce20ad" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>cmddict</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a15829eb3eabd1b249dba9335bdc23335" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>combiningfunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a0876fddf347e534dbfad6c1b94d6be11" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>commands</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1ae12c7675d2300da3117e2aeefbe9dde3" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>endings</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a20a954974ec36612dcd67664769cf9ee" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>environments</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a337632ab9df5eddf52a57f79bf010e69" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>fontfunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1ad57072d8efd08e2c96a5c7ea910dfc3e" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>hybridfunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1af020e6e7c39669ca1084c0ced424ca66" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>hybridsizes</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a83f442b492155b12a3710cc45ce5a172" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>labelfunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a7c36aaec3a7d324fa11112133115cba2" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>limitcommands</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a844c5c4faa16027754ea8662c7668db6" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>modified</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1af857ec11291428478d12c52a62a50c82" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>onefunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a2e57da3d03cbe226ef1752449e7ad0ee" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>oversetfunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a3a1c41d92065defa2684ec94d4d75d2b" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>spacedcommands</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1aae9e2726ca7f935e1a796cf74c7c7956" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>starts</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1af051777da7603778b7e3323115fe3959" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>symbolfunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1ace3b63a28c99a1c891b6481133d2f850" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>textfunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a0f78689cd9827f5ec95e039d711f8385" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>undersetfunctions</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1math2html_1_1FormulaConfig_1a06666698b0ac729d431ca45fcb07bd28" prot="public" virt="non-virtual"><scope>docutils::utils::math::math2html::FormulaConfig</scope><name>unmodified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

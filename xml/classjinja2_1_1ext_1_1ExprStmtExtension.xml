@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1ext_1_1ExprStmtExtension" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::ext::ExprStmtExtension</compoundname>
+    <basecompoundref refid="classjinja2_1_1ext_1_1Extension" prot="public" virt="non-virtual">jinja2.ext.Extension</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1ext_1_1ExprStmtExtension_1a49bd53f90835cb002817580f77dde6bf" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2.ext.ExprStmtExtension::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>jinja2.ext.ExprStmtExtension.tags</qualifiedname>
+        <initializer>=  {&quot;do&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" line="595" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="595" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1ExprStmtExtension_1a3787d907cbdcc7453fab16352a1228a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1nodes_1_1ExprStmt" kindref="compound">nodes.ExprStmt</ref></type>
+        <definition> nodes.ExprStmt jinja2.ext.ExprStmtExtension.parse</definition>
+        <argsstring>(self, &quot;Parser&quot; parser)</argsstring>
+        <name>parse</name>
+        <qualifiedname>jinja2.ext.ExprStmtExtension.parse</qualifiedname>
+        <reimplements refid="classjinja2_1_1ext_1_1Extension_1ab21761ef8794ae53ffb445c8c03cdeed">parse</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Parser&quot;</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>If any of the :attr:`tags` matched this method is called with the
+parser as first argument.  The token the parser stream is pointing at
+is the name token that matched.  This method has to return one or a
+list of multiple nodes.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" line="597" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="597" bodyend="602"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Adds a `do` tag to Jinja that works like the print statement just
+that it doesn&apos;t print the return value.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.ext.ExprStmtExtension</label>
+        <link refid="classjinja2_1_1ext_1_1ExprStmtExtension"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.ext.Extension</label>
+        <link refid="classjinja2_1_1ext_1_1Extension"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.ext.ExprStmtExtension</label>
+        <link refid="classjinja2_1_1ext_1_1ExprStmtExtension"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.ext.Extension</label>
+        <link refid="classjinja2_1_1ext_1_1Extension"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" line="590" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="590" bodyend="602"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1ext_1_1ExprStmtExtension_1a3787d907cbdcc7453fab16352a1228a5" prot="public" virt="non-virtual"><scope>jinja2::ext::ExprStmtExtension</scope><name>parse</name></member>
+      <member refid="classjinja2_1_1ext_1_1ExprStmtExtension_1a49bd53f90835cb002817580f77dde6bf" prot="public" virt="non-virtual"><scope>jinja2::ext::ExprStmtExtension</scope><name>tags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

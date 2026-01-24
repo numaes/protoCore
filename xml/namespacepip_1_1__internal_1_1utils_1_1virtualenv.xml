@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1virtualenv" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::virtualenv</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a72e923841cf07d9c11d0b94b81596d5d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::virtualenv.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.utils.virtualenv.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="8" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a561a6aba4e5d350358852dccee4c4464" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::virtualenv._INCLUDE_SYSTEM_SITE_PACKAGES_REGEX</definition>
+        <argsstring></argsstring>
+        <name>_INCLUDE_SYSTEM_SITE_PACKAGES_REGEX</name>
+        <qualifiedname>pip._internal.utils.virtualenv._INCLUDE_SYSTEM_SITE_PACKAGES_REGEX</qualifiedname>
+        <initializer>=  re.compile(
+    r&quot;include-system-site-packages\s*=\s*(?P&lt;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>&gt;true|false)&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="9" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="9" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1aed731bfe94b9796505e1ff4fd42b19a1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.virtualenv._running_under_venv</definition>
+        <argsstring>()</argsstring>
+        <name>_running_under_venv</name>
+        <qualifiedname>pip._internal.utils.virtualenv._running_under_venv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks if sys.base_prefix and sys.prefix match.
+
+This handles PEP 405 compliant virtual environments.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="14" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1aaf9d4a53a44e3f745ea031e69da3d5c1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.virtualenv._running_under_legacy_virtualenv</definition>
+        <argsstring>()</argsstring>
+        <name>_running_under_legacy_virtualenv</name>
+        <qualifiedname>pip._internal.utils.virtualenv._running_under_legacy_virtualenv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks if sys.real_prefix is set.
+
+This handles virtual environments created with pypa&apos;s virtualenv.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="22" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a1a2c66bfc9145510287d22e501cec479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.virtualenv.running_under_virtualenv</definition>
+        <argsstring>()</argsstring>
+        <name>running_under_virtualenv</name>
+        <qualifiedname>pip._internal.utils.virtualenv.running_under_virtualenv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>True if we&apos;re running inside a virtual environment, False otherwise.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1af2fe6f19fabf3ef002d2b07a4dbdb57c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[List[str]]</type>
+        <definition> Optional[List[str]] pip._internal.utils.virtualenv._get_pyvenv_cfg_lines</definition>
+        <argsstring>()</argsstring>
+        <name>_get_pyvenv_cfg_lines</name>
+        <qualifiedname>pip._internal.utils.virtualenv._get_pyvenv_cfg_lines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reads {sys.prefix}/pyvenv.cfg and returns its contents as list of lines
+
+Returns None, if it could not read/access the file.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="36" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a1453e76c8ea0ef8cd4be7418331c70b7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.virtualenv._no_global_under_venv</definition>
+        <argsstring>()</argsstring>
+        <name>_no_global_under_venv</name>
+        <qualifiedname>pip._internal.utils.virtualenv._no_global_under_venv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check `{sys.prefix}/pyvenv.cfg` for system site-packages inclusion
+
+PEP 405 specifies that when system site-packages are not supposed to be
+visible from a virtual environment, `pyvenv.cfg` must contain the following
+line:
+
+    include-system-site-packages = false
+
+Additionally, log a warning if accessing the file fails.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="51" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="51" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a8f46841222ff028ac8b875fc12d570e6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.virtualenv._no_global_under_legacy_virtualenv</definition>
+        <argsstring>()</argsstring>
+        <name>_no_global_under_legacy_virtualenv</name>
+        <qualifiedname>pip._internal.utils.virtualenv._no_global_under_legacy_virtualenv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if &quot;no-global-site-packages.txt&quot; exists beside site.py
+
+This mirrors logic in pypa/virtualenv for determining whether system
+site-packages are visible in the virtual environment.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="80" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a99ca853f7d8a95c6d242805cbc366bb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.virtualenv.virtualenv_no_global</definition>
+        <argsstring>()</argsstring>
+        <name>virtualenv_no_global</name>
+        <qualifiedname>pip._internal.utils.virtualenv.virtualenv_no_global</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a boolean, whether running in venv with no system site-packages.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="94" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" bodystart="94" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

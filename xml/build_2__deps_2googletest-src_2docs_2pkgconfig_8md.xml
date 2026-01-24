@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2docs_2pkgconfig_8md" kind="file" language="Markdown">
+    <compoundname>pkgconfig.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">##<sp/>Using<sp/>GoogleTest<sp/>from<sp/>various<sp/>build<sp/>systems</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>comes<sp/>with<sp/>pkg-config<sp/>files<sp/>that<sp/>can<sp/>be<sp/>used<sp/>to<sp/>determine<sp/>all</highlight></codeline>
+<codeline><highlight class="normal">necessary<sp/>flags<sp/>for<sp/>compiling<sp/>and<sp/>linking<sp/>to<sp/>GoogleTest<sp/>(and<sp/>GoogleMock).</highlight></codeline>
+<codeline><highlight class="normal">Pkg-config<sp/>is<sp/>a<sp/>standardised<sp/>plain-text<sp/>format<sp/>containing</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>the<sp/>includedir<sp/>(-I)<sp/>path</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>necessary<sp/>macro<sp/>(-D)<sp/>definitions</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>further<sp/>required<sp/>flags<sp/>(-pthread)</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>the<sp/>library<sp/>(-L)<sp/>path</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>the<sp/>library<sp/>(-l)<sp/>to<sp/>link<sp/>to</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">All<sp/>current<sp/>build<sp/>systems<sp/>support<sp/>pkg-config<sp/>in<sp/>one<sp/>way<sp/>or<sp/>another.<sp/>For<sp/>all</highlight></codeline>
+<codeline><highlight class="normal">examples<sp/>here<sp/>we<sp/>assume<sp/>you<sp/>want<sp/>to<sp/>compile<sp/>the<sp/>sample</highlight></codeline>
+<codeline><highlight class="normal">`samples/sample3_unittest.cc`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>CMake</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Using<sp/>`pkg-config`<sp/>in<sp/>CMake<sp/>is<sp/>fairly<sp/>easy:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cmake</highlight></codeline>
+<codeline><highlight class="normal">find_package(PkgConfig)</highlight></codeline>
+<codeline><highlight class="normal">pkg_search_module(GTEST<sp/>REQUIRED<sp/>gtest_main)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">add_executable(testapp)</highlight></codeline>
+<codeline><highlight class="normal">target_sources(testapp<sp/>PRIVATE<sp/>samples/sample3_unittest.cc)</highlight></codeline>
+<codeline><highlight class="normal">target_link_libraries(testapp<sp/>PRIVATE<sp/>${GTEST_LDFLAGS})</highlight></codeline>
+<codeline><highlight class="normal">target_compile_options(testapp<sp/>PRIVATE<sp/>${GTEST_CFLAGS})</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">enable_testing()</highlight></codeline>
+<codeline><highlight class="normal">add_test(first_and_only_test<sp/>testapp)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">It<sp/>is<sp/>generally<sp/>recommended<sp/>that<sp/>you<sp/>use<sp/>`target_compile_options`<sp/>+<sp/>`_CFLAGS`</highlight></codeline>
+<codeline><highlight class="normal">over<sp/>`target_include_directories`<sp/>+<sp/>`_INCLUDE_DIRS`<sp/>as<sp/>the<sp/>former<sp/>includes<sp/>not</highlight></codeline>
+<codeline><highlight class="normal">just<sp/>-I<sp/>flags<sp/>(GoogleTest<sp/>might<sp/>require<sp/>a<sp/>macro<sp/>indicating<sp/>to<sp/>internal<sp/>headers</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>all<sp/>libraries<sp/>have<sp/>been<sp/>compiled<sp/>with<sp/>threading<sp/>enabled.<sp/>In<sp/>addition,</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>might<sp/>also<sp/>require<sp/>`-pthread`<sp/>in<sp/>the<sp/>compiling<sp/>step,<sp/>and<sp/>as<sp/>such</highlight></codeline>
+<codeline><highlight class="normal">splitting<sp/>the<sp/>pkg-config<sp/>`Cflags`<sp/>variable<sp/>into<sp/>include<sp/>dirs<sp/>and<sp/>macros<sp/>for</highlight></codeline>
+<codeline><highlight class="normal">`target_compile_definitions()`<sp/>might<sp/>still<sp/>miss<sp/>this).<sp/>The<sp/>same<sp/>recommendation</highlight></codeline>
+<codeline><highlight class="normal">goes<sp/>for<sp/>using<sp/>`_LDFLAGS`<sp/>over<sp/>the<sp/>more<sp/>commonplace<sp/>`_LIBRARIES`,<sp/>which<sp/>happens</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>discard<sp/>`-L`<sp/>flags<sp/>and<sp/>`-pthread`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Help!<sp/>pkg-config<sp/>can&apos;t<sp/>find<sp/>GoogleTest!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Let&apos;s<sp/>say<sp/>you<sp/>have<sp/>a<sp/>`CMakeLists.txt`<sp/>along<sp/>the<sp/>lines<sp/>of<sp/>the<sp/>one<sp/>in<sp/>this</highlight></codeline>
+<codeline><highlight class="normal">tutorial<sp/>and<sp/>you<sp/>try<sp/>to<sp/>run<sp/>`cmake`.<sp/>It<sp/>is<sp/>very<sp/>possible<sp/>that<sp/>you<sp/>get<sp/>a<sp/>failure</highlight></codeline>
+<codeline><highlight class="normal">along<sp/>the<sp/>lines<sp/>of:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">--<sp/>Checking<sp/>for<sp/>one<sp/>of<sp/>the<sp/>modules<sp/>&apos;gtest_main&apos;</highlight></codeline>
+<codeline><highlight class="normal">CMake<sp/>Error<sp/>at<sp/>/usr/share/cmake/Modules/FindPkgConfig.cmake:640<sp/>(message):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>None<sp/>of<sp/>the<sp/>required<sp/>&apos;gtest_main&apos;<sp/>found</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">These<sp/>failures<sp/>are<sp/>common<sp/>if<sp/>you<sp/>installed<sp/>GoogleTest<sp/>yourself<sp/>and<sp/>have<sp/>not</highlight></codeline>
+<codeline><highlight class="normal">sourced<sp/>it<sp/>from<sp/>a<sp/>distro<sp/>or<sp/>other<sp/>package<sp/>manager.<sp/>If<sp/>so,<sp/>you<sp/>need<sp/>to<sp/>tell</highlight></codeline>
+<codeline><highlight class="normal">pkg-config<sp/>where<sp/>it<sp/>can<sp/>find<sp/>the<sp/>`.pc`<sp/>files<sp/>containing<sp/>the<sp/>information.<sp/>Say<sp/>you</highlight></codeline>
+<codeline><highlight class="normal">installed<sp/>GoogleTest<sp/>to<sp/>`/usr/local`,<sp/>then<sp/>it<sp/>might<sp/>be<sp/>that<sp/>the<sp/>`.pc`<sp/>files<sp/>are</highlight></codeline>
+<codeline><highlight class="normal">installed<sp/>under<sp/>`/usr/local/lib64/pkgconfig`.<sp/>If<sp/>you<sp/>set</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">pkg-config<sp/>will<sp/>also<sp/>try<sp/>to<sp/>look<sp/>in<sp/>`PKG_CONFIG_PATH`<sp/>to<sp/>find<sp/>`gtest_main.pc`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Using<sp/>pkg-config<sp/>in<sp/>a<sp/>cross-compilation<sp/>setting</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Pkg-config<sp/>can<sp/>be<sp/>used<sp/>in<sp/>a<sp/>cross-compilation<sp/>setting<sp/>too.<sp/>To<sp/>do<sp/>this,<sp/>let&apos;s</highlight></codeline>
+<codeline><highlight class="normal">assume<sp/>the<sp/>final<sp/>prefix<sp/>of<sp/>the<sp/>cross-compiled<sp/>installation<sp/>will<sp/>be<sp/>`/usr`,<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">your<sp/>sysroot<sp/>is<sp/>`/home/MYUSER/sysroot`.<sp/>Configure<sp/>and<sp/>install<sp/>GTest<sp/>using</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">mkdir<sp/>build<sp/>&amp;&amp;<sp/>cmake<sp/>-DCMAKE_INSTALL_PREFIX=/usr<sp/>..</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Install<sp/>into<sp/>the<sp/>sysroot<sp/>using<sp/>`DESTDIR`:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">make<sp/>-j<sp/>install<sp/>DESTDIR=/home/MYUSER/sysroot</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Before<sp/>we<sp/>continue,<sp/>it<sp/>is<sp/>recommended<sp/>to<sp/>**always**<sp/>define<sp/>the<sp/>following<sp/>two</highlight></codeline>
+<codeline><highlight class="normal">variables<sp/>for<sp/>pkg-config<sp/>in<sp/>a<sp/>cross-compilation<sp/>setting:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=yes</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_ALLOW_SYSTEM_LIBS=yes</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">otherwise<sp/>`pkg-config`<sp/>will<sp/>filter<sp/>`-I`<sp/>and<sp/>`-L`<sp/>flags<sp/>against<sp/>standard<sp/>prefixes</highlight></codeline>
+<codeline><highlight class="normal">such<sp/>as<sp/>`/usr`<sp/>(see<sp/>https://bugs.freedesktop.org/show_bug.cgi?id=28264#c3<sp/>for</highlight></codeline>
+<codeline><highlight class="normal">reasons<sp/>why<sp/>this<sp/>stripping<sp/>needs<sp/>to<sp/>occur<sp/>usually).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>look<sp/>at<sp/>the<sp/>generated<sp/>pkg-config<sp/>file,<sp/>it<sp/>will<sp/>look<sp/>something<sp/>like</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">libdir=/usr/lib64</highlight></codeline>
+<codeline><highlight class="normal">includedir=/usr/include</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Name:<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">Description:<sp/>GoogleTest<sp/>(without<sp/>main()<sp/>function)</highlight></codeline>
+<codeline><highlight class="normal">Version:<sp/>1.11.0</highlight></codeline>
+<codeline><highlight class="normal">URL:<sp/>https://github.com/google/googletest</highlight></codeline>
+<codeline><highlight class="normal">Libs:<sp/>-L${libdir}<sp/>-lgtest<sp/>-lpthread</highlight></codeline>
+<codeline><highlight class="normal">Cflags:<sp/>-I${includedir}<sp/>-DGTEST_HAS_PTHREAD=1<sp/>-lpthread</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Notice<sp/>that<sp/>the<sp/>sysroot<sp/>is<sp/>not<sp/>included<sp/>in<sp/>`libdir`<sp/>and<sp/>`includedir`!<sp/>If<sp/>you<sp/>try</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>run<sp/>`pkg-config`<sp/>with<sp/>the<sp/>correct</highlight></codeline>
+<codeline><highlight class="normal">`PKG_CONFIG_LIBDIR=/home/MYUSER/sysroot/usr/lib64/pkgconfig`<sp/>against<sp/>this<sp/>`.pc`</highlight></codeline>
+<codeline><highlight class="normal">file,<sp/>you<sp/>will<sp/>get</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">$<sp/>pkg-config<sp/>--cflags<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_HAS_PTHREAD=1<sp/>-lpthread<sp/>-I/usr/include</highlight></codeline>
+<codeline><highlight class="normal">$<sp/>pkg-config<sp/>--libs<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">-L/usr/lib64<sp/>-lgtest<sp/>-lpthread</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">which<sp/>is<sp/>obviously<sp/>wrong<sp/>and<sp/>points<sp/>to<sp/>the<sp/>`CBUILD`<sp/>and<sp/>not<sp/>`CHOST`<sp/>root.<sp/>In</highlight></codeline>
+<codeline><highlight class="normal">order<sp/>to<sp/>use<sp/>this<sp/>in<sp/>a<sp/>cross-compilation<sp/>setting,<sp/>we<sp/>need<sp/>to<sp/>tell<sp/>pkg-config<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">inject<sp/>the<sp/>actual<sp/>sysroot<sp/>into<sp/>`-I`<sp/>and<sp/>`-L`<sp/>variables.<sp/>Let<sp/>us<sp/>now<sp/>tell</highlight></codeline>
+<codeline><highlight class="normal">pkg-config<sp/>about<sp/>the<sp/>actual<sp/>sysroot</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_DIR=</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_SYSROOT_DIR=/home/MYUSER/sysroot</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_LIBDIR=${PKG_CONFIG_SYSROOT_DIR}/usr/lib64/pkgconfig</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">and<sp/>running<sp/>`pkg-config`<sp/>again<sp/>we<sp/>get</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">$<sp/>pkg-config<sp/>--cflags<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_HAS_PTHREAD=1<sp/>-lpthread<sp/>-I/home/MYUSER/sysroot/usr/include</highlight></codeline>
+<codeline><highlight class="normal">$<sp/>pkg-config<sp/>--libs<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">-L/home/MYUSER/sysroot/usr/lib64<sp/>-lgtest<sp/>-lpthread</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">which<sp/>contains<sp/>the<sp/>correct<sp/>sysroot<sp/>now.<sp/>For<sp/>a<sp/>more<sp/>comprehensive<sp/>guide<sp/>to<sp/>also</highlight></codeline>
+<codeline><highlight class="normal">including<sp/>`${CHOST}`<sp/>in<sp/>build<sp/>system<sp/>calls,<sp/>see<sp/>the<sp/>excellent<sp/>tutorial<sp/>by<sp/>Diego</highlight></codeline>
+<codeline><highlight class="normal">Elio<sp/>Pettenò:<sp/>&lt;https://autotools.io/pkgconfig/cross-compiling.html&gt;</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/docs/pkgconfig.md"/>
+  </compounddef>
+</doxygen>

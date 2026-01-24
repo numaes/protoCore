@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="colorama_2ansi_8py" kind="file" language="Python">
+    <compoundname>ansi.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCodes" prot="public">pip::_vendor::colorama::ansi::AnsiCodes</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor" prot="public">pip::_vendor::colorama::ansi::AnsiCursor</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiFore" prot="public">pip::_vendor::colorama::ansi::AnsiFore</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiBack" prot="public">pip::_vendor::colorama::ansi::AnsiBack</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiStyle" prot="public">pip::_vendor::colorama::ansi::AnsiStyle</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama">pip::_vendor::colorama</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama_1_1ansi">pip::_vendor::colorama::ansi</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1colorama_1_1ansi" refkind="compound"><highlight class="comment">#<sp/>Copyright<sp/>Jonathan<sp/>Hartley<sp/>2013.<sp/>BSD<sp/>3-Clause<sp/>license,<sp/>see<sp/>LICENSE<sp/>file.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="stringliteral">&apos;&apos;&apos;</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">This<sp/>module<sp/>generates<sp/>ANSI<sp/>character<sp/>codes<sp/>to<sp/>printing<sp/>colors<sp/>to<sp/>terminals.</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">See:<sp/>http://en.wikipedia.org/wiki/ANSI_escape_code</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">&apos;&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">CSI<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;\033[&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">OSC<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;\033]&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">BEL<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;\a&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1ansi_1a3c7a7377be933476cc6d00e46be3c182" kindref="member">code_to_chars</ref>(code):</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CSI<sp/>+<sp/>str(code)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;m&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1ansi_1a6e82c39ed23ab8c1f2c5159840a7493a" kindref="member">set_title</ref>(title):</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>OSC<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;2;&apos;</highlight><highlight class="normal"><sp/>+<sp/>title<sp/>+<sp/>BEL</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1ansi_1a2ad5528989565bd4b3e72f883a9a57b9" kindref="member">clear_screen</ref>(mode=2):</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CSI<sp/>+<sp/>str(mode)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;J&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1ansi_1a1d05bf08dacd13d713f3bc22aea25918" kindref="member">clear_line</ref>(mode=2):</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CSI<sp/>+<sp/>str(mode)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;K&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCodes" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCodes" kindref="compound">AnsiCodes</ref>(object):</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCodes_1a4df5bd1a0e81d1472828e28cd37156c3" kindref="member">__init__</ref>(self):</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>the<sp/>subclasses<sp/>declare<sp/>class<sp/>attributes<sp/>which<sp/>are<sp/>numbers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Upon<sp/>instantiation<sp/>we<sp/>define<sp/>instance<sp/>attributes,<sp/>which<sp/>are<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>as<sp/>the<sp/>class<sp/>attributes<sp/>but<sp/>wrapped<sp/>with<sp/>the<sp/>ANSI<sp/>escape<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>dir(self):</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>name.startswith(</highlight><highlight class="stringliteral">&apos;_&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value<sp/>=<sp/>getattr(self,<sp/>name)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setattr(self,<sp/>name,<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1ansi_1a3c7a7377be933476cc6d00e46be3c182" kindref="member">code_to_chars</ref>(value))</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor" kindref="compound">AnsiCursor</ref>(object):</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor_1ad388c0dbc94b920832c3cb069327424b" kindref="member">UP</ref>(self,<sp/>n=1):</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CSI<sp/>+<sp/>str(n)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;A&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor_1abd1acc72b992c8de157037933dc17f9d" kindref="member">DOWN</ref>(self,<sp/>n=1):</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CSI<sp/>+<sp/>str(n)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;B&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor_1a6e0e7887f7bbfaea3b64717ee2a9de1a" kindref="member">FORWARD</ref>(self,<sp/>n=1):</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CSI<sp/>+<sp/>str(n)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;C&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor_1a6ac53cd03a828b8ea0b945a127e0fe18" kindref="member">BACK</ref>(self,<sp/>n=1):</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CSI<sp/>+<sp/>str(n)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;D&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor_1a4cfe36f5b7396cacb4df13eab18feb74" kindref="member">POS</ref>(self,<sp/>x=1,<sp/>y=1):</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CSI<sp/>+<sp/>str(y)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;;&apos;</highlight><highlight class="normal"><sp/>+<sp/>str(x)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;H&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiFore" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiFore" kindref="compound">AnsiFore</ref>(<ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCodes" kindref="compound">AnsiCodes</ref>):</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>BLACK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>30</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>RED<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>31</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>GREEN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>32</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>YELLOW<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>33</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>BLUE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>34</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>MAGENTA<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>35</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>CYAN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>36</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>WHITE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>37</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>RESET<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>39</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>These<sp/>are<sp/>fairly<sp/>well<sp/>supported,<sp/>but<sp/>not<sp/>part<sp/>of<sp/>the<sp/>standard.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTBLACK_EX<sp/><sp/><sp/>=<sp/>90</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTRED_EX<sp/><sp/><sp/><sp/><sp/>=<sp/>91</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTGREEN_EX<sp/><sp/><sp/>=<sp/>92</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTYELLOW_EX<sp/><sp/>=<sp/>93</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTBLUE_EX<sp/><sp/><sp/><sp/>=<sp/>94</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTMAGENTA_EX<sp/>=<sp/>95</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTCYAN_EX<sp/><sp/><sp/><sp/>=<sp/>96</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTWHITE_EX<sp/><sp/><sp/>=<sp/>97</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiBack" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiBack" kindref="compound">AnsiBack</ref>(<ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCodes" kindref="compound">AnsiCodes</ref>):</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>BLACK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>40</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>RED<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>41</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>GREEN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>42</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>YELLOW<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>43</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>BLUE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>44</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>MAGENTA<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>45</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>CYAN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>46</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>WHITE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>47</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>RESET<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>49</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>These<sp/>are<sp/>fairly<sp/>well<sp/>supported,<sp/>but<sp/>not<sp/>part<sp/>of<sp/>the<sp/>standard.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTBLACK_EX<sp/><sp/><sp/>=<sp/>100</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTRED_EX<sp/><sp/><sp/><sp/><sp/>=<sp/>101</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTGREEN_EX<sp/><sp/><sp/>=<sp/>102</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTYELLOW_EX<sp/><sp/>=<sp/>103</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTBLUE_EX<sp/><sp/><sp/><sp/>=<sp/>104</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTMAGENTA_EX<sp/>=<sp/>105</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTCYAN_EX<sp/><sp/><sp/><sp/>=<sp/>106</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>LIGHTWHITE_EX<sp/><sp/><sp/>=<sp/>107</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiStyle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiStyle" kindref="compound">AnsiStyle</ref>(<ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCodes" kindref="compound">AnsiCodes</ref>):</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>BRIGHT<sp/><sp/><sp/><sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>DIM<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>NORMAL<sp/><sp/><sp/><sp/>=<sp/>22</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>RESET_ALL<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">Fore<sp/><sp/><sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiFore" kindref="compound">AnsiFore</ref>()</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">Back<sp/><sp/><sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiBack" kindref="compound">AnsiBack</ref>()</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">Style<sp/><sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiStyle" kindref="compound">AnsiStyle</ref>()</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">Cursor<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1ansi_1_1AnsiCursor" kindref="compound">AnsiCursor</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/colorama/ansi.py"/>
+  </compounddef>
+</doxygen>

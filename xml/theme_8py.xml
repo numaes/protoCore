@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="theme_8py" kind="file" language="Python">
+    <compoundname>theme.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme" prot="public">pip::_vendor::rich::theme::Theme</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1ThemeStackError" prot="public">pip::_vendor::rich::theme::ThemeStackError</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1ThemeStack" prot="public">pip::_vendor::rich::theme::ThemeStack</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich">pip::_vendor::rich</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich_1_1theme">pip::_vendor::rich::theme</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1rich_1_1theme" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>configparser</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Dict,<sp/>List,<sp/>IO,<sp/>Mapping,<sp/>Optional</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.default_styles<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>DEFAULT_STYLES</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.style<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Style,<sp/>StyleType</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme" kindref="compound">Theme</ref>:</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>container<sp/>for<sp/>style<sp/>information,<sp/>used<sp/>by<sp/>:class:`~rich.console.Console`.</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>styles<sp/>(Dict[str,<sp/>Style],<sp/>optional):<sp/>A<sp/>mapping<sp/>of<sp/>style<sp/>names<sp/>on<sp/>to<sp/>styles.<sp/>Defaults<sp/>to<sp/>None<sp/>for<sp/>a<sp/>theme<sp/>with<sp/>no<sp/>styles.</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inherit<sp/>(bool,<sp/>optional):<sp/>Inherit<sp/>default<sp/>styles.<sp/>Defaults<sp/>to<sp/>True.</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>styles:<sp/>Dict[str,<sp/>Style]</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1a8f158838fb0dc5e78e5e8a0a5b6c7dd9" kindref="member">__init__</ref>(</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>styles:<sp/>Optional[Mapping[str,<sp/>StyleType]]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>inherit:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1ad4e7c8ff12a60a1370504b854a4f1b35" kindref="member">styles</ref><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1ab0d3803e5edfe9457a6806c52f9e8fac" kindref="member">styles</ref><sp/>=<sp/>DEFAULT_STYLES.copy()<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>inherit<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>styles<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1ad4e7c8ff12a60a1370504b854a4f1b35" kindref="member">styles</ref><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1ab0d3803e5edfe9457a6806c52f9e8fac" kindref="member">styles</ref>.update(</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name:<sp/>style<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(style,<sp/>Style)<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>Style.parse(style)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name,<sp/>style<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>styles.items()</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">config(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>contents<sp/>of<sp/>a<sp/>config<sp/>file<sp/>for<sp/>this<sp/>theme.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;[styles]\n&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">.join(</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;{name}<sp/>=<sp/>{style}&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name,<sp/>style<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sorted(self.<ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1ad4e7c8ff12a60a1370504b854a4f1b35" kindref="member">styles</ref><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1ab0d3803e5edfe9457a6806c52f9e8fac" kindref="member">styles</ref>.items())</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@classmethod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1aef5ab8821f44e72cbc91b62ca1005250" kindref="member">from_file</ref>(</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls,<sp/>config_file:<sp/>IO[str],<sp/>source:<sp/>Optional[str]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>inherit:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="stringliteral">&quot;Theme&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Load<sp/>a<sp/>theme<sp/>from<sp/>a<sp/>text<sp/>mode<sp/>file.</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_file<sp/>(IO[str]):<sp/>An<sp/>open<sp/>conf<sp/>file.</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source<sp/>(str,<sp/>optional):<sp/>The<sp/>filename<sp/>of<sp/>the<sp/>open<sp/>file.<sp/>Defaults<sp/>to<sp/>None.</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inherit<sp/>(bool,<sp/>optional):<sp/>Inherit<sp/>default<sp/>styles.<sp/>Defaults<sp/>to<sp/>True.</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Theme:<sp/>A<sp/>New<sp/>theme<sp/>instance.</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config<sp/>=<sp/>configparser.ConfigParser()</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.read_file(config_file,<sp/>source=source)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>styles<sp/>=<sp/>{name:<sp/>Style.parse(value)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name,<sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>config.items(</highlight><highlight class="stringliteral">&quot;styles&quot;</highlight><highlight class="normal">)}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>theme<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme" kindref="compound">Theme</ref>(styles,<sp/>inherit=inherit)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>theme</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@classmethod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1af15902d143164bd9dace530822864b4f" kindref="member">read</ref>(</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls,<sp/>path:<sp/>str,<sp/>inherit:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,<sp/>encoding:<sp/>Optional[str]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="stringliteral">&quot;Theme&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Read<sp/>a<sp/>theme<sp/>from<sp/>a<sp/>path.</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path<sp/>(str):<sp/>Path<sp/>to<sp/>a<sp/>config<sp/>file<sp/>readable<sp/>by<sp/>Python<sp/>configparser<sp/>module.</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inherit<sp/>(bool,<sp/>optional):<sp/>Inherit<sp/>default<sp/>styles.<sp/>Defaults<sp/>to<sp/>True.</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encoding<sp/>(str,<sp/>optional):<sp/>Encoding<sp/>of<sp/>the<sp/>config<sp/>file.<sp/>Defaults<sp/>to<sp/>None.</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Theme:<sp/>A<sp/>new<sp/>theme<sp/>instance.</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>open(path,<sp/></highlight><highlight class="stringliteral">&quot;rt&quot;</highlight><highlight class="normal">,<sp/>encoding=encoding)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>config_file:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cls.<ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1Theme_1aef5ab8821f44e72cbc91b62ca1005250" kindref="member">from_file</ref>(config_file,<sp/>source=path,<sp/>inherit=inherit)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1ThemeStackError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1ThemeStackError" kindref="compound">ThemeStackError</ref>(Exception):</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Base<sp/>exception<sp/>for<sp/>errors<sp/>related<sp/>to<sp/>the<sp/>theme<sp/>stack.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1ThemeStack" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ThemeStack:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>stack<sp/>of<sp/>themes.</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>theme<sp/>(Theme):<sp/>A<sp/>theme<sp/>instance</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1ThemeStack_1a3ed4101f1abf300cc0b12e4a05a03094" kindref="member">__init__</ref>(self,<sp/>theme:<sp/>Theme)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._entries:<sp/>List[Dict[str,<sp/>Style]]<sp/>=<sp/>[theme.styles]</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.get<sp/>=<sp/>self._entries[-1].get</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1ThemeStack_1a59e2cc731ff921b7ce76aa4aa4eaf948" kindref="member">push_theme</ref>(self,<sp/>theme:<sp/>Theme,<sp/>inherit:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Push<sp/>a<sp/>theme<sp/>on<sp/>the<sp/>top<sp/>of<sp/>the<sp/>stack.</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>theme<sp/>(Theme):<sp/>A<sp/>Theme<sp/>instance.</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inherit<sp/>(boolean,<sp/>optional):<sp/>Inherit<sp/>styles<sp/>from<sp/>current<sp/>top<sp/>of<sp/>stack.</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>styles:<sp/>Dict[str,<sp/>Style]</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>styles<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{**self._entries[-1],<sp/>**theme.styles}<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>inherit<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>theme.styles.copy()</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._entries.append(styles)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.get<sp/>=<sp/>self._entries[-1].get</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1theme_1_1ThemeStack_1a3eb6c164afd8b35d09238559a6f1702f" kindref="member">pop_theme</ref>(self)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Pop<sp/>(and<sp/>discard)<sp/>the<sp/>top-most<sp/>theme.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>len(self._entries)<sp/>==<sp/>1:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ThemeStackError(</highlight><highlight class="stringliteral">&quot;Unable<sp/>to<sp/>pop<sp/>base<sp/>theme&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._entries.pop()</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.get<sp/>=<sp/>self._entries[-1].get</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="comment">#<sp/>pragma:<sp/>no<sp/>cover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>theme<sp/>=<sp/>Theme()</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>print(theme.config)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/theme.py"/>
+  </compounddef>
+</doxygen>

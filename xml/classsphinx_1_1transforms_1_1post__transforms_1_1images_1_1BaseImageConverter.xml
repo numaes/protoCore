@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::transforms::post_transforms::images::BaseImageConverter</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1SphinxTransform" prot="public" virt="non-virtual">sphinx.transforms.SphinxTransform</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1DataURIExtractor" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.images.DataURIExtractor</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.images.ImageConverter</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageDownloader" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.images.ImageDownloader</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1afe3655aabfc3c983d4b490fa813bab17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms.post_transforms.images.BaseImageConverter.apply</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>apply</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.BaseImageConverter.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1a751116213aa8ae50c8dcf81c98a2235e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.transforms.post_transforms.images.BaseImageConverter.match</definition>
+        <argsstring>(self, nodes.image node)</argsstring>
+        <name>match</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.BaseImageConverter.match</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageDownloader_1ac89ee2eaa9f10395cbff03d2be289556">match</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1DataURIExtractor_1a66a945f18fd136dc178abbb696a87797">match</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter_1a7b09e4ff4fdcce00205cf528e1f0bec6">match</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.image</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1ad46c2d7a6fd97d1bbb7ddfc364ac0a55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms.post_transforms.images.BaseImageConverter.handle</definition>
+        <argsstring>(self, nodes.image node)</argsstring>
+        <name>handle</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.BaseImageConverter.handle</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageDownloader_1aedd0ad752965f58158bc12f71d8cd61f">handle</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1DataURIExtractor_1a0a2bc94caf9393f6e0a6efafb64df891">handle</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter_1a9c8a2b9cec22d22860b2fe79b7d16209">handle</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.image</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1a70981cac45564be7b9fefd2b60b8100b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref></type>
+        <definition> _StrPath sphinx.transforms.post_transforms.images.BaseImageConverter.imagedir</definition>
+        <argsstring>(self)</argsstring>
+        <name>imagedir</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.BaseImageConverter.imagedir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="47" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="47" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.transforms.post_transforms.images.BaseImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>sphinx.ext.imgconverter.ImagemagickConverter</label>
+        <link refid="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.transforms.post_transforms.images.DataURIExtractor</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1DataURIExtractor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.transforms.post_transforms.images.ImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>sphinx.transforms.post_transforms.images.ImageDownloader</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageDownloader"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.transforms.post_transforms.images.BaseImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="34" bodyend="50"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1afe3655aabfc3c983d4b490fa813bab17" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::images::BaseImageConverter</scope><name>apply</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1ad46c2d7a6fd97d1bbb7ddfc364ac0a55" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::images::BaseImageConverter</scope><name>handle</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1a70981cac45564be7b9fefd2b60b8100b" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::images::BaseImageConverter</scope><name>imagedir</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1a751116213aa8ae50c8dcf81c98a2235e" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::images::BaseImageConverter</scope><name>match</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

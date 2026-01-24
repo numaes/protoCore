@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1messages_1_1pofile" kind="namespace" language="Python">
+    <compoundname>babel::messages::pofile</compoundname>
+    <innerclass refid="classbabel_1_1messages_1_1pofile_1_1__NormalizedString" prot="protected">babel::messages::pofile::_NormalizedString</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1pofile_1_1PoFileError" prot="public">babel::messages::pofile::PoFileError</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1pofile_1_1PoFileParser" prot="public">babel::messages::pofile::PoFileParser</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1pofile_1a46a11d89f52871a1eb6a4fb9724787bc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::pofile.WORD_SEP</definition>
+        <argsstring></argsstring>
+        <name>WORD_SEP</name>
+        <qualifiedname>babel.messages.pofile.WORD_SEP</qualifiedname>
+        <initializer>=  re.compile(&apos;(&apos;
+                      r&apos;\s+|&apos;                                 # any whitespace
+                      r&apos;[^\s\w]*\w+[a-zA-Z]-(?=\w+[a-zA-Z])|&apos;  # hyphenated words
+                      r&apos;(?&lt;=[\w\!\&quot;\&apos;\&amp;\.\,\?])-{2,}(?=\w)&apos;   # em-dash
+                      &apos;)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="440" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="440" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a94965d2bb28e1dac86f221e70df4856f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.messages.pofile.unescape</definition>
+        <argsstring>(str string)</argsstring>
+        <name>unescape</name>
+        <qualifiedname>babel.messages.pofile.unescape</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reverse `escape` the given string.
+
+    &gt;&gt;&gt; print(unescape(&apos;&quot;Say:\\n  \\&quot;hello, world!\\&quot;\\n&quot;&apos;))
+    Say:
+      &quot;hello, world!&quot;
+    &lt;BLANKLINE&gt;
+
+    :param string: the string to unescape</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="28" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a5194b1f10b67fc7b8d7efa27e5cc25dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.messages.pofile.denormalize</definition>
+        <argsstring>(str string)</argsstring>
+        <name>denormalize</name>
+        <qualifiedname>babel.messages.pofile.denormalize</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reverse the normalization done by the `normalize` function.
+
+&gt;&gt;&gt; print(denormalize(r&apos;&apos;&apos;&quot;&quot;
+... &quot;Say:\n&quot;
+... &quot;  \&quot;hello, world!\&quot;\n&quot;&apos;&apos;&apos;))
+Say:
+&quot;hello, world!&quot;
+&lt;BLANKLINE&gt;
+
+&gt;&gt;&gt; print(denormalize(r&apos;&apos;&apos;&quot;&quot;
+... &quot;Say:\n&quot;
+... &quot;  \&quot;Lorem ipsum dolor sit &quot;
+... &quot;amet, consectetur adipisicing&quot;
+... &quot; elit, \&quot;\n&quot;&apos;&apos;&apos;))
+Say:
+&quot;Lorem ipsum dolor sit amet, consectetur adipisicing elit, &quot;
+&lt;BLANKLINE&gt;
+
+:param string: the string to denormalize
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="51" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="51" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a3e322f6ac692af6e0922e2746ecf751b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] babel.messages.pofile._extract_locations</definition>
+        <argsstring>(str line)</argsstring>
+        <name>_extract_locations</name>
+        <qualifiedname>babel.messages.pofile._extract_locations</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract locations from location comments.
+
+Locations are extracted while properly handling First Strong
+Isolate (U+2068) and Pop Directional Isolate (U+2069), used by
+gettext to enclose filenames with spaces and tabs in their names.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="82" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="82" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a671f173dbaf2240077ae570d2ca2dc50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref></type>
+        <definition> Catalog babel.messages.pofile.read_po</definition>
+        <argsstring>(IO[AnyStr]|Iterable[AnyStr] fileobj, Locale|str|None locale=None, str|None domain=None, bool ignore_obsolete=False, str|None charset=None, bool abort_invalid=False)</argsstring>
+        <name>read_po</name>
+        <qualifiedname>babel.messages.pofile.read_po</qualifiedname>
+        <param>
+          <type>IO|Iterable</type>
+          <declname>fileobj</declname>
+          <array>[AnyStr][AnyStr]</array>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>domain</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_obsolete</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>charset</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>abort_invalid</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Read messages from a ``gettext`` PO (portable object) file from the given
+file-like object (or an iterable of lines) and return a `Catalog`.
+
+&gt;&gt;&gt; from datetime import datetime
+&gt;&gt;&gt; from io import StringIO
+&gt;&gt;&gt; buf = StringIO(&apos;&apos;&apos;
+... #: main.py:1
+... #, fuzzy, python-format
+... msgid &quot;foo %(name)s&quot;
+... msgstr &quot;quux %(name)s&quot;
+...
+... # A user comment
+... #. An auto comment
+... #: main.py:3
+... msgid &quot;bar&quot;
+... msgid_plural &quot;baz&quot;
+... msgstr[0] &quot;bar&quot;
+... msgstr[1] &quot;baaz&quot;
+... &apos;&apos;&apos;)
+&gt;&gt;&gt; catalog = read_po(buf)
+&gt;&gt;&gt; catalog.revision_date = datetime(2007, 4, 1)
+
+&gt;&gt;&gt; for message in catalog:
+...     if message.id:
+...         print((message.id, message.string))
+...         print(&apos; &apos;, (message.locations, sorted(list(message.flags))))
+...         print(&apos; &apos;, (message.user_comments, message.auto_comments))
+(u&apos;foo %(name)s&apos;, u&apos;quux %(name)s&apos;)
+  ([(u&apos;main.py&apos;, 1)], [u&apos;fuzzy&apos;, u&apos;python-format&apos;])
+  ([], [])
+((u&apos;bar&apos;, u&apos;baz&apos;), (u&apos;bar&apos;, u&apos;baaz&apos;))
+  ([(u&apos;main.py&apos;, 3)], [])
+  ([u&apos;A user comment&apos;], [u&apos;An auto comment&apos;])
+
+.. versionadded:: 1.0
+   Added support for explicit charset argument.
+
+:param fileobj: the file-like object (or iterable of lines) to read the PO file from
+:param locale: the locale identifier or `Locale` object, or `None`
+               if the catalog is not bound to a locale (which basically
+               means it&apos;s a template)
+:param domain: the message domain
+:param ignore_obsolete: whether to ignore obsolete messages in the input
+:param charset: the character set of the catalog.
+:param abort_invalid: abort read if po file is invalid
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="380" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="387" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1ac1c69407699891ca89a3729a160f0518" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.messages.pofile.escape</definition>
+        <argsstring>(str string)</argsstring>
+        <name>escape</name>
+        <qualifiedname>babel.messages.pofile.escape</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Escape the given string so that it can be included in double-quoted
+strings in ``PO`` files.
+
+&gt;&gt;&gt; escape(&apos;&apos;&apos;Say:
+...   &quot;hello, world!&quot;
+... &apos;&apos;&apos;)
+&apos;&quot;Say:\\n  \\&quot;hello, world!\\&quot;\\n&quot;&apos;
+
+:param string: the string to escape
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="447" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="447" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a361170277ef2b67fa8cba499109051cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.messages.pofile.normalize</definition>
+        <argsstring>(str string, str prefix=&apos;&apos;, int width=76)</argsstring>
+        <name>normalize</name>
+        <qualifiedname>babel.messages.pofile.normalize</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>prefix</declname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+          <defval>76</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a string into a format that is appropriate for .po files.
+
+&gt;&gt;&gt; print(normalize(&apos;&apos;&apos;Say:
+...   &quot;hello, world!&quot;
+... &apos;&apos;&apos;, width=None))
+&quot;&quot;
+&quot;Say:\n&quot;
+&quot;  \&quot;hello, world!\&quot;\n&quot;
+
+&gt;&gt;&gt; print(normalize(&apos;&apos;&apos;Say:
+...   &quot;Lorem ipsum dolor sit amet, consectetur adipisicing elit, &quot;
+... &apos;&apos;&apos;, width=32))
+&quot;&quot;
+&quot;Say:\n&quot;
+&quot;  \&quot;Lorem ipsum dolor sit &quot;
+&quot;amet, consectetur adipisicing&quot;
+&quot; elit, \&quot;\n&quot;
+
+:param string: the string to normalize
+:param prefix: a string that should be prepended to every line
+:param width: the maximum line width; use `None`, 0, or a negative number
+to completely disable line wrapping
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="465" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="465" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a93c2246ae20220df543a3cd604f47b6c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.messages.pofile._enclose_filename_if_necessary</definition>
+        <argsstring>(str filename)</argsstring>
+        <name>_enclose_filename_if_necessary</name>
+        <qualifiedname>babel.messages.pofile._enclose_filename_if_necessary</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Enclose filenames which include white spaces or tabs.
+
+Do the same as gettext and enclose filenames which contain white
+spaces or tabs with First Strong Isolate (U+2068) and Pop
+Directional Isolate (U+2069).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="526" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="526" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a857c272c6e6cb2758dffaf4068679680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None babel.messages.pofile.write_po</definition>
+        <argsstring>(SupportsWrite[bytes] fileobj, Catalog catalog, int width=76, bool no_location=False, bool omit_header=False, bool sort_output=False, bool sort_by_file=False, bool ignore_obsolete=False, bool include_previous=False, bool include_lineno=True)</argsstring>
+        <name>write_po</name>
+        <qualifiedname>babel.messages.pofile.write_po</qualifiedname>
+        <param>
+          <type>SupportsWrite</type>
+          <declname>fileobj</declname>
+          <array>[bytes]</array>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref></type>
+          <declname>catalog</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+          <defval>76</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>no_location</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>omit_header</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sort_output</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sort_by_file</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_obsolete</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>include_previous</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>include_lineno</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write a ``gettext`` PO (portable object) template file for a given
+message catalog to the provided file-like object.
+
+&gt;&gt;&gt; catalog = Catalog()
+&gt;&gt;&gt; catalog.add(u&apos;foo %(name)s&apos;, locations=[(&apos;main.py&apos;, 1)],
+...             flags=(&apos;fuzzy&apos;,))
+&lt;Message...&gt;
+&gt;&gt;&gt; catalog.add((u&apos;bar&apos;, u&apos;baz&apos;), locations=[(&apos;main.py&apos;, 3)])
+&lt;Message...&gt;
+&gt;&gt;&gt; from io import BytesIO
+&gt;&gt;&gt; buf = BytesIO()
+&gt;&gt;&gt; write_po(buf, catalog, omit_header=True)
+&gt;&gt;&gt; print(buf.getvalue().decode(&quot;utf8&quot;))
+#: main.py:1
+#, fuzzy, python-format
+msgid &quot;foo %(name)s&quot;
+msgstr &quot;&quot;
+&lt;BLANKLINE&gt;
+#: main.py:3
+msgid &quot;bar&quot;
+msgid_plural &quot;baz&quot;
+msgstr[0] &quot;&quot;
+msgstr[1] &quot;&quot;
+&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+
+:param fileobj: the file-like object to write to
+:param catalog: the `Catalog` instance
+:param width: the maximum line width for the generated output; use `None`,
+              0, or a negative number to completely disable line wrapping
+:param no_location: do not emit a location comment for every message
+:param omit_header: do not include the ``msgid &quot;&quot;`` entry at the top of the
+                    output
+:param sort_output: whether to sort the messages in the output by msgid
+:param sort_by_file: whether to sort the messages in the output by their
+                     locations
+:param ignore_obsolete: whether to ignore obsolete messages and not include
+                        them in the output; by default they are included as
+                        comments
+:param include_previous: include the old msgid as a comment when
+                         updating the catalog
+:param include_lineno: include line number in the location comment
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="543" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="554" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a3279b9bccb58a1b9a88fc2b68b2c08fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[str]</type>
+        <definition> Iterable[str] babel.messages.pofile.generate_po</definition>
+        <argsstring>(Catalog catalog, *bool ignore_obsolete=False, bool include_lineno=True, bool include_previous=False, bool no_location=False, bool omit_header=False, Literal[&quot;message&quot;, &quot;location&quot;]|None sort_by=None, int width=76)</argsstring>
+        <name>generate_po</name>
+        <qualifiedname>babel.messages.pofile.generate_po</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref></type>
+          <declname>catalog</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>ignore_obsolete</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>include_lineno</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>include_previous</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>no_location</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>omit_header</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Literal|None</type>
+          <declname>sort_by</declname>
+          <array>[&quot;message&quot;, &quot;location&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+          <defval>76</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yield text strings representing a ``gettext`` PO (portable object) file.
+
+See `write_po()` for a more detailed description.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="620" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="630" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1pofile_1a0f0dce67584fc24a110276d0aff8e345" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classbabel_1_1messages_1_1catalog_1_1Message" kindref="compound">Message</ref>]</type>
+        <definition> list[Message] babel.messages.pofile._sort_messages</definition>
+        <argsstring>(Iterable[Message] messages, Literal[&quot;message&quot;, &quot;location&quot;]|None sort_by)</argsstring>
+        <name>_sort_messages</name>
+        <qualifiedname>babel.messages.pofile._sort_messages</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>messages</declname>
+          <array>[Message]</array>
+        </param>
+        <param>
+          <type>Literal|None</type>
+          <declname>sort_by</declname>
+          <array>[&quot;message&quot;, &quot;location&quot;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sort the given message iterable by the given criteria.
+
+Always returns a list.
+
+:param messages: An iterable of Messages.
+:param sort_by: Sort by which criteria? Options are `message` and `location`.
+:return: list[Message]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="729" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" bodystart="729" bodyend="745"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.messages.pofile
+    ~~~~~~~~~~~~~~~~~~~~~
+
+    Reading and writing of files in the ``gettext`` PO (portable object)
+    format.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/messages/pofile.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

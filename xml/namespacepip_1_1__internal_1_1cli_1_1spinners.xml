@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1cli_1_1spinners" kind="namespace" language="Python">
+    <compoundname>pip::_internal::cli::spinners</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1cli_1_1spinners_1_1InteractiveSpinner" prot="public">pip::_internal::cli::spinners::InteractiveSpinner</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1cli_1_1spinners_1_1NonInteractiveSpinner" prot="public">pip::_internal::cli::spinners::NonInteractiveSpinner</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1cli_1_1spinners_1_1RateLimiter" prot="public">pip::_internal::cli::spinners::RateLimiter</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1cli_1_1spinners_1_1SpinnerInterface" prot="public">pip::_internal::cli::spinners::SpinnerInterface</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1spinners_1a71c58270383de5c2e8fde038636287d0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::cli::spinners.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.cli.spinners.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" line="11" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1spinners_1aaa29641dc9f8e390cce9e30dc2b84db2" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_internal::cli::spinners.HIDE_CURSOR</definition>
+        <argsstring></argsstring>
+        <name>HIDE_CURSOR</name>
+        <qualifiedname>pip._internal.cli.spinners.HIDE_CURSOR</qualifiedname>
+        <initializer>=  &quot;\x1b[?25l&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" line="139" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1spinners_1a04a5f1c752511a0d5268bb8bd1489542" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_internal::cli::spinners.SHOW_CURSOR</definition>
+        <argsstring></argsstring>
+        <name>SHOW_CURSOR</name>
+        <qualifiedname>pip._internal.cli.spinners.SHOW_CURSOR</qualifiedname>
+        <initializer>=  &quot;\x1b[?25h&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" line="140" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1spinners_1a156b2ff40cfd2cae993541acd6a0c4ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="classpip_1_1__internal_1_1cli_1_1spinners_1_1SpinnerInterface" kindref="compound">SpinnerInterface</ref>, None, None]</type>
+        <definition> Generator[SpinnerInterface, None, None] pip._internal.cli.spinners.open_spinner</definition>
+        <argsstring>(str message)</argsstring>
+        <name>open_spinner</name>
+        <qualifiedname>pip._internal.cli.spinners.open_spinner</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" line="116" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" bodystart="116" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1spinners_1a6543b30a10e3d49a8ce7980328f7477b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[None, None, None]</type>
+        <definition> Generator[None, None, None] pip._internal.cli.spinners.hidden_cursor</definition>
+        <argsstring>(IO[str] file)</argsstring>
+        <name>hidden_cursor</name>
+        <qualifiedname>pip._internal.cli.spinners.hidden_cursor</qualifiedname>
+        <param>
+          <type>IO</type>
+          <declname>file</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" line="144" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" bodystart="144" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/spinners.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

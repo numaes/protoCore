@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1builders_1_1linkcheck" kind="namespace" language="Python">
+    <compoundname>sphinx::builders::linkcheck</compoundname>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1__Status" prot="protected">sphinx::builders::linkcheck::_Status</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1AnchorCheckParser" prot="public">sphinx::builders::linkcheck::AnchorCheckParser</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1CheckExternalLinksBuilder" prot="public">sphinx::builders::linkcheck::CheckExternalLinksBuilder</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1CheckRequest" prot="public">sphinx::builders::linkcheck::CheckRequest</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1CheckResult" prot="public">sphinx::builders::linkcheck::CheckResult</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1Hyperlink" prot="public">sphinx::builders::linkcheck::Hyperlink</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkAvailabilityChecker" prot="public">sphinx::builders::linkcheck::HyperlinkAvailabilityChecker</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkAvailabilityCheckWorker" prot="public">sphinx::builders::linkcheck::HyperlinkAvailabilityCheckWorker</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector" prot="public">sphinx::builders::linkcheck::HyperlinkCollector</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1linkcheck_1_1RateLimit" prot="public">sphinx::builders::linkcheck::RateLimit</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1linkcheck_1a9bbb44b1f143a0c7cd9049a5825ec5ac" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::linkcheck.TypeAlias</definition>
+        <argsstring></argsstring>
+        <name>TypeAlias</name>
+        <qualifiedname>sphinx.builders.linkcheck.TypeAlias</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1linkcheck_1aa1c470db970d4a8ddadd0896d1940bc0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::linkcheck.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.builders.linkcheck.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="60" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1linkcheck_1a3997ee382bbdd2e647bceec731919ab6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::linkcheck.uri_re</definition>
+        <argsstring></argsstring>
+        <name>uri_re</name>
+        <qualifiedname>sphinx.builders.linkcheck.uri_re</qualifiedname>
+        <initializer>=  re.compile(&apos;([a-<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a196ff6a287f53f758b1506f21269fc77" kindref="member">z</ref>]+:)?//&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="63" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1linkcheck_1adcca965ce8644ddb289cdc9edf297581" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::builders::linkcheck.DEFAULT_REQUEST_HEADERS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_REQUEST_HEADERS</name>
+        <qualifiedname>sphinx.builders.linkcheck.DEFAULT_REQUEST_HEADERS</qualifiedname>
+        <initializer>=  {
+    &apos;Accept&apos;: &apos;text/html,application/xhtml+xml;q=0.9,*/*;q=0.8&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="65" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1linkcheck_1a5b434b7f09f2acaaeb8f1ee8584be618" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::builders::linkcheck.CHECK_IMMEDIATELY</definition>
+        <argsstring></argsstring>
+        <name>CHECK_IMMEDIATELY</name>
+        <qualifiedname>sphinx.builders.linkcheck.CHECK_IMMEDIATELY</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="68" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1linkcheck_1a66c180199aa3f688ecd2e6785f42b52a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::builders::linkcheck.QUEUE_POLL_SECS</definition>
+        <argsstring></argsstring>
+        <name>QUEUE_POLL_SECS</name>
+        <qualifiedname>sphinx.builders.linkcheck.QUEUE_POLL_SECS</qualifiedname>
+        <initializer>=  1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1linkcheck_1ae98a652f22e2f2b9f5bb38bc896cb7b8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float sphinx::builders::linkcheck.DEFAULT_DELAY</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_DELAY</name>
+        <qualifiedname>sphinx.builders.linkcheck.DEFAULT_DELAY</qualifiedname>
+        <initializer>=  60.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1linkcheck_1a8ebbd4ab0710212d7b14f655fc7011e2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, str]</type>
+        <definition> dict[str, str] sphinx.builders.linkcheck._get_request_headers</definition>
+        <argsstring>(str uri, dict[str, dict[str, str]] request_headers)</argsstring>
+        <name>_get_request_headers</name>
+        <qualifiedname>sphinx.builders.linkcheck._get_request_headers</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>uri</declname>
+        </param>
+        <param>
+          <type>dict]</type>
+          <declname>request_headers</declname>
+          <array>[str, dict[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="670" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="673" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1linkcheck_1a1f4ea337063c6ca2d51cefeb4138ea65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.builders.linkcheck.contains_anchor</definition>
+        <argsstring>(Response response, str anchor)</argsstring>
+        <name>contains_anchor</name>
+        <qualifiedname>sphinx.builders.linkcheck.contains_anchor</qualifiedname>
+        <param>
+          <type>Response</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>anchor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine if an anchor is contained within an HTTP response.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="688" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="688" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1linkcheck_1a148fcef22b933304a0384101ed62f54d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.builders.linkcheck._allowed_redirect</definition>
+        <argsstring>(str url, str new_url, dict[re.Pattern[str], re.Pattern[str]] allowed_redirects)</argsstring>
+        <name>_allowed_redirect</name>
+        <qualifiedname>sphinx.builders.linkcheck._allowed_redirect</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>new_url</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <defname>allowed_redirects</defname>
+          <array>[re.Pattern[str]</array>
+        </param>
+        <param>
+          <type>re.Pattern]</type>
+          <declname>allowed_redirects</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="721" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="723" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1linkcheck_1aaed6da67d99e56cf5920a3872523d4e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.builders.linkcheck.rewrite_github_anchor</definition>
+        <argsstring>(Sphinx app, str uri)</argsstring>
+        <name>rewrite_github_anchor</name>
+        <qualifiedname>sphinx.builders.linkcheck.rewrite_github_anchor</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>uri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Rewrite anchor name of the hyperlink to github.com
+
+The hyperlink anchors in github.com are dynamically generated.  This rewrites
+them before checking and makes them comparable.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="735" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="735" bodyend="749"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1linkcheck_1ada10cbfdd2ac89ddc6de6d14d57b3325" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.linkcheck.compile_linkcheck_allowed_redirects</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>compile_linkcheck_allowed_redirects</name>
+        <qualifiedname>sphinx.builders.linkcheck.compile_linkcheck_allowed_redirects</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compile patterns in linkcheck_allowed_redirects to the regexp objects.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="750" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="750" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1linkcheck_1a3d68b57cf4ec8d99f31b22636c152844" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.builders.linkcheck.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.builders.linkcheck.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="767" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="767" bodyend="813"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The CheckExternalLinksBuilder class.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

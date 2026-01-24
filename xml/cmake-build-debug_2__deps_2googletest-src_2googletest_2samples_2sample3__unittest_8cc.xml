@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample3__unittest_8cc" kind="file" language="C++">
+    <compoundname>sample3_unittest.cc</compoundname>
+    <includes refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample3-inl_8h" local="yes">sample3-inl.h</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>sample3-inl.h</label>
+        <link refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample3-inl_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>cmake-build-debug/_deps/googletest-src/googletest/samples/sample3_unittest.cc</label>
+        <link refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample3__unittest_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>stddef.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2005,<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>sample<sp/>program<sp/>demonstrating<sp/>using<sp/>Google<sp/>C++<sp/>testing<sp/>framework.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>this<sp/>example,<sp/>we<sp/>use<sp/>a<sp/>more<sp/>advanced<sp/>feature<sp/>of<sp/>Google<sp/>Test<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>test<sp/>fixture.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>test<sp/>fixture<sp/>is<sp/>a<sp/>place<sp/>to<sp/>hold<sp/>objects<sp/>and<sp/>functions<sp/>shared<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>all<sp/>tests<sp/>in<sp/>a<sp/>test<sp/>case.<sp/><sp/>Using<sp/>a<sp/>test<sp/>fixture<sp/>avoids<sp/>duplicating</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>test<sp/>code<sp/>necessary<sp/>to<sp/>initialize<sp/>and<sp/>cleanup<sp/>those<sp/>common</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>objects<sp/>for<sp/>each<sp/>test.<sp/><sp/>It<sp/>is<sp/>also<sp/>useful<sp/>for<sp/>defining<sp/>sub-routines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>your<sp/>tests<sp/>need<sp/>to<sp/>invoke<sp/>a<sp/>lot.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&lt;TechnicalDetails&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>tests<sp/>share<sp/>the<sp/>test<sp/>fixture<sp/>in<sp/>the<sp/>sense<sp/>of<sp/>code<sp/>sharing,<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>data<sp/>sharing.<sp/><sp/>Each<sp/>test<sp/>is<sp/>given<sp/>its<sp/>own<sp/>fresh<sp/>copy<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fixture.<sp/><sp/>You<sp/>cannot<sp/>expect<sp/>the<sp/>data<sp/>modified<sp/>by<sp/>one<sp/>test<sp/>to<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>passed<sp/>on<sp/>to<sp/>another<sp/>test,<sp/>which<sp/>is<sp/>a<sp/>bad<sp/>idea.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>reason<sp/>for<sp/>this<sp/>design<sp/>is<sp/>that<sp/>tests<sp/>should<sp/>be<sp/>independent<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>repeatable.<sp/><sp/>In<sp/>particular,<sp/>a<sp/>test<sp/>should<sp/>not<sp/>fail<sp/>as<sp/>the<sp/>result<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>another<sp/>test&apos;s<sp/>failure.<sp/><sp/>If<sp/>one<sp/>test<sp/>depends<sp/>on<sp/>info<sp/>produced<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>another<sp/>test,<sp/>then<sp/>the<sp/>two<sp/>tests<sp/>should<sp/>really<sp/>be<sp/>one<sp/>big<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>macros<sp/>for<sp/>indicating<sp/>the<sp/>success/failure<sp/>of<sp/>a<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(EXPECT_TRUE,<sp/>FAIL,<sp/>etc)<sp/>need<sp/>to<sp/>know<sp/>what<sp/>the<sp/>current<sp/>test<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(when<sp/>Google<sp/>Test<sp/>prints<sp/>the<sp/>test<sp/>result,<sp/>it<sp/>tells<sp/>you<sp/>which<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>each<sp/>failure<sp/>belongs<sp/>to).<sp/><sp/>Technically,<sp/>these<sp/>macros<sp/>invoke<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>member<sp/>function<sp/>of<sp/>the<sp/>Test<sp/>class.<sp/><sp/>Therefore,<sp/>you<sp/>cannot<sp/>use<sp/>them</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>a<sp/>global<sp/>function.<sp/><sp/>That&apos;s<sp/>why<sp/>you<sp/>should<sp/>put<sp/>test<sp/>sub-routines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>a<sp/>test<sp/>fixture.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&lt;/TechnicalDetails&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample3-inl_8h" kindref="compound">sample3-inl.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>To<sp/>use<sp/>a<sp/>test<sp/>fixture,<sp/>derive<sp/>a<sp/>class<sp/>from<sp/>testing::Test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">QueueTestSmpl3<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">testing::Test</ref><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="comment">//<sp/>You<sp/>should<sp/>make<sp/>the<sp/>members<sp/>protected<sp/>s.t.<sp/>they<sp/>can<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>accessed<sp/>from<sp/>sub-classes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>virtual<sp/>void<sp/>SetUp()<sp/>will<sp/>be<sp/>called<sp/>before<sp/>each<sp/>test<sp/>is<sp/>run.<sp/><sp/>You</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>define<sp/>it<sp/>if<sp/>you<sp/>need<sp/>to<sp/>initialize<sp/>the<sp/>variables.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Otherwise,<sp/>this<sp/>can<sp/>be<sp/>skipped.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test_1a190315150c303ddf801313fd1a777733" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>q1_.Enqueue(1);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>q2_.Enqueue(2);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>q2_.Enqueue(3);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>virtual<sp/>void<sp/>TearDown()<sp/>will<sp/>be<sp/>called<sp/>after<sp/>each<sp/>test<sp/>is<sp/>run.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>You<sp/>should<sp/>define<sp/>it<sp/>if<sp/>there<sp/>is<sp/>cleanup<sp/>work<sp/>to<sp/>do.<sp/><sp/>Otherwise,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>you<sp/>don&apos;t<sp/>have<sp/>to<sp/>provide<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>virtual<sp/>void<sp/>TearDown()<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>helper<sp/>function<sp/>that<sp/>some<sp/>test<sp/>uses.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1a92debc9f055b7e7e1e4e861c5ae1c67a" kindref="member">Double</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>2<sp/>*<sp/>n;<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>helper<sp/>function<sp/>for<sp/>testing<sp/>Queue::Map().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MapTester(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classQueue" kindref="compound">Queue&lt;int&gt;</ref>*<sp/>q)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Creates<sp/>a<sp/>new<sp/>queue,<sp/>where<sp/>each<sp/>element<sp/>is<sp/>twice<sp/>as<sp/>big<sp/>as<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>corresponding<sp/>one<sp/>in<sp/>q.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classQueue" kindref="compound">Queue&lt;int&gt;</ref>*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>new_q<sp/>=<sp/>q-&gt;<ref refid="classQueue_1a61c2800fd12a0ba74523c8763a86423b" kindref="member">Map</ref>(Double);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>the<sp/>new<sp/>queue<sp/>has<sp/>the<sp/>same<sp/>size<sp/>as<sp/>q.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a1a6db8b1338ee7040329322b77779086" kindref="member">ASSERT_EQ</ref>(q-&gt;<ref refid="classQueue_1abc4d78b5f66041011c5590bf703847b0" kindref="member">Size</ref>(),<sp/>new_q-&gt;<ref refid="classQueue_1abc4d78b5f66041011c5590bf703847b0" kindref="member">Size</ref>());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verifies<sp/>the<sp/>relationship<sp/>between<sp/>the<sp/>elements<sp/>of<sp/>the<sp/>two<sp/>queues.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classQueueNode" kindref="compound">QueueNode&lt;int&gt;</ref>*n1<sp/>=<sp/>q-&gt;<ref refid="classQueue_1ae6bfe598d2ac848acf99055bbcfeb6df" kindref="member">Head</ref>(),<sp/>*n2<sp/>=<sp/>new_q-&gt;<ref refid="classQueue_1ae6bfe598d2ac848acf99055bbcfeb6df" kindref="member">Head</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>n1<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>n1<sp/>=<sp/>n1-&gt;next(),<sp/>n2<sp/>=<sp/>n2-&gt;next())<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(2<sp/>*<sp/>n1-&gt;element(),<sp/>n2-&gt;element());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>new_q;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Declares<sp/>the<sp/>variables<sp/>your<sp/>tests<sp/>want<sp/>to<sp/>use.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><ref refid="classQueue" kindref="compound">Queue&lt;int&gt;</ref><sp/>q0_;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><ref refid="classQueue" kindref="compound">Queue&lt;int&gt;</ref><sp/>q1_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><ref refid="classQueue" kindref="compound">Queue&lt;int&gt;</ref><sp/>q2_;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>you<sp/>have<sp/>a<sp/>test<sp/>fixture,<sp/>you<sp/>define<sp/>a<sp/>test<sp/>using<sp/>TEST_F</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>instead<sp/>of<sp/>TEST.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>the<sp/>default<sp/>c&apos;tor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(QueueTestSmpl3,<sp/>DefaultConstructor)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>You<sp/>can<sp/>access<sp/>data<sp/>in<sp/>the<sp/>test<sp/>fixture<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(0u,<sp/>q0_.Size());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>Dequeue().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(QueueTestSmpl3,<sp/>Dequeue)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>n<sp/>=<sp/>q0_.Dequeue();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(n<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/>n<sp/>=<sp/>q1_.Dequeue();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ae9244bfbda562e8b798789b001993fa5" kindref="member">ASSERT_TRUE</ref>(n<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/>*n);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(0u,<sp/>q1_.Size());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>n;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>n<sp/>=<sp/>q2_.Dequeue();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ae9244bfbda562e8b798789b001993fa5" kindref="member">ASSERT_TRUE</ref>(n<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(2,<sp/>*n);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1u,<sp/>q2_.Size());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>n;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>the<sp/>Queue::Map()<sp/>function.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(QueueTestSmpl3,<sp/>Map)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/>MapTester(&amp;q0_);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/>MapTester(&amp;q1_);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/>MapTester(&amp;q2_);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/samples/sample3_unittest.cc"/>
+  </compounddef>
+</doxygen>

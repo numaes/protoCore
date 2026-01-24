@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="chardetect_8py" kind="file" language="Python">
+    <compoundname>chardetect.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet">pip::_vendor::chardet</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet_1_1cli">pip::_vendor::chardet::cli</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet_1_1cli_1_1chardetect">pip::_vendor::chardet::cli::chardetect</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1chardet_1_1cli" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">Script<sp/>which<sp/>takes<sp/>one<sp/>or<sp/>more<sp/>file<sp/>paths<sp/>and<sp/>reports<sp/>on<sp/>their<sp/>detected</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">encodings</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">Example::</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>%<sp/>chardetect<sp/>somefile<sp/>someotherfile</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>somefile:<sp/>windows-1252<sp/>with<sp/>confidence<sp/>0.5</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>someotherfile:<sp/>ascii<sp/>with<sp/>confidence<sp/>1.0</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral">If<sp/>no<sp/>paths<sp/>are<sp/>provided,<sp/>it<sp/>takes<sp/>its<sp/>input<sp/>from<sp/>stdin.</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>argparse</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Iterable,<sp/>List,<sp/>Optional</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>__version__</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..universaldetector<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>UniversalDetector</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">description_of(</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>lines:<sp/>Iterable[bytes],</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>name:<sp/>str<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;stdin&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>minimal:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>should_rename_legacy:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">)<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Return<sp/>a<sp/>string<sp/>describing<sp/>the<sp/>probable<sp/>encoding<sp/>of<sp/>a<sp/>file<sp/>or</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>list<sp/>of<sp/>strings.</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>lines:<sp/>The<sp/>lines<sp/>to<sp/>get<sp/>the<sp/>encoding<sp/>of.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>lines:<sp/>Iterable<sp/>of<sp/>bytes</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>name:<sp/>Name<sp/>of<sp/>file<sp/>or<sp/>collection<sp/>of<sp/>lines</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>name:<sp/>str</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>should_rename_legacy:<sp/><sp/>Should<sp/>we<sp/>rename<sp/>legacy<sp/>encodings<sp/>to</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>their<sp/>more<sp/>modern<sp/>equivalents?</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>should_rename_legacy:<sp/><sp/><sp/>``bool``</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>u<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector" kindref="compound">UniversalDetector</ref>(should_rename_legacy=should_rename_legacy)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>line<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>lines:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>line<sp/>=<sp/>bytearray(line)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>u.feed(line)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>shortcut<sp/>out<sp/>of<sp/>the<sp/>loop<sp/>to<sp/>save<sp/>reading<sp/>further<sp/>-<sp/>particularly<sp/>useful<sp/>if<sp/>we<sp/>read<sp/>a<sp/>BOM.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>u.done:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>u.close()</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>result<sp/>=<sp/>u.result</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>minimal:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result[</highlight><highlight class="stringliteral">&quot;encoding&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>result[</highlight><highlight class="stringliteral">&quot;encoding&quot;</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&apos;{name}:<sp/>{result[&quot;encoding&quot;]}<sp/>with<sp/>confidence<sp/>{result[&quot;confidence&quot;]}&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&quot;{name}:<sp/>no<sp/>result&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">main(argv:<sp/>Optional[List[str]]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Handles<sp/>command<sp/>line<sp/>arguments<sp/>and<sp/>gets<sp/>things<sp/>started.</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>argv:<sp/>List<sp/>of<sp/>arguments,<sp/>as<sp/>if<sp/>specified<sp/>on<sp/>the<sp/>command-line.</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>None,<sp/>``sys.argv[1:]``<sp/>is<sp/>used<sp/>instead.</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>argv:<sp/>list<sp/>of<sp/>str</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Get<sp/>command<sp/>line<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>parser<sp/>=<sp/>argparse.ArgumentParser(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>description=(</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Takes<sp/>one<sp/>or<sp/>more<sp/>file<sp/>paths<sp/>and<sp/>reports<sp/>their<sp/>detected<sp/>encodings&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>parser.add_argument(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;input&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>help=</highlight><highlight class="stringliteral">&quot;File<sp/>whose<sp/>encoding<sp/>we<sp/>would<sp/>like<sp/>to<sp/>determine.<sp/>(default:<sp/>stdin)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type=argparse.FileType(</highlight><highlight class="stringliteral">&quot;rb&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nargs=</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>default=[sys.stdin.buffer],</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>parser.add_argument(</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;--minimal&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>help=</highlight><highlight class="stringliteral">&quot;Print<sp/>only<sp/>the<sp/>encoding<sp/>to<sp/>standard<sp/>output&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>action=</highlight><highlight class="stringliteral">&quot;store_true&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>parser.add_argument(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;-l&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;--legacy&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>help=</highlight><highlight class="stringliteral">&quot;Rename<sp/>legacy<sp/>encodings<sp/>to<sp/>more<sp/>modern<sp/>ones.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>action=</highlight><highlight class="stringliteral">&quot;store_true&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>parser.add_argument(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;--version&quot;</highlight><highlight class="normal">,<sp/>action=</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/>version=f</highlight><highlight class="stringliteral">&quot;%(prog)s<sp/>{__version__}&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>args<sp/>=<sp/>parser.parse_args(argv)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>f<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>args.input:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>f.isatty():</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>running<sp/>chardetect<sp/>interactively.<sp/>Press<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;CTRL-D<sp/>twice<sp/>at<sp/>the<sp/>start<sp/>of<sp/>a<sp/>blank<sp/>line<sp/>to<sp/>signal<sp/>the<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;end<sp/>of<sp/>your<sp/>input.<sp/>If<sp/>you<sp/>want<sp/>help,<sp/>run<sp/>chardetect<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;--help\n&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file=sys.stderr,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>description_of(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f,<sp/>f.name,<sp/>minimal=args.minimal,<sp/>should_rename_legacy=args.legacy</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>main()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/cli/chardetect.py"/>
+  </compounddef>
+</doxygen>

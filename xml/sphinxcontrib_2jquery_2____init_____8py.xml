@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinxcontrib_2jquery_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespacejquery">jquery</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacejquery" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>os<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>makedirs,<sp/>path</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>shutil</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sphinx</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">__version__<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;4.1&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">version_info<sp/>=<sp/>(4,<sp/>1)</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">_ROOT_DIR<sp/>=<sp/>path.abspath(path.dirname(__file__))</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">_FILES<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;jquery.js&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_sphinx_javascript_frameworks_compat.js&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;sha384-lSZeSIVKp9myfKbDQ3GkN/KHjUc+mzg17VKDN4Y2kUeBSJioB9QSM639vM9fuY//&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejquery_1ade6f6f20381bc4973a2b327be4a85e63" kindref="member">add_js_files</ref>(app,<sp/>config):</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>jquery_installed<sp/>=<sp/>getattr(app,<sp/></highlight><highlight class="stringliteral">&quot;_sphinxcontrib_jquery_installed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sphinx.version_info[:2]<sp/>&gt;=<sp/>(6,<sp/>0)<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>jquery_installed:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makedirs(path.join(app.outdir,<sp/></highlight><highlight class="stringliteral">&apos;_static&apos;</highlight><highlight class="normal">),<sp/>exist_ok=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(filename,<sp/>integrity)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>_FILES:</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>The<sp/>default<sp/>is<sp/>not<sp/>to<sp/>enable<sp/>subresource<sp/>integrity<sp/>checks,<sp/>as<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>does<sp/>not<sp/>trigger<sp/>the<sp/>hash<sp/>check<sp/>but<sp/>instead<sp/>blocks<sp/>the<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>when<sp/>viewing<sp/>documentation<sp/>locally<sp/>through<sp/>the<sp/>``file://``<sp/>URIs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>config.jquery_use_sri:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app.add_js_file(filename,<sp/>priority=100,<sp/>integrity=integrity)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app.add_js_file(filename,<sp/>priority=100)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shutil.copyfile(</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path.join(_ROOT_DIR,<sp/>filename),</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path.join(app.outdir,<sp/></highlight><highlight class="stringliteral">&apos;_static&apos;</highlight><highlight class="normal">,<sp/>filename)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app._sphinxcontrib_jquery_installed<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">setup(app):</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Configuration<sp/>value<sp/>for<sp/>enabling<sp/>`subresource<sp/>integrity`__<sp/>(SRI)<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>__<sp/>https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_config_value(</highlight><highlight class="stringliteral">&quot;jquery_use_sri&quot;</highlight><highlight class="normal">,<sp/>default=</highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/>rebuild=</highlight><highlight class="stringliteral">&quot;html&quot;</highlight><highlight class="normal">,<sp/>types=(bool,))</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>app.connect(</highlight><highlight class="stringliteral">&apos;config-inited&apos;</highlight><highlight class="normal">,<sp/>add_js_files)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;parallel_read_safe&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;parallel_write_safe&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">:<sp/>__version__,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinxcontrib/jquery/__init__.py"/>
+  </compounddef>
+</doxygen>

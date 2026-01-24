@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1rich_1_1traceback" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::rich::traceback</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1traceback_1_1__SyntaxError" prot="protected">pip::_vendor::rich::traceback::_SyntaxError</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1traceback_1_1Frame" prot="public">pip::_vendor::rich::traceback::Frame</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1traceback_1_1PathHighlighter" prot="public">pip::_vendor::rich::traceback::PathHighlighter</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1traceback_1_1Stack" prot="public">pip::_vendor::rich::traceback::Stack</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1traceback_1_1Trace" prot="public">pip::_vendor::rich::traceback::Trace</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1traceback_1_1Traceback" prot="public">pip::_vendor::rich::traceback::Traceback</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1traceback_1a3292ef155897a2da18e226afd2948c4a" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::rich::traceback.WINDOWS</definition>
+        <argsstring></argsstring>
+        <name>WINDOWS</name>
+        <qualifiedname>pip._vendor.rich.traceback.WINDOWS</qualifiedname>
+        <initializer>=  &quot;Windows&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1traceback_1ac1dcf22374e3257683254dba92bd0390" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int pip::_vendor::rich::traceback.LOCALS_MAX_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>LOCALS_MAX_LENGTH</name>
+        <qualifiedname>pip._vendor.rich.traceback.LOCALS_MAX_LENGTH</qualifiedname>
+        <initializer>=  10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1traceback_1a3b220db1c2f39e7d6fbbac35b228fd70" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int pip::_vendor::rich::traceback.LOCALS_MAX_STRING</definition>
+        <argsstring></argsstring>
+        <name>LOCALS_MAX_STRING</name>
+        <qualifiedname>pip._vendor.rich.traceback.LOCALS_MAX_STRING</qualifiedname>
+        <initializer>=  80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1traceback_1a434009d78034fae4f0417b279a9be3fa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::traceback.console</definition>
+        <argsstring></argsstring>
+        <name>console</name>
+        <qualifiedname>pip._vendor.rich.traceback.console</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1rich_1_1console_1_1Console" kindref="compound">Console</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="726" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" bodystart="726" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1traceback_1acc6e167be9c42f44e528f8a8ff23c872" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Callable[[Type[BaseException], BaseException, Optional[TracebackType]], Any]</type>
+        <definition> Callable[[Type[BaseException], BaseException, Optional[TracebackType]], Any] pip._vendor.rich.traceback.install</definition>
+        <argsstring>(*Optional[Console] console=None, Optional[int] width=100, int extra_lines=3, Optional[str] theme=None, bool word_wrap=False, bool show_locals=False, int locals_max_length=LOCALS_MAX_LENGTH, int locals_max_string=LOCALS_MAX_STRING, bool locals_hide_dunder=True, Optional[bool] locals_hide_sunder=None, bool indent_guides=True, Iterable[Union[str, ModuleType]] suppress=(), int max_frames=100)</argsstring>
+        <name>install</name>
+        <qualifiedname>pip._vendor.rich.traceback.install</qualifiedname>
+        <param>
+          <type>*Optional</type>
+          <declname>console</declname>
+          <array>[Console]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>width</declname>
+          <array>[int]</array>
+          <defval>100</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>extra_lines</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>theme</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>word_wrap</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>show_locals</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>locals_max_length</declname>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1rich_1_1traceback_1ac1dcf22374e3257683254dba92bd0390" kindref="member">LOCALS_MAX_LENGTH</ref></defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>locals_max_string</declname>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1rich_1_1traceback_1a3b220db1c2f39e7d6fbbac35b228fd70" kindref="member">LOCALS_MAX_STRING</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>locals_hide_dunder</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>locals_hide_sunder</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>indent_guides</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Iterable]</type>
+          <declname>suppress</declname>
+          <array>[Union[str, ModuleType]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_frames</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Install a rich traceback handler.
+
+Once installed, any tracebacks will be printed with syntax highlighting and rich formatting.
+
+
+Args:
+    console (Optional[Console], optional): Console to write exception to. Default uses internal Console instance.
+    width (Optional[int], optional): Width (in characters) of traceback. Defaults to 100.
+    extra_lines (int, optional): Extra lines of code. Defaults to 3.
+    theme (Optional[str], optional): Pygments theme to use in traceback. Defaults to ``None`` which will pick
+        a theme appropriate for the platform.
+    word_wrap (bool, optional): Enable word wrapping of long lines. Defaults to False.
+    show_locals (bool, optional): Enable display of local variables. Defaults to False.
+    locals_max_length (int, optional): Maximum length of containers before abbreviating, or None for no abbreviation.
+        Defaults to 10.
+    locals_max_string (int, optional): Maximum length of string before truncating, or None to disable. Defaults to 80.
+    locals_hide_dunder (bool, optional): Hide locals prefixed with double underscore. Defaults to True.
+    locals_hide_sunder (bool, optional): Hide locals prefixed with single underscore. Defaults to False.
+    indent_guides (bool, optional): Enable indent guides in code and locals. Defaults to True.
+    suppress (Sequence[Union[str, ModuleType]]): Optional sequence of modules or paths to exclude from traceback.
+
+Returns:
+    Callable: The previous exception handler that was replaced.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" bodystart="63" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1traceback_1aa610a5c8358cead314e3ce8a94fdf024" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.rich.traceback.bar</definition>
+        <argsstring>(Any a)</argsstring>
+        <name>bar</name>
+        <qualifiedname>pip._vendor.rich.traceback.bar</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="729" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" bodystart="729" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1traceback_1a8813e4ec1d7feae1aab6d543ceacd5aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.rich.traceback.foo</definition>
+        <argsstring>(Any a)</argsstring>
+        <name>foo</name>
+        <qualifiedname>pip._vendor.rich.traceback.foo</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="733" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" bodystart="733" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1traceback_1ab97bc6e56f63d73f72f8385b597732a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.rich.traceback.error</definition>
+        <argsstring>()</argsstring>
+        <name>error</name>
+        <qualifiedname>pip._vendor.rich.traceback.error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="746" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" bodystart="746" bodyend="755"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/traceback.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

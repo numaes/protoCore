@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2docs_2quickstart-cmake_8md" kind="file" language="Markdown">
+    <compoundname>quickstart-cmake.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Quickstart:<sp/>Building<sp/>with<sp/>CMake</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>tutorial<sp/>aims<sp/>to<sp/>get<sp/>you<sp/>up<sp/>and<sp/>running<sp/>with<sp/>GoogleTest<sp/>using<sp/>CMake.<sp/>If</highlight></codeline>
+<codeline><highlight class="normal">you&apos;re<sp/>using<sp/>GoogleTest<sp/>for<sp/>the<sp/>first<sp/>time<sp/>or<sp/>need<sp/>a<sp/>refresher,<sp/>we<sp/>recommend</highlight></codeline>
+<codeline><highlight class="normal">this<sp/>tutorial<sp/>as<sp/>a<sp/>starting<sp/>point.<sp/>If<sp/>your<sp/>project<sp/>uses<sp/>Bazel,<sp/>see<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[Quickstart<sp/>for<sp/>Bazel](quickstart-bazel.md)<sp/>instead.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Prerequisites</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>complete<sp/>this<sp/>tutorial,<sp/>you&apos;ll<sp/>need:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>A<sp/>compatible<sp/>operating<sp/>system<sp/>(e.g.<sp/>Linux,<sp/>macOS,<sp/>Windows).</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>A<sp/>compatible<sp/>C++<sp/>compiler<sp/>that<sp/>supports<sp/>at<sp/>least<sp/>C++14.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>[CMake](https://cmake.org/)<sp/>and<sp/>a<sp/>compatible<sp/>build<sp/>tool<sp/>for<sp/>building<sp/>the</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>project.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>Compatible<sp/>build<sp/>tools<sp/>include</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[Make](https://www.gnu.org/software/make/),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[Ninja](https://ninja-build.org/),<sp/>and<sp/>others<sp/>-<sp/>see</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[CMake<sp/>Generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[Supported<sp/>Platforms](platforms.md)<sp/>for<sp/>more<sp/>information<sp/>about<sp/>platforms</highlight></codeline>
+<codeline><highlight class="normal">compatible<sp/>with<sp/>GoogleTest.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>don&apos;t<sp/>already<sp/>have<sp/>CMake<sp/>installed,<sp/>see<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[CMake<sp/>installation<sp/>guide](https://cmake.org/install).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">{:<sp/>.callout<sp/>.note}</highlight></codeline>
+<codeline><highlight class="normal">Note:<sp/>The<sp/>terminal<sp/>commands<sp/>in<sp/>this<sp/>tutorial<sp/>show<sp/>a<sp/>Unix<sp/>shell<sp/>prompt,<sp/>but<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">commands<sp/>work<sp/>on<sp/>the<sp/>Windows<sp/>command<sp/>line<sp/>as<sp/>well.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Set<sp/>up<sp/>a<sp/>project</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">CMake<sp/>uses<sp/>a<sp/>file<sp/>named<sp/>`CMakeLists.txt`<sp/>to<sp/>configure<sp/>the<sp/>build<sp/>system<sp/>for<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">project.<sp/>You&apos;ll<sp/>use<sp/>this<sp/>file<sp/>to<sp/>set<sp/>up<sp/>your<sp/>project<sp/>and<sp/>declare<sp/>a<sp/>dependency<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">First,<sp/>create<sp/>a<sp/>directory<sp/>for<sp/>your<sp/>project:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">$<sp/>mkdir<sp/>my_project<sp/>&amp;&amp;<sp/>cd<sp/>my_project</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Next,<sp/>you&apos;ll<sp/>create<sp/>the<sp/>`CMakeLists.txt`<sp/>file<sp/>and<sp/>declare<sp/>a<sp/>dependency<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest.<sp/>There<sp/>are<sp/>many<sp/>ways<sp/>to<sp/>express<sp/>dependencies<sp/>in<sp/>the<sp/>CMake<sp/>ecosystem;</highlight></codeline>
+<codeline><highlight class="normal">in<sp/>this<sp/>quickstart,<sp/>you&apos;ll<sp/>use<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`FetchContent`<sp/>CMake<sp/>module](https://cmake.org/cmake/help/latest/module/FetchContent.html).</highlight></codeline>
+<codeline><highlight class="normal">To<sp/>do<sp/>this,<sp/>in<sp/>your<sp/>project<sp/>directory<sp/>(`my_project`),<sp/>create<sp/>a<sp/>file<sp/>named</highlight></codeline>
+<codeline><highlight class="normal">`CMakeLists.txt`<sp/>with<sp/>the<sp/>following<sp/>contents:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cmake</highlight></codeline>
+<codeline><highlight class="normal">cmake_minimum_required(VERSION<sp/>3.14)</highlight></codeline>
+<codeline><highlight class="normal">project(my_project)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>GoogleTest<sp/>requires<sp/>at<sp/>least<sp/>C++14</highlight></codeline>
+<codeline><highlight class="normal">set(CMAKE_CXX_STANDARD<sp/>14)</highlight></codeline>
+<codeline><highlight class="normal">set(CMAKE_CXX_STANDARD_REQUIRED<sp/>ON)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">include(FetchContent)</highlight></codeline>
+<codeline><highlight class="normal">FetchContent_Declare(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>googletest</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>URL<sp/>https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip</highlight></codeline>
+<codeline><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>For<sp/>Windows:<sp/>Prevent<sp/>overriding<sp/>the<sp/>parent<sp/>project&apos;s<sp/>compiler/linker<sp/>settings</highlight></codeline>
+<codeline><highlight class="normal">set(gtest_force_shared_crt<sp/>ON<sp/>CACHE<sp/>BOOL<sp/>&quot;&quot;<sp/>FORCE)</highlight></codeline>
+<codeline><highlight class="normal">FetchContent_MakeAvailable(googletest)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>above<sp/>configuration<sp/>declares<sp/>a<sp/>dependency<sp/>on<sp/>GoogleTest<sp/>which<sp/>is<sp/>downloaded</highlight></codeline>
+<codeline><highlight class="normal">from<sp/>GitHub.<sp/>In<sp/>the<sp/>above<sp/>example,<sp/>`03597a01ee50ed33e9dfd640b249b4be3799d395`<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>Git<sp/>commit<sp/>hash<sp/>of<sp/>the<sp/>GoogleTest<sp/>version<sp/>to<sp/>use;<sp/>we<sp/>recommend<sp/>updating<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">hash<sp/>often<sp/>to<sp/>point<sp/>to<sp/>the<sp/>latest<sp/>version.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>more<sp/>information<sp/>about<sp/>how<sp/>to<sp/>create<sp/>`CMakeLists.txt`<sp/>files,<sp/>see<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[CMake<sp/>Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Create<sp/>and<sp/>run<sp/>a<sp/>binary</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">With<sp/>GoogleTest<sp/>declared<sp/>as<sp/>a<sp/>dependency,<sp/>you<sp/>can<sp/>use<sp/>GoogleTest<sp/>code<sp/>within</highlight></codeline>
+<codeline><highlight class="normal">your<sp/>own<sp/>project.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">As<sp/>an<sp/>example,<sp/>create<sp/>a<sp/>file<sp/>named<sp/>`hello_test.cc`<sp/>in<sp/>your<sp/>`my_project`</highlight></codeline>
+<codeline><highlight class="normal">directory<sp/>with<sp/>the<sp/>following<sp/>contents:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;gtest/gtest.h&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Demonstrate<sp/>some<sp/>basic<sp/>assertions.</highlight></codeline>
+<codeline><highlight class="normal">TEST(HelloTest,<sp/>BasicAssertions)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Expect<sp/>two<sp/>strings<sp/>not<sp/>to<sp/>be<sp/>equal.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_STRNE(&quot;hello&quot;,<sp/>&quot;world&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Expect<sp/>equality.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_EQ(7<sp/>*<sp/>6,<sp/>42);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>provides<sp/>[assertions](primer.md#assertions)<sp/>that<sp/>you<sp/>use<sp/>to<sp/>test<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">behavior<sp/>of<sp/>your<sp/>code.<sp/>The<sp/>above<sp/>sample<sp/>includes<sp/>the<sp/>main<sp/>GoogleTest<sp/>header<sp/>file</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>demonstrates<sp/>some<sp/>basic<sp/>assertions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>build<sp/>the<sp/>code,<sp/>add<sp/>the<sp/>following<sp/>to<sp/>the<sp/>end<sp/>of<sp/>your<sp/>`CMakeLists.txt`<sp/>file:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cmake</highlight></codeline>
+<codeline><highlight class="normal">enable_testing()</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">add_executable(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>hello_test</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>hello_test.cc</highlight></codeline>
+<codeline><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal">target_link_libraries(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>hello_test</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>GTest::gtest_main</highlight></codeline>
+<codeline><highlight class="normal">)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">include(GoogleTest)</highlight></codeline>
+<codeline><highlight class="normal">gtest_discover_tests(hello_test)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>above<sp/>configuration<sp/>enables<sp/>testing<sp/>in<sp/>CMake,<sp/>declares<sp/>the<sp/>C++<sp/>test<sp/>binary</highlight></codeline>
+<codeline><highlight class="normal">you<sp/>want<sp/>to<sp/>build<sp/>(`hello_test`),<sp/>and<sp/>links<sp/>it<sp/>to<sp/>GoogleTest<sp/>(`gtest_main`).<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">last<sp/>two<sp/>lines<sp/>enable<sp/>CMake&apos;s<sp/>test<sp/>runner<sp/>to<sp/>discover<sp/>the<sp/>tests<sp/>included<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">binary,<sp/>using<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`GoogleTest`<sp/>CMake<sp/>module](https://cmake.org/cmake/help/git-stage/module/GoogleTest.html).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Now<sp/>you<sp/>can<sp/>build<sp/>and<sp/>run<sp/>your<sp/>test:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;pre&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;strong&gt;my_project$<sp/>cmake<sp/>-S<sp/>.<sp/>-B<sp/>build&lt;/strong&gt;</highlight></codeline>
+<codeline><highlight class="normal">--<sp/>The<sp/>C<sp/>compiler<sp/>identification<sp/>is<sp/>GNU<sp/>10.2.1</highlight></codeline>
+<codeline><highlight class="normal">--<sp/>The<sp/>CXX<sp/>compiler<sp/>identification<sp/>is<sp/>GNU<sp/>10.2.1</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">--<sp/>Build<sp/>files<sp/>have<sp/>been<sp/>written<sp/>to:<sp/>.../my_project/build</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;strong&gt;my_project$<sp/>cmake<sp/>--build<sp/>build&lt;/strong&gt;</highlight></codeline>
+<codeline><highlight class="normal">Scanning<sp/>dependencies<sp/>of<sp/>target<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">[100%]<sp/>Built<sp/>target<sp/>gmock_main</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;strong&gt;my_project$<sp/>cd<sp/>build<sp/>&amp;&amp;<sp/>ctest&lt;/strong&gt;</highlight></codeline>
+<codeline><highlight class="normal">Test<sp/>project<sp/>.../my_project/build</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Start<sp/>1:<sp/>HelloTest.BasicAssertions</highlight></codeline>
+<codeline><highlight class="normal">1/1<sp/>Test<sp/>#1:<sp/>HelloTest.BasicAssertions<sp/>........<sp/><sp/><sp/>Passed<sp/><sp/><sp/><sp/>0.00<sp/>sec</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">100%<sp/>tests<sp/>passed,<sp/>0<sp/>tests<sp/>failed<sp/>out<sp/>of<sp/>1</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Total<sp/>Test<sp/>time<sp/>(real)<sp/>=<sp/><sp/><sp/>0.01<sp/>sec</highlight></codeline>
+<codeline><highlight class="normal">&lt;/pre&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Congratulations!<sp/>You&apos;ve<sp/>successfully<sp/>built<sp/>and<sp/>run<sp/>a<sp/>test<sp/>binary<sp/>using</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Next<sp/>steps</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>[Check<sp/>out<sp/>the<sp/>Primer](primer.md)<sp/>to<sp/>start<sp/>learning<sp/>how<sp/>to<sp/>write<sp/>simple</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>tests.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>[See<sp/>the<sp/>code<sp/>samples](samples.md)<sp/>for<sp/>more<sp/>examples<sp/>showing<sp/>how<sp/>to<sp/>use<sp/>a</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>variety<sp/>of<sp/>GoogleTest<sp/>features.</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/docs/quickstart-cmake.md"/>
+  </compounddef>
+</doxygen>

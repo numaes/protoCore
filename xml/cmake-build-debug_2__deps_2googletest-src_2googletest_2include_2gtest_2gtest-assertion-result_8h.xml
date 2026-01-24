@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-assertion-result_8h" kind="file" language="C++">
+    <compoundname>gtest-assertion-result.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">ostream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="yes">gtest/gtest-message.h</includes>
+    <includes local="yes">gtest/internal/gtest-port.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest-assertion-result.h</label>
+        <link refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-assertion-result_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>gtest/gtest-message.h</label>
+      </node>
+      <node id="7">
+        <label>gtest/internal/gtest-port.h</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>ostream</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>type_traits</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-assertion-result_8h_1a88f79832f9d045112a76e9da8611cc13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GTEST_DISABLE_MSC_WARNINGS_PUSH_</definition>
+        <argsstring>(4251) namespace testing</argsstring>
+        <name>GTEST_DISABLE_MSC_WARNINGS_PUSH_</name>
+        <param>
+          <type>4251</type>
+          <defname>GMOCK_MAYBE_5046_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest-assertion-result.h" line="49" column="1" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest-assertion-result.h" bodystart="49" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2005,<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>Google<sp/>C++<sp/>Testing<sp/>and<sp/>Mocking<sp/>Framework<sp/>(Google<sp/>Test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>file<sp/>implements<sp/>the<sp/>AssertionResult<sp/>type.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IWYU<sp/>pragma:<sp/>private,<sp/>include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IWYU<sp/>pragma:<sp/>friend<sp/>gtest/.*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IWYU<sp/>pragma:<sp/>friend<sp/>gmock/.*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>GOOGLETEST_INCLUDE_GTEST_GTEST_ASSERTION_RESULT_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GOOGLETEST_INCLUDE_GTEST_GTEST_ASSERTION_RESULT_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest-message.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/internal/gtest-port.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-assertion-result_8h_1a88f79832f9d045112a76e9da8611cc13" refkind="member"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a86994cc68e844d8b82089c70408dfc61" kindref="member">GTEST_DISABLE_MSC_WARNINGS_PUSH_</ref>(4251<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>class<sp/>A<sp/>needs<sp/>to<sp/>have<sp/>dll-interface<sp/>to<sp/>be<sp/>used<sp/>by<sp/>clients<sp/>of<sp/>class<sp/>B<sp/>*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">namespace<sp/><ref refid="namespacetesting" kindref="compound">testing</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>class<sp/>for<sp/>indicating<sp/>whether<sp/>an<sp/>assertion<sp/>was<sp/>successful.<sp/><sp/>When</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>assertion<sp/>wasn&apos;t<sp/>successful,<sp/>the<sp/>AssertionResult<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>remembers<sp/>a<sp/>non-empty<sp/>message<sp/>that<sp/>describes<sp/>how<sp/>it<sp/>failed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>To<sp/>create<sp/>an<sp/>instance<sp/>of<sp/>this<sp/>class,<sp/>use<sp/>one<sp/>of<sp/>the<sp/>factory<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(AssertionSuccess()<sp/>and<sp/>AssertionFailure()).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>class<sp/>is<sp/>useful<sp/>for<sp/>two<sp/>purposes:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Defining<sp/>predicate<sp/>functions<sp/>to<sp/>be<sp/>used<sp/>with<sp/>Boolean<sp/>test<sp/>assertions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE/EXPECT_FALSE<sp/>and<sp/>their<sp/>ASSERT_<sp/>counterparts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Defining<sp/>predicate-format<sp/>functions<sp/>to<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>used<sp/>with<sp/>predicate<sp/>assertions<sp/>(ASSERT_PRED_FORMAT*,<sp/>etc).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>For<sp/>example,<sp/>if<sp/>you<sp/>define<sp/>IsEven<sp/>predicate:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>testing::AssertionResult<sp/>IsEven(int<sp/>n)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>if<sp/>((n<sp/>%<sp/>2)<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>testing::AssertionSuccess();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>testing::AssertionFailure()<sp/>&lt;&lt;<sp/>n<sp/>&lt;&lt;<sp/>&quot;<sp/>is<sp/>odd&quot;;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Then<sp/>the<sp/>failed<sp/>expectation<sp/>EXPECT_TRUE(IsEven(Fib(5)))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>will<sp/>print<sp/>the<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Value<sp/>of:<sp/>IsEven(Fib(5))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Actual:<sp/>false<sp/>(5<sp/>is<sp/>odd)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Expected:<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>instead<sp/>of<sp/>a<sp/>more<sp/>opaque</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Value<sp/>of:<sp/>IsEven(Fib(5))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Actual:<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Expected:<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>case<sp/>IsEven<sp/>is<sp/>a<sp/>simple<sp/>Boolean<sp/>predicate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>you<sp/>expect<sp/>your<sp/>predicate<sp/>to<sp/>be<sp/>reused<sp/>and<sp/>want<sp/>to<sp/>support<sp/>informative</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>messages<sp/>in<sp/>EXPECT_FALSE<sp/>and<sp/>ASSERT_FALSE<sp/>(negative<sp/>assertions<sp/>show<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>about<sp/>half<sp/>as<sp/>often<sp/>as<sp/>positive<sp/>ones<sp/>in<sp/>our<sp/>tests),<sp/>supply<sp/>messages<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>both<sp/>success<sp/>and<sp/>failure<sp/>cases:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>testing::AssertionResult<sp/>IsEven(int<sp/>n)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>if<sp/>((n<sp/>%<sp/>2)<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>testing::AssertionSuccess()<sp/>&lt;&lt;<sp/>n<sp/>&lt;&lt;<sp/>&quot;<sp/>is<sp/>even&quot;;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>testing::AssertionFailure()<sp/>&lt;&lt;<sp/>n<sp/>&lt;&lt;<sp/>&quot;<sp/>is<sp/>odd&quot;;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Then<sp/>a<sp/>statement<sp/>EXPECT_FALSE(IsEven(Fib(6)))<sp/>will<sp/>print</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Value<sp/>of:<sp/>IsEven(Fib(6))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Actual:<sp/>true<sp/>(8<sp/>is<sp/>even)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Expected:<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NB:<sp/>Predicates<sp/>that<sp/>support<sp/>negative<sp/>Boolean<sp/>assertions<sp/>have<sp/>reduced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>performance<sp/>in<sp/>positive<sp/>ones<sp/>so<sp/>be<sp/>careful<sp/>not<sp/>to<sp/>use<sp/>them<sp/>in<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>have<sp/>lots<sp/>(tens<sp/>of<sp/>thousands)<sp/>of<sp/>positive<sp/>Boolean<sp/>assertions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>To<sp/>use<sp/>this<sp/>class<sp/>with<sp/>EXPECT_PRED_FORMAT<sp/>assertions<sp/>such<sp/>as:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>//<sp/>Verifies<sp/>that<sp/>Foo()<sp/>returns<sp/>an<sp/>even<sp/>number.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>EXPECT_PRED_FORMAT1(IsEven,<sp/>Foo());</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>you<sp/>need<sp/>to<sp/>define:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>testing::AssertionResult<sp/>IsEven(const<sp/>char*<sp/>expr,<sp/>int<sp/>n)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>if<sp/>((n<sp/>%<sp/>2)<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>testing::AssertionSuccess();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>testing::AssertionFailure()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>&quot;Expected:<sp/>&quot;<sp/>&lt;&lt;<sp/>expr<sp/>&lt;&lt;<sp/>&quot;<sp/>is<sp/>even\n<sp/><sp/>Actual:<sp/>it&apos;s<sp/>&quot;<sp/>&lt;&lt;<sp/>n;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>Foo()<sp/>returns<sp/>5,<sp/>you<sp/>will<sp/>see<sp/>the<sp/>following<sp/>message:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Expected:<sp/>Foo()<sp/>is<sp/>even</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Actual:<sp/>it&apos;s<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1aa73be6f0ba4a7456180a94904ce17790" kindref="member">GTEST_API_</ref><sp/>AssertionResult<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Copy<sp/>constructor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Used<sp/>in<sp/>EXPECT_TRUE/FALSE(assertion_result).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/>AssertionResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AssertionResult&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>C4800<sp/>is<sp/>a<sp/>level<sp/>3<sp/>warning<sp/>in<sp/>Visual<sp/>Studio<sp/>2015<sp/>and<sp/>earlier.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>warning<sp/>is<sp/>not<sp/>emitted<sp/>in<sp/>Visual<sp/>Studio<sp/>2017.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>warning<sp/>is<sp/>off<sp/>by<sp/>default<sp/>starting<sp/>in<sp/>Visual<sp/>Studio<sp/>2019<sp/>but<sp/>can<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>enabled<sp/>with<sp/>command-line<sp/>options.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_MSC_VER)<sp/>&amp;&amp;<sp/>(_MSC_VER<sp/>&lt;<sp/>1910<sp/>||<sp/>_MSC_VER<sp/>&gt;=<sp/>1920)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a86994cc68e844d8b82089c70408dfc61" kindref="member">GTEST_DISABLE_MSC_WARNINGS_PUSH_</ref>(4800<sp/></highlight><highlight class="comment">/*<sp/>forcing<sp/>value<sp/>to<sp/>bool<sp/>*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Used<sp/>in<sp/>the<sp/>EXPECT_TRUE/FALSE(bool_expression).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>T<sp/>must<sp/>be<sp/>contextually<sp/>convertible<sp/>to<sp/>bool.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>second<sp/>parameter<sp/>prevents<sp/>this<sp/>overload<sp/>from<sp/>being<sp/>considered<sp/>if</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>argument<sp/>is<sp/>implicitly<sp/>convertible<sp/>to<sp/>AssertionResult.<sp/>In<sp/>that<sp/>case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>we<sp/>want<sp/>AssertionResult&apos;s<sp/>copy<sp/>constructor<sp/>to<sp/>be<sp/>used.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>AssertionResult(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T&amp;<sp/>success,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::enable_if&lt;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!std::is_convertible&lt;T,<sp/>AssertionResult&gt;::value&gt;::type*</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*enabler*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>success_(success)<sp/>{}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_MSC_VER)<sp/>&amp;&amp;<sp/>(_MSC_VER<sp/>&lt;<sp/>1910<sp/>||<sp/>_MSC_VER<sp/>&gt;=<sp/>1920)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1ab4c44546d6d9aced68993b87b608fc06" kindref="member">GTEST_DISABLE_MSC_WARNINGS_POP_</ref>()</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Assignment<sp/>operator.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/>AssertionResult&amp;<sp/>operator=(AssertionResult<sp/>other)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>swap(other);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>assertion<sp/>succeeded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>success_;<sp/>}<sp/><sp/></highlight><highlight class="comment">//<sp/>NOLINT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>the<sp/>assertion&apos;s<sp/>negation.<sp/>Used<sp/>with<sp/>EXPECT/ASSERT_FALSE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/>AssertionResult<sp/>operator!()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>the<sp/>text<sp/>streamed<sp/>into<sp/>this<sp/>AssertionResult.<sp/>Test<sp/>assertions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>use<sp/>it<sp/>when<sp/>they<sp/>fail<sp/>(i.e.,<sp/>the<sp/>predicate&apos;s<sp/>outcome<sp/>doesn&apos;t<sp/>match<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>assertion&apos;s<sp/>expectation).<sp/>When<sp/>nothing<sp/>has<sp/>been<sp/>streamed<sp/>into<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>object,<sp/>returns<sp/>an<sp/>empty<sp/>string.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>message()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>message_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>?<sp/>message_-&gt;c_str()<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Deprecated;<sp/>please<sp/>use<sp/>message()<sp/>instead.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>failure_message()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>message();<sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Streams<sp/>a<sp/>custom<sp/>failure<sp/>message<sp/>into<sp/>this<sp/>object.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/>AssertionResult&amp;<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2test_2googletest-param-test-test_8cc_1ace98876cf2a052cf79eb12db5bc1817f" kindref="member">operator&lt;&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T&amp;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>AppendMessage(Message()<sp/>&lt;&lt;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Allows<sp/>streaming<sp/>basic<sp/>output<sp/>manipulators<sp/>such<sp/>as<sp/>endl<sp/>or<sp/>flush<sp/>into</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>this<sp/>object.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/>AssertionResult&amp;<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2test_2googletest-param-test-test_8cc_1ace98876cf2a052cf79eb12db5bc1817f" kindref="member">operator&lt;&lt;</ref>(</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>::std::ostream&amp;<sp/>(*basic_manipulator)(::std::ostream&amp;<sp/>stream))<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>AppendMessage(Message()<sp/>&lt;&lt;<sp/>basic_manipulator);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Appends<sp/>the<sp/>contents<sp/>of<sp/>message<sp/>to<sp/>message_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>AppendMessage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Message&amp;<sp/>a_message)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(message_<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>message_<sp/>=<sp/>::std::make_unique&lt;::std::string&gt;();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>message_-&gt;append(a_message.GetString().c_str());</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Swap<sp/>the<sp/>contents<sp/>of<sp/>this<sp/>AssertionResult<sp/>with<sp/>other.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>swap(AssertionResult&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Stores<sp/>result<sp/>of<sp/>the<sp/>assertion<sp/>predicate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Stores<sp/>the<sp/>message<sp/>describing<sp/>the<sp/>condition<sp/>in<sp/>case<sp/>the<sp/>expectation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>construct<sp/>is<sp/>not<sp/>satisfied<sp/>with<sp/>the<sp/>predicate&apos;s<sp/>outcome.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Referenced<sp/>via<sp/>a<sp/>pointer<sp/>to<sp/>avoid<sp/>taking<sp/>too<sp/>much<sp/>stack<sp/>frame<sp/>space</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>with<sp/>test<sp/>assertions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;<sp/>::std::string&gt;<sp/>message_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Makes<sp/>a<sp/>successful<sp/>assertion<sp/>result.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1aa73be6f0ba4a7456180a94904ce17790" kindref="member">GTEST_API_</ref><sp/>AssertionResult<sp/>AssertionSuccess();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Makes<sp/>a<sp/>failed<sp/>assertion<sp/>result.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1aa73be6f0ba4a7456180a94904ce17790" kindref="member">GTEST_API_</ref><sp/>AssertionResult<sp/>AssertionFailure();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Makes<sp/>a<sp/>failed<sp/>assertion<sp/>result<sp/>with<sp/>the<sp/>given<sp/>failure<sp/>message.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deprecated;<sp/>use<sp/>AssertionFailure()<sp/>&lt;&lt;<sp/>msg.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1aa73be6f0ba4a7456180a94904ce17790" kindref="member">GTEST_API_</ref><sp/>AssertionResult<sp/>AssertionFailure(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Message&amp;<sp/>msg);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1ab4c44546d6d9aced68993b87b608fc06" kindref="member">GTEST_DISABLE_MSC_WARNINGS_POP_</ref>()<sp/><sp/></highlight><highlight class="comment">//<sp/>4251</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>GOOGLETEST_INCLUDE_GTEST_GTEST_ASSERTION_RESULT_H_</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest-assertion-result.h"/>
+  </compounddef>
+</doxygen>

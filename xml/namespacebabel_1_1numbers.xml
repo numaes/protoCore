@@ -1,0 +1,1811 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1numbers" kind="namespace" language="Python">
+    <compoundname>babel::numbers</compoundname>
+    <innerclass refid="classbabel_1_1numbers_1_1NumberFormatError" prot="public">babel::numbers::NumberFormatError</innerclass>
+    <innerclass refid="classbabel_1_1numbers_1_1NumberPattern" prot="public">babel::numbers::NumberPattern</innerclass>
+    <innerclass refid="classbabel_1_1numbers_1_1UnknownCurrencyError" prot="public">babel::numbers::UnknownCurrencyError</innerclass>
+    <innerclass refid="classbabel_1_1numbers_1_1UnknownCurrencyFormatError" prot="public">babel::numbers::UnknownCurrencyFormatError</innerclass>
+    <innerclass refid="classbabel_1_1numbers_1_1UnsupportedNumberingSystemError" prot="public">babel::numbers::UnsupportedNumberingSystemError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1a48246cf492fc92170eb30042d973201c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::numbers.LC_MONETARY</definition>
+        <argsstring></argsstring>
+        <name>LC_MONETARY</name>
+        <qualifiedname>babel.numbers.LC_MONETARY</qualifiedname>
+        <initializer>=  default_locale((&apos;LC_MONETARY&apos;, &apos;<ref refid="namespacebabel_1_1numbers_1aa225720d95ab2a699c336fec66765a75" kindref="member">LC_NUMERIC</ref>&apos;))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1aa225720d95ab2a699c336fec66765a75" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::numbers.LC_NUMERIC</definition>
+        <argsstring></argsstring>
+        <name>LC_NUMERIC</name>
+        <qualifiedname>babel.numbers.LC_NUMERIC</qualifiedname>
+        <initializer>=  default_locale(&apos;LC_NUMERIC&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1a70ddf65b65c95fd24931dc71a7069eb3" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict babel::numbers.SPACE_CHARS</definition>
+        <argsstring></argsstring>
+        <name>SPACE_CHARS</name>
+        <qualifiedname>babel.numbers.SPACE_CHARS</qualifiedname>
+        <initializer>=  {
+    &apos; &apos;,  # space
+    &apos;\xa0&apos;,  # no-break space
+    &apos;\u202f&apos;,  # narrow no-break space
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1017" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1017" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1ad92b83ed816be83e16368e4c3386b470" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::numbers.SPACE_CHARS_RE</definition>
+        <argsstring></argsstring>
+        <name>SPACE_CHARS_RE</name>
+        <qualifiedname>babel.numbers.SPACE_CHARS_RE</qualifiedname>
+        <initializer>=  re.compile(&apos;|&apos;.join(<ref refid="namespacebabel_1_1numbers_1a70ddf65b65c95fd24931dc71a7069eb3" kindref="member">SPACE_CHARS</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1023" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1023" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1afea757cf33f002c047470dd19305af2a" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::numbers.PREFIX_END</definition>
+        <argsstring></argsstring>
+        <name>PREFIX_END</name>
+        <qualifiedname>babel.numbers.PREFIX_END</qualifiedname>
+        <initializer>=  r&apos;[^0-9@#.,]&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1204" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1a84eb5e6942b8da8a2e72adebbf699cdf" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::numbers.NUMBER_TOKEN</definition>
+        <argsstring></argsstring>
+        <name>NUMBER_TOKEN</name>
+        <qualifiedname>babel.numbers.NUMBER_TOKEN</qualifiedname>
+        <initializer>=  r&apos;[0-9@#.,E+]&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1205" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1aa506bb69ab8ef36519c66cbb4477e90f" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::numbers.PREFIX_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>PREFIX_PATTERN</name>
+        <qualifiedname>babel.numbers.PREFIX_PATTERN</qualifiedname>
+        <initializer>=  r&quot;(?P&lt;prefix&gt;(?:&apos;[^&apos;]*&apos;|%s)*)&quot; % PREFIX_END</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1207" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1aa3d0a2c9ceddd19a849f8f38ea172308" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::numbers.NUMBER_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>NUMBER_PATTERN</name>
+        <qualifiedname>babel.numbers.NUMBER_PATTERN</qualifiedname>
+        <initializer>=  r&quot;(?P&lt;number&gt;%s*)&quot; % NUMBER_TOKEN</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1208" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1af997bf5b978b936b8641f30824937b57" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::numbers.SUFFIX_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>SUFFIX_PATTERN</name>
+        <qualifiedname>babel.numbers.SUFFIX_PATTERN</qualifiedname>
+        <initializer>=  r&quot;(?P&lt;suffix&gt;.*)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1209" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1numbers_1adca82501a7df15995654303700bf026a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::numbers.number_re</definition>
+        <argsstring></argsstring>
+        <name>number_re</name>
+        <qualifiedname>babel.numbers.number_re</qualifiedname>
+        <initializer>=  re.compile(f&quot;{<ref refid="namespacebabel_1_1numbers_1aa506bb69ab8ef36519c66cbb4477e90f" kindref="member">PREFIX_PATTERN</ref>}{<ref refid="namespacebabel_1_1numbers_1aa3d0a2c9ceddd19a849f8f38ea172308" kindref="member">NUMBER_PATTERN</ref>}{<ref refid="namespacebabel_1_1numbers_1af997bf5b978b936b8641f30824937b57" kindref="member">SUFFIX_PATTERN</ref>}&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1211" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a8f1a866db6e1efcb3ead6338051b4191" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>set[str]</type>
+        <definition> set[str] babel.numbers.list_currencies</definition>
+        <argsstring>(Locale|str|None locale=None)</argsstring>
+        <name>list_currencies</name>
+        <qualifiedname>babel.numbers.list_currencies</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim> Return a `set` of normalized currency codes.
+
+.. versionadded:: 2.5.0
+
+:param locale: filters returned currency codes by the provided locale.
+               Expected to be a locale instance or code. If no locale is
+               provided, returns the list of all currencies from all
+               locales.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="50" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="50" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1abbbb71b83f34a8cbb55b6cbbdaa11d78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None babel.numbers.validate_currency</definition>
+        <argsstring>(str currency, Locale|str|None locale=None)</argsstring>
+        <name>validate_currency</name>
+        <qualifiedname>babel.numbers.validate_currency</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim> Check the currency code is recognized by Babel.
+
+Accepts a ``locale`` parameter for fined-grained validation, working as
+the one defined above in ``list_currencies()`` method.
+
+Raises a `UnknownCurrencyError` exception if the currency is unknown to Babel.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="66" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="66" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1aa1eaa2c3615d0ef745addd5306693e62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool babel.numbers.is_currency</definition>
+        <argsstring>(str currency, Locale|str|None locale=None)</argsstring>
+        <name>is_currency</name>
+        <qualifiedname>babel.numbers.is_currency</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim> Returns `True` only if a currency is recognized by Babel.
+
+This method always return a Boolean and never raise.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="78" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a18ad55133d738d93e8566613a0ff0f4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None babel.numbers.normalize_currency</definition>
+        <argsstring>(str currency, Locale|str|None locale=None)</argsstring>
+        <name>normalize_currency</name>
+        <qualifiedname>babel.numbers.normalize_currency</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the normalized identifier of any currency code.
+
+Accepts a ``locale`` parameter for fined-grained validation, working as
+the one defined above in ``list_currencies()`` method.
+
+Returns None if the currency is unknown to Babel.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="92" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="92" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1aaa7747f21f684a90bd6ae90874ac1043" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_currency_name</definition>
+        <argsstring>(str currency, float|decimal.Decimal|None count=None, Locale|str|None locale=None)</argsstring>
+        <name>get_currency_name</name>
+        <qualifiedname>babel.numbers.get_currency_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type>float|decimal.Decimal|None</type>
+          <declname>count</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the name used by the locale for the specified currency.
+
+&gt;&gt;&gt; get_currency_name(&apos;USD&apos;, locale=&apos;en_US&apos;)
+u&apos;US Dollar&apos;
+
+.. versionadded:: 0.9.4
+
+:param currency: the currency code.
+:param count: the optional count.  If provided the currency name
+              will be pluralized to that number if possible.
+:param locale: the `Locale` object or locale identifier.
+               Defaults to the system currency locale or numeric locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="107" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="111" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1ad75ccefd3d6b4436d964599b868a9ee3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_currency_symbol</definition>
+        <argsstring>(str currency, Locale|str|None locale=None)</argsstring>
+        <name>get_currency_symbol</name>
+        <qualifiedname>babel.numbers.get_currency_symbol</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the symbol used by the locale for the specified currency.
+
+&gt;&gt;&gt; get_currency_symbol(&apos;USD&apos;, locale=&apos;en_US&apos;)
+u&apos;$&apos;
+
+:param currency: the currency code.
+:param locale: the `Locale` object or locale identifier.
+               Defaults to the system currency locale or numeric locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="141" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="141" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a3ab50ebb3ead5ec4aab35b5db84962a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int babel.numbers.get_currency_precision</definition>
+        <argsstring>(str currency)</argsstring>
+        <name>get_currency_precision</name>
+        <qualifiedname>babel.numbers.get_currency_precision</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return currency&apos;s precision.
+
+Precision is the number of decimals found after the decimal point in the
+currency&apos;s format pattern.
+
+.. versionadded:: 2.5.0
+
+:param currency: the currency code.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="154" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="154" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1ae8b0515254396e91afec513cf46af1ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_currency_unit_pattern</definition>
+        <argsstring>(str currency, float|decimal.Decimal|None count=None, Locale|str|None locale=None)</argsstring>
+        <name>get_currency_unit_pattern</name>
+        <qualifiedname>babel.numbers.get_currency_unit_pattern</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type>float|decimal.Decimal|None</type>
+          <declname>count</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the unit pattern used for long display of a currency value
+for a given locale.
+This is a string containing ``{0}`` where the numeric part
+should be substituted and ``{1}`` where the currency long display
+name should be substituted.
+
+&gt;&gt;&gt; get_currency_unit_pattern(&apos;USD&apos;, locale=&apos;en_US&apos;, count=10)
+u&apos;{0} {1}&apos;
+
+.. versionadded:: 2.7.0
+
+:param currency: the currency code.
+:param count: the optional count.  If provided the unit
+              pattern for that number will be returned.
+:param locale: the `Locale` object or locale identifier.
+               Defaults to the system currency locale or numeric locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="168" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="172" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a2d85b48cacfd6f79850146d5423d928e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] babel.numbers.get_territory_currencies</definition>
+        <argsstring>(str territory, datetime.date|None start_date=..., datetime.date|None end_date=..., bool tender=..., bool non_tender=..., Literal[False] include_details=...)</argsstring>
+        <name>get_territory_currencies</name>
+        <qualifiedname>babel.numbers.get_territory_currencies</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>territory</declname>
+        </param>
+        <param>
+          <type>datetime.date|None</type>
+          <declname>start_date</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>datetime.date|None</type>
+          <declname>end_date</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>tender</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>non_tender</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>include_details</declname>
+          <array>[False]</array>
+          <defval>...</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="204" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="211" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1aab4b2decf71a353fed2d8c44e4a66bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[dict[str, Any]]</type>
+        <definition> list[dict[str, Any]] babel.numbers.get_territory_currencies</definition>
+        <argsstring>(str territory, datetime.date|None start_date=..., datetime.date|None end_date=..., bool tender=..., bool non_tender=..., Literal[True] include_details=...)</argsstring>
+        <name>get_territory_currencies</name>
+        <qualifiedname>babel.numbers.get_territory_currencies</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>territory</declname>
+        </param>
+        <param>
+          <type>datetime.date|None</type>
+          <declname>start_date</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>datetime.date|None</type>
+          <declname>end_date</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>tender</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>non_tender</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>include_details</declname>
+          <array>[True]</array>
+          <defval>...</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="216" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="223" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a2b0c2e139343d09d3de279616570818d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]|list[dict[str, Any]]</type>
+        <definition> list[str] | list[dict[str, Any]] babel.numbers.get_territory_currencies</definition>
+        <argsstring>(str territory, datetime.date|None start_date=None, datetime.date|None end_date=None, bool tender=True, bool non_tender=False, bool include_details=False)</argsstring>
+        <name>get_territory_currencies</name>
+        <qualifiedname>babel.numbers.get_territory_currencies</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>territory</declname>
+        </param>
+        <param>
+          <type>datetime.date|None</type>
+          <declname>start_date</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>datetime.date|None</type>
+          <declname>end_date</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>tender</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>non_tender</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>include_details</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the list of currencies for the given territory that are valid for
+the given date range.  In addition to that the currency database
+distinguishes between tender and non-tender currencies.  By default only
+tender currencies are returned.
+
+The return value is a list of all currencies roughly ordered by the time
+of when the currency became active.  The longer the currency is being in
+use the more to the left of the list it will be.
+
+The start date defaults to today.  If no end date is given it will be the
+same as the start date.  Otherwise a range can be defined.  For instance
+this can be used to find the currencies in use in Austria between 1995 and
+2011:
+
+&gt;&gt;&gt; from datetime import date
+&gt;&gt;&gt; get_territory_currencies(&apos;AT&apos;, date(1995, 1, 1), date(2011, 1, 1))
+[&apos;ATS&apos;, &apos;EUR&apos;]
+
+Likewise it&apos;s also possible to find all the currencies in use on a
+single date:
+
+&gt;&gt;&gt; get_territory_currencies(&apos;AT&apos;, date(1995, 1, 1))
+[&apos;ATS&apos;]
+&gt;&gt;&gt; get_territory_currencies(&apos;AT&apos;, date(2011, 1, 1))
+[&apos;EUR&apos;]
+
+By default the return value only includes tender currencies.  This
+however can be changed:
+
+&gt;&gt;&gt; get_territory_currencies(&apos;US&apos;)
+[&apos;USD&apos;]
+&gt;&gt;&gt; get_territory_currencies(&apos;US&apos;, tender=False, non_tender=True,
+...                          start_date=date(2014, 1, 1))
+[&apos;USN&apos;, &apos;USS&apos;]
+
+.. versionadded:: 2.0
+
+:param territory: the name of the territory to find the currency for.
+:param start_date: the start date.  If not given today is assumed.
+:param end_date: the end date.  If not given the start date is assumed.
+:param tender: controls whether tender currencies should be included.
+:param non_tender: controls whether non-tender currencies should be
+                   included.
+:param include_details: if set to `True`, instead of returning currency
+                        codes the return value will be dictionaries
+                        with detail information.  In that case each
+                        dictionary will have the keys ``&apos;currency&apos;``,
+                        ``&apos;from&apos;``, ``&apos;to&apos;``, and ``&apos;tender&apos;``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="227" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="234" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a3abc0eb346a20d3855a436083401a65d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers._get_numbering_system</definition>
+        <argsstring>(Locale locale, Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>_get_numbering_system</name>
+        <qualifiedname>babel.numbers._get_numbering_system</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref></type>
+          <declname>locale</declname>
+        </param>
+        <param>
+          <type>Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="322" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="322" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a5d2563b6ddb5006dcce809c440fe0a65" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1localedata_1_1LocaleDataDict" kindref="compound">LocaleDataDict</ref></type>
+        <definition> LocaleDataDict babel.numbers._get_number_symbols</definition>
+        <argsstring>(Locale locale, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>_get_number_symbols</name>
+        <qualifiedname>babel.numbers._get_number_symbols</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref></type>
+          <declname>locale</declname>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="329" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="333" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a7360fb7fa1d9b4c8106dd747fc19767f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_decimal_symbol</definition>
+        <argsstring>(Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>get_decimal_symbol</name>
+        <qualifiedname>babel.numbers.get_decimal_symbol</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the symbol used by the locale to separate decimal fractions.
+
+&gt;&gt;&gt; get_decimal_symbol(&apos;en_US&apos;)
+u&apos;.&apos;
+&gt;&gt;&gt; get_decimal_symbol(&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;٫&apos;
+&gt;&gt;&gt; get_decimal_symbol(&apos;ar_EG&apos;, numbering_system=&apos;latn&apos;)
+u&apos;.&apos;
+
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for fetching the symbol. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="346" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="350" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1aba39d8bcd0683289881b6c6c8b35291a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_plus_sign_symbol</definition>
+        <argsstring>(Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>get_plus_sign_symbol</name>
+        <qualifiedname>babel.numbers.get_plus_sign_symbol</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the plus sign symbol used by the current locale.
+
+&gt;&gt;&gt; get_plus_sign_symbol(&apos;en_US&apos;)
+u&apos;+&apos;
+&gt;&gt;&gt; get_plus_sign_symbol(&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;\u061c+&apos;
+&gt;&gt;&gt; get_plus_sign_symbol(&apos;ar_EG&apos;, numbering_system=&apos;latn&apos;)
+u&apos;\u200e+&apos;
+
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for fetching the symbol. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: if the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="369" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="373" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a798132c4b74c0f4f7e125dd5cb28df3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_minus_sign_symbol</definition>
+        <argsstring>(Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>get_minus_sign_symbol</name>
+        <qualifiedname>babel.numbers.get_minus_sign_symbol</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the plus sign symbol used by the current locale.
+
+&gt;&gt;&gt; get_minus_sign_symbol(&apos;en_US&apos;)
+u&apos;-&apos;
+&gt;&gt;&gt; get_minus_sign_symbol(&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;\u061c-&apos;
+&gt;&gt;&gt; get_minus_sign_symbol(&apos;ar_EG&apos;, numbering_system=&apos;latn&apos;)
+u&apos;\u200e-&apos;
+
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for fetching the symbol. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: if the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="392" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="396" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a0c557fdce2871efa778e16aa90dfdba8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_exponential_symbol</definition>
+        <argsstring>(Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>get_exponential_symbol</name>
+        <qualifiedname>babel.numbers.get_exponential_symbol</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the symbol used by the locale to separate mantissa and exponent.
+
+&gt;&gt;&gt; get_exponential_symbol(&apos;en_US&apos;)
+u&apos;E&apos;
+&gt;&gt;&gt; get_exponential_symbol(&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;أس&apos;
+&gt;&gt;&gt; get_exponential_symbol(&apos;ar_EG&apos;, numbering_system=&apos;latn&apos;)
+u&apos;E&apos;
+
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for fetching the symbol. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: if the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="415" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="419" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1ad579560d131aec8d6b09c534b32d0d21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_group_symbol</definition>
+        <argsstring>(Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>get_group_symbol</name>
+        <qualifiedname>babel.numbers.get_group_symbol</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the symbol used by the locale to separate groups of thousands.
+
+&gt;&gt;&gt; get_group_symbol(&apos;en_US&apos;)
+u&apos;,&apos;
+&gt;&gt;&gt; get_group_symbol(&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;٬&apos;
+&gt;&gt;&gt; get_group_symbol(&apos;ar_EG&apos;, numbering_system=&apos;latn&apos;)
+u&apos;,&apos;
+
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for fetching the symbol. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: if the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="438" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="442" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1aeff3aa44605d946aa4268035fb4464f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.get_infinity_symbol</definition>
+        <argsstring>(Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>get_infinity_symbol</name>
+        <qualifiedname>babel.numbers.get_infinity_symbol</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the symbol used by the locale to represent infinity.
+
+&gt;&gt;&gt; get_infinity_symbol(&apos;en_US&apos;)
+u&apos;∞&apos;
+&gt;&gt;&gt; get_infinity_symbol(&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;∞&apos;
+&gt;&gt;&gt; get_infinity_symbol(&apos;ar_EG&apos;, numbering_system=&apos;latn&apos;)
+u&apos;∞&apos;
+
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for fetching the symbol. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: if the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="461" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="465" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a4d128294c82c700bc3102aacd75f845b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.format_number</definition>
+        <argsstring>(float|decimal.Decimal|str number, Locale|str|None locale=None)</argsstring>
+        <name>format_number</name>
+        <qualifiedname>babel.numbers.format_number</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the given number formatted for a specific locale.
+
+&gt;&gt;&gt; format_number(1099, locale=&apos;en_US&apos;)  # doctest: +SKIP
+u&apos;1,099&apos;
+&gt;&gt;&gt; format_number(1099, locale=&apos;de_DE&apos;)  # doctest: +SKIP
+u&apos;1.099&apos;
+
+.. deprecated:: 2.6.0
+
+   Use babel.numbers.format_decimal() instead.
+
+:param number: the number to format
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="484" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="484" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a34bf444c776f95af7a3898b75caf70a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int babel.numbers.get_decimal_precision</definition>
+        <argsstring>(decimal.Decimal number)</argsstring>
+        <name>get_decimal_precision</name>
+        <qualifiedname>babel.numbers.get_decimal_precision</qualifiedname>
+        <param>
+          <type>decimal.Decimal</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return maximum precision of a decimal instance&apos;s fractional part.
+
+Precision is extracted from the fractional part only.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="505" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="505" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a0c6e40e6d41596e32696d29bcd6bcc34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>decimal.Decimal</type>
+        <definition> decimal.Decimal babel.numbers.get_decimal_quantum</definition>
+        <argsstring>(int|decimal.Decimal precision)</argsstring>
+        <name>get_decimal_quantum</name>
+        <qualifiedname>babel.numbers.get_decimal_quantum</qualifiedname>
+        <param>
+          <type>int|decimal.Decimal</type>
+          <declname>precision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return minimal quantum of a number, as defined by precision.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="519" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="519" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1afeb679dcd711c3fd2159e5d3b53c3fe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.format_decimal</definition>
+        <argsstring>(float|decimal.Decimal|str number, str|NumberPattern|None format=None, Locale|str|None locale=None, bool decimal_quantization=True, bool group_separator=True, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>format_decimal</name>
+        <qualifiedname>babel.numbers.format_decimal</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str|<ref refid="classbabel_1_1numbers_1_1NumberPattern" kindref="compound">NumberPattern</ref>|None</type>
+          <declname>format</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>decimal_quantization</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>group_separator</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the given decimal number formatted for a specific locale.
+
+&gt;&gt;&gt; format_decimal(1.2345, locale=&apos;en_US&apos;)
+u&apos;1.234&apos;
+&gt;&gt;&gt; format_decimal(1.2346, locale=&apos;en_US&apos;)
+u&apos;1.235&apos;
+&gt;&gt;&gt; format_decimal(-1.2346, locale=&apos;en_US&apos;)
+u&apos;-1.235&apos;
+&gt;&gt;&gt; format_decimal(1.2345, locale=&apos;sv_SE&apos;)
+u&apos;1,234&apos;
+&gt;&gt;&gt; format_decimal(1.2345, locale=&apos;de&apos;)
+u&apos;1,234&apos;
+&gt;&gt;&gt; format_decimal(1.2345, locale=&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;1٫234&apos;
+&gt;&gt;&gt; format_decimal(1.2345, locale=&apos;ar_EG&apos;, numbering_system=&apos;latn&apos;)
+u&apos;1.234&apos;
+
+The appropriate thousands grouping and the decimal separator are used for
+each locale:
+
+&gt;&gt;&gt; format_decimal(12345.5, locale=&apos;en_US&apos;)
+u&apos;12,345.5&apos;
+
+By default the locale is allowed to truncate and round a high-precision
+number by forcing its format pattern onto the decimal part. You can bypass
+this behavior with the `decimal_quantization` parameter:
+
+&gt;&gt;&gt; format_decimal(1.2346, locale=&apos;en_US&apos;)
+u&apos;1.235&apos;
+&gt;&gt;&gt; format_decimal(1.2346, locale=&apos;en_US&apos;, decimal_quantization=False)
+u&apos;1.2346&apos;
+&gt;&gt;&gt; format_decimal(12345.67, locale=&apos;fr_CA&apos;, group_separator=False)
+u&apos;12345,67&apos;
+&gt;&gt;&gt; format_decimal(12345.67, locale=&apos;en_US&apos;, group_separator=True)
+u&apos;12,345.67&apos;
+
+:param number: the number to format
+:param format:
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param decimal_quantization: Truncate and round high-precision numbers to
+                             the format pattern. Defaults to `True`.
+:param group_separator: Boolean to switch group separator on/off in a locale&apos;s
+                        number format.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="525" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="533" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a767412f4e5b72239b07ef9935e86674e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.format_compact_decimal</definition>
+        <argsstring>(float|decimal.Decimal|str number, *Literal[&quot;short&quot;, &quot;long&quot;] format_type=&quot;short&quot;, Locale|str|None locale=None, int fraction_digits=0, Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>format_compact_decimal</name>
+        <qualifiedname>babel.numbers.format_compact_decimal</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>*Literal</type>
+          <declname>format_type</declname>
+          <array>[&quot;short&quot;, &quot;long&quot;]</array>
+          <defval>&quot;short&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>fraction_digits</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the given decimal number formatted for a specific locale in compact form.
+
+&gt;&gt;&gt; format_compact_decimal(12345, format_type=&quot;short&quot;, locale=&apos;en_US&apos;)
+u&apos;12K&apos;
+&gt;&gt;&gt; format_compact_decimal(12345, format_type=&quot;long&quot;, locale=&apos;en_US&apos;)
+u&apos;12 thousand&apos;
+&gt;&gt;&gt; format_compact_decimal(12345, format_type=&quot;short&quot;, locale=&apos;en_US&apos;, fraction_digits=2)
+u&apos;12.34K&apos;
+&gt;&gt;&gt; format_compact_decimal(1234567, format_type=&quot;short&quot;, locale=&quot;ja_JP&quot;)
+u&apos;123万&apos;
+&gt;&gt;&gt; format_compact_decimal(2345678, format_type=&quot;long&quot;, locale=&quot;mk&quot;)
+u&apos;2 милиони&apos;
+&gt;&gt;&gt; format_compact_decimal(21000000, format_type=&quot;long&quot;, locale=&quot;mk&quot;)
+u&apos;21 милион&apos;
+&gt;&gt;&gt; format_compact_decimal(12345, format_type=&quot;short&quot;, locale=&apos;ar_EG&apos;, fraction_digits=2, numbering_system=&apos;default&apos;)
+u&apos;12٫34\xa0ألف&apos;
+
+:param number: the number to format
+:param format_type: Compact format to use (&quot;short&quot; or &quot;long&quot;)
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param fraction_digits: Number of digits after the decimal point to use. Defaults to `0`.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="589" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="596" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1aaabd41e0b68f368130f70ccde7147bfc" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[decimal.Decimal, <ref refid="classbabel_1_1numbers_1_1NumberPattern" kindref="compound">NumberPattern</ref>|None]</type>
+        <definition> tuple[decimal.Decimal, NumberPattern | None] babel.numbers._get_compact_format</definition>
+        <argsstring>(float|decimal.Decimal|str number, LocaleDataDict compact_format, Locale locale, int fraction_digits)</argsstring>
+        <name>_get_compact_format</name>
+        <qualifiedname>babel.numbers._get_compact_format</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1localedata_1_1LocaleDataDict" kindref="compound">LocaleDataDict</ref></type>
+          <declname>compact_format</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref></type>
+          <declname>locale</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>fraction_digits</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the number after dividing by the unit and the format pattern to use.
+The algorithm is described here:
+https://www.unicode.org/reports/tr35/tr35-45/tr35-numbers.html#Compact_Number_Formats.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="632" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="637" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a83ae5728f0b912627b0b1bacfd92cc20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.format_currency</definition>
+        <argsstring>(float|decimal.Decimal|str number, str currency, str|NumberPattern|None format=None, Locale|str|None locale=None, bool currency_digits=True, Literal[&quot;name&quot;, &quot;standard&quot;, &quot;accounting&quot;] format_type=&quot;standard&quot;, bool decimal_quantization=True, bool group_separator=True, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>format_currency</name>
+        <qualifiedname>babel.numbers.format_currency</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type>str|<ref refid="classbabel_1_1numbers_1_1NumberPattern" kindref="compound">NumberPattern</ref>|None</type>
+          <declname>format</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>currency_digits</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>format_type</declname>
+          <array>[&quot;name&quot;, &quot;standard&quot;, &quot;accounting&quot;]</array>
+          <defval>&quot;standard&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>decimal_quantization</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>group_separator</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return formatted currency value.
+
+&gt;&gt;&gt; format_currency(1099.98, &apos;USD&apos;, locale=&apos;en_US&apos;)
+&apos;$1,099.98&apos;
+&gt;&gt;&gt; format_currency(1099.98, &apos;USD&apos;, locale=&apos;es_CO&apos;)
+u&apos;US$1.099,98&apos;
+&gt;&gt;&gt; format_currency(1099.98, &apos;EUR&apos;, locale=&apos;de_DE&apos;)
+u&apos;1.099,98\\xa0\\u20ac&apos;
+&gt;&gt;&gt; format_currency(1099.98, &apos;EGP&apos;, locale=&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;\u200f1٬099٫98\xa0ج.م.\u200f&apos;
+
+The format can also be specified explicitly.  The currency is
+placed with the &apos;¤&apos; sign.  As the sign gets repeated the format
+expands (¤ being the symbol, ¤¤ is the currency abbreviation and
+¤¤¤ is the full name of the currency):
+
+&gt;&gt;&gt; format_currency(1099.98, &apos;EUR&apos;, u&apos;\xa4\xa4 #,##0.00&apos;, locale=&apos;en_US&apos;)
+u&apos;EUR 1,099.98&apos;
+&gt;&gt;&gt; format_currency(1099.98, &apos;EUR&apos;, u&apos;#,##0.00 \xa4\xa4\xa4&apos;, locale=&apos;en_US&apos;)
+u&apos;1,099.98 euros&apos;
+
+Currencies usually have a specific number of decimal digits. This function
+favours that information over the given format:
+
+&gt;&gt;&gt; format_currency(1099.98, &apos;JPY&apos;, locale=&apos;en_US&apos;)
+u&apos;\\xa51,100&apos;
+&gt;&gt;&gt; format_currency(1099.98, &apos;COP&apos;, u&apos;#,##0.00&apos;, locale=&apos;es_ES&apos;)
+u&apos;1.099,98&apos;
+
+However, the number of decimal digits can be overridden from the currency
+information, by setting the last parameter to ``False``:
+
+&gt;&gt;&gt; format_currency(1099.98, &apos;JPY&apos;, locale=&apos;en_US&apos;, currency_digits=False)
+u&apos;\\xa51,099.98&apos;
+&gt;&gt;&gt; format_currency(1099.98, &apos;COP&apos;, u&apos;#,##0.00&apos;, locale=&apos;es_ES&apos;, currency_digits=False)
+u&apos;1.099,98&apos;
+
+If a format is not specified the type of currency format to use
+from the locale can be specified:
+
+&gt;&gt;&gt; format_currency(1099.98, &apos;EUR&apos;, locale=&apos;en_US&apos;, format_type=&apos;standard&apos;)
+u&apos;\\u20ac1,099.98&apos;
+
+When the given currency format type is not available, an exception is
+raised:
+
+&gt;&gt;&gt; format_currency(&apos;1099.98&apos;, &apos;EUR&apos;, locale=&apos;root&apos;, format_type=&apos;unknown&apos;)
+Traceback (most recent call last):
+    ...
+UnknownCurrencyFormatError: &quot;&apos;unknown&apos; is not a known currency format type&quot;
+
+&gt;&gt;&gt; format_currency(101299.98, &apos;USD&apos;, locale=&apos;en_US&apos;, group_separator=False)
+u&apos;$101299.98&apos;
+
+&gt;&gt;&gt; format_currency(101299.98, &apos;USD&apos;, locale=&apos;en_US&apos;, group_separator=True)
+u&apos;$101,299.98&apos;
+
+You can also pass format_type=&apos;name&apos; to use long display names. The order of
+the number and currency name, along with the correct localized plural form
+of the currency name, is chosen according to locale:
+
+&gt;&gt;&gt; format_currency(1, &apos;USD&apos;, locale=&apos;en_US&apos;, format_type=&apos;name&apos;)
+u&apos;1.00 US dollar&apos;
+&gt;&gt;&gt; format_currency(1099.98, &apos;USD&apos;, locale=&apos;en_US&apos;, format_type=&apos;name&apos;)
+u&apos;1,099.98 US dollars&apos;
+&gt;&gt;&gt; format_currency(1099.98, &apos;USD&apos;, locale=&apos;ee&apos;, format_type=&apos;name&apos;)
+u&apos;us ga dollar 1,099.98&apos;
+
+By default the locale is allowed to truncate and round a high-precision
+number by forcing its format pattern onto the decimal part. You can bypass
+this behavior with the `decimal_quantization` parameter:
+
+&gt;&gt;&gt; format_currency(1099.9876, &apos;USD&apos;, locale=&apos;en_US&apos;)
+u&apos;$1,099.99&apos;
+&gt;&gt;&gt; format_currency(1099.9876, &apos;USD&apos;, locale=&apos;en_US&apos;, decimal_quantization=False)
+u&apos;$1,099.9876&apos;
+
+:param number: the number to format
+:param currency: the currency code
+:param format: the format string to use
+:param locale: the `Locale` object or locale identifier.
+               Defaults to the system currency locale or numeric locale.
+:param currency_digits: use the currency&apos;s natural number of decimal digits
+:param format_type: the currency format type to use
+:param decimal_quantization: Truncate and round high-precision numbers to
+                             the format pattern. Defaults to `True`.
+:param group_separator: Boolean to switch group separator on/off in a locale&apos;s
+                        number format.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="676" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="687" bodyend="806"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1ae472a861dfffb70aaadb9787deb3589b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers._format_currency_long_name</definition>
+        <argsstring>(float|decimal.Decimal|str number, str currency, *Locale locale, str|NumberPattern|None format, bool currency_digits, bool decimal_quantization, bool group_separator, Literal[&quot;default&quot;]|str numbering_system)</argsstring>
+        <name>_format_currency_long_name</name>
+        <qualifiedname>babel.numbers._format_currency_long_name</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type>*<ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref></type>
+          <declname>locale</declname>
+        </param>
+        <param>
+          <type>str|<ref refid="classbabel_1_1numbers_1_1NumberPattern" kindref="compound">NumberPattern</ref>|None</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>currency_digits</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>decimal_quantization</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>group_separator</declname>
+        </param>
+        <param>
+          <type>Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="807" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="817" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a7d700ec84fa3e1eee1135d27f796486d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.format_compact_currency</definition>
+        <argsstring>(float|decimal.Decimal|str number, str currency, *Literal[&quot;short&quot;] format_type=&quot;short&quot;, Locale|str|None locale=None, int fraction_digits=0, Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>format_compact_currency</name>
+        <qualifiedname>babel.numbers.format_compact_currency</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type>*Literal</type>
+          <declname>format_type</declname>
+          <array>[&quot;short&quot;]</array>
+          <defval>&quot;short&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>fraction_digits</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format a number as a currency value in compact form.
+
+&gt;&gt;&gt; format_compact_currency(12345, &apos;USD&apos;, locale=&apos;en_US&apos;)
+u&apos;$12K&apos;
+&gt;&gt;&gt; format_compact_currency(123456789, &apos;USD&apos;, locale=&apos;en_US&apos;, fraction_digits=2)
+u&apos;$123.46M&apos;
+&gt;&gt;&gt; format_compact_currency(123456789, &apos;EUR&apos;, locale=&apos;de_DE&apos;, fraction_digits=1)
+&apos;123,5\xa0Mio.\xa0€&apos;
+
+:param number: the number to format
+:param currency: the currency code
+:param format_type: the compact format type to use. Defaults to &quot;short&quot;.
+:param locale: the `Locale` object or locale identifier.
+               Defaults to the system currency locale or numeric locale.
+:param fraction_digits: Number of digits after the decimal point to use. Defaults to `0`.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="848" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="856" bodyend="900"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a75e36f1487ac8c7e23224a1b504bdf39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.format_percent</definition>
+        <argsstring>(float|decimal.Decimal|str number, str|NumberPattern|None format=None, Locale|str|None locale=None, bool decimal_quantization=True, bool group_separator=True, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>format_percent</name>
+        <qualifiedname>babel.numbers.format_percent</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str|<ref refid="classbabel_1_1numbers_1_1NumberPattern" kindref="compound">NumberPattern</ref>|None</type>
+          <declname>format</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>decimal_quantization</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>group_separator</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return formatted percent value for a specific locale.
+
+&gt;&gt;&gt; format_percent(0.34, locale=&apos;en_US&apos;)
+u&apos;34%&apos;
+&gt;&gt;&gt; format_percent(25.1234, locale=&apos;en_US&apos;)
+u&apos;2,512%&apos;
+&gt;&gt;&gt; format_percent(25.1234, locale=&apos;sv_SE&apos;)
+u&apos;2\\xa0512\\xa0%&apos;
+&gt;&gt;&gt; format_percent(25.1234, locale=&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;2٬512%&apos;
+
+The format pattern can also be specified explicitly:
+
+&gt;&gt;&gt; format_percent(25.1234, u&apos;#,##0\u2030&apos;, locale=&apos;en_US&apos;)
+u&apos;25,123\u2030&apos;
+
+By default the locale is allowed to truncate and round a high-precision
+number by forcing its format pattern onto the decimal part. You can bypass
+this behavior with the `decimal_quantization` parameter:
+
+&gt;&gt;&gt; format_percent(23.9876, locale=&apos;en_US&apos;)
+u&apos;2,399%&apos;
+&gt;&gt;&gt; format_percent(23.9876, locale=&apos;en_US&apos;, decimal_quantization=False)
+u&apos;2,398.76%&apos;
+
+&gt;&gt;&gt; format_percent(229291.1234, locale=&apos;pt_BR&apos;, group_separator=False)
+u&apos;22929112%&apos;
+
+&gt;&gt;&gt; format_percent(229291.1234, locale=&apos;pt_BR&apos;, group_separator=True)
+u&apos;22.929.112%&apos;
+
+:param number: the percent number to format
+:param format:
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param decimal_quantization: Truncate and round high-precision numbers to
+                             the format pattern. Defaults to `True`.
+:param group_separator: Boolean to switch group separator on/off in a locale&apos;s
+                        number format.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="901" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="909" bodyend="961"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a10b0f7e68e98f3b4374c217c366e9677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers.format_scientific</definition>
+        <argsstring>(float|decimal.Decimal|str number, str|NumberPattern|None format=None, Locale|str|None locale=None, bool decimal_quantization=True, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>format_scientific</name>
+        <qualifiedname>babel.numbers.format_scientific</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str|<ref refid="classbabel_1_1numbers_1_1NumberPattern" kindref="compound">NumberPattern</ref>|None</type>
+          <declname>format</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>decimal_quantization</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return value formatted in scientific notation for a specific locale.
+
+&gt;&gt;&gt; format_scientific(10000, locale=&apos;en_US&apos;)
+u&apos;1E4&apos;
+&gt;&gt;&gt; format_scientific(10000, locale=&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;1أس4&apos;
+
+The format pattern can also be specified explicitly:
+
+&gt;&gt;&gt; format_scientific(1234567, u&apos;##0.##E00&apos;, locale=&apos;en_US&apos;)
+u&apos;1.23E06&apos;
+
+By default the locale is allowed to truncate and round a high-precision
+number by forcing its format pattern onto the decimal part. You can bypass
+this behavior with the `decimal_quantization` parameter:
+
+&gt;&gt;&gt; format_scientific(1234.9876, u&apos;#.##E0&apos;, locale=&apos;en_US&apos;)
+u&apos;1.23E3&apos;
+&gt;&gt;&gt; format_scientific(1234.9876, u&apos;#.##E0&apos;, locale=&apos;en_US&apos;, decimal_quantization=False)
+u&apos;1.2349876E3&apos;
+
+:param number: the number to format
+:param format:
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param decimal_quantization: Truncate and round high-precision numbers to
+                             the format pattern. Defaults to `True`.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="962" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="969" bodyend="1007"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a693159159f10259660f83c596934a092" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int babel.numbers.parse_number</definition>
+        <argsstring>(str string, Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>parse_number</name>
+        <qualifiedname>babel.numbers.parse_number</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse localized number string into an integer.
+
+&gt;&gt;&gt; parse_number(&apos;1,099&apos;, locale=&apos;en_US&apos;)
+1099
+&gt;&gt;&gt; parse_number(&apos;1.099&apos;, locale=&apos;de_DE&apos;)
+1099
+
+When the given string cannot be parsed, an exception is raised:
+
+&gt;&gt;&gt; parse_number(&apos;1.099,98&apos;, locale=&apos;de&apos;)
+Traceback (most recent call last):
+    ...
+NumberFormatError: &apos;1.099,98&apos; is not a valid number
+
+:param string: the string to parse
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:return: the parsed number
+:raise `NumberFormatError`: if the string can not be converted to a number
+:raise `UnsupportedNumberingSystemError`: if the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1026" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1031" bodyend="1069"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a4e6479f6db84d1ca26b6eb4e82d43631" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>decimal.Decimal</type>
+        <definition> decimal.Decimal babel.numbers.parse_decimal</definition>
+        <argsstring>(str string, Locale|str|None locale=None, bool strict=False, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>parse_decimal</name>
+        <qualifiedname>babel.numbers.parse_decimal</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strict</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse localized decimal string into a decimal.
+
+&gt;&gt;&gt; parse_decimal(&apos;1,099.98&apos;, locale=&apos;en_US&apos;)
+Decimal(&apos;1099.98&apos;)
+&gt;&gt;&gt; parse_decimal(&apos;1.099,98&apos;, locale=&apos;de&apos;)
+Decimal(&apos;1099.98&apos;)
+&gt;&gt;&gt; parse_decimal(&apos;12 345,123&apos;, locale=&apos;ru&apos;)
+Decimal(&apos;12345.123&apos;)
+&gt;&gt;&gt; parse_decimal(&apos;1٬099٫98&apos;, locale=&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+Decimal(&apos;1099.98&apos;)
+
+When the given string cannot be parsed, an exception is raised:
+
+&gt;&gt;&gt; parse_decimal(&apos;2,109,998&apos;, locale=&apos;de&apos;)
+Traceback (most recent call last):
+    ...
+NumberFormatError: &apos;2,109,998&apos; is not a valid decimal number
+
+If `strict` is set to `True` and the given string contains a number
+formatted in an irregular way, an exception is raised:
+
+&gt;&gt;&gt; parse_decimal(&apos;30.00&apos;, locale=&apos;de&apos;, strict=True)
+Traceback (most recent call last):
+    ...
+NumberFormatError: &apos;30.00&apos; is not a properly formatted decimal number. Did you mean &apos;3.000&apos;? Or maybe &apos;30,00&apos;?
+
+&gt;&gt;&gt; parse_decimal(&apos;0.00&apos;, locale=&apos;de&apos;, strict=True)
+Traceback (most recent call last):
+    ...
+NumberFormatError: &apos;0.00&apos; is not a properly formatted decimal number. Did you mean &apos;0&apos;?
+
+:param string: the string to parse
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param strict: controls whether numbers formatted in a weird way are
+               accepted or rejected
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise NumberFormatError: if the string can not be converted to a
+                          decimal number
+:raise UnsupportedNumberingSystemError: if the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1070" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1076" bodyend="1168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a8bf21969fc160d7f1a189f1a258b14f5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.numbers._remove_trailing_zeros_after_decimal</definition>
+        <argsstring>(str string, str decimal_symbol)</argsstring>
+        <name>_remove_trailing_zeros_after_decimal</name>
+        <qualifiedname>babel.numbers._remove_trailing_zeros_after_decimal</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>decimal_symbol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Remove trailing zeros from the decimal part of a numeric string.
+
+This function takes a string representing a numeric value and a decimal symbol.
+It removes any trailing zeros that appear after the decimal symbol in the number.
+If the decimal part becomes empty after removing trailing zeros, the decimal symbol
+is also removed. If the string does not contain the decimal symbol, it is returned unchanged.
+
+:param string: The numeric string from which to remove trailing zeros.
+:type string: str
+:param decimal_symbol: The symbol used to denote the decimal point.
+:type decimal_symbol: str
+:return: The numeric string with trailing zeros removed from its decimal part.
+:rtype: str
+
+Example:
+&gt;&gt;&gt; _remove_trailing_zeros_after_decimal(&quot;123.4500&quot;, &quot;.&quot;)
+&apos;123.45&apos;
+&gt;&gt;&gt; _remove_trailing_zeros_after_decimal(&quot;100.000&quot;, &quot;.&quot;)
+&apos;100&apos;
+&gt;&gt;&gt; _remove_trailing_zeros_after_decimal(&quot;100&quot;, &quot;.&quot;)
+&apos;100&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1169" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1169" bodyend="1203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1afb39a4839fdcea74d1202c1c8ab19d7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[int, int]</type>
+        <definition> tuple[int, int] babel.numbers.parse_grouping</definition>
+        <argsstring>(str p)</argsstring>
+        <name>parse_grouping</name>
+        <qualifiedname>babel.numbers.parse_grouping</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse primary and secondary digit grouping
+
+&gt;&gt;&gt; parse_grouping(&apos;##&apos;)
+(1000, 1000)
+&gt;&gt;&gt; parse_grouping(&apos;#,###&apos;)
+(3, 3)
+&gt;&gt;&gt; parse_grouping(&apos;#,####,###&apos;)
+(3, 4)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1214" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1214" bodyend="1235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1numbers_1a1d9cd4e4b8eab4d07b035763db9cfcc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1numbers_1_1NumberPattern" kindref="compound">NumberPattern</ref></type>
+        <definition> NumberPattern babel.numbers.parse_pattern</definition>
+        <argsstring>(NumberPattern|str pattern)</argsstring>
+        <name>parse_pattern</name>
+        <qualifiedname>babel.numbers.parse_pattern</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1numbers_1_1NumberPattern" kindref="compound">NumberPattern</ref>|str</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse number format patterns</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1236" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/numbers.py" bodystart="1236" bodyend="1300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.numbers
+    ~~~~~~~~~~~~~
+
+    Locale dependent formatting and parsing of numeric data.
+
+    The default locale for the functions in this module is determined by the
+    following environment variables, in that order:
+
+     * ``LC_MONETARY`` for currency related functions,
+     * ``LC_NUMERIC``, and
+     * ``LC_ALL``, and
+     * ``LANG``
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/numbers.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

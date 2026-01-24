@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1meta" kind="namespace" language="Python">
+    <compoundname>jinja2::meta</compoundname>
+    <innerclass refid="classjinja2_1_1meta_1_1TrackingCodeGenerator" prot="public">jinja2::meta::TrackingCodeGenerator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1meta_1a8a62c1932680f206b57f902e3bdb1877" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2::meta._ref_types</definition>
+        <argsstring></argsstring>
+        <name>_ref_types</name>
+        <qualifiedname>jinja2.meta._ref_types</qualifiedname>
+        <initializer>=  (<ref refid="classjinja2_1_1nodes_1_1Extends" kindref="compound">nodes.Extends</ref>, <ref refid="classjinja2_1_1nodes_1_1FromImport" kindref="compound">nodes.FromImport</ref>, <ref refid="classjinja2_1_1nodes_1_1Import" kindref="compound">nodes.Import</ref>, <ref refid="classjinja2_1_1nodes_1_1Include" kindref="compound">nodes.Include</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1meta_1ad5f48740f509b697e4598648f598d46e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::meta._RefType</definition>
+        <argsstring></argsstring>
+        <name>_RefType</name>
+        <qualifiedname>jinja2.meta._RefType</qualifiedname>
+        <initializer>=  t.Union[<ref refid="classjinja2_1_1nodes_1_1Extends" kindref="compound">nodes.Extends</ref>, <ref refid="classjinja2_1_1nodes_1_1FromImport" kindref="compound">nodes.FromImport</ref>, <ref refid="classjinja2_1_1nodes_1_1Import" kindref="compound">nodes.Import</ref>, <ref refid="classjinja2_1_1nodes_1_1Include" kindref="compound">nodes.Include</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1meta_1aacddff725dfd60eda21fd7099d571a99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Set[str]</type>
+        <definition> t.Set[str] jinja2.meta.find_undeclared_variables</definition>
+        <argsstring>(nodes.Template ast)</argsstring>
+        <name>find_undeclared_variables</name>
+        <qualifiedname>jinja2.meta.find_undeclared_variables</qualifiedname>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Template" kindref="compound">nodes.Template</ref></type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a set of all variables in the AST that will be looked up from
+the context at runtime.  Because at compile time it&apos;s not known which
+variables will be used depending on the path the execution takes at
+runtime, all variables are returned.
+
+&gt;&gt;&gt; from jinja2 import Environment, meta
+&gt;&gt;&gt; env = Environment()
+&gt;&gt;&gt; ast = env.parse(&apos;{% set foo = 42 %}{{ bar + foo }}&apos;)
+&gt;&gt;&gt; meta.find_undeclared_variables(ast) == {&apos;bar&apos;}
+True
+
+.. admonition:: Implementation
+
+   Internally the code generator is used for finding undeclared variables.
+   This is good to know because the code generator might raise a
+   :exc:`TemplateAssertionError` during compilation and as a matter of
+   fact this function can currently raise that exception as well.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" bodystart="34" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1meta_1a481be1fad0e681228b9c9b6890e4249e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[t.Optional[str]]</type>
+        <definition> t.Iterator[t.Optional[str]] jinja2.meta.find_referenced_templates</definition>
+        <argsstring>(nodes.Template ast)</argsstring>
+        <name>find_referenced_templates</name>
+        <qualifiedname>jinja2.meta.find_referenced_templates</qualifiedname>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Template" kindref="compound">nodes.Template</ref></type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Finds all the referenced templates from the AST.  This will return an
+iterator over all the hardcoded template extensions, inclusions and
+imports.  If dynamic inheritance or inclusion is used, `None` will be
+yielded.
+
+&gt;&gt;&gt; from jinja2 import Environment, meta
+&gt;&gt;&gt; env = Environment()
+&gt;&gt;&gt; ast = env.parse(&apos;{% extends &quot;layout.html&quot; %}{% include helper %}&apos;)
+&gt;&gt;&gt; list(meta.find_referenced_templates(ast))
+[&apos;layout.html&apos;, None]
+
+This function is useful for dependency tracking.  For example if you want
+to rebuild parts of the website after a layout template has changed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" bodystart="62" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Functions that expose information about templates that might be
+interesting for introspection.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

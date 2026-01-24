@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1util_1_1connection" kind="namespace" language="Python">
+    <compoundname>urllib3::util::connection</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1connection_1ae005b77d4a2f8add5299b2e55c6cb266" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::connection._TYPE_SOCKET_OPTIONS</definition>
+        <argsstring></argsstring>
+        <name>_TYPE_SOCKET_OPTIONS</name>
+        <qualifiedname>urllib3.util.connection._TYPE_SOCKET_OPTIONS</qualifiedname>
+        <initializer>=  list[tuple[int, int, typing.Union[int, bytes]]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" line="9" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1connection_1afadf4d705cca0d32f616cccf524b0472" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool urllib3::util::connection.HAS_IPV6</definition>
+        <argsstring></argsstring>
+        <name>HAS_IPV6</name>
+        <qualifiedname>urllib3.util.connection.HAS_IPV6</qualifiedname>
+        <initializer>=  <ref refid="namespaceurllib3_1_1util_1_1connection_1a1c96d01e9e18f785b2982a1c99967592" kindref="member">_has_ipv6</ref>(&quot;::1&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1connection_1a0c1ec97fd1b6d9fdb3523eece0a11914" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.connection.is_connection_dropped</definition>
+        <argsstring>(BaseHTTPConnection conn)</argsstring>
+        <name>is_connection_dropped</name>
+        <qualifiedname>urllib3.util.connection.is_connection_dropped</qualifiedname>
+        <param>
+          <type><ref refid="classurllib3_1_1__base__connection_1_1BaseHTTPConnection" kindref="compound">BaseHTTPConnection</ref></type>
+          <declname>conn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns True if the connection is dropped and should be closed.
+:param conn: :class:`urllib3.connection.HTTPConnection` object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" bodystart="15" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1connection_1a19142240a6f59830c0a2aea7d2a97264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>socket.socket</type>
+        <definition> socket.socket urllib3.util.connection.create_connection</definition>
+        <argsstring>(tuple[str, int] address, _TYPE_TIMEOUT timeout=_DEFAULT_TIMEOUT, tuple[str, int]|None source_address=None, _TYPE_SOCKET_OPTIONS|None socket_options=None)</argsstring>
+        <name>create_connection</name>
+        <qualifiedname>urllib3.util.connection.create_connection</qualifiedname>
+        <param>
+          <type>tuple</type>
+          <declname>address</declname>
+          <array>[str, int]</array>
+        </param>
+        <param>
+          <type>_TYPE_TIMEOUT</type>
+          <declname>timeout</declname>
+          <defval>_DEFAULT_TIMEOUT</defval>
+        </param>
+        <param>
+          <type>tuple|None</type>
+          <declname>source_address</declname>
+          <array>[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1util_1_1connection_1ae005b77d4a2f8add5299b2e55c6cb266" kindref="member">_TYPE_SOCKET_OPTIONS</ref>|None</type>
+          <declname>socket_options</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Connect to *address* and return the socket object.
+
+Convenience function.  Connect to *address* (a 2-tuple ``(host,
+port)``) and return the socket object.  Passing the optional
+*timeout* parameter will set the timeout on the socket instance
+before attempting to connect.  If no *timeout* is supplied, the
+global default timeout setting returned by :func:`socket.getdefaulttimeout`
+is used.  If *source_address* is set it must be a tuple of (host, port)
+for the socket to bind as a source address before making the connection.
+An host of &apos;&apos; or port 0 tells the OS to use the default.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" bodystart="32" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1connection_1a73172f35af94d68f03102ed66321b53b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.connection._set_socket_options</definition>
+        <argsstring>(socket.socket sock, _TYPE_SOCKET_OPTIONS|None options)</argsstring>
+        <name>_set_socket_options</name>
+        <qualifiedname>urllib3.util.connection._set_socket_options</qualifiedname>
+        <param>
+          <type>socket.socket</type>
+          <declname>sock</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1util_1_1connection_1ae005b77d4a2f8add5299b2e55c6cb266" kindref="member">_TYPE_SOCKET_OPTIONS</ref>|None</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" line="93" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" bodystart="95" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1connection_1a7438241298840a1ca5e33055be4410f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>socket.AddressFamily</type>
+        <definition> socket.AddressFamily urllib3.util.connection.allowed_gai_family</definition>
+        <argsstring>()</argsstring>
+        <name>allowed_gai_family</name>
+        <qualifiedname>urllib3.util.connection.allowed_gai_family</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function is designed to work in the context of
+getaddrinfo, where family=socket.AF_UNSPEC is the default and
+will perform a DNS search for both IPv6 and IPv4 records.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" line="103" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" bodystart="103" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1connection_1a1c96d01e9e18f785b2982a1c99967592" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.connection._has_ipv6</definition>
+        <argsstring>(str host)</argsstring>
+        <name>_has_ipv6</name>
+        <qualifiedname>urllib3.util.connection._has_ipv6</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>host</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns True if the system can bind an IPv6 address.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" line="114" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" bodystart="114" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/connection.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

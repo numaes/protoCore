@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2packaging_2requirements_8py" kind="file" language="Python">
+    <compoundname>requirements.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1InvalidRequirement" prot="public">pip::_vendor::packaging::requirements::InvalidRequirement</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" prot="public">pip::_vendor::packaging::requirements::Requirement</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1packaging">pip::_vendor::packaging</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1packaging_1_1requirements">pip::_vendor::packaging::requirements</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1packaging_1_1requirements" refkind="compound"><highlight class="comment">#<sp/>This<sp/>file<sp/>is<sp/>dual<sp/>licensed<sp/>under<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>Apache<sp/>License,<sp/>Version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>2.0,<sp/>and<sp/>the<sp/>BSD<sp/>License.<sp/>See<sp/>the<sp/>LICENSE<sp/>file<sp/>in<sp/>the<sp/>root<sp/>of<sp/>this<sp/>repository</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>for<sp/>complete<sp/>details.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>string</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>urllib.parse</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>List,<sp/>Optional<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>TOptional,<sp/>Set</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1pyparsing" kindref="compound">pip._vendor.pyparsing</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>(<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>Combine,</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>Literal<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>L,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>Optional,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>ParseException,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>Regex,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>Word,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>ZeroOrMore,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>originalTextFor,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>stringEnd,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>stringStart,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.markers<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>MARKER_EXPR,<sp/>Marker</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.specifiers<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>LegacySpecifier,<sp/>Specifier,<sp/>SpecifierSet</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1InvalidRequirement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1InvalidRequirement" kindref="compound">InvalidRequirement</ref>(ValueError):</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>An<sp/>invalid<sp/>requirement<sp/>was<sp/>found,<sp/>users<sp/>should<sp/>refer<sp/>to<sp/>PEP<sp/>508.</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">ALPHANUM<sp/>=<sp/>Word(string.ascii_letters<sp/>+<sp/>string.digits)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">LBRACKET<sp/>=<sp/>L(</highlight><highlight class="stringliteral">&quot;[&quot;</highlight><highlight class="normal">).suppress()</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">RBRACKET<sp/>=<sp/>L(</highlight><highlight class="stringliteral">&quot;]&quot;</highlight><highlight class="normal">).suppress()</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">LPAREN<sp/>=<sp/>L(</highlight><highlight class="stringliteral">&quot;(&quot;</highlight><highlight class="normal">).suppress()</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">RPAREN<sp/>=<sp/>L(</highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">).suppress()</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">COMMA<sp/>=<sp/>L(</highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">).suppress()</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">SEMICOLON<sp/>=<sp/>L(</highlight><highlight class="stringliteral">&quot;;&quot;</highlight><highlight class="normal">).suppress()</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">AT<sp/>=<sp/>L(</highlight><highlight class="stringliteral">&quot;@&quot;</highlight><highlight class="normal">).suppress()</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">PUNCTUATION<sp/>=<sp/>Word(</highlight><highlight class="stringliteral">&quot;-_.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">IDENTIFIER_END<sp/>=<sp/>ALPHANUM<sp/>|<sp/>(ZeroOrMore(PUNCTUATION)<sp/>+<sp/>ALPHANUM)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">IDENTIFIER<sp/>=<sp/>Combine(ALPHANUM<sp/>+<sp/>ZeroOrMore(IDENTIFIER_END))</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">NAME<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1requirements_1a979132dd81ec12f393352079492a92a3" kindref="member">IDENTIFIER</ref>(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">EXTRA<sp/>=<sp/>IDENTIFIER</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">URI<sp/>=<sp/>Regex(</highlight><highlight class="stringliteral">r&quot;[^<sp/>]+&quot;</highlight><highlight class="normal">)(</highlight><highlight class="stringliteral">&quot;url&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">URL<sp/>=<sp/>AT<sp/>+<sp/>URI</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">EXTRAS_LIST<sp/>=<sp/>EXTRA<sp/>+<sp/>ZeroOrMore(COMMA<sp/>+<sp/>EXTRA)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">EXTRAS<sp/>=<sp/>(LBRACKET<sp/>+<sp/>Optional(EXTRAS_LIST)<sp/>+<sp/>RBRACKET)(</highlight><highlight class="stringliteral">&quot;extras&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">VERSION_PEP440<sp/>=<sp/>Regex(Specifier._regex_str,<sp/>re.VERBOSE<sp/>|<sp/>re.IGNORECASE)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">VERSION_LEGACY<sp/>=<sp/>Regex(LegacySpecifier._regex_str,<sp/>re.VERBOSE<sp/>|<sp/>re.IGNORECASE)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">VERSION_ONE<sp/>=<sp/>VERSION_PEP440<sp/>^<sp/>VERSION_LEGACY</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">VERSION_MANY<sp/>=<sp/>Combine(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>VERSION_ONE<sp/>+<sp/>ZeroOrMore(COMMA<sp/>+<sp/>VERSION_ONE),<sp/>joinString=</highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">,<sp/>adjacent=</highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">)(</highlight><highlight class="stringliteral">&quot;_raw_spec&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">_VERSION_SPEC<sp/>=<sp/>Optional((LPAREN<sp/>+<sp/>VERSION_MANY<sp/>+<sp/>RPAREN)<sp/>|<sp/>VERSION_MANY)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">_VERSION_SPEC.setParseAction(</highlight><highlight class="keyword">lambda</highlight><highlight class="normal"><sp/>s,<sp/>l,<sp/>t:<sp/>t._raw_spec<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">VERSION_SPEC<sp/>=<sp/>originalTextFor(_VERSION_SPEC)(</highlight><highlight class="stringliteral">&quot;specifier&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">VERSION_SPEC.setParseAction(</highlight><highlight class="keyword">lambda</highlight><highlight class="normal"><sp/>s,<sp/>l,<sp/>t:<sp/>t[1])</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">MARKER_EXPR<sp/>=<sp/>originalTextFor(MARKER_EXPR())(</highlight><highlight class="stringliteral">&quot;marker&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">MARKER_EXPR.setParseAction(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">lambda</highlight><highlight class="normal"><sp/>s,<sp/>l,<sp/>t:<sp/><ref refid="classpip_1_1__vendor_1_1packaging_1_1markers_1_1Marker" kindref="compound">Marker</ref>(s[t._original_start<sp/>:<sp/>t._original_end])</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">MARKER_SEPARATOR<sp/>=<sp/>SEMICOLON</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">MARKER<sp/>=<sp/>MARKER_SEPARATOR<sp/>+<sp/>MARKER_EXPR</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">VERSION_AND_MARKER<sp/>=<sp/>VERSION_SPEC<sp/>+<sp/>Optional(MARKER)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">URL_AND_MARKER<sp/>=<sp/>URL<sp/>+<sp/>Optional(MARKER)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">NAMED_REQUIREMENT<sp/>=<sp/>NAME<sp/>+<sp/>Optional(EXTRAS)<sp/>+<sp/>(URL_AND_MARKER<sp/>|<sp/>VERSION_AND_MARKER)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">REQUIREMENT<sp/>=<sp/>stringStart<sp/>+<sp/>NAMED_REQUIREMENT<sp/>+<sp/>stringEnd</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">#<sp/>pyparsing<sp/>isn&apos;t<sp/>thread<sp/>safe<sp/>during<sp/>initialization,<sp/>so<sp/>we<sp/>do<sp/>it<sp/>eagerly,<sp/>see</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">#<sp/>issue<sp/>#104</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">REQUIREMENT.parseString(</highlight><highlight class="stringliteral">&quot;x[]&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref>:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Parse<sp/>a<sp/>requirement.</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Parse<sp/>a<sp/>given<sp/>requirement<sp/>string<sp/>into<sp/>its<sp/>parts,<sp/>such<sp/>as<sp/>name,<sp/>specifier,</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>URL,<sp/>and<sp/>extras.<sp/>Raises<sp/>InvalidRequirement<sp/>on<sp/>a<sp/>badly-formed<sp/>requirement</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>string.</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>TODO:<sp/>Can<sp/>we<sp/>test<sp/>whether<sp/>something<sp/>is<sp/>contained<sp/>within<sp/>a<sp/>requirement?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>so<sp/>how<sp/>do<sp/>we<sp/>do<sp/>that?<sp/>Do<sp/>we<sp/>need<sp/>to<sp/>test<sp/>against<sp/>the<sp/>_name_<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>thing<sp/>as<sp/>well<sp/>as<sp/>the<sp/>version?<sp/>What<sp/>about<sp/>the<sp/>markers?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>TODO:<sp/>Can<sp/>we<sp/>normalize<sp/>the<sp/>name<sp/>and<sp/>extra<sp/>name?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1afcd5f9f377042ed3497211dccd901736" kindref="member">__init__</ref>(self,<sp/>requirement_string:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req<sp/>=<sp/>REQUIREMENT.parseString(requirement_string)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ParseException<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>e:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1InvalidRequirement" kindref="compound">InvalidRequirement</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&apos;Parse<sp/>error<sp/>at<sp/>&quot;{<sp/>requirement_string[e.loc<sp/>:<sp/>e.loc<sp/>+<sp/>8]!r}&quot;:<sp/>{e.msg}&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.name:<sp/>str<sp/>=<sp/>req.name</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>req.url:</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parsed_url<sp/>=<sp/>urllib.parse.urlparse(req.url)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>parsed_url.scheme<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;file&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>urllib.parse.urlunparse(parsed_url)<sp/>!=<sp/>req.url:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1InvalidRequirement" kindref="compound">InvalidRequirement</ref>(</highlight><highlight class="stringliteral">&quot;Invalid<sp/>URL<sp/>given&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>(parsed_url.scheme<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>parsed_url.netloc)<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>parsed_url.scheme<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>parsed_url.netloc</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1InvalidRequirement" kindref="compound">InvalidRequirement</ref>(f</highlight><highlight class="stringliteral">&quot;Invalid<sp/>URL:<sp/>{req.url}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1ae9fcc103f907ab4191dcf42f2ef36daf" kindref="member">url</ref>:<sp/>TOptional[str]<sp/>=<sp/>req.url</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1ae9fcc103f907ab4191dcf42f2ef36daf" kindref="member">url</ref><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.extras:<sp/>Set[str]<sp/>=<sp/>set(req.extras.asList()<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>req.extras<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>[])</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1a2b0856da19ade70c5560545d1b9c1e88" kindref="member">specifier</ref>:<sp/>SpecifierSet<sp/>=<sp/>SpecifierSet(req.specifier)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.marker:<sp/>TOptional[Marker]<sp/>=<sp/>req.marker<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>req.marker<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1ab59af1360f748551a48badf498987389" kindref="member">__str__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parts:<sp/>List[str]<sp/>=<sp/>[self.name]</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.extras:</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>formatted_extras<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">.join(sorted(self.extras))</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parts.append(f</highlight><highlight class="stringliteral">&quot;[{formatted_extras}]&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1a2b0856da19ade70c5560545d1b9c1e88" kindref="member">specifier</ref>:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parts.append(str(self.<ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1a2b0856da19ade70c5560545d1b9c1e88" kindref="member">specifier</ref>))</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1ae9fcc103f907ab4191dcf42f2ef36daf" kindref="member">url</ref>:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parts.append(f</highlight><highlight class="stringliteral">&quot;@<sp/>{self.url}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.marker:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parts.append(</highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.marker:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parts.append(f</highlight><highlight class="stringliteral">&quot;;<sp/>{self.marker}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(parts)</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement_1a7b7d4a984fdf9cdfae8a65438898cd4c" kindref="member">__repr__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&quot;&lt;Requirement(&apos;{self}&apos;)&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/requirements.py"/>
+  </compounddef>
+</doxygen>

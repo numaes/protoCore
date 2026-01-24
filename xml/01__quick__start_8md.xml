@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="01__quick__start_8md" kind="file" language="Markdown">
+    <compoundname>01_quick_start.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Quick<sp/>Start:<sp/>Building<sp/>and<sp/>Running<sp/>Proto</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>guide<sp/>will<sp/>walk<sp/>you<sp/>through<sp/>the<sp/>process<sp/>of<sp/>downloading,<sp/>building,<sp/>and<sp/>running<sp/>the<sp/>Proto<sp/>library<sp/>and<sp/>its<sp/>command-line<sp/>interface.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Prerequisites</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Before<sp/>you<sp/>begin,<sp/>make<sp/>sure<sp/>you<sp/>have<sp/>the<sp/>following<sp/>tools<sp/>installed<sp/>on<sp/>your<sp/>system:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**A<sp/>C++20<sp/>Compliant<sp/>Compiler:**<sp/>GCC<sp/>10+<sp/>or<sp/>Clang<sp/>11+</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**CMake:**<sp/>Version<sp/>3.16<sp/>or<sp/>higher</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Git:**<sp/>For<sp/>cloning<sp/>the<sp/>repository</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Building<sp/>the<sp/>Library</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>build<sp/>process<sp/>uses<sp/>a<sp/>standard<sp/>CMake<sp/>workflow.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Clone<sp/>the<sp/>Repository:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>First,<sp/>clone<sp/>the<sp/>Proto<sp/>source<sp/>code<sp/>from<sp/>GitHub.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```sh</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>git<sp/>clone<sp/>https://github.com/your-repo/proto.git</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cd<sp/>protoCore</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Create<sp/>a<sp/>Build<sp/>Directory:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>It&apos;s<sp/>good<sp/>practice<sp/>to<sp/>build<sp/>the<sp/>project<sp/>in<sp/>a<sp/>separate<sp/>directory.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```sh</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mkdir<sp/>build</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cd<sp/>build</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**Configure<sp/>with<sp/>CMake:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Run<sp/>CMake<sp/>to<sp/>generate<sp/>the<sp/>build<sp/>files<sp/>for<sp/>your<sp/>system.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```sh</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cmake<sp/>..</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>**Compile<sp/>the<sp/>Code:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Finally,<sp/>run<sp/>`make`<sp/>to<sp/>compile<sp/>the<sp/>library<sp/>and<sp/>all<sp/>associated<sp/>tools.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```sh</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>make</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>the<sp/>build<sp/>is<sp/>successful,<sp/>you<sp/>will<sp/>find<sp/>the<sp/>compiled<sp/>`libproto.a`<sp/>library<sp/>and<sp/>the<sp/>`proto`<sp/>executable<sp/>inside<sp/>the<sp/>`build/`<sp/>directory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Running<sp/>the<sp/>Proto<sp/>Executable</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`proto`<sp/>executable<sp/>is<sp/>a<sp/>simple<sp/>Read-Eval-Print-Loop<sp/>(REPL)<sp/>that<sp/>allows<sp/>you<sp/>to<sp/>interact<sp/>with<sp/>the<sp/>Proto<sp/>runtime<sp/>directly.<sp/>You<sp/>can<sp/>run<sp/>it<sp/>from<sp/>the<sp/>`build`<sp/>directory:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```sh</highlight></codeline>
+<codeline><highlight class="normal">./protoCore</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>should<sp/>see<sp/>a<sp/>`proto&gt;<sp/>`<sp/>prompt.<sp/>You<sp/>can<sp/>now<sp/>enter<sp/>Proto<sp/>expressions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Your<sp/>First<sp/>&quot;Hello,<sp/>Proto!&quot;<sp/>Program</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Let&apos;s<sp/>start<sp/>with<sp/>a<sp/>simple<sp/>program.<sp/>The<sp/>`proto_python`<sp/>project<sp/>provides<sp/>a<sp/>way<sp/>to<sp/>transpile<sp/>Python<sp/>code<sp/>to<sp/>C++<sp/>that<sp/>uses<sp/>the<sp/>Proto<sp/>runtime.<sp/>Here<sp/>is<sp/>how<sp/>you<sp/>would<sp/>run<sp/>a<sp/>simple<sp/>&quot;Hello,<sp/>World!&quot;:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Create<sp/>a<sp/>Python<sp/>file<sp/>named<sp/>`hello.py`:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```python</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>print(&quot;Hello,<sp/>Proto!&quot;)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Transpile<sp/>and<sp/>Run:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Use<sp/>the<sp/>`proto_python`<sp/>tool<sp/>(which<sp/>you<sp/>also<sp/>built)<sp/>to<sp/>convert<sp/>the<sp/>Python<sp/>code<sp/>into<sp/>a<sp/>C++<sp/>executable<sp/>that<sp/>links<sp/>against<sp/>Proto.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```sh</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>#<sp/>Assuming<sp/>proto_python<sp/>executable<sp/>is<sp/>in<sp/>your<sp/>PATH</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>proto_python<sp/>hello.py<sp/>-o<sp/>hello_proto</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>./hello_proto</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>You<sp/>should<sp/>see<sp/>the<sp/>output:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Hello,<sp/>Proto!</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Next<sp/>Steps</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Now<sp/>that<sp/>you<sp/>have<sp/>Proto<sp/>up<sp/>and<sp/>running,<sp/>you<sp/>can<sp/>start<sp/>exploring<sp/>its<sp/>capabilities.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Learn<sp/>how<sp/>to<sp/>build<sp/>your<sp/>own<sp/>applications<sp/>on<sp/>top<sp/>of<sp/>Proto:**<sp/>[Building<sp/>on<sp/>Proto](./02_building_on_proto.md)</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Dive<sp/>into<sp/>our<sp/>tutorials<sp/>to<sp/>build<sp/>a<sp/>REPL<sp/>from<sp/>scratch:**<sp/>[Building<sp/>a<sp/>REPL](../tutorials/01_building_a_repl.md)</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Interested<sp/>in<sp/>contributing?**<sp/>[Check<sp/>out<sp/>our<sp/>Contributor&apos;s<sp/>Guide](./03_contributing.md)</highlight></codeline>
+    </programlisting>
+    <location file="docs/Structural description/guides/01_quick_start.md"/>
+  </compounddef>
+</doxygen>

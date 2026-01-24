@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="docutils_2transforms_2misc_8py" kind="file" language="Python">
+    <compoundname>misc.py</compoundname>
+    <innerclass refid="classdocutils_1_1transforms_1_1misc_1_1CallBack" prot="public">docutils::transforms::misc::CallBack</innerclass>
+    <innerclass refid="classdocutils_1_1transforms_1_1misc_1_1ClassAttribute" prot="public">docutils::transforms::misc::ClassAttribute</innerclass>
+    <innerclass refid="classdocutils_1_1transforms_1_1misc_1_1Transitions" prot="public">docutils::transforms::misc::Transitions</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1transforms">docutils::transforms</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1transforms_1_1misc">docutils::transforms::misc</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1transforms_1_1misc" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>misc.py<sp/>9037<sp/>2022-03-05<sp/>23:31:10Z<sp/>milde<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>David<sp/>Goodger<sp/>&lt;goodger@python.org&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">Miscellaneous<sp/>transforms.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">__docformat__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;reStructuredText&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms" kindref="compound">docutils.transforms</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Transform</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="classdocutils_1_1transforms_1_1misc_1_1CallBack" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1misc_1_1CallBack" kindref="compound">CallBack</ref>(<ref refid="classdocutils_1_1transforms_1_1Transform" kindref="compound">Transform</ref>):</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Inserts<sp/>a<sp/>callback<sp/>into<sp/>a<sp/>document.<sp/><sp/>The<sp/>callback<sp/>is<sp/>called<sp/>when<sp/>the</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>transform<sp/>is<sp/>applied,<sp/>which<sp/>is<sp/>determined<sp/>by<sp/>its<sp/>priority.</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>use<sp/>with<sp/>`nodes.pending`<sp/>elements.<sp/><sp/>Requires<sp/>a<sp/>``details[&apos;callback&apos;]``</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>entry,<sp/>a<sp/>bound<sp/>method<sp/>or<sp/>function<sp/>which<sp/>takes<sp/>one<sp/>parameter:<sp/>the<sp/>pending</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>node.<sp/><sp/>Other<sp/>data<sp/>can<sp/>be<sp/>stored<sp/>in<sp/>the<sp/>``details``<sp/>attribute<sp/>or<sp/>in<sp/>the</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>object<sp/>hosting<sp/>the<sp/>callback<sp/>method.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>default_priority<sp/>=<sp/>990</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1misc_1_1CallBack_1aa999afcfbdaa597c1bcb0170afb092dd" kindref="member">apply</ref>(self):</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending<sp/>=<sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1aa3b293e3c50fc8701e4fcbb2c86b32dc" kindref="member">startnode</ref></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending.details[</highlight><highlight class="stringliteral">&apos;callback&apos;</highlight><highlight class="normal">](pending)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending.parent.remove(pending)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classdocutils_1_1transforms_1_1misc_1_1ClassAttribute" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1misc_1_1ClassAttribute" kindref="compound">ClassAttribute</ref>(<ref refid="classdocutils_1_1transforms_1_1Transform" kindref="compound">Transform</ref>):</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Move<sp/>the<sp/>&quot;class&quot;<sp/>attribute<sp/>specified<sp/>in<sp/>the<sp/>&quot;pending&quot;<sp/>node<sp/>into<sp/>the</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>immediately<sp/>following<sp/>non-comment<sp/>element.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>default_priority<sp/>=<sp/>210</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1misc_1_1ClassAttribute_1a56e4e00b3e984d545cc6c22312b709db" kindref="member">apply</ref>(self):</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending<sp/>=<sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1aa3b293e3c50fc8701e4fcbb2c86b32dc" kindref="member">startnode</ref></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parent<sp/>=<sp/>pending.parent</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child<sp/>=<sp/>pending</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>parent:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Check<sp/>for<sp/>appropriate<sp/>following<sp/>siblings:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>index<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>range(parent.index(child)<sp/>+<sp/>1,<sp/>len(parent)):</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>element<sp/>=<sp/>parent[index]</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isinstance(element,<sp/><ref refid="classdocutils_1_1nodes_1_1Invisible" kindref="compound">nodes.Invisible</ref>)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>isinstance(element,<sp/><ref refid="classdocutils_1_1nodes_1_1system__message" kindref="compound">nodes.system_message</ref>)):</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>element[</highlight><highlight class="stringliteral">&apos;classes&apos;</highlight><highlight class="normal">]<sp/>+=<sp/>pending.details[</highlight><highlight class="stringliteral">&apos;class&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending.parent.remove(pending)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>At<sp/>end<sp/>of<sp/>section<sp/>or<sp/>container;<sp/>apply<sp/>to<sp/>sibling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child<sp/>=<sp/>parent</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parent<sp/>=<sp/>parent.parent</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error<sp/>=<sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.reporter.error(</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;No<sp/>suitable<sp/>element<sp/>following<sp/>&quot;%s&quot;<sp/>directive&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%<sp/>pending.details[</highlight><highlight class="stringliteral">&apos;directive&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classdocutils_1_1nodes_1_1literal__block" kindref="compound">nodes.literal_block</ref>(pending.rawsource,<sp/>pending.rawsource),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>line=pending.line)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending.replace_self(error)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classdocutils_1_1transforms_1_1misc_1_1Transitions" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1misc_1_1Transitions" kindref="compound">Transitions</ref>(<ref refid="classdocutils_1_1transforms_1_1Transform" kindref="compound">Transform</ref>):</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Move<sp/>transitions<sp/>at<sp/>the<sp/>end<sp/>of<sp/>sections<sp/>up<sp/>the<sp/>tree.<sp/><sp/>Complain</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>on<sp/>transitions<sp/>after<sp/>a<sp/>title,<sp/>at<sp/>the<sp/>beginning<sp/>or<sp/>end<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>document,<sp/>and<sp/>after<sp/>another<sp/>transition.</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>example,<sp/>transform<sp/>this::</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;section&gt;</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;transition&gt;</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;section&gt;</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>into<sp/>this::</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;section&gt;</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;transition&gt;</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;section&gt;</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>default_priority<sp/>=<sp/>830</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1misc_1_1Transitions_1abd0ff14a2e1adac29126ed654af3530d" kindref="member">apply</ref>(self):</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>node<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.findall(<ref refid="classdocutils_1_1nodes_1_1transition" kindref="compound">nodes.transition</ref>):</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1transforms_1_1misc_1_1Transitions_1ae6b7bce800ef8c8a90aa32ed0bbf259e" kindref="member">visit_transition</ref>(node)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1misc_1_1Transitions_1ae6b7bce800ef8c8a90aa32ed0bbf259e" kindref="member">visit_transition</ref>(self,<sp/>node):</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index<sp/>=<sp/>node.parent.index(node)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(index<sp/>==<sp/>0</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>isinstance(node.parent[0],<sp/><ref refid="classdocutils_1_1nodes_1_1title" kindref="compound">nodes.title</ref>)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>(index<sp/>==<sp/>1</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>isinstance(node.parent[1],<sp/><ref refid="classdocutils_1_1nodes_1_1subtitle" kindref="compound">nodes.subtitle</ref>)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>index<sp/>==<sp/>2)):</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>(isinstance(node.parent,<sp/><ref refid="classdocutils_1_1nodes_1_1document" kindref="compound">nodes.document</ref>)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>isinstance(node.parent,<sp/><ref refid="classdocutils_1_1nodes_1_1section" kindref="compound">nodes.section</ref>))</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error<sp/>=<sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.reporter.error(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Document<sp/>or<sp/>section<sp/>may<sp/>not<sp/>begin<sp/>with<sp/>a<sp/>transition.&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source=node.source,<sp/>line=node.line)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>isinstance(node.parent[index<sp/>-<sp/>1],<sp/><ref refid="classdocutils_1_1nodes_1_1transition" kindref="compound">nodes.transition</ref>):</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error<sp/>=<sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.reporter.error(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;At<sp/>least<sp/>one<sp/>body<sp/>element<sp/>must<sp/>separate<sp/>transitions;<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;adjacent<sp/>transitions<sp/>are<sp/>not<sp/>allowed.&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source=node.source,<sp/>line=node.line)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>error:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Insert<sp/>before<sp/>node<sp/>and<sp/>update<sp/>index.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.parent.insert(index,<sp/>error)</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index<sp/>+=<sp/>1</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>index<sp/>&lt;<sp/>len(node.parent)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>index<sp/>!=<sp/>len(node.parent)<sp/>-<sp/>1:</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>No<sp/>need<sp/>to<sp/>move<sp/>the<sp/>node.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Node<sp/>behind<sp/>which<sp/>the<sp/>transition<sp/>is<sp/>to<sp/>be<sp/>moved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sibling<sp/>=<sp/>node</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>While<sp/>sibling<sp/>is<sp/>the<sp/>last<sp/>node<sp/>of<sp/>its<sp/>parent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>index<sp/>==<sp/>len(sibling.parent)<sp/>-<sp/>1:</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sibling<sp/>=<sp/>sibling.parent</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>If<sp/>sibling<sp/>is<sp/>the<sp/>whole<sp/>document<sp/>(i.e.<sp/>it<sp/>has<sp/>no<sp/>parent).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sibling.parent<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Transition<sp/>at<sp/>the<sp/>end<sp/>of<sp/>document.<sp/><sp/>Do<sp/>not<sp/>move<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>transition<sp/>up,<sp/>and<sp/>place<sp/>an<sp/>error<sp/>behind.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error<sp/>=<sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.reporter.error(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Document<sp/>may<sp/>not<sp/>end<sp/>with<sp/>a<sp/>transition.&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>line=node.line)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.parent.insert(node.parent.index(node)<sp/>+<sp/>1,<sp/>error)</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index<sp/>=<sp/>sibling.parent.index(sibling)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Remove<sp/>the<sp/>original<sp/>transition<sp/>node.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.parent.remove(node)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Insert<sp/>the<sp/>transition<sp/>after<sp/>the<sp/>sibling.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sibling.parent.insert(index<sp/>+<sp/>1,<sp/>node)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py"/>
+  </compounddef>
+</doxygen>

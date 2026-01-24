@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1rich_1_1console_1_1RenderHook" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::rich::console::RenderHook</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ABC</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1rich_1_1live_1_1Live" prot="public" virt="non-virtual">pip._vendor.rich.live.Live</derivedcompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1rich_1_1console_1_1RenderHook_1a106e91b529646a4e5a9615b6217cdbe8" prot="protected" static="yes" mutable="no">
+        <type>Optional</type>
+        <definition>Optional pip._vendor.rich.console.RenderHook::_windows_console_features</definition>
+        <argsstring></argsstring>
+        <name>_windows_console_features</name>
+        <qualifiedname>pip._vendor.rich.console.RenderHook._windows_console_features</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/console.py" line="575" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/console.py" bodystart="575" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1console_1_1RenderHook_1a3cd8d9ec7905a3af176d95b98317d633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[<ref refid="classpip_1_1__vendor_1_1rich_1_1console_1_1ConsoleRenderable" kindref="compound">ConsoleRenderable</ref>]</type>
+        <definition> List[ConsoleRenderable] pip._vendor.rich.console.RenderHook.process_renderables</definition>
+        <argsstring>(self, List[ConsoleRenderable] renderables)</argsstring>
+        <name>process_renderables</name>
+        <qualifiedname>pip._vendor.rich.console.RenderHook.process_renderables</qualifiedname>
+        <reimplementedby refid="classpip_1_1__vendor_1_1rich_1_1live_1_1Live_1a63679b88a4fb9d2db4238584b3a2f485">process_renderables</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>renderables</declname>
+          <array>[ConsoleRenderable]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called with a list of objects to render.
+
+This method can return a new list of renderables, or modify and return the same list.
+
+Args:
+    renderables (List[ConsoleRenderable]): A number of renderable objects.
+
+Returns:
+    List[ConsoleRenderable]: A replacement list of renderables.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/console.py" line="560" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/console.py" bodystart="562" bodyend="574"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Provides hooks in to the render process.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.rich.console.RenderHook</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1console_1_1RenderHook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.rich.live.Live</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1live_1_1Live"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.rich.console.RenderHook</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1console_1_1RenderHook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>_windows_console_features</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Optional</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/console.py" line="556" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/console.py" bodystart="556" bodyend="577"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1console_1_1RenderHook_1a106e91b529646a4e5a9615b6217cdbe8" prot="protected" virt="non-virtual"><scope>pip::_vendor::rich::console::RenderHook</scope><name>_windows_console_features</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1console_1_1RenderHook_1a3cd8d9ec7905a3af176d95b98317d633" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::console::RenderHook</scope><name>process_renderables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

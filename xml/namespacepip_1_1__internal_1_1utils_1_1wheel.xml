@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1wheel" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::wheel</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1wheel_1a9cded26e7b34c92b96e11e969e2cf301" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_internal::utils::wheel.VERSION_COMPATIBLE</definition>
+        <argsstring></argsstring>
+        <name>VERSION_COMPATIBLE</name>
+        <qualifiedname>pip._internal.utils.wheel.VERSION_COMPATIBLE</qualifiedname>
+        <initializer>=  (1, 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1wheel_1a49313abd1b63749673f663b04ef48d20" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::wheel.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.utils.wheel.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1wheel_1a7c8d22f8f11fcf598028f89a45452b62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, Message]</type>
+        <definition> Tuple[str, Message] pip._internal.utils.wheel.parse_wheel</definition>
+        <argsstring>(ZipFile wheel_zip, str name)</argsstring>
+        <name>parse_wheel</name>
+        <qualifiedname>pip._internal.utils.wheel.parse_wheel</qualifiedname>
+        <param>
+          <type>ZipFile</type>
+          <declname>wheel_zip</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract information from the provided wheel, ensuring it meets basic
+standards.
+
+Returns the name of the .dist-info directory and the parsed WHEEL metadata.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" bodystart="20" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1wheel_1a40eb793d49659ebdb513975664dc7b70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.wheel.wheel_dist_info_dir</definition>
+        <argsstring>(ZipFile source, str name)</argsstring>
+        <name>wheel_dist_info_dir</name>
+        <qualifiedname>pip._internal.utils.wheel.wheel_dist_info_dir</qualifiedname>
+        <param>
+          <type>ZipFile</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the name of the contained .dist-info directory.
+
+Raises AssertionError or UnsupportedWheel if not found, &gt;1 found, or
+it doesn&apos;t match the provided name.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" bodystart="38" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1wheel_1a4bb80611e478968104bf72b93c852807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes pip._internal.utils.wheel.read_wheel_metadata_file</definition>
+        <argsstring>(ZipFile source, str path)</argsstring>
+        <name>read_wheel_metadata_file</name>
+        <qualifiedname>pip._internal.utils.wheel.read_wheel_metadata_file</qualifiedname>
+        <param>
+          <type>ZipFile</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" bodystart="69" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1wheel_1a08ede3e6ea9b6ac98256e28a093a9f91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Message</type>
+        <definition> Message pip._internal.utils.wheel.wheel_metadata</definition>
+        <argsstring>(ZipFile source, str dist_info_dir)</argsstring>
+        <name>wheel_metadata</name>
+        <qualifiedname>pip._internal.utils.wheel.wheel_metadata</qualifiedname>
+        <param>
+          <type>ZipFile</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>dist_info_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the WHEEL metadata of an extracted wheel, if possible.
+Otherwise, raise UnsupportedWheel.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" bodystart="78" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1wheel_1a9521182afc9065561f75abe4f99e403d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int,...]</type>
+        <definition> Tuple[int, ...] pip._internal.utils.wheel.wheel_version</definition>
+        <argsstring>(Message wheel_data)</argsstring>
+        <name>wheel_version</name>
+        <qualifiedname>pip._internal.utils.wheel.wheel_version</qualifiedname>
+        <param>
+          <type>Message</type>
+          <declname>wheel_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given WHEEL metadata, return the parsed Wheel-Version.
+Otherwise, raise UnsupportedWheel.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="97" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" bodystart="97" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1wheel_1abd3f7bfc3ff88273c5c36651f2174945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.wheel.check_compatibility</definition>
+        <argsstring>(Tuple[int,...] version, str name)</argsstring>
+        <name>check_compatibility</name>
+        <qualifiedname>pip._internal.utils.wheel.check_compatibility</qualifiedname>
+        <param>
+          <type>Tuple</type>
+          <declname>version</declname>
+          <array>[int,...]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Raises errors or warns if called with an incompatible Wheel-Version.
+
+pip should refuse to install a Wheel-Version that&apos;s a major series
+ahead of what it&apos;s compatible with (e.g 2.0 &gt; 1.1); and warn when
+installing a version only minor version ahead (e.g 1.2 &gt; 1.1).
+
+version: a 2-tuple representing a Wheel-Version (Major, Minor)
+name: name of wheel or package to raise exception about
+
+:raises UnsupportedWheel: when an incompatible Wheel-Version is given
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="113" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" bodystart="113" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Support functions for working with wheel files.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

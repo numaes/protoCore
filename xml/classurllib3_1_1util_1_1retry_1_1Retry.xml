@@ -1,0 +1,1029 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classurllib3_1_1util_1_1retry_1_1Retry" kind="class" language="Python" prot="public">
+    <compoundname>urllib3::util::retry::Retry</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1af125fee326a6b7f87dbb7ab104616cd9" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::DEFAULT_ALLOWED_METHODS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_ALLOWED_METHODS</name>
+        <qualifiedname>urllib3.util.retry.Retry.DEFAULT_ALLOWED_METHODS</qualifiedname>
+        <initializer>=  frozenset(
+        [&quot;HEAD&quot;, &quot;GET&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;OPTIONS&quot;, &quot;TRACE&quot;]
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="184" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a1bfaa035e78d08d110c1623bd10879d4" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::RETRY_AFTER_STATUS_CODES</definition>
+        <argsstring></argsstring>
+        <name>RETRY_AFTER_STATUS_CODES</name>
+        <qualifiedname>urllib3.util.retry.Retry.RETRY_AFTER_STATUS_CODES</qualifiedname>
+        <initializer>=  frozenset([413, 429, 503])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="189" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1ab9ba59b3efe9c867a0292037f7045e20" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::DEFAULT_REMOVE_HEADERS_ON_REDIRECT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_REMOVE_HEADERS_ON_REDIRECT</name>
+        <qualifiedname>urllib3.util.retry.Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT</qualifiedname>
+        <initializer>=  frozenset(
+        [&quot;Cookie&quot;, &quot;Authorization&quot;, &quot;Proxy-Authorization&quot;]
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="192" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a3cdf8ddf9ebc20e940752f45fd25b509" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int urllib3.util.retry.Retry::DEFAULT_BACKOFF_MAX</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_BACKOFF_MAX</name>
+        <qualifiedname>urllib3.util.retry.Retry.DEFAULT_BACKOFF_MAX</qualifiedname>
+        <initializer>=  120</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="197" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1aa892e896d0b4ad18ef69abd7e1a52139" prot="public" static="yes" mutable="no">
+        <type>typing</type>
+        <definition>typing urllib3.util.retry.Retry::DEFAULT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT</name>
+        <qualifiedname>urllib3.util.retry.Retry.DEFAULT</qualifiedname>
+        <initializer>.ClassVar[<ref refid="classurllib3_1_1util_1_1retry_1_1Retry" kindref="compound">Retry</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="200" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a0ee75e629a1d6ccc0b167cb7668909b3" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::DEFAULT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT</name>
+        <qualifiedname>urllib3.util.retry.Retry.DEFAULT</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="533" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="533" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a085db4cadffb971a84e62ab37bf9ecd9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::total</definition>
+        <argsstring></argsstring>
+        <name>total</name>
+        <qualifiedname>urllib3.util.retry.Retry.total</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="223" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1ad612ee6e5411f67e42d55ced05f0f89d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::connect</definition>
+        <argsstring></argsstring>
+        <name>connect</name>
+        <qualifiedname>urllib3.util.retry.Retry.connect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="224" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1ad15e83efaabdefb875865cbefa72210c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::read</definition>
+        <argsstring></argsstring>
+        <name>read</name>
+        <qualifiedname>urllib3.util.retry.Retry.read</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="225" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a1e156eb8d091d121e5d9287d2b10f113" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>urllib3.util.retry.Retry.status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="226" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1aac27572def25232345a9cbba701880a6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::other</definition>
+        <argsstring></argsstring>
+        <name>other</name>
+        <qualifiedname>urllib3.util.retry.Retry.other</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="227" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a16e37fec44cf2e29707497aa4ed1e92a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::redirect</definition>
+        <argsstring></argsstring>
+        <name>redirect</name>
+        <qualifiedname>urllib3.util.retry.Retry.redirect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="233" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1abb37fde0695d5fe37e90bd09bdfc2db9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::status_forcelist</definition>
+        <argsstring></argsstring>
+        <name>status_forcelist</name>
+        <qualifiedname>urllib3.util.retry.Retry.status_forcelist</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="234" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a8b3ded3197c6fc0b1926a67053d28f5d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::allowed_methods</definition>
+        <argsstring></argsstring>
+        <name>allowed_methods</name>
+        <qualifiedname>urllib3.util.retry.Retry.allowed_methods</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="235" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a7c201adfe2a8f15d0a13461f4e17ff72" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::backoff_factor</definition>
+        <argsstring></argsstring>
+        <name>backoff_factor</name>
+        <qualifiedname>urllib3.util.retry.Retry.backoff_factor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="236" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1abbcdac350923a5c6192ee98b0806eea1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::backoff_max</definition>
+        <argsstring></argsstring>
+        <name>backoff_max</name>
+        <qualifiedname>urllib3.util.retry.Retry.backoff_max</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="237" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1ad2cb07b5a70924aecb246927f240ed26" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::raise_on_redirect</definition>
+        <argsstring></argsstring>
+        <name>raise_on_redirect</name>
+        <qualifiedname>urllib3.util.retry.Retry.raise_on_redirect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="238" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a86ff5f24256766ae2614b5d42fa6e623" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::raise_on_status</definition>
+        <argsstring></argsstring>
+        <name>raise_on_status</name>
+        <qualifiedname>urllib3.util.retry.Retry.raise_on_status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="239" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1af0eee4689c00bea4ad1781e04a8d4808" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::history</definition>
+        <argsstring></argsstring>
+        <name>history</name>
+        <qualifiedname>urllib3.util.retry.Retry.history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="240" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a9a5bfd2982b8bb6a2f925b968fdd116f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::respect_retry_after_header</definition>
+        <argsstring></argsstring>
+        <name>respect_retry_after_header</name>
+        <qualifiedname>urllib3.util.retry.Retry.respect_retry_after_header</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="241" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a47c3a57ed7607482e867afb4c84e2b05" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::remove_headers_on_redirect</definition>
+        <argsstring></argsstring>
+        <name>remove_headers_on_redirect</name>
+        <qualifiedname>urllib3.util.retry.Retry.remove_headers_on_redirect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="242" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1util_1_1retry_1_1Retry_1a571e05f8d8068806a48a78c5670be8b6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.util.retry.Retry::backoff_jitter</definition>
+        <argsstring></argsstring>
+        <name>backoff_jitter</name>
+        <qualifiedname>urllib3.util.retry.Retry.backoff_jitter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="245" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1aa4e18399b319b4da4b6632d372b6d04b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.retry.Retry.__init__</definition>
+        <argsstring>(self, bool|int|None total=10, int|None connect=None, int|None read=None, bool|int|None redirect=None, int|None status=None, int|None other=None, typing.Collection[str]|None allowed_methods=DEFAULT_ALLOWED_METHODS, typing.Collection[int]|None status_forcelist=None, float backoff_factor=0, float backoff_max=DEFAULT_BACKOFF_MAX, bool raise_on_redirect=True, bool raise_on_status=True, tuple[RequestHistory,...]|None history=None, bool respect_retry_after_header=True, typing.Collection[str] remove_headers_on_redirect=DEFAULT_REMOVE_HEADERS_ON_REDIRECT, float backoff_jitter=0.0)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>urllib3.util.retry.Retry.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool|int|None</type>
+          <declname>total</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>connect</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>read</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool|int|None</type>
+          <declname>redirect</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>status</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>other</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Collection|None</type>
+          <declname>allowed_methods</declname>
+          <array>[str]</array>
+          <defval><ref refid="classurllib3_1_1util_1_1retry_1_1Retry_1af125fee326a6b7f87dbb7ab104616cd9" kindref="member">DEFAULT_ALLOWED_METHODS</ref></defval>
+        </param>
+        <param>
+          <type>typing.Collection|None</type>
+          <declname>status_forcelist</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>backoff_factor</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>backoff_max</declname>
+          <defval><ref refid="classurllib3_1_1util_1_1retry_1_1Retry_1a3cdf8ddf9ebc20e940752f45fd25b509" kindref="member">DEFAULT_BACKOFF_MAX</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>raise_on_redirect</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>raise_on_status</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>tuple|None</type>
+          <declname>history</declname>
+          <array>[RequestHistory,...]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>respect_retry_after_header</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>typing.Collection</type>
+          <declname>remove_headers_on_redirect</declname>
+          <array>[str]</array>
+          <defval><ref refid="classurllib3_1_1util_1_1retry_1_1Retry_1ab9ba59b3efe9c867a0292037f7045e20" kindref="member">DEFAULT_REMOVE_HEADERS_ON_REDIRECT</ref></defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>backoff_jitter</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="202" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="222" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a36611c754681f77937acb519d3eec1e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Self</type>
+        <definition> Self urllib3.util.retry.Retry.new</definition>
+        <argsstring>(self, **typing.Any kw)</argsstring>
+        <name>new</name>
+        <qualifiedname>urllib3.util.retry.Retry.new</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**typing.Any</type>
+          <declname>kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="247" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="247" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a7e39930d9721e422f68bb24bc831ad57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1util_1_1retry_1_1Retry" kindref="compound">Retry</ref></type>
+        <definition> Retry urllib3.util.retry.Retry.from_int</definition>
+        <argsstring>(cls, Retry|bool|int|None retries, bool|int|None redirect=True, Retry|bool|int|None default=None)</argsstring>
+        <name>from_int</name>
+        <qualifiedname>urllib3.util.retry.Retry.from_int</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1util_1_1retry_1_1Retry" kindref="compound">Retry</ref>|bool|int|None</type>
+          <declname>retries</declname>
+        </param>
+        <param>
+          <type>bool|int|None</type>
+          <declname>redirect</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1util_1_1retry_1_1Retry" kindref="compound">Retry</ref>|bool|int|None</type>
+          <declname>default</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Backwards-compatibility for the old retries format.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="271" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="276" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1acf97740f6131536df789150147a25516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float urllib3.util.retry.Retry.get_backoff_time</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_backoff_time</name>
+        <qualifiedname>urllib3.util.retry.Retry.get_backoff_time</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Formula for computing the current backoff
+
+:rtype: float
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="289" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="289" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1ae40e202ba593e16f4aedfc9cdb0f4a77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float urllib3.util.retry.Retry.parse_retry_after</definition>
+        <argsstring>(self, str retry_after)</argsstring>
+        <name>parse_retry_after</name>
+        <qualifiedname>urllib3.util.retry.Retry.parse_retry_after</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>retry_after</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="308" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="308" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a42692f7e28e43f415e91e73692739d3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float|None</type>
+        <definition> float | None urllib3.util.retry.Retry.get_retry_after</definition>
+        <argsstring>(self, BaseHTTPResponse response)</argsstring>
+        <name>get_retry_after</name>
+        <qualifiedname>urllib3.util.retry.Retry.get_retry_after</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref></type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the value of Retry-After in seconds.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="325" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="325" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a8fee2366a6438e1d06fff0471f318dc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.retry.Retry.sleep_for_retry</definition>
+        <argsstring>(self, BaseHTTPResponse response)</argsstring>
+        <name>sleep_for_retry</name>
+        <qualifiedname>urllib3.util.retry.Retry.sleep_for_retry</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref></type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="335" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="335" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1aa90535f2a416a41a6bce6a4c40e83121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.retry.Retry.sleep</definition>
+        <argsstring>(self, BaseHTTPResponse|None response=None)</argsstring>
+        <name>sleep</name>
+        <qualifiedname>urllib3.util.retry.Retry.sleep</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref>|None</type>
+          <declname>response</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sleep between retry attempts.
+
+This method will respect a server&apos;s ``Retry-After`` response header
+and sleep the duration of the time requested. If that is not present, it
+will use an exponential backoff. By default, the backoff factor is 0 and
+this method will return immediately.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="349" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="349" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1ac016bf5804e77a168377d1a2d6184092" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.retry.Retry.is_retry</definition>
+        <argsstring>(self, str method, int status_code, bool has_retry_after=False)</argsstring>
+        <name>is_retry</name>
+        <qualifiedname>urllib3.util.retry.Retry.is_retry</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>has_retry_after</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Is this method/status code retryable? (Based on allowlists and control
+variables such as the number of total retries to allow, whether to
+respect the Retry-After header, whether this header is present, and
+whether the returned status code is on the list of status codes to
+be retried upon on the presence of the aforementioned header)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="387" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="389" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a8b28715636603f5647b4892fc1d34668" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.retry.Retry.is_exhausted</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_exhausted</name>
+        <qualifiedname>urllib3.util.retry.Retry.is_exhausted</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Are we out of retries?</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="409" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="409" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a161bc7397ac6fdba26091cd396de9604" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Self</type>
+        <definition> Self urllib3.util.retry.Retry.increment</definition>
+        <argsstring>(self, str|None method=None, str|None url=None, BaseHTTPResponse|None response=None, Exception|None error=None, ConnectionPool|None _pool=None, TracebackType|None _stacktrace=None)</argsstring>
+        <name>increment</name>
+        <qualifiedname>urllib3.util.retry.Retry.increment</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>method</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>url</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref>|None</type>
+          <declname>response</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Exception|None</type>
+          <declname>error</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1connectionpool_1_1ConnectionPool" kindref="compound">ConnectionPool</ref>|None</type>
+          <declname>_pool</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>TracebackType|None</type>
+          <declname>_stacktrace</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a new Retry object with incremented retry counters.
+
+:param response: A response object, or None, if the server did not
+    return a response.
+:type response: :class:`~urllib3.response.BaseHTTPResponse`
+:param Exception error: An error encountered during the request, or
+    None if the response was received successfully.
+
+:return: A new ``Retry`` object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="428" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="436" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1ac339f658bfd2980fd5ea197eb2d06cf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.util.retry.Retry.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>urllib3.util.retry.Retry.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="525" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="525" bodyend="532"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1aed270b96cbb4733667729f1b9519345f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.retry.Retry._sleep_backoff</definition>
+        <argsstring>(self)</argsstring>
+        <name>_sleep_backoff</name>
+        <qualifiedname>urllib3.util.retry.Retry._sleep_backoff</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="343" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="343" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a67a97dbcae2153e5ae60dfb57aead71a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.retry.Retry._is_connection_error</definition>
+        <argsstring>(self, Exception err)</argsstring>
+        <name>_is_connection_error</name>
+        <qualifiedname>urllib3.util.retry.Retry._is_connection_error</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Exception</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Errors when we&apos;re fairly sure that the server did not receive the
+request, so it should be safe to retry.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="365" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="365" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a814c7a1fda232d8d202cbe4a285be3b7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.retry.Retry._is_read_error</definition>
+        <argsstring>(self, Exception err)</argsstring>
+        <name>_is_read_error</name>
+        <qualifiedname>urllib3.util.retry.Retry._is_read_error</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Exception</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Errors that occur after the request has been started, so we should
+assume that the server began processing it.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="373" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="373" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1util_1_1retry_1_1Retry_1a07411b68e4bdcc09aeb516bb412c1cb2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.retry.Retry._is_method_retryable</definition>
+        <argsstring>(self, str method)</argsstring>
+        <name>_is_method_retryable</name>
+        <qualifiedname>urllib3.util.retry.Retry._is_method_retryable</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks if a given HTTP method should be retried upon, depending if
+it is included in the allowed_methods
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="379" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="379" bodyend="386"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Retry configuration.
+
+Each retry attempt will create a new Retry object with updated values, so
+they can be safely reused.
+
+Retries can be defined as a default for a pool:
+
+.. code-block:: python
+
+    retries = Retry(connect=5, read=2, redirect=5)
+    http = PoolManager(retries=retries)
+    response = http.request(&quot;GET&quot;, &quot;https://example.com/&quot;)
+
+Or per-request (which overrides the default for the pool):
+
+.. code-block:: python
+
+    response = http.request(&quot;GET&quot;, &quot;https://example.com/&quot;, retries=Retry(10))
+
+Retries can be disabled by passing ``False``:
+
+.. code-block:: python
+
+    response = http.request(&quot;GET&quot;, &quot;https://example.com/&quot;, retries=False)
+
+Errors will be wrapped in :class:`~urllib3.exceptions.MaxRetryError` unless
+retries are disabled, in which case the causing exception will be raised.
+
+:param int total:
+    Total number of retries to allow. Takes precedence over other counts.
+
+    Set to ``None`` to remove this constraint and fall back on other
+    counts.
+
+    Set to ``0`` to fail on the first retry.
+
+    Set to ``False`` to disable and imply ``raise_on_redirect=False``.
+
+:param int connect:
+    How many connection-related errors to retry on.
+
+    These are errors raised before the request is sent to the remote server,
+    which we assume has not triggered the server to process the request.
+
+    Set to ``0`` to fail on the first retry of this type.
+
+:param int read:
+    How many times to retry on read errors.
+
+    These errors are raised after the request was sent to the server, so the
+    request may have side-effects.
+
+    Set to ``0`` to fail on the first retry of this type.
+
+:param int redirect:
+    How many redirects to perform. Limit this to avoid infinite redirect
+    loops.
+
+    A redirect is a HTTP response with a status code 301, 302, 303, 307 or
+    308.
+
+    Set to ``0`` to fail on the first retry of this type.
+
+    Set to ``False`` to disable and imply ``raise_on_redirect=False``.
+
+:param int status:
+    How many times to retry on bad status codes.
+
+    These are retries made on responses, where status code matches
+    ``status_forcelist``.
+
+    Set to ``0`` to fail on the first retry of this type.
+
+:param int other:
+    How many times to retry on other errors.
+
+    Other errors are errors that are not connect, read, redirect or status errors.
+    These errors might be raised after the request was sent to the server, so the
+    request might have side-effects.
+
+    Set to ``0`` to fail on the first retry of this type.
+
+    If ``total`` is not set, it&apos;s a good idea to set this to 0 to account
+    for unexpected edge cases and avoid infinite retry loops.
+
+:param Collection allowed_methods:
+    Set of uppercased HTTP method verbs that we should retry on.
+
+    By default, we only retry on methods which are considered to be
+    idempotent (multiple requests with the same parameters end with the
+    same state). See :attr:`Retry.DEFAULT_ALLOWED_METHODS`.
+
+    Set to a ``None`` value to retry on any verb.
+
+:param Collection status_forcelist:
+    A set of integer HTTP status codes that we should force a retry on.
+    A retry is initiated if the request method is in ``allowed_methods``
+    and the response status code is in ``status_forcelist``.
+
+    By default, this is disabled with ``None``.
+
+:param float backoff_factor:
+    A backoff factor to apply between attempts after the second try
+    (most errors are resolved immediately by a second try without a
+    delay). urllib3 will sleep for::
+
+        {backoff factor} * (2 ** ({number of previous retries}))
+
+    seconds. If `backoff_jitter` is non-zero, this sleep is extended by::
+
+        random.uniform(0, {backoff jitter})
+
+    seconds. For example, if the backoff_factor is 0.1, then :func:`Retry.sleep` will
+    sleep for [0.0s, 0.2s, 0.4s, 0.8s, ...] between retries. No backoff will ever
+    be longer than `backoff_max`.
+
+    By default, backoff is disabled (factor set to 0).
+
+:param bool raise_on_redirect: Whether, if the number of redirects is
+    exhausted, to raise a MaxRetryError, or to return a response with a
+    response code in the 3xx range.
+
+:param bool raise_on_status: Similar meaning to ``raise_on_redirect``:
+    whether we should raise an exception, or return a response,
+    if status falls in ``status_forcelist`` range and retries have
+    been exhausted.
+
+:param tuple history: The history of the request encountered during
+    each call to :meth:`~Retry.increment`. The list is in the order
+    the requests occurred. Each list item is of class :class:`RequestHistory`.
+
+:param bool respect_retry_after_header:
+    Whether to respect Retry-After header on status codes defined as
+    :attr:`Retry.RETRY_AFTER_STATUS_CODES` or not.
+
+:param Collection remove_headers_on_redirect:
+    Sequence of headers to remove from the request when a response
+    indicating a redirect is returned before firing off the redirected
+    request.
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>typing</label>
+      </node>
+      <node id="1">
+        <label>urllib3.util.retry.Retry</label>
+        <link refid="classurllib3_1_1util_1_1retry_1_1Retry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>DEFAULT</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/retry.py" bodystart="41" bodyend="534"/>
+    <listofallmembers>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1aa4e18399b319b4da4b6632d372b6d04b" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>__init__</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1ac339f658bfd2980fd5ea197eb2d06cf9" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>__repr__</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a67a97dbcae2153e5ae60dfb57aead71a" prot="protected" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>_is_connection_error</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a07411b68e4bdcc09aeb516bb412c1cb2" prot="protected" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>_is_method_retryable</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a814c7a1fda232d8d202cbe4a285be3b7" prot="protected" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>_is_read_error</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1aed270b96cbb4733667729f1b9519345f" prot="protected" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>_sleep_backoff</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a8b3ded3197c6fc0b1926a67053d28f5d" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>allowed_methods</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a7c201adfe2a8f15d0a13461f4e17ff72" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>backoff_factor</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a571e05f8d8068806a48a78c5670be8b6" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>backoff_jitter</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1abbcdac350923a5c6192ee98b0806eea1" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>backoff_max</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1ad612ee6e5411f67e42d55ced05f0f89d" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>connect</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1aa892e896d0b4ad18ef69abd7e1a52139" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>DEFAULT</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a0ee75e629a1d6ccc0b167cb7668909b3" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>DEFAULT</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1af125fee326a6b7f87dbb7ab104616cd9" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>DEFAULT_ALLOWED_METHODS</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a3cdf8ddf9ebc20e940752f45fd25b509" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>DEFAULT_BACKOFF_MAX</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1ab9ba59b3efe9c867a0292037f7045e20" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>DEFAULT_REMOVE_HEADERS_ON_REDIRECT</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a7e39930d9721e422f68bb24bc831ad57" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>from_int</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1acf97740f6131536df789150147a25516" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>get_backoff_time</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a42692f7e28e43f415e91e73692739d3b" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>get_retry_after</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1af0eee4689c00bea4ad1781e04a8d4808" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>history</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a161bc7397ac6fdba26091cd396de9604" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>increment</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a8b28715636603f5647b4892fc1d34668" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>is_exhausted</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1ac016bf5804e77a168377d1a2d6184092" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>is_retry</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a36611c754681f77937acb519d3eec1e7" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>new</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1aac27572def25232345a9cbba701880a6" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>other</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1ae40e202ba593e16f4aedfc9cdb0f4a77" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>parse_retry_after</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1ad2cb07b5a70924aecb246927f240ed26" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>raise_on_redirect</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a86ff5f24256766ae2614b5d42fa6e623" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>raise_on_status</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1ad15e83efaabdefb875865cbefa72210c" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>read</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a16e37fec44cf2e29707497aa4ed1e92a" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>redirect</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a47c3a57ed7607482e867afb4c84e2b05" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>remove_headers_on_redirect</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a9a5bfd2982b8bb6a2f925b968fdd116f" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>respect_retry_after_header</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a1bfaa035e78d08d110c1623bd10879d4" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>RETRY_AFTER_STATUS_CODES</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1aa90535f2a416a41a6bce6a4c40e83121" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>sleep</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a8fee2366a6438e1d06fff0471f318dc0" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>sleep_for_retry</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a1e156eb8d091d121e5d9287d2b10f113" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>status</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1abb37fde0695d5fe37e90bd09bdfc2db9" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>status_forcelist</name></member>
+      <member refid="classurllib3_1_1util_1_1retry_1_1Retry_1a085db4cadffb971a84e62ab37bf9ecd9" prot="public" virt="non-virtual"><scope>urllib3::util::retry::Retry</scope><name>total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

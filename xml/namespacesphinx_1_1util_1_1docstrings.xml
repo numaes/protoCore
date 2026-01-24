@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1docstrings" kind="namespace" language="Python">
+    <compoundname>sphinx::util::docstrings</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1docstrings_1a873509a27382d3f6fa3710f95c48ce64" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::docstrings.field_list_item_re</definition>
+        <argsstring></argsstring>
+        <name>field_list_item_re</name>
+        <qualifiedname>sphinx.util.docstrings.field_list_item_re</qualifiedname>
+        <initializer>=  re.compile(<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body_1ae328f36dba41528999500b029e98ca6c" kindref="member">Body.patterns</ref>[&apos;field_marker&apos;])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" line="10" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" bodystart="10" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docstrings_1ade5800e3ea653e4ba9e7a673a63b8731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str|None, dict[str, str]]</type>
+        <definition> tuple[str | None, dict[str, str]] sphinx.util.docstrings.separate_metadata</definition>
+        <argsstring>(str|None s)</argsstring>
+        <name>separate_metadata</name>
+        <qualifiedname>sphinx.util.docstrings.separate_metadata</qualifiedname>
+        <param>
+          <type>str|None</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Separate docstring into metadata and others.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" line="13" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" bodystart="13" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docstrings_1abb6f4473f9d7319294e36844733a1cc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.util.docstrings.prepare_docstring</definition>
+        <argsstring>(str s, int tabsize=8)</argsstring>
+        <name>prepare_docstring</name>
+        <qualifiedname>sphinx.util.docstrings.prepare_docstring</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>tabsize</declname>
+          <defval>8</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a docstring into lines of parseable reST.  Remove common leading
+indentation, where the indentation of the first line is ignored.
+
+Return the docstring as a list of lines usable for inserting into a docutils
+ViewList (used as argument of nested_parse().)  An empty line is added to
+act as a separator between this docstring and following content.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" bodystart="42" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docstrings_1aa3f9bfaa6010dd66f8c63c828e9c7635" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.util.docstrings.prepare_commentdoc</definition>
+        <argsstring>(str s)</argsstring>
+        <name>prepare_commentdoc</name>
+        <qualifiedname>sphinx.util.docstrings.prepare_commentdoc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract documentation comment lines (starting with #:) and return them
+as a list of lines.  Returns an empty list if there is no documentation.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" bodystart="73" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Utilities for docstring processing.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docstrings.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

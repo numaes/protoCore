@@ -1,0 +1,637 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1utils" kind="namespace" language="Python">
+    <compoundname>jinja2::utils</compoundname>
+    <innerclass refid="classjinja2_1_1utils_1_1__MissingType" prot="protected">jinja2::utils::_MissingType</innerclass>
+    <innerclass refid="classjinja2_1_1utils_1_1__PassArg" prot="protected">jinja2::utils::_PassArg</innerclass>
+    <innerclass refid="classjinja2_1_1utils_1_1Cycler" prot="public">jinja2::utils::Cycler</innerclass>
+    <innerclass refid="classjinja2_1_1utils_1_1Joiner" prot="public">jinja2::utils::Joiner</innerclass>
+    <innerclass refid="classjinja2_1_1utils_1_1LRUCache" prot="public">jinja2::utils::LRUCache</innerclass>
+    <innerclass refid="classjinja2_1_1utils_1_1Namespace" prot="public">jinja2::utils::Namespace</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::utils.F</definition>
+        <argsstring></argsstring>
+        <name>F</name>
+        <qualifiedname>jinja2.utils.F</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;F&quot;, bound=t.Callable[..., t.Any])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1utils_1a4afd64c4729d98a624c6d5e217654894" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str jinja2::utils.concat</definition>
+        <argsstring></argsstring>
+        <name>concat</name>
+        <qualifiedname>jinja2.utils.concat</qualifiedname>
+        <initializer>=  &quot;&quot;.join</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1utils_1a8e739886bc6801853e25deb0424f6a5e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::utils._http_re</definition>
+        <argsstring></argsstring>
+        <name>_http_re</name>
+        <qualifiedname>jinja2.utils._http_re</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    re.IGNORECASE | re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="199" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1utils_1a5dc9b3b007db23ea86216dedf14decf9" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::utils._email_re</definition>
+        <argsstring></argsstring>
+        <name>_email_re</name>
+        <qualifiedname>jinja2.utils._email_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;^\S+@\w[\w.-]*\.\w+$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="227" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1utils_1ae79f9ee8302df3b9185c504180f9c125" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::utils.__module__</definition>
+        <argsstring></argsstring>
+        <name>__module__</name>
+        <qualifiedname>jinja2.utils.__module__</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="186" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a49e137cc8bcc7c398790c85ebc9746d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" kindref="member">F</ref></type>
+        <definition> F jinja2.utils.pass_context</definition>
+        <argsstring>(F f)</argsstring>
+        <name>pass_context</name>
+        <qualifiedname>jinja2.utils.pass_context</qualifiedname>
+        <param>
+          <type><ref refid="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" kindref="member">F</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pass the :class:`~jinja2.runtime.Context` as the first argument
+to the decorated function when called while rendering a template.
+
+Can be used on functions, filters, and tests.
+
+If only ``Context.eval_context`` is needed, use
+:func:`pass_eval_context`. If only ``Context.environment`` is
+needed, use :func:`pass_environment`.
+
+.. versionadded:: 3.0.0
+    Replaces ``contextfunction`` and ``contextfilter``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="38" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a0cac7260c6d07a9cd7997444fecb51ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" kindref="member">F</ref></type>
+        <definition> F jinja2.utils.pass_eval_context</definition>
+        <argsstring>(F f)</argsstring>
+        <name>pass_eval_context</name>
+        <qualifiedname>jinja2.utils.pass_eval_context</qualifiedname>
+        <param>
+          <type><ref refid="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" kindref="member">F</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pass the :class:`~jinja2.nodes.EvalContext` as the first argument
+to the decorated function when called while rendering a template.
+See :ref:`eval-context`.
+
+Can be used on functions, filters, and tests.
+
+If only ``EvalContext.environment`` is needed, use
+:func:`pass_environment`.
+
+.. versionadded:: 3.0.0
+    Replaces ``evalcontextfunction`` and ``evalcontextfilter``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="55" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a140263ac18ca1f8ed473a553aacb9b2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" kindref="member">F</ref></type>
+        <definition> F jinja2.utils.pass_environment</definition>
+        <argsstring>(F f)</argsstring>
+        <name>pass_environment</name>
+        <qualifiedname>jinja2.utils.pass_environment</qualifiedname>
+        <param>
+          <type><ref refid="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" kindref="member">F</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pass the :class:`~jinja2.Environment` as the first argument to
+the decorated function when called while rendering a template.
+
+Can be used on functions, filters, and tests.
+
+.. versionadded:: 3.0.0
+    Replaces ``environmentfunction`` and ``environmentfilter``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="72" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a57726a619490c77ba083abc15c43af8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" kindref="member">F</ref></type>
+        <definition> F jinja2.utils.internalcode</definition>
+        <argsstring>(F f)</argsstring>
+        <name>internalcode</name>
+        <qualifiedname>jinja2.utils.internalcode</qualifiedname>
+        <param>
+          <type><ref refid="namespacejinja2_1_1utils_1aabc2ccdfdde56415ed81c13ee6b184e3" kindref="member">F</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Marks the function as internally used</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="98" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a047656bbb31812faf358435f55604731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool jinja2.utils.is_undefined</definition>
+        <argsstring>(t.Any obj)</argsstring>
+        <name>is_undefined</name>
+        <qualifiedname>jinja2.utils.is_undefined</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object passed is undefined.  This does nothing more than
+performing an instance check against :class:`Undefined` but looks nicer.
+This can be used for custom filters or tests that want to react to
+undefined variables.  For example a custom default filter can look like
+this::
+
+    def default(var, default=&apos;&apos;):
+        if is_undefined(var):
+            return default
+        return var
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="104" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="104" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a9138a7ce9b5625f6fee63896f03ad0d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.utils.consume</definition>
+        <argsstring>(t.Iterable[t.Any] iterable)</argsstring>
+        <name>consume</name>
+        <qualifiedname>jinja2.utils.consume</qualifiedname>
+        <param>
+          <type>t.Iterable</type>
+          <declname>iterable</declname>
+          <array>[t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Consumes an iterable without doing anything with it.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="121" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a41bc83b2810c0b23d6e5303c9dfa90d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.utils.clear_caches</definition>
+        <argsstring>()</argsstring>
+        <name>clear_caches</name>
+        <qualifiedname>jinja2.utils.clear_caches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Jinja keeps internal caches for environments and lexers.  These are
+used so that Jinja doesn&apos;t have to recreate environments and lexers all
+the time.  Normally you don&apos;t have to care about that but if you are
+measuring memory consumption you may want to clean the caches.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="127" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="127" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1aab92dffe88edb3857ada241074e905e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.utils.import_string</definition>
+        <argsstring>(str import_name, bool silent=False)</argsstring>
+        <name>import_string</name>
+        <qualifiedname>jinja2.utils.import_string</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>import_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>silent</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Imports an object based on a string.  This is useful if you want to
+use import paths as endpoints or something similar.  An import path can
+be specified either in dotted notation (``xml.sax.saxutils.escape``)
+or with a colon as object delimiter (``xml.sax.saxutils:escape``).
+
+If the `silent` is True the return value will be `None` if the import
+fails.
+
+:return: imported object
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="140" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="140" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1ab677400698e367de0109fad5d740460b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Optional[t.IO[t.Any]]</type>
+        <definition> t.Optional[t.IO[t.Any]] jinja2.utils.open_if_exists</definition>
+        <argsstring>(str filename, str mode=&quot;rb&quot;)</argsstring>
+        <name>open_if_exists</name>
+        <qualifiedname>jinja2.utils.open_if_exists</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>mode</declname>
+          <defval>&quot;rb&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a file descriptor for the filename if that file exists,
+otherwise ``None``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="164" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="164" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a8edb666292c59b36941fa144dbe417a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.utils.object_type_repr</definition>
+        <argsstring>(t.Any obj)</argsstring>
+        <name>object_type_repr</name>
+        <qualifiedname>jinja2.utils.object_type_repr</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the name of the object&apos;s type.  For some recognized
+singletons the name of the object is returned instead. (For
+example for `None` and `Ellipsis`).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="174" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="174" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1ad718e9c79906edb3a13a9b4ddefcb6ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.utils.pformat</definition>
+        <argsstring>(t.Any obj)</argsstring>
+        <name>pformat</name>
+        <qualifiedname>jinja2.utils.pformat</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format an object using :func:`pprint.pformat`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="192" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="192" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a080ecd053856d103759c69f5a3b2e3d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.utils.urlize</definition>
+        <argsstring>(str text, t.Optional[int] trim_url_limit=None, t.Optional[str] rel=None, t.Optional[str] target=None, t.Optional[t.Iterable[str]] extra_schemes=None)</argsstring>
+        <name>urlize</name>
+        <qualifiedname>jinja2.utils.urlize</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>trim_url_limit</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>rel</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>target</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>extra_schemes</declname>
+          <array>[t.Iterable[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert URLs in text into clickable links.
+
+This may not recognize links in some situations. Usually, a more
+comprehensive formatter, such as a Markdown library, is a better
+choice.
+
+Works on ``http://``, ``https://``, ``www.``, ``mailto:``, and email
+addresses. Links with trailing punctuation (periods, commas, closing
+parentheses) and leading punctuation (opening parentheses) are
+recognized excluding the punctuation. Email addresses that include
+header fields are not recognized (for example,
+``mailto:address@example.com?cc=copy@example.com``).
+
+:param text: Original text containing URLs to link.
+:param trim_url_limit: Shorten displayed URL values to this length.
+:param target: Add the ``target`` attribute to links.
+:param rel: Add the ``rel`` attribute to links.
+:param extra_schemes: Recognize URLs that start with these schemes
+    in addition to the default behavior.
+
+.. versionchanged:: 3.0
+    The ``extra_schemes`` parameter was added.
+
+.. versionchanged:: 3.0
+    Generate ``https://`` links for URLs without a scheme.
+
+.. versionchanged:: 3.0
+    The parsing rules were updated. Recognize email addresses with
+    or without the ``mailto:`` scheme. Validate IP addresses. Ignore
+    parentheses and brackets in more cases.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="230" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="236" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a0ca6fdf6a48c0c779b4e7230c14d4093" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.utils.generate_lorem_ipsum</definition>
+        <argsstring>(int n=5, bool html=True, int min=20, int max=100)</argsstring>
+        <name>generate_lorem_ipsum</name>
+        <qualifiedname>jinja2.utils.generate_lorem_ipsum</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+          <defval>5</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>html</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min</declname>
+          <defval>20</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate some lorem ipsum for the template.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="353" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="355" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a19d02197b3329bf612a13e28851fd123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.utils.url_quote</definition>
+        <argsstring>(t.Any obj, str charset=&quot;utf-8&quot;, bool for_qs=False)</argsstring>
+        <name>url_quote</name>
+        <qualifiedname>jinja2.utils.url_quote</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>charset</declname>
+          <defval>&quot;utf-8&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>for_qs</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Quote a string for use in a URL using the given charset.
+
+:param obj: String or bytes to quote. Other types are converted to
+    string then encoded to bytes using the given charset.
+:param charset: Encode text to bytes using this charset.
+:param for_qs: Quote &quot;/&quot; and use &quot;+&quot; for spaces.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="408" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="408" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1a9f95ce45ec0b1aef76565b4fb322fdef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[[t.Optional[str]], bool]</type>
+        <definition> t.Callable[[t.Optional[str]], bool] jinja2.utils.select_autoescape</definition>
+        <argsstring>(t.Collection[str] enabled_extensions=(&quot;html&quot;, &quot;htm&quot;, &quot;xml&quot;), t.Collection[str] disabled_extensions=(), bool default_for_string=True, bool default=False)</argsstring>
+        <name>select_autoescape</name>
+        <qualifiedname>jinja2.utils.select_autoescape</qualifiedname>
+        <param>
+          <type>t.Collection</type>
+          <declname>enabled_extensions</declname>
+          <array>[str]</array>
+          <defval>(&quot;html&quot;, &quot;htm&quot;, &quot;xml&quot;)</defval>
+        </param>
+        <param>
+          <type>t.Collection</type>
+          <declname>disabled_extensions</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>default_for_string</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>default</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Intelligently sets the initial value of autoescaping based on the
+filename of the template.  This is the recommended way to configure
+autoescaping if you do not want to write a custom function yourself.
+
+If you want to enable it for all templates created from strings or
+for all templates with `.html` and `.xml` extensions::
+
+    from jinja2 import Environment, select_autoescape
+    env = Environment(autoescape=select_autoescape(
+        enabled_extensions=(&apos;html&apos;, &apos;xml&apos;),
+        default_for_string=True,
+    ))
+
+Example configuration to turn it on at all times except if the template
+ends with `.txt`::
+
+    from jinja2 import Environment, select_autoescape
+    env = Environment(autoescape=select_autoescape(
+        disabled_extensions=(&apos;txt&apos;,),
+        default_for_string=True,
+        default=True,
+    ))
+
+The `enabled_extensions` is an iterable of all the extensions that
+autoescaping should be enabled for.  Likewise `disabled_extensions` is
+a list of all templates it should be disabled for.  If a template is
+loaded from a string then the default from `default_for_string` is used.
+If nothing matches then the initial value of autoescaping is set to the
+value of `default`.
+
+For security reasons this function operates case insensitive.
+
+.. versionadded:: 2.9
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="581" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="586" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1utils_1ab9d4595960c42377668f0a001f98d6fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classmarkupsafe_1_1Markup" kindref="compound">markupsafe.Markup</ref></type>
+        <definition> markupsafe.Markup jinja2.utils.htmlsafe_json_dumps</definition>
+        <argsstring>(t.Any obj, t.Optional[t.Callable[..., str]] dumps=None, **t.Any kwargs)</argsstring>
+        <name>htmlsafe_json_dumps</name>
+        <qualifiedname>jinja2.utils.htmlsafe_json_dumps</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>dumps</declname>
+          <array>[t.Callable[..., str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Serialize an object to a string of JSON with :func:`json.dumps`,
+then replace HTML-unsafe characters with Unicode escapes and mark
+the result safe with :class:`~markupsafe.Markup`.
+
+This is available in templates as the ``|tojson`` filter.
+
+The following characters are escaped: ``&lt;``, ``&gt;``, ``&amp;``, ``&apos;``.
+
+The returned string is safe to render in HTML documents and
+``&lt;script&gt;`` tags. The exception is in HTML attributes that are
+double quoted; either use single quotes or the ``|forceescape``
+filter.
+
+:param obj: The object to serialize to JSON.
+:param dumps: The ``dumps`` function to use. Defaults to
+    ``env.policies[&quot;json.dumps_function&quot;]``, which defaults to
+    :func:`json.dumps`.
+:param kwargs: Extra arguments to pass to ``dumps``. Merged onto
+    ``env.policies[&quot;json.dumps_kwargs&quot;]``.
+
+.. versionchanged:: 3.0
+    The ``dumper`` parameter is renamed to ``dumps``.
+
+.. versionadded:: 2.9
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="637" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" bodystart="639" bodyend="676"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/utils.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

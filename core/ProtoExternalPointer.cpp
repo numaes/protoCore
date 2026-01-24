@@ -57,3 +57,22 @@ namespace proto {
     }
 
 }
+
+namespace proto {
+    //=========================================================================
+    // ProtoExternalPointer API
+    //=========================================================================
+
+    void* ProtoExternalPointer::getPointer(ProtoContext* context) const {
+        return toImpl<const ProtoExternalPointerImplementation>(this)->implGetPointer(context);
+    }
+
+    const ProtoObject* ProtoExternalPointer::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoExternalPointerImplementation>(this)->implAsObject(context);
+    }
+
+    unsigned long ProtoExternalPointer::getHash(ProtoContext* context) const {
+        return toImpl<const ProtoExternalPointerImplementation>(this)->getHash(context);
+    }
+
+}

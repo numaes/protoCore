@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2search_2sv_8py" kind="file" language="Python">
+    <compoundname>sv.py</compoundname>
+    <innerclass refid="classsphinx_1_1search_1_1sv_1_1SearchSwedish" prot="public">sphinx::search::sv::SearchSwedish</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1search">sphinx::search</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1search_1_1sv">sphinx::search::sv</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1search_1_1sv" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Swedish<sp/>search<sp/>language:<sp/>includes<sp/>the<sp/>JS<sp/>Swedish<sp/>stemmer.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>snowballstemmer</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1search" kindref="compound">sphinx.search</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SearchLanguage,<sp/>parse_stop_word</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">swedish_stopwords<sp/>=<sp/>parse_stop_word(</highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral">|<sp/>source:<sp/>https://snowball.tartarus.org/algorithms/swedish/stop.txt</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral">och<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>and</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral">det<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>it,<sp/>this/that</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">att<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>(with<sp/>infinitive)</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral">i<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>in,<sp/>at</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral">en<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>a</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">jag<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>I</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral">hon<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>she</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral">som<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>who,<sp/>that</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral">han<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>he</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">på<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>on</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral">den<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>it,<sp/>this/that</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">med<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>with</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral">var<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>where,<sp/>each</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral">sig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>him(self)<sp/>etc</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral">för<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>for</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral">så<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>so<sp/>(also:<sp/>seed)</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral">till<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral">är<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>is</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">men<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>but</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral">ett<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>a</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">om<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>if;<sp/>around,<sp/>about</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral">hade<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>had</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral">de<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>they,<sp/>these/those</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">av<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>of</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">icke<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>not,<sp/>no</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral">mig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>me</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral">du<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral">henne<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>her</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral">då<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>then,<sp/>when</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral">sin<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>his</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral">nu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>now</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral">har<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>have</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral">inte<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>inte<sp/>någon<sp/>=<sp/>no<sp/>one</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral">hans<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>his</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral">honom<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>him</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral">skulle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>&apos;sake&apos;</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral">hennes<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>her</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral">där<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>there</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral">min<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>my</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral">man<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>one<sp/>(pronoun)</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral">ej<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>nor</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral">vid<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>at,<sp/>by,<sp/>on<sp/>(also:<sp/>vast)</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral">kunde<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>could</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral">något<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>some<sp/>etc</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral">från<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>from,<sp/>off</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral">ut<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>out</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral">när<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>when</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral">efter<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>after,<sp/>behind</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral">upp<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>up</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral">vi<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>we</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral">dem<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>them</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral">vara<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>be</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral">vad<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>what</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral">över<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>over</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral">än<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>than</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral">dig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral">kan<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>can</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral">sina<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>his</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral">här<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>here</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral">ha<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>have</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral">mot<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>towards</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral">alla<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>all</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral">under<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>under<sp/>(also:<sp/>wonder)</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral">någon<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>some<sp/>etc</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral">eller<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>or<sp/>(else)</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral">allt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>all</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral">mycket<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>much</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral">sedan<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>since</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral">ju<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>why</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral">denna<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>this/that</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral">själv<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>myself,<sp/>yourself<sp/>etc</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral">detta<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>this/that</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral">åt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral">utan<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>without</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral">varit<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>was</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral">hur<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>how</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral">ingen<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>no</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral">mitt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>my</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral">ni<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral">bli<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>be,<sp/>become</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral">blev<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>from<sp/>bli</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral">oss<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>us</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral">din<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>thy</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral">dessa<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>these/those</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral">några<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>some<sp/>etc</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral">deras<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>their</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral">blir<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>from<sp/>bli</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral">mina<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>my</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral">samma<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>(the)<sp/>same</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral">vilken<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>who,<sp/>that</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral">er<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you,<sp/>your</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral">sådan<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>such<sp/>a</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral">vår<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>our</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral">blivit<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>from<sp/>bli</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral">dess<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>its</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral">inom<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>within</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral">mellan<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>between</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral">sådant<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>such<sp/>a</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral">varför<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>why</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral">varje<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>each</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral">vilka<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>who,<sp/>that</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral">ditt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>thy</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral">vem<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>who</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral">vilket<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>who,<sp/>that</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral">sitta<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>his</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral">sådana<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>such<sp/>a</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral">vart<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>each</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral">dina<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>thy</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral">vars<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>whose</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral">vårt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>our</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral">våra<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>our</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral">ert<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>your</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral">era<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>your</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral">vilkas<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>whose</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classsphinx_1_1search_1_1sv_1_1SearchSwedish" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1search_1_1sv_1_1SearchSwedish" kindref="compound">SearchSwedish</ref>(<ref refid="classsphinx_1_1search_1_1SearchLanguage" kindref="compound">SearchLanguage</ref>):</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>lang<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;sv&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>language_name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Swedish&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>js_stemmer_rawcode<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;swedish-stemmer.js&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>stopwords<sp/>=<sp/>swedish_stopwords</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">init(self,<sp/>options:<sp/>dict[str,<sp/>str])<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1search_1_1sv_1_1SearchSwedish_1acb5dfaf89e487c53790e7b42c82d34f1" kindref="member">stemmer</ref><sp/>=<sp/><ref refid="namespacesnowballstemmer_1a1bf5539d5564f56642338e1f6ed850ba" kindref="member">snowballstemmer.stemmer</ref>(</highlight><highlight class="stringliteral">&apos;swedish&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1search_1_1sv_1_1SearchSwedish_1a3d9629049bd5761d3b4cc1914ede24df" kindref="member">stem</ref>(self,<sp/>word:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1search_1_1sv_1_1SearchSwedish_1acb5dfaf89e487c53790e7b42c82d34f1" kindref="member">stemmer</ref>.stemWord(word.lower())</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/sv.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_next__steps" kind="page">
+    <compoundname>md_next__steps</compoundname>
+    <title>Proto: A Vision for the Future</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_next__steps_1autotoc_md963"/> This document outlines the strategic vision, roadmap, and immediate priorities for the Proto ecosystem.</para>
+<sect1 id="md_next__steps_1autotoc_md964">
+<title>The Grand Vision: Unleashing Multithreading for Everyone</title>
+<para><bold>ProtoCore</bold> is the foundation of an ecosystem designed to bring unlimited, GIL-free multithreading to languages traditionally constrained by single-threaded execution. Our mission is to unlock the full power of modern multi-core processors for developers and end-users, enabling a new generation of high-performance applications on the web and beyond.</para>
+<para>We envision a future where complex, computationally intensive applications—such as CAD software, deep learning tools, and large-scale simulations—run seamlessly in a web browser, leveraging the hardware that users already own. This will democratize high-performance computing and erase the boundaries of what is possible on the internet.</para>
+<para><hruler/>
+</para>
+</sect1>
+<sect1 id="md_next__steps_1autotoc_md966">
+<title>The Ecosystem Architecture</title>
+<para>Our strategy is to build a layered ecosystem, with ProtoCore at its heart.</para>
+<sect2 id="md_next__steps_1autotoc_md967">
+<title>1. The Foundation: Language-Specific Core Libraries</title>
+<para>To adapt ProtoCore to a new language, a dedicated C++ library must be created. This library serves as a bridge, mapping the language&apos;s specific object model and low-level primitives to ProtoCore&apos;s execution model.</para>
+<para><itemizedlist>
+<listitem><para>**<computeroutput>protoPythonCore</computeroutput>**: The core library for Python. It will define the object hierarchy and fundamental operations that align with Python&apos;s semantics, providing a clean C++ API for executing Python code.</para>
+</listitem><listitem><para>**<computeroutput>protoJSCore</computeroutput>**: The core library for JavaScript. It will provide the necessary infrastructure to build a compliant and high-performance JavaScript engine.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_next__steps_1autotoc_md968">
+<title>2. The Tools: Compilers and Interpreters</title>
+<para>Built upon these core libraries, we will develop the user-facing tools that bring Proto to life.</para>
+<para><itemizedlist>
+<listitem><para>**<computeroutput>protoPython</computeroutput>**: A Python-to-C++ transpiler. Written in Python itself, it will leverage the standard <computeroutput>ast</computeroutput> module to parse Python code and translate it into high-performance C++ modules. These modules will interface directly with <computeroutput>protoPythonCore</computeroutput>, achieving near-native speed while preserving Python&apos;s familiar syntax.</para>
+</listitem><listitem><para>**<computeroutput>protoJS</computeroutput>**: A C++-based JavaScript interpreter. Designed as a Node.js-equivalent environment, <computeroutput>protoJS</computeroutput> will use <computeroutput>protoJSCore</computeroutput> directly to offer a powerful, multithreaded server-side JavaScript runtime.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_next__steps_1autotoc_md969">
+<title>3. The Ultimate Goal: A Proto-Powered Web Browser</title>
+<para>The culmination of this vision is to evolve <computeroutput>protoJS</computeroutput> into a full-fledged web browser engine. By building a browser from the ground up on the Proto ecosystem, we can finally free web applications from the constraints of single-threaded JavaScript. This will empower developers to create web experiences that fully utilize the multi-core architecture of modern computers, making the web a viable platform for applications previously confined to the desktop.</para>
+<para><hruler/>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_next__steps_1autotoc_md971">
+<title>How You Can Contribute</title>
+<para>We are looking for passionate developers to join us in this ambitious journey. Whether your interest lies in compilers, language runtimes, or systems programming, there is a place for you in the Proto ecosystem. This is an opportunity to be part of a project that could fundamentally change the internet.</para>
+<para><hruler/>
+ </para>
+</sect1>
+    </detaileddescription>
+    <location file="next_steps.md"/>
+  </compounddef>
+</doxygen>

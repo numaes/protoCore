@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacemarkupsafe" kind="namespace" language="Python">
+    <compoundname>markupsafe</compoundname>
+    <innerclass refid="classmarkupsafe_1_1__HasHTML" prot="protected">markupsafe::_HasHTML</innerclass>
+    <innerclass refid="classmarkupsafe_1_1__MarkupEscapeHelper" prot="protected">markupsafe::_MarkupEscapeHelper</innerclass>
+    <innerclass refid="classmarkupsafe_1_1__TPEscape" prot="protected">markupsafe::_TPEscape</innerclass>
+    <innerclass refid="classmarkupsafe_1_1EscapeFormatter" prot="public">markupsafe::EscapeFormatter</innerclass>
+    <innerclass refid="classmarkupsafe_1_1Markup" prot="public">markupsafe::Markup</innerclass>
+    <innernamespace refid="namespacemarkupsafe_1_1__native">markupsafe::_native</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacemarkupsafe_1a7141fa6472f038bcc8217b105e9eec80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classmarkupsafe_1_1Markup" kindref="compound">Markup</ref></type>
+        <definition> Markup markupsafe.escape</definition>
+        <argsstring>(t.Any s)</argsstring>
+        <name>escape</name>
+        <qualifiedname>markupsafe.escape</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace the characters ``&amp;``, ``&lt;``, ``&gt;``, ``&apos;``, and ``&quot;`` in
+the string with HTML-safe sequences. Use this if you need to display
+text that might contain such characters in HTML.
+
+If the object has an ``__html__`` method, it is called and the
+return value is assumed to already be safe for HTML.
+
+:param s: An object to be converted to a string and escaped.
+:return: A :class:`Markup` string with the escaped text.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" bodystart="24" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacemarkupsafe_1aef09f191f13a3be94a26e7809debb016" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classmarkupsafe_1_1Markup" kindref="compound">Markup</ref></type>
+        <definition> Markup markupsafe.escape_silent</definition>
+        <argsstring>(t.Any|None s)</argsstring>
+        <name>escape_silent</name>
+        <qualifiedname>markupsafe.escape_silent</qualifiedname>
+        <param>
+          <type>t.Any|None</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Like :func:`escape` but treats ``None`` as the empty string.
+Useful with optional values, as otherwise you get the string
+``&apos;None&apos;`` when the value is ``None``.
+
+&gt;&gt;&gt; escape(None)
+Markup(&apos;None&apos;)
+&gt;&gt;&gt; escape_silent(None)
+Markup(&apos;&apos;)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" bodystart="48" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacemarkupsafe_1a4ddb4e34e0228ab12988d06667889630" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str markupsafe.soft_str</definition>
+        <argsstring>(t.Any s)</argsstring>
+        <name>soft_str</name>
+        <qualifiedname>markupsafe.soft_str</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert an object to a string if it isn&apos;t already. This preserves
+a :class:`Markup` string rather than converting it back to a basic
+string, so it will still be marked as safe and won&apos;t be escaped
+again.
+
+&gt;&gt;&gt; value = escape(&quot;&lt;User 1&gt;&quot;)
+&gt;&gt;&gt; value
+Markup(&apos;&amp;lt;User 1&amp;gt;&apos;)
+&gt;&gt;&gt; escape(str(value))
+Markup(&apos;&amp;amp;lt;User 1&amp;amp;gt;&apos;)
+&gt;&gt;&gt; escape(soft_str(value))
+Markup(&apos;&amp;lt;User 1&amp;gt;&apos;)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" line="64" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" bodystart="64" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacemarkupsafe_1aaa2605739e1856236a287a452b297aeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any markupsafe.__getattr__</definition>
+        <argsstring>(str name)</argsstring>
+        <name>__getattr__</name>
+        <qualifiedname>markupsafe.__getattr__</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" line="382" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" bodystart="382" bodyend="396"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/markupsafe/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

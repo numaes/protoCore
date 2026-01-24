@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepygments" kind="namespace" language="Python">
+    <compoundname>pygments</compoundname>
+    <innernamespace refid="namespacepygments_1_1____main____">pygments::__main__</innernamespace>
+    <innernamespace refid="namespacepygments_1_1cmdline">pygments::cmdline</innernamespace>
+    <innernamespace refid="namespacepygments_1_1console">pygments::console</innernamespace>
+    <innernamespace refid="namespacepygments_1_1filter">pygments::filter</innernamespace>
+    <innernamespace refid="namespacepygments_1_1filters">pygments::filters</innernamespace>
+    <innernamespace refid="namespacepygments_1_1formatter">pygments::formatter</innernamespace>
+    <innernamespace refid="namespacepygments_1_1formatters">pygments::formatters</innernamespace>
+    <innernamespace refid="namespacepygments_1_1lexer">pygments::lexer</innernamespace>
+    <innernamespace refid="namespacepygments_1_1lexers">pygments::lexers</innernamespace>
+    <innernamespace refid="namespacepygments_1_1modeline">pygments::modeline</innernamespace>
+    <innernamespace refid="namespacepygments_1_1plugin">pygments::plugin</innernamespace>
+    <innernamespace refid="namespacepygments_1_1regexopt">pygments::regexopt</innernamespace>
+    <innernamespace refid="namespacepygments_1_1scanner">pygments::scanner</innernamespace>
+    <innernamespace refid="namespacepygments_1_1sphinxext">pygments::sphinxext</innernamespace>
+    <innernamespace refid="namespacepygments_1_1style">pygments::style</innernamespace>
+    <innernamespace refid="namespacepygments_1_1styles">pygments::styles</innernamespace>
+    <innernamespace refid="namespacepygments_1_1token">pygments::token</innernamespace>
+    <innernamespace refid="namespacepygments_1_1unistring">pygments::unistring</innernamespace>
+    <innernamespace refid="namespacepygments_1_1util">pygments::util</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepygments_1a839c5d39e0fc1796e51e99fb0584a0dc" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pygments.__version__</definition>
+        <argsstring></argsstring>
+        <name>__version__</name>
+        <qualifiedname>pygments.__version__</qualifiedname>
+        <initializer>=  &apos;2.19.2&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1af82fa02f241d963d749926f167fa0647" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pygments.__docformat__</definition>
+        <argsstring></argsstring>
+        <name>__docformat__</name>
+        <qualifiedname>pygments.__docformat__</qualifiedname>
+        <initializer>=  &apos;restructuredtext&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1ac24ceeb1437378fd5a085c0033d74e79" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pygments.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pygments.__all__</qualifiedname>
+        <initializer>=  [&apos;<ref refid="namespacepygments_1af49ce1503791fb7cbe8b8e1ac3e84b76" kindref="member">lex</ref>&apos;, &apos;<ref refid="namespacepygments_1a2ac77ff8d2ce68f7e1ee8c8933712687" kindref="member">format</ref>&apos;, &apos;<ref refid="namespacepygments_1a9b56057c6a9cfcfc3c8bf0d75a3df3d2" kindref="member">highlight</ref>&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepygments_1af49ce1503791fb7cbe8b8e1ac3e84b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lex</definition>
+        <argsstring>(code, lexer)</argsstring>
+        <name>lex</name>
+        <qualifiedname>pygments.lex</qualifiedname>
+        <param>
+          <type>code</type>
+          <defname>code</defname>
+        </param>
+        <param>
+          <type>lexer</type>
+          <defname>lexer</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Lex `code` with the `lexer` (must be a `Lexer` instance)
+and return an iterable of tokens. Currently, this only calls
+`lexer.get_tokens()`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" bodystart="35" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepygments_1a2ac77ff8d2ce68f7e1ee8c8933712687" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.format</definition>
+        <argsstring>(tokens, formatter, outfile=None)</argsstring>
+        <name>format</name>
+        <qualifiedname>pygments.format</qualifiedname>
+        <param>
+          <type>tokens</type>
+          <defname>tokens</defname>
+        </param>
+        <param>
+          <type>formatter</type>
+          <defname>formatter</defname>
+        </param>
+        <param>
+          <type>outfile</type>
+          <defname>outfile</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format ``tokens`` (an iterable of tokens) with the formatter ``formatter``
+(a `Formatter` instance).
+
+If ``outfile`` is given and a valid file object (an object with a
+``write`` method), the result will be written to it, otherwise it
+is returned as a string.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" bodystart="52" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepygments_1a9b56057c6a9cfcfc3c8bf0d75a3df3d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.highlight</definition>
+        <argsstring>(code, lexer, formatter, outfile=None)</argsstring>
+        <name>highlight</name>
+        <qualifiedname>pygments.highlight</qualifiedname>
+        <param>
+          <type>code</type>
+          <defname>code</defname>
+        </param>
+        <param>
+          <type>lexer</type>
+          <defname>lexer</defname>
+        </param>
+        <param>
+          <type>formatter</type>
+          <defname>formatter</defname>
+        </param>
+        <param>
+          <type>outfile</type>
+          <defname>outfile</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This is the most high-level highlighting function. It combines `lex` and
+`format` in one function.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" bodystart="77" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    Pygments
+    ~~~~~~~~
+
+    Pygments is a syntax highlighting package written in Python.
+
+    It is a generic syntax highlighter for general use in all kinds of software
+    such as forum systems, wikis or other applications that need to prettify
+    source code. Highlights are:
+
+    * a wide range of common languages and markup formats is supported
+    * special attention is paid to details, increasing quality by a fair amount
+    * support for new languages and formats are added easily
+    * a number of output formats, presently HTML, LaTeX, RTF, SVG, all image
+      formats that PIL supports, and ANSI sequences
+    * it is usable as a command-line tool and as a library
+    * ... and it highlights even Brainfuck!
+
+    The `Pygments master branch`_ is installable with ``easy_install Pygments==dev``.
+
+    .. _Pygments master branch:
+       https://github.com/pygments/pygments/archive/master.zip#egg=Pygments-dev
+
+    :copyright: Copyright 2006-2025 by the Pygments team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

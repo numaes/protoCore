@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2search_2fi_8py" kind="file" language="Python">
+    <compoundname>fi.py</compoundname>
+    <innerclass refid="classsphinx_1_1search_1_1fi_1_1SearchFinnish" prot="public">sphinx::search::fi::SearchFinnish</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1search">sphinx::search</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1search_1_1fi">sphinx::search::fi</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1search_1_1fi" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Finnish<sp/>search<sp/>language:<sp/>includes<sp/>the<sp/>JS<sp/>Finnish<sp/>stemmer.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>snowballstemmer</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1search" kindref="compound">sphinx.search</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SearchLanguage,<sp/>parse_stop_word</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">finnish_stopwords<sp/>=<sp/>parse_stop_word(</highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral">|<sp/>source:<sp/>https://snowball.tartarus.org/algorithms/finnish/stop.txt</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral">|<sp/>forms<sp/>of<sp/>BE</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">olla</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral">olen</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral">olet</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">on</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral">olemme</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral">olette</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral">ovat</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">ole<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>negative<sp/>form</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">oli</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral">olisi</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral">olisit</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral">olisin</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral">olisimme</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral">olisitte</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral">olisivat</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">olit</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral">olin</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">olimme</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral">olitte</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral">olivat</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">ollut</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">olleet</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral">en<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>negation</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral">et</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral">ei</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral">emme</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral">ette</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral">eivät</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral">|Nom<sp/><sp/><sp/>Gen<sp/><sp/><sp/><sp/>Acc<sp/><sp/><sp/><sp/>Part<sp/><sp/><sp/>Iness<sp/><sp/><sp/>Elat<sp/><sp/><sp/><sp/>Illat<sp/><sp/>Adess<sp/><sp/><sp/>Ablat<sp/><sp/><sp/>Allat<sp/><sp/><sp/>Ess<sp/><sp/><sp/><sp/>Trans</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral">minä<sp/><sp/><sp/>minun<sp/><sp/>minut<sp/><sp/>minua<sp/><sp/>minussa<sp/>minusta<sp/>minuun<sp/>minulla<sp/>minulta<sp/>minulle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>I</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral">sinä<sp/><sp/><sp/>sinun<sp/><sp/>sinut<sp/><sp/>sinua<sp/><sp/>sinussa<sp/>sinusta<sp/>sinuun<sp/>sinulla<sp/>sinulta<sp/>sinulle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral">hän<sp/><sp/><sp/><sp/>hänen<sp/><sp/>hänet<sp/><sp/>häntä<sp/><sp/>hänessä<sp/>hänestä<sp/>häneen<sp/>hänellä<sp/>häneltä<sp/>hänelle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>he<sp/>she</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral">me<sp/><sp/><sp/><sp/><sp/>meidän<sp/>meidät<sp/>meitä<sp/><sp/>meissä<sp/><sp/>meistä<sp/><sp/>meihin<sp/>meillä<sp/><sp/>meiltä<sp/><sp/>meille<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>we</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral">te<sp/><sp/><sp/><sp/><sp/>teidän<sp/>teidät<sp/>teitä<sp/><sp/>teissä<sp/><sp/>teistä<sp/><sp/>teihin<sp/>teillä<sp/><sp/>teiltä<sp/><sp/>teille<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral">he<sp/><sp/><sp/><sp/><sp/>heidän<sp/>heidät<sp/>heitä<sp/><sp/>heissä<sp/><sp/>heistä<sp/><sp/>heihin<sp/>heillä<sp/><sp/>heiltä<sp/><sp/>heille<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>they</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral">tämä<sp/><sp/><sp/>tämän<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tätä<sp/><sp/><sp/>tässä<sp/><sp/><sp/>tästä<sp/><sp/><sp/>tähän<sp/><sp/>tällä<sp/><sp/><sp/>tältä<sp/><sp/><sp/>tälle<sp/><sp/><sp/>tänä<sp/><sp/><sp/>täksi<sp/><sp/>|<sp/>this</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral">tuo<sp/><sp/><sp/><sp/>tuon<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuota<sp/><sp/>tuossa<sp/><sp/>tuosta<sp/><sp/>tuohon<sp/>tuolla<sp/><sp/>tuolta<sp/><sp/>tuolle<sp/><sp/>tuona<sp/><sp/>tuoksi<sp/>|<sp/>that</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral">se<sp/><sp/><sp/><sp/><sp/>sen<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sitä<sp/><sp/><sp/>siinä<sp/><sp/><sp/>siitä<sp/><sp/><sp/>siihen<sp/>sillä<sp/><sp/><sp/>siltä<sp/><sp/><sp/>sille<sp/><sp/><sp/>sinä<sp/><sp/><sp/>siksi<sp/><sp/>|<sp/>it</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral">nämä<sp/><sp/><sp/>näiden<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>näitä<sp/><sp/>näissä<sp/><sp/>näistä<sp/><sp/>näihin<sp/>näillä<sp/><sp/>näiltä<sp/><sp/>näille<sp/><sp/>näinä<sp/><sp/>näiksi<sp/>|<sp/>these</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral">nuo<sp/><sp/><sp/><sp/>noiden<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noita<sp/><sp/>noissa<sp/><sp/>noista<sp/><sp/>noihin<sp/>noilla<sp/><sp/>noilta<sp/><sp/>noille<sp/><sp/>noina<sp/><sp/>noiksi<sp/>|<sp/>those</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral">ne<sp/><sp/><sp/><sp/><sp/>niiden<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>niitä<sp/><sp/>niissä<sp/><sp/>niistä<sp/><sp/>niihin<sp/>niillä<sp/><sp/>niiltä<sp/><sp/>niille<sp/><sp/>niinä<sp/><sp/>niiksi<sp/>|<sp/>they</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral">kuka<sp/><sp/><sp/>kenen<sp/>kenet<sp/><sp/><sp/>ketä<sp/><sp/><sp/>kenessä<sp/>kenestä<sp/>keneen<sp/>kenellä<sp/>keneltä<sp/>kenelle<sp/>kenenä<sp/>keneksi|<sp/>who</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral">ketkä<sp/><sp/>keiden<sp/>ketkä<sp/><sp/>keitä<sp/><sp/>keissä<sp/><sp/>keistä<sp/><sp/>keihin<sp/>keillä<sp/><sp/>keiltä<sp/><sp/>keille<sp/><sp/>keinä<sp/><sp/>keiksi<sp/>|<sp/>(pl)</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral">mikä<sp/><sp/><sp/>minkä<sp/>minkä<sp/><sp/><sp/>mitä<sp/><sp/><sp/>missä<sp/><sp/><sp/>mistä<sp/><sp/><sp/>mihin<sp/><sp/>millä<sp/><sp/><sp/>miltä<sp/><sp/><sp/>mille<sp/><sp/><sp/>minä<sp/><sp/><sp/>miksi<sp/><sp/>|<sp/>which<sp/>what</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral">mitkä<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>(pl)</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral">joka<sp/><sp/><sp/>jonka<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jota<sp/><sp/><sp/>jossa<sp/><sp/><sp/>josta<sp/><sp/><sp/>johon<sp/><sp/>jolla<sp/><sp/><sp/>jolta<sp/><sp/><sp/>jolle<sp/><sp/><sp/>jona<sp/><sp/><sp/>joksi<sp/><sp/>|<sp/>who<sp/>which</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral">jotka<sp/><sp/>joiden<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>joita<sp/><sp/>joissa<sp/><sp/>joista<sp/><sp/>joihin<sp/>joilla<sp/><sp/>joilta<sp/><sp/>joille<sp/><sp/>joina<sp/><sp/>joiksi<sp/>|<sp/>(pl)</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral">|<sp/>conjunctions</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral">että<sp/><sp/><sp/>|<sp/>that</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral">ja<sp/><sp/><sp/><sp/><sp/>|<sp/>and</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral">jos<sp/><sp/><sp/><sp/>|<sp/>if</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral">koska<sp/><sp/>|<sp/>because</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral">kuin<sp/><sp/><sp/>|<sp/>than</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral">mutta<sp/><sp/>|<sp/>but</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral">niin<sp/><sp/><sp/>|<sp/>so</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral">sekä<sp/><sp/><sp/>|<sp/>and</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral">sillä<sp/><sp/>|<sp/>for</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral">tai<sp/><sp/><sp/><sp/>|<sp/>or</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral">vaan<sp/><sp/><sp/>|<sp/>but</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral">vai<sp/><sp/><sp/><sp/>|<sp/>or</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral">vaikka<sp/>|<sp/>although</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral">|<sp/>prepositions</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral">kanssa<sp/><sp/>|<sp/>with</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral">mukaan<sp/><sp/>|<sp/>according<sp/>to</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral">noin<sp/><sp/><sp/><sp/>|<sp/>about</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral">poikki<sp/><sp/>|<sp/>across</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral">yli<sp/><sp/><sp/><sp/><sp/>|<sp/>over,<sp/>across</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral">|<sp/>other</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral">kun<sp/><sp/><sp/><sp/>|<sp/>when</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral">niin<sp/><sp/><sp/>|<sp/>so</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral">nyt<sp/><sp/><sp/><sp/>|<sp/>now</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral">itse<sp/><sp/><sp/>|<sp/>self</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal">)<sp/><sp/></highlight><highlight class="comment">#<sp/>NoQA:<sp/>E501</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classsphinx_1_1search_1_1fi_1_1SearchFinnish" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1search_1_1fi_1_1SearchFinnish" kindref="compound">SearchFinnish</ref>(<ref refid="classsphinx_1_1search_1_1SearchLanguage" kindref="compound">SearchLanguage</ref>):</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>lang<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;fi&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>language_name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Finnish&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>js_stemmer_rawcode<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;finnish-stemmer.js&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>stopwords<sp/>=<sp/>finnish_stopwords</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">init(self,<sp/>options:<sp/>dict[str,<sp/>str])<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1search_1_1fi_1_1SearchFinnish_1afc79b00bd1b7508d24d18d0e54d4a39c" kindref="member">stemmer</ref><sp/>=<sp/><ref refid="namespacesnowballstemmer_1a1bf5539d5564f56642338e1f6ed850ba" kindref="member">snowballstemmer.stemmer</ref>(</highlight><highlight class="stringliteral">&apos;finnish&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1search_1_1fi_1_1SearchFinnish_1ae9e7b90a34d639d6068d3e5a23454779" kindref="member">stem</ref>(self,<sp/>word:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1search_1_1fi_1_1SearchFinnish_1afc79b00bd1b7508d24d18d0e54d4a39c" kindref="member">stemmer</ref>.stemWord(word.lower())</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/fi.py"/>
+  </compounddef>
+</doxygen>

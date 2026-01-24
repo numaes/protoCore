@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="babel_2languages_8py" kind="file" language="Python">
+    <compoundname>languages.py</compoundname>
+    <innernamespace refid="namespacebabel">babel</innernamespace>
+    <innernamespace refid="namespacebabel_1_1languages">babel::languages</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacebabel_1_1languages" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacebabel_1_1core" kindref="compound">babel.core</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>get_global</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacebabel_1_1languages_1aa800143dcb7f7a1af3939b7ab86e2bba" kindref="member">get_official_languages</ref>(territory:<sp/>str,<sp/>regional:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/>de_facto:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)<sp/>-&gt;<sp/>tuple[str,<sp/>...]:</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Get<sp/>the<sp/>official<sp/>language(s)<sp/>for<sp/>the<sp/>given<sp/>territory.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>language<sp/>codes,<sp/>if<sp/>any<sp/>are<sp/>known,<sp/>are<sp/>returned<sp/>in<sp/>order<sp/>of<sp/>descending<sp/>popularity.</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>the<sp/>`regional`<sp/>flag<sp/>is<sp/>set,<sp/>then<sp/>languages<sp/>which<sp/>are<sp/>regionally<sp/>official<sp/>are<sp/>also<sp/>returned.</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>the<sp/>`de_facto`<sp/>flag<sp/>is<sp/>set,<sp/>then<sp/>languages<sp/>which<sp/>are<sp/>&quot;de<sp/>facto&quot;<sp/>official<sp/>are<sp/>also<sp/>returned.</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>warning::<sp/>Note<sp/>that<sp/>the<sp/>data<sp/>is<sp/>as<sp/>up<sp/>to<sp/>date<sp/>as<sp/>the<sp/>current<sp/>version<sp/>of<sp/>the<sp/>CLDR<sp/>used</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>by<sp/>Babel.<sp/><sp/>If<sp/>you<sp/>need<sp/>scientifically<sp/>accurate<sp/>information,<sp/>use<sp/>another<sp/>source!</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>territory:<sp/>Territory<sp/>code</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>territory:<sp/>str</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>regional:<sp/>Whether<sp/>to<sp/>return<sp/>regionally<sp/>official<sp/>languages<sp/>too</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>regional:<sp/>bool</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>de_facto:<sp/>Whether<sp/>to<sp/>return<sp/>de-facto<sp/>official<sp/>languages<sp/>too</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>de_facto:<sp/>bool</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>Tuple<sp/>of<sp/>language<sp/>codes</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>tuple[str]</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>territory<sp/>=<sp/>str(territory).upper()</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>allowed_stati<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;official&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>regional:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>allowed_stati.add(</highlight><highlight class="stringliteral">&quot;official_regional&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>de_facto:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>allowed_stati.add(</highlight><highlight class="stringliteral">&quot;de_facto_official&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>languages<sp/>=<sp/>get_global(</highlight><highlight class="stringliteral">&quot;territory_languages&quot;</highlight><highlight class="normal">).get(territory,<sp/>{})</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>pairs<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(info[</highlight><highlight class="stringliteral">&apos;population_percent&apos;</highlight><highlight class="normal">],<sp/>language)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>language,<sp/>info<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>languages.items()</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>info.get(</highlight><highlight class="stringliteral">&apos;official_status&apos;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>allowed_stati</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>pairs.sort(reverse=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tuple(lang<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>_,<sp/>lang<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>pairs)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacebabel_1_1languages_1a0f64cb17e0c177236e2a9d4f693d6c7f" kindref="member">get_territory_language_info</ref>(territory:<sp/>str)<sp/>-&gt;<sp/>dict[str,<sp/>dict[str,<sp/>float<sp/>|<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">]]:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Get<sp/>a<sp/>dictionary<sp/>of<sp/>language<sp/>information<sp/>for<sp/>a<sp/>territory.</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>dictionary<sp/>is<sp/>keyed<sp/>by<sp/>language<sp/>code;<sp/>the<sp/>values<sp/>are<sp/>dicts<sp/>with<sp/>more<sp/>information.</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>following<sp/>keys<sp/>are<sp/>currently<sp/>known<sp/>for<sp/>the<sp/>values:</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/>`population_percent`:<sp/>The<sp/>percentage<sp/>of<sp/>the<sp/>territory&apos;s<sp/>population<sp/>speaking<sp/>the</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>language.</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/>`official_status`:<sp/>An<sp/>optional<sp/>string<sp/>describing<sp/>the<sp/>officiality<sp/>status<sp/>of<sp/>the<sp/>language.</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Known<sp/>values<sp/>are<sp/>&quot;official&quot;,<sp/>&quot;official_regional&quot;<sp/>and<sp/>&quot;de_facto_official&quot;.</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>warning::<sp/>Note<sp/>that<sp/>the<sp/>data<sp/>is<sp/>as<sp/>up<sp/>to<sp/>date<sp/>as<sp/>the<sp/>current<sp/>version<sp/>of<sp/>the<sp/>CLDR<sp/>used</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>by<sp/>Babel.<sp/><sp/>If<sp/>you<sp/>need<sp/>scientifically<sp/>accurate<sp/>information,<sp/>use<sp/>another<sp/>source!</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>note::<sp/>Note<sp/>that<sp/>the<sp/>format<sp/>of<sp/>the<sp/>dict<sp/>returned<sp/>may<sp/>change<sp/>between<sp/>Babel<sp/>versions.</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>See<sp/>https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>territory:<sp/>Territory<sp/>code</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>territory:<sp/>str</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>Language<sp/>information<sp/>dictionary</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>dict[str,<sp/>dict]</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>territory<sp/>=<sp/>str(territory).upper()</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>get_global(</highlight><highlight class="stringliteral">&quot;territory_languages&quot;</highlight><highlight class="normal">).get(territory,<sp/>{}).copy()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/languages.py"/>
+  </compounddef>
+</doxygen>

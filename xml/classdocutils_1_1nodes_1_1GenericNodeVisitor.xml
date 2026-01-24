@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1nodes_1_1GenericNodeVisitor" kind="class" language="Python" prot="public">
+    <compoundname>docutils::nodes::GenericNodeVisitor</compoundname>
+    <basecompoundref refid="classdocutils_1_1nodes_1_1NodeVisitor" prot="public" virt="non-virtual">docutils.nodes.NodeVisitor</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1nodes_1_1TreeCopyVisitor" prot="public" virt="non-virtual">docutils.nodes.TreeCopyVisitor</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1writers_1_1__html__base_1_1SimpleListChecker" prot="public" virt="non-virtual">docutils.writers._html_base.SimpleListChecker</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1writers_1_1docutils__xml_1_1XMLTranslator" prot="public" virt="non-virtual">docutils.writers.docutils_xml.XMLTranslator</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1writers_1_1odf__odt_1_1ODFTranslator" prot="public" virt="non-virtual">docutils.writers.odf_odt.ODFTranslator</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1nodes_1_1GenericNodeVisitor_1a8003a898de85f02e8856c4dbf3f622a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.nodes.GenericNodeVisitor.default_visit</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>default_visit</name>
+        <qualifiedname>docutils.nodes.GenericNodeVisitor.default_visit</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a26cec04ef7c3f224a07095706c63b229">default_visit</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1writers_1_1__html__base_1_1SimpleListChecker_1a7ef66b83fc47d3e38dbe7378eb6347e3">default_visit</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1writers_1_1docutils__xml_1_1XMLTranslator_1a3b7332e42513220ed0dcdc22ad2ed907">default_visit</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1writers_1_1odf__odt_1_1ODFTranslator_1ad7e156e622ba30290deecfce13b86e92">default_visit</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override for generic, uniform traversals.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2060" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2060" bodyend="2063"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1nodes_1_1GenericNodeVisitor_1a9765bcf33cf6ba9a18de957d1311f2da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.nodes.GenericNodeVisitor.default_departure</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>default_departure</name>
+        <qualifiedname>docutils.nodes.GenericNodeVisitor.default_departure</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a991826ce0dc6ec503883b3ff6a64b2de">default_departure</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1writers_1_1docutils__xml_1_1XMLTranslator_1aad0c49e44c868779715fa45babec0ee7">default_departure</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1writers_1_1odf__odt_1_1ODFTranslator_1affd528321c5946a1baf7b5248d35e381">default_departure</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override for generic, uniform traversals.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2064" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2064" bodyend="2068"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Generic &quot;Visitor&quot; abstract superclass, for simple traversals.
+
+Unless overridden, each ``visit_...`` method calls `default_visit()`, and
+each ``depart_...`` method (when using `Node.walkabout()`) calls
+`default_departure()`. `default_visit()` (and `default_departure()`) must
+be overridden in subclasses.
+
+Define fully generic visitors by overriding `default_visit()` (and
+`default_departure()`) only. Define semi-generic visitors by overriding
+individual ``visit_...()`` (and ``depart_...()``) methods also.
+
+`NodeVisitor.unknown_visit()` (`NodeVisitor.unknown_departure()`) should
+be overridden for default behavior.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.nodes.GenericNodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1GenericNodeVisitor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+      </node>
+      <node id="3">
+        <label>docutils.nodes.TreeCopyVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1TreeCopyVisitor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.transforms.parts.ContentsFilter</label>
+        <link refid="classdocutils_1_1transforms_1_1parts_1_1ContentsFilter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.writers._html_base.SimpleListChecker</label>
+        <link refid="classdocutils_1_1writers_1_1__html__base_1_1SimpleListChecker"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>docutils.writers.docutils_xml.XMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1docutils__xml_1_1XMLTranslator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.writers.html4css1.SimpleListChecker</label>
+        <link refid="classdocutils_1_1writers_1_1html4css1_1_1SimpleListChecker"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>docutils.writers.odf_odt.ODFTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1odf__odt_1_1ODFTranslator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.transforms.SphinxContentsFilter</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxContentsFilter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.nodes.GenericNodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1GenericNodeVisitor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>optional</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2042" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2042" bodyend="2068"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1nodes_1_1GenericNodeVisitor_1a9765bcf33cf6ba9a18de957d1311f2da" prot="public" virt="non-virtual"><scope>docutils::nodes::GenericNodeVisitor</scope><name>default_departure</name></member>
+      <member refid="classdocutils_1_1nodes_1_1GenericNodeVisitor_1a8003a898de85f02e8856c4dbf3f622a3" prot="public" virt="non-virtual"><scope>docutils::nodes::GenericNodeVisitor</scope><name>default_visit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

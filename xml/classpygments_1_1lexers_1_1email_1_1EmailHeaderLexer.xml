@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::email::EmailHeaderLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1a47057208dff47fc6ee7521baf44e2a78" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.email.EmailHeaderLexer::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.email.EmailHeaderLexer.tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1adeac01c3b6202733668e09a7de9577d1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.email.EmailHeaderLexer::highlight_x</definition>
+        <argsstring></argsstring>
+        <name>highlight_x</name>
+        <qualifiedname>pygments.lexers.email.EmailHeaderLexer.highlight_x</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1a4d3013640afe56c5f043f4a2a633f605" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.email.EmailHeaderLexer.__init__</definition>
+        <argsstring>(self, **options)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pygments.lexers.email.EmailHeaderLexer.__init__</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1Lexer_1ad4f2ca2ced009731f38895a0699e1067">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This constructor takes arbitrary options as keyword arguments.
+Every subclass must first process its own options and then call
+the `Lexer` constructor, since it processes the basic
+options like `stripnl`.
+
+An example looks like this:
+
+.. sourcecode:: python
+
+   def __init__(self, **options):
+       self.compress = options.get(&apos;compress&apos;, &apos;&apos;)
+       Lexer.__init__(self, **options)
+
+As these options must all be specifiable as strings (due to the
+command line usage), there are various utility functions
+available to help with that, see `Utilities`_.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" bodystart="26" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1aaa1b96e113b88bc67aa039665b761b5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.email.EmailHeaderLexer.get_x_header_tokens</definition>
+        <argsstring>(self, match)</argsstring>
+        <name>get_x_header_tokens</name>
+        <qualifiedname>pygments.lexers.email.EmailHeaderLexer.get_x_header_tokens</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" bodystart="30" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Sub-lexer for raw E-mail. This lexer only process header part of e-mail.
+
+.. versionadded:: 2.5
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.email.EmailHeaderLexer</label>
+        <link refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.email.EmailHeaderLexer</label>
+        <link refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>alias_filenames</edgelabel>
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>filenames</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py" bodystart="19" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1a4d3013640afe56c5f043f4a2a633f605" prot="public" virt="non-virtual"><scope>pygments::lexers::email::EmailHeaderLexer</scope><name>__init__</name></member>
+      <member refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1aaa1b96e113b88bc67aa039665b761b5c" prot="public" virt="non-virtual"><scope>pygments::lexers::email::EmailHeaderLexer</scope><name>get_x_header_tokens</name></member>
+      <member refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1adeac01c3b6202733668e09a7de9577d1" prot="public" virt="non-virtual"><scope>pygments::lexers::email::EmailHeaderLexer</scope><name>highlight_x</name></member>
+      <member refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1a47057208dff47fc6ee7521baf44e2a78" prot="public" virt="non-virtual"><scope>pygments::lexers::email::EmailHeaderLexer</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_docs_2Structural_01description_2architecture_203__object__model" kind="page">
+    <compoundname>md_docs_2Structural_01description_2architecture_203__object__model</compoundname>
+    <title>Architecture Deep Dive: The Object and Type System</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_docs_2Structural_01description_2architecture_203__object__model_1autotoc_md891"/> </para>
+<sect1 id="md_docs_2Structural_01description_2architecture_203__object__model_1autotoc_md892">
+<title>Introduction</title>
+<para>Proto features a dynamic and flexible object model that differs significantly from the class-based systems found in languages like C++ or Java. It combines a prototype-based inheritance system with an efficient memory representation using tagged pointers, creating a powerful foundation for dynamic languages.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_203__object__model_1autotoc_md893">
+<title>Tagged Pointers</title>
+<para>In a typical dynamic language, every value, no matter how small, is an object that must be allocated on the heap. This can lead to significant overhead. Proto avoids this by using <bold>tagged pointers</bold>.</para>
+<para>A <computeroutput>ProtoObjectPointer</computeroutput> is a single machine word (e.g., 64 bits) that can represent either a true pointer to a heap-allocated object or an immediate value. This is achieved by using the lower few bits of the word as a &quot;tag&quot; to indicate the type of data being stored.</para>
+<para>Because heap-allocated objects are always aligned to a certain byte boundary (e.g., 8 or 16 bytes), their memory addresses will always have their lowest bits as zero. We can take advantage of this to store information.</para>
+<para><itemizedlist>
+<listitem><para>If the lowest bit is <computeroutput>0</computeroutput>, the value is a true pointer to a <computeroutput>ProtoObject</computeroutput> on the heap.</para>
+</listitem><listitem><para>If the lowest bit is <computeroutput>1</computeroutput>, the value is an immediate 63-bit signed integer.</para>
+</listitem><listitem><para>Other tag patterns can be used for booleans, null, or other special singletons.</para>
+</listitem></itemizedlist>
+</para>
+<para>The <computeroutput>ProtoObjectPointer</computeroutput> union from <computeroutput><ref refid="proto__internal_8h" kindref="compound">proto_internal.h</ref></computeroutput> shows this concept in practice:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Illustrative<sp/>snippet<sp/>from<sp/>proto_internal.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">ProtoObjectPointer<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>raw<sp/>64-bit<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>raw;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>value<sp/>interpreted<sp/>as<sp/>a<sp/>pointer<sp/>to<sp/>a<sp/>heap<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>as_object;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>value<sp/>interpreted<sp/>as<sp/>a<sp/>signed<sp/>integer</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>as_integer;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<sect2 id="md_docs_2Structural_01description_2architecture_203__object__model_1autotoc_md894">
+<title>Benefits</title>
+<para>The primary benefit is <bold>performance</bold>. Creating or passing around an integer does not require any heap allocation or garbage collection overhead. This makes numerical and logical operations significantly faster.</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_203__object__model_1autotoc_md895">
+<title>Prototype-Based Inheritance</title>
+<para>Instead of classes, Proto uses prototypes. Every object can be a prototype for another object. When you try to access an attribute or method on an object, the runtime first looks at the object itself. If the attribute isn&apos;t found, it follows the object&apos;s <computeroutput>parent</computeroutput> link and looks at its prototype. This process continues up the chain until the attribute is found or the chain ends.</para>
+<para>This is different from classical inheritance, where a class defines a rigid structure that all its instances must follow. The prototype model is more flexible, allowing objects to have their structures and behaviors modified dynamically at runtime.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_203__object__model_1autotoc_md896">
+<title>Immutable Data Structures</title>
+<para>To ensure thread safety and enable efficient sharing, Proto&apos;s core collection types, such as <computeroutput>ProtoString</computeroutput> and <computeroutput>ProtoTuple</computeroutput>, are <bold>immutable</bold>. Once created, their contents cannot be changed.</para>
+<para>This might sound inefficient, but these types are implemented using sophisticated tree-like data structures (similar to ropes for strings or AVLs for tuples). This has a powerful consequence: operations that would normally be expensive are very cheap.</para>
+<para>For example, concatenating two large strings does not involve copying all the characters. Instead, it creates a new, small &quot;node&quot; object that simply holds pointers to the two original strings. This makes operations like concatenation, slicing, or appending an O(log N) operation instead of O(N), as no full copies are ever needed. This design is crucial for building scalable and performant systems that heavily manipulate data. </para>
+</sect1>
+    </detaileddescription>
+    <location file="docs/Structural description/architecture/03_object_model.md"/>
+  </compounddef>
+</doxygen>

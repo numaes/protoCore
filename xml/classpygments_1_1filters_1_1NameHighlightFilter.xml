@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1filters_1_1NameHighlightFilter" kind="class" language="Python" prot="public">
+    <compoundname>pygments::filters::NameHighlightFilter</compoundname>
+    <basecompoundref refid="classpygments_1_1filter_1_1Filter" prot="public" virt="non-virtual">pygments.filter.Filter</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpygments_1_1filters_1_1NameHighlightFilter_1a59ffadd86a2e25d8df37a1082bc20faf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.filters.NameHighlightFilter::names</definition>
+        <argsstring></argsstring>
+        <name>names</name>
+        <qualifiedname>pygments.filters.NameHighlightFilter.names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="741" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="741" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1filters_1_1NameHighlightFilter_1a0fe2e61dc00f345b34c576d72a9eace6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.filters.NameHighlightFilter::tokentype</definition>
+        <argsstring></argsstring>
+        <name>tokentype</name>
+        <qualifiedname>pygments.filters.NameHighlightFilter.tokentype</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="744" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="744" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1filters_1_1NameHighlightFilter_1a17e15446572e4ec44a24d7de7dba665f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters.NameHighlightFilter.__init__</definition>
+        <argsstring>(self, **options)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pygments.filters.NameHighlightFilter.__init__</qualifiedname>
+        <reimplements refid="classpygments_1_1filter_1_1Filter_1a221957e4dafe2016ac95bcf06d78e65c">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="739" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="739" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classpygments_1_1filters_1_1NameHighlightFilter_1a187f7391b84473dcc0c10c32c00c233d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters.NameHighlightFilter.filter</definition>
+        <argsstring>(self, lexer, stream)</argsstring>
+        <name>filter</name>
+        <qualifiedname>pygments.filters.NameHighlightFilter.filter</qualifiedname>
+        <reimplements refid="classpygments_1_1filter_1_1Filter_1a330bed1ceb593939c16c6909bb83753b">filter</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>lexer</type>
+          <defname>lexer</defname>
+        </param>
+        <param>
+          <type>stream</type>
+          <defname>stream</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="748" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="748" bodyend="755"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Highlight a normal Name (and Name.*) token with a different token type.
+
+Example::
+
+    filter = NameHighlightFilter(
+        names=[&apos;foo&apos;, &apos;bar&apos;, &apos;baz&apos;],
+        tokentype=Name.Function,
+    )
+
+This would highlight the names &quot;foo&quot;, &quot;bar&quot; and &quot;baz&quot;
+as functions. `Name.Function` is the default token type.
+
+Options accepted:
+
+`names` : list of strings
+  A list of names that should be given the different token type.
+  There is no default.
+`tokentype` : TokenType or string
+  A token type or a string containing a token type name that is
+  used for highlighting the strings in `names`.  The default is
+  `Name.Function`.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pygments.filters.NameHighlightFilter</label>
+        <link refid="classpygments_1_1filters_1_1NameHighlightFilter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.filter.Filter</label>
+        <link refid="classpygments_1_1filter_1_1Filter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pygments.filters.NameHighlightFilter</label>
+        <link refid="classpygments_1_1filters_1_1NameHighlightFilter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.filter.Filter</label>
+        <link refid="classpygments_1_1filter_1_1Filter"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="715" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="715" bodyend="755"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1filters_1_1NameHighlightFilter_1a17e15446572e4ec44a24d7de7dba665f" prot="public" virt="non-virtual"><scope>pygments::filters::NameHighlightFilter</scope><name>__init__</name></member>
+      <member refid="classpygments_1_1filters_1_1NameHighlightFilter_1a187f7391b84473dcc0c10c32c00c233d" prot="public" virt="non-virtual"><scope>pygments::filters::NameHighlightFilter</scope><name>filter</name></member>
+      <member refid="classpygments_1_1filters_1_1NameHighlightFilter_1a59ffadd86a2e25d8df37a1082bc20faf" prot="public" virt="non-virtual"><scope>pygments::filters::NameHighlightFilter</scope><name>names</name></member>
+      <member refid="classpygments_1_1filters_1_1NameHighlightFilter_1a0fe2e61dc00f345b34c576d72a9eace6" prot="public" virt="non-virtual"><scope>pygments::filters::NameHighlightFilter</scope><name>tokentype</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

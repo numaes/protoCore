@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="commonmark__wrapper_8py" kind="file" language="Python">
+    <compoundname>commonmark_wrapper.py</compoundname>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1parsers">docutils::parsers</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1parsers_1_1commonmark__wrapper">docutils::parsers::commonmark_wrapper</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1parsers_1_1commonmark__wrapper" refkind="compound"><highlight class="comment">#!<sp/>/usr/bin/env<sp/>python3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>:Copyright:<sp/>©<sp/>2022<sp/>Günter<sp/>Milde.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>:License:<sp/>Released<sp/>under<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>`2-Clause<sp/>BSD<sp/>license`_,<sp/>in<sp/>short:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/>Copying<sp/>and<sp/>distribution<sp/>of<sp/>this<sp/>file,<sp/>with<sp/>or<sp/>without<sp/>modification,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/>are<sp/>permitted<sp/>in<sp/>any<sp/>medium<sp/>without<sp/>royalty<sp/>provided<sp/>the<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/>notice<sp/>and<sp/>this<sp/>notice<sp/>are<sp/>preserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/>This<sp/>file<sp/>is<sp/>offered<sp/>as-is,<sp/>without<sp/>any<sp/>warranty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">#<sp/>..<sp/>_2-Clause<sp/>BSD<sp/>license:<sp/>https://opensource.org/licenses/BSD-2-Clause</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Revision:<sp/>$Revision:<sp/>9561<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Date:<sp/>$Date:<sp/>2024-03-14<sp/>17:34:48<sp/>+0100<sp/>(Do,<sp/>14.<sp/>Mär<sp/>2024)<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral">An<sp/>interface<sp/>for<sp/>parsing<sp/>CommonMark<sp/>input.</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral">Select<sp/>a<sp/>locally<sp/>installed<sp/>parser<sp/>from<sp/>the<sp/>following<sp/>3rd-party</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral">parser<sp/>packages:</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">:pycmark:<sp/><sp/><sp/><sp/><sp/><sp/><sp/>https://pypi.org/project/pycmark/</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral">:myst:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>https://pypi.org/project/myst-docutils/</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">:recommonmark:<sp/><sp/>https://pypi.org/project/recommonmark/<sp/>(deprecated)</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral">The<sp/>first<sp/>parser<sp/>class<sp/>that<sp/>can<sp/>be<sp/>successfully<sp/>imported<sp/>is<sp/>mapped<sp/>to</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral">`commonmark_wrapper.Parser`.</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral">This<sp/>module<sp/>is<sp/>provisional:</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral">the<sp/>API<sp/>is<sp/>not<sp/>settled<sp/>and<sp/>may<sp/>change<sp/>with<sp/>any<sp/>minor<sp/>Docutils<sp/>version.</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers" kindref="compound">docutils.parsers</ref></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">commonmark_parser_names<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;pycmark&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;myst&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;recommonmark&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Names<sp/>of<sp/>compatible<sp/>drop-in<sp/>CommonMark<sp/>parsers&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">Parser<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">parser_name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>commonmark_parser_names:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Parser<sp/>=<sp/><ref refid="namespacedocutils_1_1parsers_1a97c12130f009303c7e0a8d2d34fc7d9d" kindref="member">docutils.parsers.get_parser_class</ref>(name)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>parser_name<sp/>=<sp/>name</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>Parser<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ImportError(</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Parsing<sp/>&quot;CommonMark&quot;<sp/>requires<sp/>one<sp/>of<sp/>the<sp/>packages\n&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&apos;{commonmark_parser_names}<sp/>available<sp/>at<sp/>https://pypi.org&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>parser_name<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;myst&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>Parser.settings_defaults:</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Parser.settings_defaults<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>Parser.settings_defaults[</highlight><highlight class="stringliteral">&apos;myst_commonmark_only&apos;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/commonmark_wrapper.py"/>
+  </compounddef>
+</doxygen>

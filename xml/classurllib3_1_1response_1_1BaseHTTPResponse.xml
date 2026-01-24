@@ -1,0 +1,968 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classurllib3_1_1response_1_1BaseHTTPResponse" kind="class" language="Python" prot="public">
+    <compoundname>urllib3::response::BaseHTTPResponse</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">io.IOBase</basecompoundref>
+    <derivedcompoundref refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper" prot="public" virt="non-virtual">urllib3.contrib.emscripten.response.EmscriptenHttpResponseWrapper</derivedcompoundref>
+    <derivedcompoundref refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Response" prot="public" virt="non-virtual">urllib3.http2.connection.HTTP2Response</derivedcompoundref>
+    <derivedcompoundref refid="classurllib3_1_1response_1_1HTTPResponse" prot="public" virt="non-virtual">urllib3.response.HTTPResponse</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1ac8c28917c9738eb854fe54614b7d0df8" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list urllib3.response.BaseHTTPResponse::CONTENT_DECODERS</definition>
+        <argsstring></argsstring>
+        <name>CONTENT_DECODERS</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.CONTENT_DECODERS</qualifiedname>
+        <initializer>=  [&quot;gzip&quot;, &quot;x-gzip&quot;, &quot;deflate&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="327" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a24e7cfb4c4a8a8c045ecf7010d65b7fd" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list urllib3.response.BaseHTTPResponse::REDIRECT_STATUSES</definition>
+        <argsstring></argsstring>
+        <name>REDIRECT_STATUSES</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.REDIRECT_STATUSES</qualifiedname>
+        <initializer>=  [301, 302, 303, 307, 308]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="332" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a13c25c020d330eb6e64e96c44559c8ce" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple urllib3.response.BaseHTTPResponse::DECODER_ERROR_CLASSES</definition>
+        <argsstring></argsstring>
+        <name>DECODER_ERROR_CLASSES</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.DECODER_ERROR_CLASSES</qualifiedname>
+        <initializer>=  (IOError, zlib.error)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="334" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1af53aa00777ff500268c8adb6e2fe0dc6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="354" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a59e01214a51f899d9ada2bc3b5f5ada3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="357" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1aeb314c050d086c868d0a165b6dab7e94" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="358" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1af1ff330f080d9efc0273422b072d0abd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::version_string</definition>
+        <argsstring></argsstring>
+        <name>version_string</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.version_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="359" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a6d33724c8432f3df19a1fd4cfa85a9bf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="360" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a4a79fbfa71500aee996d1c632d61d46c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::decode_content</definition>
+        <argsstring></argsstring>
+        <name>decode_content</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.decode_content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="361" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a557cda40181e99f4265bb68a4c85af5e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::retries</definition>
+        <argsstring></argsstring>
+        <name>retries</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.retries</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a2ff683ccb4e88aa06fdfcfb709fd4351">retries</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a1e23bb0ca7a7455054415382220b1333">retries</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="364" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a3f548dd1c91f6937d0888ea1938e5040" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::chunked</definition>
+        <argsstring></argsstring>
+        <name>chunked</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.chunked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="366" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a57178c9facbab066f0673cb94b2bb8f5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.url</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a18ba1fc6b22881c5c47f803a8ca553b7">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1acd533f53d4bdd2e0696d7ece6abe40fb">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a13e537ea3d556f24127ce1e7b85d2163">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1abcf68c33abc0642e9a48b128a3037e0d">url</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="433" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="433" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a50364bd368b933385fdff8fa6950c9ff" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::_has_decoded_content</definition>
+        <argsstring></argsstring>
+        <name>_has_decoded_content</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse._has_decoded_content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="362" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1ae539f36ca4f9d54e1d8387b1e76894eb" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::_retries</definition>
+        <argsstring></argsstring>
+        <name>_retries</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse._retries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="434" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a8bce1004335ee710b40f426365cb05c2" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.BaseHTTPResponse::_decoder</definition>
+        <argsstring></argsstring>
+        <name>_decoder</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse._decoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="484" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="484" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1ad9c0f4178a326c768655d1c9715565e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.BaseHTTPResponse.__init__</definition>
+        <argsstring>(self, *typing.Mapping[str, str]|typing.Mapping[bytes, bytes]|None headers=None, int status, int version, str version_string, str|None reason, bool decode_content, str|None request_url, Retry|None retries=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.__init__</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a560c131aabfdb1725f2bcb04d6aa30de">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1acfec835b8323f54ab1dd96e2e22d6a86">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Response_1a140924ce8c1fc69feec3757b47cde1c2">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*typing.Mapping|typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str][bytes, bytes]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>version_string</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>decode_content</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>request_url</declname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1util_1_1retry_1_1Retry" kindref="compound">Retry</ref>|None</type>
+          <declname>retries</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="341" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="352" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1aba3dcc6513a624138792b1b4f27c5fbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None|typing.Literal[False]</type>
+        <definition> str | None | typing.Literal[False] urllib3.response.BaseHTTPResponse.get_redirect_location</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_redirect_location</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.get_redirect_location</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Response_1a6c8455795ae832fdf74e7455290537d1">get_redirect_location</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Should we redirect and where to?
+
+:returns: Truthy redirect location string if we got a redirect status
+    code and valid location. ``None`` if redirect status and no
+    location. ``False`` if not a redirect status code.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="376" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="376" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a975e27acdd91f017d4932062ae1e21b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.response.BaseHTTPResponse.data</definition>
+        <argsstring>(self)</argsstring>
+        <name>data</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.data</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1ad03a58519080fa0d6826185c0cbdbc75">data</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Response_1a269b817b7355250273ace7844e3dd40a">data</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a67bf296bd76e910883a91893652a8969">data</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="389" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="389" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1abd598e644e5e22506aa77c4f23c7d77b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Any</type>
+        <definition> typing.Any urllib3.response.BaseHTTPResponse.json</definition>
+        <argsstring>(self)</argsstring>
+        <name>json</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.json</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1ad6176119567c5be3bbf3a9fa3a5360a1">json</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Deserializes the body of the HTTP response as a Python object.
+
+The body of the HTTP response must be encoded using UTF-8, as per
+`RFC 8529 Section 8.1 &lt;https://www.rfc-editor.org/rfc/rfc8259#section-8.1&gt;`_.
+
+To use a custom JSON decoder pass the result of :attr:`HTTPResponse.data` to
+your custom decoder instead.
+
+If the body of the HTTP response is not decodable to UTF-8, a
+`UnicodeDecodeError` will be raised. If the body of the HTTP response is not a
+valid JSON document, a `json.JSONDecodeError` will be raised.
+
+Read more :ref:`here &lt;json_content&gt;`.
+
+:returns: The body of the HTTP response as a Python object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="392" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="392" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a8141e13b23620e3ff3a120aa22148b82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None urllib3.response.BaseHTTPResponse.url</definition>
+        <argsstring>(self)</argsstring>
+        <name>url</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.url</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a18ba1fc6b22881c5c47f803a8ca553b7">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1acd533f53d4bdd2e0696d7ece6abe40fb">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a13e537ea3d556f24127ce1e7b85d2163">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1abcf68c33abc0642e9a48b128a3037e0d">url</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="414" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="414" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1af8af2e7f9a3f26079a74c756796d185c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.BaseHTTPResponse.url</definition>
+        <argsstring>(self, str|None url)</argsstring>
+        <name>url</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.url</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a18ba1fc6b22881c5c47f803a8ca553b7">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1acd533f53d4bdd2e0696d7ece6abe40fb">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a13e537ea3d556f24127ce1e7b85d2163">url</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1abcf68c33abc0642e9a48b128a3037e0d">url</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="418" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="418" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1afe4fc94a2a2e15ce402fe2b59336d83d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1__base__connection_1_1BaseHTTPConnection" kindref="compound">BaseHTTPConnection</ref>|None</type>
+        <definition> BaseHTTPConnection | None urllib3.response.BaseHTTPResponse.connection</definition>
+        <argsstring>(self)</argsstring>
+        <name>connection</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.connection</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a750d2f0bfee740b0583634ac1d5f9660">connection</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a8942c3d39f62134b15d812e986344df5">connection</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="422" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="422" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a87c119ccd8dd2fdb698e145e15d32485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1util_1_1retry_1_1Retry" kindref="compound">Retry</ref>|None</type>
+        <definition> Retry | None urllib3.response.BaseHTTPResponse.retries</definition>
+        <argsstring>(self)</argsstring>
+        <name>retries</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.retries</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a2ff683ccb4e88aa06fdfcfb709fd4351">retries</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a1e23bb0ca7a7455054415382220b1333">retries</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="426" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="426" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a471ef2edcf1de2008a3ceae278aff608" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.BaseHTTPResponse.retries</definition>
+        <argsstring>(self, Retry|None retries)</argsstring>
+        <name>retries</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.retries</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a2ff683ccb4e88aa06fdfcfb709fd4351">retries</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a1e23bb0ca7a7455054415382220b1333">retries</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1util_1_1retry_1_1Retry" kindref="compound">Retry</ref>|None</type>
+          <declname>retries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="430" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="430" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a083508b4a51e27aa76cd73f5f2a1f84b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Iterator[bytes]</type>
+        <definition> typing.Iterator[bytes] urllib3.response.BaseHTTPResponse.stream</definition>
+        <argsstring>(self, int|None amt=2 **16, bool|None decode_content=None)</argsstring>
+        <name>stream</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.stream</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a5c0cf61ac62dd8101a4f427494398e4b">stream</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a59b3230ac29a167cec245d8de32e8255">stream</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>amt</declname>
+          <defval>2 **16</defval>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>decode_content</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="436" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="438" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a0e3817794b0699fe2a5017a5d33e847e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.response.BaseHTTPResponse.read</definition>
+        <argsstring>(self, int|None amt=None, bool|None decode_content=None, bool cache_content=False)</argsstring>
+        <name>read</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.read</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a45568d24f267905d8600f249afb0e13e">read</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1ab326d7e2ed1a33fca03ae9e6f3f5991d">read</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>amt</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>decode_content</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache_content</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="441" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="446" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a25b624bbe87eb718af9ae2126debd4d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.response.BaseHTTPResponse.read1</definition>
+        <argsstring>(self, int|None amt=None, bool|None decode_content=None)</argsstring>
+        <name>read1</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.read1</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1aee1824e0e93ee18f9084cfd3b6968057">read1</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>amt</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>decode_content</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="449" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="453" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1aa30ef1e859a2d936e954f67c59425cad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Iterator[bytes]</type>
+        <definition> typing.Iterator[bytes] urllib3.response.BaseHTTPResponse.read_chunked</definition>
+        <argsstring>(self, int|None amt=None, bool|None decode_content=None)</argsstring>
+        <name>read_chunked</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.read_chunked</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a9613a9914d38e764b8aba4c6ba2d7d96">read_chunked</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a9fbb49dbe7bb805617105d63de3b0b39">read_chunked</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>amt</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>decode_content</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="456" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="460" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a7ce54536a9d3ff844261be30b3423948" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.BaseHTTPResponse.release_conn</definition>
+        <argsstring>(self)</argsstring>
+        <name>release_conn</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.release_conn</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a8ab7c66af2f3571b6eeacfa60812ac42">release_conn</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a1f05c9bb22adc5678a729e2edb013576">release_conn</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="463" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="463" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a4c516d9b9621dafc3f28343a67d7c1f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.BaseHTTPResponse.drain_conn</definition>
+        <argsstring>(self)</argsstring>
+        <name>drain_conn</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.drain_conn</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1aa0b99bdddb649261a20a9cb375c4ef29">drain_conn</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1a5c905bbe58c7020da11a412d01cb6559">drain_conn</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="466" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="466" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1ad37cf7de3e2b9918ab4d5c6539f02c6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.BaseHTTPResponse.shutdown</definition>
+        <argsstring>(self)</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.shutdown</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1aa2367fd4980ebf3975dc49d6e816cc51">shutdown</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="469" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="469" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a999b39580f0d11828f3a784b3a2ff042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.BaseHTTPResponse.close</definition>
+        <argsstring>(self)</argsstring>
+        <name>close</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.close</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper_1a1e23bbbe59de6a8138011979c0a155ec">close</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Response_1acad2fc261a94782f9a5c151fedb10ffb">close</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1response_1_1HTTPResponse_1abd7ff07811db96b19c6d13b9b7e3cc31">close</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="472" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="472" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1af6f6f444e9b914469d27788f892887f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int urllib3.response.BaseHTTPResponse.readinto</definition>
+        <argsstring>(self, bytearray b)</argsstring>
+        <name>readinto</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.readinto</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bytearray</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="534" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="534" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1ac04a25b5aa7be0d55b3a18aec2f5d2ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1__collections_1_1HTTPHeaderDict" kindref="compound">HTTPHeaderDict</ref></type>
+        <definition> HTTPHeaderDict urllib3.response.BaseHTTPResponse.getheaders</definition>
+        <argsstring>(self)</argsstring>
+        <name>getheaders</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.getheaders</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="543" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="543" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1ab4d5c1b3e5004a2e5747cb07f12e5d7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None urllib3.response.BaseHTTPResponse.getheader</definition>
+        <argsstring>(self, str name, str|None default=None)</argsstring>
+        <name>getheader</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.getheader</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>default</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="552" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="552" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a593bd62fb400da7e34dfeecc2233eda7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1__collections_1_1HTTPHeaderDict" kindref="compound">HTTPHeaderDict</ref></type>
+        <definition> HTTPHeaderDict urllib3.response.BaseHTTPResponse.info</definition>
+        <argsstring>(self)</argsstring>
+        <name>info</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.info</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="562" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="562" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a65386fb2d11b6180577f32bffd867a0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None urllib3.response.BaseHTTPResponse.geturl</definition>
+        <argsstring>(self)</argsstring>
+        <name>geturl</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse.geturl</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="565" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="565" bodyend="568"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1a5968ec8ee73bf0fb9596e712309a0cdf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.BaseHTTPResponse._init_decoder</definition>
+        <argsstring>(self)</argsstring>
+        <name>_init_decoder</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse._init_decoder</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set-up the _decoder attribute if necessary.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="475" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="475" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1abdf20c6e37586031a8934c548301808c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.response.BaseHTTPResponse._decode</definition>
+        <argsstring>(self, bytes data, bool|None decode_content, bool flush_decoder)</argsstring>
+        <name>_decode</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse._decode</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>decode_content</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>flush_decoder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Decode the data passed in and potentially flush the decoder.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="494" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="496" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1BaseHTTPResponse_1ad639a0705d4787b573b65d63d5d04feb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.response.BaseHTTPResponse._flush_decoder</definition>
+        <argsstring>(self)</argsstring>
+        <name>_flush_decoder</name>
+        <qualifiedname>urllib3.response.BaseHTTPResponse._flush_decoder</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Flushes the decoder. Should only be called if the decoder is actually
+being used.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="524" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="524" bodyend="532"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>io.IOBase</label>
+      </node>
+      <node id="1">
+        <label>urllib3.response.BaseHTTPResponse</label>
+        <link refid="classurllib3_1_1response_1_1BaseHTTPResponse"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>urllib3.contrib.emscripten.response.EmscriptenHttpResponseWrapper</label>
+        <link refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenHttpResponseWrapper"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>urllib3.http2.connection.HTTP2Response</label>
+        <link refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Response"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>urllib3.response.HTTPResponse</label>
+        <link refid="classurllib3_1_1response_1_1HTTPResponse"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>io.IOBase</label>
+      </node>
+      <node id="3">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+      <node id="1">
+        <label>urllib3.response.BaseHTTPResponse</label>
+        <link refid="classurllib3_1_1response_1_1BaseHTTPResponse"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>CONTENT_DECODERS</edgelabel>
+          <edgelabel>REDIRECT_STATUSES</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>DECODER_ERROR_CLASSES</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="326" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="326" bodyend="568"/>
+    <listofallmembers>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1ad9c0f4178a326c768655d1c9715565e3" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>__init__</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1abdf20c6e37586031a8934c548301808c" prot="protected" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>_decode</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a8bce1004335ee710b40f426365cb05c2" prot="protected" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>_decoder</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1ad639a0705d4787b573b65d63d5d04feb" prot="protected" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>_flush_decoder</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a50364bd368b933385fdff8fa6950c9ff" prot="protected" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>_has_decoded_content</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a5968ec8ee73bf0fb9596e712309a0cdf" prot="protected" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>_init_decoder</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1ae539f36ca4f9d54e1d8387b1e76894eb" prot="protected" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>_retries</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a3f548dd1c91f6937d0888ea1938e5040" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>chunked</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a999b39580f0d11828f3a784b3a2ff042" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>close</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1afe4fc94a2a2e15ce402fe2b59336d83d" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>connection</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1ac8c28917c9738eb854fe54614b7d0df8" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>CONTENT_DECODERS</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a975e27acdd91f017d4932062ae1e21b3" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>data</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a4a79fbfa71500aee996d1c632d61d46c" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>decode_content</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a13c25c020d330eb6e64e96c44559c8ce" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>DECODER_ERROR_CLASSES</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a4c516d9b9621dafc3f28343a67d7c1f0" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>drain_conn</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1aba3dcc6513a624138792b1b4f27c5fbd" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>get_redirect_location</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1ab4d5c1b3e5004a2e5747cb07f12e5d7c" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>getheader</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1ac04a25b5aa7be0d55b3a18aec2f5d2ab" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>getheaders</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a65386fb2d11b6180577f32bffd867a0d" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>geturl</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1af53aa00777ff500268c8adb6e2fe0dc6" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>headers</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a593bd62fb400da7e34dfeecc2233eda7" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>info</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1abd598e644e5e22506aa77c4f23c7d77b" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>json</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a0e3817794b0699fe2a5017a5d33e847e" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>read</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a25b624bbe87eb718af9ae2126debd4d6" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>read1</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1aa30ef1e859a2d936e954f67c59425cad" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>read_chunked</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1af6f6f444e9b914469d27788f892887f9" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>readinto</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a6d33724c8432f3df19a1fd4cfa85a9bf" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>reason</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a24e7cfb4c4a8a8c045ecf7010d65b7fd" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>REDIRECT_STATUSES</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a7ce54536a9d3ff844261be30b3423948" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>release_conn</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a557cda40181e99f4265bb68a4c85af5e" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>retries</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a87c119ccd8dd2fdb698e145e15d32485" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>retries</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a471ef2edcf1de2008a3ceae278aff608" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>retries</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1ad37cf7de3e2b9918ab4d5c6539f02c6f" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>shutdown</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a59e01214a51f899d9ada2bc3b5f5ada3" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>status</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a083508b4a51e27aa76cd73f5f2a1f84b" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>stream</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a57178c9facbab066f0673cb94b2bb8f5" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>url</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1a8141e13b23620e3ff3a120aa22148b82" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>url</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1af8af2e7f9a3f26079a74c756796d185c" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>url</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1aeb314c050d086c868d0a165b6dab7e94" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>version</name></member>
+      <member refid="classurllib3_1_1response_1_1BaseHTTPResponse_1af1ff330f080d9efc0273422b072d0abd" prot="public" virt="non-virtual"><scope>urllib3::response::BaseHTTPResponse</scope><name>version_string</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

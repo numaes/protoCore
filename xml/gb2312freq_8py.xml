@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="gb2312freq_8py" kind="file" language="Python">
+    <compoundname>gb2312freq.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet">pip::_vendor::chardet</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet_1_1gb2312freq">pip::_vendor::chardet::gb2312freq</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1chardet_1_1gb2312freq" refkind="compound"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">#<sp/>GB2312<sp/>most<sp/>frequently<sp/>used<sp/>character<sp/>table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Char<sp/>to<sp/>FreqOrder<sp/>table<sp/>,<sp/>from<sp/>hz6763</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">#<sp/>512<sp/><sp/>--&gt;<sp/>0.79<sp/><sp/>--<sp/>0.79</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">#<sp/>1024<sp/>--&gt;<sp/>0.92<sp/><sp/>--<sp/>0.13</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">#<sp/>2048<sp/>--&gt;<sp/>0.98<sp/><sp/>--<sp/>0.06</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">#<sp/>6768<sp/>--&gt;<sp/>1.00<sp/><sp/>--<sp/>0.02</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Ideal<sp/>Distribution<sp/>Ratio<sp/>=<sp/>0.79135/(1-0.79135)<sp/>=<sp/>3.79</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Random<sp/>Distribution<sp/>Ration<sp/>=<sp/>512<sp/>/<sp/>(3755<sp/>-<sp/>512)<sp/>=<sp/>0.157</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Typical<sp/>Distribution<sp/>Ratio<sp/>about<sp/>25%<sp/>of<sp/>Ideal<sp/>one,<sp/>still<sp/>much<sp/>higher<sp/>that<sp/>RDR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">GB2312_TYPICAL_DISTRIBUTION_RATIO<sp/>=<sp/>0.9</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">GB2312_TABLE_SIZE<sp/>=<sp/>3760</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">#<sp/>fmt:<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">GB2312_CHAR_TO_FREQ_ORDER<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">1671,<sp/>749,1443,2364,3924,3807,2330,3921,1704,3463,2691,1511,1515,<sp/>572,3191,2205,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">2361,<sp/>224,2558,<sp/>479,1711,<sp/>963,3162,<sp/>440,4060,1905,2966,2947,3580,2647,3961,3842,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">2204,<sp/>869,4207,<sp/>970,2678,5626,2944,2956,1479,4048,<sp/>514,3595,<sp/>588,1346,2820,3409,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/>249,4088,1746,1873,2047,1774,<sp/>581,1813,<sp/>358,1174,3590,1014,1561,4844,2245,<sp/>670,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">1636,3112,<sp/>889,1286,<sp/>953,<sp/>556,2327,3060,1290,3141,<sp/>613,<sp/>185,3477,1367,<sp/>850,3820,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">1715,2428,2642,2303,2732,3041,2562,2648,3566,3946,1349,<sp/>388,3098,2091,1360,3585,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/>152,1687,1539,<sp/>738,1559,<sp/><sp/>59,1232,2925,2267,1388,1249,1741,1679,2960,<sp/>151,1566,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">1125,1352,4271,<sp/>924,4296,<sp/>385,3166,4459,<sp/>310,1245,2850,<sp/><sp/>70,3285,2729,3534,3575,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">2398,3298,3466,1960,2265,<sp/>217,3647,<sp/>864,1909,2084,4401,2773,1010,3269,5152,<sp/>853,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">3051,3121,1244,4251,1895,<sp/>364,1499,1540,2313,1180,3655,2268,<sp/>562,<sp/>715,2417,3061,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/>544,<sp/>336,3768,2380,1752,4075,<sp/>950,<sp/>280,2425,4382,<sp/>183,2759,3272,<sp/>333,4297,2155,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">1688,2356,1444,1039,4540,<sp/>736,1177,3349,2443,2368,2144,2225,<sp/>565,<sp/>196,1482,3406,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/>927,1335,4147,<sp/>692,<sp/>878,1311,1653,3911,3622,1378,4200,1840,2969,3149,2126,1816,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">2534,1546,2393,2760,<sp/>737,2494,<sp/><sp/>13,<sp/>447,<sp/>245,2747,<sp/><sp/>38,2765,2129,2589,1079,<sp/>606,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/>360,<sp/>471,3755,2890,<sp/>404,<sp/>848,<sp/>699,1785,1236,<sp/>370,2221,1023,3746,2074,2026,2023,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">2388,1581,2119,<sp/>812,1141,3091,2536,1519,<sp/>804,2053,<sp/>406,1596,1090,<sp/>784,<sp/>548,4414,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">1806,2264,2936,1100,<sp/>343,4114,5096,<sp/>622,3358,<sp/>743,3668,1510,1626,5020,3567,2513,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">3195,4115,5627,2489,2991,<sp/><sp/>24,2065,2697,1087,2719,<sp/><sp/>48,1634,<sp/>315,<sp/><sp/>68,<sp/>985,2052,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/>198,2239,1347,1107,1439,<sp/>597,2366,2172,<sp/>871,3307,<sp/>919,2487,2790,1867,<sp/>236,2570,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">1413,3794,<sp/>906,3365,3381,1701,1982,1818,1524,2924,1205,<sp/>616,2586,2072,2004,<sp/>575,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/>253,3099,<sp/><sp/>32,1365,1182,<sp/>197,1714,2454,1201,<sp/>554,3388,3224,2748,<sp/>756,2587,<sp/>250,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">2567,1507,1517,3529,1922,2761,2337,3416,1961,1677,2452,2238,3153,<sp/>615,<sp/>911,1506,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">1474,2495,1265,1906,2749,3756,3280,2161,<sp/>898,2714,1759,3450,2243,2444,<sp/>563,<sp/><sp/>26,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">3286,2266,3769,3344,2707,3677,<sp/>611,1402,<sp/>531,1028,2871,4548,1375,<sp/>261,2948,<sp/>835,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">1190,4134,<sp/>353,<sp/>840,2684,1900,3082,1435,2109,1207,1674,<sp/>329,1872,2781,4055,2686,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">2104,<sp/>608,3318,2423,2957,2768,1108,3739,3512,3271,3985,2203,1771,3520,1418,2054,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">1681,1153,<sp/>225,1627,2929,<sp/>162,2050,2511,3687,1954,<sp/>124,1859,2431,1684,3032,2894,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/>585,4805,3969,2869,2704,2088,2032,2095,3656,2635,4362,2209,<sp/>256,<sp/>518,2042,2105,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">3777,3657,<sp/>643,2298,1148,1779,<sp/>190,<sp/>989,3544,<sp/>414,<sp/><sp/>11,2135,2063,2979,1471,<sp/>403,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">3678,<sp/>126,<sp/>770,1563,<sp/>671,2499,3216,2877,<sp/>600,1179,<sp/>307,2805,4937,1268,1297,2694,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/>252,4032,1448,1494,1331,1394,<sp/>127,2256,<sp/>222,1647,1035,1481,3056,1915,1048,<sp/>873,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">3651,<sp/>210,<sp/><sp/>33,1608,2516,<sp/>200,1520,<sp/>415,<sp/>102,<sp/><sp/><sp/>0,3389,1287,<sp/>817,<sp/><sp/>91,3299,2940,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/>836,1814,<sp/>549,2197,1396,1669,2987,3582,2297,2848,4528,1070,<sp/>687,<sp/><sp/>20,1819,<sp/>121,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">1552,1364,1461,1968,2617,3540,2824,2083,<sp/>177,<sp/>948,4938,2291,<sp/>110,4549,2066,<sp/>648,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">3359,1755,2110,2114,4642,4845,1693,3937,3308,1257,1869,2123,<sp/>208,1804,3159,2992,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">2531,2549,3361,2418,1350,2347,2800,2568,1291,2036,2680,<sp/><sp/>72,<sp/>842,1990,<sp/>212,1233,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">1154,1586,<sp/><sp/>75,2027,3410,4900,1823,1337,2710,2676,<sp/>728,2810,1522,3026,4995,<sp/>157,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/>755,1050,4022,<sp/>710,<sp/>785,1936,2194,2085,1406,2777,2400,<sp/>150,1250,4049,1206,<sp/>807,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">1910,<sp/>534,<sp/>529,3309,1721,1660,<sp/>274,<sp/><sp/>39,2827,<sp/>661,2670,1578,<sp/>925,3248,3815,1094,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">4278,4901,4252,<sp/><sp/>41,1150,3747,2572,2227,4501,3658,4902,3813,3357,3617,2884,2258,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/>887,<sp/>538,4187,3199,1294,2439,3042,2329,2343,2497,1255,<sp/>107,<sp/>543,1527,<sp/>521,3478,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">3568,<sp/>194,5062,<sp/><sp/>15,<sp/>961,3870,1241,1192,2664,<sp/><sp/>66,5215,3260,2111,1295,1127,2152,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">3805,4135,<sp/>901,1164,1976,<sp/>398,1278,<sp/>530,1460,<sp/>748,<sp/>904,1054,1966,1426,<sp/><sp/>53,2909,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/>509,<sp/>523,2279,1534,<sp/>536,1019,<sp/>239,1685,<sp/>460,2353,<sp/>673,1065,2401,3600,4298,2272,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">1272,2363,<sp/>284,1753,3679,4064,1695,<sp/><sp/>81,<sp/>815,2677,2757,2731,1386,<sp/>859,<sp/>500,4221,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">2190,2566,<sp/>757,1006,2519,2068,1166,1455,<sp/>337,2654,3203,1863,1682,1914,3025,1252,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">1409,1366,<sp/>847,<sp/>714,2834,2038,3209,<sp/>964,2970,1901,<sp/>885,2553,1078,1756,3049,<sp/>301,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">1572,3326,<sp/>688,2130,1996,2429,1805,1648,2930,3421,2750,3652,3088,<sp/>262,1158,1254,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/>389,1641,1812,<sp/>526,1719,<sp/>923,2073,1073,1902,<sp/>468,<sp/>489,4625,1140,<sp/>857,2375,3070,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">3319,2863,<sp/>380,<sp/>116,1328,2693,1161,2244,<sp/>273,1212,1884,2769,3011,1775,1142,<sp/>461,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">3066,1200,2147,2212,<sp/>790,<sp/>702,2695,4222,1601,1058,<sp/>434,2338,5153,3640,<sp/><sp/>67,2360,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">4099,2502,<sp/>618,3472,1329,<sp/>416,1132,<sp/>830,2782,1807,2653,3211,3510,1662,<sp/>192,2124,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/>296,3979,1739,1611,3684,<sp/><sp/>23,<sp/>118,<sp/>324,<sp/>446,1239,1225,<sp/>293,2520,3814,3795,2535,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">3116,<sp/><sp/>17,1074,<sp/>467,2692,2201,<sp/>387,2922,<sp/><sp/>45,1326,3055,1645,3659,2817,<sp/>958,<sp/>243,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">1903,2320,1339,2825,1784,3289,<sp/>356,<sp/>576,<sp/>865,2315,2381,3377,3916,1088,3122,1713,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">1655,<sp/>935,<sp/>628,4689,1034,1327,<sp/>441,<sp/>800,<sp/>720,<sp/>894,1979,2183,1528,5289,2702,1071,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">4046,3572,2399,1571,3281,<sp/><sp/>79,<sp/>761,1103,<sp/>327,<sp/>134,<sp/>758,1899,1371,1615,<sp/>879,<sp/>442,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/>215,2605,2579,<sp/>173,2048,2485,1057,2975,3317,1097,2253,3801,4263,1403,1650,2946,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/>814,4968,3487,1548,2644,1567,1285,<sp/><sp/><sp/>2,<sp/>295,2636,<sp/><sp/>97,<sp/>946,3576,<sp/>832,<sp/>141,4257,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">3273,<sp/>760,3821,3521,3156,2607,<sp/>949,1024,1733,1516,1803,1920,2125,2283,2665,3180,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">1501,2064,3560,2171,1592,<sp/>803,3518,1416,<sp/>732,3897,4258,1363,1362,2458,<sp/>119,1427,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/>602,1525,2608,1605,1639,3175,<sp/>694,3064,<sp/><sp/>10,<sp/>465,<sp/><sp/>76,2000,4846,4208,<sp/>444,3781,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">1619,3353,2206,1273,3796,<sp/>740,2483,<sp/>320,1723,2377,3660,2619,1359,1137,1762,1724,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">2345,2842,1850,1862,<sp/>912,<sp/>821,1866,<sp/>612,2625,1735,2573,3369,1093,<sp/>844,<sp/><sp/>89,<sp/>937,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/>930,1424,3564,2413,2972,1004,3046,3019,2011,<sp/>711,3171,1452,4178,<sp/>428,<sp/>801,1943,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/>432,<sp/>445,2811,<sp/>206,4136,1472,<sp/>730,<sp/>349,<sp/><sp/>73,<sp/>397,2802,2547,<sp/>998,1637,1167,<sp/>789,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/>396,3217,<sp/>154,1218,<sp/>716,1120,1780,2819,4826,1931,3334,3762,2139,1215,2627,<sp/>552,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">3664,3628,3232,1405,2383,3111,1356,2652,3577,3320,3101,1703,<sp/>640,1045,1370,1246,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">4996,<sp/>371,1575,2436,1621,2210,<sp/>984,4033,1734,2638,<sp/><sp/>16,4529,<sp/>663,2755,3255,1451,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">3917,2257,1253,1955,2234,1263,2951,<sp/>214,1229,<sp/>617,<sp/>485,<sp/>359,1831,1969,<sp/>473,2310,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/>750,2058,<sp/>165,<sp/><sp/>80,2864,2419,<sp/>361,4344,2416,2479,1134,<sp/>796,3726,1266,2943,<sp/>860,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">2715,<sp/>938,<sp/>390,2734,1313,1384,<sp/>248,<sp/>202,<sp/>877,1064,2854,<sp/>522,3907,<sp/>279,1602,<sp/>297,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">2357,<sp/>395,3740,<sp/>137,2075,<sp/>944,4089,2584,1267,3802,<sp/><sp/>62,1533,2285,<sp/>178,<sp/>176,<sp/>780,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">2440,<sp/>201,3707,<sp/>590,<sp/>478,1560,4354,2117,1075,<sp/><sp/>30,<sp/><sp/>74,4643,4004,1635,1441,2745,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/>776,2596,<sp/>238,1077,1692,1912,2844,<sp/>605,<sp/>499,1742,3947,<sp/>241,3053,<sp/>980,1749,<sp/>936,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">2640,4511,2582,<sp/>515,1543,2162,5322,2892,2993,<sp/>890,2148,1924,<sp/>665,1827,3581,1032,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/>968,3163,<sp/>339,1044,1896,<sp/>270,<sp/>583,1791,1720,4367,1194,3488,3669,<sp/><sp/>43,2523,1657,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/>163,2167,<sp/>290,1209,1622,3378,<sp/>550,<sp/>634,2508,2510,<sp/>695,2634,2384,2512,1476,1414,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/>220,1469,2341,2138,2852,3183,2900,4939,2865,3502,1211,3680,<sp/>854,3227,1299,2976,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">3172,<sp/>186,2998,1459,<sp/>443,1067,3251,1495,<sp/>321,1932,3054,<sp/>909,<sp/>753,1410,1828,<sp/>436,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">2441,1119,1587,3164,2186,1258,<sp/>227,<sp/>231,1425,1890,3200,3942,<sp/>247,<sp/>959,<sp/>725,5254,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">2741,<sp/>577,2158,2079,<sp/>929,<sp/>120,<sp/>174,<sp/>838,2813,<sp/>591,1115,<sp/>417,2024,<sp/><sp/>40,3240,1536,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">1037,<sp/>291,4151,2354,<sp/>632,1298,2406,2500,3535,1825,1846,3451,<sp/>205,1171,<sp/>345,4238,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/>18,1163,<sp/>811,<sp/>685,2208,1217,<sp/>425,1312,1508,1175,4308,2552,1033,<sp/>587,1381,3059,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">2984,3482,<sp/>340,1316,4023,3972,<sp/>792,3176,<sp/>519,<sp/>777,4690,<sp/>918,<sp/>933,4130,2981,3741,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>90,3360,2911,2200,5184,4550,<sp/>609,3079,2030,<sp/>272,3379,2736,<sp/>363,3881,1130,1447,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/>286,<sp/>779,<sp/>357,1169,3350,3137,1630,1220,2687,2391,<sp/>747,1277,3688,2618,2682,2601,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">1156,3196,5290,4034,3102,1689,3596,3128,<sp/>874,<sp/>219,2783,<sp/>798,<sp/>508,1843,2461,<sp/>269,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">1658,1776,1392,1913,2983,3287,2866,2159,2372,<sp/>829,4076,<sp/><sp/>46,4253,2873,1889,1894,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/>915,1834,1631,2181,2318,<sp/>298,<sp/>664,2818,3555,2735,<sp/>954,3228,3117,<sp/>527,3511,2173,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/>681,2712,3033,2247,2346,3467,1652,<sp/>155,2164,3382,<sp/>113,1994,<sp/>450,<sp/>899,<sp/>494,<sp/>994,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">1237,2958,1875,2336,1926,3727,<sp/>545,1577,1550,<sp/>633,3473,<sp/>204,1305,3072,2410,1956,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">2471,<sp/>707,2134,<sp/>841,2195,2196,2663,3843,1026,4940,<sp/>990,3252,4997,<sp/>368,1092,<sp/>437,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">3212,3258,1933,1829,<sp/>675,2977,2893,<sp/>412,<sp/>943,3723,4644,3294,3283,2230,2373,5154,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">2389,2241,2661,2323,1404,2524,<sp/>593,<sp/>787,<sp/>677,3008,1275,2059,<sp/>438,2709,2609,2240,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">2269,2246,1446,<sp/><sp/>36,1568,1373,3892,1574,2301,1456,3962,<sp/>693,2276,5216,2035,1143,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">2720,1919,1797,1811,2763,4137,2597,1830,1699,1488,1198,2090,<sp/>424,1694,<sp/>312,3634,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">3390,4179,3335,2252,1214,<sp/>561,1059,3243,2295,2561,<sp/>975,5155,2321,2751,3772,<sp/>472,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">1537,3282,3398,1047,2077,2348,2878,1323,3340,3076,<sp/>690,2906,<sp/><sp/>51,<sp/>369,<sp/>170,3541,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">1060,2187,2688,3670,2541,1083,1683,<sp/>928,3918,<sp/>459,<sp/>109,4427,<sp/>599,3744,4286,<sp/>143,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">2101,2730,2490,<sp/><sp/>82,1588,3036,2121,<sp/>281,1860,<sp/>477,4035,1238,2812,3020,2716,3312,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">1530,2188,2055,1317,<sp/>843,<sp/>636,1808,1173,3495,<sp/>649,<sp/>181,1002,<sp/>147,3641,1159,2414,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">3750,2289,2795,<sp/>813,3123,2610,1136,4368,<sp/><sp/><sp/>5,3391,4541,2174,<sp/>420,<sp/>429,1728,<sp/>754,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">1228,2115,2219,<sp/>347,2223,2733,<sp/>735,1518,3003,2355,3134,1764,3948,3329,1888,2424,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">1001,1234,1972,3321,3363,1672,1021,1450,1584,<sp/>226,<sp/>765,<sp/>655,2526,3404,3244,2302,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">3665,<sp/>731,<sp/>594,2184,<sp/>319,1576,<sp/>621,<sp/>658,2656,4299,2099,3864,1279,2071,2598,2739,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/>795,3086,3699,3908,1707,2352,2402,1382,3136,2475,1465,4847,3496,3865,1085,3004,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">2591,1084,<sp/>213,2287,1963,3565,2250,<sp/>822,<sp/>793,4574,3187,1772,1789,3050,<sp/>595,1484,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">1959,2770,1080,2650,<sp/>456,<sp/>422,2996,<sp/>940,3322,4328,4345,3092,2742,<sp/>965,2784,<sp/>739,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">4124,<sp/>952,1358,2498,2949,2565,<sp/>332,2698,2378,<sp/>660,2260,2473,4194,3856,2919,<sp/>535,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">1260,2651,1208,1428,1300,1949,1303,2942,<sp/>433,2455,2450,1251,1946,<sp/>614,1269,<sp/>641,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">1306,1810,2737,3078,2912,<sp/>564,2365,1419,1415,1497,4460,2367,2185,1379,3005,1307,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">3218,2175,1897,3063,<sp/>682,1157,4040,4005,1712,1160,1941,1399,<sp/>394,<sp/>402,2952,1573,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">1151,2986,2404,<sp/>862,<sp/>299,2033,1489,3006,<sp/>346,<sp/>171,2886,3401,1726,2932,<sp/>168,2533,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/>47,2507,1030,3735,1145,3370,1395,1318,1579,3609,4560,2857,4116,1457,2529,1965,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/>504,1036,2690,2988,2405,<sp/>745,5871,<sp/>849,2397,2056,3081,<sp/>863,2359,3857,2096,<sp/><sp/>99,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">1397,1769,2300,4428,1643,3455,1978,1757,3718,1440,<sp/><sp/>35,4879,3742,1296,4228,2280,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/>160,5063,1599,2013,<sp/>166,<sp/>520,3479,1646,3345,3012,<sp/>490,1937,1545,1264,2182,2505,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">1096,1188,1369,1436,2421,1667,2792,2460,1270,2122,<sp/>727,3167,2143,<sp/>806,1706,1012,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">1800,3037,<sp/>960,2218,1882,<sp/>805,<sp/>139,2456,1139,1521,<sp/>851,1052,3093,3089,<sp/>342,2039,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/>744,5097,1468,1502,1585,2087,<sp/>223,<sp/>939,<sp/>326,2140,2577,<sp/>892,2481,1623,4077,<sp/>982,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">3708,<sp/>135,2131,<sp/><sp/>87,2503,3114,2326,1106,<sp/>876,1616,<sp/>547,2997,2831,2093,3441,4530,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">4314,<sp/><sp/><sp/>9,3256,4229,4148,<sp/>659,1462,1986,1710,2046,2913,2231,4090,4880,5255,3392,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">3274,1368,3689,4645,1477,<sp/>705,3384,3635,1068,1529,2941,1458,3782,1509,<sp/>100,1656,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">2548,<sp/>718,2339,<sp/>408,1590,2780,3548,1838,4117,3719,1345,3530,<sp/>717,3442,2778,3220,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">2898,1892,4590,3614,3371,2043,1998,1224,3483,<sp/>891,<sp/>635,<sp/>584,2559,3355,<sp/>733,1766,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">1729,1172,3789,1891,2307,<sp/>781,2982,2271,1957,1580,5773,2633,2005,4195,3097,1535,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">3213,1189,1934,5693,3262,<sp/>586,3118,1324,1598,<sp/>517,1564,2217,1868,1893,4445,3728,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">2703,3139,1526,1787,1992,3882,2875,1549,1199,1056,2224,1904,2711,5098,4287,<sp/>338,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">1993,3129,3489,2689,1809,2815,1997,<sp/>957,1855,3898,2550,3275,3057,1105,1319,<sp/>627,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">1505,1911,1883,3526,<sp/>698,3629,3456,1833,1431,<sp/>746,<sp/><sp/>77,1261,2017,2296,1977,1885,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/>125,1334,1600,<sp/>525,1798,1109,2222,1470,1945,<sp/>559,2236,1186,3443,2476,1929,1411,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">2411,3135,1777,3372,2621,1841,1613,3229,<sp/>668,1430,1839,2643,2916,<sp/>195,1989,2671,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">2358,1387,<sp/>629,3205,2293,5256,4439,<sp/>123,1310,<sp/>888,1879,4300,3021,3605,1003,1162,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">3192,2910,2010,<sp/>140,2395,2859,<sp/><sp/>55,1082,2012,2901,<sp/>662,<sp/>419,2081,1438,<sp/>680,2774,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">4654,3912,1620,1731,1625,5035,4065,2328,<sp/>512,1344,<sp/>802,5443,2163,2311,2537,<sp/>524,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">3399,<sp/><sp/>98,1155,2103,1918,2606,3925,2816,1393,2465,1504,3773,2177,3963,1478,4346,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/>180,1113,4655,3461,2028,1698,<sp/>833,2696,1235,1322,1594,4408,3623,3013,3225,2040,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">3022,<sp/>541,2881,<sp/>607,3632,2029,1665,1219,<sp/>639,1385,1686,1099,2803,3231,1938,3188,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">2858,<sp/>427,<sp/>676,2772,1168,2025,<sp/>454,3253,2486,3556,<sp/>230,1950,<sp/>580,<sp/>791,1991,1280,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">1086,1974,2034,<sp/>630,<sp/>257,3338,2788,4903,1017,<sp/><sp/>86,4790,<sp/>966,2789,1995,1696,1131,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/>259,3095,4188,1308,<sp/>179,1463,5257,<sp/>289,4107,1248,<sp/><sp/>42,3413,1725,2288,<sp/>896,1947,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/>774,4474,4254,<sp/>604,3430,4264,<sp/>392,2514,2588,<sp/>452,<sp/>237,1408,3018,<sp/>988,4531,1970,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">3034,3310,<sp/>540,2370,1562,1288,2990,<sp/>502,4765,1147,<sp/><sp/><sp/>4,1853,2708,<sp/>207,<sp/>294,2814,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">4078,2902,2509,<sp/>684,<sp/><sp/>34,3105,3532,2551,<sp/>644,<sp/>709,2801,2344,<sp/>573,1727,3573,3557,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">2021,1081,3100,4315,2100,3681,<sp/>199,2263,1837,2385,<sp/>146,3484,1195,2776,3949,<sp/>997,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">1939,3973,1008,1091,1202,1962,1847,1149,4209,5444,1076,<sp/>493,<sp/>117,5400,2521,<sp/>972,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">1490,2934,1796,4542,2374,1512,2933,2657,<sp/>413,2888,1135,2762,2314,2156,1355,2369,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/>766,2007,2527,2170,3124,2491,2593,2632,4757,2437,<sp/>234,3125,3591,1898,1750,1376,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">1942,3468,3138,<sp/>570,2127,2145,3276,4131,<sp/>962,<sp/>132,1445,4196,<sp/><sp/>19,<sp/>941,3624,3480,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">3366,1973,1374,4461,3431,2629,<sp/>283,2415,2275,<sp/>808,2887,3620,2112,2563,1353,3610,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/>955,1089,3103,1053,<sp/><sp/>96,<sp/><sp/>88,4097,<sp/>823,3808,1583,<sp/>399,<sp/>292,4091,3313,<sp/>421,1128,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/>642,4006,<sp/>903,2539,1877,2082,<sp/>596,<sp/><sp/>29,4066,1790,<sp/>722,2157,<sp/>130,<sp/>995,1569,<sp/>769,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">1485,<sp/>464,<sp/>513,2213,<sp/>288,1923,1101,2453,4316,<sp/>133,<sp/>486,2445,<sp/><sp/>50,<sp/>625,<sp/>487,2207,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/>57,<sp/>423,<sp/>481,2962,<sp/>159,3729,1558,<sp/>491,<sp/>303,<sp/>482,<sp/>501,<sp/>240,2837,<sp/>112,3648,2392,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">1783,<sp/>362,<sp/><sp/><sp/>8,3433,3422,<sp/>610,2793,3277,1390,1284,1654,<sp/><sp/>21,3823,<sp/>734,<sp/>367,<sp/>623,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/>193,<sp/>287,<sp/>374,1009,1483,<sp/>816,<sp/>476,<sp/>313,2255,2340,1262,2150,2899,1146,2581,<sp/>782,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">2116,1659,2018,1880,<sp/>255,3586,3314,1110,2867,2137,2564,<sp/>986,2767,5185,2006,<sp/>650,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/>158,<sp/>926,<sp/>762,<sp/>881,3157,2717,2362,3587,<sp/>306,3690,3245,1542,3077,2427,1691,2478,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">2118,2985,3490,2438,<sp/>539,2305,<sp/>983,<sp/>129,1754,<sp/>355,4201,2386,<sp/>827,2923,<sp/>104,1773,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">2838,2771,<sp/>411,2905,3919,<sp/>376,<sp/>767,<sp/>122,1114,<sp/>828,2422,1817,3506,<sp/>266,3460,1007,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">1609,4998,<sp/>945,2612,4429,2274,<sp/>726,1247,1964,2914,2199,2070,4002,4108,<sp/>657,3323,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">1422,<sp/>579,<sp/>455,2764,4737,1222,2895,1670,<sp/>824,1223,1487,2525,<sp/>558,<sp/>861,3080,<sp/>598,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">2659,2515,1967,<sp/>752,2583,2376,2214,4180,<sp/>977,<sp/>704,2464,4999,2622,4109,1210,2961,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/>819,1541,<sp/>142,2284,<sp/><sp/>44,<sp/>418,<sp/>457,1126,3730,4347,4626,1644,1876,3671,1864,<sp/>302,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">1063,5694,<sp/>624,<sp/>723,1984,3745,1314,1676,2488,1610,1449,3558,3569,2166,2098,<sp/>409,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">1011,2325,3704,2306,<sp/>818,1732,1383,1824,1844,3757,<sp/>999,2705,3497,1216,1423,2683,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">2426,2954,2501,2726,2229,1475,2554,5064,1971,1794,1666,2014,1343,<sp/>783,<sp/>724,<sp/>191,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">2434,1354,2220,5065,1763,2752,2472,4152,<sp/>131,<sp/>175,2885,3434,<sp/><sp/>92,1466,4920,2616,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">3871,3872,3866,<sp/>128,1551,1632,<sp/>669,1854,3682,4691,4125,1230,<sp/>188,2973,3290,1302,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">1213,<sp/>560,3266,<sp/>917,<sp/>763,3909,3249,1760,<sp/>868,1958,<sp/>764,1782,2097,<sp/>145,2277,3774,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">4462,<sp/><sp/>64,1491,3062,<sp/>971,2132,3606,2442,<sp/>221,1226,1617,<sp/>218,<sp/>323,1185,3207,3147,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/>571,<sp/>619,1473,1005,1744,2281,<sp/>449,1887,2396,3685,<sp/>275,<sp/>375,3816,1743,3844,3731,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/>845,1983,2350,4210,1377,<sp/>773,<sp/>967,3499,3052,3743,2725,4007,1697,1022,3943,1464,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">3264,2855,2722,1952,1029,2839,2467,<sp/><sp/>84,4383,2215,<sp/>820,1391,2015,2448,3672,<sp/>377,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">1948,2168,<sp/>797,2545,3536,2578,2645,<sp/><sp/>94,2874,1678,<sp/>405,1259,3071,<sp/>771,<sp/>546,1315,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/>470,1243,3083,<sp/>895,2468,<sp/>981,<sp/>969,2037,<sp/>846,4181,<sp/>653,1276,2928,<sp/><sp/>14,2594,<sp/>557,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">3007,2474,<sp/>156,<sp/>902,1338,1740,2574,<sp/>537,2518,<sp/>973,2282,2216,2433,1928,<sp/>138,2903,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">1293,2631,1612,<sp/>646,3457,<sp/>839,2935,<sp/>111,<sp/>496,2191,2847,<sp/>589,3186,<sp/>149,3994,2060,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">4031,2641,4067,3145,1870,<sp/><sp/>37,3597,2136,1025,2051,3009,3383,3549,1121,1016,3261,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">1301,<sp/>251,2446,2599,2153,<sp/>872,3246,<sp/>637,<sp/>334,3705,<sp/>831,<sp/>884,<sp/>921,3065,3140,4092,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">2198,1944,<sp/>246,2964,<sp/>108,2045,1152,1921,2308,1031,<sp/>203,3173,4170,1907,3890,<sp/>810,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">1401,2003,1690,<sp/>506,<sp/>647,1242,2828,1761,1649,3208,2249,1589,3709,2931,5156,1708,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/>498,<sp/>666,2613,<sp/>834,3817,1231,<sp/>184,2851,1124,<sp/>883,3197,2261,3710,1765,1553,2658,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">1178,2639,2351,<sp/><sp/>93,1193,<sp/>942,2538,2141,4402,<sp/>235,1821,<sp/>870,1591,2192,1709,1871,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">3341,1618,4126,2595,2334,<sp/>603,<sp/>651,<sp/><sp/>69,<sp/>701,<sp/>268,2662,3411,2555,1380,1606,<sp/>503,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/>448,<sp/>254,2371,2646,<sp/>574,1187,2309,1770,<sp/>322,2235,1292,1801,<sp/>305,<sp/>566,1133,<sp/>229,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">2067,2057,<sp/>706,<sp/>167,<sp/>483,2002,2672,3295,1820,3561,3067,<sp/>316,<sp/>378,2746,3452,1112,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/>136,1981,<sp/>507,1651,2917,1117,<sp/>285,4591,<sp/>182,2580,3522,1304,<sp/>335,3303,1835,2504,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">1795,1792,2248,<sp/>674,1018,2106,2449,1857,2292,2845,<sp/>976,3047,1781,2600,2727,1389,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">1281,<sp/><sp/>52,3152,<sp/>153,<sp/>265,3950,<sp/>672,3485,3951,4463,<sp/>430,1183,<sp/>365,<sp/>278,2169,<sp/><sp/>27,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">1407,1336,2304,<sp/>209,1340,1730,2202,1852,2403,2883,<sp/>979,1737,1062,<sp/>631,2829,2542,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">3876,2592,<sp/>825,2086,2226,3048,3625,<sp/>352,1417,3724,<sp/>542,<sp/>991,<sp/>431,1351,3938,1861,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">2294,<sp/>826,1361,2927,3142,3503,1738,<sp/>463,2462,2723,<sp/>582,1916,1595,2808,<sp/>400,3845,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">3891,2868,3621,2254,<sp/><sp/>58,2492,1123,<sp/>910,2160,2614,1372,1603,1196,1072,3385,1700,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">3267,1980,<sp/>696,<sp/>480,2430,<sp/>920,<sp/>799,1570,2920,1951,2041,4047,2540,1321,4223,2469,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">3562,2228,1271,2602,<sp/>401,2833,3351,2575,5157,<sp/>907,2312,1256,<sp/>410,<sp/>263,3507,1582,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/>996,<sp/>678,1849,2316,1480,<sp/>908,3545,2237,<sp/>703,2322,<sp/>667,1826,2849,1531,2604,2999,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">2407,3146,2151,2630,1786,3711,<sp/>469,3542,<sp/>497,3899,2409,<sp/>858,<sp/>837,4446,3393,1274,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/>786,<sp/>620,1845,2001,3311,<sp/>484,<sp/>308,3367,1204,1815,3691,2332,1532,2557,1842,2020,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">2724,1927,2333,4440,<sp/>567,<sp/><sp/>22,1673,2728,4475,1987,1858,1144,1597,<sp/>101,1832,3601,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/>12,<sp/>974,3783,4391,<sp/>951,1412,<sp/><sp/><sp/>1,3720,<sp/>453,4608,4041,<sp/>528,1041,1027,3230,2628,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">1129,<sp/>875,1051,3291,1203,2262,1069,2860,2799,2149,2615,3278,<sp/>144,1758,3040,<sp/><sp/>31,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/>475,1680,<sp/>366,2685,3184,<sp/>311,1642,4008,2466,5036,1593,1493,2809,<sp/>216,1420,1668,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/>233,<sp/>304,2128,3284,<sp/>232,1429,1768,1040,2008,3407,2740,2967,2543,<sp/>242,2133,<sp/>778,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">1565,2022,2620,<sp/>505,2189,2756,1098,2273,<sp/>372,1614,<sp/>708,<sp/>553,2846,2094,2278,<sp/>169,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">3626,2835,4161,<sp/>228,2674,3165,<sp/>809,1454,1309,<sp/>466,1705,1095,<sp/>900,3423,<sp/>880,2667,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">3751,5258,2317,3109,2571,4317,2766,1503,1342,<sp/>866,4447,1118,<sp/><sp/>63,2076,<sp/>314,1881,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">1348,1061,<sp/>172,<sp/>978,3515,1747,<sp/>532,<sp/>511,3970,<sp/><sp/><sp/>6,<sp/>601,<sp/>905,2699,3300,1751,<sp/>276,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">1467,3725,2668,<sp/><sp/>65,4239,2544,2779,2556,1604,<sp/>578,2451,1802,<sp/>992,2331,2624,1320,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">3446,<sp/>713,1513,1013,<sp/>103,2786,2447,1661,<sp/>886,1702,<sp/>916,<sp/>654,3574,2031,1556,<sp/>751,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">2178,2821,2179,1498,1538,2176,<sp/>271,<sp/>914,2251,2080,1325,<sp/>638,1953,2937,3877,2432,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">2754,<sp/><sp/>95,3265,1716,<sp/>260,1227,4083,<sp/>775,<sp/>106,1357,3254,<sp/>426,1607,<sp/>555,2480,<sp/>772,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">1985,<sp/>244,2546,<sp/>474,<sp/>495,1046,2611,1851,2061,<sp/><sp/>71,2089,1675,2590,<sp/>742,3758,2843,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">3222,1433,<sp/>267,2180,2576,2826,2233,2092,3913,2435,<sp/>956,1745,3075,<sp/>856,2113,1116,</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/>451,<sp/><sp/><sp/>3,1988,2896,1398,<sp/>993,2463,1878,2049,1341,2718,2721,2870,2108,<sp/>712,2904,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">4363,2753,2324,<sp/>277,2872,2349,2649,<sp/>384,<sp/>987,<sp/>435,<sp/>691,3000,<sp/>922,<sp/>164,3939,<sp/>652,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">1500,1184,4153,2482,3373,2165,4848,2335,3775,3508,3154,2806,2830,1554,2102,1664,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">2530,1434,2408,<sp/>893,1547,2623,3447,2832,2242,2532,3169,2856,3223,2078,<sp/><sp/>49,3770,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">3469,<sp/>462,<sp/>318,<sp/>656,2259,3250,3069,<sp/>679,1629,2758,<sp/>344,1138,1104,3120,1836,1283,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">3115,2154,1437,4448,<sp/>934,<sp/>759,1999,<sp/>794,2862,1038,<sp/>533,2560,1722,2342,<sp/>855,2626,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">1197,1663,4476,3127,<sp/><sp/>85,4240,2528,<sp/><sp/>25,1111,1181,3673,<sp/>407,3470,4561,2679,2713,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/>768,1925,2841,3986,1544,1165,<sp/>932,<sp/>373,1240,2146,1930,2673,<sp/>721,4766,<sp/>354,4333,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/>391,2963,<sp/>187,<sp/><sp/>61,3364,1442,1102,<sp/>330,1940,1767,<sp/>341,3809,4118,<sp/>393,2496,2062,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">2211,<sp/>105,<sp/>331,<sp/>300,<sp/>439,<sp/>913,1332,<sp/>626,<sp/>379,3304,1557,<sp/>328,<sp/>689,3952,<sp/>309,1555,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/>931,<sp/>317,2517,3027,<sp/>325,<sp/>569,<sp/>686,2107,3084,<sp/><sp/>60,1042,1333,2794,<sp/>264,3177,4014,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">1628,<sp/>258,3712,<sp/><sp/><sp/>7,4464,1176,1043,1778,<sp/>683,<sp/>114,1975,<sp/><sp/>78,1492,<sp/>383,1886,<sp/>510,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/>386,<sp/>645,5291,2891,2069,3305,4138,3867,2939,2603,2493,1935,1066,1848,3588,1015,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">1282,1289,4609,<sp/>697,1453,3044,2666,3611,1856,2412,<sp/><sp/>54,<sp/>719,1330,<sp/>568,3778,2459,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">1748,<sp/>788,<sp/>492,<sp/>551,1191,1000,<sp/>488,3394,3763,<sp/>282,1799,<sp/>348,2016,1523,3155,2390,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">1049,<sp/>382,2019,1788,1170,<sp/>729,2968,3523,<sp/>897,3926,2785,2938,3292,<sp/>350,2319,3238,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">1718,1717,2655,3453,3143,4465,<sp/>161,2889,2980,2009,1421,<sp/><sp/>56,1908,1640,2387,2232,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">1917,1874,2477,4921,<sp/>148,<sp/><sp/>83,3438,<sp/>592,4245,2882,1822,1055,<sp/>741,<sp/>115,1496,1624,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/>381,1638,4592,1020,<sp/>516,3214,<sp/>458,<sp/>947,4575,1432,<sp/>211,1514,2926,1865,2142,<sp/>189,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/>852,1221,1400,1486,<sp/>882,2299,4036,<sp/>351,<sp/><sp/>28,1122,<sp/>700,6479,6480,6481,6482,6483,<sp/><sp/></highlight><highlight class="comment">#last<sp/>512</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">#<sp/>fmt:<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/gb2312freq.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classtesting_1_1internal_1_1ReturnAction" kind="class" language="C++" prot="private" final="yes">
+    <compoundname>testing::internal::ReturnAction</compoundname>
+    <innerclass refid="classtesting_1_1internal_1_1ReturnAction_1_1Impl" prot="private">testing::internal::ReturnAction::Impl</innerclass>
+    <templateparamlist>
+      <param>
+        <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> R</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtesting_1_1internal_1_1ReturnAction_1afddf55af218c9e3aff50a152ce669852" prot="private" static="no" mutable="no">
+        <type>R</type>
+        <definition>R testing::internal::ReturnAction&lt; R &gt;::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>testing::internal::ReturnAction::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="1078" column="5" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="1078" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ReturnAction_1af65344e503dae3ab36b4fd6d1ede6fb7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>testing::internal::ReturnAction&lt; R &gt;::ReturnAction</definition>
+        <argsstring>(R value)</argsstring>
+        <name>ReturnAction</name>
+        <qualifiedname>testing::internal::ReturnAction::ReturnAction</qualifiedname>
+        <param>
+          <type>R</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="923" column="12" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="923" bodyend="923"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ReturnAction_1a4739a4229acb1b4b4a741853170a16d4" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref></type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref></type>
+            <defval><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> std::enable_if&lt;<ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">conjunction</ref>&lt;                                <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">negation</ref>&lt;std::is_same&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">void</ref>, <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;,                  <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">negation</ref>&lt;std::is_reference&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;,                   std::is_convertible&lt;R, <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;,                        std::is_move_constructible&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">::value</ref>&gt;::type</defval>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>testing::internal::ReturnAction&lt; R &gt;::operator OnceAction&lt; U</definition>
+        <argsstring>(Args...)&gt;() &amp;&amp;</argsstring>
+        <name>operator OnceAction&lt; U</name>
+        <qualifiedname>testing::internal::ReturnAction::operator OnceAction&lt; U</qualifiedname>
+        <param>
+          <type>Args...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="932" column="3" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="932" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ReturnAction_1a9ece9726503ae107ff979396273593e6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref></type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref></type>
+            <defval><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> std::enable_if&lt;<ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">conjunction</ref>&lt;                                <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">negation</ref>&lt;std::is_same&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">void</ref>, <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;,                   <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">negation</ref>&lt;std::is_reference&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;,                    std::is_convertible&lt;const R&amp;, <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;,                  std::is_copy_constructible&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">::value</ref>&gt;::type</defval>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>testing::internal::ReturnAction&lt; R &gt;::operator Action&lt; U</definition>
+        <argsstring>(Args...)&gt;() const</argsstring>
+        <name>operator Action&lt; U</name>
+        <qualifiedname>testing::internal::ReturnAction::operator Action&lt; U</qualifiedname>
+        <param>
+          <type>Args...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="943" column="3" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="943" bodyend="945"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ReturnAction_1af65344e503dae3ab36b4fd6d1ede6fb7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>testing::internal::ReturnAction&lt; R &gt;::ReturnAction</definition>
+        <argsstring>(R value)</argsstring>
+        <name>ReturnAction</name>
+        <qualifiedname>testing::internal::ReturnAction::ReturnAction</qualifiedname>
+        <param>
+          <type>R</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="923" column="12" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="923" bodyend="923"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ReturnAction_1a4739a4229acb1b4b4a741853170a16d4" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref></type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref></type>
+            <defval><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> std::enable_if&lt;<ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">conjunction</ref>&lt;                                <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">negation</ref>&lt;std::is_same&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">void</ref>, <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;,                  <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">negation</ref>&lt;std::is_reference&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;,                   std::is_convertible&lt;R, <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;,                        std::is_move_constructible&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">::value</ref>&gt;::type</defval>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>testing::internal::ReturnAction&lt; R &gt;::operator OnceAction&lt; U</definition>
+        <argsstring>(Args...)&gt;() &amp;&amp;</argsstring>
+        <name>operator OnceAction&lt; U</name>
+        <qualifiedname>testing::internal::ReturnAction::operator OnceAction&lt; U</qualifiedname>
+        <param>
+          <type>Args...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="932" column="3" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="932" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ReturnAction_1a9ece9726503ae107ff979396273593e6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref></type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref></type>
+            <defval><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> std::enable_if&lt;<ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">conjunction</ref>&lt;                                <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">negation</ref>&lt;std::is_same&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">void</ref>, <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;,                   <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">negation</ref>&lt;std::is_reference&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;,                    std::is_convertible&lt;const R&amp;, <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;,                  std::is_copy_constructible&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">U</ref>&gt;&gt;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">::value</ref>&gt;::type</defval>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>testing::internal::ReturnAction&lt; R &gt;::operator Action&lt; U</definition>
+        <argsstring>(Args...)&gt;() const</argsstring>
+        <name>operator Action&lt; U</name>
+        <qualifiedname>testing::internal::ReturnAction::operator Action&lt; U</qualifiedname>
+        <param>
+          <type>Args...</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="943" column="3" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="943" bodyend="945"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="921" column="1" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="921" bodyend="1079"/>
+    <listofallmembers>
+      <member refid="classtesting_1_1internal_1_1ReturnAction_1a9ece9726503ae107ff979396273593e6" prot="public" virt="non-virtual"><scope>testing::internal::ReturnAction</scope><name>operator Action&lt; U</name></member>
+      <member refid="classtesting_1_1internal_1_1ReturnAction_1a9ece9726503ae107ff979396273593e6" prot="public" virt="non-virtual"><scope>testing::internal::ReturnAction</scope><name>operator Action&lt; U</name></member>
+      <member refid="classtesting_1_1internal_1_1ReturnAction_1a4739a4229acb1b4b4a741853170a16d4" prot="public" virt="non-virtual"><scope>testing::internal::ReturnAction</scope><name>operator OnceAction&lt; U</name></member>
+      <member refid="classtesting_1_1internal_1_1ReturnAction_1a4739a4229acb1b4b4a741853170a16d4" prot="public" virt="non-virtual"><scope>testing::internal::ReturnAction</scope><name>operator OnceAction&lt; U</name></member>
+      <member refid="classtesting_1_1internal_1_1ReturnAction_1af65344e503dae3ab36b4fd6d1ede6fb7" prot="public" virt="non-virtual"><scope>testing::internal::ReturnAction</scope><name>ReturnAction</name></member>
+      <member refid="classtesting_1_1internal_1_1ReturnAction_1af65344e503dae3ab36b4fd6d1ede6fb7" prot="public" virt="non-virtual"><scope>testing::internal::ReturnAction</scope><name>ReturnAction</name></member>
+      <member refid="classtesting_1_1internal_1_1ReturnAction_1afddf55af218c9e3aff50a152ce669852" prot="private" virt="non-virtual"><scope>testing::internal::ReturnAction</scope><name>value_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

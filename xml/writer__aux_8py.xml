@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="writer__aux_8py" kind="file" language="Python">
+    <compoundname>writer_aux.py</compoundname>
+    <innerclass refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound" prot="public">docutils::transforms::writer_aux::Compound</innerclass>
+    <innerclass refid="classdocutils_1_1transforms_1_1writer__aux_1_1Admonitions" prot="public">docutils::transforms::writer_aux::Admonitions</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1transforms">docutils::transforms</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1transforms_1_1writer__aux">docutils::transforms::writer_aux</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1transforms_1_1writer__aux" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>writer_aux.py<sp/>9037<sp/>2022-03-05<sp/>23:31:10Z<sp/>milde<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>Lea<sp/>Wiemann<sp/>&lt;LeWiemann@gmail.com&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">Auxiliary<sp/>transforms<sp/>mainly<sp/>to<sp/>be<sp/>used<sp/>by<sp/>Writer<sp/>components.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral">This<sp/>module<sp/>is<sp/>called<sp/>&quot;writer_aux&quot;<sp/>because<sp/>otherwise<sp/>there<sp/>would<sp/>be</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">conflicting<sp/>imports<sp/>like<sp/>this<sp/>one::</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>from<sp/>docutils<sp/>import<sp/>writers</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>from<sp/>docutils.transforms<sp/>import<sp/>writers</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">__docformat__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;reStructuredText&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>warnings</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes,<sp/>languages</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms" kindref="compound">docutils.transforms</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Transform</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound" kindref="compound">Compound</ref>(<ref refid="classdocutils_1_1transforms_1_1Transform" kindref="compound">Transform</ref>):</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>warning::<sp/>This<sp/>transform<sp/>is<sp/>not<sp/>used<sp/>by<sp/>Docutils<sp/>since<sp/>Dec<sp/>2010</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>will<sp/>be<sp/>removed<sp/>in<sp/>Docutils<sp/>0.21<sp/>or<sp/>later.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Flatten<sp/>all<sp/>compound<sp/>paragraphs.<sp/><sp/>For<sp/>example,<sp/>transform<sp/>::</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;compound&gt;</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;paragraph&gt;</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;literal_block&gt;</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;paragraph&gt;</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>into<sp/>::</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;paragraph&gt;</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;literal_block<sp/>classes=&quot;continued&quot;&gt;</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;paragraph<sp/>classes=&quot;continued&quot;&gt;</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>default_priority<sp/>=<sp/>910</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1ae47f37ec45a7ef77c2a73a66f08bb0ad" kindref="member">__init__</ref>(self,<sp/>document,<sp/>startnode=None):</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>warnings.warn(</highlight><highlight class="stringliteral">&apos;docutils.transforms.writer_aux.Compound<sp/>is<sp/>deprecated&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;<sp/>and<sp/>will<sp/>be<sp/>removed<sp/>in<sp/>Docutils<sp/>0.21<sp/>or<sp/>later.&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DeprecationWarning,<sp/>stacklevel=2)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1ae47f37ec45a7ef77c2a73a66f08bb0ad" kindref="member">__init__</ref>(document,<sp/>startnode)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1aadfc051f2f9501126e282f6556cda56e" kindref="member">apply</ref>(self):</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>compound<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.findall(<ref refid="classdocutils_1_1nodes_1_1compound" kindref="compound">nodes.compound</ref>):</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first_child<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>child<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>compound:</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>first_child:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(child,<sp/><ref refid="classdocutils_1_1nodes_1_1Invisible" kindref="compound">nodes.Invisible</ref>):</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first_child<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child[</highlight><highlight class="stringliteral">&apos;classes&apos;</highlight><highlight class="normal">].append(</highlight><highlight class="stringliteral">&apos;continued&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Substitute<sp/>children<sp/>for<sp/>compound.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compound.replace_self(compound[:])</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classdocutils_1_1transforms_1_1writer__aux_1_1Admonitions" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1writer__aux_1_1Admonitions" kindref="compound">Admonitions</ref>(<ref refid="classdocutils_1_1transforms_1_1Transform" kindref="compound">Transform</ref>):</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Transform<sp/>specific<sp/>admonitions,<sp/>like<sp/>this:</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;note&gt;</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;paragraph&gt;</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Note<sp/>contents<sp/>...</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>into<sp/>generic<sp/>admonitions,<sp/>like<sp/>this::</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;admonition<sp/>classes=&quot;note&quot;&gt;</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;title&gt;</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Note</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;paragraph&gt;</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Note<sp/>contents<sp/>...</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>admonition<sp/>title<sp/>is<sp/>localized.</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>default_priority<sp/>=<sp/>920</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1writer__aux_1_1Admonitions_1aab6d010406500f353bd3106c38a6d177" kindref="member">apply</ref>(self):</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>language<sp/>=<sp/>languages.get_language(self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.settings.language_code,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.reporter)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>node<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.findall(<ref refid="classdocutils_1_1nodes_1_1Admonition" kindref="compound">nodes.Admonition</ref>):</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node_name<sp/>=<sp/>node.__class__.__name__</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Set<sp/>class,<sp/>so<sp/>that<sp/>we<sp/>know<sp/>what<sp/>node<sp/>this<sp/>admonition<sp/>came<sp/>from.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node[</highlight><highlight class="stringliteral">&apos;classes&apos;</highlight><highlight class="normal">].append(node_name)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(node,<sp/><ref refid="classdocutils_1_1nodes_1_1admonition" kindref="compound">nodes.admonition</ref>):</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Specific<sp/>admonition.<sp/><sp/>Transform<sp/>into<sp/>a<sp/>generic<sp/>admonition.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>admonition<sp/>=<sp/><ref refid="classdocutils_1_1nodes_1_1admonition" kindref="compound">nodes.admonition</ref>(node.rawsource,<sp/>*node.children,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>**node.attributes)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>title<sp/>=<sp/><ref refid="classdocutils_1_1nodes_1_1title" kindref="compound">nodes.title</ref>(</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">,<sp/>language.labels[node_name])</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>admonition.insert(0,<sp/>title)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.replace_self(admonition)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::cachecontrol::serialize::Serializer</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1aa352d6778cad58d915a640f65fbec4ab" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.cachecontrol.serialize.Serializer::serde_version</definition>
+        <argsstring></argsstring>
+        <name>serde_version</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer.serde_version</qualifiedname>
+        <initializer>=  &quot;4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1af9655b2c82e5c0e3d17fd611d32c7804" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes pip._vendor.cachecontrol.serialize.Serializer.dumps</definition>
+        <argsstring>(self, PreparedRequest request, HTTPResponse response, bytes|None body=None)</argsstring>
+        <name>dumps</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer.dumps</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1PreparedRequest" kindref="compound">PreparedRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1response_1_1HTTPResponse" kindref="compound">HTTPResponse</ref></type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>bytes|None</type>
+          <declname>body</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="25" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1a89a4635d943427dbb6ac8b91fe90b4a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes pip._vendor.cachecontrol.serialize.Serializer.serialize</definition>
+        <argsstring>(self, dict[str, Any] data)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer.serialize</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>data</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1adabebfa4be7f72882af1e0467bbe7b56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1response_1_1HTTPResponse" kindref="compound">HTTPResponse</ref>|None</type>
+        <definition> HTTPResponse | None pip._vendor.cachecontrol.serialize.Serializer.loads</definition>
+        <argsstring>(self, PreparedRequest request, bytes data, IO[bytes]|None body_file=None)</argsstring>
+        <name>loads</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer.loads</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1PreparedRequest" kindref="compound">PreparedRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>IO|None</type>
+          <declname>body_file</declname>
+          <array>[bytes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="65" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="70" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1ad1f28cb40bebfd94f0dcb9e3f17867a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1response_1_1HTTPResponse" kindref="compound">HTTPResponse</ref>|None</type>
+        <definition> HTTPResponse | None pip._vendor.cachecontrol.serialize.Serializer.prepare_response</definition>
+        <argsstring>(self, PreparedRequest request, Mapping[str, Any] cached, IO[bytes]|None body_file=None)</argsstring>
+        <name>prepare_response</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer.prepare_response</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1PreparedRequest" kindref="compound">PreparedRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>cached</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>IO|None</type>
+          <declname>body_file</declname>
+          <array>[bytes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Verify our vary headers match and construct a real urllib3
+HTTPResponse object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="100" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="105" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1ae517657a5ac26467014b54eb98017042" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.cachecontrol.serialize.Serializer._loads_v0</definition>
+        <argsstring>(self, PreparedRequest request, bytes data, IO[bytes]|None body_file=None)</argsstring>
+        <name>_loads_v0</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer._loads_v0</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1PreparedRequest" kindref="compound">PreparedRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>IO|None</type>
+          <declname>body_file</declname>
+          <array>[bytes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="152" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="157" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1ad3306208097b796519f8b9f394bc5fda" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1response_1_1HTTPResponse" kindref="compound">HTTPResponse</ref>|None</type>
+        <definition> HTTPResponse | None pip._vendor.cachecontrol.serialize.Serializer._loads_v1</definition>
+        <argsstring>(self, PreparedRequest request, bytes data, IO[bytes]|None body_file=None)</argsstring>
+        <name>_loads_v1</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer._loads_v1</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1PreparedRequest" kindref="compound">PreparedRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>IO|None</type>
+          <declname>body_file</declname>
+          <array>[bytes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="163" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="168" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1af83568aa573cdd29cbddf77bea65c5f0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1response_1_1HTTPResponse" kindref="compound">HTTPResponse</ref>|None</type>
+        <definition> HTTPResponse | None pip._vendor.cachecontrol.serialize.Serializer._loads_v2</definition>
+        <argsstring>(self, PreparedRequest request, bytes data, IO[bytes]|None body_file=None)</argsstring>
+        <name>_loads_v2</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer._loads_v2</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1PreparedRequest" kindref="compound">PreparedRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>IO|None</type>
+          <declname>body_file</declname>
+          <array>[bytes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="173" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="178" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1a8d417837783114096db40e63e3353f2e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.cachecontrol.serialize.Serializer._loads_v3</definition>
+        <argsstring>(self, PreparedRequest request, bytes data, IO[bytes]|None body_file=None)</argsstring>
+        <name>_loads_v3</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer._loads_v3</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1PreparedRequest" kindref="compound">PreparedRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>IO|None</type>
+          <declname>body_file</declname>
+          <array>[bytes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="184" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="189" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1a4295845f230eac5134e6827cdc631a44" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1response_1_1HTTPResponse" kindref="compound">HTTPResponse</ref>|None</type>
+        <definition> HTTPResponse | None pip._vendor.cachecontrol.serialize.Serializer._loads_v4</definition>
+        <argsstring>(self, PreparedRequest request, bytes data, IO[bytes]|None body_file=None)</argsstring>
+        <name>_loads_v4</name>
+        <qualifiedname>pip._vendor.cachecontrol.serialize.Serializer._loads_v4</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1PreparedRequest" kindref="compound">PreparedRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>IO|None</type>
+          <declname>body_file</declname>
+          <array>[bytes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="195" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="200" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.cachecontrol.serialize.Serializer</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>serde_version</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/serialize.py" bodystart="17" bodyend="207"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1ae517657a5ac26467014b54eb98017042" prot="protected" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>_loads_v0</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1ad3306208097b796519f8b9f394bc5fda" prot="protected" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>_loads_v1</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1af83568aa573cdd29cbddf77bea65c5f0" prot="protected" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>_loads_v2</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1a8d417837783114096db40e63e3353f2e" prot="protected" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>_loads_v3</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1a4295845f230eac5134e6827cdc631a44" prot="protected" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>_loads_v4</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1af9655b2c82e5c0e3d17fd611d32c7804" prot="public" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>dumps</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1adabebfa4be7f72882af1e0467bbe7b56" prot="public" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>loads</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1ad1f28cb40bebfd94f0dcb9e3f17867a4" prot="public" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>prepare_response</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1aa352d6778cad58d915a640f65fbec4ab" prot="public" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>serde_version</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1serialize_1_1Serializer_1a89a4635d943427dbb6ac8b91fe90b4a4" prot="public" virt="non-virtual"><scope>pip::_vendor::cachecontrol::serialize::Serializer</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

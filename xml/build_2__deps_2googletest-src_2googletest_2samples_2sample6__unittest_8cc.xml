@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2googletest_2samples_2sample6__unittest_8cc" kind="file" language="C++">
+    <compoundname>sample6_unittest.cc</compoundname>
+    <includes refid="build_2__deps_2googletest-src_2googletest_2samples_2prime__tables_8h" local="yes">prime_tables.h</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>prime_tables.h</label>
+        <link refid="build_2__deps_2googletest-src_2googletest_2samples_2prime__tables_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>build/_deps/googletest-src/googletest/samples/sample6_unittest.cc</label>
+        <link refid="build_2__deps_2googletest-src_2googletest_2samples_2sample6__unittest_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2008<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>Rights<sp/>Reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>sample<sp/>shows<sp/>how<sp/>to<sp/>test<sp/>common<sp/>properties<sp/>of<sp/>multiple</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>implementations<sp/>of<sp/>the<sp/>same<sp/>interface<sp/>(aka<sp/>interface<sp/>tests).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>interface<sp/>and<sp/>its<sp/>implementations<sp/>are<sp/>in<sp/>this<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2prime__tables_8h" kindref="compound">prime_tables.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>First,<sp/>we<sp/>define<sp/>some<sp/>factory<sp/>functions<sp/>for<sp/>creating<sp/>instances<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>implementations.<sp/><sp/>You<sp/>may<sp/>be<sp/>able<sp/>to<sp/>skip<sp/>this<sp/>step<sp/>if<sp/>all<sp/>your</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>implementations<sp/>can<sp/>be<sp/>constructed<sp/>the<sp/>same<sp/>way.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="classPrimeTable" kindref="compound">PrimeTable</ref>*<sp/>CreatePrimeTable();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;&gt;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="classPrimeTable" kindref="compound">PrimeTable</ref>*<sp/>CreatePrimeTable&lt;OnTheFlyPrimeTable&gt;()<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classOnTheFlyPrimeTable" kindref="compound">OnTheFlyPrimeTable</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;&gt;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="classPrimeTable" kindref="compound">PrimeTable</ref>*<sp/>CreatePrimeTable&lt;PreCalculatedPrimeTable&gt;()<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classPreCalculatedPrimeTable" kindref="compound">PreCalculatedPrimeTable</ref>(10000);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Then<sp/>we<sp/>define<sp/>a<sp/>test<sp/>fixture<sp/>class<sp/>template.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PrimeTableTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">testing::Test</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>ctor<sp/>calls<sp/>the<sp/>factory<sp/>function<sp/>to<sp/>create<sp/>a<sp/>prime<sp/>table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>implemented<sp/>by<sp/>T.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>PrimeTableTest()<sp/>:<sp/>table_(CreatePrimeTable&lt;<ref refid="namespacepackaging_1_1metadata_1a2bf6495e48092fff09448cd00be34730" kindref="member">T</ref>&gt;())<sp/>{}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/>~PrimeTableTest()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>table_;<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Note<sp/>that<sp/>we<sp/>test<sp/>an<sp/>implementation<sp/>via<sp/>the<sp/>base<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>instead<sp/>of<sp/>the<sp/>actual<sp/>implementation<sp/>class.<sp/><sp/>This<sp/>is<sp/>important</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>keeping<sp/>the<sp/>tests<sp/>close<sp/>to<sp/>the<sp/>real<sp/>world<sp/>scenario,<sp/>where<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>implementation<sp/>is<sp/>invoked<sp/>via<sp/>the<sp/>base<sp/>interface.<sp/><sp/>It<sp/>avoids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>got-yas<sp/>where<sp/>the<sp/>implementation<sp/>class<sp/>has<sp/>a<sp/>method<sp/>that<sp/>shadows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>method<sp/>with<sp/>the<sp/>same<sp/>name<sp/>(but<sp/>slightly<sp/>different<sp/>argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>types)<sp/>in<sp/>the<sp/>base<sp/>interface,<sp/>for<sp/>example.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><ref refid="classPrimeTable" kindref="compound">PrimeTable</ref>*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>table_;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">testing::Types</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Google<sp/>Test<sp/>offers<sp/>two<sp/>ways<sp/>for<sp/>reusing<sp/>tests<sp/>for<sp/>different<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>first<sp/>is<sp/>called<sp/>&quot;typed<sp/>tests&quot;.<sp/><sp/>You<sp/>should<sp/>use<sp/>it<sp/>if<sp/>you</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>already<sp/>know<sp/>*all*<sp/>the<sp/>types<sp/>you<sp/>are<sp/>gonna<sp/>exercise<sp/>when<sp/>you<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>To<sp/>write<sp/>a<sp/>typed<sp/>test<sp/>case,<sp/>first<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>TYPED_TEST_SUITE(TestCaseName,<sp/>TypeList);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>declare<sp/>it<sp/>and<sp/>specify<sp/>the<sp/>type<sp/>parameters.<sp/><sp/>As<sp/>with<sp/>TEST_F,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TestCaseName<sp/>must<sp/>match<sp/>the<sp/>test<sp/>fixture<sp/>name.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>list<sp/>of<sp/>types<sp/>we<sp/>want<sp/>to<sp/>test.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>Types&lt;OnTheFlyPrimeTable,<sp/>PreCalculatedPrimeTable&gt;<sp/>Implementations;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1af84bf8ca7d774f32797e526bec88d12f" kindref="member">TYPED_TEST_SUITE</ref>(PrimeTableTest,<sp/>Implementations);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Then<sp/>use<sp/>TYPED_TEST(TestCaseName,<sp/>TestName)<sp/>to<sp/>define<sp/>a<sp/>typed<sp/>test,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>similar<sp/>to<sp/>TEST_F.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1ae6f575265873190de41b1329d16df0f0" kindref="member">TYPED_TEST</ref>(PrimeTableTest,<sp/>ReturnsFalseForNonPrimes)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Inside<sp/>the<sp/>test<sp/>body,<sp/>you<sp/>can<sp/>refer<sp/>to<sp/>the<sp/>type<sp/>parameter<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TypeParam,<sp/>and<sp/>refer<sp/>to<sp/>the<sp/>fixture<sp/>class<sp/>by<sp/>TestFixture.<sp/><sp/>We</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>don&apos;t<sp/>need<sp/>them<sp/>in<sp/>this<sp/>example.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Since<sp/>we<sp/>are<sp/>in<sp/>the<sp/>template<sp/>world,<sp/>C++<sp/>requires<sp/>explicitly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>writing<sp/>&apos;this-&gt;&apos;<sp/>when<sp/>referring<sp/>to<sp/>members<sp/>of<sp/>the<sp/>fixture<sp/>class.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>something<sp/>you<sp/>have<sp/>to<sp/>learn<sp/>to<sp/>live<sp/>with.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(-5));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(0));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(1));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(4));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(6));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(100));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1ae6f575265873190de41b1329d16df0f0" kindref="member">TYPED_TEST</ref>(PrimeTableTest,<sp/>ReturnsTrueForPrimes)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(2));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(3));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(5));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(7));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(11));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(131));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1ae6f575265873190de41b1329d16df0f0" kindref="member">TYPED_TEST</ref>(PrimeTableTest,<sp/>CanGetNextPrime)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(2,<sp/>this-&gt;table_-&gt;GetNextPrime(0));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(3,<sp/>this-&gt;table_-&gt;GetNextPrime(2));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(5,<sp/>this-&gt;table_-&gt;GetNextPrime(3));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(7,<sp/>this-&gt;table_-&gt;GetNextPrime(5));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(11,<sp/>this-&gt;table_-&gt;GetNextPrime(7));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(131,<sp/>this-&gt;table_-&gt;GetNextPrime(128));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>That&apos;s<sp/>it!<sp/><sp/>Google<sp/>Test<sp/>will<sp/>repeat<sp/>each<sp/>TYPED_TEST<sp/>for<sp/>each<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>type<sp/>list<sp/>specified<sp/>in<sp/>TYPED_TEST_SUITE.<sp/><sp/>Sit<sp/>back<sp/>and<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>happy<sp/>that<sp/>you<sp/>don&apos;t<sp/>have<sp/>to<sp/>define<sp/>them<sp/>multiple<sp/>times.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">testing::Types</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sometimes,<sp/>however,<sp/>you<sp/>don&apos;t<sp/>yet<sp/>know<sp/>all<sp/>the<sp/>types<sp/>that<sp/>you<sp/>want</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>test<sp/>when<sp/>you<sp/>write<sp/>the<sp/>tests.<sp/><sp/>For<sp/>example,<sp/>if<sp/>you<sp/>are<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>author<sp/>of<sp/>an<sp/>interface<sp/>and<sp/>expect<sp/>other<sp/>people<sp/>to<sp/>implement<sp/>it,<sp/>you</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>might<sp/>want<sp/>to<sp/>write<sp/>a<sp/>set<sp/>of<sp/>tests<sp/>to<sp/>make<sp/>sure<sp/>each<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>conforms<sp/>to<sp/>some<sp/>basic<sp/>requirements,<sp/>but<sp/>you<sp/>don&apos;t<sp/>know<sp/>what</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>implementations<sp/>will<sp/>be<sp/>written<sp/>in<sp/>the<sp/>future.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>How<sp/>can<sp/>you<sp/>write<sp/>the<sp/>tests<sp/>without<sp/>committing<sp/>to<sp/>the<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>parameters?<sp/><sp/>That&apos;s<sp/>what<sp/>&quot;type-parameterized<sp/>tests&quot;<sp/>can<sp/>do<sp/>for<sp/>you.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>It<sp/>is<sp/>a<sp/>bit<sp/>more<sp/>involved<sp/>than<sp/>typed<sp/>tests,<sp/>but<sp/>in<sp/>return<sp/>you<sp/>get<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>test<sp/>pattern<sp/>that<sp/>can<sp/>be<sp/>reused<sp/>in<sp/>many<sp/>contexts,<sp/>which<sp/>is<sp/>a<sp/>big</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>win.<sp/><sp/>Here&apos;s<sp/>how<sp/>you<sp/>do<sp/>it:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>First,<sp/>define<sp/>a<sp/>test<sp/>fixture<sp/>class<sp/>template.<sp/><sp/>Here<sp/>we<sp/>just<sp/>reuse</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>PrimeTableTest<sp/>fixture<sp/>defined<sp/>earlier:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PrimeTableTest2<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>PrimeTableTest&lt;T&gt;<sp/>{};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Then,<sp/>declare<sp/>the<sp/>test<sp/>case.<sp/><sp/>The<sp/>argument<sp/>is<sp/>the<sp/>name<sp/>of<sp/>the<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fixture,<sp/>and<sp/>also<sp/>the<sp/>name<sp/>of<sp/>the<sp/>test<sp/>case<sp/>(as<sp/>usual).<sp/><sp/>The<sp/>_P</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>suffix<sp/>is<sp/>for<sp/>&quot;parameterized&quot;<sp/>or<sp/>&quot;pattern&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a3d74325e27e02ed1d1c7b30a24f7af13" kindref="member">TYPED_TEST_SUITE_P</ref>(PrimeTableTest2);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Next,<sp/>use<sp/>TYPED_TEST_P(TestCaseName,<sp/>TestName)<sp/>to<sp/>define<sp/>a<sp/>test,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>similar<sp/>to<sp/>what<sp/>you<sp/>do<sp/>with<sp/>TEST_F.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a6e9d1cd9b97da0076ae699775d3222d0" kindref="member">TYPED_TEST_P</ref>(PrimeTableTest2,<sp/>ReturnsFalseForNonPrimes)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(-5));</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(0));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(1));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(4));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(6));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(this-&gt;table_-&gt;IsPrime(100));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a6e9d1cd9b97da0076ae699775d3222d0" kindref="member">TYPED_TEST_P</ref>(PrimeTableTest2,<sp/>ReturnsTrueForPrimes)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(2));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(3));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(5));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(7));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(11));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(this-&gt;table_-&gt;IsPrime(131));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a6e9d1cd9b97da0076ae699775d3222d0" kindref="member">TYPED_TEST_P</ref>(PrimeTableTest2,<sp/>CanGetNextPrime)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(2,<sp/>this-&gt;table_-&gt;GetNextPrime(0));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(3,<sp/>this-&gt;table_-&gt;GetNextPrime(2));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(5,<sp/>this-&gt;table_-&gt;GetNextPrime(3));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(7,<sp/>this-&gt;table_-&gt;GetNextPrime(5));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(11,<sp/>this-&gt;table_-&gt;GetNextPrime(7));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(131,<sp/>this-&gt;table_-&gt;GetNextPrime(128));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Type-parameterized<sp/>tests<sp/>involve<sp/>one<sp/>extra<sp/>step:<sp/>you<sp/>have<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>enumerate<sp/>the<sp/>tests<sp/>you<sp/>defined:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a03990bffa8f0f58c37d4938107722f99" kindref="member">REGISTER_TYPED_TEST_SUITE_P</ref>(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>PrimeTableTest2,<sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>first<sp/>argument<sp/>is<sp/>the<sp/>test<sp/>case<sp/>name.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>rest<sp/>of<sp/>the<sp/>arguments<sp/>are<sp/>the<sp/>test<sp/>names.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>ReturnsFalseForNonPrimes,<sp/>ReturnsTrueForPrimes,<sp/>CanGetNextPrime);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>At<sp/>this<sp/>point<sp/>the<sp/>test<sp/>pattern<sp/>is<sp/>done.<sp/><sp/>However,<sp/>you<sp/>don&apos;t<sp/>have</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>any<sp/>real<sp/>test<sp/>yet<sp/>as<sp/>you<sp/>haven&apos;t<sp/>said<sp/>which<sp/>types<sp/>you<sp/>want<sp/>to<sp/>run</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>tests<sp/>with.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>To<sp/>turn<sp/>the<sp/>abstract<sp/>test<sp/>pattern<sp/>into<sp/>real<sp/>tests,<sp/>you<sp/>instantiate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>it<sp/>with<sp/>a<sp/>list<sp/>of<sp/>types.<sp/><sp/>Usually<sp/>the<sp/>test<sp/>pattern<sp/>will<sp/>be<sp/>defined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>a<sp/>.h<sp/>file,<sp/>and<sp/>anyone<sp/>can<sp/>#include<sp/>and<sp/>instantiate<sp/>it.<sp/><sp/>You<sp/>can</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>even<sp/>instantiate<sp/>it<sp/>more<sp/>than<sp/>once<sp/>in<sp/>the<sp/>same<sp/>program.<sp/><sp/>To<sp/>tell</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>different<sp/>instances<sp/>apart,<sp/>you<sp/>give<sp/>each<sp/>of<sp/>them<sp/>a<sp/>name,<sp/>which<sp/>will</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>become<sp/>part<sp/>of<sp/>the<sp/>test<sp/>case<sp/>name<sp/>and<sp/>can<sp/>be<sp/>used<sp/>in<sp/>test<sp/>filters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>list<sp/>of<sp/>types<sp/>we<sp/>want<sp/>to<sp/>test.<sp/><sp/>Note<sp/>that<sp/>it<sp/>doesn&apos;t<sp/>have<sp/>to<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>defined<sp/>at<sp/>the<sp/>time<sp/>we<sp/>write<sp/>the<sp/>TYPED_TEST_P()s.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>Types&lt;OnTheFlyPrimeTable,<sp/>PreCalculatedPrimeTable&gt;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>PrimeTableImplementations;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1ae1f8548fa07ec0a138362654b7bc3194" kindref="member">INSTANTIATE_TYPED_TEST_SUITE_P</ref>(OnTheFlyAndPreCalculated,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Instance<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PrimeTableTest2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>case<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PrimeTableImplementations);<sp/><sp/></highlight><highlight class="comment">//<sp/>Type<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/googletest/samples/sample6_unittest.cc"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2googletest_2test_2gtest__xml__test__utils_8py" kind="file" language="Python">
+    <compoundname>gtest_xml_test_utils.py</compoundname>
+    <innerclass refid="classgtest__xml__test__utils_1_1GTestXMLTestCase" prot="public">gtest_xml_test_utils::GTestXMLTestCase</innerclass>
+    <innernamespace refid="namespacegtest__xml__test__utils">gtest_xml_test_utils</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">#<sp/>Copyright<sp/>2006,<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">#<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">#<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">#<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">#<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">#<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">#<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">#<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">#<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unit<sp/>test<sp/>utilities<sp/>for<sp/>gtest_xml_output&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>xml.dom<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>minidom,<sp/>Node</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>googletest.test<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>gtest_test_utils</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">GTEST_DEFAULT_OUTPUT_FILE<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;test_detail.xml&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GTestXMLTestCase(<ref refid="namespacegtest__test__utils_1acb97a85206c09d233db6c7f2362e5428" kindref="member">gtest_test_utils.TestCase</ref>):</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Base<sp/>class<sp/>for<sp/>tests<sp/>of<sp/>Google<sp/>Test&apos;s<sp/>XML<sp/>output<sp/>functionality.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">AssertEquivalentNodes(self,<sp/>expected_node,<sp/>actual_node):</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Asserts<sp/>that<sp/>actual_node<sp/>is<sp/>equivalent<sp/>to<sp/>expected_node.</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Asserts<sp/>that<sp/>actual_node<sp/>(a<sp/>DOM<sp/>node<sp/>object)<sp/>is<sp/>equivalent<sp/>to</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>expected_node<sp/>(another<sp/>DOM<sp/>node<sp/>object),<sp/>in<sp/>that<sp/>either<sp/>both<sp/>of</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>them<sp/>are<sp/>CDATA<sp/>nodes<sp/>and<sp/>have<sp/>the<sp/>same<sp/>value,<sp/>or<sp/>both<sp/>are<sp/>DOM</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>elements<sp/>and<sp/>actual_node<sp/>meets<sp/>all<sp/>of<sp/>the<sp/>following<sp/>conditions:</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>It<sp/>has<sp/>the<sp/>same<sp/>tag<sp/>name<sp/>as<sp/>expected_node.</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>It<sp/>has<sp/>the<sp/>same<sp/>set<sp/>of<sp/>attributes<sp/>as<sp/>expected_node,<sp/>each<sp/>with</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>same<sp/>value<sp/>as<sp/>the<sp/>corresponding<sp/>attribute<sp/>of<sp/>expected_node.</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Exceptions<sp/>are<sp/>any<sp/>attribute<sp/>named<sp/>&quot;time&quot;,<sp/>which<sp/>needs<sp/>only<sp/>be</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>convertible<sp/>to<sp/>a<sp/>floating-point<sp/>number<sp/>and<sp/>any<sp/>attribute<sp/>named</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;<sp/>which<sp/>only<sp/>has<sp/>to<sp/>be<sp/>non-empty.</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>It<sp/>has<sp/>an<sp/>equivalent<sp/>set<sp/>of<sp/>child<sp/>nodes<sp/>(including<sp/>elements<sp/>and</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CDATA<sp/>sections)<sp/>as<sp/>expected_node.<sp/><sp/>Note<sp/>that<sp/>we<sp/>ignore<sp/>the</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>order<sp/>of<sp/>the<sp/>children<sp/>as<sp/>they<sp/>are<sp/>not<sp/>guaranteed<sp/>to<sp/>be<sp/>in<sp/>any</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>particular<sp/>order.</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>expected_node:<sp/>expected<sp/>DOM<sp/>node<sp/>object</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>actual_node:<sp/>actual<sp/>DOM<sp/>node<sp/>object</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>expected_node.nodeType<sp/>==<sp/>Node.CDATA_SECTION_NODE:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Node.CDATA_SECTION_NODE,<sp/>actual_node.nodeType)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(expected_node.nodeValue,<sp/>actual_node.nodeValue)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(Node.ELEMENT_NODE,<sp/>actual_node.nodeType)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(Node.ELEMENT_NODE,<sp/>expected_node.nodeType)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(expected_node.tagName,<sp/>actual_node.tagName)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>expected_attributes<sp/>=<sp/>expected_node.attributes</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>actual_attributes<sp/>=<sp/>actual_node.attributes</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_attributes.length,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_attributes.length,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;attribute<sp/>numbers<sp/>differ<sp/>in<sp/>element<sp/>%s:\nExpected:<sp/>%r\nActual:<sp/>%r&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%<sp/>(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_node.tagName,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_attributes.keys(),</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_attributes.keys(),</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>i<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>range(expected_attributes.length):</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>expected_attr<sp/>=<sp/>expected_attributes.item(i)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>actual_attr<sp/>=<sp/>actual_attributes.get(expected_attr.name)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_attr<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;expected<sp/>attribute<sp/>%s<sp/>not<sp/>found<sp/>in<sp/>element<sp/>%s&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%<sp/>(expected_attr.name,<sp/>actual_node.tagName),</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_attr.value,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_attr.value,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;<sp/>values<sp/>of<sp/>attribute<sp/>%s<sp/>in<sp/>element<sp/>%s<sp/>differ:<sp/>%s<sp/>vs<sp/>%s&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%<sp/>(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_attr.name,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_node.tagName,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_attr.value,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>actual_attr.value,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>expected_children<sp/>=<sp/>self._GetChildren(expected_node)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>actual_children<sp/>=<sp/>self._GetChildren(actual_node)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>len(expected_children),</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>len(actual_children),</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;number<sp/>of<sp/>child<sp/>elements<sp/>differ<sp/>in<sp/>element<sp/>&apos;</highlight><highlight class="normal"><sp/>+<sp/>actual_node.tagName,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>child_id,<sp/>child<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>expected_children.items():</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child_id<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>actual_children,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&lt;%s&gt;<sp/>is<sp/>not<sp/>in<sp/>&lt;%s&gt;<sp/>(in<sp/>element<sp/>%s)&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%<sp/>(child_id,<sp/>actual_children,<sp/>actual_node.tagName),</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.AssertEquivalentNodes(child,<sp/>actual_children[child_id])</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>identifying_attribute<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;testsuites&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;name&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;testsuite&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;name&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;testcase&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;name&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;failure&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;message&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;skipped&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;message&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;property&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;name&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">_GetChildren(self,<sp/>element):</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Fetches<sp/>all<sp/>of<sp/>the<sp/>child<sp/>nodes<sp/>of<sp/>element,<sp/>a<sp/>DOM<sp/>Element<sp/>object.</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns<sp/>them<sp/>as<sp/>the<sp/>values<sp/>of<sp/>a<sp/>dictionary<sp/>keyed<sp/>by<sp/>the<sp/>IDs<sp/>of<sp/>the<sp/>children.</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>&lt;testsuites&gt;,<sp/>&lt;testsuite&gt;,<sp/>&lt;testcase&gt;,<sp/>and<sp/>&lt;property&gt;<sp/>elements,<sp/>the<sp/>ID</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>is<sp/>the<sp/>value<sp/>of<sp/>their<sp/>&quot;name&quot;<sp/>attribute;<sp/>for<sp/>&lt;failure&gt;<sp/>elements,<sp/>it<sp/>is<sp/>the</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>value<sp/>of<sp/>the<sp/>&quot;message&quot;<sp/>attribute;<sp/>for<sp/>&lt;properties&gt;<sp/>elements,<sp/>it<sp/>is<sp/>the<sp/>value</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>of<sp/>their<sp/>parent&apos;s<sp/>&quot;name&quot;<sp/>attribute<sp/>plus<sp/>the<sp/>literal<sp/>string<sp/>&quot;properties&quot;;</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>CDATA<sp/>sections<sp/>and<sp/>non-whitespace<sp/>text<sp/>nodes<sp/>are<sp/>concatenated<sp/>into<sp/>a<sp/>single</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>CDATA<sp/>section<sp/>with<sp/>ID<sp/>&quot;detail&quot;.<sp/><sp/>An<sp/>exception<sp/>is<sp/>raised<sp/>if<sp/>any<sp/>element<sp/>other</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>than<sp/>the<sp/>above<sp/>four<sp/>is<sp/>encountered,<sp/>if<sp/>two<sp/>child<sp/>elements<sp/>with<sp/>the<sp/>same</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>identifying<sp/>attributes<sp/>are<sp/>encountered,<sp/>or<sp/>if<sp/>any<sp/>other<sp/>type<sp/>of<sp/>node<sp/>is</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>encountered.</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>element:<sp/>DOM<sp/>Element<sp/>object</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>Dictionary<sp/>where<sp/>keys<sp/>are<sp/>the<sp/>IDs<sp/>of<sp/>the<sp/>children.</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>children<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>child<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>element.childNodes:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>child.nodeType<sp/>==<sp/>Node.ELEMENT_NODE:</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>child.tagName<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;properties&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child.parentNode<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Encountered<sp/>&lt;properties&gt;<sp/>element<sp/>without<sp/>a<sp/>parent&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child_id<sp/>=<sp/>child.parentNode.getAttribute(</highlight><highlight class="stringliteral">&apos;name&apos;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;-properties&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child.tagName<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.identifying_attribute,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Encountered<sp/>unknown<sp/>element<sp/>&lt;%s&gt;&apos;</highlight><highlight class="normal"><sp/>%<sp/>child.tagName,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child_id<sp/>=<sp/>child.getAttribute(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.identifying_attribute[child.tagName]</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertNotIn(child_id,<sp/>children)</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>children[child_id]<sp/>=<sp/>child</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>child.nodeType<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>[Node.TEXT_NODE,<sp/>Node.CDATA_SECTION_NODE]:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;detail&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>children:</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child.nodeType<sp/>==<sp/>Node.CDATA_SECTION_NODE</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>child.nodeValue.isspace()</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>children[</highlight><highlight class="stringliteral">&apos;detail&apos;</highlight><highlight class="normal">]<sp/>=<sp/>child.ownerDocument.createCDATASection(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child.nodeValue</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>children[</highlight><highlight class="stringliteral">&apos;detail&apos;</highlight><highlight class="normal">].nodeValue<sp/>+=<sp/>child.nodeValue</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.fail(</highlight><highlight class="stringliteral">&apos;Encountered<sp/>unexpected<sp/>node<sp/>type<sp/>%d&apos;</highlight><highlight class="normal"><sp/>%<sp/>child.nodeType)</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>children</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">NormalizeXml(self,<sp/>element):</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Normalizes<sp/>XML<sp/>that<sp/>may<sp/>change<sp/>from<sp/>run<sp/>to<sp/>run.</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Normalizes<sp/>Google<sp/>Test&apos;s<sp/>XML<sp/>output<sp/>to<sp/>eliminate<sp/>references<sp/>to<sp/>transient</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>information<sp/>that<sp/>may<sp/>change<sp/>from<sp/>run<sp/>to<sp/>run.</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>The<sp/>&quot;time&quot;<sp/>attribute<sp/>of<sp/>&lt;testsuites&gt;,<sp/>&lt;testsuite&gt;<sp/>and<sp/>&lt;testcase&gt;</highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>elements<sp/>is<sp/>replaced<sp/>with<sp/>a<sp/>single<sp/>asterisk,<sp/>if<sp/>it<sp/>contains</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>only<sp/>digit<sp/>characters.</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>The<sp/>&quot;timestamp&quot;<sp/>attribute<sp/>of<sp/>&lt;testsuites&gt;<sp/>elements<sp/>is<sp/>replaced<sp/>with<sp/>a</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>single<sp/>asterisk,<sp/>if<sp/>it<sp/>contains<sp/>a<sp/>valid<sp/>ISO8601<sp/>datetime<sp/>value.</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>The<sp/>&quot;type_param&quot;<sp/>attribute<sp/>of<sp/>&lt;testcase&gt;<sp/>elements<sp/>is<sp/>replaced<sp/>with<sp/>a</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>single<sp/>asterisk<sp/>(if<sp/>it<sp/>sn<sp/>non-empty)<sp/>as<sp/>it<sp/>is<sp/>the<sp/>type<sp/>name<sp/>returned</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>by<sp/>the<sp/>compiler<sp/>and<sp/>is<sp/>platform<sp/>dependent.</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>The<sp/>line<sp/>info<sp/>reported<sp/>in<sp/>the<sp/>first<sp/>line<sp/>of<sp/>the<sp/>&quot;message&quot;</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attribute<sp/>and<sp/>CDATA<sp/>section<sp/>of<sp/>&lt;failure&gt;<sp/>elements<sp/>is<sp/>replaced<sp/>with<sp/>the</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file&apos;s<sp/>basename<sp/>and<sp/>a<sp/>single<sp/>asterisk<sp/>for<sp/>the<sp/>line<sp/>number.</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>The<sp/>directory<sp/>names<sp/>in<sp/>file<sp/>paths<sp/>are<sp/>removed.</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/><sp/>The<sp/>stack<sp/>traces<sp/>are<sp/>removed.</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>element:<sp/>DOM<sp/>element<sp/>to<sp/>normalize</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>element.tagName<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;testcase&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>source_file<sp/>=<sp/>element.getAttributeNode(</highlight><highlight class="stringliteral">&apos;file&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>source_file:</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source_file.value<sp/>=<sp/>re.sub(</highlight><highlight class="stringliteral">r&apos;^.*[/\\](.*)&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;\\1&apos;</highlight><highlight class="normal">,<sp/>source_file.value)</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>element.tagName<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&apos;testsuites&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;testsuite&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;testcase&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>timestamp<sp/>=<sp/>element.getAttributeNode(</highlight><highlight class="stringliteral">&apos;timestamp&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>timestamp.value<sp/>=<sp/>re.sub(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&apos;^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d$&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;*&apos;</highlight><highlight class="normal">,<sp/>timestamp.value</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>element.tagName<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&apos;testsuites&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;testsuite&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;testcase&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>time<sp/>=<sp/>element.getAttributeNode(</highlight><highlight class="stringliteral">&apos;time&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>The<sp/>value<sp/>for<sp/>exact<sp/>N<sp/>seconds<sp/>has<sp/>a<sp/>trailing<sp/>decimal<sp/>point<sp/>(e.g.,<sp/>&quot;10.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>instead<sp/>of<sp/>&quot;10&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>time.value<sp/>=<sp/>re.sub(</highlight><highlight class="stringliteral">r&apos;^\d+\.(\d+)?$&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;*&apos;</highlight><highlight class="normal">,<sp/>time.value)</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>type_param<sp/>=<sp/>element.getAttributeNode(</highlight><highlight class="stringliteral">&apos;type_param&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>type_param<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>type_param.value:</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type_param.value<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;*&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>element.tagName<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;failure&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>element.tagName<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;skipped&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>source_line_pat<sp/>=<sp/></highlight><highlight class="stringliteral">r&apos;^.*[/\\](.*:)\d+\n&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Replaces<sp/>the<sp/>source<sp/>line<sp/>information<sp/>with<sp/>a<sp/>normalized<sp/>form.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>message<sp/>=<sp/>element.getAttributeNode(</highlight><highlight class="stringliteral">&apos;message&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>message.value<sp/>=<sp/>re.sub(source_line_pat,<sp/></highlight><highlight class="stringliteral">&apos;\\1*\n&apos;</highlight><highlight class="normal">,<sp/>message.value)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>child<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>element.childNodes:</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>child.nodeType<sp/>==<sp/>Node.CDATA_SECTION_NODE:</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Replaces<sp/>the<sp/>source<sp/>line<sp/>information<sp/>with<sp/>a<sp/>normalized<sp/>form.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cdata<sp/>=<sp/>re.sub(source_line_pat,<sp/></highlight><highlight class="stringliteral">&apos;\\1*\n&apos;</highlight><highlight class="normal">,<sp/>child.nodeValue)</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Removes<sp/>the<sp/>actual<sp/>stack<sp/>trace.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>child.nodeValue<sp/>=<sp/>re.sub(</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&apos;Stack<sp/>trace:\n(.|\n)*&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Stack<sp/>trace:\n*&apos;</highlight><highlight class="normal">,<sp/>cdata</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>child<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>element.childNodes:</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>child.nodeType<sp/>==<sp/>Node.ELEMENT_NODE:</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.NormalizeXml(child)</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py"/>
+  </compounddef>
+</doxygen>

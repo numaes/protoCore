@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="email_8py" kind="file" language="Python">
+    <compoundname>email.py</compoundname>
+    <innerclass refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer" prot="public">pygments::lexers::email::EmailHeaderLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1email_1_1EmailLexer" prot="public">pygments::lexers::email::EmailLexer</innerclass>
+    <innernamespace refid="namespacepygments">pygments</innernamespace>
+    <innernamespace refid="namespacepygments_1_1lexers">pygments::lexers</innernamespace>
+    <innernamespace refid="namespacepygments_1_1lexers_1_1email">pygments::lexers::email</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepygments_1_1lexers_1_1email" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.lexers.email</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Lexer<sp/>for<sp/>the<sp/>raw<sp/>E-mail.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2025<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1lexer" kindref="compound">pygments.lexer</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>RegexLexer,<sp/>DelegatingLexer,<sp/>bygroups</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1lexers_1_1mime" kindref="compound">pygments.lexers.mime</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>MIMELexer</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1token" kindref="compound">pygments.token</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Text,<sp/>Keyword,<sp/>Name,<sp/>String,<sp/>Number,<sp/>Comment</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1util" kindref="compound">pygments.util</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>get_bool_opt</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;EmailLexer&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer" kindref="compound">EmailHeaderLexer</ref>(<ref refid="classpygments_1_1lexer_1_1RegexLexer" kindref="compound">RegexLexer</ref>):</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Sub-lexer<sp/>for<sp/>raw<sp/>E-mail.<sp/>This<sp/>lexer<sp/>only<sp/>process<sp/>header<sp/>part<sp/>of<sp/>e-mail.</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.5</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1a4d3013640afe56c5f043f4a2a633f605" kindref="member">__init__</ref>(self,<sp/>**options):</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1a4d3013640afe56c5f043f4a2a633f605" kindref="member">__init__</ref>(**options)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1adeac01c3b6202733668e09a7de9577d1" kindref="member">highlight_x</ref><sp/>=<sp/>get_bool_opt(options,<sp/></highlight><highlight class="stringliteral">&quot;highlight-X-header&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1aaa1b96e113b88bc67aa039665b761b5c" kindref="member">get_x_header_tokens</ref>(self,<sp/>match):</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1lexers_1_1email_1_1EmailHeaderLexer_1adeac01c3b6202733668e09a7de9577d1" kindref="member">highlight_x</ref>:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>match.start(1),<sp/>Name.Tag,<sp/>match.group(1)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>default_actions<sp/>=<sp/>self.<ref refid="classpygments_1_1lexer_1_1Lexer_1a01ab45fced48ec5089f0a810040e1ac8" kindref="member">get_tokens_unprocessed</ref><ref refid="classpygments_1_1lexer_1_1RegexLexer_1a56bd1a609a7e589293afd2d71637f91a" kindref="member">get_tokens_unprocessed</ref>(</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>match.group(2),<sp/>stack=(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;header&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>default_actions</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>lowlight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>match.start(1),<sp/>Comment.Special,<sp/>match.group(1)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>match.start(2),<sp/>Comment.Multiline,<sp/>match.group(2)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>tokens<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">:<sp/>[</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;^(?:[A-WYZ]|X400)[\w\-]*:&quot;</highlight><highlight class="normal">,<sp/>Name.Tag,<sp/></highlight><highlight class="stringliteral">&quot;header&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;^(X-(?:\w[\w\-]*:))([\s\S]*?\n)(?![<sp/>\t])&quot;</highlight><highlight class="normal">,<sp/>get_x_header_tokens),</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>],</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;header&quot;</highlight><highlight class="normal">:<sp/>[</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>folding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;\n[<sp/>\t]&quot;</highlight><highlight class="normal">,<sp/>Text.Whitespace),</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;\n(?![<sp/>\t])&quot;</highlight><highlight class="normal">,<sp/>Text.Whitespace,<sp/></highlight><highlight class="stringliteral">&quot;#pop&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>keywords</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;\bE?SMTPS?\b&quot;</highlight><highlight class="normal">,<sp/>Keyword),</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;\b(?:HE|EH)LO\b&quot;</highlight><highlight class="normal">,<sp/>Keyword),</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>mailbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;[\w\.\-\+=]+@[\w\.\-]+&quot;</highlight><highlight class="normal">,<sp/>Name.Label),</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;&lt;[\w\.\-\+=]+@[\w\.\-]+&gt;&quot;</highlight><highlight class="normal">,<sp/>Name.Label),</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>domain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;\b(\w[\w\.-]*\.[\w\.-]*\w[a-zA-Z]+)\b&quot;</highlight><highlight class="normal">,<sp/>Name.Function),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>IPv4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9][0-9]?)\.){3}(?:25[0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;-5]|2[0-4][0-9]|1?[0-9][0-9]?)(?=\b)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number.Integer),</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>IPv6</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)([0-9a-fA-F]{1,4}:){1,7}:(?!\b)&quot;</highlight><highlight class="normal">,<sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b):((:[0-9a-fA-F]{1,4}){1,7}|:)(?=\b)&quot;</highlight><highlight class="normal">,<sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}(?=\b)&quot;</highlight><highlight class="normal">,<sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}(?=\b)&quot;</highlight><highlight class="normal">,<sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})(?=\b)&quot;</highlight><highlight class="normal">,<sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}(?=\b)&quot;</highlight><highlight class="normal">,<sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}(?=\b)&quot;</highlight><highlight class="normal">,<sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}(?=\b)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}(?=\b)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}(?=\b)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;[0-9])(?=\b)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?&lt;=\b)([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9])&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;{0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])(?=\b)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number.Hex),</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Date<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(?:(Sun|Mon|Tue|Wed|Thu|Fri|Sat),\s+)?(0[1-9]|[1-2]?[0-9]|3[&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;01])\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;19[0-9]{2}|[2-9][0-9]{3})\s+(2[0-3]|[0-1][0-9]):([0-5][0-9])&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;(?::(60|[0-5][0-9]))?(?:\.\d{1,5})?\s+([-\+][0-9]{2}[0-5][0-&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;9]|\(?(?:UTC?|GMT|(?:E|C|M|P)(?:ST|ET|DT)|[A-IK-Z])\)?)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Decorator),</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>RFC-2047<sp/>encoded<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;(=\?)([\w-]+)(\?)([BbQq])(\?)([\[\w!\&quot;#$%&amp;\&apos;()*+,-./:;&lt;=&gt;@[\\&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;\]^_`{|}~]+)(\?=)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bygroups(String.Affix,<sp/>Name.Constant,<sp/>String.Affix,<sp/>Keyword.Constant,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String.Affix,<sp/>Number.Hex,<sp/>String.Affix)),</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>others</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;[\s]+&apos;</highlight><highlight class="normal">,<sp/>Text.Whitespace),</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;[\S]&apos;</highlight><highlight class="normal">,<sp/>Text),</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>],</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classpygments_1_1lexers_1_1email_1_1EmailLexer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1lexers_1_1email_1_1EmailLexer" kindref="compound">EmailLexer</ref>(<ref refid="classpygments_1_1lexer_1_1DelegatingLexer" kindref="compound">DelegatingLexer</ref>):</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Lexer<sp/>for<sp/>raw<sp/>E-mail.</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Additional<sp/>options<sp/>accepted:</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`highlight-X-header`</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Highlight<sp/>the<sp/>fields<sp/>of<sp/>``X-``<sp/>user-defined<sp/>email<sp/>header.<sp/>(default:</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``False``).</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;E-mail&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>aliases<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eml&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>filenames<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;*.eml&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>mimetypes<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;message/rfc822&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://en.wikipedia.org/wiki/Email#Message_format&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>version_added<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;2.5&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1lexers_1_1email_1_1EmailLexer_1a457beffe15f2b64eb98d3efaae5ba7f6" kindref="member">__init__</ref>(self,<sp/>**options):</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classpygments_1_1lexers_1_1email_1_1EmailLexer_1a457beffe15f2b64eb98d3efaae5ba7f6" kindref="member">__init__</ref>(EmailHeaderLexer,<sp/>MIMELexer,<sp/>Comment,<sp/>**options)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/email.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classurllib3_1_1response_1_1MultiDecoder" kind="class" language="Python" prot="public">
+    <compoundname>urllib3::response::MultiDecoder</compoundname>
+    <basecompoundref refid="classurllib3_1_1response_1_1ContentDecoder" prot="public" virt="non-virtual">urllib3.response.ContentDecoder</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1response_1_1MultiDecoder_1ad93c1c2d183e91cfbc930e365a2bb384" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.response.MultiDecoder::_decoders</definition>
+        <argsstring></argsstring>
+        <name>_decoders</name>
+        <qualifiedname>urllib3.response.MultiDecoder._decoders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="224" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classurllib3_1_1response_1_1MultiDecoder_1a27a860ddabe9e45ecc5b254fb08007af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.response.MultiDecoder.__init__</definition>
+        <argsstring>(self, str modes)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>urllib3.response.MultiDecoder.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>modes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="223" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="223" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1MultiDecoder_1af5b2a89b6994a9ea51fa23d327b17540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.response.MultiDecoder.flush</definition>
+        <argsstring>(self)</argsstring>
+        <name>flush</name>
+        <qualifiedname>urllib3.response.MultiDecoder.flush</qualifiedname>
+        <reimplements refid="classurllib3_1_1response_1_1ContentDecoder_1a1e87698de99e928b9245341dc73a4821">flush</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="226" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1response_1_1MultiDecoder_1a134345528448dbb9cb9867cbdd721a67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.response.MultiDecoder.decompress</definition>
+        <argsstring>(self, bytes data)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>urllib3.response.MultiDecoder.decompress</qualifiedname>
+        <reimplements refid="classurllib3_1_1response_1_1ContentDecoder_1a5a37639c12dd0464d54e26e608dc4f81">decompress</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="229" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="229" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>From RFC7231:
+    If one or more encodings have been applied to a representation, the
+    sender that applied the encodings MUST generate a Content-Encoding
+    header field that lists the content codings in the order in which
+    they were applied.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>urllib3.response.MultiDecoder</label>
+        <link refid="classurllib3_1_1response_1_1MultiDecoder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>urllib3.response.ContentDecoder</label>
+        <link refid="classurllib3_1_1response_1_1ContentDecoder"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>urllib3.response.MultiDecoder</label>
+        <link refid="classurllib3_1_1response_1_1MultiDecoder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>urllib3.response.ContentDecoder</label>
+        <link refid="classurllib3_1_1response_1_1ContentDecoder"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/response.py" line="214" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="214" bodyend="234"/>
+    <listofallmembers>
+      <member refid="classurllib3_1_1response_1_1MultiDecoder_1a27a860ddabe9e45ecc5b254fb08007af" prot="public" virt="non-virtual"><scope>urllib3::response::MultiDecoder</scope><name>__init__</name></member>
+      <member refid="classurllib3_1_1response_1_1MultiDecoder_1ad93c1c2d183e91cfbc930e365a2bb384" prot="protected" virt="non-virtual"><scope>urllib3::response::MultiDecoder</scope><name>_decoders</name></member>
+      <member refid="classurllib3_1_1response_1_1MultiDecoder_1a134345528448dbb9cb9867cbdd721a67" prot="public" virt="non-virtual"><scope>urllib3::response::MultiDecoder</scope><name>decompress</name></member>
+      <member refid="classurllib3_1_1response_1_1MultiDecoder_1af5b2a89b6994a9ea51fa23d327b17540" prot="public" virt="non-virtual"><scope>urllib3::response::MultiDecoder</scope><name>flush</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

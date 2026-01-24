@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2search_2ru_8py" kind="file" language="Python">
+    <compoundname>ru.py</compoundname>
+    <innerclass refid="classsphinx_1_1search_1_1ru_1_1SearchRussian" prot="public">sphinx::search::ru::SearchRussian</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1search">sphinx::search</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1search_1_1ru">sphinx::search::ru</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1search_1_1ru" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Russian<sp/>search<sp/>language:<sp/>includes<sp/>the<sp/>JS<sp/>Russian<sp/>stemmer.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>snowballstemmer</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1search" kindref="compound">sphinx.search</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SearchLanguage,<sp/>parse_stop_word</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">russian_stopwords<sp/>=<sp/>parse_stop_word(</highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral">|<sp/>source:<sp/>https://snowball.tartarus.org/algorithms/russian/stop.txt</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral">и<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>and</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral">в<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>in/into</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">во<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>alternative<sp/>form</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral">не<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>not</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral">что<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>what/that</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">он<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>he</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral">на<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>on/onto</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral">я<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>i</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral">с<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>from</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">со<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>alternative<sp/>form</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral">как<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>how</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">а<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>milder<sp/>form<sp/>of<sp/>`no&apos;<sp/>(but)</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral">то<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>conjunction<sp/>and<sp/>form<sp/>of<sp/>`that&apos;</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral">все<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>all</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral">она<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>she</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral">так<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>so,<sp/>thus</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral">его<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>him</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral">но<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>but</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">да<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>yes/and</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral">ты<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>thou</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">к<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>towards,<sp/>by</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral">у<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>around,<sp/>chez</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral">же<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>intensifier<sp/>particle</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">вы<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">за<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>beyond,<sp/>behind</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral">бы<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>conditional/subj.<sp/>particle</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral">по<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>up<sp/>to,<sp/>along</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral">только<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>only</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral">ее<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>her</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral">мне<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>me</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral">было<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>it<sp/>was</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral">вот<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>here<sp/>is/are,<sp/>particle</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral">от<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>away<sp/>from</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral">меня<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>me</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral">еще<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>still,<sp/>yet,<sp/>more</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral">нет<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>no,<sp/>there<sp/>isnt/arent</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral">о<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>about</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral">из<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>out<sp/>of</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral">ему<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>him</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral">теперь<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>now</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral">когда<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>when</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral">даже<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>even</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral">ну<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>so,<sp/>well</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral">вдруг<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>suddenly</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral">ли<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>interrogative<sp/>particle</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral">если<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>if</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral">уже<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>already,<sp/>but<sp/>homonym<sp/>of<sp/>`narrower&apos;</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral">или<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>or</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral">ни<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>neither</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral">быть<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>be</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral">был<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>he<sp/>was</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral">него<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>prepositional<sp/>form<sp/>of<sp/>его</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral">до<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>up<sp/>to</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral">вас<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you<sp/>accusative</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral">нибудь<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>indef.<sp/>suffix<sp/>preceded<sp/>by<sp/>hyphen</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral">опять<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>again</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral">уж<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>already,<sp/>but<sp/>homonym<sp/>of<sp/>`adder&apos;</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral">вам<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>you</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral">сказал<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>he<sp/>said</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral">ведь<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>particle<sp/>`after<sp/>all&apos;</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral">там<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>there</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral">потом<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>then</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral">себя<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>oneself</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral">ничего<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>nothing</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral">ей<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>her</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral">может<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>usually<sp/>with<sp/>`быть&apos;<sp/>as<sp/>`maybe&apos;</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral">они<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>they</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral">тут<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>here</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral">где<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>where</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral">есть<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>there<sp/>is/are</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral">надо<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>got<sp/>to,<sp/>must</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral">ней<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>prepositional<sp/>form<sp/>of<sp/><sp/>ей</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral">для<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>for</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral">мы<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>we</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral">тебя<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>thee</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral">их<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>them,<sp/>their</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral">чем<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>than</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral">была<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>she<sp/>was</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral">сам<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>self</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral">чтоб<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>in<sp/>order<sp/>to</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral">без<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>without</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral">будто<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>as<sp/>if</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral">человек<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>man,<sp/>person,<sp/>one</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral">чего<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>genitive<sp/>form<sp/>of<sp/>`what&apos;</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral">раз<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>once</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral">тоже<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>also</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral">себе<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>oneself</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral">под<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>beneath</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral">жизнь<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>life</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral">будет<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>will<sp/>be</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral">ж<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>short<sp/>form<sp/>of<sp/>intensifer<sp/>particle<sp/>`же&apos;</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral">тогда<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>then</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral">кто<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>who</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral">этот<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>this</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral">говорил<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>was<sp/>saying</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral">того<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>genitive<sp/>form<sp/>of<sp/>`that&apos;</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral">потому<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>for<sp/>that<sp/>reason</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral">этого<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>genitive<sp/>form<sp/>of<sp/>`this&apos;</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral">какой<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>which</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral">совсем<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>altogether</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral">ним<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>prepositional<sp/>form<sp/>of<sp/>`его&apos;,<sp/>`они&apos;</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral">здесь<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>here</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral">этом<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>prepositional<sp/>form<sp/>of<sp/>`этот&apos;</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral">один<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>one</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral">почти<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>almost</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral">мой<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>my</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral">тем<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>instrumental/dative<sp/>plural<sp/>of<sp/>`тот&apos;,<sp/>`то&apos;</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral">чтобы<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>full<sp/>form<sp/>of<sp/>`in<sp/>order<sp/>that&apos;</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral">нее<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>her<sp/>(acc.)</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral">кажется<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>it<sp/>seems</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral">сейчас<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>now</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral">были<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>they<sp/>were</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral">куда<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>where<sp/>to</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral">зачем<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>why</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral">сказать<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>say</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral">всех<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>all<sp/>(acc.,<sp/>gen.<sp/>preposn.<sp/>plural)</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral">никогда<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>never</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral">сегодня<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>today</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral">можно<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>possible,<sp/>one<sp/>can</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral">при<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>by</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral">наконец<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>finally</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral">два<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>two</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral">об<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>alternative<sp/>form<sp/>of<sp/>`о&apos;,<sp/>about</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral">другой<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>another</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral">хоть<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>even</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral">после<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>after</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral">над<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>above</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral">больше<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>more</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral">тот<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>that<sp/>one<sp/>(masc.)</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral">через<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>across,<sp/>in</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral">эти<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>these</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral">нас<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>us</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral">про<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>about</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral">всего<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>in<sp/>all,<sp/>only,<sp/>of<sp/>all</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral">них<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>prepositional<sp/>form<sp/>of<sp/>`они&apos;<sp/>(they)</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral">какая<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>which,<sp/>feminine</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral">много<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>lots</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral">разве<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>interrogative<sp/>particle</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral">сказала<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>she<sp/>said</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral">три<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>three</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral">эту<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>this,<sp/>acc.<sp/>fem.<sp/>sing.</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral">моя<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>my,<sp/>feminine</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral">впрочем<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>moreover,<sp/>besides</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral">хорошо<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>good</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral">свою<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>ones<sp/>own,<sp/>acc.<sp/>fem.<sp/>sing.</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral">этой<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>oblique<sp/>form<sp/>of<sp/>`эта&apos;,<sp/>fem.<sp/>`this&apos;</highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral">перед<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>in<sp/>front<sp/>of</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral">иногда<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>sometimes</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral">лучше<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>better</highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral">чуть<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>a<sp/>little</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral">том<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>preposn.<sp/>form<sp/>of<sp/>`that<sp/>one&apos;</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral">нельзя<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>one<sp/>must<sp/>not</highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral">такой<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>such<sp/>a<sp/>one</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral">им<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to<sp/>them</highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral">более<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>more</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral">всегда<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>always</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral">конечно<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>of<sp/>course</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral">всю<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>acc.<sp/>fem.<sp/>sing<sp/>of<sp/>`all&apos;</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral">между<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>between</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/>|<sp/>b:<sp/>some<sp/>paradigms</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/>|<sp/>personal<sp/>pronouns</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/>|<sp/>я<sp/><sp/>меня<sp/><sp/>мне<sp/><sp/>мной<sp/><sp/>[мною]</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"><sp/><sp/>|<sp/>ты<sp/><sp/>тебя<sp/><sp/>тебе<sp/><sp/>тобой<sp/><sp/>[тобою]</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/>|<sp/>он<sp/><sp/>его<sp/><sp/>ему<sp/><sp/>им<sp/><sp/>[него,<sp/>нему,<sp/>ним]</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/>|<sp/>она<sp/><sp/>ее<sp/><sp/>эи<sp/><sp/>ею<sp/><sp/>[нее,<sp/>нэи,<sp/>нею]</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/>|<sp/>оно<sp/><sp/>его<sp/><sp/>ему<sp/><sp/>им<sp/><sp/>[него,<sp/>нему,<sp/>ним]</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/>|<sp/>мы<sp/><sp/>нас<sp/><sp/>нам<sp/><sp/>нами</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"><sp/><sp/>|<sp/>вы<sp/><sp/>вас<sp/><sp/>вам<sp/><sp/>вами</highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/>|<sp/>они<sp/><sp/>их<sp/><sp/>им<sp/><sp/>ими<sp/><sp/>[них,<sp/>ним,<sp/>ними]</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"><sp/><sp/>|<sp/><sp/><sp/>себя<sp/><sp/>себе<sp/><sp/>собой<sp/><sp/><sp/>[собою]</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/>|<sp/>demonstrative<sp/>pronouns:<sp/>этот<sp/>(this),<sp/>тот<sp/>(that)</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/>|<sp/>этот<sp/><sp/>эта<sp/><sp/>это<sp/><sp/>эти</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"><sp/><sp/>|<sp/>этого<sp/><sp/>эты<sp/><sp/>это<sp/><sp/>эти</highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral"><sp/><sp/>|<sp/>этого<sp/><sp/>этой<sp/><sp/>этого<sp/><sp/>этих</highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/>|<sp/>этому<sp/><sp/>этой<sp/><sp/>этому<sp/><sp/>этим</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"><sp/><sp/>|<sp/>этим<sp/><sp/>этой<sp/><sp/>этим<sp/><sp/>[этою]<sp/><sp/>этими</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/>|<sp/>этом<sp/><sp/>этой<sp/><sp/>этом<sp/><sp/>этих</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/>|<sp/>тот<sp/><sp/>та<sp/><sp/>то<sp/><sp/>те</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/>|<sp/>того<sp/><sp/>ту<sp/><sp/>то<sp/><sp/>те</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/>|<sp/>того<sp/><sp/>той<sp/><sp/>того<sp/><sp/>тех</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/>|<sp/>тому<sp/><sp/>той<sp/><sp/>тому<sp/><sp/>тем</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/>|<sp/>тем<sp/><sp/>той<sp/><sp/>тем<sp/><sp/>[тою]<sp/><sp/>теми</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/>|<sp/>том<sp/><sp/>той<sp/><sp/>том<sp/><sp/>тех</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/>|<sp/>determinative<sp/>pronouns</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/>|<sp/>(a)<sp/>весь<sp/>(all)</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/>|<sp/>весь<sp/><sp/>вся<sp/><sp/>все<sp/><sp/>все</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/>|<sp/>всего<sp/><sp/>всю<sp/><sp/>все<sp/><sp/>все</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/>|<sp/>всего<sp/><sp/>всей<sp/><sp/>всего<sp/><sp/>всех</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/>|<sp/>всему<sp/><sp/>всей<sp/><sp/>всему<sp/><sp/>всем</highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/>|<sp/>всем<sp/><sp/>всей<sp/><sp/>всем<sp/><sp/>[всею]<sp/><sp/>всеми</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/>|<sp/>всем<sp/><sp/>всей<sp/><sp/>всем<sp/><sp/>всех</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/>|<sp/>(b)<sp/>сам<sp/>(himself<sp/>etc)</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/>|<sp/>сам<sp/><sp/>сама<sp/><sp/>само<sp/><sp/>сами</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/>|<sp/>самого<sp/>саму<sp/><sp/>само<sp/><sp/>самих</highlight></codeline>
+<codeline lineno="219"><highlight class="stringliteral"><sp/><sp/>|<sp/>самого<sp/>самой<sp/>самого<sp/><sp/>самих</highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral"><sp/><sp/>|<sp/>самому<sp/>самой<sp/>самому<sp/><sp/>самим</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/>|<sp/>самим<sp/><sp/>самой<sp/><sp/>самим<sp/><sp/>[самою]<sp/><sp/>самими</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"><sp/><sp/>|<sp/>самом<sp/>самой<sp/>самом<sp/><sp/>самих</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="224"><highlight class="stringliteral"><sp/><sp/>|<sp/>stems<sp/>of<sp/>verbs<sp/>`to<sp/>be&apos;,<sp/>`to<sp/>have&apos;,<sp/>`to<sp/>do&apos;<sp/>and<sp/>modal</highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/>|</highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/>|<sp/>быть<sp/><sp/>бы<sp/><sp/>буд<sp/><sp/>быв<sp/><sp/>есть<sp/><sp/>суть</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/>|<sp/>име</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral"><sp/><sp/>|<sp/>дел</highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/>|<sp/>мог<sp/><sp/><sp/>мож<sp/><sp/>мочь</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/>|<sp/>уме</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/>|<sp/>хоч<sp/><sp/>хот</highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/>|<sp/>долж</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/>|<sp/>можн</highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"><sp/><sp/>|<sp/>нужн</highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/>|<sp/>нельзя</highlight></codeline>
+<codeline lineno="236"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="classsphinx_1_1search_1_1ru_1_1SearchRussian" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1search_1_1ru_1_1SearchRussian" kindref="compound">SearchRussian</ref>(<ref refid="classsphinx_1_1search_1_1SearchLanguage" kindref="compound">SearchLanguage</ref>):</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>lang<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;ru&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>language_name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Russian&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>js_stemmer_rawcode<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;russian-stemmer.js&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>stopwords<sp/>=<sp/>russian_stopwords</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">init(self,<sp/>options:<sp/>dict[str,<sp/>str])<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1search_1_1ru_1_1SearchRussian_1a39b2fd920f7c4accd9ff28e2c8c59e70" kindref="member">stemmer</ref><sp/>=<sp/><ref refid="namespacesnowballstemmer_1a1bf5539d5564f56642338e1f6ed850ba" kindref="member">snowballstemmer.stemmer</ref>(</highlight><highlight class="stringliteral">&apos;russian&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1search_1_1ru_1_1SearchRussian_1a05d96ed94d5b00caaa896fee57003716" kindref="member">stem</ref>(self,<sp/>word:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1search_1_1ru_1_1SearchRussian_1a39b2fd920f7c4accd9ff28e2c8c59e70" kindref="member">stemmer</ref>.stemWord(word.lower())</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ru.py"/>
+  </compounddef>
+</doxygen>

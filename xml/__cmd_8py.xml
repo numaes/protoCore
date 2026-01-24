@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__cmd_8py" kind="file" language="Python">
+    <compoundname>_cmd.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1cachecontrol">pip::_vendor::cachecontrol</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd">pip::_vendor::cachecontrol::_cmd</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd" refkind="compound"><highlight class="comment">#<sp/>SPDX-FileCopyrightText:<sp/>2015<sp/>Eric<sp/>Larson</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>argparse<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ArgumentParser</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor" kindref="compound">pip._vendor</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>requests</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1adapter" kindref="compound">pip._vendor.cachecontrol.adapter</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>CacheControlAdapter</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1cache" kindref="compound">pip._vendor.cachecontrol.cache</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>DictCache</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1controller" kindref="compound">pip._vendor.cachecontrol.controller</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logger</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>argparse<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Namespace</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1controller" kindref="compound">pip._vendor.cachecontrol.controller</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>CacheController</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd_1a9cf64bd297e05f7a966643a408030231" kindref="member">setup_logging</ref>()<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.setLevel(logging.DEBUG)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>handler<sp/>=<sp/>logging.StreamHandler()</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.addHandler(handler)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd_1a641f512997f7174a14e66e1c12f87f74" kindref="member">get_session</ref>()<sp/>-&gt;<sp/>requests.Session:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1cachecontrol_1_1adapter_1_1CacheControlAdapter" kindref="compound">CacheControlAdapter</ref>(</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1DictCache" kindref="compound">DictCache</ref>(),<sp/>cache_etags=</highlight><highlight class="keyword">True</highlight><highlight class="normal">,<sp/>serializer=</highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>heuristic=</highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>sess<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1requests_1_1sessions_1_1Session" kindref="compound">requests.Session</ref>()</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>sess.mount(</highlight><highlight class="stringliteral">&quot;http://&quot;</highlight><highlight class="normal">,<sp/>adapter)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>sess.mount(</highlight><highlight class="stringliteral">&quot;https://&quot;</highlight><highlight class="normal">,<sp/>adapter)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>sess.cache_controller<sp/>=<sp/>adapter.controller<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[attr-defined]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sess</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd_1a133ede52b88df465b1378fbcf5a8b9bf" kindref="member">get_args</ref>()<sp/>-&gt;<sp/>Namespace:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>parser<sp/>=<sp/>ArgumentParser()</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>parser.add_argument(</highlight><highlight class="stringliteral">&quot;url&quot;</highlight><highlight class="normal">,<sp/>help=</highlight><highlight class="stringliteral">&quot;The<sp/>URL<sp/>to<sp/>try<sp/>and<sp/>cache&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>parser.parse_args()</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd_1a05adf748e6e0344ca348f1d5374e00eb" kindref="member">main</ref>()<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>args<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd_1a133ede52b88df465b1378fbcf5a8b9bf" kindref="member">get_args</ref>()</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>sess<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd_1a641f512997f7174a14e66e1c12f87f74" kindref="member">get_session</ref>()</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Make<sp/>a<sp/>request<sp/>to<sp/>get<sp/>a<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>sess.get(args.url)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Turn<sp/>on<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd_1a9cf64bd297e05f7a966643a408030231" kindref="member">setup_logging</ref>()</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>try<sp/>setting<sp/>the<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_controller:<sp/>CacheController<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sess.cache_controller<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[attr-defined]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_controller.cache_response(resp.request,<sp/>resp.raw)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Now<sp/>try<sp/>to<sp/>get<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>cache_controller.cached_request(resp.request):</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&quot;Cached!&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&quot;Not<sp/>cached<sp/>:(&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacepip_1_1__vendor_1_1cachecontrol_1_1__cmd_1a05adf748e6e0344ca348f1d5374e00eb" kindref="member">main</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/_cmd.py"/>
+  </compounddef>
+</doxygen>

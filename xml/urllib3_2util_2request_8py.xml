@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="urllib3_2util_2request_8py" kind="file" language="Python">
+    <compoundname>request.py</compoundname>
+    <innerclass refid="classurllib3_1_1util_1_1request_1_1__TYPE__FAILEDTELL" prot="protected">urllib3::util::request::_TYPE_FAILEDTELL</innerclass>
+    <innerclass refid="classurllib3_1_1util_1_1request_1_1ChunksAndContentLength" prot="public">urllib3::util::request::ChunksAndContentLength</innerclass>
+    <innernamespace refid="namespaceurllib3">urllib3</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1util">urllib3::util</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1util_1_1request">urllib3::util::request</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceurllib3_1_1util_1_1request" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>io</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>typing</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>base64<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>b64encode</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>enum<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Enum</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..exceptions<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>UnrewindableBodyError</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.util<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>to_bytes</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>typing.TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Final</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Pass<sp/>as<sp/>a<sp/>value<sp/>within<sp/>``headers``<sp/>to<sp/>skip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/>emitting<sp/>some<sp/>HTTP<sp/>headers<sp/>that<sp/>are<sp/>added<sp/>automatically.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/>The<sp/>only<sp/>headers<sp/>that<sp/>are<sp/>supported<sp/>are<sp/>``Accept-Encoding``,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#<sp/>``Host``,<sp/>and<sp/>``User-Agent``.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">SKIP_HEADER<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;@@@SKIP_HEADER@@@&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">SKIPPABLE_HEADERS<sp/>=<sp/>frozenset([</highlight><highlight class="stringliteral">&quot;accept-encoding&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user-agent&quot;</highlight><highlight class="normal">])</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">ACCEPT_ENCODING<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gzip,deflate&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>brotlicffi<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_unused_module_brotli<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[import-not-found]<sp/>#<sp/>noqa:<sp/>F401</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>brotli<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_unused_module_brotli<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[import-not-found]<sp/>#<sp/>noqa:<sp/>F401</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ACCEPT_ENCODING<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;,br&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>compression<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>(<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[import-not-found]<sp/>#<sp/>noqa:<sp/>F401</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>zstd<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_unused_module_zstd,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>ACCEPT_ENCODING<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;,zstd&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>zstandard<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_unused_module_zstd<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>F401</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ACCEPT_ENCODING<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;,zstd&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classurllib3_1_1util_1_1request_1_1__TYPE__FAILEDTELL" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1util_1_1request_1_1__TYPE__FAILEDTELL" kindref="compound">_TYPE_FAILEDTELL</ref>(Enum):</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>token<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">_FAILEDTELL:<sp/>Final[_TYPE_FAILEDTELL]<sp/>=<sp/>_TYPE_FAILEDTELL.token</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">_TYPE_BODY_POSITION<sp/>=<sp/>typing.Union[int,<sp/>_TYPE_FAILEDTELL]</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">#<sp/>When<sp/>sending<sp/>a<sp/>request<sp/>with<sp/>these<sp/>methods<sp/>we<sp/>aren&apos;t<sp/>expecting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">#<sp/>a<sp/>body<sp/>so<sp/>don&apos;t<sp/>need<sp/>to<sp/>set<sp/>an<sp/>explicit<sp/>&apos;Content-Length:<sp/>0&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">#<sp/>The<sp/>reason<sp/>we<sp/>do<sp/>this<sp/>in<sp/>the<sp/>negative<sp/>instead<sp/>of<sp/>tracking<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">#<sp/>which<sp/>&apos;should&apos;<sp/>have<sp/>a<sp/>body<sp/>is<sp/>because<sp/>unknown<sp/>methods<sp/>should<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">#<sp/>treated<sp/>as<sp/>if<sp/>they<sp/>were<sp/>&apos;POST&apos;<sp/>which<sp/>*does*<sp/>expect<sp/>a<sp/>body.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">_METHODS_NOT_EXPECTING_BODY<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HEAD&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TRACE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OPTIONS&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CONNECT&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">make_headers(</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>keep_alive:<sp/>bool<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>accept_encoding:<sp/>bool<sp/>|<sp/>list[str]<sp/>|<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>user_agent:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>basic_auth:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>proxy_basic_auth:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>disable_cache:<sp/>bool<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">)<sp/>-&gt;<sp/>dict[str,<sp/>str]:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Shortcuts<sp/>for<sp/>generating<sp/>request<sp/>headers.</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>keep_alive:</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>``True``,<sp/>adds<sp/>&apos;connection:<sp/>keep-alive&apos;<sp/>header.</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>accept_encoding:</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Can<sp/>be<sp/>a<sp/>boolean,<sp/>list,<sp/>or<sp/>string.</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``True``<sp/>translates<sp/>to<sp/>&apos;gzip,deflate&apos;.<sp/><sp/>If<sp/>the<sp/>dependencies<sp/>for</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Brotli<sp/>(either<sp/>the<sp/>``brotli``<sp/>or<sp/>``brotlicffi``<sp/>package)<sp/>and/or<sp/>Zstandard</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(the<sp/>``zstandard``<sp/>package)<sp/>algorithms<sp/>are<sp/>installed,<sp/>then<sp/>their<sp/>encodings<sp/>are</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>included<sp/>in<sp/>the<sp/>string<sp/>(&apos;br&apos;<sp/>and<sp/>&apos;zstd&apos;,<sp/>respectively).</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>List<sp/>will<sp/>get<sp/>joined<sp/>by<sp/>comma.</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/>will<sp/>be<sp/>used<sp/>as<sp/>provided.</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>user_agent:</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/>representing<sp/>the<sp/>user-agent<sp/>you<sp/>want,<sp/>such<sp/>as</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;python-urllib3/0.6&quot;</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>basic_auth:</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Colon-separated<sp/>username:password<sp/>string<sp/>for<sp/>&apos;authorization:<sp/>basic<sp/>...&apos;</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth<sp/>header.</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>proxy_basic_auth:</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Colon-separated<sp/>username:password<sp/>string<sp/>for<sp/>&apos;proxy-authorization:<sp/>basic<sp/>...&apos;</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth<sp/>header.</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>disable_cache:</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>``True``,<sp/>adds<sp/>&apos;cache-control:<sp/>no-cache&apos;<sp/>header.</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Example:</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>code-block::<sp/>python</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import<sp/>urllib3</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(urllib3.util.make_headers(keep_alive=True,<sp/>user_agent=&quot;Batman/1.0&quot;))</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>{&apos;connection&apos;:<sp/>&apos;keep-alive&apos;,<sp/>&apos;user-agent&apos;:<sp/>&apos;Batman/1.0&apos;}</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(urllib3.util.make_headers(accept_encoding=True))</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>{&apos;accept-encoding&apos;:<sp/>&apos;gzip,deflate&apos;}</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>headers:<sp/>dict[str,<sp/>str]<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>accept_encoding:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(accept_encoding,<sp/>str):</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>isinstance(accept_encoding,<sp/>list):</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accept_encoding<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">.join(accept_encoding)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accept_encoding<sp/>=<sp/>ACCEPT_ENCODING</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;accept-encoding&quot;</highlight><highlight class="normal">]<sp/>=<sp/>accept_encoding</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>user_agent:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;user-agent&quot;</highlight><highlight class="normal">]<sp/>=<sp/>user_agent</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>keep_alive:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;keep-alive&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>basic_auth:</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;authorization&quot;</highlight><highlight class="normal">]<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;Basic<sp/>{b64encode(basic_auth.encode(&apos;latin-1&apos;)).decode()}&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>proxy_basic_auth:</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;proxy-authorization&quot;</highlight><highlight class="normal">]<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;Basic<sp/>{b64encode(proxy_basic_auth.encode(&apos;latin-1&apos;)).decode()}&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>disable_cache:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;cache-control&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;no-cache&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>headers</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">set_file_position(</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>body:<sp/>typing.Any,<sp/>pos:<sp/>_TYPE_BODY_POSITION<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">)<sp/>-&gt;<sp/>_TYPE_BODY_POSITION<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>a<sp/>position<sp/>is<sp/>provided,<sp/>move<sp/>file<sp/>to<sp/>that<sp/>point.</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Otherwise,<sp/>we&apos;ll<sp/>attempt<sp/>to<sp/>record<sp/>a<sp/>position<sp/>for<sp/>future<sp/>use.</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>pos<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespaceurllib3_1_1util_1_1request_1a281b31948f9bb596d18eef496dd4dcc7" kindref="member">rewind_body</ref>(body,<sp/>pos)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>getattr(body,<sp/></highlight><highlight class="stringliteral">&quot;tell&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pos<sp/>=<sp/>body.tell()</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>OSError:</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>This<sp/>differentiates<sp/>from<sp/>None,<sp/>allowing<sp/>us<sp/>to<sp/>catch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>a<sp/>failed<sp/>`tell()`<sp/>later<sp/>when<sp/>trying<sp/>to<sp/>rewind<sp/>the<sp/>body.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pos<sp/>=<sp/>_FAILEDTELL</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pos</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespaceurllib3_1_1util_1_1request_1a281b31948f9bb596d18eef496dd4dcc7" kindref="member">rewind_body</ref>(body:<sp/>typing.IO[typing.AnyStr],<sp/>body_pos:<sp/>_TYPE_BODY_POSITION)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Attempt<sp/>to<sp/>rewind<sp/>body<sp/>to<sp/>a<sp/>certain<sp/>position.</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Primarily<sp/>used<sp/>for<sp/>request<sp/>redirects<sp/>and<sp/>retries.</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>body:</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>File-like<sp/>object<sp/>that<sp/>supports<sp/>seek.</highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>int<sp/>pos:</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Position<sp/>to<sp/>seek<sp/>to<sp/>in<sp/>file.</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>body_seek<sp/>=<sp/>getattr(body,<sp/></highlight><highlight class="stringliteral">&quot;seek&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>body_seek<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>isinstance(body_pos,<sp/>int):</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body_seek(body_pos)</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>OSError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>e:</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classurllib3_1_1exceptions_1_1UnrewindableBodyError" kindref="compound">UnrewindableBodyError</ref>(</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;An<sp/>error<sp/>occurred<sp/>when<sp/>rewinding<sp/>request<sp/>body<sp/>for<sp/>redirect/retry.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>e</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>body_pos<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/>_FAILEDTELL:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classurllib3_1_1exceptions_1_1UnrewindableBodyError" kindref="compound">UnrewindableBodyError</ref>(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Unable<sp/>to<sp/>record<sp/>file<sp/>position<sp/>for<sp/>rewinding<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;request<sp/>body<sp/>during<sp/>a<sp/>redirect/retry.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ValueError(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;body_pos<sp/>must<sp/>be<sp/>of<sp/>type<sp/>integer,<sp/>instead<sp/>it<sp/>was<sp/>{type(body_pos)}.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="classurllib3_1_1util_1_1request_1_1ChunksAndContentLength" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1util_1_1request_1_1ChunksAndContentLength" kindref="compound">ChunksAndContentLength</ref>(typing.NamedTuple):</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>chunks:<sp/>typing.Iterable[bytes]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>content_length:<sp/>int<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">body_to_chunks(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>body:<sp/>typing.Any<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>method:<sp/>str,<sp/>blocksize:<sp/>int</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">)<sp/>-&gt;<sp/>ChunksAndContentLength:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Takes<sp/>the<sp/>HTTP<sp/>request<sp/>method,<sp/>body,<sp/>and<sp/>blocksize<sp/>and</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>transforms<sp/>them<sp/>into<sp/>an<sp/>iterable<sp/>of<sp/>chunks<sp/>to<sp/>pass<sp/>to</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>socket.sendall()<sp/>and<sp/>an<sp/>optional<sp/>&apos;Content-Length&apos;<sp/>header.</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>&apos;Content-Length&apos;<sp/>of<sp/>&apos;None&apos;<sp/>indicates<sp/>the<sp/>length<sp/>of<sp/>the<sp/>body</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>can&apos;t<sp/>be<sp/>determined<sp/>so<sp/>should<sp/>use<sp/>&apos;Transfer-Encoding:<sp/>chunked&apos;</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>for<sp/>framing<sp/>instead.</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>chunks:<sp/>typing.Iterable[bytes]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>content_length:<sp/>int<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>No<sp/>body,<sp/>we<sp/>need<sp/>to<sp/>make<sp/>a<sp/>recommendation<sp/>on<sp/>&apos;Content-Length&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>based<sp/>on<sp/>whether<sp/>that<sp/>request<sp/>method<sp/>is<sp/>expected<sp/>to<sp/>have</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>a<sp/>body<sp/>or<sp/>not.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>body<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>method.upper()<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>_METHODS_NOT_EXPECTING_BODY:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content_length<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content_length<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Bytes<sp/>or<sp/>strings<sp/>become<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>isinstance(body,<sp/>(str,<sp/>bytes)):</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks<sp/>=<sp/>(to_bytes(body),)</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content_length<sp/>=<sp/>len(chunks[0])</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>File-like<sp/>object,<sp/>TODO:<sp/>use<sp/>seek()<sp/>and<sp/>tell()<sp/>for<sp/>length?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>hasattr(body,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">chunk_readable()<sp/>-&gt;<sp/>typing.Iterable[bytes]:</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nonlocal<sp/>body,<sp/>blocksize</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encode<sp/>=<sp/>isinstance(body,<sp/>io.TextIOBase)</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>datablock<sp/>=<sp/>body.read(blocksize)</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>datablock:</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>encode:</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>datablock<sp/>=<sp/>datablock.encode(</highlight><highlight class="stringliteral">&quot;utf-8&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>datablock</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks<sp/>=<sp/>chunk_readable()</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content_length<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Otherwise<sp/>we<sp/>need<sp/>to<sp/>start<sp/>checking<sp/>via<sp/>duck-typing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Check<sp/>if<sp/>the<sp/>body<sp/>implements<sp/>the<sp/>buffer<sp/>API.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mv<sp/>=<sp/>memoryview(body)</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>TypeError:</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Check<sp/>if<sp/>the<sp/>body<sp/>is<sp/>an<sp/>iterable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks<sp/>=<sp/>iter(body)</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content_length<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>TypeError:</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>TypeError(</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;&apos;body&apos;<sp/>must<sp/>be<sp/>a<sp/>bytes-like<sp/>object,<sp/>file-like<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;object,<sp/>or<sp/>iterable.<sp/>Instead<sp/>was<sp/>{body!r}&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Since<sp/>it<sp/>implements<sp/>the<sp/>buffer<sp/>API<sp/>can<sp/>be<sp/>passed<sp/>directly<sp/>to<sp/>socket.sendall()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunks<sp/>=<sp/>(body,)</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content_length<sp/>=<sp/>mv.nbytes</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classurllib3_1_1util_1_1request_1_1ChunksAndContentLength" kindref="compound">ChunksAndContentLength</ref>(chunks=chunks,<sp/>content_length=content_length)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py"/>
+  </compounddef>
+</doxygen>

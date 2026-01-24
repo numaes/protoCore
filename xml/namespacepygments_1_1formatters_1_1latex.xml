@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepygments_1_1formatters_1_1latex" kind="namespace" language="Python">
+    <compoundname>pygments::formatters::latex</compoundname>
+    <innerclass refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer" prot="public">pygments::formatters::latex::LatexEmbeddedLexer</innerclass>
+    <innerclass refid="classpygments_1_1formatters_1_1latex_1_1LatexFormatter" prot="public">pygments::formatters::latex::LatexFormatter</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepygments_1_1formatters_1_1latex_1a9d0783069df467776cd0019f6ace8f05" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pygments::formatters::latex.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pygments.formatters.latex.__all__</qualifiedname>
+        <initializer>=  [&apos;<ref refid="classpygments_1_1formatters_1_1latex_1_1LatexFormatter" kindref="compound">LatexFormatter</ref>&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1formatters_1_1latex_1aad5da68f8bf3663df9e10a24a5281a46" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pygments::formatters::latex.DOC_TEMPLATE</definition>
+        <argsstring></argsstring>
+        <name>DOC_TEMPLATE</name>
+        <qualifiedname>pygments.formatters.latex.DOC_TEMPLATE</qualifiedname>
+        <initializer>=  r&apos;&apos;&apos;
+\documentclass{%(docclass)s}
+\usepackage{fancyvrb}
+\usepackage{color}
+\usepackage[%(encoding)s]{inputenc}
+%(preamble)s
+
+%(styledefs)s
+
+\begin{document}
+
+\section*{%(title)s}
+
+%(code)s
+\end{document}
+&apos;&apos;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1formatters_1_1latex_1ae298ba07ea2cc5075cc5a2a830ec1a8c" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pygments::formatters::latex.STYLE_TEMPLATE</definition>
+        <argsstring></argsstring>
+        <name>STYLE_TEMPLATE</name>
+        <qualifiedname>pygments.formatters.latex.STYLE_TEMPLATE</qualifiedname>
+        <briefdescription>
+<para>Small explanation of the mess below :) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The previous version of the LaTeX formatter just assigned a command to each token type defined in the current style. That obviously is problematic if the highlighted code is produced for a different style than the style commands themselves.</para>
+<para>This version works much like the HTML formatter which assigns multiple CSS classes to each  tag, from the most specific to the least specific token type, thus falling back to the parent token type if one is not defined. Here, the classes are there too and use the same short forms given in token.STANDARD_TYPES.</para>
+<para> Highlighted code now only uses one custom command, which by default is \PY and selectable by the commandprefix option (and in addition the escapes \PYZat, \PYZlb and \PYZrb which haven&apos;t been renamed for backwards compatibility purposes).</para>
+<para> \PY has two arguments: the classes, separated by +, and the text to render in that style. The classes are resolved into the respective style commands by magic, which serves to ignore unknown classes.</para>
+<para> The magic macros are:<itemizedlist>
+<listitem><para>\PY@it, \PY@bf, etc. are unconditionally wrapped around the text to render in \PY@do. Their definition determines the style.</para>
+</listitem><listitem><para>\PY@reset resets \PY@it etc. to do nothing.</para>
+</listitem><listitem><para>\PY@toks parses the list of classes, using magic inspired by the keyval package (but modified to use plusses instead of commas because fancyvrb redefines commas inside its environments).</para>
+</listitem><listitem><para>\PY@tok processes one class, calling the \PY@tok@classname command if it exists.</para>
+</listitem><listitem><para>\PY@tok@classname sets the \PY@it etc. to reflect the chosen style for its class.</para>
+</listitem><listitem><para>\PY resets the style, parses the classnames and then calls \PY@do.</para>
+</listitem></itemizedlist>
+</para>
+<para> Tip: to read this code, print it out in substituted form using e.g. <blockquote><para><blockquote><para><blockquote><para><zwj/>print STYLE_TEMPLATE % {&apos;cp&apos;: &apos;PY&apos;} </para>
+</blockquote></para>
+</blockquote></para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepygments_1_1formatters_1_1latex_1aba02cc1ba9c4dd0f036b5553849fd4de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.formatters.latex.escape_tex</definition>
+        <argsstring>(text, commandprefix)</argsstring>
+        <name>escape_tex</name>
+        <qualifiedname>pygments.formatters.latex.escape_tex</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type>commandprefix</type>
+          <defname>commandprefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="22" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepygments_1_1formatters_1_1latex_1a71e0cc7d1cb7045c1efd7f9c97e260b4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.formatters.latex._get_ttype_name</definition>
+        <argsstring>(ttype)</argsstring>
+        <name>_get_ttype_name</name>
+        <qualifiedname>pygments.formatters.latex._get_ttype_name</qualifiedname>
+        <param>
+          <type>ttype</type>
+          <defname>ttype</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="135" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="135" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    pygments.formatters.latex
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Formatter for LaTeX fancyvrb output.
+
+    :copyright: Copyright 2006-2025 by the Pygments team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

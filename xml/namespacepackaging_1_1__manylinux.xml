@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepackaging_1_1__manylinux" kind="namespace" language="Python">
+    <compoundname>packaging::_manylinux</compoundname>
+    <innerclass refid="classpackaging_1_1__manylinux_1_1__GLibCVersion" prot="protected">packaging::_manylinux::_GLibCVersion</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepackaging_1_1__manylinux_1ae551602e8a8e5b0a6667928aa0273c10" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int packaging::_manylinux.EF_ARM_ABIMASK</definition>
+        <argsstring></argsstring>
+        <name>EF_ARM_ABIMASK</name>
+        <qualifiedname>packaging._manylinux.EF_ARM_ABIMASK</qualifiedname>
+        <initializer>=  0xFF000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__manylinux_1a2fc6db26db889c84d5a59f82cda39c26" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int packaging::_manylinux.EF_ARM_ABI_VER5</definition>
+        <argsstring></argsstring>
+        <name>EF_ARM_ABI_VER5</name>
+        <qualifiedname>packaging._manylinux.EF_ARM_ABI_VER5</qualifiedname>
+        <initializer>=  0x05000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__manylinux_1a339324c19ba5eb6cdc7183c857588ce8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int packaging::_manylinux.EF_ARM_ABI_FLOAT_HARD</definition>
+        <argsstring></argsstring>
+        <name>EF_ARM_ABI_FLOAT_HARD</name>
+        <qualifiedname>packaging._manylinux.EF_ARM_ABI_FLOAT_HARD</qualifiedname>
+        <initializer>=  0x00000400</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__manylinux_1adaae4b9a540a5a5ebdbf4872261940f3" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict packaging::_manylinux._LAST_GLIBC_MINOR</definition>
+        <argsstring></argsstring>
+        <name>_LAST_GLIBC_MINOR</name>
+        <qualifiedname>packaging._manylinux._LAST_GLIBC_MINOR</qualifiedname>
+        <initializer>=  collections.defaultdict(lambda: 50)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__manylinux_1a776ec4b693cce6e2d059b82f5edca961" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict packaging::_manylinux._LEGACY_MANYLINUX_MAP</definition>
+        <argsstring></argsstring>
+        <name>_LEGACY_MANYLINUX_MAP</name>
+        <qualifiedname>packaging._manylinux._LEGACY_MANYLINUX_MAP</qualifiedname>
+        <initializer>=  {
+    # CentOS 7 w/ glibc 2.17 (PEP 599)
+    (2, 17): &quot;manylinux2014&quot;,
+    # CentOS 6 w/ glibc 2.12 (PEP 571)
+    (2, 12): &quot;manylinux2010&quot;,
+    # CentOS 5 w/ glibc 2.5 (PEP 513)
+    (2, 5): &quot;manylinux1&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="207" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1abf5aad047965e685cfdc0e6b874a5077" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="classpackaging_1_1__elffile_1_1ELFFile" kindref="compound">ELFFile</ref>|None, None, None]</type>
+        <definition> Generator[ELFFile | None, None, None] packaging._manylinux._parse_elf</definition>
+        <argsstring>(str path)</argsstring>
+        <name>_parse_elf</name>
+        <qualifiedname>packaging._manylinux._parse_elf</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="22" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1a32962e8fc11bc8cc7d4a4cb7e0b70a22" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging._manylinux._is_linux_armhf</definition>
+        <argsstring>(str executable)</argsstring>
+        <name>_is_linux_armhf</name>
+        <qualifiedname>packaging._manylinux._is_linux_armhf</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>executable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="30" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1aea2002dd76912fd1828b5f8611646cf6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging._manylinux._is_linux_i686</definition>
+        <argsstring>(str executable)</argsstring>
+        <name>_is_linux_i686</name>
+        <qualifiedname>packaging._manylinux._is_linux_i686</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>executable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="45" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1a16da4f70106d31e3da20414ead0ed559" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging._manylinux._have_compatible_abi</definition>
+        <argsstring>(str executable, Sequence[str] archs)</argsstring>
+        <name>_have_compatible_abi</name>
+        <qualifiedname>packaging._manylinux._have_compatible_abi</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>executable</declname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>archs</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="55" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1a615e2ebdca8ef2c9fa95c5b62c0f8c88" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None packaging._manylinux._glibc_version_string_confstr</definition>
+        <argsstring>()</argsstring>
+        <name>_glibc_version_string_confstr</name>
+        <qualifiedname>packaging._manylinux._glibc_version_string_confstr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Primary implementation of glibc_version_string using os.confstr.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="85" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1a5b6d7cdfe28692f5efd0680411f745ec" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None packaging._manylinux._glibc_version_string_ctypes</definition>
+        <argsstring>()</argsstring>
+        <name>_glibc_version_string_ctypes</name>
+        <qualifiedname>packaging._manylinux._glibc_version_string_ctypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Fallback implementation of glibc_version_string using ctypes.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="104" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="104" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1a31edadb3a321628c6d182bf29da8a19a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None packaging._manylinux._glibc_version_string</definition>
+        <argsstring>()</argsstring>
+        <name>_glibc_version_string</name>
+        <qualifiedname>packaging._manylinux._glibc_version_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns glibc version string, or None if not using glibc.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="148" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="148" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1a261ceb5f86c74409cbf143b79d3497e9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[int, int]</type>
+        <definition> tuple[int, int] packaging._manylinux._parse_glibc_version</definition>
+        <argsstring>(str version_str)</argsstring>
+        <name>_parse_glibc_version</name>
+        <qualifiedname>packaging._manylinux._parse_glibc_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>version_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse glibc version.
+
+We use a regexp instead of str.split because we want to discard any
+random junk that might come after the minor version -- this might happen
+in patched/forked versions of glibc (e.g. Linaro&apos;s version of glibc
+uses version strings like &quot;2.20-2014.11&quot;). See gh-3588.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="153" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="153" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1af796d19fec233a1d8b955ab08ddc5487" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[int, int]</type>
+        <definition> tuple[int, int] packaging._manylinux._get_glibc_version</definition>
+        <argsstring>()</argsstring>
+        <name>_get_glibc_version</name>
+        <qualifiedname>packaging._manylinux._get_glibc_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="173" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="173" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1a992f32b0269b04d028e9bd68e61c6f12" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging._manylinux._is_compatible</definition>
+        <argsstring>(str arch, _GLibCVersion version)</argsstring>
+        <name>_is_compatible</name>
+        <qualifiedname>packaging._manylinux._is_compatible</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>arch</declname>
+        </param>
+        <param>
+          <type><ref refid="classpackaging_1_1__manylinux_1_1__GLibCVersion" kindref="compound">_GLibCVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="181" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="181" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__manylinux_1acf43b1285e761864a3d3c89a419f18a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] packaging._manylinux.platform_tags</definition>
+        <argsstring>(Sequence[str] archs)</argsstring>
+        <name>platform_tags</name>
+        <qualifiedname>packaging._manylinux.platform_tags</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>archs</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate manylinux tags compatible to the current platform.
+
+:param archs: Sequence of compatible architectures.
+    The first one shall be the closest to the actual architecture and be the part of
+    platform tag after the ``linux_`` prefix, e.g. ``x86_64``.
+    The ``linux_`` prefix is assumed as a prerequisite for the current platform to
+    be manylinux-compatible.
+
+:returns: An iterator of compatible manylinux tags.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="217" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" bodystart="217" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/packaging/_manylinux.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

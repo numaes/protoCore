@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1filters_1_1GobbleFilter" kind="class" language="Python" prot="public">
+    <compoundname>pygments::filters::GobbleFilter</compoundname>
+    <basecompoundref refid="classpygments_1_1filter_1_1Filter" prot="public" virt="non-virtual">pygments.filter.Filter</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpygments_1_1filters_1_1GobbleFilter_1a2af927c77eabdceb619135bd795e60b2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.filters.GobbleFilter::n</definition>
+        <argsstring></argsstring>
+        <name>n</name>
+        <qualifiedname>pygments.filters.GobbleFilter.n</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="884" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="884" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1filters_1_1GobbleFilter_1a2a29abaeabf4519d7293cf8eba92a9ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters.GobbleFilter.__init__</definition>
+        <argsstring>(self, **options)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pygments.filters.GobbleFilter.__init__</qualifiedname>
+        <reimplements refid="classpygments_1_1filter_1_1Filter_1a221957e4dafe2016ac95bcf06d78e65c">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="882" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="882" bodyend="885"/>
+      </memberdef>
+      <memberdef kind="function" id="classpygments_1_1filters_1_1GobbleFilter_1ae1cb60eab3d4bf1b54f232265d5ef0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters.GobbleFilter.gobble</definition>
+        <argsstring>(self, value, left)</argsstring>
+        <name>gobble</name>
+        <qualifiedname>pygments.filters.GobbleFilter.gobble</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>left</type>
+          <defname>left</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="886" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="886" bodyend="891"/>
+      </memberdef>
+      <memberdef kind="function" id="classpygments_1_1filters_1_1GobbleFilter_1aea1a3ab5104d7a8410896bbe200730c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters.GobbleFilter.filter</definition>
+        <argsstring>(self, lexer, stream)</argsstring>
+        <name>filter</name>
+        <qualifiedname>pygments.filters.GobbleFilter.filter</qualifiedname>
+        <reimplements refid="classpygments_1_1filter_1_1Filter_1a330bed1ceb593939c16c6909bb83753b">filter</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>lexer</type>
+          <defname>lexer</defname>
+        </param>
+        <param>
+          <type>stream</type>
+          <defname>stream</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="892" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="892" bodyend="906"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Gobbles source code lines (eats initial characters).
+
+This filter drops the first ``n`` characters off every line of code.  This
+may be useful when the source code fed to the lexer is indented by a fixed
+amount of space that isn&apos;t desired in the output.
+
+Options accepted:
+
+`n` : int
+   The number of characters to gobble.
+
+.. versionadded:: 1.2
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pygments.filters.GobbleFilter</label>
+        <link refid="classpygments_1_1filters_1_1GobbleFilter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.filter.Filter</label>
+        <link refid="classpygments_1_1filter_1_1Filter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pygments.filters.GobbleFilter</label>
+        <link refid="classpygments_1_1filters_1_1GobbleFilter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.filter.Filter</label>
+        <link refid="classpygments_1_1filter_1_1Filter"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="868" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="868" bodyend="906"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1filters_1_1GobbleFilter_1a2a29abaeabf4519d7293cf8eba92a9ed" prot="public" virt="non-virtual"><scope>pygments::filters::GobbleFilter</scope><name>__init__</name></member>
+      <member refid="classpygments_1_1filters_1_1GobbleFilter_1aea1a3ab5104d7a8410896bbe200730c2" prot="public" virt="non-virtual"><scope>pygments::filters::GobbleFilter</scope><name>filter</name></member>
+      <member refid="classpygments_1_1filters_1_1GobbleFilter_1ae1cb60eab3d4bf1b54f232265d5ef0f3" prot="public" virt="non-virtual"><scope>pygments::filters::GobbleFilter</scope><name>gobble</name></member>
+      <member refid="classpygments_1_1filters_1_1GobbleFilter_1a2af927c77eabdceb619135bd795e60b2" prot="public" virt="non-virtual"><scope>pygments::filters::GobbleFilter</scope><name>n</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

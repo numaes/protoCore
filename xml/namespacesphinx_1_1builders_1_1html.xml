@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1builders_1_1html" kind="namespace" language="Python">
+    <compoundname>sphinx::builders::html</compoundname>
+    <innerclass refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder" prot="public">sphinx::builders::html::StandaloneHTMLBuilder</innerclass>
+    <innernamespace refid="namespacesphinx_1_1builders_1_1html_1_1__assets">sphinx::builders::html::_assets</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1builders_1_1html_1_1__build__info">sphinx::builders::html::_build_info</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1html_1a5b36549acfd8a5370b0874a2ab9a2fe2" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::builders::html.INVENTORY_FILENAME</definition>
+        <argsstring></argsstring>
+        <name>INVENTORY_FILENAME</name>
+        <qualifiedname>sphinx.builders.html.INVENTORY_FILENAME</qualifiedname>
+        <initializer>=  &apos;objects.inv&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1html_1aea7eb10f745537f6770c21597792315f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::html.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.builders.html.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="82" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1html_1a99d2259c19dbd82859783c860a1b4ea5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::html.return_codes_re</definition>
+        <argsstring></argsstring>
+        <name>return_codes_re</name>
+        <qualifiedname>sphinx.builders.html.return_codes_re</qualifiedname>
+        <initializer>=  re.compile(&apos;[\r\n]+&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="83" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1html_1a7edaa0145b6f3f1e77130ea9a68aef4e" prot="public" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias sphinx::builders::html.DOMAIN_INDEX_TYPE</definition>
+        <argsstring></argsstring>
+        <name>DOMAIN_INDEX_TYPE</name>
+        <qualifiedname>sphinx.builders.html.DOMAIN_INDEX_TYPE</qualifiedname>
+        <initializer>=  tuple[
+    # Index name (e.g. py-modindex)
+    str,
+    # Index class
+    type[Index],
+    # list of (heading string, list of index entries) pairs.
+    list[tuple[str, list[IndexEntry]]],
+    # whether sub-entries should start collapsed
+    bool,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1html_1a87e24cc8de2d116fa8a74da8ff9af968" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::builders::html._DEPRECATED_OBJECTS</definition>
+        <argsstring></argsstring>
+        <name>_DEPRECATED_OBJECTS</name>
+        <qualifiedname>sphinx.builders.html._DEPRECATED_OBJECTS</qualifiedname>
+        <initializer>=  {
+    &apos;Stylesheet&apos;: (
+        <ref refid="classsphinx_1_1builders_1_1html_1_1__assets_1_1__CascadingStyleSheet" kindref="compound">_CascadingStyleSheet</ref>,
+        &apos;<ref refid="classsphinx_1_1builders_1_1html_1_1__assets_1_1__CascadingStyleSheet" kindref="compound">sphinx.builders.html._assets._CascadingStyleSheet</ref>&apos;,
+        (9, 0),
+    ),
+    &apos;JavaScript&apos;: (<ref refid="classsphinx_1_1builders_1_1html_1_1__assets_1_1__JavaScript" kindref="compound">_JavaScript</ref>, &apos;<ref refid="classsphinx_1_1builders_1_1html_1_1__assets_1_1__JavaScript" kindref="compound">sphinx.builders.html._assets._JavaScript</ref>&apos;, (9, 0)),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1544" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1html_1a539859494ae6387ffc7d3170f77fd50c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::html.html_title</definition>
+        <argsstring></argsstring>
+        <name>html_title</name>
+        <qualifiedname>sphinx.builders.html.html_title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1454" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1454" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a257705a696bc80b2214b38808121f091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.builders.html.convert_locale_to_language_tag</definition>
+        <argsstring>(str|None locale)</argsstring>
+        <name>convert_locale_to_language_tag</name>
+        <qualifiedname>sphinx.builders.html.convert_locale_to_language_tag</qualifiedname>
+        <param>
+          <type>str|None</type>
+          <declname>locale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a locale string to a language tag (ex. en_US -&gt; en-US).
+
+refs: BCP 47 (:rfc:`5646`)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="97" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="97" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a165924fa8f836ddc23f65599ebbe1107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.convert_html_css_files</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>convert_html_css_files</name>
+        <qualifiedname>sphinx.builders.html.convert_html_css_files</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert string styled html_css_files to tuple styled one.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1280" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1280" bodyend="1296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a6ecd452d99ad9815eb38337de8595ab5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.convert_html_js_files</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>convert_html_js_files</name>
+        <qualifiedname>sphinx.builders.html.convert_html_js_files</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert string styled html_js_files to tuple styled one.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1297" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1297" bodyend="1313"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a2adf6ef31fd01656c6477927c04be2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.setup_resource_paths</definition>
+        <argsstring>(Sphinx app, str pagename, str templatename, dict[str, Any] context, Node doctree)</argsstring>
+        <name>setup_resource_paths</name>
+        <qualifiedname>sphinx.builders.html.setup_resource_paths</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pagename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>templatename</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>context</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up relative resource paths.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1314" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1320" bodyend="1334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a158de8ec69269046e8e842502ea2a1bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.validate_math_renderer</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>validate_math_renderer</name>
+        <qualifiedname>sphinx.builders.html.validate_math_renderer</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1335" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1335" bodyend="1348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a94fcd5b9b0bfed29546bf1ea1f455045" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.validate_html_extra_path</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>validate_html_extra_path</name>
+        <qualifiedname>sphinx.builders.html.validate_html_extra_path</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check html_extra_paths setting.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1349" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1349" bodyend="1368"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1ae6884366db773e4871f9a4129c8395d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.validate_html_static_path</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>validate_html_static_path</name>
+        <qualifiedname>sphinx.builders.html.validate_html_static_path</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check html_static_paths setting.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1369" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1369" bodyend="1388"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a88b527d78520ef53102f1da1598bb395" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.validate_html_logo</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>validate_html_logo</name>
+        <qualifiedname>sphinx.builders.html.validate_html_logo</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check html_logo setting.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1389" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1389" bodyend="1399"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a750c5f9c8f6e4ab14c762a4dbd9b5f94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.validate_html_favicon</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>validate_html_favicon</name>
+        <qualifiedname>sphinx.builders.html.validate_html_favicon</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check html_favicon setting.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1400" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1400" bodyend="1410"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1ad1fd6e76620ce7c9098c0678c1a2097a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.error_on_html_sidebars_string_values</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>error_on_html_sidebars_string_values</name>
+        <qualifiedname>sphinx.builders.html.error_on_html_sidebars_string_values</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Support removed in Sphinx 2.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1411" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1411" bodyend="1428"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a784a64791c28864fb34b7c9b55f7cf99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.html.error_on_html_4</definition>
+        <argsstring>(Sphinx _app, Config config)</argsstring>
+        <name>error_on_html_4</name>
+        <qualifiedname>sphinx.builders.html.error_on_html_4</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>_app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Error on HTML 4.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1429" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1429" bodyend="1438"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a629a32601f7dd64384484ebca09eb63f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.builders.html.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.builders.html.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1439" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1439" bodyend="1543"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1html_1a1ebffc268c07df3ea91b407c70e2bf76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.builders.html.__getattr__</definition>
+        <argsstring>(str name)</argsstring>
+        <name>__getattr__</name>
+        <qualifiedname>sphinx.builders.html.__getattr__</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1554" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" bodystart="1554" bodyend="1564"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Several HTML builders.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/html/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

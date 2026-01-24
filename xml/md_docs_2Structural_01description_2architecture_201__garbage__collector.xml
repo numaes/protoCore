@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_docs_2Structural_01description_2architecture_201__garbage__collector" kind="page">
+    <compoundname>md_docs_2Structural_01description_2architecture_201__garbage__collector</compoundname>
+    <title>Architecture Deep Dive: The Low-Latency Garbage Collector</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md872"/> </para>
+<sect1 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md873">
+<title>Introduction</title>
+<para>In many high-level languages, garbage collection (GC) is a source of unpredictable pauses, often called &quot;stop-the-world&quot; (STW) events. For latency-sensitive applications like real-time trading systems, game engines, or interactive tools, these pauses can be unacceptable. Proto&apos;s garbage collector is engineered from the ground up to minimize this disruption, providing a foundation for systems that require smooth, predictable performance.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md874">
+<title>Core Principles</title>
+<sect2 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md875">
+<title>Concurrent Collection</title>
+<para>The core of Proto&apos;s GC design is concurrency. The majority of the GC work—specifically the marking of live objects and the sweeping of dead ones—happens in a background thread, running in parallel with the application&apos;s own threads. This means the application can continue to execute logic, allocate memory, and respond to events while the GC is cleaning up.</para>
+</sect2>
+<sect2 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md876">
+<title>Minimal Stop-The-World (STW)</title>
+<para>While most of the GC cycle is concurrent, there is a brief, mandatory STW phase: <bold>root scanning</bold>. This is the only moment the application threads are paused. Proto&apos;s architecture is designed to make this phase as fast as possible. By carefully managing how and where mutable state can exist, the number of roots the GC needs to scan is dramatically reduced.</para>
+</sect2>
+<sect2 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md877">
+<title>No Compaction</title>
+<para>Proto&apos;s GC does not move or compact objects in memory. Once an object is allocated, it stays at that memory address for its entire lifetime. This design choice has two major benefits:<orderedlist>
+<listitem><para><bold>FFI Simplicity:</bold> C/C++ code can hold direct pointers to Proto objects without fear that the GC will invalidate them by moving the underlying memory. This makes the Foreign Function <ref refid="classInterface" kindref="compound">Interface</ref> (FFI) significantly simpler and more performant.</para>
+</listitem><listitem><para><bold>Predictable Performance:</bold> Memory compaction is a costly operation. By avoiding it, the GC&apos;s behavior is more predictable and its impact on application performance is minimized.</para>
+</listitem></orderedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md878">
+<title>The Collection Cycle</title>
+<sect2 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md879">
+<title>Triggering a GC</title>
+<para>A garbage collection cycle is typically triggered automatically when the total memory allocated by the runtime exceeds a certain threshold.</para>
+</sect2>
+<sect2 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md880">
+<title>Root Scanning (The STW Phase)</title>
+<para>This is the critical, synchronous part of the cycle. The GC pauses all application threads and scans for &quot;roots&quot;—the set of objects that are directly accessible by the application. In Proto, the roots are:</para>
+<para><orderedlist>
+<listitem><para><bold>Thread Stacks &amp; Contexts:</bold> The local variables and execution state of each running thread.</para>
+</listitem><listitem><para><bold>The Global <computeroutput>mutableRoot</computeroutput>:</bold> A single, global table that holds all shared, mutable state. This is a key architectural feature that simplifies root scanning immensely.</para>
+</listitem><listitem><para><bold>The Thread <computeroutput>method_cache</computeroutput>:</bold> A cache used to speed up method lookups. It&apos;s crucial to scan this cache, as it may contain references to objects that would otherwise be considered dead, preventing potential <computeroutput>use-after-free</computeroutput> bugs.</para>
+</listitem></orderedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md881">
+<title>Concurrent Marking &amp; Sweeping</title>
+<para>Once the root scan is complete, the application threads are resumed. The GC&apos;s background thread then begins the concurrent <bold>mark phase</bold>, traversing the object graph starting from the roots to find all live objects. Following that, the <bold>sweep phase</bold> reclaims the memory of any unmarked, unreachable objects.</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_201__garbage__collector_1autotoc_md882">
+<title>Code Reference</title>
+<para>To see how this is implemented, you can look at the following key areas in the source code:</para>
+<para>**<computeroutput><ref refid="Thread_8cpp" kindref="compound">Thread.cpp</ref></computeroutput> - Processing Roots on the Stack:** The <computeroutput>processReferences</computeroutput> method is responsible for iterating over the stack of a single thread to find root objects.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Illustrative<sp/>snippet<sp/>from<sp/>Thread.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Thread::processReferences(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject)&gt;<sp/>processor)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>logic<sp/>to<sp/>iterate<sp/>over<sp/>the<sp/>current<sp/>thread&apos;s<sp/>stack<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>frame<sp/>:<sp/>call_stack)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>local<sp/>:<sp/>frame.locals)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>processor(local);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>also<sp/>processes<sp/>the<sp/>method_cache<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>**<computeroutput><ref refid="ProtoSpace_8cpp" kindref="compound">ProtoSpace.cpp</ref></computeroutput> - The Main GC Scan Logic:** The <computeroutput>gcScan</computeroutput> method orchestrates the STW phase, gathering roots from all threads and the global <computeroutput>mutableRoot</computeroutput>.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Illustrative<sp/>snippet<sp/>from<sp/>ProtoSpace.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ProtoSpace::gcScan()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Pause<sp/>all<sp/>threads<sp/>(The<sp/>STW<sp/>start)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Scan<sp/>global<sp/>roots</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>processor(this-&gt;mutableRoot);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Scan<sp/>roots<sp/>from<sp/>each<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>thread<sp/>:<sp/>all_threads)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread-&gt;processReferences(processor);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Resume<sp/>all<sp/>threads<sp/>(The<sp/>STW<sp/>end)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</sect1>
+    </detaileddescription>
+    <location file="docs/Structural description/architecture/01_garbage_collector.md"/>
+  </compounddef>
+</doxygen>

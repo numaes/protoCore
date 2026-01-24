@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="docs_2README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Proto<sp/>Documentation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>directory<sp/>contains<sp/>the<sp/>source<sp/>files<sp/>for<sp/>the<sp/>Proto<sp/>project&apos;s<sp/>official<sp/>documentation.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>documentation<sp/>is<sp/>built<sp/>using<sp/>**Sphinx**,<sp/>a<sp/>powerful<sp/>documentation<sp/>generator,<sp/>and<sp/>**Doxygen**,<sp/>which<sp/>is<sp/>used<sp/>to<sp/>generate<sp/>API<sp/>references<sp/>directly<sp/>from<sp/>the<sp/>C++<sp/>source<sp/>code<sp/>comments.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Prerequisites</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Before<sp/>you<sp/>can<sp/>build<sp/>the<sp/>documentation,<sp/>you<sp/>need<sp/>to<sp/>ensure<sp/>the<sp/>following<sp/>tools<sp/>are<sp/>installed<sp/>on<sp/>your<sp/>system:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Python**<sp/>(3.6+)</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Sphinx**:<sp/>The<sp/>primary<sp/>documentation<sp/>generator.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Breathe**:<sp/>A<sp/>Sphinx<sp/>extension<sp/>that<sp/>acts<sp/>as<sp/>a<sp/>bridge<sp/>to<sp/>Doxygen.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Doxygen**:<sp/>The<sp/>tool<sp/>used<sp/>to<sp/>extract<sp/>documentation<sp/>from<sp/>the<sp/>C++<sp/>source<sp/>files.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>install<sp/>the<sp/>required<sp/>Python<sp/>packages<sp/>using<sp/>pip:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">pip<sp/>install<sp/>sphinx<sp/>breathe</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>install<sp/>Doxygen,<sp/>use<sp/>your<sp/>system&apos;s<sp/>package<sp/>manager.<sp/>For<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**On<sp/>Debian/Ubuntu:**</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">sudo<sp/>apt-get<sp/>install<sp/>doxygen</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**On<sp/>macOS<sp/>(using<sp/>Homebrew):**</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">brew<sp/>install<sp/>doxygen</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Building<sp/>the<sp/>Documentation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>build<sp/>process<sp/>is<sp/>managed<sp/>by<sp/>CMake,<sp/>which<sp/>will<sp/>first<sp/>run<sp/>Doxygen<sp/>and<sp/>then<sp/>Sphinx.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Configure<sp/>the<sp/>project**<sp/>(if<sp/>you<sp/>haven&apos;t<sp/>already)<sp/>from<sp/>the<sp/>root<sp/>directory:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```bash</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mkdir<sp/>build</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cd<sp/>build</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cmake<sp/>..</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Build<sp/>the<sp/>`docs`<sp/>target**<sp/>from<sp/>within<sp/>the<sp/>`build`<sp/>directory:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```bash</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>make<sp/>docs</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>This<sp/>command<sp/>will<sp/>first<sp/>run<sp/>Doxygen<sp/>to<sp/>generate<sp/>XML<sp/>files<sp/>from<sp/>the<sp/>C++<sp/>source<sp/>code<sp/>and<sp/>then<sp/>run<sp/>Sphinx<sp/>to<sp/>convert<sp/>the<sp/>`.rst`<sp/>source<sp/>files<sp/>and<sp/>the<sp/>Doxygen<sp/>output<sp/>into<sp/>a<sp/>polished<sp/>HTML<sp/>website.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Viewing<sp/>the<sp/>Documentation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">After<sp/>the<sp/>build<sp/>process<sp/>is<sp/>complete,<sp/>the<sp/>generated<sp/>HTML<sp/>files<sp/>will<sp/>be<sp/>located<sp/>in<sp/>the<sp/>`build/docs/html`<sp/>directory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>open<sp/>the<sp/>main<sp/>page<sp/>by<sp/>opening<sp/>the<sp/>following<sp/>file<sp/>in<sp/>your<sp/>web<sp/>browser:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">build/docs/html/index.html</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="docs/README.md"/>
+  </compounddef>
+</doxygen>

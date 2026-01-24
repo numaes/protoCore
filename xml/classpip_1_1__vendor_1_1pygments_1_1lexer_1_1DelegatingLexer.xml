@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pygments::lexer::DelegatingLexer</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1Lexer" prot="public" virt="non-virtual">pip._vendor.pygments.lexer.Lexer</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer" prot="public" virt="non-virtual">pip._vendor.pygments.lexers.python.PythonConsoleLexer</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1a4236b40476c4287558ce411fa72e469b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pygments.lexer.DelegatingLexer::root_lexer</definition>
+        <argsstring></argsstring>
+        <name>root_lexer</name>
+        <qualifiedname>pip._vendor.pygments.lexer.DelegatingLexer.root_lexer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" line="280" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1aaf306fbd85eea694ffd6ec8b81786091" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pygments.lexer.DelegatingLexer::language_lexer</definition>
+        <argsstring></argsstring>
+        <name>language_lexer</name>
+        <qualifiedname>pip._vendor.pygments.lexer.DelegatingLexer.language_lexer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" line="281" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1a87d065138821d3db319c5ac5d76fda3a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pygments.lexer.DelegatingLexer::needle</definition>
+        <argsstring></argsstring>
+        <name>needle</name>
+        <qualifiedname>pip._vendor.pygments.lexer.DelegatingLexer.needle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" line="282" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1aeea720a819f5e42c7e1ce6abf1f5094b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pygments.lexer.DelegatingLexer.__init__</definition>
+        <argsstring>(self, _root_lexer, _language_lexer, _needle=Other, **options)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pygments.lexer.DelegatingLexer.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1Lexer_1ad3cd8656b6636f612d31c10f9408c1ec">__init__</reimplements>
+        <reimplementedby refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1a33a1fd5770f246487c5a6b7ee6230bdf">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>_root_lexer</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>_language_lexer</type>
+          <defname>_language_lexer</defname>
+        </param>
+        <param>
+          <type>_needle</type>
+          <defname>_needle</defname>
+          <defval>Other</defval>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This constructor takes arbitrary options as keyword arguments.
+Every subclass must first process its own options and then call
+the `Lexer` constructor, since it processes the basic
+options like `stripnl`.
+
+An example looks like this:
+
+.. sourcecode:: python
+
+   def __init__(self, **options):
+       self.compress = options.get(&apos;compress&apos;, &apos;&apos;)
+       Lexer.__init__(self, **options)
+
+As these options must all be specifiable as strings (due to the
+command line usage), there are various utility functions
+available to help with that, see `Utilities`_.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" line="279" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" bodystart="279" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1aaacde6862c33db65d3aa57e2df5bc857" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pygments.lexer.DelegatingLexer.get_tokens_unprocessed</definition>
+        <argsstring>(self, text)</argsstring>
+        <name>get_tokens_unprocessed</name>
+        <qualifiedname>pip._vendor.pygments.lexer.DelegatingLexer.get_tokens_unprocessed</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1Lexer_1a82865ec0a779174e4499d26e78b66b7c">get_tokens_unprocessed</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This method should process the text and return an iterable of
+``(index, tokentype, value)`` tuples where ``index`` is the starting
+position of the token within the input text.
+
+It must be overridden by subclasses. It is recommended to
+implement it as a generator to maximize effectiveness.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" line="285" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" bodystart="285" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This lexer takes two lexer as arguments. A root lexer and
+a language lexer. First everything is scanned using the language
+lexer, afterwards all ``Other`` tokens are lexed using the root
+lexer.
+
+The lexers from the ``template`` lexer package use this base lexer.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pygments.lexer.DelegatingLexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pygments.lexer.Lexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.pygments.lexer.LexerMeta</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._vendor.pygments.lexers.python.PythonConsoleLexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pygments.lexer.DelegatingLexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pygments.lexer.Lexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>alias_filenames</edgelabel>
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>filenames</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.pygments.lexer.LexerMeta</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>list</label>
+      </node>
+      <node id="5">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" line="269" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexer.py" bodystart="269" bodyend="307"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1aeea720a819f5e42c7e1ce6abf1f5094b" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexer::DelegatingLexer</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1aaacde6862c33db65d3aa57e2df5bc857" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexer::DelegatingLexer</scope><name>get_tokens_unprocessed</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1aaf306fbd85eea694ffd6ec8b81786091" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexer::DelegatingLexer</scope><name>language_lexer</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1a87d065138821d3db319c5ac5d76fda3a" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexer::DelegatingLexer</scope><name>needle</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1a4236b40476c4287558ce411fa72e469b" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexer::DelegatingLexer</scope><name>root_lexer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classtesting_1_1internal_1_1RangeGenerator" kind="class" language="C++" prot="public">
+    <compoundname>testing::internal::RangeGenerator</compoundname>
+    <basecompoundref refid="classtesting_1_1internal_1_1ParamGeneratorInterface" prot="public" virt="non-virtual">testing::internal::ParamGeneratorInterface&lt; T &gt;</basecompoundref>
+    <basecompoundref refid="classtesting_1_1internal_1_1ParamGeneratorInterface" prot="public" virt="non-virtual">testing::internal::ParamGeneratorInterface&lt; T &gt;</basecompoundref>
+    <includes refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-param-util_8h" local="no">gtest-param-util.h</includes>
+    <innerclass refid="classtesting_1_1internal_1_1RangeGenerator_1_1Iterator" prot="private">testing::internal::RangeGenerator::Iterator</innerclass>
+    <templateparamlist>
+      <param>
+        <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> T</type>
+      </param>
+      <param>
+        <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">IncrementT</ref></type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtesting_1_1internal_1_1RangeGenerator_1af16307fd21766bcbb973d8b3335f1a3f" prot="private" static="no" mutable="no">
+        <type>const T</type>
+        <definition>const T testing::internal::RangeGenerator&lt; T, IncrementT &gt;::begin_</definition>
+        <argsstring></argsstring>
+        <name>begin_</name>
+        <qualifiedname>testing::internal::RangeGenerator::begin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="284" column="11" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtesting_1_1internal_1_1RangeGenerator_1ac36eecbaf80b51a59d59a4a4fdf5b5db" prot="private" static="no" mutable="no">
+        <type>const T</type>
+        <definition>const T testing::internal::RangeGenerator&lt; T, IncrementT &gt;::end_</definition>
+        <argsstring></argsstring>
+        <name>end_</name>
+        <qualifiedname>testing::internal::RangeGenerator::end_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="285" column="11" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtesting_1_1internal_1_1RangeGenerator_1ae7f3c4b76d8610f030fdd12285ebd8fb" prot="private" static="no" mutable="no">
+        <type>const <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">IncrementT</ref></type>
+        <definition>const IncrementT testing::internal::RangeGenerator&lt; T, IncrementT &gt;::step_</definition>
+        <argsstring></argsstring>
+        <name>step_</name>
+        <qualifiedname>testing::internal::RangeGenerator::step_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="286" column="20" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtesting_1_1internal_1_1RangeGenerator_1a336878a1871133e49665df60ea944076" prot="private" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int testing::internal::RangeGenerator&lt; T, IncrementT &gt;::end_index_</definition>
+        <argsstring></argsstring>
+        <name>end_index_</name>
+        <qualifiedname>testing::internal::RangeGenerator::end_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="289" column="13" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1a5b3b83223b9cada3569bcee729e0fdf3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>testing::internal::RangeGenerator&lt; T, IncrementT &gt;::RangeGenerator</definition>
+        <argsstring>(T begin, T end, IncrementT step)</argsstring>
+        <name>RangeGenerator</name>
+        <qualifiedname>testing::internal::RangeGenerator::RangeGenerator</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">IncrementT</ref></type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="213" column="3" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="213" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1a3b9373e0d9aa8a5f89441df4ecca4cd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>testing::internal::RangeGenerator&lt; T, IncrementT &gt;::~RangeGenerator</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~RangeGenerator</name>
+        <qualifiedname>testing::internal::RangeGenerator::~RangeGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="218" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1aa3e9359b2313748d31e19782de47bf53" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtesting_1_1internal_1_1ParamIteratorInterface" kindref="compound">ParamIteratorInterface</ref>&lt; T &gt; *</type>
+        <definition>ParamIteratorInterface&lt; T &gt; * testing::internal::RangeGenerator&lt; T, IncrementT &gt;::Begin</definition>
+        <argsstring>() const override</argsstring>
+        <name>Begin</name>
+        <qualifiedname>testing::internal::RangeGenerator::Begin</qualifiedname>
+        <reimplements refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1adcb074da01e5fac94fcbbc3aee629978">Begin</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="220" column="26" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1afeed1b481fe0cbcea98fa35f32078dbe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtesting_1_1internal_1_1ParamIteratorInterface" kindref="compound">ParamIteratorInterface</ref>&lt; T &gt; *</type>
+        <definition>ParamIteratorInterface&lt; T &gt; * testing::internal::RangeGenerator&lt; T, IncrementT &gt;::End</definition>
+        <argsstring>() const override</argsstring>
+        <name>End</name>
+        <qualifiedname>testing::internal::RangeGenerator::End</qualifiedname>
+        <reimplements refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1a070e0a223d832886685522075d80304f">End</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="223" column="26" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="223" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1a5b3b83223b9cada3569bcee729e0fdf3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>testing::internal::RangeGenerator&lt; T, IncrementT &gt;::RangeGenerator</definition>
+        <argsstring>(T begin, T end, IncrementT step)</argsstring>
+        <name>RangeGenerator</name>
+        <qualifiedname>testing::internal::RangeGenerator::RangeGenerator</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">IncrementT</ref></type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="213" column="3" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="213" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1a3b9373e0d9aa8a5f89441df4ecca4cd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>testing::internal::RangeGenerator&lt; T, IncrementT &gt;::~RangeGenerator</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~RangeGenerator</name>
+        <qualifiedname>testing::internal::RangeGenerator::~RangeGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="218" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1aa3e9359b2313748d31e19782de47bf53" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtesting_1_1internal_1_1ParamIteratorInterface" kindref="compound">ParamIteratorInterface</ref>&lt; T &gt; *</type>
+        <definition>ParamIteratorInterface&lt; T &gt; * testing::internal::RangeGenerator&lt; T, IncrementT &gt;::Begin</definition>
+        <argsstring>() const override</argsstring>
+        <name>Begin</name>
+        <qualifiedname>testing::internal::RangeGenerator::Begin</qualifiedname>
+        <reimplements refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1adcb074da01e5fac94fcbbc3aee629978">Begin</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="220" column="26" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1afeed1b481fe0cbcea98fa35f32078dbe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtesting_1_1internal_1_1ParamIteratorInterface" kindref="compound">ParamIteratorInterface</ref>&lt; T &gt; *</type>
+        <definition>ParamIteratorInterface&lt; T &gt; * testing::internal::RangeGenerator&lt; T, IncrementT &gt;::End</definition>
+        <argsstring>() const override</argsstring>
+        <name>End</name>
+        <qualifiedname>testing::internal::RangeGenerator::End</qualifiedname>
+        <reimplements refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1a070e0a223d832886685522075d80304f">End</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="223" column="26" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="223" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1af617ad3b3e40bef967f1055dc7ae8ae6" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int testing::internal::RangeGenerator&lt; T, IncrementT &gt;::CalculateEndIndex</definition>
+        <argsstring>(const T &amp;begin, const T &amp;end, const IncrementT &amp;step)</argsstring>
+        <name>CalculateEndIndex</name>
+        <qualifiedname>testing::internal::RangeGenerator::CalculateEndIndex</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">IncrementT</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="274" column="14" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="274" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1af617ad3b3e40bef967f1055dc7ae8ae6" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int testing::internal::RangeGenerator&lt; T, IncrementT &gt;::CalculateEndIndex</definition>
+        <argsstring>(const T &amp;begin, const T &amp;end, const IncrementT &amp;step)</argsstring>
+        <name>CalculateEndIndex</name>
+        <qualifiedname>testing::internal::RangeGenerator::CalculateEndIndex</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">IncrementT</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="274" column="14" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="274" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1a00ef0f268e44d48d129a52bf0f9f9539" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">void</ref></type>
+        <definition>void testing::internal::RangeGenerator&lt; T, IncrementT &gt;::operator=</definition>
+        <argsstring>(const RangeGenerator &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>testing::internal::RangeGenerator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classtesting_1_1internal_1_1RangeGenerator" kindref="compound">RangeGenerator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="282" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1RangeGenerator_1a00ef0f268e44d48d129a52bf0f9f9539" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">void</ref></type>
+        <definition>void testing::internal::RangeGenerator&lt; T, IncrementT &gt;::operator=</definition>
+        <argsstring>(const RangeGenerator &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>testing::internal::RangeGenerator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classtesting_1_1internal_1_1RangeGenerator" kindref="compound">RangeGenerator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="282" column="8"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::internal::ParamGeneratorInterface&lt; T &gt;</label>
+        <link refid="classtesting_1_1internal_1_1ParamGeneratorInterface"/>
+      </node>
+      <node id="1">
+        <label>testing::internal::RangeGenerator&lt; T, IncrementT &gt;</label>
+        <link refid="classtesting_1_1internal_1_1RangeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::internal::ParamGeneratorInterface&lt; T &gt;</label>
+        <link refid="classtesting_1_1internal_1_1ParamGeneratorInterface"/>
+      </node>
+      <node id="1">
+        <label>testing::internal::RangeGenerator&lt; T, IncrementT &gt;</label>
+        <link refid="classtesting_1_1internal_1_1RangeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="211" column="1" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="211" bodyend="290"/>
+    <listofallmembers>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1aa3e9359b2313748d31e19782de47bf53" prot="public" virt="virtual"><scope>testing::internal::RangeGenerator</scope><name>Begin</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1aa3e9359b2313748d31e19782de47bf53" prot="public" virt="virtual"><scope>testing::internal::RangeGenerator</scope><name>Begin</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1af16307fd21766bcbb973d8b3335f1a3f" prot="private" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>begin_</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1af617ad3b3e40bef967f1055dc7ae8ae6" prot="private" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>CalculateEndIndex</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1af617ad3b3e40bef967f1055dc7ae8ae6" prot="private" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>CalculateEndIndex</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1afeed1b481fe0cbcea98fa35f32078dbe" prot="public" virt="virtual"><scope>testing::internal::RangeGenerator</scope><name>End</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1afeed1b481fe0cbcea98fa35f32078dbe" prot="public" virt="virtual"><scope>testing::internal::RangeGenerator</scope><name>End</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1ac36eecbaf80b51a59d59a4a4fdf5b5db" prot="private" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>end_</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1a336878a1871133e49665df60ea944076" prot="private" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>end_index_</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1a00ef0f268e44d48d129a52bf0f9f9539" prot="private" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>operator=</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1a00ef0f268e44d48d129a52bf0f9f9539" prot="private" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>operator=</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1ab33d2ea424c50beaf503cb125b3cd003" prot="public" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>ParamType</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1ab33d2ea424c50beaf503cb125b3cd003" prot="public" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>ParamType</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1a5b3b83223b9cada3569bcee729e0fdf3" prot="public" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>RangeGenerator</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1a5b3b83223b9cada3569bcee729e0fdf3" prot="public" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>RangeGenerator</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1ae7f3c4b76d8610f030fdd12285ebd8fb" prot="private" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>step_</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1a2dc509407de12c9817e87187e7181a83" prot="public" virt="virtual"><scope>testing::internal::RangeGenerator</scope><name>~ParamGeneratorInterface</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1a2dc509407de12c9817e87187e7181a83" prot="public" virt="virtual"><scope>testing::internal::RangeGenerator</scope><name>~ParamGeneratorInterface</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1a3b9373e0d9aa8a5f89441df4ecca4cd4" prot="public" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>~RangeGenerator</name></member>
+      <member refid="classtesting_1_1internal_1_1RangeGenerator_1a3b9373e0d9aa8a5f89441df4ecca4cd4" prot="public" virt="non-virtual"><scope>testing::internal::RangeGenerator</scope><name>~RangeGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

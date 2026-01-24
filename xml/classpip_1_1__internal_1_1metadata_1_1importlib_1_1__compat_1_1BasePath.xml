@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::metadata::importlib::_compat::BasePath</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Protocol</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath_1aa5b4e00be6be00e1bd599909ae50bc00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.metadata.importlib._compat.BasePath.name</definition>
+        <argsstring>(self)</argsstring>
+        <name>name</name>
+        <qualifiedname>pip._internal.metadata.importlib._compat.BasePath.name</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_compat.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_compat.py" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath_1ae0c98fb915c623449f9b91d3d5c1a383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;BasePath&quot;</type>
+        <definition> &quot;BasePath&quot; pip._internal.metadata.importlib._compat.BasePath.parent</definition>
+        <argsstring>(self)</argsstring>
+        <name>parent</name>
+        <qualifiedname>pip._internal.metadata.importlib._compat.BasePath.parent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_compat.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_compat.py" bodystart="30" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A protocol that various path objects conform.
+
+This exists because importlib.metadata uses both ``pathlib.Path`` and
+``zipfile.Path``, and we need a common base for type hints (Union does not
+work well since ``zipfile.Path`` is too new for our linter setup).
+
+This does not mean to be exhaustive, but only contains things that present
+in both classes *that we need*.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.metadata.importlib._compat.BasePath</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Protocol</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._internal.metadata.importlib._compat.BasePath</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Protocol</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_compat.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_compat.py" bodystart="14" bodyend="33"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath_1aa5b4e00be6be00e1bd599909ae50bc00" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_compat::BasePath</scope><name>name</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath_1ae0c98fb915c623449f9b91d3d5c1a383" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_compat::BasePath</scope><name>parent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1templates_1_1JspRootLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::templates::JspRootLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1templates_1_1JspRootLexer_1a57baa469a7be26428f5fff9a02408a19" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.templates.JspRootLexer::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.templates.JspRootLexer.tokens</qualifiedname>
+        <initializer>=  {
+        &apos;root&apos;: [
+            (r&apos;&lt;%\S?&apos;, Keyword, &apos;sec&apos;),
+            # FIXME: I want to make these keywords but still parse attributes.
+            (r&apos;&lt;/?jsp:(forward|getProperty|<ref refid="classpygments_1_1lexer_1_1include" kindref="compound">include</ref>|plugin|setProperty|useBean).*?&gt;&apos;,
+             Keyword),
+            (r&apos;[^&lt;]+&apos;, Other),
+            (r&apos;&lt;&apos;, Other),
+        ],
+        &apos;sec&apos;: [
+            (r&apos;%&gt;&apos;, Keyword, &apos;#pop&apos;),
+            # note: &apos;\w\W&apos; != &apos;.&apos; without DOTALL.
+            (r&apos;[\w\W]+?(?=%&gt;|\Z)&apos;, using(<ref refid="classpygments_1_1lexers_1_1jvm_1_1JavaLexer" kindref="compound">JavaLexer</ref>)),
+        ],
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/templates.py" line="1400" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/templates.py" bodystart="1400" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base for the `JspLexer`. Yields `Token.Other` for area outside of
+JSP tags.
+
+.. versionadded:: 0.7
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.templates.JspRootLexer</label>
+        <link refid="classpygments_1_1lexers_1_1templates_1_1JspRootLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.templates.JspRootLexer</label>
+        <link refid="classpygments_1_1lexers_1_1templates_1_1JspRootLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>alias_filenames</edgelabel>
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>filenames</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/templates.py" line="1392" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/templates.py" bodystart="1392" bodyend="1416"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1templates_1_1JspRootLexer_1a57baa469a7be26428f5fff9a02408a19" prot="public" virt="non-virtual"><scope>pygments::lexers::templates::JspRootLexer</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

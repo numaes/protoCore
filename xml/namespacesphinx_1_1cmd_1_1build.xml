@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1cmd_1_1build" kind="namespace" language="Python">
+    <compoundname>sphinx::cmd::build</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1a77820d6f585633a701d5729c7436e1f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.cmd.build.handle_exception</definition>
+        <argsstring>(Sphinx|None app, Any args, BaseException exception, TextIO stderr=sys.stderr)</argsstring>
+        <name>handle_exception</name>
+        <qualifiedname>sphinx.cmd.build.handle_exception</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref>|None</type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>BaseException</type>
+          <declname>exception</declname>
+        </param>
+        <param>
+          <type>TextIO</type>
+          <declname>stderr</declname>
+          <defval>sys.stderr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="36" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1a74b8b48aed14913a1f655b1d697cda6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.cmd.build.jobs_argument</definition>
+        <argsstring>(str value)</argsstring>
+        <name>jobs_argument</name>
+        <qualifiedname>sphinx.cmd.build.jobs_argument</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the ``--jobs`` flag.
+
+Return the number of CPUs if &apos;auto&apos; is used,
+otherwise ensure *value* is a positive integer.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="52" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1a04cf35b5ffee3c2ad3c41074489a925b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>argparse.ArgumentParser</type>
+        <definition> argparse.ArgumentParser sphinx.cmd.build.get_parser</definition>
+        <argsstring>()</argsstring>
+        <name>get_parser</name>
+        <qualifiedname>sphinx.cmd.build.get_parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="70" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1a344071c375c628892974d80edcf25494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.cmd.build.make_main</definition>
+        <argsstring>(Sequence[str] argv)</argsstring>
+        <name>make_main</name>
+        <qualifiedname>sphinx.cmd.build.make_main</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>argv</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sphinx build &quot;make mode&quot; entry.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="291" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="291" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1aa3f75c54258b204b749823f29a0c8add" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>argparse.Namespace</type>
+        <definition> argparse.Namespace sphinx.cmd.build._parse_arguments</definition>
+        <argsstring>(argparse.ArgumentParser parser, Sequence[str] argv)</argsstring>
+        <name>_parse_arguments</name>
+        <qualifiedname>sphinx.cmd.build._parse_arguments</qualifiedname>
+        <param>
+          <type>argparse.ArgumentParser</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>argv</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="298" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="300" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1ad12df16aef2a3f8ed5a9e7693f9a7de7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.cmd.build._parse_confdir</definition>
+        <argsstring>(bool noconfig, str confdir, str sourcedir)</argsstring>
+        <name>_parse_confdir</name>
+        <qualifiedname>sphinx.cmd.build._parse_confdir</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>noconfig</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>confdir</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sourcedir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="305" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="305" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1af7817489bf5eafedf2c4aaa9b5f6f2e8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref></type>
+        <definition> _StrPath sphinx.cmd.build._parse_doctreedir</definition>
+        <argsstring>(str doctreedir, str outputdir)</argsstring>
+        <name>_parse_doctreedir</name>
+        <qualifiedname>sphinx.cmd.build._parse_doctreedir</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>doctreedir</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>outputdir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="313" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="313" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1a9ebdb05a2ff50291cfb99ef09ca81413" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.cmd.build._validate_filenames</definition>
+        <argsstring>(argparse.ArgumentParser parser, bool force_all, list[str] filenames)</argsstring>
+        <name>_validate_filenames</name>
+        <qualifiedname>sphinx.cmd.build._validate_filenames</qualifiedname>
+        <param>
+          <type>argparse.ArgumentParser</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force_all</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>filenames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="319" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="323" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1a55468aa6359695fa243ed18442b57e22" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.cmd.build._validate_colour_support</definition>
+        <argsstring>(str colour)</argsstring>
+        <name>_validate_colour_support</name>
+        <qualifiedname>sphinx.cmd.build._validate_colour_support</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>colour</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="328" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="328" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1ad793577f9d972d61e885d7d3c0b52ff1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[TextIO|None, TextIO|None, TextIO, TextIO|None]</type>
+        <definition> tuple[TextIO | None, TextIO | None, TextIO, TextIO | None] sphinx.cmd.build._parse_logging</definition>
+        <argsstring>(argparse.ArgumentParser parser, bool quiet, bool really_quiet, str|None warnfile)</argsstring>
+        <name>_parse_logging</name>
+        <qualifiedname>sphinx.cmd.build._parse_logging</qualifiedname>
+        <param>
+          <type>argparse.ArgumentParser</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>quiet</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>really_quiet</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>warnfile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="333" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="338" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1a76bf29db69923f36e708d91189209344" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] sphinx.cmd.build._parse_confoverrides</definition>
+        <argsstring>(argparse.ArgumentParser parser, list[str] define, list[str] htmldefine, bool nitpicky)</argsstring>
+        <name>_parse_confoverrides</name>
+        <qualifiedname>sphinx.cmd.build._parse_confoverrides</qualifiedname>
+        <param>
+          <type>argparse.ArgumentParser</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>define</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>htmldefine</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>nitpicky</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="364" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="369" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1a5493a57113cacb1ccb6fd575311099eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.cmd.build.build_main</definition>
+        <argsstring>(Sequence[str] argv)</argsstring>
+        <name>build_main</name>
+        <qualifiedname>sphinx.cmd.build.build_main</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>argv</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sphinx build &quot;main&quot; command-line entry.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="395" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="395" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1af8a0efbb42c0dd59a3c2b07af36d02b7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.cmd.build._bug_report_info</definition>
+        <argsstring>()</argsstring>
+        <name>_bug_report_info</name>
+        <qualifiedname>sphinx.cmd.build._bug_report_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="455" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="455" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1build_1ae01d2d94215837ba7d2235faf80d8cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.cmd.build.main</definition>
+        <argsstring>(Sequence[str] argv=())</argsstring>
+        <name>main</name>
+        <qualifiedname>sphinx.cmd.build.main</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>argv</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="475" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" bodystart="475" bodyend="495"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Build documentation from a provided source.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/build.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

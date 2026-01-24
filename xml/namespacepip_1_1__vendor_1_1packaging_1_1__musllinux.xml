@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::packaging::_musllinux</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1__musllinux_1_1__MuslVersion" prot="protected">pip::_vendor::packaging::_musllinux::_MuslVersion</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux_1ac558dc6765cdbcdac70233f8d72228e5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::_musllinux.plat</definition>
+        <argsstring></argsstring>
+        <name>plat</name>
+        <qualifiedname>pip._vendor.packaging._musllinux.plat</qualifiedname>
+        <initializer>=  sysconfig.get_platform()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="129" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux_1a9706ca1b273433216081c429368373f3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::_musllinux.end</definition>
+        <argsstring></argsstring>
+        <name>end</name>
+        <qualifiedname>pip._vendor.packaging._musllinux.end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="134" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux_1a62fb42b72b9b98c660d1bd4beafbf2c0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::_musllinux.t</definition>
+        <argsstring></argsstring>
+        <name>t</name>
+        <qualifiedname>pip._vendor.packaging._musllinux.t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="136" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux_1a859731a91188cb8d61de94eb3db7bbdf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int,...]</type>
+        <definition> Tuple[int, ...] pip._vendor.packaging._musllinux._read_unpacked</definition>
+        <argsstring>(IO[bytes] f, str fmt)</argsstring>
+        <name>_read_unpacked</name>
+        <qualifiedname>pip._vendor.packaging._musllinux._read_unpacked</qualifiedname>
+        <param>
+          <type>IO</type>
+          <declname>f</declname>
+          <array>[bytes]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fmt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" bodystart="18" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux_1a62f1f122a9dca582f83d5ff27fe4a24b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._vendor.packaging._musllinux._parse_ld_musl_from_elf</definition>
+        <argsstring>(IO[bytes] f)</argsstring>
+        <name>_parse_ld_musl_from_elf</name>
+        <qualifiedname>pip._vendor.packaging._musllinux._parse_ld_musl_from_elf</qualifiedname>
+        <param>
+          <type>IO</type>
+          <declname>f</declname>
+          <array>[bytes]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Detect musl libc location by parsing the Python executable.
+
+Based on: https://gist.github.com/lyssdod/f51579ae8d93c8657a5564aefc2ffbca
+ELF header: https://refspecs.linuxfoundation.org/elf/gabi4+/ch4.eheader.html
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" bodystart="22" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux_1a8f54a55361c17f7154a4c64b0447c5b3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="classpip_1_1__vendor_1_1packaging_1_1__musllinux_1_1__MuslVersion" kindref="compound">_MuslVersion</ref>]</type>
+        <definition> Optional[_MuslVersion] pip._vendor.packaging._musllinux._parse_musl_version</definition>
+        <argsstring>(str output)</argsstring>
+        <name>_parse_musl_version</name>
+        <qualifiedname>pip._vendor.packaging._musllinux._parse_musl_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" bodystart="76" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux_1ab819ff9328d199b5dc4bc74272b7cc00" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="classpip_1_1__vendor_1_1packaging_1_1__musllinux_1_1__MuslVersion" kindref="compound">_MuslVersion</ref>]</type>
+        <definition> Optional[_MuslVersion] pip._vendor.packaging._musllinux._get_musl_version</definition>
+        <argsstring>(str executable)</argsstring>
+        <name>_get_musl_version</name>
+        <qualifiedname>pip._vendor.packaging._musllinux._get_musl_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>executable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Detect currently-running musl runtime version.
+
+This is done by checking the specified executable&apos;s dynamic linking
+information, and invoking the loader to parse its output for a version
+string. If the loader is musl, the output would be something like::
+
+    musl libc (x86_64)
+    Version 1.2.2
+    Dynamic Program Loader
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" bodystart="87" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__musllinux_1a9d6c7ad492afbe99219d8eebbc05e518" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging._musllinux.platform_tags</definition>
+        <argsstring>(str arch)</argsstring>
+        <name>platform_tags</name>
+        <qualifiedname>pip._vendor.packaging._musllinux.platform_tags</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>arch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate musllinux tags compatible to the current platform.
+
+:param arch: Should be the part of platform tag after the ``linux_``
+    prefix, e.g. ``x86_64``. The ``linux_`` prefix is assumed as a
+    prerequisite for the current platform to be musllinux-compatible.
+
+:returns: An iterator of compatible musllinux tags.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="110" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" bodystart="110" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>PEP 656 support.
+
+This module implements logic to detect if the currently running Python is
+linked against musl, and what musl version is used.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_musllinux.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

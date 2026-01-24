@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1index_1_1collector" kind="namespace" language="Python">
+    <compoundname>pip::_internal::index::collector</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1collector_1_1__NotAPIContent" prot="protected">pip::_internal::index::collector::_NotAPIContent</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1collector_1_1__NotHTTP" prot="protected">pip::_internal::index::collector::_NotHTTP</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1collector_1_1CacheablePageContent" prot="public">pip::_internal::index::collector::CacheablePageContent</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1collector_1_1CollectedSources" prot="public">pip::_internal::index::collector::CollectedSources</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1collector_1_1HTMLLinkParser" prot="public">pip::_internal::index::collector::HTMLLinkParser</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1collector_1_1IndexContent" prot="public">pip::_internal::index::collector::IndexContent</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1collector_1_1LinkCollector" prot="public">pip::_internal::index::collector::LinkCollector</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1collector_1_1ParseLinks" prot="public">pip::_internal::index::collector::ParseLinks</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1index_1_1collector_1aadc56122b11aa2636e8eaec7ecd48ac3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::index::collector.Protocol</definition>
+        <argsstring></argsstring>
+        <name>Protocol</name>
+        <qualifiedname>pip._internal.index.collector.Protocol</qualifiedname>
+        <initializer>=  object</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1index_1_1collector_1aa06c5ddfbbe781a2898e18ced297b032" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::index::collector.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.index.collector.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="50" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1index_1_1collector_1a248367a642c596833022d146d90c48b3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::index::collector.ResponseHeaders</definition>
+        <argsstring></argsstring>
+        <name>ResponseHeaders</name>
+        <qualifiedname>pip._internal.index.collector.ResponseHeaders</qualifiedname>
+        <initializer>=  MutableMapping[str, str]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1a0c1f28de3235a921b96d7dd5a70abd42" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.index.collector._match_vcs_scheme</definition>
+        <argsstring>(str url)</argsstring>
+        <name>_match_vcs_scheme</name>
+        <qualifiedname>pip._internal.index.collector._match_vcs_scheme</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Look for VCS schemes in the URL.
+
+Returns the matched VCS scheme, or None if there&apos;s no match.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="55" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1a42a8ceade8ccc8465c27adbd9d838989" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.index.collector._ensure_api_header</definition>
+        <argsstring>(Response response)</argsstring>
+        <name>_ensure_api_header</name>
+        <qualifiedname>pip._internal.index.collector._ensure_api_header</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1Response" kindref="compound">Response</ref></type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check the Content-Type header to ensure the response contains a Simple
+API Response.
+
+Raises `_NotAPIContent` if the content type is not a valid content-type.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="73" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1af609aa90dc4439bda4baa2ff0c84b21a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.index.collector._ensure_api_response</definition>
+        <argsstring>(str url, PipSession session)</argsstring>
+        <name>_ensure_api_response</name>
+        <qualifiedname>pip._internal.index.collector._ensure_api_response</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Send a HEAD request to the URL, and ensure the response contains a simple
+API Response.
+
+Raises `_NotHTTP` if the URL is not available for a HEAD request, or
+`_NotAPIContent` if the content type is not a valid content type.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="99" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="99" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1a51f18d8c07db055b0d70a1c07352ca65" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1Response" kindref="compound">Response</ref></type>
+        <definition> Response pip._internal.index.collector._get_simple_response</definition>
+        <argsstring>(str url, PipSession session)</argsstring>
+        <name>_get_simple_response</name>
+        <qualifiedname>pip._internal.index.collector._get_simple_response</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Access an Simple API response with GET, and return the response.
+
+This consists of three parts:
+
+1. If the URL looks suspiciously like an archive, send a HEAD first to
+   check the Content-Type is HTML or Simple API, to avoid downloading a
+   large file. Raise `_NotHTTP` if the content type cannot be determined, or
+   `_NotAPIContent` if it is not HTML or a Simple API.
+2. Actually perform the request. Raise HTTP exceptions on network failures.
+3. Check the Content-Type header to make sure we got a Simple API response,
+   and raise `_NotAPIContent` otherwise.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="117" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="117" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1a7f1e220223a18a2ef3cc098a1a74d452" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.index.collector._get_encoding_from_headers</definition>
+        <argsstring>(ResponseHeaders headers)</argsstring>
+        <name>_get_encoding_from_headers</name>
+        <qualifiedname>pip._internal.index.collector._get_encoding_from_headers</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1index_1_1collector_1a248367a642c596833022d146d90c48b3" kindref="member">ResponseHeaders</ref></type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine if we have any encoding information in our headers.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="180" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="180" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1af22997a81ea8f8f4eff7fdcd3ae52e70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1index_1_1collector_1_1ParseLinks" kindref="compound">ParseLinks</ref></type>
+        <definition> ParseLinks pip._internal.index.collector.with_cached_index_content</definition>
+        <argsstring>(ParseLinks fn)</argsstring>
+        <name>with_cached_index_content</name>
+        <qualifiedname>pip._internal.index.collector.with_cached_index_content</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1index_1_1collector_1_1ParseLinks" kindref="compound">ParseLinks</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a function that parses an Iterable[Link] from an IndexContent, cache the
+function&apos;s result (keyed by CacheablePageContent), unless the IndexContent
+`page` has `page.cache_link_parsing == False`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="208" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="208" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1aa48dbfa2ae51933ffbe93c7c4eabb925" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[<ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref>]</type>
+        <definition> Iterable[Link] pip._internal.index.collector.parse_links</definition>
+        <argsstring>(&quot;IndexContent&quot; page)</argsstring>
+        <name>parse_links</name>
+        <qualifiedname>pip._internal.index.collector.parse_links</qualifiedname>
+        <param>
+          <type>&quot;IndexContent&quot;</type>
+          <declname>page</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a Simple API&apos;s Index Content, and yield its anchor elements as Link objects.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="229" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="229" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1a44b4c7dac0c162bfbf0e9e2a58dfb928" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.index.collector._handle_get_simple_fail</definition>
+        <argsstring>(Link link, Union[str, Exception] reason, Optional[Callable[..., None]] meth=None)</argsstring>
+        <name>_handle_get_simple_fail</name>
+        <qualifiedname>pip._internal.index.collector._handle_get_simple_fail</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>reason</declname>
+          <array>[str, Exception]</array>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>meth</declname>
+          <array>[Callable[..., None]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="313" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="317" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1a98fb9b3c28915b9fb535b5eb8abd7178" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1index_1_1collector_1_1IndexContent" kindref="compound">IndexContent</ref></type>
+        <definition> IndexContent pip._internal.index.collector._make_index_content</definition>
+        <argsstring>(Response response, bool cache_link_parsing=True)</argsstring>
+        <name>_make_index_content</name>
+        <qualifiedname>pip._internal.index.collector._make_index_content</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1Response" kindref="compound">Response</ref></type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache_link_parsing</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="323" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="325" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1collector_1aa0e108c2abab46626eb7ea5537f01e63" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[&quot;IndexContent&quot;]</type>
+        <definition> Optional[&quot;IndexContent&quot;] pip._internal.index.collector._get_index_content</definition>
+        <argsstring>(Link link, *PipSession session)</argsstring>
+        <name>_get_index_content</name>
+        <qualifiedname>pip._internal.index.collector._get_index_content</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>*PipSession</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="336" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" bodystart="336" bodyend="396"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The main purpose of this module is to expose LinkCollector.collect_sources().
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/index/collector.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

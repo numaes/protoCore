@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_8md" kind="file" language="Markdown">
+    <compoundname>matchers.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Matchers<sp/>Reference</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>**matcher**<sp/>matches<sp/>a<sp/>*single*<sp/>argument.<sp/>You<sp/>can<sp/>use<sp/>it<sp/>inside<sp/>`ON_CALL()`<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_CALL()`,<sp/>or<sp/>use<sp/>it<sp/>to<sp/>validate<sp/>a<sp/>value<sp/>directly<sp/>using<sp/>two<sp/>macros:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Macro<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:-----------------------------------<sp/>|<sp/>:------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`EXPECT_THAT(actual_value,<sp/>matcher)`<sp/>|<sp/>Asserts<sp/>that<sp/>`actual_value`<sp/>matches<sp/>`matcher`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ASSERT_THAT(actual_value,<sp/>matcher)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>`EXPECT_THAT(actual_value,<sp/>matcher)`,<sp/>except<sp/>that<sp/>it<sp/>generates<sp/>a<sp/>**fatal**<sp/>failure.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">{:<sp/>.callout<sp/>.warning}</highlight></codeline>
+<codeline><highlight class="normal">**WARNING:**<sp/>Equality<sp/>matching<sp/>via<sp/>`EXPECT_THAT(actual_value,<sp/>expected_value)`</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>supported,<sp/>however<sp/>note<sp/>that<sp/>implicit<sp/>conversions<sp/>can<sp/>cause<sp/>surprising</highlight></codeline>
+<codeline><highlight class="normal">results.<sp/>For<sp/>example,<sp/>`EXPECT_THAT(some_bool,<sp/>&quot;some<sp/>string&quot;)`<sp/>will<sp/>compile<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">may<sp/>pass<sp/>unintentionally.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**BEST<sp/>PRACTICE:**<sp/>Prefer<sp/>to<sp/>make<sp/>the<sp/>comparison<sp/>explicit<sp/>via</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_THAT(actual_value,<sp/>Eq(expected_value))`<sp/>or<sp/>`EXPECT_EQ(actual_value,</highlight></codeline>
+<codeline><highlight class="normal">expected_value)`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Built-in<sp/>matchers<sp/>(where<sp/>`argument`<sp/>is<sp/>the<sp/>function<sp/>argument,<sp/>e.g.</highlight></codeline>
+<codeline><highlight class="normal">`actual_value`<sp/>in<sp/>the<sp/>example<sp/>above,<sp/>or<sp/>when<sp/>used<sp/>in<sp/>the<sp/>context<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_CALL(mock_object,<sp/>method(matchers))`,<sp/>the<sp/>arguments<sp/>of<sp/>`method`)<sp/>are</highlight></codeline>
+<codeline><highlight class="normal">divided<sp/>into<sp/>several<sp/>categories.<sp/>All<sp/>matchers<sp/>are<sp/>defined<sp/>in<sp/>the<sp/>`::testing`</highlight></codeline>
+<codeline><highlight class="normal">namespace<sp/>unless<sp/>otherwise<sp/>noted.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Wildcard</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description</highlight></codeline>
+<codeline><highlight class="normal">:--------------------------<sp/>|<sp/>:-----------------------------------------------</highlight></codeline>
+<codeline><highlight class="normal">`_`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>can<sp/>be<sp/>any<sp/>value<sp/>of<sp/>the<sp/>correct<sp/>type.</highlight></codeline>
+<codeline><highlight class="normal">`A&lt;type&gt;()`<sp/>or<sp/>`An&lt;type&gt;()`<sp/>|<sp/>`argument`<sp/>can<sp/>be<sp/>any<sp/>value<sp/>of<sp/>type<sp/>`type`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Generic<sp/>Comparison</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:---------------------<sp/>|<sp/>:--------------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Eq(value)`<sp/>or<sp/>`value`<sp/>|<sp/>`argument<sp/>==<sp/>value`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Ge(value)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument<sp/>&gt;=<sp/>value`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Gt(value)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument<sp/>&gt;<sp/>value`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Le(value)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument<sp/>&lt;=<sp/>value`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Lt(value)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument<sp/>&lt;<sp/>value`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Ne(value)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument<sp/>!=<sp/>value`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IsFalse()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>evaluates<sp/>to<sp/>`false`<sp/>in<sp/>a<sp/>Boolean<sp/>context.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IsTrue()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>evaluates<sp/>to<sp/>`true`<sp/>in<sp/>a<sp/>Boolean<sp/>context.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IsNull()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`NULL`<sp/>pointer<sp/>(raw<sp/>or<sp/>smart).<sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`NotNull()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>non-null<sp/>pointer<sp/>(raw<sp/>or<sp/>smart).<sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Optional(m)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>`optional&lt;&gt;`<sp/>that<sp/>contains<sp/>a<sp/>value<sp/>matching<sp/>`m`.<sp/>(For<sp/>testing<sp/>whether<sp/>an<sp/>`optional&lt;&gt;`<sp/>is<sp/>set,<sp/>check<sp/>for<sp/>equality<sp/>with<sp/>`nullopt`.<sp/>You<sp/>may<sp/>need<sp/>to<sp/>use<sp/>`Eq(nullopt)`<sp/>if<sp/>the<sp/>inner<sp/>type<sp/>doesn&apos;t<sp/>have<sp/>`==`.)|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`VariantWith&lt;T&gt;(m)`<sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>`variant&lt;&gt;`<sp/>that<sp/>holds<sp/>the<sp/>alternative<sp/>of<sp/>type<sp/>T<sp/>with<sp/>a<sp/>value<sp/>matching<sp/>`m`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Ref(variable)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>reference<sp/>to<sp/>`variable`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`TypedEq&lt;type&gt;(value)`<sp/>|<sp/>`argument`<sp/>has<sp/>type<sp/>`type`<sp/>and<sp/>is<sp/>equal<sp/>to<sp/>`value`.<sp/>You<sp/>may<sp/>need<sp/>to<sp/>use<sp/>this<sp/>instead<sp/>of<sp/>`Eq(value)`<sp/>when<sp/>the<sp/>mock<sp/>function<sp/>is<sp/>overloaded.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Except<sp/>`Ref()`,<sp/>these<sp/>matchers<sp/>make<sp/>a<sp/>*copy*<sp/>of<sp/>`value`<sp/>in<sp/>case<sp/>it&apos;s<sp/>modified<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">destructed<sp/>later.<sp/>If<sp/>the<sp/>compiler<sp/>complains<sp/>that<sp/>`value`<sp/>doesn&apos;t<sp/>have<sp/>a<sp/>public</highlight></codeline>
+<codeline><highlight class="normal">copy<sp/>constructor,<sp/>try<sp/>wrap<sp/>it<sp/>in<sp/>`std::ref()`,<sp/>e.g.</highlight></codeline>
+<codeline><highlight class="normal">`Eq(std::ref(non_copyable_value))`.<sp/>If<sp/>you<sp/>do<sp/>that,<sp/>make<sp/>sure</highlight></codeline>
+<codeline><highlight class="normal">`non_copyable_value`<sp/>is<sp/>not<sp/>changed<sp/>afterwards,<sp/>or<sp/>the<sp/>meaning<sp/>of<sp/>your<sp/>matcher</highlight></codeline>
+<codeline><highlight class="normal">will<sp/>be<sp/>changed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`IsTrue`<sp/>and<sp/>`IsFalse`<sp/>are<sp/>useful<sp/>when<sp/>you<sp/>need<sp/>to<sp/>use<sp/>a<sp/>matcher,<sp/>or<sp/>for<sp/>types</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>can<sp/>be<sp/>explicitly<sp/>converted<sp/>to<sp/>Boolean,<sp/>but<sp/>are<sp/>not<sp/>implicitly<sp/>converted<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">Boolean.<sp/>In<sp/>other<sp/>cases,<sp/>you<sp/>can<sp/>use<sp/>the<sp/>basic</highlight></codeline>
+<codeline><highlight class="normal">[`EXPECT_TRUE`<sp/>and<sp/>`EXPECT_FALSE`](assertions.md#boolean)<sp/>assertions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Floating-Point<sp/>Matchers<sp/>{#FpMatchers}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:-------------------------------<sp/>|<sp/>:---------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`DoubleEq(a_double)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`double`<sp/>value<sp/>approximately<sp/>equal<sp/>to<sp/>`a_double`,<sp/>treating<sp/>two<sp/>NaNs<sp/>as<sp/>unequal.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`FloatEq(a_float)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`float`<sp/>value<sp/>approximately<sp/>equal<sp/>to<sp/>`a_float`,<sp/>treating<sp/>two<sp/>NaNs<sp/>as<sp/>unequal.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`NanSensitiveDoubleEq(a_double)`<sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`double`<sp/>value<sp/>approximately<sp/>equal<sp/>to<sp/>`a_double`,<sp/>treating<sp/>two<sp/>NaNs<sp/>as<sp/>equal.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`NanSensitiveFloatEq(a_float)`<sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`float`<sp/>value<sp/>approximately<sp/>equal<sp/>to<sp/>`a_float`,<sp/>treating<sp/>two<sp/>NaNs<sp/>as<sp/>equal.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IsNan()`<sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>any<sp/>floating-point<sp/>type<sp/>with<sp/>a<sp/>NaN<sp/>value.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>above<sp/>matchers<sp/>use<sp/>ULP-based<sp/>comparison<sp/>(the<sp/>same<sp/>as<sp/>used<sp/>in<sp/>googletest).</highlight></codeline>
+<codeline><highlight class="normal">They<sp/>automatically<sp/>pick<sp/>a<sp/>reasonable<sp/>error<sp/>bound<sp/>based<sp/>on<sp/>the<sp/>absolute<sp/>value<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>expected<sp/>value.<sp/>`DoubleEq()`<sp/>and<sp/>`FloatEq()`<sp/>conform<sp/>to<sp/>the<sp/>IEEE<sp/>standard,</highlight></codeline>
+<codeline><highlight class="normal">which<sp/>requires<sp/>comparing<sp/>two<sp/>NaNs<sp/>for<sp/>equality<sp/>to<sp/>return<sp/>false.<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">`NanSensitive*`<sp/>version<sp/>instead<sp/>treats<sp/>two<sp/>NaNs<sp/>as<sp/>equal,<sp/>which<sp/>is<sp/>often<sp/>what<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">user<sp/>wants.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:------------------------------------------------<sp/>|<sp/>:-----------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`DoubleNear(a_double,<sp/>max_abs_error)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`double`<sp/>value<sp/>close<sp/>to<sp/>`a_double`<sp/>(absolute<sp/>error<sp/>&lt;=<sp/>`max_abs_error`),<sp/>treating<sp/>two<sp/>NaNs<sp/>as<sp/>unequal.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`FloatNear(a_float,<sp/>max_abs_error)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`float`<sp/>value<sp/>close<sp/>to<sp/>`a_float`<sp/>(absolute<sp/>error<sp/>&lt;=<sp/>`max_abs_error`),<sp/>treating<sp/>two<sp/>NaNs<sp/>as<sp/>unequal.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`NanSensitiveDoubleNear(a_double,<sp/>max_abs_error)`<sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`double`<sp/>value<sp/>close<sp/>to<sp/>`a_double`<sp/>(absolute<sp/>error<sp/>&lt;=<sp/>`max_abs_error`),<sp/>treating<sp/>two<sp/>NaNs<sp/>as<sp/>equal.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`NanSensitiveFloatNear(a_float,<sp/>max_abs_error)`<sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>`float`<sp/>value<sp/>close<sp/>to<sp/>`a_float`<sp/>(absolute<sp/>error<sp/>&lt;=<sp/>`max_abs_error`),<sp/>treating<sp/>two<sp/>NaNs<sp/>as<sp/>equal.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>String<sp/>Matchers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`argument`<sp/>can<sp/>be<sp/>either<sp/>a<sp/>C<sp/>string<sp/>or<sp/>a<sp/>C++<sp/>string<sp/>object:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:----------------------<sp/>|<sp/>:-------------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ContainsRegex(string)`<sp/><sp/>|<sp/>`argument`<sp/>matches<sp/>the<sp/>given<sp/>regular<sp/>expression.<sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`EndsWith(suffix)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>ends<sp/>with<sp/>string<sp/>`suffix`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`HasSubstr(string)`<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>contains<sp/>`string`<sp/>as<sp/>a<sp/>sub-string.<sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IsEmpty()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>an<sp/>empty<sp/>string.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`MatchesRegex(string)`<sp/><sp/><sp/>|<sp/>`argument`<sp/>matches<sp/>the<sp/>given<sp/>regular<sp/>expression<sp/>with<sp/>the<sp/>match<sp/>starting<sp/>at<sp/>the<sp/>first<sp/>character<sp/>and<sp/>ending<sp/>at<sp/>the<sp/>last<sp/>character.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`StartsWith(prefix)`<sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>starts<sp/>with<sp/>string<sp/>`prefix`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`StrCaseEq(string)`<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>equal<sp/>to<sp/>`string`,<sp/>ignoring<sp/>case.<sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`StrCaseNe(string)`<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>not<sp/>equal<sp/>to<sp/>`string`,<sp/>ignoring<sp/>case.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`StrEq(string)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>equal<sp/>to<sp/>`string`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`StrNe(string)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>not<sp/>equal<sp/>to<sp/>`string`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`WhenBase64Unescaped(m)`<sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>base-64<sp/>escaped<sp/>string<sp/>whose<sp/>unescaped<sp/>string<sp/>matches<sp/>`m`.<sp/><sp/>The<sp/>web-safe<sp/>format<sp/>from<sp/>[RFC<sp/>4648](https://www.rfc-editor.org/rfc/rfc4648#section-5)<sp/>is<sp/>supported.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`ContainsRegex()`<sp/>and<sp/>`MatchesRegex()`<sp/>take<sp/>ownership<sp/>of<sp/>the<sp/>`RE`<sp/>object.<sp/>They</highlight></codeline>
+<codeline><highlight class="normal">use<sp/>the<sp/>regular<sp/>expression<sp/>syntax<sp/>defined</highlight></codeline>
+<codeline><highlight class="normal">[here](../advanced.md#regular-expression-syntax).<sp/>All<sp/>of<sp/>these<sp/>matchers,<sp/>except</highlight></codeline>
+<codeline><highlight class="normal">`ContainsRegex()`<sp/>and<sp/>`MatchesRegex()`<sp/>work<sp/>for<sp/>wide<sp/>strings<sp/>as<sp/>well.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Container<sp/>Matchers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Most<sp/>STL-style<sp/>containers<sp/>support<sp/>`==`,<sp/>so<sp/>you<sp/>can<sp/>use<sp/>`Eq(expected_container)`</highlight></codeline>
+<codeline><highlight class="normal">or<sp/>simply<sp/>`expected_container`<sp/>to<sp/>match<sp/>a<sp/>container<sp/>exactly.<sp/>If<sp/>you<sp/>want<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">write<sp/>the<sp/>elements<sp/>in-line,<sp/>match<sp/>them<sp/>more<sp/>flexibly,<sp/>or<sp/>get<sp/>more<sp/>informative</highlight></codeline>
+<codeline><highlight class="normal">messages,<sp/>you<sp/>can<sp/>use:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:----------------------------------------<sp/>|<sp/>:-------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`BeginEndDistanceIs(m)`<sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>container<sp/>whose<sp/>`begin()`<sp/>and<sp/>`end()`<sp/>iterators<sp/>are<sp/>separated<sp/>by<sp/>a<sp/>number<sp/>of<sp/>increments<sp/>matching<sp/>`m`.<sp/>E.g.<sp/>`BeginEndDistanceIs(2)`<sp/>or<sp/>`BeginEndDistanceIs(Lt(2))`.<sp/>For<sp/>containers<sp/>that<sp/>define<sp/>a<sp/>`size()`<sp/>method,<sp/>`SizeIs(m)`<sp/>may<sp/>be<sp/>more<sp/>efficient.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ContainerEq(container)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>`Eq(container)`<sp/>except<sp/>that<sp/>the<sp/>failure<sp/>message<sp/>also<sp/>includes<sp/>which<sp/>elements<sp/>are<sp/>in<sp/>one<sp/>container<sp/>but<sp/>not<sp/>the<sp/>other.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Contains(e)`<sp/>|<sp/>`argument`<sp/>contains<sp/>an<sp/>element<sp/>that<sp/>matches<sp/>`e`,<sp/>which<sp/>can<sp/>be<sp/>either<sp/>a<sp/>value<sp/>or<sp/>a<sp/>matcher.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Contains(e).Times(n)`<sp/>|<sp/>`argument`<sp/>contains<sp/>elements<sp/>that<sp/>match<sp/>`e`,<sp/>which<sp/>can<sp/>be<sp/>either<sp/>a<sp/>value<sp/>or<sp/>a<sp/>matcher,<sp/>and<sp/>the<sp/>number<sp/>of<sp/>matches<sp/>is<sp/>`n`,<sp/>which<sp/>can<sp/>be<sp/>either<sp/>a<sp/>value<sp/>or<sp/>a<sp/>matcher.<sp/>Unlike<sp/>the<sp/>plain<sp/>`Contains`<sp/>and<sp/>`Each`<sp/>this<sp/>allows<sp/>to<sp/>check<sp/>for<sp/>arbitrary<sp/>occurrences<sp/>including<sp/>testing<sp/>for<sp/>absence<sp/>with<sp/>`Contains(e).Times(0)`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Each(e)`<sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>container<sp/>where<sp/>*every*<sp/>element<sp/>matches<sp/>`e`,<sp/>which<sp/>can<sp/>be<sp/>either<sp/>a<sp/>value<sp/>or<sp/>a<sp/>matcher.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ElementsAre(e0,<sp/>e1,<sp/>...,<sp/>en)`<sp/>|<sp/>`argument`<sp/>has<sp/>`n<sp/>+<sp/>1`<sp/>elements,<sp/>where<sp/>the<sp/>*i*-th<sp/>element<sp/>matches<sp/>`ei`,<sp/>which<sp/>can<sp/>be<sp/>a<sp/>value<sp/>or<sp/>a<sp/>matcher.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ElementsAreArray({e0,<sp/>e1,<sp/>...,<sp/>en})`,<sp/>`ElementsAreArray(a_container)`,<sp/>`ElementsAreArray(begin,<sp/>end)`,<sp/>`ElementsAreArray(array)`,<sp/>or<sp/>`ElementsAreArray(array,<sp/>count)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>`ElementsAre()`<sp/>except<sp/>that<sp/>the<sp/>expected<sp/>element<sp/>values/matchers<sp/>come<sp/>from<sp/>an<sp/>initializer<sp/>list,<sp/>STL-style<sp/>container,<sp/>iterator<sp/>range,<sp/>or<sp/>C-style<sp/>array.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IsEmpty()`<sp/>|<sp/>`argument`<sp/>is<sp/>an<sp/>empty<sp/>container<sp/>(`container.empty()`).<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IsSubsetOf({e0,<sp/>e1,<sp/>...,<sp/>en})`,<sp/>`IsSubsetOf(a_container)`,<sp/>`IsSubsetOf(begin,<sp/>end)`,<sp/>`IsSubsetOf(array)`,<sp/>or<sp/>`IsSubsetOf(array,<sp/>count)`<sp/>|<sp/>`argument`<sp/>matches<sp/>`UnorderedElementsAre(x0,<sp/>x1,<sp/>...,<sp/>xk)`<sp/>for<sp/>some<sp/>subset<sp/>`{x0,<sp/>x1,<sp/>...,<sp/>xk}`<sp/>of<sp/>the<sp/>expected<sp/>matchers.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IsSupersetOf({e0,<sp/>e1,<sp/>...,<sp/>en})`,<sp/>`IsSupersetOf(a_container)`,<sp/>`IsSupersetOf(begin,<sp/>end)`,<sp/>`IsSupersetOf(array)`,<sp/>or<sp/>`IsSupersetOf(array,<sp/>count)`<sp/>|<sp/>Some<sp/>subset<sp/>of<sp/>`argument`<sp/>matches<sp/>`UnorderedElementsAre(`expected<sp/>matchers`)`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Pointwise(m,<sp/>container)`,<sp/>`Pointwise(m,<sp/>{e0,<sp/>e1,<sp/>...,<sp/>en})`<sp/>|<sp/>`argument`<sp/>contains<sp/>the<sp/>same<sp/>number<sp/>of<sp/>elements<sp/>as<sp/>in<sp/>`container`,<sp/>and<sp/>for<sp/>all<sp/>i,<sp/>(the<sp/>i-th<sp/>element<sp/>in<sp/>`argument`,<sp/>the<sp/>i-th<sp/>element<sp/>in<sp/>`container`)<sp/>match<sp/>`m`,<sp/>which<sp/>is<sp/>a<sp/>matcher<sp/>on<sp/>2-tuples.<sp/>E.g.<sp/>`Pointwise(Le(),<sp/>upper_bounds)`<sp/>verifies<sp/>that<sp/>each<sp/>element<sp/>in<sp/>`argument`<sp/>doesn&apos;t<sp/>exceed<sp/>the<sp/>corresponding<sp/>element<sp/>in<sp/>`upper_bounds`.<sp/>See<sp/>more<sp/>detail<sp/>below.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SizeIs(m)`<sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>container<sp/>whose<sp/>size<sp/>matches<sp/>`m`.<sp/>E.g.<sp/>`SizeIs(2)`<sp/>or<sp/>`SizeIs(Lt(2))`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`UnorderedElementsAre(e0,<sp/>e1,<sp/>...,<sp/>en)`<sp/>|<sp/>`argument`<sp/>has<sp/>`n<sp/>+<sp/>1`<sp/>elements,<sp/>and<sp/>under<sp/>*some*<sp/>permutation<sp/>of<sp/>the<sp/>elements,<sp/>each<sp/>element<sp/>matches<sp/>an<sp/>`ei`<sp/>(for<sp/>a<sp/>different<sp/>`i`),<sp/>which<sp/>can<sp/>be<sp/>a<sp/>value<sp/>or<sp/>a<sp/>matcher.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`UnorderedElementsAreArray({e0,<sp/>e1,<sp/>...,<sp/>en})`,<sp/>`UnorderedElementsAreArray(a_container)`,<sp/>`UnorderedElementsAreArray(begin,<sp/>end)`,<sp/>`UnorderedElementsAreArray(array)`,<sp/>or<sp/>`UnorderedElementsAreArray(array,<sp/>count)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>`UnorderedElementsAre()`<sp/>except<sp/>that<sp/>the<sp/>expected<sp/>element<sp/>values/matchers<sp/>come<sp/>from<sp/>an<sp/>initializer<sp/>list,<sp/>STL-style<sp/>container,<sp/>iterator<sp/>range,<sp/>or<sp/>C-style<sp/>array.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`UnorderedPointwise(m,<sp/>container)`,<sp/>`UnorderedPointwise(m,<sp/>{e0,<sp/>e1,<sp/>...,<sp/>en})`<sp/>|<sp/>Like<sp/>`Pointwise(m,<sp/>container)`,<sp/>but<sp/>ignores<sp/>the<sp/>order<sp/>of<sp/>elements.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`WhenSorted(m)`<sp/>|<sp/>When<sp/>`argument`<sp/>is<sp/>sorted<sp/>using<sp/>the<sp/>`&lt;`<sp/>operator,<sp/>it<sp/>matches<sp/>container<sp/>matcher<sp/>`m`.<sp/>E.g.<sp/>`WhenSorted(ElementsAre(1,<sp/>2,<sp/>3))`<sp/>verifies<sp/>that<sp/>`argument`<sp/>contains<sp/>elements<sp/>1,<sp/>2,<sp/>and<sp/>3,<sp/>ignoring<sp/>order.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`WhenSortedBy(comparator,<sp/>m)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>`WhenSorted(m)`,<sp/>except<sp/>that<sp/>the<sp/>given<sp/>comparator<sp/>instead<sp/>of<sp/>`&lt;`<sp/>is<sp/>used<sp/>to<sp/>sort<sp/>`argument`.<sp/>E.g.<sp/>`WhenSortedBy(std::greater(),<sp/>ElementsAre(3,<sp/>2,<sp/>1))`.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Notes:**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>These<sp/>matchers<sp/>can<sp/>also<sp/>match:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>1.<sp/><sp/>a<sp/>native<sp/>array<sp/>passed<sp/>by<sp/>reference<sp/>(e.g.<sp/>in<sp/>`Foo(const<sp/>int<sp/>(&amp;a)[5])`),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>2.<sp/><sp/>an<sp/>array<sp/>passed<sp/>as<sp/>a<sp/>pointer<sp/>and<sp/>a<sp/>count<sp/>(e.g.<sp/>in<sp/>`Bar(const<sp/>T*<sp/>buffer,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>len)`<sp/>--<sp/>see<sp/>[Multi-argument<sp/>Matchers](#MultiArgMatchers)).</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>The<sp/>array<sp/>being<sp/>matched<sp/>may<sp/>be<sp/>multi-dimensional<sp/>(i.e.<sp/>its<sp/>elements<sp/>can<sp/>be</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>arrays).</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>`m`<sp/>in<sp/>`Pointwise(m,<sp/>...)`<sp/>and<sp/>`UnorderedPointwise(m,<sp/>...)`<sp/>should<sp/>be<sp/>a</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>matcher<sp/>for<sp/>`::std::tuple&lt;T,<sp/>U&gt;`<sp/>where<sp/>`T`<sp/>and<sp/>`U`<sp/>are<sp/>the<sp/>element<sp/>type<sp/>of</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>the<sp/>actual<sp/>container<sp/>and<sp/>the<sp/>expected<sp/>container,<sp/>respectively.<sp/>For<sp/>example,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>to<sp/>compare<sp/>two<sp/>`Foo`<sp/>containers<sp/>where<sp/>`Foo`<sp/>doesn&apos;t<sp/>support<sp/>`operator==`,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>one<sp/>might<sp/>write:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```cpp</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MATCHER(FooEq,<sp/>&quot;&quot;)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>std::get&lt;0&gt;(arg).Equals(std::get&lt;1&gt;(arg));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(actual_foos,<sp/>Pointwise(FooEq(),<sp/>expected_foos));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Member<sp/>Matchers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:------------------------------<sp/>|<sp/>:-----------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Field(&amp;class::field,<sp/>m)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument.field`<sp/>(or<sp/>`argument-&gt;field`<sp/>when<sp/>`argument`<sp/>is<sp/>a<sp/>plain<sp/>pointer)<sp/>matches<sp/>matcher<sp/>`m`,<sp/>where<sp/>`argument`<sp/>is<sp/>an<sp/>object<sp/>of<sp/>type<sp/>_class_.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Field(field_name,<sp/>&amp;class::field,<sp/>m)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>the<sp/>two-parameter<sp/>version,<sp/>but<sp/>provides<sp/>a<sp/>better<sp/>error<sp/>message.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Key(e)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument.first`<sp/>matches<sp/>`e`,<sp/>which<sp/>can<sp/>be<sp/>either<sp/>a<sp/>value<sp/>or<sp/>a<sp/>matcher.<sp/>E.g.<sp/>`Contains(Key(Le(5)))`<sp/>can<sp/>verify<sp/>that<sp/>a<sp/>`map`<sp/>contains<sp/>a<sp/>key<sp/>`&lt;=<sp/>5`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Pair(m1,<sp/>m2)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>an<sp/>`std::pair`<sp/>whose<sp/>`first`<sp/>field<sp/>matches<sp/>`m1`<sp/>and<sp/>`second`<sp/>field<sp/>matches<sp/>`m2`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`FieldsAre(m...)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>is<sp/>a<sp/>compatible<sp/>object<sp/>where<sp/>each<sp/>field<sp/>matches<sp/>piecewise<sp/>with<sp/>the<sp/>matchers<sp/>`m...`.<sp/>A<sp/>compatible<sp/>object<sp/>is<sp/>any<sp/>that<sp/>supports<sp/>the<sp/>`std::tuple_size&lt;Obj&gt;`+`get&lt;I&gt;(obj)`<sp/>protocol.<sp/>In<sp/>C++17<sp/>and<sp/>up<sp/>this<sp/>also<sp/>supports<sp/>types<sp/>compatible<sp/>with<sp/>structured<sp/>bindings,<sp/>like<sp/>aggregates.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Property(&amp;class::property,<sp/>m)`<sp/>|<sp/>`argument.property()`<sp/>(or<sp/>`argument-&gt;property()`<sp/>when<sp/>`argument`<sp/>is<sp/>a<sp/>plain<sp/>pointer)<sp/>matches<sp/>matcher<sp/>`m`,<sp/>where<sp/>`argument`<sp/>is<sp/>an<sp/>object<sp/>of<sp/>type<sp/>_class_.<sp/>The<sp/>method<sp/>`property()`<sp/>must<sp/>take<sp/>no<sp/>argument<sp/>and<sp/>be<sp/>declared<sp/>as<sp/>`const`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Property(property_name,<sp/>&amp;class::property,<sp/>m)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>the<sp/>two-parameter<sp/>version,<sp/>but<sp/>provides<sp/>a<sp/>better<sp/>error<sp/>message.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Notes:**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>You<sp/>can<sp/>use<sp/>`FieldsAre()`<sp/>to<sp/>match<sp/>any<sp/>type<sp/>that<sp/>supports<sp/>structured</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>bindings,<sp/>such<sp/>as<sp/>`std::tuple`,<sp/>`std::pair`,<sp/>`std::array`,<sp/>and<sp/>aggregate</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>types.<sp/>For<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```cpp</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::tuple&lt;int,<sp/>std::string&gt;<sp/>my_tuple{7,<sp/>&quot;hello<sp/>world&quot;};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(my_tuple,<sp/>FieldsAre(Ge(0),<sp/>HasSubstr(&quot;hello&quot;)));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>MyStruct<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>value<sp/>=<sp/>42;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>greeting<sp/>=<sp/>&quot;aloha&quot;;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MyStruct<sp/>s;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(s,<sp/>FieldsAre(42,<sp/>&quot;aloha&quot;));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Don&apos;t<sp/>use<sp/>`Property()`<sp/>against<sp/>member<sp/>functions<sp/>that<sp/>you<sp/>do<sp/>not<sp/>own,<sp/>because</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>taking<sp/>addresses<sp/>of<sp/>functions<sp/>is<sp/>fragile<sp/>and<sp/>generally<sp/>not<sp/>part<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>contract<sp/>of<sp/>the<sp/>function.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Matching<sp/>the<sp/>Result<sp/>of<sp/>a<sp/>Function,<sp/>Functor,<sp/>or<sp/>Callback</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:---------------<sp/>|<sp/>:------------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ResultOf(f,<sp/>m)`<sp/>|<sp/>`f(argument)`<sp/>matches<sp/>matcher<sp/>`m`,<sp/>where<sp/>`f`<sp/>is<sp/>a<sp/>function<sp/>or<sp/>functor.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ResultOf(result_description,<sp/>f,<sp/>m)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>the<sp/>two-parameter<sp/>version,<sp/>but<sp/>provides<sp/>a<sp/>better<sp/>error<sp/>message.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Pointer<sp/>Matchers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:------------------------<sp/>|<sp/>:----------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Address(m)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>the<sp/>result<sp/>of<sp/>`std::addressof(argument)`<sp/>matches<sp/>`m`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Pointee(m)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>(either<sp/>a<sp/>smart<sp/>pointer<sp/>or<sp/>a<sp/>raw<sp/>pointer)<sp/>points<sp/>to<sp/>a<sp/>value<sp/>that<sp/>matches<sp/>matcher<sp/>`m`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Pointer(m)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`argument`<sp/>(either<sp/>a<sp/>smart<sp/>pointer<sp/>or<sp/>a<sp/>raw<sp/>pointer)<sp/>contains<sp/>a<sp/>pointer<sp/>that<sp/>matches<sp/>`m`.<sp/>`m`<sp/>will<sp/>match<sp/>against<sp/>the<sp/>raw<sp/>pointer<sp/>regardless<sp/>of<sp/>the<sp/>type<sp/>of<sp/>`argument`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`WhenDynamicCastTo&lt;T&gt;(m)`<sp/>|<sp/>when<sp/>`argument`<sp/>is<sp/>passed<sp/>through<sp/>`dynamic_cast&lt;T&gt;()`,<sp/>it<sp/>matches<sp/>matcher<sp/>`m`.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Multi-argument<sp/>Matchers<sp/>{#MultiArgMatchers}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Technically,<sp/>all<sp/>matchers<sp/>match<sp/>a<sp/>*single*<sp/>value.<sp/>A<sp/>&quot;multi-argument&quot;<sp/>matcher<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">just<sp/>one<sp/>that<sp/>matches<sp/>a<sp/>*tuple*.<sp/>The<sp/>following<sp/>matchers<sp/>can<sp/>be<sp/>used<sp/>to<sp/>match<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">tuple<sp/>`(x,<sp/>y)`:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Matcher<sp/>|<sp/>Description</highlight></codeline>
+<codeline><highlight class="normal">:------<sp/>|<sp/>:----------</highlight></codeline>
+<codeline><highlight class="normal">`Eq()`<sp/><sp/>|<sp/>`x<sp/>==<sp/>y`</highlight></codeline>
+<codeline><highlight class="normal">`Ge()`<sp/><sp/>|<sp/>`x<sp/>&gt;=<sp/>y`</highlight></codeline>
+<codeline><highlight class="normal">`Gt()`<sp/><sp/>|<sp/>`x<sp/>&gt;<sp/>y`</highlight></codeline>
+<codeline><highlight class="normal">`Le()`<sp/><sp/>|<sp/>`x<sp/>&lt;=<sp/>y`</highlight></codeline>
+<codeline><highlight class="normal">`Lt()`<sp/><sp/>|<sp/>`x<sp/>&lt;<sp/>y`</highlight></codeline>
+<codeline><highlight class="normal">`Ne()`<sp/><sp/>|<sp/>`x<sp/>!=<sp/>y`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>use<sp/>the<sp/>following<sp/>selectors<sp/>to<sp/>pick<sp/>a<sp/>subset<sp/>of<sp/>the<sp/>arguments<sp/>(or</highlight></codeline>
+<codeline><highlight class="normal">reorder<sp/>them)<sp/>to<sp/>participate<sp/>in<sp/>the<sp/>matching:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:-------------------------<sp/>|<sp/>:----------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`AllArgs(m)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Equivalent<sp/>to<sp/>`m`.<sp/>Useful<sp/>as<sp/>syntactic<sp/>sugar<sp/>in<sp/>`.With(AllArgs(m))`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Args&lt;N1,<sp/>N2,<sp/>...,<sp/>Nk&gt;(m)`<sp/>|<sp/>The<sp/>tuple<sp/>of<sp/>the<sp/>`k`<sp/>selected<sp/>(using<sp/>0-based<sp/>indices)<sp/>arguments<sp/>matches<sp/>`m`,<sp/>e.g.<sp/>`Args&lt;1,<sp/>2&gt;(Eq())`.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Composite<sp/>Matchers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>make<sp/>a<sp/>matcher<sp/>from<sp/>one<sp/>or<sp/>more<sp/>other<sp/>matchers:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:-------------------------------<sp/>|<sp/>:--------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`AllOf(m1,<sp/>m2,<sp/>...,<sp/>mn)`<sp/>|<sp/>`argument`<sp/>matches<sp/>all<sp/>of<sp/>the<sp/>matchers<sp/>`m1`<sp/>to<sp/>`mn`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`AllOfArray({m0,<sp/>m1,<sp/>...,<sp/>mn})`,<sp/>`AllOfArray(a_container)`,<sp/>`AllOfArray(begin,<sp/>end)`,<sp/>`AllOfArray(array)`,<sp/>or<sp/>`AllOfArray(array,<sp/>count)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>`AllOf()`<sp/>except<sp/>that<sp/>the<sp/>matchers<sp/>come<sp/>from<sp/>an<sp/>initializer<sp/>list,<sp/>STL-style<sp/>container,<sp/>iterator<sp/>range,<sp/>or<sp/>C-style<sp/>array.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`AnyOf(m1,<sp/>m2,<sp/>...,<sp/>mn)`<sp/>|<sp/>`argument`<sp/>matches<sp/>at<sp/>least<sp/>one<sp/>of<sp/>the<sp/>matchers<sp/>`m1`<sp/>to<sp/>`mn`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`AnyOfArray({m0,<sp/>m1,<sp/>...,<sp/>mn})`,<sp/>`AnyOfArray(a_container)`,<sp/>`AnyOfArray(begin,<sp/>end)`,<sp/>`AnyOfArray(array)`,<sp/>or<sp/>`AnyOfArray(array,<sp/>count)`<sp/>|<sp/>The<sp/>same<sp/>as<sp/>`AnyOf()`<sp/>except<sp/>that<sp/>the<sp/>matchers<sp/>come<sp/>from<sp/>an<sp/>initializer<sp/>list,<sp/>STL-style<sp/>container,<sp/>iterator<sp/>range,<sp/>or<sp/>C-style<sp/>array.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Not(m)`<sp/>|<sp/>`argument`<sp/>doesn&apos;t<sp/>match<sp/>matcher<sp/>`m`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Conditional(cond,<sp/>m1,<sp/>m2)`<sp/>|<sp/>Matches<sp/>matcher<sp/>`m1`<sp/>if<sp/>`cond`<sp/>evaluates<sp/>to<sp/>true,<sp/>else<sp/>matches<sp/>`m2`.|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Adapters<sp/>for<sp/>Matchers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:----------------------<sp/>|<sp/>:------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`MatcherCast&lt;T&gt;(m)`<sp/><sp/><sp/><sp/><sp/>|<sp/>casts<sp/>matcher<sp/>`m`<sp/>to<sp/>type<sp/>`Matcher&lt;T&gt;`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SafeMatcherCast&lt;T&gt;(m)`<sp/>|<sp/>[safely<sp/>casts](../gmock_cook_book.md#SafeMatcherCast)<sp/>matcher<sp/>`m`<sp/>to<sp/>type<sp/>`Matcher&lt;T&gt;`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Truly(predicate)`<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>`predicate(argument)`<sp/>returns<sp/>something<sp/>considered<sp/>by<sp/>C++<sp/>to<sp/>be<sp/>true,<sp/>where<sp/>`predicate`<sp/>is<sp/>a<sp/>function<sp/>or<sp/>functor.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`AddressSatisfies(callback)`<sp/>and<sp/>`Truly(callback)`<sp/>take<sp/>ownership<sp/>of<sp/>`callback`,</highlight></codeline>
+<codeline><highlight class="normal">which<sp/>must<sp/>be<sp/>a<sp/>permanent<sp/>callback.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>Matchers<sp/>as<sp/>Predicates<sp/>{#MatchersAsPredicatesCheat}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Matcher<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:----------------------------<sp/>|<sp/>:------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Matches(m)(value)`<sp/>|<sp/>evaluates<sp/>to<sp/>`true`<sp/>if<sp/>`value`<sp/>matches<sp/>`m`.<sp/>You<sp/>can<sp/>use<sp/>`Matches(m)`<sp/>alone<sp/>as<sp/>a<sp/>unary<sp/>functor.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ExplainMatchResult(m,<sp/>value,<sp/>result_listener)`<sp/>|<sp/>evaluates<sp/>to<sp/>`true`<sp/>if<sp/>`value`<sp/>matches<sp/>`m`,<sp/>explaining<sp/>the<sp/>result<sp/>to<sp/>`result_listener`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Value(value,<sp/>m)`<sp/>|<sp/>evaluates<sp/>to<sp/>`true`<sp/>if<sp/>`value`<sp/>matches<sp/>`m`.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Defining<sp/>Matchers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Macro<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:-----------------------------------<sp/>|<sp/>:------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`MATCHER(IsEven,<sp/>&quot;&quot;)<sp/>{<sp/>return<sp/>(arg<sp/>%<sp/>2)<sp/>==<sp/>0;<sp/>}`<sp/>|<sp/>Defines<sp/>a<sp/>matcher<sp/>`IsEven()`<sp/>to<sp/>match<sp/>an<sp/>even<sp/>number.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`MATCHER_P(IsDivisibleBy,<sp/>n,<sp/>&quot;&quot;)<sp/>{<sp/>*result_listener<sp/>&lt;&lt;<sp/>&quot;where<sp/>the<sp/>remainder<sp/>is<sp/>&quot;<sp/>&lt;&lt;<sp/>(arg<sp/>%<sp/>n);<sp/>return<sp/>(arg<sp/>%<sp/>n)<sp/>==<sp/>0;<sp/>}`<sp/>|<sp/>Defines<sp/>a<sp/>matcher<sp/>`IsDivisibleBy(n)`<sp/>to<sp/>match<sp/>a<sp/>number<sp/>divisible<sp/>by<sp/>`n`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`MATCHER_P2(IsBetween,<sp/>a,<sp/>b,<sp/>absl::StrCat(negation<sp/>?<sp/>&quot;isn&apos;t&quot;<sp/>:<sp/>&quot;is&quot;,<sp/>&quot;<sp/>between<sp/>&quot;,<sp/>PrintToString(a),<sp/>&quot;<sp/>and<sp/>&quot;,<sp/>PrintToString(b)))<sp/>{<sp/>return<sp/>a<sp/>&lt;=<sp/>arg<sp/>&amp;&amp;<sp/>arg<sp/>&lt;=<sp/>b;<sp/>}`<sp/>|<sp/>Defines<sp/>a<sp/>matcher<sp/>`IsBetween(a,<sp/>b)`<sp/>to<sp/>match<sp/>a<sp/>value<sp/>in<sp/>the<sp/>range<sp/>[`a`,<sp/>`b`].<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Notes:**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>The<sp/>`MATCHER*`<sp/>macros<sp/>cannot<sp/>be<sp/>used<sp/>inside<sp/>a<sp/>function<sp/>or<sp/>class.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>The<sp/>matcher<sp/>body<sp/>must<sp/>be<sp/>*purely<sp/>functional*<sp/>(i.e.<sp/>it<sp/>cannot<sp/>have<sp/>any<sp/>side</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>effect,<sp/>and<sp/>the<sp/>result<sp/>must<sp/>not<sp/>depend<sp/>on<sp/>anything<sp/>other<sp/>than<sp/>the<sp/>value</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>being<sp/>matched<sp/>and<sp/>the<sp/>matcher<sp/>parameters).</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>You<sp/>can<sp/>use<sp/>`PrintToString(x)`<sp/>to<sp/>convert<sp/>a<sp/>value<sp/>`x`<sp/>of<sp/>any<sp/>type<sp/>to<sp/>a</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>string.</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>You<sp/>can<sp/>use<sp/>`ExplainMatchResult()`<sp/>in<sp/>a<sp/>custom<sp/>matcher<sp/>to<sp/>wrap<sp/>another</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>matcher,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```cpp</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MATCHER_P(NestedPropertyMatches,<sp/>matcher,<sp/>&quot;&quot;)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>ExplainMatchResult(matcher,<sp/>arg.nested().property(),<sp/>result_listener);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">5.<sp/><sp/>You<sp/>can<sp/>use<sp/>`DescribeMatcher&lt;&gt;`<sp/>to<sp/>describe<sp/>another<sp/>matcher.<sp/>For<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```cpp</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MATCHER_P(XAndYThat,<sp/>matcher,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;X<sp/>that<sp/>&quot;<sp/>+<sp/>DescribeMatcher&lt;int&gt;(matcher,<sp/>negation)<sp/>+</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(negation<sp/>?<sp/>&quot;<sp/>or&quot;<sp/>:<sp/>&quot;<sp/>and&quot;)<sp/>+<sp/>&quot;<sp/>Y<sp/>that<sp/>&quot;<sp/>+</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DescribeMatcher&lt;double&gt;(matcher,<sp/>negation))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>ExplainMatchResult(matcher,<sp/>arg.x(),<sp/>result_listener)<sp/>&amp;&amp;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ExplainMatchResult(matcher,<sp/>arg.y(),<sp/>result_listener);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/docs/reference/matchers.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1rich_1_1filesize" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::rich::filesize</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1filesize_1a6b0960d2adede7c9db972747adcd90a0" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::rich::filesize.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._vendor.rich.filesize.__all__</qualifiedname>
+        <initializer>=  [&quot;decimal&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1filesize_1a9711e8bd581d88e32c35116b84cdba9c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich.filesize._to_str</definition>
+        <argsstring>(int size, Iterable[str] suffixes, int base, *Optional[int] precision=1, Optional[str] separator=&quot; &quot;)</argsstring>
+        <name>_to_str</name>
+        <qualifiedname>pip._vendor.rich.filesize._to_str</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>suffixes</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>*Optional</type>
+          <declname>precision</declname>
+          <array>[int]</array>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>separator</declname>
+          <array>[str]</array>
+          <defval>&quot; &quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" bodystart="26" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1filesize_1ad5e12fb8a1a5d3270ecbefd0db0f64a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int, str]</type>
+        <definition> Tuple[int, str] pip._vendor.rich.filesize.pick_unit_and_suffix</definition>
+        <argsstring>(int size, List[str] suffixes, int base)</argsstring>
+        <name>pick_unit_and_suffix</name>
+        <qualifiedname>pip._vendor.rich.filesize.pick_unit_and_suffix</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>suffixes</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>base</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pick a suffix and base for the given size.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" bodystart="44" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1filesize_1ab53f3c13221a9c7818881f4265e61b09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich.filesize.decimal</definition>
+        <argsstring>(int size, *Optional[int] precision=1, Optional[str] separator=&quot; &quot;)</argsstring>
+        <name>decimal</name>
+        <qualifiedname>pip._vendor.rich.filesize.decimal</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>*Optional</type>
+          <declname>precision</declname>
+          <array>[int]</array>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>separator</declname>
+          <array>[str]</array>
+          <defval>&quot; &quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a filesize in to a string (powers of 1000, SI prefixes).
+
+In this convention, ``1000 B = 1 kB``.
+
+This is typically the format used to advertise the storage
+capacity of USB flash drives and the like (*256 MB* meaning
+actually a storage capacity of more than *256 000 000 B*),
+or used by **Mac OS X** since v10.6 to report file sizes.
+
+Arguments:
+    int (size): A file size.
+    int (precision): The number of decimal places to include (default = 1).
+    str (separator): The string to separate the value from the units (default = &quot; &quot;).
+
+Returns:
+    `str`: A string containing a abbreviated file size and units.
+
+Example:
+    &gt;&gt;&gt; filesize.decimal(30000)
+    &apos;30.0 kB&apos;
+    &gt;&gt;&gt; filesize.decimal(30000, precision=2, separator=&quot;&quot;)
+    &apos;30.00kB&apos;</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" bodystart="58" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Functions for reporting filesizes. Borrowed from https://github.com/PyFilesystem/pyfilesystem2
+
+The functions declared in this module should cover the different
+use cases needed to generate a string representation of a file size
+using several different units. Since there are many standards regarding
+file size units, three different functions have been implemented.
+
+See Also:
+    * `Wikipedia: Binary prefix &lt;https://en.wikipedia.org/wiki/Binary_prefix&gt;`_</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/filesize.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

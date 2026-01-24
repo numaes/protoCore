@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__win32_8py" kind="file" language="Python">
+    <compoundname>_win32.py</compoundname>
+    <innernamespace refid="namespacebabel">babel</innernamespace>
+    <innernamespace refid="namespacebabel_1_1localtime">babel::localtime</innernamespace>
+    <innernamespace refid="namespacebabel_1_1localtime_1_1__win32">babel::localtime::_win32</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacebabel_1_1localtime_1_1__win32" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>winreg</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/>winreg<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>datetime</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Any,<sp/>Dict,<sp/>cast</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacebabel_1_1core" kindref="compound">babel.core</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>get_global</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacebabel_1_1localtime_1_1__helpers" kindref="compound">babel.localtime._helpers</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_get_tzinfo_or_raise</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>When<sp/>building<sp/>the<sp/>cldr<sp/>data<sp/>on<sp/>windows<sp/>this<sp/>module<sp/>gets<sp/>imported.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Because<sp/>at<sp/>that<sp/>point<sp/>there<sp/>is<sp/>no<sp/>global.dat<sp/>yet<sp/>this<sp/>call<sp/>will</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/>fail.<sp/><sp/>We<sp/>want<sp/>to<sp/>catch<sp/>it<sp/>down<sp/>in<sp/>that<sp/>case<sp/>then<sp/>and<sp/>just<sp/>assume</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#<sp/>the<sp/>mapping<sp/>was<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>tz_names:<sp/>dict[str,<sp/>str]<sp/>=<sp/>cast(Dict[str,<sp/>str],<sp/>get_global(</highlight><highlight class="stringliteral">&apos;windows_zone_mapping&apos;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>RuntimeError:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>tz_names<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacebabel_1_1localtime_1_1__win32_1a83841040cb22dc6099b1672274ff4e7d" kindref="member">valuestodict</ref>(key)<sp/>-&gt;<sp/>dict[str,<sp/>Any]:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Convert<sp/>a<sp/>registry<sp/>key&apos;s<sp/>values<sp/>to<sp/>a<sp/>dictionary.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>dict<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>size<sp/>=<sp/>winreg.QueryInfoKey(key)[1]</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>i<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>range(size):</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/>winreg.EnumValue(key,<sp/>i)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dict[data[0]]<sp/>=<sp/>data[1]</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dict</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacebabel_1_1localtime_1_1__win32_1a8e9102660b81206a3303b57f12c31c1f" kindref="member">get_localzone_name</ref>()<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Windows<sp/>is<sp/>special.<sp/>It<sp/>has<sp/>unique<sp/>time<sp/>zone<sp/>names<sp/>(in<sp/>several</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>meanings<sp/>of<sp/>the<sp/>word)<sp/>available,<sp/>but<sp/>unfortunately,<sp/>they<sp/>can<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>translated<sp/>to<sp/>the<sp/>language<sp/>of<sp/>the<sp/>operating<sp/>system,<sp/>so<sp/>we<sp/>need<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>do<sp/>a<sp/>backwards<sp/>lookup,<sp/>by<sp/>going<sp/>through<sp/>all<sp/>time<sp/>zones<sp/>and<sp/>see<sp/>which</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>one<sp/>matches.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>handle<sp/>=<sp/>winreg.ConnectRegistry(</highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>winreg.HKEY_LOCAL_MACHINE)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>TZLOCALKEYNAME<sp/>=<sp/></highlight><highlight class="stringliteral">r&apos;SYSTEM\CurrentControlSet\Control\TimeZoneInformation&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>localtz<sp/>=<sp/>winreg.OpenKey(handle,<sp/>TZLOCALKEYNAME)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>keyvalues<sp/>=<sp/><ref refid="namespacebabel_1_1localtime_1_1__win32_1a83841040cb22dc6099b1672274ff4e7d" kindref="member">valuestodict</ref>(localtz)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>localtz.Close()</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;TimeZoneKeyName&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>keyvalues:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Windows<sp/>7<sp/>(and<sp/>Vista?)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>For<sp/>some<sp/>reason<sp/>this<sp/>returns<sp/>a<sp/>string<sp/>with<sp/>loads<sp/>of<sp/>NUL<sp/>bytes<sp/>at</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>least<sp/>on<sp/>some<sp/>systems.<sp/>I<sp/>don&apos;t<sp/>know<sp/>if<sp/>this<sp/>is<sp/>a<sp/>bug<sp/>somewhere,<sp/>I</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>just<sp/>work<sp/>around<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tzkeyname<sp/>=<sp/>keyvalues[</highlight><highlight class="stringliteral">&apos;TimeZoneKeyName&apos;</highlight><highlight class="normal">].split(</highlight><highlight class="stringliteral">&apos;\x00&apos;</highlight><highlight class="normal">,<sp/>1)[0]</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Windows<sp/>2000<sp/>or<sp/>XP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>This<sp/>is<sp/>the<sp/>localized<sp/>name:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tzwin<sp/>=<sp/>keyvalues[</highlight><highlight class="stringliteral">&apos;StandardName&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Open<sp/>the<sp/>list<sp/>of<sp/>timezones<sp/>to<sp/>look<sp/>up<sp/>the<sp/>real<sp/>name:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TZKEYNAME<sp/>=<sp/></highlight><highlight class="stringliteral">r&apos;SOFTWARE\Microsoft\Windows<sp/>NT\CurrentVersion\Time<sp/>Zones&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tzkey<sp/>=<sp/>winreg.OpenKey(handle,<sp/>TZKEYNAME)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Now,<sp/>match<sp/>this<sp/>value<sp/>to<sp/>Time<sp/>Zone<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tzkeyname<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>i<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>range(winreg.QueryInfoKey(tzkey)[0]):</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>subkey<sp/>=<sp/>winreg.EnumKey(tzkey,<sp/>i)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sub<sp/>=<sp/>winreg.OpenKey(tzkey,<sp/>subkey)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/><ref refid="namespacebabel_1_1localtime_1_1__win32_1a83841040cb22dc6099b1672274ff4e7d" kindref="member">valuestodict</ref>(sub)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sub.Close()</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>data.get(</highlight><highlight class="stringliteral">&apos;Std&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/>==<sp/>tzwin:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tzkeyname<sp/>=<sp/>subkey</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tzkey.Close()</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle.Close()</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tzkeyname<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>LookupError(</highlight><highlight class="stringliteral">&apos;Can<sp/>not<sp/>find<sp/>Windows<sp/>timezone<sp/>configuration&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>timezone<sp/>=<sp/>tz_names.get(tzkeyname)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>timezone<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Nope,<sp/>that<sp/>didn&apos;t<sp/>work.<sp/>Try<sp/>adding<sp/>&apos;Standard<sp/>Time&apos;,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>it<sp/>seems<sp/>to<sp/>work<sp/>a<sp/>lot<sp/>of<sp/>times:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timezone<sp/>=<sp/>tz_names.get(f</highlight><highlight class="stringliteral">&quot;{tzkeyname}<sp/>Standard<sp/>Time&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Return<sp/>what<sp/>we<sp/>have.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>timezone<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>LookupError(f</highlight><highlight class="stringliteral">&quot;Can<sp/>not<sp/>find<sp/>timezone<sp/>{tzkeyname}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>timezone</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacebabel_1_1localtime_1_1__win32_1a4057631292383c267fc7a96667837e0a" kindref="member">_get_localzone</ref>()<sp/>-&gt;<sp/>datetime.tzinfo:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>winreg<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>LookupError(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Runtime<sp/>support<sp/>not<sp/>available&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_get_tzinfo_or_raise(<ref refid="namespacebabel_1_1localtime_1_1__win32_1a8e9102660b81206a3303b57f12c31c1f" kindref="member">get_localzone_name</ref>())</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/localtime/_win32.py"/>
+  </compounddef>
+</doxygen>

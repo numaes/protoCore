@@ -1,0 +1,557 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1environment_1_1adapters_1_1toctree" kind="namespace" language="Python">
+    <compoundname>sphinx::environment::adapters::toctree</compoundname>
+    <innerclass refid="classsphinx_1_1environment_1_1adapters_1_1toctree_1_1TocTree" prot="public">sphinx::environment::adapters::toctree::TocTree</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1abbf2c9e31b8a75325334d41c9299cbb0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::environment::adapters::toctree.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.environment.adapters.toctree.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a2b7810f02369e7fbb615ea7d491e1418" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::environment::adapters::toctree.ET</definition>
+        <argsstring></argsstring>
+        <name>ET</name>
+        <qualifiedname>sphinx.environment.adapters.toctree.ET</qualifiedname>
+        <initializer>=  TypeVar(&apos;ET&apos;, bound=<ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="474" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="474" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1af8dc19d3cce612805522663da6a05e74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.environment.adapters.toctree.note_toctree</definition>
+        <argsstring>(BuildEnvironment env, str docname, addnodes.toctree toctreenode)</argsstring>
+        <name>note_toctree</name>
+        <qualifiedname>sphinx.environment.adapters.toctree.note_toctree</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1toctree" kindref="compound">addnodes.toctree</ref></type>
+          <declname>toctreenode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Note a TOC tree directive in a document and gather information about
+file relations from it.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="32" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a8a81c174442f3de90a394d1195705629" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+        <definition> Node sphinx.environment.adapters.toctree.document_toc</definition>
+        <argsstring>(BuildEnvironment env, str docname, Tags tags)</argsstring>
+        <name>document_toc</name>
+        <qualifiedname>sphinx.environment.adapters.toctree.document_toc</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref></type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the (local) table of contents for a document.
+
+Note that this is only the sections within the document.
+For a ToC tree that shows the document&apos;s place in the
+ToC structure, use `get_toctree_for`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="48" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1add23687f6caf6cdede27647816ea900f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>|None</type>
+        <definition> Element | None sphinx.environment.adapters.toctree.global_toctree_for_doc</definition>
+        <argsstring>(BuildEnvironment env, str docname, Builder builder, bool collapse=False, bool includehidden=True, int maxdepth=0, bool titles_only=False)</argsstring>
+        <name>global_toctree_for_doc</name>
+        <qualifiedname>sphinx.environment.adapters.toctree.global_toctree_for_doc</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>collapse</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includehidden</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxdepth</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>titles_only</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the global ToC tree at a given document.
+
+This gives the global ToC, with all ancestors and their siblings.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="68" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="76" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1ad094bf1457f554641873d1c983a51a7a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>|None</type>
+        <definition> Element | None sphinx.environment.adapters.toctree._resolve_toctree</definition>
+        <argsstring>(BuildEnvironment env, str docname, Builder builder, addnodes.toctree toctree, *bool prune=True, int maxdepth=0, bool titles_only=False, bool collapse=False, bool includehidden=False, Tags tags)</argsstring>
+        <name>_resolve_toctree</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._resolve_toctree</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1toctree" kindref="compound">addnodes.toctree</ref></type>
+          <declname>toctree</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>prune</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxdepth</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>titles_only</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>collapse</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includehidden</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref></type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Resolve a *toctree* node into individual bullet lists with titles
+as items, returning None (if no containing titles are found) or
+a new node.
+
+If *prune* is True, the tree is pruned to *maxdepth*, or if that is 0,
+to the value of the *maxdepth* option on the *toctree* node.
+If *titles_only* is True, only toplevel document titles will be in the
+resulting tree.
+If *collapse* is True, all branches not containing docname will
+be collapsed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="106" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="118" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a922e24d8ae7265d57c113acbda58ee97" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>]</type>
+        <definition> list[Element] sphinx.environment.adapters.toctree._entries_from_toctree</definition>
+        <argsstring>(BuildEnvironment env, bool prune, bool titles_only, bool collapse, bool includehidden, Tags tags, Set[str] toctree_ancestors, Matcher included, Matcher excluded, addnodes.toctree toctreenode, list[str] parents, bool subtree=False)</argsstring>
+        <name>_entries_from_toctree</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._entries_from_toctree</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>prune</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>titles_only</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>collapse</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includehidden</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref></type>
+          <declname>tags</declname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>toctree_ancestors</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1matching_1_1Matcher" kindref="compound">Matcher</ref></type>
+          <declname>included</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1matching_1_1Matcher" kindref="compound">Matcher</ref></type>
+          <declname>excluded</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1toctree" kindref="compound">addnodes.toctree</ref></type>
+          <declname>toctreenode</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>parents</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>subtree</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return TOC entries for a toctree node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="212" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="225" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a1b5c101214e2aaf307c10a4d66c9e9dd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[<ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>, str]</type>
+        <definition> tuple[Element, str] sphinx.environment.adapters.toctree._toctree_entry</definition>
+        <argsstring>(str title, str ref, BuildEnvironment env, bool prune, bool collapse, Tags tags, Set[str] toctree_ancestors, Matcher included, Matcher excluded, addnodes.toctree toctreenode, list[str] parents)</argsstring>
+        <name>_toctree_entry</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._toctree_entry</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>prune</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>collapse</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref></type>
+          <declname>tags</declname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>toctree_ancestors</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1matching_1_1Matcher" kindref="compound">Matcher</ref></type>
+          <declname>included</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1matching_1_1Matcher" kindref="compound">Matcher</ref></type>
+          <declname>excluded</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1toctree" kindref="compound">addnodes.toctree</ref></type>
+          <declname>toctreenode</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>parents</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="298" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="310" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a95af321363abdc52eb8291e0c94ee35c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.bullet_list</type>
+        <definition> nodes.bullet_list sphinx.environment.adapters.toctree._toctree_url_entry</definition>
+        <argsstring>(str title, str ref)</argsstring>
+        <name>_toctree_url_entry</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._toctree_url_entry</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="375" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="375" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1acffd3e143884cb834743b2828d4aa418" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.bullet_list</type>
+        <definition> nodes.bullet_list sphinx.environment.adapters.toctree._toctree_self_entry</definition>
+        <argsstring>(str title, str ref, dict[str, nodes.title] titles)</argsstring>
+        <name>_toctree_self_entry</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._toctree_self_entry</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>titles</declname>
+          <array>[str, nodes.title]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="387" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="391" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a6fb3d8c9d4a4f609aa60fb58d2d9aba7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.bullet_list</type>
+        <definition> nodes.bullet_list sphinx.environment.adapters.toctree._toctree_generated_entry</definition>
+        <argsstring>(str title, str ref)</argsstring>
+        <name>_toctree_generated_entry</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._toctree_generated_entry</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="406" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="406" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a4b06ecbcf1bb433cc76e25749a5d7c83" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[nodes.bullet_list, str]</type>
+        <definition> tuple[nodes.bullet_list, str] sphinx.environment.adapters.toctree._toctree_standard_entry</definition>
+        <argsstring>(str title, str ref, int maxdepth, nodes.bullet_list toc, Set[str] toctree_ancestors, bool prune, bool collapse, Tags tags)</argsstring>
+        <name>_toctree_standard_entry</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._toctree_standard_entry</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxdepth</declname>
+        </param>
+        <param>
+          <type>nodes.bullet_list</type>
+          <declname>toc</declname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>toctree_ancestors</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>prune</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>collapse</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref></type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="420" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="429" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a7bc1809c66913c7f1385decb9efaea49" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.environment.adapters.toctree._toctree_add_classes</definition>
+        <argsstring>(Element node, int depth, str docname)</argsstring>
+        <name>_toctree_add_classes</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._toctree_add_classes</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add &apos;toctree-l%d&apos; and &apos;current&apos; classes to the toctree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="444" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="444" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a0715faf61d168ae2488f4d4ffac9ebf9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a2b7810f02369e7fbb615ea7d491e1418" kindref="member">ET</ref></type>
+        <definition> ET sphinx.environment.adapters.toctree._toctree_copy</definition>
+        <argsstring>(ET node, int depth, int maxdepth, bool collapse, Tags tags)</argsstring>
+        <name>_toctree_copy</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._toctree_copy</qualifiedname>
+        <param>
+          <type><ref refid="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a2b7810f02369e7fbb615ea7d491e1418" kindref="member">ET</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>maxdepth</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>collapse</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref></type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Utility: Cut and deep-copy a TOC at a specified depth.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="477" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="479" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1_1adapters_1_1toctree_1a1c6e1bdbffeb46a1be16c42e12835fb1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Set[str]</type>
+        <definition> Set[str] sphinx.environment.adapters.toctree._get_toctree_ancestors</definition>
+        <argsstring>(dict[str, list[str]] toctree_includes, str docname)</argsstring>
+        <name>_get_toctree_ancestors</name>
+        <qualifiedname>sphinx.environment.adapters.toctree._get_toctree_ancestors</qualifiedname>
+        <param>
+          <type>dict]</type>
+          <declname>toctree_includes</declname>
+          <array>[str, list[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="526" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" bodystart="529" bodyend="541"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Toctree adapter for sphinx.environment.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/adapters/toctree.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

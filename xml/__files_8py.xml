@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__files_8py" kind="file" language="Python">
+    <compoundname>_files.py</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict" prot="public">sphinx::util::_files::FilenameUniqDict</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1__files_1_1DownloadFiles" prot="public">sphinx::util::_files::DownloadFiles</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1util">sphinx::util</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1util_1_1__files">sphinx::util::_files</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1util_1_1__files" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>hashlib</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>pathlib<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Path</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1__pathlib" kindref="compound">sphinx.util._pathlib</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_StrPath</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections.abc<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Set</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict" kindref="compound">FilenameUniqDict</ref>(dict[str,<sp/>tuple[set[str],<sp/>str]]):<sp/><sp/></highlight><highlight class="comment">#<sp/>NoQA:<sp/>FURB189</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>dictionary<sp/>that<sp/>automatically<sp/>generates<sp/>unique<sp/>names<sp/>for<sp/>its<sp/>keys,</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>interpreted<sp/>as<sp/>filenames,<sp/>and<sp/>keeps<sp/>track<sp/>of<sp/>a<sp/>set<sp/>of<sp/>docnames<sp/>they</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>appear<sp/>in.<sp/><sp/>Used<sp/>for<sp/>images<sp/>and<sp/>downloadable<sp/>files<sp/>in<sp/>the<sp/>environment.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1ae217e682b60ef6c05d91521e5ef4b25b" kindref="member">__init__</ref>(self)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1ae217e682b60ef6c05d91521e5ef4b25b" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a50e7fd23d145ac7d3c961ca804071ecb" kindref="member">_existing</ref>:<sp/>set[str]<sp/>=<sp/>set()</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a5058bcbca4fab5ad42267112ec585030" kindref="member">add_file</ref>(self,<sp/>docname:<sp/>str,<sp/>newfile:<sp/>str<sp/>|<sp/>os.PathLike[str])<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>newfile<sp/>=<sp/>str(newfile)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>newfile<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docnames,<sp/>unique_name<sp/>=<sp/>self[newfile]</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docnames.add(docname)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>unique_name</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_file<sp/>=<sp/>Path(newfile)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unique_name<sp/>=<sp/>new_file.name</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base<sp/>=<sp/>new_file.stem</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ext<sp/>=<sp/>new_file.suffix</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>unique_name<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a50e7fd23d145ac7d3c961ca804071ecb" kindref="member">_existing</ref>:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>+=<sp/>1</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unique_name<sp/>=<sp/>f</highlight><highlight class="stringliteral">&apos;{base}{i}{ext}&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self[newfile]<sp/>=<sp/>({docname},<sp/>unique_name)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a50e7fd23d145ac7d3c961ca804071ecb" kindref="member">_existing</ref>.add(unique_name)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>unique_name</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a512269d155035be506b48832eea03bba" kindref="member">purge_doc</ref>(self,<sp/>docname:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>filename,<sp/>(docs,<sp/>unique)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>list(self.items()):</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docs.discard(docname)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>docs:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>self[filename]</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a50e7fd23d145ac7d3c961ca804071ecb" kindref="member">_existing</ref>.discard(unique)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1af79aa2ee9af092ad46cc8e75057d9919" kindref="member">merge_other</ref>(</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>docnames:<sp/>Set[str],<sp/>other:<sp/>dict[str,<sp/>tuple[set[str],<sp/>str]]</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>filename,<sp/>(docs,<sp/>_unique)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>other.items():</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>doc<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>docs<sp/>&amp;<sp/>set(docnames):</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a5058bcbca4fab5ad42267112ec585030" kindref="member">add_file</ref>(doc,<sp/>filename)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1aa76de04c7c255f3cb97b8b99d4a4da58" kindref="member">__getstate__</ref>(self)<sp/>-&gt;<sp/>set[str]:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a50e7fd23d145ac7d3c961ca804071ecb" kindref="member">_existing</ref></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a3589ea1e4160a08ab11914329bbd4618" kindref="member">__setstate__</ref>(self,<sp/>state:<sp/>set[str])<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1util_1_1__files_1_1FilenameUniqDict_1a50e7fd23d145ac7d3c961ca804071ecb" kindref="member">_existing</ref><sp/>=<sp/>state</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classsphinx_1_1util_1_1__files_1_1DownloadFiles" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1DownloadFiles" kindref="compound">DownloadFiles</ref>(dict[Path,<sp/>tuple[set[str],<sp/>_StrPath]]):<sp/><sp/></highlight><highlight class="comment">#<sp/>NoQA:<sp/>FURB189</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>special<sp/>dictionary<sp/>for<sp/>download<sp/>files.</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>important::<sp/>This<sp/>class<sp/>would<sp/>be<sp/>refactored<sp/>in<sp/>nearly<sp/>future.</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Hence<sp/>don&apos;t<sp/>hack<sp/>this<sp/>directly.</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1DownloadFiles_1a4a2762e248950e1e42f8c0cee9e55670" kindref="member">add_file</ref>(self,<sp/>docname:<sp/>str,<sp/>filename:<sp/>str<sp/>|<sp/>os.PathLike[str])<sp/>-&gt;<sp/>_StrPath:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>filename<sp/>=<sp/>Path(filename)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>filename<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>digest<sp/>=<sp/>hashlib.md5(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>filename.as_posix().encode(),<sp/>usedforsecurity=</highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>).hexdigest()</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dest_path<sp/>=<sp/><ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref>(digest,<sp/>filename.name)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self[filename]<sp/>=<sp/>({docname},<sp/>dest_path)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dest_path</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docnames,<sp/>dest_path<sp/>=<sp/>self[filename]</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docnames.add(docname)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dest_path</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1DownloadFiles_1a7cd237b84e863d977d28693da4bdefd8" kindref="member">purge_doc</ref>(self,<sp/>docname:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>filename,<sp/>(docs,<sp/>_dest)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>list(self.items()):</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docs.discard(docname)</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>docs:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>self[filename]</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1util_1_1__files_1_1DownloadFiles_1aed25dc5eb86abf8dfcd559c22d2c64ad" kindref="member">merge_other</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>docnames:<sp/>Set[str],<sp/>other:<sp/>dict[Path,<sp/>tuple[set[str],<sp/>_StrPath]]</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>filename,<sp/>(docs,<sp/>_dest)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>other.items():</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>docname<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>docs<sp/>&amp;<sp/>set(docnames):</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1util_1_1__files_1_1DownloadFiles_1a4a2762e248950e1e42f8c0cee9e55670" kindref="member">add_file</ref>(docname,<sp/>filename)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/_files.py"/>
+  </compounddef>
+</doxygen>

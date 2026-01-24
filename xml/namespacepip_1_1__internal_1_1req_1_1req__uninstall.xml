@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1req_1_1req__uninstall" kind="namespace" language="Python">
+    <compoundname>pip::_internal::req::req_uninstall</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet" prot="public">pip::_internal::req::req_uninstall::StashedUninstallPathSet</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1UninstallPathSet" prot="public">pip::_internal::req::req_uninstall::UninstallPathSet</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1UninstallPthEntries" prot="public">pip::_internal::req::req_uninstall::UninstallPthEntries</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__uninstall_1a017517f271cc4ab3f9bd8b440c3f95d2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::req_uninstall.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.req.req_uninstall.logger</qualifiedname>
+        <initializer>=  getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__uninstall_1aabf179e7d735318eefc8a23ff666a094" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[str, None, None]</type>
+        <definition> Generator[str, None, None] pip._internal.req.req_uninstall._script_names</definition>
+        <argsstring>(str bin_dir, str script_name, bool is_gui)</argsstring>
+        <name>_script_names</name>
+        <qualifiedname>pip._internal.req.req_uninstall._script_names</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>bin_dir</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>script_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_gui</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create the fully qualified name of the files created by
+{console,gui}_scripts for the given ``dist``.
+Returns the list of file names
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="23" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__uninstall_1a19edc60c77343a8326bd9d1390066cfe" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Callable[..., Generator[Any, None, None]]</type>
+        <definition> Callable[..., Generator[Any, None, None]] pip._internal.req.req_uninstall._unique</definition>
+        <argsstring>(Callable[..., Generator[Any, None, None]] fn)</argsstring>
+        <name>_unique</name>
+        <qualifiedname>pip._internal.req.req_uninstall._unique</qualifiedname>
+        <param>
+          <type>Callable]</type>
+          <declname>fn</declname>
+          <array>[..., Generator[Any, None, None]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__uninstall_1abd85e083f3721bb1893f8591a4b33f0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[str, None, None]</type>
+        <definition> Generator[str, None, None] pip._internal.req.req_uninstall.uninstallation_paths</definition>
+        <argsstring>(BaseDistribution dist)</argsstring>
+        <name>uninstallation_paths</name>
+        <qualifiedname>pip._internal.req.req_uninstall.uninstallation_paths</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+          <declname>dist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yield all the uninstallation paths for dist based on RECORD-without-.py[co]
+
+Yield paths to all the files in RECORD. For each .py file in RECORD, add
+the .pyc and .pyo in the same directory.
+
+UninstallPathSet.add() takes care of the __pycache__ .py[co].
+
+If RECORD is not found, raises UninstallationError,
+with possible information from the INSTALLER file.
+
+https://packaging.python.org/specifications/recording-installed-packages/
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="55" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__uninstall_1a634681c37a53ec41c50fb77a1b300413" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Set[str]</type>
+        <definition> Set[str] pip._internal.req.req_uninstall.compact</definition>
+        <argsstring>(Iterable[str] paths)</argsstring>
+        <name>compact</name>
+        <qualifiedname>pip._internal.req.req_uninstall.compact</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>paths</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compact a path set to contain the minimal number of paths
+necessary to contain all paths in the set. If /a/path/ and
+/a/path/to/a/file.txt are both in the set, leave only the
+shorter path.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="98" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__uninstall_1a04e0c9068ced6e3b9d6f65927e0d7126" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Set[str]</type>
+        <definition> Set[str] pip._internal.req.req_uninstall.compress_for_rename</definition>
+        <argsstring>(Iterable[str] paths)</argsstring>
+        <name>compress_for_rename</name>
+        <qualifiedname>pip._internal.req.req_uninstall.compress_for_rename</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>paths</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a set containing the paths that need to be renamed.
+
+This set may include directories when the original sequence of paths
+included every file on disk.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="117" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="117" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__uninstall_1af7152d05220ca611b0695a0de0c5aaa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[Set[str], Set[str]]</type>
+        <definition> Tuple[Set[str], Set[str]] pip._internal.req.req_uninstall.compress_for_output_listing</definition>
+        <argsstring>(Iterable[str] paths)</argsstring>
+        <name>compress_for_output_listing</name>
+        <qualifiedname>pip._internal.req.req_uninstall.compress_for_output_listing</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>paths</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a tuple of 2 sets of which paths to display to user
+
+The first set contains paths that would be deleted. Files of a package
+are not added and the top-level directory of the package has a &apos;*&apos; added
+at the end - to signify that all it&apos;s contents are removed.
+
+The second set contains files that would have been skipped in the above
+folders.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="151" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="151" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

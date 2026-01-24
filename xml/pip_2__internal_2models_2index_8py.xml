@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__internal_2models_2index_8py" kind="file" language="Python">
+    <compoundname>index.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex" prot="public">pip::_internal::models::index::PackageIndex</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1models">pip::_internal::models</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1models_1_1index">pip::_internal::models::index</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1models_1_1index" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>urllib.parse</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4" refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex" kindref="compound">PackageIndex</ref>:</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Represents<sp/>a<sp/>Package<sp/>Index<sp/>and<sp/>provides<sp/>easier<sp/>access<sp/>to<sp/>endpoints&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>__slots__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;url&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;netloc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;simple_url&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pypi_url&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;file_storage_domain&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1aef4fe3303c621cebe65266193e1a4c5c" kindref="member">__init__</ref>(self,<sp/>url:<sp/>str,<sp/>file_storage_domain:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1aef4fe3303c621cebe65266193e1a4c5c" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1a3c533756a88867b52132951a138a2606" kindref="member">url</ref><sp/>=<sp/>url</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1abef29be7973b7a70d7660848485aceb6" kindref="member">netloc</ref><sp/>=<sp/>urllib.parse.urlsplit(url).netloc</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1a940312d4da8d1b3737f48b62588e34b4" kindref="member">simple_url</ref><sp/>=<sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1a2c9a524386ea4a55912c35561c3272ea" kindref="member">_url_for_path</ref>(</highlight><highlight class="stringliteral">&quot;simple&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1a563fa787d83ed80d9354ea952ec0451d" kindref="member">pypi_url</ref><sp/>=<sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1a2c9a524386ea4a55912c35561c3272ea" kindref="member">_url_for_path</ref>(</highlight><highlight class="stringliteral">&quot;pypi&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>This<sp/>is<sp/>part<sp/>of<sp/>a<sp/>temporary<sp/>hack<sp/>used<sp/>to<sp/>block<sp/>installs<sp/>of<sp/>PyPI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>packages<sp/>which<sp/>depend<sp/>on<sp/>external<sp/>urls<sp/>only<sp/>necessary<sp/>until<sp/>PyPI<sp/>can</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>block<sp/>such<sp/>packages<sp/>themselves</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1afd61f4356cb797dda5939fec529f49fd" kindref="member">file_storage_domain</ref><sp/>=<sp/>file_storage_domain</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1a2c9a524386ea4a55912c35561c3272ea" kindref="member">_url_for_path</ref>(self,<sp/>path:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>urllib.parse.urljoin(self.<ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex_1a3c533756a88867b52132951a138a2606" kindref="member">url</ref>,<sp/>path)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">PyPI<sp/>=<sp/><ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex" kindref="compound">PackageIndex</ref>(</highlight><highlight class="stringliteral">&quot;https://pypi.org/&quot;</highlight><highlight class="normal">,<sp/>file_storage_domain=</highlight><highlight class="stringliteral">&quot;files.pythonhosted.org&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">TestPyPI<sp/>=<sp/><ref refid="classpip_1_1__internal_1_1models_1_1index_1_1PackageIndex" kindref="compound">PackageIndex</ref>(</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://test.pypi.org/&quot;</highlight><highlight class="normal">,<sp/>file_storage_domain=</highlight><highlight class="stringliteral">&quot;test-files.pythonhosted.org&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/models/index.py"/>
+  </compounddef>
+</doxygen>

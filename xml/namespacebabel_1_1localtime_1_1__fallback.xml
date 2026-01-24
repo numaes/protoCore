@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1localtime_1_1__fallback" kind="namespace" language="Python">
+    <compoundname>babel::localtime::_fallback</compoundname>
+    <innerclass refid="classbabel_1_1localtime_1_1__fallback_1_1__FallbackLocalTimezone" prot="protected">babel::localtime::_fallback::_FallbackLocalTimezone</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1localtime_1_1__fallback_1aaf41127e77107d4aecb2fb1d2d10ef14" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::localtime::_fallback.STDOFFSET</definition>
+        <argsstring></argsstring>
+        <name>STDOFFSET</name>
+        <qualifiedname>babel.localtime._fallback.STDOFFSET</qualifiedname>
+        <initializer>=  datetime.timedelta(seconds=-time.timezone)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1localtime_1_1__fallback_1a3433e7745cf83bc3d94bfcfa3e20dccf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::localtime::_fallback.DSTOFFSET</definition>
+        <argsstring></argsstring>
+        <name>DSTOFFSET</name>
+        <qualifiedname>babel.localtime._fallback.DSTOFFSET</qualifiedname>
+        <initializer>=  datetime.timedelta(seconds=-time.altzone) if time.daylight else <ref refid="namespacebabel_1_1localtime_1_1__fallback_1aaf41127e77107d4aecb2fb1d2d10ef14" kindref="member">STDOFFSET</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1localtime_1_1__fallback_1a31ce06f0dfd95791a4953eb400327472" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::localtime::_fallback.DSTDIFF</definition>
+        <argsstring></argsstring>
+        <name>DSTDIFF</name>
+        <qualifiedname>babel.localtime._fallback.DSTDIFF</qualifiedname>
+        <initializer>=  <ref refid="namespacebabel_1_1localtime_1_1__fallback_1a3433e7745cf83bc3d94bfcfa3e20dccf" kindref="member">DSTOFFSET</ref> - <ref refid="namespacebabel_1_1localtime_1_1__fallback_1aaf41127e77107d4aecb2fb1d2d10ef14" kindref="member">STDOFFSET</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1localtime_1_1__fallback_1a0ff6dea5823c2ab6b234af821f6e8768" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::localtime::_fallback.ZERO</definition>
+        <argsstring></argsstring>
+        <name>ZERO</name>
+        <qualifiedname>babel.localtime._fallback.ZERO</qualifiedname>
+        <initializer>=  datetime.timedelta(0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.localtime._fallback
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Emulated fallback local timezone when all else fails.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/localtime/_fallback.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

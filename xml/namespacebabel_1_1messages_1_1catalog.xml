@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1messages_1_1catalog" kind="namespace" language="Python">
+    <compoundname>babel::messages::catalog</compoundname>
+    <innerclass refid="classbabel_1_1messages_1_1catalog_1_1Catalog" prot="public">babel::messages::catalog::Catalog</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1catalog_1_1Message" prot="public">babel::messages::catalog::Message</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1catalog_1_1TranslationError" prot="public">babel::messages::catalog::TranslationError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1catalog_1a4103f61ea86005069fb2b369eec23257" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::messages::catalog._MessageID</definition>
+        <argsstring></argsstring>
+        <name>_MessageID</name>
+        <qualifiedname>babel.messages.catalog._MessageID</qualifiedname>
+        <initializer>=  str | tuple[str, ...] | list[str]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1catalog_1a86fdadce600e0876e3078fcb9ff6de9c" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list babel::messages::catalog.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>babel.messages.catalog.__all__</qualifiedname>
+        <initializer>=  [
+    &apos;<ref refid="namespacebabel_1_1messages_1_1catalog_1a16b3d327af863f1510ae83ea5cde38aa" kindref="member">DEFAULT_HEADER</ref>&apos;,
+    &apos;<ref refid="namespacebabel_1_1messages_1_1catalog_1acd28eb3bade9f7d34b92613dc48871bb" kindref="member">PYTHON_FORMAT</ref>&apos;,
+    &apos;<ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref>&apos;,
+    &apos;<ref refid="classbabel_1_1messages_1_1catalog_1_1Message" kindref="compound">Message</ref>&apos;,
+    &apos;<ref refid="classbabel_1_1messages_1_1catalog_1_1TranslationError" kindref="compound">TranslationError</ref>&apos;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1catalog_1acd28eb3bade9f7d34b92613dc48871bb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::catalog.PYTHON_FORMAT</definition>
+        <argsstring></argsstring>
+        <name>PYTHON_FORMAT</name>
+        <qualifiedname>babel.messages.catalog.PYTHON_FORMAT</qualifiedname>
+        <initializer>=  re.compile(, re.VERBOSE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="68" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1catalog_1a16b3d327af863f1510ae83ea5cde38aa" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::messages::catalog.DEFAULT_HEADER</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_HEADER</name>
+        <qualifiedname>babel.messages.catalog.DEFAULT_HEADER</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;\
+# Translations template for PROJECT.
+# Copyright (C) YEAR ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR &lt;EMAIL@ADDRESS&gt;, YEAR.
+#&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="307" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="307" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1catalog_1a113c5a85ac0f8cdcdcfc428dd790de08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.catalog.get_close_matches</definition>
+        <argsstring>(word, possibilities, n=3, cutoff=0.6)</argsstring>
+        <name>get_close_matches</name>
+        <qualifiedname>babel.messages.catalog.get_close_matches</qualifiedname>
+        <param>
+          <type>word</type>
+          <defname>word</defname>
+        </param>
+        <param>
+          <type>possibilities</type>
+          <defname>possibilities</defname>
+        </param>
+        <param>
+          <type>n</type>
+          <defname>n</defname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>cutoff</type>
+          <defname>cutoff</defname>
+          <defval>0.6</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A modified version of ``difflib.get_close_matches``.
+
+It just passes ``autojunk=False`` to the ``SequenceMatcher``, to work
+around https://github.com/python/cpython/issues/90825.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="42" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1catalog_1af885250a96643d1698bc7e592b1deb9a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool babel.messages.catalog._has_python_brace_format</definition>
+        <argsstring>(str string)</argsstring>
+        <name>_has_python_brace_format</name>
+        <qualifiedname>babel.messages.catalog._has_python_brace_format</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="80" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1catalog_1aa4ab7f0b39e2724927e96fac435ab6a7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.datetime</type>
+        <definition> datetime.datetime babel.messages.catalog._parse_datetime_header</definition>
+        <argsstring>(str value)</argsstring>
+        <name>_parse_datetime_header</name>
+        <qualifiedname>babel.messages.catalog._parse_datetime_header</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="99" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="99" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1catalog_1a1812a9cd25659e66e666dbdf63638d42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, str]</type>
+        <definition> dict[str, str] babel.messages.catalog.parse_separated_header</definition>
+        <argsstring>(str value)</argsstring>
+        <name>parse_separated_header</name>
+        <qualifiedname>babel.messages.catalog.parse_separated_header</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="315" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="315" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1catalog_1a105396b40a42a6114163bfe272fac558" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.messages.catalog._force_text</definition>
+        <argsstring>(str|bytes s, str encoding=&apos;utf-8&apos;, str errors=&apos;strict&apos;)</argsstring>
+        <name>_force_text</name>
+        <qualifiedname>babel.messages.catalog._force_text</qualifiedname>
+        <param>
+          <type>str|bytes</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>encoding</declname>
+          <defval>&apos;utf-8&apos;</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>errors</declname>
+          <defval>&apos;strict&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="323" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" bodystart="323" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.messages.catalog
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+    Data structures for message catalogs.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/messages/catalog.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

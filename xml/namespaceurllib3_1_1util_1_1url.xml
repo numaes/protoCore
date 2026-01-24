@@ -1,0 +1,694 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1util_1_1url" kind="namespace" language="Python">
+    <compoundname>urllib3::util::url</compoundname>
+    <innerclass refid="classurllib3_1_1util_1_1url_1_1Url" prot="public">urllib3::util::url::Url</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a9ee74bd365c5e978887647df4cebde0f" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple urllib3::util::url._NORMALIZABLE_SCHEMES</definition>
+        <argsstring></argsstring>
+        <name>_NORMALIZABLE_SCHEMES</name>
+        <qualifiedname>urllib3.util.url._NORMALIZABLE_SCHEMES</qualifiedname>
+        <initializer>=  (&quot;http&quot;, &quot;https&quot;, None)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="11" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1aabe45689c55a42329811e5874a453564" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._PERCENT_RE</definition>
+        <argsstring></argsstring>
+        <name>_PERCENT_RE</name>
+        <qualifiedname>urllib3.util.url._PERCENT_RE</qualifiedname>
+        <initializer>=  re.compile(r&quot;%[a-fA-F0-9]{2}&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a173f182ee9ae3bb758433fcd26120355" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._SCHEME_RE</definition>
+        <argsstring></argsstring>
+        <name>_SCHEME_RE</name>
+        <qualifiedname>urllib3.util.url._SCHEME_RE</qualifiedname>
+        <initializer>=  re.compile(r&quot;^(?:[a-zA-Z][a-zA-Z0-9+-]*:|/)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a883c05a114a1ca179ac0abf28611384f" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._URI_RE</definition>
+        <argsstring></argsstring>
+        <name>_URI_RE</name>
+        <qualifiedname>urllib3.util.url._URI_RE</qualifiedname>
+        <initializer>=  re.compile(
+    r&quot;^(?:([a-zA-Z][a-zA-Z0-9+.-]*):)?&quot;
+    r&quot;(?://([^\\/?#]*))?&quot;
+    r&quot;([^?#]*)&quot;
+    r&quot;(?:\?([^#]*))?&quot;
+    r&quot;(?:#(.*))?$&quot;,
+    re.UNICODE | re.DOTALL,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a1daf958dffe433a6577886d80ecad097" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::url._IPV4_PAT</definition>
+        <argsstring></argsstring>
+        <name>_IPV4_PAT</name>
+        <qualifiedname>urllib3.util.url._IPV4_PAT</qualifiedname>
+        <initializer>=  r&quot;(?:[0-9]{1,3}\.){3}[0-9]{1,3}&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a98820fbc6aae0c6a5e8b9297e9f33f08" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::url._HEX_PAT</definition>
+        <argsstring></argsstring>
+        <name>_HEX_PAT</name>
+        <qualifiedname>urllib3.util.url._HEX_PAT</qualifiedname>
+        <initializer>=  &quot;[0-9A-Fa-f]{1,4}&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1ac4264effc3bcf475cf0252c4ac6cad21" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::url._LS32_PAT</definition>
+        <argsstring></argsstring>
+        <name>_LS32_PAT</name>
+        <qualifiedname>urllib3.util.url._LS32_PAT</qualifiedname>
+        <initializer>=  &quot;(?:{hex}:{hex}|{ipv4})&quot;.format(hex=<ref refid="namespaceurllib3_1_1util_1_1url_1a98820fbc6aae0c6a5e8b9297e9f33f08" kindref="member">_HEX_PAT</ref>, ipv4=<ref refid="namespaceurllib3_1_1util_1_1url_1a1daf958dffe433a6577886d80ecad097" kindref="member">_IPV4_PAT</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a697edc81c1c0194713d2eab474110407" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::util::url._subs</definition>
+        <argsstring></argsstring>
+        <name>_subs</name>
+        <qualifiedname>urllib3.util.url._subs</qualifiedname>
+        <initializer>=  {&quot;hex&quot;: <ref refid="namespaceurllib3_1_1util_1_1url_1a98820fbc6aae0c6a5e8b9297e9f33f08" kindref="member">_HEX_PAT</ref>, &quot;ls32&quot;: <ref refid="namespaceurllib3_1_1util_1_1url_1ac4264effc3bcf475cf0252c4ac6cad21" kindref="member">_LS32_PAT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a54f8405276e3c641d2699be3e2657fd6" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list urllib3::util::url._variations</definition>
+        <argsstring></argsstring>
+        <name>_variations</name>
+        <qualifiedname>urllib3.util.url._variations</qualifiedname>
+        <initializer>=  [
+    #                            6( h16 &quot;:&quot; ) ls32
+    &quot;(?:%(hex)s:){6}%(ls32)s&quot;,
+    #                       &quot;::&quot; 5( h16 &quot;:&quot; ) ls32
+    &quot;::(?:%(hex)s:){5}%(ls32)s&quot;,
+    # [               h16 ] &quot;::&quot; 4( h16 &quot;:&quot; ) ls32
+    &quot;(?:%(hex)s)?::(?:%(hex)s:){4}%(ls32)s&quot;,
+    # [ *1( h16 &quot;:&quot; ) h16 ] &quot;::&quot; 3( h16 &quot;:&quot; ) ls32
+    &quot;(?:(?:%(hex)s:)?%(hex)s)?::(?:%(hex)s:){3}%(ls32)s&quot;,
+    # [ *2( h16 &quot;:&quot; ) h16 ] &quot;::&quot; 2( h16 &quot;:&quot; ) ls32
+    &quot;(?:(?:%(hex)s:){0,2}%(hex)s)?::(?:%(hex)s:){2}%(ls32)s&quot;,
+    # [ *3( h16 &quot;:&quot; ) h16 ] &quot;::&quot;    h16 &quot;:&quot;   ls32
+    &quot;(?:(?:%(hex)s:){0,3}%(hex)s)?::%(hex)s:%(ls32)s&quot;,
+    # [ *4( h16 &quot;:&quot; ) h16 ] &quot;::&quot;              ls32
+    &quot;(?:(?:%(hex)s:){0,4}%(hex)s)?::%(ls32)s&quot;,
+    # [ *5( h16 &quot;:&quot; ) h16 ] &quot;::&quot;              h16
+    &quot;(?:(?:%(hex)s:){0,5}%(hex)s)?::%(hex)s&quot;,
+    # [ *6( h16 &quot;:&quot; ) h16 ] &quot;::&quot;
+    &quot;(?:(?:%(hex)s:){0,6}%(hex)s)?::&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a46b37f5674102a1109a01663388a9f13" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::url._UNRESERVED_PAT</definition>
+        <argsstring></argsstring>
+        <name>_UNRESERVED_PAT</name>
+        <qualifiedname>urllib3.util.url._UNRESERVED_PAT</qualifiedname>
+        <initializer>=  r&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._\-~&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="51" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1aa99a1407e4588f21eda61db7d49bb17e" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::url._IPV6_PAT</definition>
+        <argsstring></argsstring>
+        <name>_IPV6_PAT</name>
+        <qualifiedname>urllib3.util.url._IPV6_PAT</qualifiedname>
+        <initializer>=  &quot;(?:&quot; + &quot;|&quot;.join([<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref> % <ref refid="namespaceurllib3_1_1util_1_1url_1a697edc81c1c0194713d2eab474110407" kindref="member">_subs</ref> for <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref> in <ref refid="namespaceurllib3_1_1util_1_1url_1a54f8405276e3c641d2699be3e2657fd6" kindref="member">_variations</ref>]) + &quot;)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a1900e2bbf1736063d195f5de25d7a6be" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::url._ZONE_ID_PAT</definition>
+        <argsstring></argsstring>
+        <name>_ZONE_ID_PAT</name>
+        <qualifiedname>urllib3.util.url._ZONE_ID_PAT</qualifiedname>
+        <initializer>=  &quot;(?:%25|%)(?:[&quot; + <ref refid="namespaceurllib3_1_1util_1_1url_1a46b37f5674102a1109a01663388a9f13" kindref="member">_UNRESERVED_PAT</ref> + &quot;]|%[a-fA-F0-9]{2})+&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1ac51397df9fc079921d04d2b5da85ab25" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::url._IPV6_ADDRZ_PAT</definition>
+        <argsstring></argsstring>
+        <name>_IPV6_ADDRZ_PAT</name>
+        <qualifiedname>urllib3.util.url._IPV6_ADDRZ_PAT</qualifiedname>
+        <initializer>=  r&quot;\[&quot; + _IPV6_PAT + r&quot;(?:&quot; + _ZONE_ID_PAT + r&quot;)?\]&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="54" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a9c0214b2733946384c283735425b5f30" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::url._REG_NAME_PAT</definition>
+        <argsstring></argsstring>
+        <name>_REG_NAME_PAT</name>
+        <qualifiedname>urllib3.util.url._REG_NAME_PAT</qualifiedname>
+        <initializer>=  r&quot;(?:[^\[\]%:/?#]|%[a-fA-F0-9]{2})*&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1ad8f85359c5495659c836ac3318f79ed0" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._TARGET_RE</definition>
+        <argsstring></argsstring>
+        <name>_TARGET_RE</name>
+        <qualifiedname>urllib3.util.url._TARGET_RE</qualifiedname>
+        <initializer>=  re.compile(r&quot;^(/[^?#]*)(?:\?([^#]*))?(?:#.*)?$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a6bea34a8c18496b751d0d8108ca30038" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._IPV4_RE</definition>
+        <argsstring></argsstring>
+        <name>_IPV4_RE</name>
+        <qualifiedname>urllib3.util.url._IPV4_RE</qualifiedname>
+        <initializer>=  re.compile(&quot;^&quot; + <ref refid="namespaceurllib3_1_1util_1_1url_1a1daf958dffe433a6577886d80ecad097" kindref="member">_IPV4_PAT</ref> + &quot;$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a36084e3f7ca35e039d9d9658165e0c11" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._IPV6_RE</definition>
+        <argsstring></argsstring>
+        <name>_IPV6_RE</name>
+        <qualifiedname>urllib3.util.url._IPV6_RE</qualifiedname>
+        <initializer>=  re.compile(&quot;^&quot; + <ref refid="namespaceurllib3_1_1util_1_1url_1aa99a1407e4588f21eda61db7d49bb17e" kindref="member">_IPV6_PAT</ref> + &quot;$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1af4f429b265439b177ba2fa2305b5379d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._IPV6_ADDRZ_RE</definition>
+        <argsstring></argsstring>
+        <name>_IPV6_ADDRZ_RE</name>
+        <qualifiedname>urllib3.util.url._IPV6_ADDRZ_RE</qualifiedname>
+        <initializer>=  re.compile(&quot;^&quot; + <ref refid="namespaceurllib3_1_1util_1_1url_1ac51397df9fc079921d04d2b5da85ab25" kindref="member">_IPV6_ADDRZ_PAT</ref> + &quot;$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="60" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1adfef5d1a74503812df5e2a3877d868da" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._BRACELESS_IPV6_ADDRZ_RE</definition>
+        <argsstring></argsstring>
+        <name>_BRACELESS_IPV6_ADDRZ_RE</name>
+        <qualifiedname>urllib3.util.url._BRACELESS_IPV6_ADDRZ_RE</qualifiedname>
+        <initializer>=  re.compile(&quot;^&quot; + <ref refid="namespaceurllib3_1_1util_1_1url_1ac51397df9fc079921d04d2b5da85ab25" kindref="member">_IPV6_ADDRZ_PAT</ref>[2:-2] + &quot;$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="61" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a9a5157af6adf1cc07c4b22d79b39aa4f" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._ZONE_ID_RE</definition>
+        <argsstring></argsstring>
+        <name>_ZONE_ID_RE</name>
+        <qualifiedname>urllib3.util.url._ZONE_ID_RE</qualifiedname>
+        <initializer>=  re.compile(&quot;(&quot; + <ref refid="namespaceurllib3_1_1util_1_1url_1a1900e2bbf1736063d195f5de25d7a6be" kindref="member">_ZONE_ID_PAT</ref> + r&quot;)\]$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a9c074644f22e561a615a2c8da321e20f" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple urllib3::util::url._HOST_PORT_PAT</definition>
+        <argsstring></argsstring>
+        <name>_HOST_PORT_PAT</name>
+        <qualifiedname>urllib3.util.url._HOST_PORT_PAT</qualifiedname>
+        <initializer>=  (&quot;^(%s|%s|%s)(?::0*?(|0|[1-9][0-9]{0,4}))?$&quot;) % (
+    _REG_NAME_PAT,
+    <ref refid="namespaceurllib3_1_1util_1_1url_1a1daf958dffe433a6577886d80ecad097" kindref="member">_IPV4_PAT</ref>,
+    <ref refid="namespaceurllib3_1_1util_1_1url_1ac51397df9fc079921d04d2b5da85ab25" kindref="member">_IPV6_ADDRZ_PAT</ref>,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="64" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a07f5934eb1cfb16aee68e4549c9e92c0" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._HOST_PORT_RE</definition>
+        <argsstring></argsstring>
+        <name>_HOST_PORT_RE</name>
+        <qualifiedname>urllib3.util.url._HOST_PORT_RE</qualifiedname>
+        <initializer>=  re.compile(<ref refid="namespaceurllib3_1_1util_1_1url_1a9c074644f22e561a615a2c8da321e20f" kindref="member">_HOST_PORT_PAT</ref>, re.UNICODE | re.DOTALL)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1abd1fd9a897053b702722abf0b9c70f19" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._UNRESERVED_CHARS</definition>
+        <argsstring></argsstring>
+        <name>_UNRESERVED_CHARS</name>
+        <qualifiedname>urllib3.util.url._UNRESERVED_CHARS</qualifiedname>
+        <initializer>=  set(
+    &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-~&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="71" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1aadbb74e77aabd5513fec3ffd6f6bf09d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._SUB_DELIM_CHARS</definition>
+        <argsstring></argsstring>
+        <name>_SUB_DELIM_CHARS</name>
+        <qualifiedname>urllib3.util.url._SUB_DELIM_CHARS</qualifiedname>
+        <initializer>=  set(&quot;!$&amp;&apos;()*+,;=&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1ae30e111208d47f91e0efba84712e4588" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._USERINFO_CHARS</definition>
+        <argsstring></argsstring>
+        <name>_USERINFO_CHARS</name>
+        <qualifiedname>urllib3.util.url._USERINFO_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespaceurllib3_1_1util_1_1url_1abd1fd9a897053b702722abf0b9c70f19" kindref="member">_UNRESERVED_CHARS</ref> | <ref refid="namespaceurllib3_1_1util_1_1url_1aadbb74e77aabd5513fec3ffd6f6bf09d" kindref="member">_SUB_DELIM_CHARS</ref> | {&quot;:&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a1c20063bca2e864a4b890e52075266a4" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._PATH_CHARS</definition>
+        <argsstring></argsstring>
+        <name>_PATH_CHARS</name>
+        <qualifiedname>urllib3.util.url._PATH_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespaceurllib3_1_1util_1_1url_1ae30e111208d47f91e0efba84712e4588" kindref="member">_USERINFO_CHARS</ref> | {&quot;@&quot;, &quot;/&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1url_1a734826e9a78a6fb193715e1aa83eff05" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::url._QUERY_CHARS</definition>
+        <argsstring></argsstring>
+        <name>_QUERY_CHARS</name>
+        <qualifiedname>urllib3.util.url._QUERY_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespaceurllib3_1_1util_1_1url_1a1c20063bca2e864a4b890e52075266a4" kindref="member">_PATH_CHARS</ref> | {&quot;?&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1af75d6b25a9e10095f7f7eef368dd774f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.util.url._encode_invalid_chars</definition>
+        <argsstring>(str component, typing.Container[str] allowed_chars)</argsstring>
+        <name>_encode_invalid_chars</name>
+        <qualifiedname>urllib3.util.url._encode_invalid_chars</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>typing.Container</type>
+          <declname>allowed_chars</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="214" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="216" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1aeb14ed05ea6ef01fe7a014187bac940c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.url._encode_invalid_chars</definition>
+        <argsstring>(None component, typing.Container[str] allowed_chars)</argsstring>
+        <name>_encode_invalid_chars</name>
+        <qualifiedname>urllib3.util.url._encode_invalid_chars</qualifiedname>
+        <param>
+          <type>None</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>typing.Container</type>
+          <declname>allowed_chars</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="221" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="223" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1ace4a68e3ab10ac53f9b58e277b52f60d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None urllib3.util.url._encode_invalid_chars</definition>
+        <argsstring>(str|None component, typing.Container[str] allowed_chars)</argsstring>
+        <name>_encode_invalid_chars</name>
+        <qualifiedname>urllib3.util.url._encode_invalid_chars</qualifiedname>
+        <param>
+          <type>str|None</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>typing.Container</type>
+          <declname>allowed_chars</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Percent-encodes a URI component without reapplying
+onto an already percent-encoded component.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="227" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="229" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1a22f597beb43dee889e3afd7d916ee092" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.util.url._remove_path_dot_segments</definition>
+        <argsstring>(str path)</argsstring>
+        <name>_remove_path_dot_segments</name>
+        <qualifiedname>urllib3.util.url._remove_path_dot_segments</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="263" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="263" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1aea993a6ce411280fff0af0ea9dc8bc9f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.url._normalize_host</definition>
+        <argsstring>(None host, str|None scheme)</argsstring>
+        <name>_normalize_host</name>
+        <qualifiedname>urllib3.util.url._normalize_host</qualifiedname>
+        <param>
+          <type>None</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>scheme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="294" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="294" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1abdc5dd868f2e6fc4e8d5ca582a8700d0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.util.url._normalize_host</definition>
+        <argsstring>(str host, str|None scheme)</argsstring>
+        <name>_normalize_host</name>
+        <qualifiedname>urllib3.util.url._normalize_host</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>scheme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="298" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="298" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1add5ba05702505c61c4017f728dc108b1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None urllib3.util.url._normalize_host</definition>
+        <argsstring>(str|None host, str|None scheme)</argsstring>
+        <name>_normalize_host</name>
+        <qualifiedname>urllib3.util.url._normalize_host</qualifiedname>
+        <param>
+          <type>str|None</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>scheme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="301" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="301" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1ad9dc6b810f35f90bf868a1d2427ea77d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.util.url._idna_encode</definition>
+        <argsstring>(str name)</argsstring>
+        <name>_idna_encode</name>
+        <qualifiedname>urllib3.util.url._idna_encode</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="330" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="330" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1a3c0380d4751efc8e91847b935e43a01e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.util.url._encode_target</definition>
+        <argsstring>(str target)</argsstring>
+        <name>_encode_target</name>
+        <qualifiedname>urllib3.util.url._encode_target</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Percent-encodes a request target so that there are no invalid characters
+
+Pre-condition for this function is that &apos;target&apos; must start with &apos;/&apos;.
+If that is the case then _TARGET_RE will always produce a match.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="349" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="349" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1url_1a87dbb50f98daaa85ffa2f7aeddaa5285" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1util_1_1url_1_1Url" kindref="compound">Url</ref></type>
+        <definition> Url urllib3.util.url.parse_url</definition>
+        <argsstring>(str url)</argsstring>
+        <name>parse_url</name>
+        <qualifiedname>urllib3.util.url.parse_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a url, return a parsed :class:`.Url` namedtuple. Best-effort is
+performed to parse incomplete urls. Fields not provided will be None.
+This parser is RFC 3986 and RFC 6874 compliant.
+
+The parser logic and helper functions are based heavily on
+work done in the ``rfc3986`` module.
+
+:param str url: URL to parse into a :class:`.Url` namedtuple.
+
+Partly backwards-compatible with :mod:`urllib.parse`.
+
+Example:
+
+.. code-block:: python
+
+    import urllib3
+
+    print( urllib3.util.parse_url(&apos;http://google.com/mail/&apos;))
+    # Url(scheme=&apos;http&apos;, host=&apos;google.com&apos;, port=None, path=&apos;/mail/&apos;, ...)
+
+    print( urllib3.util.parse_url(&apos;google.com:80&apos;))
+    # Url(scheme=None, host=&apos;google.com&apos;, port=80, path=None, ...)
+
+    print( urllib3.util.parse_url(&apos;/foo?bar&apos;))
+    # Url(scheme=None, host=None, port=None, path=&apos;/foo&apos;, query=&apos;bar&apos;, ...)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="367" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" bodystart="367" bodyend="470"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/url.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

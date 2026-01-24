@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::writers::texinfo::TexinfoWriter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">writers.Writer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a8b3550684751e00d79f515c2be263f36" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.writers.texinfo.TexinfoWriter::supported</definition>
+        <argsstring></argsstring>
+        <name>supported</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.supported</qualifiedname>
+        <initializer>=  (&apos;texinfo&apos;, &apos;texi&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="111" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a9a3c66fa3607e5669dc6243eaf8e3710" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.writers.texinfo.TexinfoWriter::settings_spec</definition>
+        <argsstring></argsstring>
+        <name>settings_spec</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.settings_spec</qualifiedname>
+        <initializer>=  (
+        &apos;Texinfo Specific Options&apos;,
+        None,
+        (
+            (&apos;Name of the Info file&apos;, [&apos;--texinfo-filename&apos;], {&apos;default&apos;: &apos;&apos;}),
+            (&apos;Dir entry&apos;, [&apos;--texinfo-dir-entry&apos;], {&apos;default&apos;: &apos;&apos;}),
+            (&apos;Description&apos;, [&apos;--texinfo-dir-description&apos;], {&apos;default&apos;: &apos;&apos;}),
+            (&apos;Category&apos;, [&apos;--texinfo-dir-category&apos;], {&apos;default&apos;: &apos;Miscellaneous&apos;}),
+        ),
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="113" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a362b56d8548ae8f075ed2c72b29710d0" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.writers.texinfo.TexinfoWriter::settings_defaults</definition>
+        <argsstring></argsstring>
+        <name>settings_defaults</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.settings_defaults</qualifiedname>
+        <initializer>=  {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="124" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a54e2bc0f138dd250faed87bb514a08b1" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.writers.texinfo.TexinfoWriter::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="126" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a893aa52374dcbff9e3246fa049eb50d6" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.writers.texinfo.TexinfoWriter::visitor_attributes</definition>
+        <argsstring></argsstring>
+        <name>visitor_attributes</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.visitor_attributes</qualifiedname>
+        <initializer>=  (&apos;<ref refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a54e2bc0f138dd250faed87bb514a08b1" kindref="member">output</ref>&apos;, &apos;fragment&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="128" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a94b69f484581bc8cc25f4e6d7adbcb2b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.texinfo.TexinfoWriter::builder</definition>
+        <argsstring></argsstring>
+        <name>builder</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.builder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="132" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a2b4718c584fc5be6257b4cff2b2fe022" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.texinfo.TexinfoWriter::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="135" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1ad7b2e3af44c12043f38daec6f45d9bec" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.texinfo.TexinfoWriter::visitor</definition>
+        <argsstring></argsstring>
+        <name>visitor</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.visitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a54d4bdc885061b7d0951861481ee112e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.texinfo.TexinfoWriter.__init__</definition>
+        <argsstring>(self, TexinfoBuilder builder)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder" kindref="compound">TexinfoBuilder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="130" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="130" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a2081d5d116b3d21260db3f4a45728ee4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.texinfo.TexinfoWriter.translate</definition>
+        <argsstring>(self)</argsstring>
+        <name>translate</name>
+        <qualifiedname>sphinx.writers.texinfo.TexinfoWriter.translate</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="134" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="134" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Texinfo writer for generating Texinfo documents.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.writers.texinfo.TexinfoWriter</label>
+        <link refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>writers.Writer</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.writers.texinfo.TexinfoWriter</label>
+        <link refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>settings_spec</edgelabel>
+          <edgelabel>supported</edgelabel>
+          <edgelabel>visitor_attributes</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>output</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tuple</label>
+      </node>
+      <node id="2">
+        <label>writers.Writer</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="108" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="108" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a54d4bdc885061b7d0951861481ee112e" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a94b69f484581bc8cc25f4e6d7adbcb2b" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>builder</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a2b4718c584fc5be6257b4cff2b2fe022" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>document</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a54e2bc0f138dd250faed87bb514a08b1" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>output</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a362b56d8548ae8f075ed2c72b29710d0" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>settings_defaults</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a9a3c66fa3607e5669dc6243eaf8e3710" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>settings_spec</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a8b3550684751e00d79f515c2be263f36" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>supported</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a2081d5d116b3d21260db3f4a45728ee4" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>translate</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1ad7b2e3af44c12043f38daec6f45d9bec" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>visitor</name></member>
+      <member refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter_1a893aa52374dcbff9e3246fa049eb50d6" prot="public" virt="non-virtual"><scope>sphinx::writers::texinfo::TexinfoWriter</scope><name>visitor_attributes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

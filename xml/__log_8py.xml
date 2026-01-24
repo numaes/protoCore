@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__log_8py" kind="file" language="Python">
+    <compoundname>_log.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1__log_1_1VerboseLogger" prot="public">pip::_internal::utils::_log::VerboseLogger</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1__log">pip::_internal::utils::_log</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1__log" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Customize<sp/>logging</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">Defines<sp/>custom<sp/>logger<sp/>class<sp/>for<sp/>the<sp/>`logger.verbose(...)`<sp/>method.</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">init_logging()<sp/>must<sp/>be<sp/>called<sp/>before<sp/>any<sp/>other<sp/>modules<sp/>that<sp/>call<sp/>logging.getLogger.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Any,<sp/>cast</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/>custom<sp/>log<sp/>level<sp/>for<sp/>`--verbose`<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/>between<sp/>DEBUG<sp/>and<sp/>INFO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">VERBOSE<sp/>=<sp/>15</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="classpip_1_1__internal_1_1utils_1_1__log_1_1VerboseLogger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1__log_1_1VerboseLogger" kindref="compound">VerboseLogger</ref>(logging.Logger):</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Custom<sp/>Logger,<sp/>defining<sp/>a<sp/>verbose<sp/>log-level</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>VERBOSE<sp/>is<sp/>between<sp/>INFO<sp/>and<sp/>DEBUG.</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1__log_1_1VerboseLogger_1a90fd10af98376ab040013ddb2e7bb102" kindref="member">verbose</ref>(self,<sp/>msg:<sp/>str,<sp/>*args:<sp/>Any,<sp/>**kwargs:<sp/>Any)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.log(VERBOSE,<sp/>msg,<sp/>*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">getLogger(name:<sp/>str)<sp/>-&gt;<sp/>VerboseLogger:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;logging.getLogger,<sp/>but<sp/>ensures<sp/>our<sp/>VerboseLogger<sp/>class<sp/>is<sp/>returned&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cast(VerboseLogger,<sp/>logging.getLogger(name))</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1__log_1aba515bae5a21e3aa969757aec1da01ab" kindref="member">init_logging</ref>()<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Register<sp/>our<sp/>VerboseLogger<sp/>and<sp/>VERBOSE<sp/>log<sp/>level.</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Should<sp/>be<sp/>called<sp/>before<sp/>any<sp/>calls<sp/>to<sp/>getLogger(),</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>i.e.<sp/>in<sp/>pip._internal.__init__</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>logging.setLoggerClass(VerboseLogger)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>logging.addLevelName(VERBOSE,<sp/></highlight><highlight class="stringliteral">&quot;VERBOSE&quot;</highlight><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/_log.py"/>
+  </compounddef>
+</doxygen>

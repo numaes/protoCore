@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::typoscript::TypoScriptHtmlDataLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1a2ad52ea5499f581874af431fb5496e12" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.typoscript.TypoScriptHtmlDataLexer::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pygments.lexers.typoscript.TypoScriptHtmlDataLexer.name</qualifiedname>
+        <initializer>=  &apos;TypoScriptHtmlData&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1ae084aec4dfd2dc68bf1d422c1e3d2f5c" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.typoscript.TypoScriptHtmlDataLexer::aliases</definition>
+        <argsstring></argsstring>
+        <name>aliases</name>
+        <qualifiedname>pygments.lexers.typoscript.TypoScriptHtmlDataLexer.aliases</qualifiedname>
+        <initializer>=  [&apos;typoscripthtmldata&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1a2f9502612bfb8952d91087098d5bd543" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.typoscript.TypoScriptHtmlDataLexer::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>pygments.lexers.typoscript.TypoScriptHtmlDataLexer.url</qualifiedname>
+        <initializer>=  &apos;http://docs.typo3.org/typo3cms/TyposcriptReference/&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" line="71" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1a7c40528295b5eecea7dd5bee857b1584" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.typoscript.TypoScriptHtmlDataLexer::version_added</definition>
+        <argsstring></argsstring>
+        <name>version_added</name>
+        <qualifiedname>pygments.lexers.typoscript.TypoScriptHtmlDataLexer.version_added</qualifiedname>
+        <initializer>=  &apos;2.2&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1a08a99d66c7d5bc66997a284d4bcdb2ab" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.typoscript.TypoScriptHtmlDataLexer::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.typoscript.TypoScriptHtmlDataLexer.tokens</qualifiedname>
+        <initializer>=  {
+        &apos;root&apos;: [
+            # INCLUDE_TYPOSCRIPT
+            (r&apos;(INCLUDE_TYPOSCRIPT)&apos;, Name.Class),
+            # Language label or extension resource FILE:... or LLL:... or EXT:...
+            (r&apos;(EXT|FILE|LLL):[^}\n&quot;]*&apos;, String),
+            # marker: ###MARK###
+            (r&apos;(.*)(###\w+###)(.*)&apos;, bygroups(String, Name.Constant, String)),
+            # constant: {$some.constant}
+            (r&apos;(\{)(\$)((?:[\w\-]+\.)*)([\w\-]+)(\})&apos;,
+             bygroups(String.Symbol, Operator, Name.Constant,
+                      Name.Constant, String.Symbol)),  # constant
+            # constant: {register:somevalue}
+            (r&apos;(.*)(\{)([\w\-]+)(\s*:\s*)([\w\-]+)(\})(.*)&apos;,
+             bygroups(String, String.Symbol, Name.Constant, Operator,
+                      Name.Constant, String.Symbol, String)),  # constant
+            # whitespace
+            (r&apos;\s+&apos;, Text),
+            # other
+            (r&apos;[&lt;&gt;,:=.*%+|]&apos;, String),
+            (r&apos;[\w&quot;\-!/&amp;;(){}#]+&apos;, String),
+        ]
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Lexer that highlights markers, constants and registers within html tags.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.typoscript.TypoScriptHtmlDataLexer</label>
+        <link refid="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="9">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.typoscript.TypoScriptHtmlDataLexer</label>
+        <link refid="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>name</edgelabel>
+          <edgelabel>url</edgelabel>
+          <edgelabel>version_added</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>aliases</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>alias_filenames</edgelabel>
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>filenames</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" line="64" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/typoscript.py" bodystart="64" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1ae084aec4dfd2dc68bf1d422c1e3d2f5c" prot="public" virt="non-virtual"><scope>pygments::lexers::typoscript::TypoScriptHtmlDataLexer</scope><name>aliases</name></member>
+      <member refid="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1a2ad52ea5499f581874af431fb5496e12" prot="public" virt="non-virtual"><scope>pygments::lexers::typoscript::TypoScriptHtmlDataLexer</scope><name>name</name></member>
+      <member refid="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1a08a99d66c7d5bc66997a284d4bcdb2ab" prot="public" virt="non-virtual"><scope>pygments::lexers::typoscript::TypoScriptHtmlDataLexer</scope><name>tokens</name></member>
+      <member refid="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1a2f9502612bfb8952d91087098d5bd543" prot="public" virt="non-virtual"><scope>pygments::lexers::typoscript::TypoScriptHtmlDataLexer</scope><name>url</name></member>
+      <member refid="classpygments_1_1lexers_1_1typoscript_1_1TypoScriptHtmlDataLexer_1a7c40528295b5eecea7dd5bee857b1584" prot="public" virt="non-virtual"><scope>pygments::lexers::typoscript::TypoScriptHtmlDataLexer</scope><name>version_added</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

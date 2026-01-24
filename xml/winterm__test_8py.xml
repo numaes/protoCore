@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="winterm__test_8py" kind="file" language="Python">
+    <compoundname>winterm_test.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest" prot="public">pip::_vendor::colorama::tests::winterm_test::WinTermTest</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama">pip::_vendor::colorama</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama_1_1tests">pip::_vendor::colorama::tests</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test">pip::_vendor::colorama::tests::winterm_test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test" refkind="compound"><highlight class="comment">#<sp/>Copyright<sp/>Jonathan<sp/>Hartley<sp/>2013.<sp/>BSD<sp/>3-Clause<sp/>license,<sp/>see<sp/>LICENSE<sp/>file.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>unittest<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TestCase,<sp/>main,<sp/>skipUnless</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>unittest.mock<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Mock,<sp/>patch</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>mock<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Mock,<sp/>patch</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..winterm<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>WinColor,<sp/>WinStyle,<sp/>WinTerm</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest" kindref="compound">WinTermTest</ref>(TestCase):</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@patch(&apos;colorama.winterm.win32&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest_1a12be77a431be77262935ef1c0dcad8fe" kindref="member">testInit</ref>(self,<sp/>mockWin32):</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockAttr<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockAttr.wAttributes<sp/>=<sp/>7<sp/>+<sp/>6<sp/>*<sp/>16<sp/>+<sp/>8</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockWin32.GetConsoleScreenBufferInfo.return_value<sp/>=<sp/>mockAttr</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1winterm_1_1WinTerm" kindref="compound">WinTerm</ref>()</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._fore,<sp/>7)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._back,<sp/>6)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._style,<sp/>8)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@skipUnless(sys.platform.startswith(&quot;win&quot;)</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;requires<sp/>Windows&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest_1a7cb7d6aae2155a04ddfce199ae05a53c" kindref="member">testGetAttrs</ref>(self):</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1winterm_1_1WinTerm" kindref="compound">WinTerm</ref>()</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._fore<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._back<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._style<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term.get_attrs(),<sp/>0)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._fore<sp/>=<sp/>WinColor.YELLOW</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term.get_attrs(),<sp/>WinColor.YELLOW)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._back<sp/>=<sp/>WinColor.MAGENTA</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.get_attrs(),</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WinColor.YELLOW<sp/>+<sp/>WinColor.MAGENTA<sp/>*<sp/>16)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._style<sp/>=<sp/>WinStyle.BRIGHT</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.get_attrs(),</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WinColor.YELLOW<sp/>+<sp/>WinColor.MAGENTA<sp/>*<sp/>16<sp/>+<sp/>WinStyle.BRIGHT)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@patch(&apos;colorama.winterm.win32&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest_1abe8ad4929ccbd8df64e24d1e506f19ca" kindref="member">testResetAll</ref>(self,<sp/>mockWin32):</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockAttr<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockAttr.wAttributes<sp/>=<sp/>1<sp/>+<sp/>2<sp/>*<sp/>16<sp/>+<sp/>8</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockWin32.GetConsoleScreenBufferInfo.return_value<sp/>=<sp/>mockAttr</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1winterm_1_1WinTerm" kindref="compound">WinTerm</ref>()</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.set_console<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._fore<sp/>=<sp/>-1</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._back<sp/>=<sp/>-1</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._style<sp/>=<sp/>-1</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.reset_all()</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._fore,<sp/>1)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._back,<sp/>2)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._style,<sp/>8)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term.set_console.called,<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@skipUnless(sys.platform.startswith(&quot;win&quot;)</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;requires<sp/>Windows&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest_1a8f0b0f87dc2a46c8251093b1a65a8b0e" kindref="member">testFore</ref>(self):</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1winterm_1_1WinTerm" kindref="compound">WinTerm</ref>()</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.set_console<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._fore<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.fore(5)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._fore,<sp/>5)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term.set_console.called,<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@skipUnless(sys.platform.startswith(&quot;win&quot;)</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;requires<sp/>Windows&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest_1a54de0b575b474e5b08d2d29968604f0f" kindref="member">testBack</ref>(self):</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1winterm_1_1WinTerm" kindref="compound">WinTerm</ref>()</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.set_console<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._back<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.back(5)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._back,<sp/>5)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term.set_console.called,<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@skipUnless(sys.platform.startswith(&quot;win&quot;)</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;requires<sp/>Windows&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest_1ae083f3e7148448a78cdb51c74b2c3032" kindref="member">testStyle</ref>(self):</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1winterm_1_1WinTerm" kindref="compound">WinTerm</ref>()</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.set_console<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term._style<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.style(22)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term._style,<sp/>22)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(term.set_console.called,<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@patch(&apos;colorama.winterm.win32&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest_1a7aa7363453df96ec45b89c02025bb855" kindref="member">testSetConsole</ref>(self,<sp/>mockWin32):</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockAttr<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockAttr.wAttributes<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockWin32.GetConsoleScreenBufferInfo.return_value<sp/>=<sp/>mockAttr</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1winterm_1_1WinTerm" kindref="compound">WinTerm</ref>()</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.windll<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.set_console()</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockWin32.SetConsoleTextAttribute.call_args,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((mockWin32.STDOUT,<sp/>term.get_attrs()),<sp/>{})</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@patch(&apos;colorama.winterm.win32&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1winterm__test_1_1WinTermTest_1a00a029696ec1d4bb1b3316383cc05867" kindref="member">testSetConsoleOnStderr</ref>(self,<sp/>mockWin32):</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockAttr<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockAttr.wAttributes<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockWin32.GetConsoleScreenBufferInfo.return_value<sp/>=<sp/>mockAttr</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1winterm_1_1WinTerm" kindref="compound">WinTerm</ref>()</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.windll<sp/>=<sp/>Mock()</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term.set_console(on_stderr=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mockWin32.SetConsoleTextAttribute.call_args,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((mockWin32.STDERR,<sp/>term.get_attrs()),<sp/>{})</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>main()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/colorama/tests/winterm_test.py"/>
+  </compounddef>
+</doxygen>

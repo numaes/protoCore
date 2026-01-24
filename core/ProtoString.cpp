@@ -181,6 +181,10 @@ namespace proto {
         return toImpl<const ProtoStringImplementation>(this)->implCompare(context, otherString);
     }
 
+    const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoStringImplementation>(this)->implAsObject(context);
+    }
+
     //=========================================================================
     // String Interning Implementation
     //=========================================================================

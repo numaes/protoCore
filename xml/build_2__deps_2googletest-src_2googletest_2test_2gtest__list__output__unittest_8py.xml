@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2googletest_2test_2gtest__list__output__unittest_8py" kind="file" language="Python">
+    <compoundname>gtest_list_output_unittest.py</compoundname>
+    <innerclass refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest" prot="public">gtest_list_output_unittest::GTestListTestsOutputUnitTest</innerclass>
+    <innernamespace refid="namespacegtest__list__output__unittest">gtest_list_output_unittest</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacegtest__list__output__unittest" refkind="compound"><highlight class="comment">#!/usr/bin/env<sp/>python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright<sp/>2006,<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">#<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">#<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">#<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">#<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">#<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">#<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">#<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">#<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unit<sp/>test<sp/>for<sp/>Google<sp/>Test&apos;s<sp/>--gtest_list_tests<sp/>flag.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral">A<sp/>user<sp/>can<sp/>ask<sp/>Google<sp/>Test<sp/>to<sp/>list<sp/>all<sp/>tests<sp/>by<sp/>specifying<sp/>the</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">--gtest_list_tests<sp/>flag.<sp/>If<sp/>output<sp/>is<sp/>requested,<sp/>via<sp/>--gtest_output=xml</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">or<sp/>--gtest_output=json,<sp/>the<sp/>tests<sp/>are<sp/>listed,<sp/>with<sp/>extra<sp/>information<sp/>in<sp/>the</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral">output<sp/>file.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral">This<sp/>script<sp/>tests<sp/>such<sp/>functionality<sp/>by<sp/>invoking<sp/>gtest_list_output_unittest_</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/>(a<sp/>program<sp/>written<sp/>with<sp/>Google<sp/>Test)<sp/>the<sp/>command<sp/>line<sp/>flags.</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>googletest.test<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>gtest_test_utils</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">GTEST_LIST_TESTS_FLAG<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;--gtest_list_tests&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">GTEST_OUTPUT_FLAG<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;--gtest_output&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">EXPECTED_XML<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;&lt;\?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;\?&gt;</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral">&lt;testsuites<sp/>tests=&quot;16&quot;<sp/>name=&quot;AllTests&quot;&gt;</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;FooTest&quot;<sp/>tests=&quot;2&quot;&gt;</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test1&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;43&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test2&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;45&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;FooTestFixture&quot;<sp/>tests=&quot;2&quot;&gt;</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test3&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;48&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test4&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;49&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;TypedTest/0&quot;<sp/>tests=&quot;2&quot;&gt;</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test7&quot;<sp/>type_param=&quot;int&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;60&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test8&quot;<sp/>type_param=&quot;int&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;61&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;TypedTest/1&quot;<sp/>tests=&quot;2&quot;&gt;</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test7&quot;<sp/>type_param=&quot;bool&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;60&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test8&quot;<sp/>type_param=&quot;bool&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;61&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;Single/TypeParameterizedTestSuite/0&quot;<sp/>tests=&quot;2&quot;&gt;</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test9&quot;<sp/>type_param=&quot;int&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;66&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test10&quot;<sp/>type_param=&quot;int&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;67&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;Single/TypeParameterizedTestSuite/1&quot;<sp/>tests=&quot;2&quot;&gt;</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test9&quot;<sp/>type_param=&quot;bool&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;66&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test10&quot;<sp/>type_param=&quot;bool&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;67&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;ValueParam/ValueParamTest&quot;<sp/>tests=&quot;4&quot;&gt;</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test5/0&quot;<sp/>value_param=&quot;33&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;52&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test5/1&quot;<sp/>value_param=&quot;42&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;52&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test6/0&quot;<sp/>value_param=&quot;33&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;53&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Test6/1&quot;<sp/>value_param=&quot;42&quot;<sp/>file=&quot;.*gtest_list_output_unittest_.cc&quot;<sp/>line=&quot;53&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral">&lt;/testsuites&gt;</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">EXPECTED_JSON<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;{</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/>&quot;tests&quot;:<sp/>16,</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/>&quot;name&quot;:<sp/>&quot;AllTests&quot;,</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/>&quot;testsuites&quot;:<sp/>\[</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;FooTest&quot;,</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;tests&quot;:<sp/>2,</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;testsuite&quot;:<sp/>\[</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test1&quot;,</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>43</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test2&quot;,</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>45</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>\]</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;FooTestFixture&quot;,</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;tests&quot;:<sp/>2,</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;testsuite&quot;:<sp/>\[</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test3&quot;,</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>48</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test4&quot;,</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>49</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>\]</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;TypedTest\\\\/0&quot;,</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;tests&quot;:<sp/>2,</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;testsuite&quot;:<sp/>\[</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test7&quot;,</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;:<sp/>&quot;int&quot;,</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>60</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test8&quot;,</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;:<sp/>&quot;int&quot;,</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>61</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>\]</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;TypedTest\\\\/1&quot;,</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;tests&quot;:<sp/>2,</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;testsuite&quot;:<sp/>\[</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test7&quot;,</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;:<sp/>&quot;bool&quot;,</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>60</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test8&quot;,</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;:<sp/>&quot;bool&quot;,</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>61</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>\]</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Single\\\\/TypeParameterizedTestSuite\\\\/0&quot;,</highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;tests&quot;:<sp/>2,</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;testsuite&quot;:<sp/>\[</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test9&quot;,</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;:<sp/>&quot;int&quot;,</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>66</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test10&quot;,</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;:<sp/>&quot;int&quot;,</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>67</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>\]</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Single\\\\/TypeParameterizedTestSuite\\\\/1&quot;,</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;tests&quot;:<sp/>2,</highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;testsuite&quot;:<sp/>\[</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test9&quot;,</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;:<sp/>&quot;bool&quot;,</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>66</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test10&quot;,</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type_param&quot;:<sp/>&quot;bool&quot;,</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>67</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>\]</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;ValueParam\\\\/ValueParamTest&quot;,</highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;tests&quot;:<sp/>4,</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;testsuite&quot;:<sp/>\[</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test5\\\\/0&quot;,</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;value_param&quot;:<sp/>&quot;33&quot;,</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>52</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test5\\\\/1&quot;,</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;value_param&quot;:<sp/>&quot;42&quot;,</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>52</highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test6\\\\/0&quot;,</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;value_param&quot;:<sp/>&quot;33&quot;,</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>53</highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Test6\\\\/1&quot;,</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;value_param&quot;:<sp/>&quot;42&quot;,</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;file&quot;:<sp/>&quot;.*gtest_list_output_unittest_.cc&quot;,</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;line&quot;:<sp/>53</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>\]</highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/>\]</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest" kindref="compound">GTestListTestsOutputUnitTest</ref>(<ref refid="namespacegtest__test__utils_1acb97a85206c09d233db6c7f2362e5428" kindref="member">gtest_test_utils.TestCase</ref>):</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unit<sp/>test<sp/>for<sp/>Google<sp/>Test&apos;s<sp/>list<sp/>tests<sp/>with<sp/>output<sp/>to<sp/>file<sp/>functionality.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1a700f3ca44df82d04fa1da22bfefd50d0" kindref="member">testXml</ref>(self):</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Verifies<sp/>XML<sp/>output<sp/>for<sp/>listing<sp/>tests<sp/>in<sp/>a<sp/>Google<sp/>Test<sp/>binary.</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Runs<sp/>a<sp/>test<sp/>program<sp/>that<sp/>generates<sp/>an<sp/>empty<sp/>XML<sp/>output,<sp/>and</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>tests<sp/>that<sp/>the<sp/>XML<sp/>output<sp/>is<sp/>expected.</highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>self.<ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1a68b13b2e4e851ddd05046a145c91faab" kindref="member">_TestOutput</ref><ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1a68b13b2e4e851ddd05046a145c91faab" kindref="member">_TestOutput</ref>(</highlight><highlight class="stringliteral">&apos;xml&apos;</highlight><highlight class="normal">,<sp/>EXPECTED_XML)</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1a660ae7f19a9acf3f39bd2b6b9249496a" kindref="member">testJSON</ref>(self):</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Verifies<sp/>XML<sp/>output<sp/>for<sp/>listing<sp/>tests<sp/>in<sp/>a<sp/>Google<sp/>Test<sp/>binary.</highlight></codeline>
+<codeline lineno="239"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="240"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Runs<sp/>a<sp/>test<sp/>program<sp/>that<sp/>generates<sp/>an<sp/>empty<sp/>XML<sp/>output,<sp/>and</highlight></codeline>
+<codeline lineno="241"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>tests<sp/>that<sp/>the<sp/>XML<sp/>output<sp/>is<sp/>expected.</highlight></codeline>
+<codeline lineno="242"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>self.<ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1a68b13b2e4e851ddd05046a145c91faab" kindref="member">_TestOutput</ref><ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1a68b13b2e4e851ddd05046a145c91faab" kindref="member">_TestOutput</ref>(</highlight><highlight class="stringliteral">&apos;json&apos;</highlight><highlight class="normal">,<sp/>EXPECTED_JSON)</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1ab52c68b5e67444c8199edf04f1c28306" kindref="member">_GetOutput</ref>(self,<sp/>out_format):</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>file_path<sp/>=<sp/>os.path.join(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacegtest__test__utils_1a16869f96be9e04ac751ff558164a70ab" kindref="member">gtest_test_utils.GetTempDir</ref>(),<sp/></highlight><highlight class="stringliteral">&apos;test_out.&apos;</highlight><highlight class="normal"><sp/>+<sp/>out_format</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>gtest_prog_path<sp/>=<sp/><ref refid="namespacegtest__test__utils_1ae7a8ef352b6b64ef8ec893f79874a1cd" kindref="member">gtest_test_utils.GetTestExecutablePath</ref>(</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;gtest_list_output_unittest_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>command<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gtest_prog_path,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s=%s:%s&apos;</highlight><highlight class="normal"><sp/>%<sp/>(GTEST_OUTPUT_FLAG,<sp/>out_format,<sp/>file_path),</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;--gtest_list_tests&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>environ_copy<sp/>=<sp/>os.environ.copy()</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>p<sp/>=<sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>command,<sp/>env=environ_copy,<sp/>working_dir=<ref refid="namespacegtest__test__utils_1a16869f96be9e04ac751ff558164a70ab" kindref="member">gtest_test_utils.GetTempDir</ref>()</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(p.exited)</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(0,<sp/>p.exit_code)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(os.path.isfile(file_path))</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>open(file_path)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>f:</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>f.read()</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1a68b13b2e4e851ddd05046a145c91faab" kindref="member">_TestOutput</ref>(self,<sp/>test_format,<sp/>expected_output):</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>actual<sp/>=<sp/>self.<ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1ab52c68b5e67444c8199edf04f1c28306" kindref="member">_GetOutput</ref><ref refid="classgtest__list__output__unittest_1_1GTestListTestsOutputUnitTest_1ab52c68b5e67444c8199edf04f1c28306" kindref="member">_GetOutput</ref>(test_format)</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>actual_lines<sp/>=<sp/>actual.splitlines()</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>expected_lines<sp/>=<sp/>expected_output.splitlines()</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>line_count<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>actual_line<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>actual_lines:</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>expected_line<sp/>=<sp/>expected_lines[line_count]</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>expected_line_re<sp/>=<sp/>re.compile(expected_line.strip())</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_line_re.match(actual_line.strip()),</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;actual<sp/>output<sp/>of<sp/>&quot;%s&quot;,\n&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;which<sp/>does<sp/>not<sp/>match<sp/>expected<sp/>regex<sp/>of<sp/>&quot;%s&quot;\n&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;on<sp/>line<sp/>%d&apos;</highlight><highlight class="normal"><sp/>%<sp/>(actual,<sp/>expected_output,<sp/>line_count),</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>line_count<sp/>=<sp/>line_count<sp/>+<sp/>1</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/>os.environ[</highlight><highlight class="stringliteral">&apos;GTEST_STACK_TRACE_DEPTH&apos;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;1&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><ref refid="namespacegtest__test__utils_1a70db3f06a6df00628acf3436784db483" kindref="member">gtest_test_utils.Main</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/googletest/test/gtest_list_output_unittest.py"/>
+  </compounddef>
+</doxygen>

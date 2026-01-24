@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="lightbulb_8py" kind="file" language="Python">
+    <compoundname>lightbulb.py</compoundname>
+    <innerclass refid="classpygments_1_1styles_1_1lightbulb_1_1LightbulbStyle" prot="public">pygments::styles::lightbulb::LightbulbStyle</innerclass>
+    <innernamespace refid="namespacepygments">pygments</innernamespace>
+    <innernamespace refid="namespacepygments_1_1styles">pygments::styles</innernamespace>
+    <innernamespace refid="namespacepygments_1_1styles_1_1lightbulb">pygments::styles::lightbulb</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepygments_1_1styles_1_1lightbulb" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.styles.lightbulb</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>minimal<sp/>dark<sp/>theme<sp/>based<sp/>on<sp/>the<sp/>Lightbulb<sp/>theme<sp/>for<sp/>VSCode.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2025<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1style" kindref="compound">pygments.style</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Style</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1token" kindref="compound">pygments.token</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>(</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>Comment,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>Error,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>Generic,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>Keyword,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>Literal,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>Name,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>Number,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>Operator,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>Punctuation,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>String,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>Token,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;LightbulbStyle&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">COLORS<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bg&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#1d2331&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;blue_1&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#73D0FF&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;gray_1&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#7e8aa1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;gray_2&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#3c4354&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;gray_3&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#6e7681&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;red_1&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#f88f7f&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;red_2&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#3d1e20&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;orange_1&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#FFAD66&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;orange_2&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#F29E74&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;yellow_1&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#FFD173&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;white&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#d4d2c8&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;magenta_1&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#DFBFFF&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;green_1&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#D5FF80&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;green_2&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#19362c&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;cyan_1&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;#95E6CB&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classpygments_1_1styles_1_1lightbulb_1_1LightbulbStyle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1styles_1_1lightbulb_1_1LightbulbStyle" kindref="compound">LightbulbStyle</ref>(<ref refid="classpygments_1_1style_1_1Style" kindref="compound">Style</ref>):</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>minimal<sp/>dark<sp/>theme<sp/>based<sp/>on<sp/>the<sp/>Lightbulb<sp/>theme<sp/>for<sp/>VSCode.</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;lightbulb&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>background_color<sp/>=<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;bg&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>highlight_color<sp/>=<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;gray_3&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>line_number_color<sp/>=<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;gray_2&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>line_number_special_color<sp/>=<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;gray_2&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>styles<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Comment:<sp/>COLORS[</highlight><highlight class="stringliteral">&quot;gray_1&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Comment.Hashbang:<sp/></highlight><highlight class="stringliteral">&quot;italic<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;red_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Comment.Preproc:<sp/></highlight><highlight class="stringliteral">&quot;bold<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Comment.Special:<sp/></highlight><highlight class="stringliteral">&quot;italic<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;gray_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Error:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;red_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Generic.Deleted:<sp/>f</highlight><highlight class="stringliteral">&quot;bg:{COLORS[&apos;red_2&apos;]}<sp/>#f88f7f&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Generic.Emph:<sp/></highlight><highlight class="stringliteral">&quot;italic&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Generic.Error:<sp/></highlight><highlight class="stringliteral">&quot;#f88f7f&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Generic.Inserted:<sp/>f</highlight><highlight class="stringliteral">&quot;bg:{COLORS[&apos;green_2&apos;]}<sp/>#6ad4af&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Generic.Output:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;gray_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Generic.Strong:<sp/></highlight><highlight class="stringliteral">&quot;bold&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Generic.Traceback:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;red_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Keyword:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Keyword.Constant:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Keyword.Declaration:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Keyword.Namespace:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Keyword.Reserved:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Keyword.Type:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;blue_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Literal:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;green_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;white&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Attribute:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;yellow_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Builtin:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;yellow_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Builtin.Pseudo:<sp/></highlight><highlight class="stringliteral">&quot;#5CCFE6&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Class:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;blue_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Constant:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;yellow_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Decorator:<sp/></highlight><highlight class="stringliteral">&quot;bold<sp/>italic<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;gray_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Entity:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;cyan_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Exception:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;blue_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Function:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;yellow_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Function.Magic:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;yellow_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Other:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;white&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Property:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;yellow_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Tag:<sp/></highlight><highlight class="stringliteral">&quot;#5CCFE6&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Name.Variable:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;white&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;magenta_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Operator:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Operator.Word:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Punctuation:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;white&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;green_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String.Affix:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;orange_2&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String.Doc:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;gray_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String.Escape:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;cyan_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String.Interpol:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;cyan_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String.Other:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;cyan_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String.Regex:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;cyan_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String.Symbol:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;magenta_1&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Token:<sp/>COLORS[</highlight><highlight class="stringliteral">&apos;white&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/styles/lightbulb.py"/>
+  </compounddef>
+</doxygen>

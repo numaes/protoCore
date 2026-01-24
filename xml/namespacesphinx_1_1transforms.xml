@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1transforms" kind="namespace" language="Python">
+    <compoundname>sphinx::transforms</compoundname>
+    <innerclass refid="classsphinx_1_1transforms_1_1ApplySourceWorkaround" prot="public">sphinx::transforms::ApplySourceWorkaround</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1AutoIndexUpgrader" prot="public">sphinx::transforms::AutoIndexUpgrader</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1AutoNumbering" prot="public">sphinx::transforms::AutoNumbering</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1DefaultSubstitutions" prot="public">sphinx::transforms::DefaultSubstitutions</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1DoctestTransform" prot="public">sphinx::transforms::DoctestTransform</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1DoctreeReadEvent" prot="public">sphinx::transforms::DoctreeReadEvent</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1ExtraTranslatableNodes" prot="public">sphinx::transforms::ExtraTranslatableNodes</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1FilterSystemMessages" prot="public">sphinx::transforms::FilterSystemMessages</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1GlossarySorter" prot="public">sphinx::transforms::GlossarySorter</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1HandleCodeBlocks" prot="public">sphinx::transforms::HandleCodeBlocks</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1MoveModuleTargets" prot="public">sphinx::transforms::MoveModuleTargets</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1ReorderConsecutiveTargetAndIndexNodes" prot="public">sphinx::transforms::ReorderConsecutiveTargetAndIndexNodes</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1SortIds" prot="public">sphinx::transforms::SortIds</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1SphinxContentsFilter" prot="public">sphinx::transforms::SphinxContentsFilter</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1SphinxSmartQuotes" prot="public">sphinx::transforms::SphinxSmartQuotes</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1SphinxTransform" prot="public">sphinx::transforms::SphinxTransform</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1SphinxTransformer" prot="public">sphinx::transforms::SphinxTransformer</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1UnreferencedFootnotesDetector" prot="public">sphinx::transforms::UnreferencedFootnotesDetector</innerclass>
+    <innernamespace refid="namespacesphinx_1_1transforms_1_1compact__bullet__list">sphinx::transforms::compact_bullet_list</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1transforms_1_1i18n">sphinx::transforms::i18n</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1transforms_1_1post__transforms">sphinx::transforms::post_transforms</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1transforms_1_1references">sphinx::transforms::references</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1a921c6aef2a605ec1cf052b0c575ed869" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias sphinx::transforms._DEFAULT_SUBSTITUTION_NAMES</definition>
+        <argsstring></argsstring>
+        <name>_DEFAULT_SUBSTITUTION_NAMES</name>
+        <qualifiedname>sphinx.transforms._DEFAULT_SUBSTITUTION_NAMES</qualifiedname>
+        <initializer>=  Literal[
+        &apos;version&apos;,
+        &apos;release&apos;,
+        &apos;today&apos;,
+        &apos;translation progress&apos;,
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="37" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1a7f7111d65d9f6cc6528c7b1dae3ce25e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::transforms.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.transforms.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1a8980e03626d6a21c2094bb285b8df681" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::transforms._DEFAULT_SUBSTITUTIONS</definition>
+        <argsstring></argsstring>
+        <name>_DEFAULT_SUBSTITUTIONS</name>
+        <qualifiedname>sphinx.transforms._DEFAULT_SUBSTITUTIONS</qualifiedname>
+        <initializer>=  frozenset({
+    &apos;version&apos;,
+    &apos;release&apos;,
+    &apos;today&apos;,
+    &apos;translation progress&apos;,
+})</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="47" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1a33728ddd961b8da2f64e855db9c3c264" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::transforms.TRANSLATABLE_NODES</definition>
+        <argsstring></argsstring>
+        <name>TRANSLATABLE_NODES</name>
+        <qualifiedname>sphinx.transforms.TRANSLATABLE_NODES</qualifiedname>
+        <initializer>=  {
+    &apos;literal-block&apos;: nodes.literal_block,
+    &apos;doctest-block&apos;: nodes.doctest_block,
+    &apos;raw&apos;: nodes.raw,
+    &apos;index&apos;: <ref refid="classsphinx_1_1addnodes_1_1index" kindref="compound">addnodes.index</ref>,
+    &apos;image&apos;: nodes.image,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="223" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1ad1cb485bab573b08eaf089a85883f404" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.transforms._calculate_translation_progress</definition>
+        <argsstring>(nodes.document document)</argsstring>
+        <name>_calculate_translation_progress</name>
+        <qualifiedname>sphinx.transforms._calculate_translation_progress</qualifiedname>
+        <param>
+          <type>nodes.document</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="135" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" bodystart="135" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1ad549f92f78a1d4a4fff987ccd6e25ff6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms._reorder_index_target_nodes</definition>
+        <argsstring>(nodes.target start_node)</argsstring>
+        <name>_reorder_index_target_nodes</name>
+        <qualifiedname>sphinx.transforms._reorder_index_target_nodes</qualifiedname>
+        <param>
+          <type>nodes.target</type>
+          <declname>start_node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sort target and index nodes.
+
+Find all consecutive target and index nodes starting from ``start_node``,
+and move all index nodes to before the first target node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="468" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" bodystart="468" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1aa26be6143f9c6b3d35cf994a88ee12c9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.transforms._sort_key</definition>
+        <argsstring>(nodes.Node node)</argsstring>
+        <name>_sort_key</name>
+        <qualifiedname>sphinx.transforms._sort_key</qualifiedname>
+        <param>
+          <type>nodes.Node</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="496" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" bodystart="496" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1abfedb47d369a5c234d8202c6d936009f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.transforms.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.transforms.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="506" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" bodystart="506" bodyend="528"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Docutils transforms used by Sphinx when reading documents.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

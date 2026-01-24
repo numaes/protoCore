@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="glibc_8py" kind="file" language="Python">
+    <compoundname>glibc.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1glibc">pip::_internal::utils::glibc</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1glibc" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Optional,<sp/>Tuple</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1glibc_1a2a5bb611d7fb4cb844892f962617390d" kindref="member">glibc_version_string</ref>()<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Returns<sp/>glibc<sp/>version<sp/>string,<sp/>or<sp/>None<sp/>if<sp/>not<sp/>using<sp/>glibc.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1glibc_1adf9bb95984b229ba4dee100c322b6bee" kindref="member">glibc_version_string_confstr</ref>()<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1glibc_1a9e74e3616523f5cea0132818a600cdd5" kindref="member">glibc_version_string_ctypes</ref>()</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1glibc_1adf9bb95984b229ba4dee100c322b6bee" kindref="member">glibc_version_string_confstr</ref>()<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Primary<sp/>implementation<sp/>of<sp/>glibc_version_string<sp/>using<sp/>os.confstr.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>os.confstr<sp/>is<sp/>quite<sp/>a<sp/>bit<sp/>faster<sp/>than<sp/>ctypes.DLL.<sp/>It&apos;s<sp/>also<sp/>less<sp/>likely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>to<sp/>be<sp/>broken<sp/>or<sp/>missing.<sp/>This<sp/>strategy<sp/>is<sp/>used<sp/>in<sp/>the<sp/>standard<sp/>library</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>platform<sp/>module:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>https://github.com/python/cpython/blob/fcf1d003bf4f0100c9d0921ff3d70e1127ca1b71/Lib/platform.py#L175-L183</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.platform<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;win32&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gnu_libc_version<sp/>=<sp/>os.confstr(</highlight><highlight class="stringliteral">&quot;CS_GNU_LIBC_VERSION&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>gnu_libc_version<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>os.confstr(&quot;CS_GNU_LIBC_VERSION&quot;)<sp/>returns<sp/>a<sp/>string<sp/>like<sp/>&quot;glibc<sp/>2.17&quot;:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_,<sp/>version<sp/>=<sp/>gnu_libc_version.split()</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>(AttributeError,<sp/>OSError,<sp/>ValueError):</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>os.confstr()<sp/>or<sp/>CS_GNU_LIBC_VERSION<sp/>not<sp/>available<sp/>(or<sp/>a<sp/>bad<sp/>value)...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>version</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1glibc_1a9e74e3616523f5cea0132818a600cdd5" kindref="member">glibc_version_string_ctypes</ref>()<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Fallback<sp/>implementation<sp/>of<sp/>glibc_version_string<sp/>using<sp/>ctypes.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ctypes</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>ctypes.CDLL(None)<sp/>internally<sp/>calls<sp/>dlopen(NULL),<sp/>and<sp/>as<sp/>the<sp/>dlopen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>manpage<sp/>says,<sp/>&quot;If<sp/>filename<sp/>is<sp/>NULL,<sp/>then<sp/>the<sp/>returned<sp/>handle<sp/>is<sp/>for<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>main<sp/>program&quot;.<sp/>This<sp/>way<sp/>we<sp/>can<sp/>let<sp/>the<sp/>linker<sp/>do<sp/>the<sp/>work<sp/>to<sp/>figure<sp/>out</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>which<sp/>libc<sp/>our<sp/>process<sp/>is<sp/>actually<sp/>using.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>process_namespace<sp/>=<sp/>ctypes.CDLL(</highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gnu_get_libc_version<sp/>=<sp/>process_namespace.gnu_get_libc_version</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>AttributeError:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Symbol<sp/>doesn&apos;t<sp/>exist<sp/>-&gt;<sp/>therefore,<sp/>we<sp/>are<sp/>not<sp/>linked<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>glibc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Call<sp/>gnu_get_libc_version,<sp/>which<sp/>returns<sp/>a<sp/>string<sp/>like<sp/>&quot;2.5&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>gnu_get_libc_version.restype<sp/>=<sp/>ctypes.c_char_p</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>version_str<sp/>=<sp/>gnu_get_libc_version()</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>py2<sp/>/<sp/>py3<sp/>compatibility:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(version_str,<sp/>str):</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version_str<sp/>=<sp/>version_str.decode(</highlight><highlight class="stringliteral">&quot;ascii&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>version_str</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">#<sp/>platform.libc_ver<sp/>regularly<sp/>returns<sp/>completely<sp/>nonsensical<sp/>glibc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">#<sp/>versions.<sp/>E.g.<sp/>on<sp/>my<sp/>computer,<sp/>platform<sp/>says:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/>~$<sp/>python2.7<sp/>-c<sp/>&apos;import<sp/>platform;<sp/>print(platform.libc_ver())&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/>(&apos;glibc&apos;,<sp/>&apos;2.7&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/>~$<sp/>python3.5<sp/>-c<sp/>&apos;import<sp/>platform;<sp/>print(platform.libc_ver())&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/>(&apos;glibc&apos;,<sp/>&apos;2.9&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">#<sp/>But<sp/>the<sp/>truth<sp/>is:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/>~$<sp/>ldd<sp/>--version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/>ldd<sp/>(Debian<sp/>GLIBC<sp/>2.22-11)<sp/>2.22</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">#<sp/>This<sp/>is<sp/>unfortunate,<sp/>because<sp/>it<sp/>means<sp/>that<sp/>the<sp/>linehaul<sp/>data<sp/>on<sp/>libc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">#<sp/>versions<sp/>that<sp/>was<sp/>generated<sp/>by<sp/>pip<sp/>8.1.2<sp/>and<sp/>earlier<sp/>is<sp/>useless<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">#<sp/>misleading.<sp/>Solution:<sp/>instead<sp/>of<sp/>using<sp/>platform,<sp/>use<sp/>our<sp/>code<sp/>that<sp/>actually</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">#<sp/>works.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1glibc_1a98167d19b7e442b912f0a03155e6eee7" kindref="member">libc_ver</ref>()<sp/>-&gt;<sp/>Tuple[str,<sp/>str]:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Try<sp/>to<sp/>determine<sp/>the<sp/>glibc<sp/>version</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns<sp/>a<sp/>tuple<sp/>of<sp/>strings<sp/>(lib,<sp/>version)<sp/>which<sp/>default<sp/>to<sp/>empty<sp/>strings</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>in<sp/>case<sp/>the<sp/>lookup<sp/>fails.</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>glibc_version<sp/>=<sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1glibc_1a2a5bb611d7fb4cb844892f962617390d" kindref="member">glibc_version_string</ref>()</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>glibc_version<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&quot;glibc&quot;</highlight><highlight class="normal">,<sp/>glibc_version)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/glibc.py"/>
+  </compounddef>
+</doxygen>

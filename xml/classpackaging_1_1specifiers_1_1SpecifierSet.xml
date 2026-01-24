@@ -1,0 +1,565 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpackaging_1_1specifiers_1_1SpecifierSet" kind="class" language="Python" prot="public">
+    <compoundname>packaging::specifiers::SpecifierSet</compoundname>
+    <basecompoundref refid="classpackaging_1_1specifiers_1_1BaseSpecifier" prot="public" virt="non-virtual">packaging.specifiers.BaseSpecifier</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpackaging_1_1specifiers_1_1SpecifierSet_1ad07e0d10018ba6b136163a9f30331888" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>packaging.specifiers.SpecifierSet::_specs</definition>
+        <argsstring></argsstring>
+        <name>_specs</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet._specs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="726" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="726" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpackaging_1_1specifiers_1_1SpecifierSet_1a28eb6ecc6ea7a812a5da607bf39f2fed" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>packaging.specifiers.SpecifierSet::_prereleases</definition>
+        <argsstring></argsstring>
+        <name>_prereleases</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet._prereleases</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="733" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="733" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1a0032b3e434c66b7140ac692e6536d490" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None packaging.specifiers.SpecifierSet.__init__</definition>
+        <argsstring>(self, str|Iterable[Specifier] specifiers=&quot;&quot;, bool|None prereleases=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|Iterable</type>
+          <declname>specifiers</declname>
+          <array>[Specifier]</array>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>prereleases</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize a SpecifierSet instance.
+
+:param specifiers:
+    The string representation of a specifier or a comma-separated list of
+    specifiers which will be parsed and normalized before use.
+    May also be an iterable of ``Specifier`` instances, which will be used
+    as is.
+:param prereleases:
+    This tells the SpecifierSet if it should accept prerelease versions if
+    applicable or not. The default of ``None`` will autodetect it from the
+    given specifiers.
+
+:raises InvalidSpecifier:
+    If the given ``specifiers`` are not parseable than this exception will be
+    raised.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="697" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="701" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1aa366286e4e8844cbb8736a5689df4a6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool|None</type>
+        <definition> bool | None packaging.specifiers.SpecifierSet.prereleases</definition>
+        <argsstring>(self)</argsstring>
+        <name>prereleases</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.prereleases</qualifiedname>
+        <reimplements refid="classpackaging_1_1specifiers_1_1BaseSpecifier_1a2bb17657c78b772dd642c2903b606dc6">prereleases</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Whether or not pre-releases as a whole are allowed.
+
+This can be set to either ``True`` or ``False`` to explicitly enable or disable
+prereleases or it can be set to ``None`` (the default) to use default semantics.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="736" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="736" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1a30d9e7a8dd828ac7ebe68d57989c48e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None packaging.specifiers.SpecifierSet.prereleases</definition>
+        <argsstring>(self, bool value)</argsstring>
+        <name>prereleases</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.prereleases</qualifiedname>
+        <reimplements refid="classpackaging_1_1specifiers_1_1BaseSpecifier_1a2bb17657c78b772dd642c2903b606dc6">prereleases</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Whether or not pre-releases as a whole are allowed.
+
+This can be set to either ``True`` or ``False`` to explicitly enable or disable
+prereleases or it can be set to ``None`` (the default) to use default semantics.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="753" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="753" bodyend="755"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1aee70df462671a1ca5b009f23c18981ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging.specifiers.SpecifierSet.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A representation of the specifier set that shows all internal state.
+
+Note that the ordering of the individual specifiers within the set may not
+match the input string.
+
+&gt;&gt;&gt; SpecifierSet(&apos;&gt;=1.0.0,!=2.0.0&apos;)
+&lt;SpecifierSet(&apos;!=2.0.0,&gt;=1.0.0&apos;)&gt;
+&gt;&gt;&gt; SpecifierSet(&apos;&gt;=1.0.0,!=2.0.0&apos;, prereleases=False)
+&lt;SpecifierSet(&apos;!=2.0.0,&gt;=1.0.0&apos;, prereleases=False)&gt;
+&gt;&gt;&gt; SpecifierSet(&apos;&gt;=1.0.0,!=2.0.0&apos;, prereleases=True)
+&lt;SpecifierSet(&apos;!=2.0.0,&gt;=1.0.0&apos;, prereleases=True)&gt;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="756" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="756" bodyend="776"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1a6b2030d3a35c5a9604a0f1e2c3b15153" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging.specifiers.SpecifierSet.__str__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__str__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__str__</qualifiedname>
+        <reimplements refid="classpackaging_1_1specifiers_1_1BaseSpecifier_1a88cce741afcd191bdc56f1d913c5a92f">__str__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A string representation of the specifier set that can be round-tripped.
+
+Note that the ordering of the individual specifiers within the set may not
+match the input string.
+
+&gt;&gt;&gt; str(SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;))
+&apos;!=1.0.1,&gt;=1.0.0&apos;
+&gt;&gt;&gt; str(SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;, prereleases=False))
+&apos;!=1.0.1,&gt;=1.0.0&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="777" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="777" bodyend="789"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1a9228af5b65d2b2c43dd6d47b6250ed04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int packaging.specifiers.SpecifierSet.__hash__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__hash__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__hash__</qualifiedname>
+        <reimplements refid="classpackaging_1_1specifiers_1_1BaseSpecifier_1a5ab8ea5a79cd65ef3d67cd7f644124a1">__hash__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a hash value for this Specifier-like object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="790" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="790" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1aa8ad09ccff080284a03cfec67a4461e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1specifiers_1_1SpecifierSet" kindref="compound">SpecifierSet</ref></type>
+        <definition> SpecifierSet packaging.specifiers.SpecifierSet.__and__</definition>
+        <argsstring>(self, SpecifierSet|str other)</argsstring>
+        <name>__and__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__and__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpackaging_1_1specifiers_1_1SpecifierSet" kindref="compound">SpecifierSet</ref>|str</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a SpecifierSet which is a combination of the two sets.
+
+:param other: The other object to combine with.
+
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;) &amp; &apos;&lt;=2.0.0,!=2.0.1&apos;
+&lt;SpecifierSet(&apos;!=1.0.1,!=2.0.1,&lt;=2.0.0,&gt;=1.0.0&apos;)&gt;
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;) &amp; SpecifierSet(&apos;&lt;=2.0.0,!=2.0.1&apos;)
+&lt;SpecifierSet(&apos;!=1.0.1,!=2.0.1,&lt;=2.0.0,&gt;=1.0.0&apos;)&gt;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="793" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="793" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1a6bc868d36693c5b76c2a1caaf27963f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging.specifiers.SpecifierSet.__eq__</definition>
+        <argsstring>(self, object other)</argsstring>
+        <name>__eq__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__eq__</qualifiedname>
+        <reimplements refid="classpackaging_1_1specifiers_1_1BaseSpecifier_1a9ca5669be44199e542a91ba5417108b5">__eq__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>object</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Whether or not the two SpecifierSet-like objects are equal.
+
+:param other: The other object to check against.
+
+The value of :attr:`prereleases` is ignored.
+
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;) == SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;)
+True
+&gt;&gt;&gt; (SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;, prereleases=False) ==
+...  SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;, prereleases=True))
+True
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;) == &quot;&gt;=1.0.0,!=1.0.1&quot;
+True
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;) == SpecifierSet(&quot;&gt;=1.0.0&quot;)
+False
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;) == SpecifierSet(&quot;&gt;=1.0.0,!=1.0.2&quot;)
+False
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="824" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="824" bodyend="849"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1a75ff24115331feff3d52e5f51f0a4457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int packaging.specifiers.SpecifierSet.__len__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__len__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__len__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the number of specifiers in this specifier set.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="850" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="850" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1ae26580c2e6a845732fedd582f22820b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpackaging_1_1specifiers_1_1Specifier" kindref="compound">Specifier</ref>]</type>
+        <definition> Iterator[Specifier] packaging.specifiers.SpecifierSet.__iter__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__iter__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__iter__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns an iterator over all the underlying :class:`Specifier` instances
+in this specifier set.
+
+&gt;&gt;&gt; sorted(SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;), key=str)
+[&lt;Specifier(&apos;!=1.0.1&apos;)&gt;, &lt;Specifier(&apos;&gt;=1.0.0&apos;)&gt;]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="854" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="854" bodyend="863"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1afe431232e3df02a4ebec8ed882319eb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging.specifiers.SpecifierSet.__contains__</definition>
+        <argsstring>(self, UnparsedVersion item)</argsstring>
+        <name>__contains__</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.__contains__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepackaging_1_1specifiers_1a6408da24304ac0d92ab9d420c4771ef4" kindref="member">UnparsedVersion</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return whether or not the item is contained in this specifier.
+
+:param item: The item to check for.
+
+This is used for the ``in`` operator and behaves the same as
+:meth:`contains` with no ``prereleases`` argument passed.
+
+&gt;&gt;&gt; &quot;1.2.3&quot; in SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;)
+True
+&gt;&gt;&gt; Version(&quot;1.2.3&quot;) in SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;)
+True
+&gt;&gt;&gt; &quot;1.0.1&quot; in SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;)
+False
+&gt;&gt;&gt; &quot;1.3.0a1&quot; in SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;)
+False
+&gt;&gt;&gt; &quot;1.3.0a1&quot; in SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;, prereleases=True)
+True
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="864" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="864" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1ada64d1b5bfa107e43857d5504e92b233" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging.specifiers.SpecifierSet.contains</definition>
+        <argsstring>(self, UnparsedVersion item, bool|None prereleases=None, bool|None installed=None)</argsstring>
+        <name>contains</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.contains</qualifiedname>
+        <reimplements refid="classpackaging_1_1specifiers_1_1BaseSpecifier_1a25e4441395aaa5f2bd19da46590dddc0">contains</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepackaging_1_1specifiers_1a6408da24304ac0d92ab9d420c4771ef4" kindref="member">UnparsedVersion</ref></type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>prereleases</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>installed</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return whether or not the item is contained in this SpecifierSet.
+
+:param item:
+    The item to check for, which can be a version string or a
+    :class:`Version` instance.
+:param prereleases:
+    Whether or not to match prereleases with this SpecifierSet. If set to
+    ``None`` (the default), it uses :attr:`prereleases` to determine
+    whether or not prereleases are allowed.
+
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;).contains(&quot;1.2.3&quot;)
+True
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;).contains(Version(&quot;1.2.3&quot;))
+True
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;).contains(&quot;1.0.1&quot;)
+False
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;).contains(&quot;1.3.0a1&quot;)
+False
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;, prereleases=True).contains(&quot;1.3.0a1&quot;)
+True
+&gt;&gt;&gt; SpecifierSet(&quot;&gt;=1.0.0,!=1.0.1&quot;).contains(&quot;1.3.0a1&quot;, prereleases=True)
+True
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="885" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="890" bodyend="941"/>
+      </memberdef>
+      <memberdef kind="function" id="classpackaging_1_1specifiers_1_1SpecifierSet_1a65b70b2cc0c5bad34b31461955a36d87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="namespacepackaging_1_1specifiers_1a32ce1b57e4207bf34b7272749a200756" kindref="member">UnparsedVersionVar</ref>]</type>
+        <definition> Iterator[UnparsedVersionVar] packaging.specifiers.SpecifierSet.filter</definition>
+        <argsstring>(self, Iterable[UnparsedVersionVar] iterable, bool|None prereleases=None)</argsstring>
+        <name>filter</name>
+        <qualifiedname>packaging.specifiers.SpecifierSet.filter</qualifiedname>
+        <reimplements refid="classpackaging_1_1specifiers_1_1BaseSpecifier_1aa87c3c882d19a56dd1f949c4b1bde70d">filter</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>iterable</declname>
+          <array>[UnparsedVersionVar]</array>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>prereleases</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Filter items in the given iterable, that match the specifiers in this set.
+
+:param iterable:
+    An iterable that can contain version strings and :class:`Version` instances.
+    The items in the iterable will be filtered according to the specifier.
+:param prereleases:
+    Whether or not to allow prereleases in the returned iterator. If set to
+    ``None`` (the default), it will be intelligently decide whether to allow
+    prereleases or not (based on the :attr:`prereleases` attribute, and
+    whether the only versions matching are prereleases).
+
+This method is smarter than just ``filter(SpecifierSet(...).contains, [...])``
+because it implements the rule from :pep:`440` that a prerelease item
+SHOULD be accepted if no other versions match the given specifier.
+
+&gt;&gt;&gt; list(SpecifierSet(&quot;&gt;=1.2.3&quot;).filter([&quot;1.2&quot;, &quot;1.3&quot;, &quot;1.5a1&quot;]))
+[&apos;1.3&apos;]
+&gt;&gt;&gt; list(SpecifierSet(&quot;&gt;=1.2.3&quot;).filter([&quot;1.2&quot;, &quot;1.3&quot;, Version(&quot;1.4&quot;)]))
+[&apos;1.3&apos;, &lt;Version(&apos;1.4&apos;)&gt;]
+&gt;&gt;&gt; list(SpecifierSet(&quot;&gt;=1.2.3&quot;).filter([&quot;1.2&quot;, &quot;1.5a1&quot;]))
+[]
+&gt;&gt;&gt; list(SpecifierSet(&quot;&gt;=1.2.3&quot;).filter([&quot;1.3&quot;, &quot;1.5a1&quot;], prereleases=True))
+[&apos;1.3&apos;, &apos;1.5a1&apos;]
+&gt;&gt;&gt; list(SpecifierSet(&quot;&gt;=1.2.3&quot;, prereleases=True).filter([&quot;1.3&quot;, &quot;1.5a1&quot;]))
+[&apos;1.3&apos;, &apos;1.5a1&apos;]
+
+An &quot;empty&quot; SpecifierSet will filter items based on the presence of prerelease
+versions in the set.
+
+&gt;&gt;&gt; list(SpecifierSet(&quot;&quot;).filter([&quot;1.3&quot;, &quot;1.5a1&quot;]))
+[&apos;1.3&apos;]
+&gt;&gt;&gt; list(SpecifierSet(&quot;&quot;).filter([&quot;1.5a1&quot;]))
+[&apos;1.5a1&apos;]
+&gt;&gt;&gt; list(SpecifierSet(&quot;&quot;, prereleases=True).filter([&quot;1.3&quot;, &quot;1.5a1&quot;]))
+[&apos;1.3&apos;, &apos;1.5a1&apos;]
+&gt;&gt;&gt; list(SpecifierSet(&quot;&quot;).filter([&quot;1.3&quot;, &quot;1.5a1&quot;], prereleases=True))
+[&apos;1.3&apos;, &apos;1.5a1&apos;]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="942" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="944" bodyend="1020"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class abstracts handling of a set of version specifiers.
+
+It can be passed a single specifier (``&gt;=3.0``), a comma-separated list of
+specifiers (``&gt;=3.0,!=3.1``), or no specifier at all.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>abc::ABCMeta</label>
+      </node>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>packaging.specifiers.SpecifierSet</label>
+        <link refid="classpackaging_1_1specifiers_1_1SpecifierSet"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>packaging.specifiers.BaseSpecifier</label>
+        <link refid="classpackaging_1_1specifiers_1_1BaseSpecifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>abc::ABCMeta</label>
+      </node>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>packaging.specifiers.SpecifierSet</label>
+        <link refid="classpackaging_1_1specifiers_1_1SpecifierSet"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>packaging.specifiers.BaseSpecifier</label>
+        <link refid="classpackaging_1_1specifiers_1_1BaseSpecifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" line="690" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="690" bodyend="1020"/>
+    <listofallmembers>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1aa8ad09ccff080284a03cfec67a4461e8" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__and__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1afe431232e3df02a4ebec8ed882319eb4" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__contains__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1a6bc868d36693c5b76c2a1caaf27963f4" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__eq__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1a9228af5b65d2b2c43dd6d47b6250ed04" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__hash__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1a0032b3e434c66b7140ac692e6536d490" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__init__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1ae26580c2e6a845732fedd582f22820b9" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__iter__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1a75ff24115331feff3d52e5f51f0a4457" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__len__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1aee70df462671a1ca5b009f23c18981ae" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__repr__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1a6b2030d3a35c5a9604a0f1e2c3b15153" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>__str__</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1a28eb6ecc6ea7a812a5da607bf39f2fed" prot="protected" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>_prereleases</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1ad07e0d10018ba6b136163a9f30331888" prot="protected" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>_specs</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1ada64d1b5bfa107e43857d5504e92b233" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>contains</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1a65b70b2cc0c5bad34b31461955a36d87" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>filter</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1aa366286e4e8844cbb8736a5689df4a6e" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>prereleases</name></member>
+      <member refid="classpackaging_1_1specifiers_1_1SpecifierSet_1a30d9e7a8dd828ac7ebe68d57989c48e2" prot="public" virt="non-virtual"><scope>packaging::specifiers::SpecifierSet</scope><name>prereleases</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

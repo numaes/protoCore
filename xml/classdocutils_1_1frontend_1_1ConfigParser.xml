@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1frontend_1_1ConfigParser" kind="class" language="Python" prot="public">
+    <compoundname>docutils::frontend::ConfigParser</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">configparser.RawConfigParser</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1ConfigParser_1ae56ba12017d8cd1daf61437f75fcf11b" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.frontend.ConfigParser::old_settings</definition>
+        <argsstring></argsstring>
+        <name>old_settings</name>
+        <qualifiedname>docutils.frontend.ConfigParser.old_settings</qualifiedname>
+        <initializer>=  {
+        &apos;pep_stylesheet&apos;: (&apos;pep_html writer&apos;, &apos;stylesheet&apos;),
+        &apos;pep_stylesheet_path&apos;: (&apos;pep_html writer&apos;, &apos;stylesheet_path&apos;),
+        &apos;pep_template&apos;: (&apos;pep_html writer&apos;, &apos;template&apos;)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="934" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="934" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1ConfigParser_1a1a1fc7016bb1a39e7e3d6ada4e0cffb9" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.frontend.ConfigParser::old_warning</definition>
+        <argsstring></argsstring>
+        <name>old_warning</name>
+        <qualifiedname>docutils.frontend.ConfigParser.old_warning</qualifiedname>
+        <initializer>=  (
+        &apos;The &quot;[option]&quot; section is deprecated.\n&apos;
+        &apos;Support for old-format configuration files will be removed in &apos;
+        &apos;Docutils 2.0.  Please revise your configuration files.  &apos;
+        &apos;See &lt;https://docutils.sourceforge.io/docs/user/config.html&gt;, &apos;
+        &apos;section &quot;Old-Format Configuration Files&quot;.&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="942" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="942" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1ConfigParser_1a2eb8c0ed8a449dea24bfd91459e81163" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.frontend.ConfigParser::not_utf8_error</definition>
+        <argsstring></argsstring>
+        <name>not_utf8_error</name>
+        <qualifiedname>docutils.frontend.ConfigParser.not_utf8_error</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;\
+Unable to <ref refid="classdocutils_1_1frontend_1_1ConfigParser_1a413af93fdcc1f4c37e0fb99e16968ccf" kindref="member">read</ref> configuration file &quot;%s&quot;: content not encoded as UTF-8.
+Skipping &quot;%s&quot; configuration file.
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="949" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="949" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1ConfigParser_1a38667d22b88e46c555b4b91492358177" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.frontend.ConfigParser::old_warning</definition>
+        <argsstring></argsstring>
+        <name>old_warning</name>
+        <qualifiedname>docutils.frontend.ConfigParser.old_warning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="979" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="979" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1ConfigParser_1a413af93fdcc1f4c37e0fb99e16968ccf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.ConfigParser.read</definition>
+        <argsstring>(self, filenames, option_parser=None)</argsstring>
+        <name>read</name>
+        <qualifiedname>docutils.frontend.ConfigParser.read</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>filenames</type>
+          <defname>filenames</defname>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="954" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="954" bodyend="977"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1ConfigParser_1ad4bf5eb26f444df7a062bb81a3518965" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.ConfigParser.handle_old_config</definition>
+        <argsstring>(self, filename)</argsstring>
+        <name>handle_old_config</name>
+        <qualifiedname>docutils.frontend.ConfigParser.handle_old_config</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>filename</type>
+          <defname>filename</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="978" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="978" bodyend="995"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1ConfigParser_1a27ce466f2fda92734ce9aa887640a48a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.ConfigParser.validate_settings</definition>
+        <argsstring>(self, filename, option_parser)</argsstring>
+        <name>validate_settings</name>
+        <qualifiedname>docutils.frontend.ConfigParser.validate_settings</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>filename</type>
+          <defname>filename</defname>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Call the validator function and implement overrides on all applicable
+settings.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="996" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="996" bodyend="1021"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1ConfigParser_1a680fbcd200aa5cc74267d99cd8b29a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.ConfigParser.optionxform</definition>
+        <argsstring>(self, optionstr)</argsstring>
+        <name>optionxform</name>
+        <qualifiedname>docutils.frontend.ConfigParser.optionxform</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>optionstr</type>
+          <defname>optionstr</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Lowercase and transform &apos;-&apos; to &apos;_&apos;.
+
+So the cmdline form of option names can be used in config files.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="1022" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="1022" bodyend="1029"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1ConfigParser_1a63699f4a7d3b4fddcef3bb4e4bc684b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.ConfigParser.get_section</definition>
+        <argsstring>(self, section)</argsstring>
+        <name>get_section</name>
+        <qualifiedname>docutils.frontend.ConfigParser.get_section</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>section</type>
+          <defname>section</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a given section as a dictionary.
+
+Return empty dictionary if the section doesn&apos;t exist.
+
+Deprecated. Use the configparser &quot;Mapping Protocol Access&quot; and
+catch KeyError.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="1030" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="1030" bodyend="1047"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Parser for Docutils configuration files.
+
+See https://docutils.sourceforge.io/docs/user/config.html.
+
+Option key normalization includes conversion of &apos;-&apos; to &apos;_&apos;.
+
+Config file encoding is &quot;utf-8&quot;. Encoding errors are reported
+and the affected file(s) skipped.
+
+This class is provisional and will change in future versions.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>configparser::RawConfigParser</label>
+      </node>
+      <node id="1">
+        <label>docutils.frontend.ConfigParser</label>
+        <link refid="classdocutils_1_1frontend_1_1ConfigParser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="2">
+        <label>configparser::RawConfigParser</label>
+      </node>
+      <node id="1">
+        <label>docutils.frontend.ConfigParser</label>
+        <link refid="classdocutils_1_1frontend_1_1ConfigParser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>old_warning</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>not_utf8_error</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="921" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="921" bodyend="1047"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1a63699f4a7d3b4fddcef3bb4e4bc684b1" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>get_section</name></member>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1ad4bf5eb26f444df7a062bb81a3518965" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>handle_old_config</name></member>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1a2eb8c0ed8a449dea24bfd91459e81163" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>not_utf8_error</name></member>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1ae56ba12017d8cd1daf61437f75fcf11b" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>old_settings</name></member>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1a1a1fc7016bb1a39e7e3d6ada4e0cffb9" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>old_warning</name></member>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1a38667d22b88e46c555b4b91492358177" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>old_warning</name></member>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1a680fbcd200aa5cc74267d99cd8b29a24" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>optionxform</name></member>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1a413af93fdcc1f4c37e0fb99e16968ccf" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>read</name></member>
+      <member refid="classdocutils_1_1frontend_1_1ConfigParser_1a27ce466f2fda92734ce9aa887640a48a" prot="public" virt="non-virtual"><scope>docutils::frontend::ConfigParser</scope><name>validate_settings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

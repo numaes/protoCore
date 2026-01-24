@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="packaging_2__parser_8py" kind="file" language="Python">
+    <compoundname>_parser.py</compoundname>
+    <innerclass refid="classpackaging_1_1__parser_1_1Node" prot="public">packaging::_parser::Node</innerclass>
+    <innerclass refid="classpackaging_1_1__parser_1_1Variable" prot="public">packaging::_parser::Variable</innerclass>
+    <innerclass refid="classpackaging_1_1__parser_1_1Value" prot="public">packaging::_parser::Value</innerclass>
+    <innerclass refid="classpackaging_1_1__parser_1_1Op" prot="public">packaging::_parser::Op</innerclass>
+    <innerclass refid="classpackaging_1_1__parser_1_1ParsedRequirement" prot="public">packaging::_parser::ParsedRequirement</innerclass>
+    <innernamespace refid="namespacepackaging">packaging</innernamespace>
+    <innernamespace refid="namespacepackaging_1_1__parser">packaging::_parser</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepackaging_1_1__parser" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Handwritten<sp/>parser<sp/>of<sp/>dependency<sp/>specifiers.</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">The<sp/>docstring<sp/>for<sp/>each<sp/>__parse_*<sp/>function<sp/>contains<sp/>EBNF-inspired<sp/>grammar<sp/>representing</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">the<sp/>implementation.</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ast</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>NamedTuple,<sp/>Sequence,<sp/>Tuple,<sp/>Union</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>._tokenizer<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>DEFAULT_RULES,<sp/>Tokenizer</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="classpackaging_1_1__parser_1_1Node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Node" kindref="compound">Node</ref>:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Node_1a24aae38f4c2b36075f7434f8edb6e289" kindref="member">__init__</ref>(self,<sp/>value:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpackaging_1_1__parser_1_1Node_1a35763d27f5246b665635fcc4de018486" kindref="member">value</ref><sp/>=<sp/>value</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Node_1a9e6bb62d834f746ff13813cd8b633ee9" kindref="member">__str__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpackaging_1_1__parser_1_1Node_1a35763d27f5246b665635fcc4de018486" kindref="member">value</ref></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Node_1a20e461af6d96b3235f0d5554de8e3abc" kindref="member">__repr__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&quot;&lt;{self.__class__.__name__}(&apos;{self}&apos;)&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Node_1accc50942f5691cea818d933034e1c6df" kindref="member">serialize</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classpackaging_1_1__parser_1_1Variable" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Variable" kindref="compound">Variable</ref>(<ref refid="classpackaging_1_1__parser_1_1Node" kindref="compound">Node</ref>):</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Variable_1a9e2a54a08ce9d051951289755b175b59" kindref="member">serialize</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>str(self)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classpackaging_1_1__parser_1_1Value" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Value" kindref="compound">Value</ref>(<ref refid="classpackaging_1_1__parser_1_1Node" kindref="compound">Node</ref>):</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Value_1a88de4eec7be1388e22962a081f74e711" kindref="member">serialize</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&apos;&quot;{self}&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classpackaging_1_1__parser_1_1Op" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Op" kindref="compound">Op</ref>(<ref refid="classpackaging_1_1__parser_1_1Node" kindref="compound">Node</ref>):</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1Op_1a4e13b86174969e7e1f764b0fd1c43abb" kindref="member">serialize</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>str(self)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">MarkerVar<sp/>=<sp/>Union[Variable,<sp/>Value]</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">MarkerItem<sp/>=<sp/>Tuple[MarkerVar,<sp/>Op,<sp/>MarkerVar]</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">MarkerAtom<sp/>=<sp/>Union[MarkerItem,<sp/>Sequence[</highlight><highlight class="stringliteral">&quot;MarkerAtom&quot;</highlight><highlight class="normal">]]</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">MarkerList<sp/>=<sp/>Sequence[Union[</highlight><highlight class="stringliteral">&quot;MarkerList&quot;</highlight><highlight class="normal">,<sp/>MarkerAtom,<sp/>str]]</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classpackaging_1_1__parser_1_1ParsedRequirement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpackaging_1_1__parser_1_1ParsedRequirement" kindref="compound">ParsedRequirement</ref>(NamedTuple):</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>name:<sp/>str</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>url:<sp/>str</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>extras:<sp/>list[str]</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>specifier:<sp/>str</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>marker:<sp/>MarkerList<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">#<sp/>--------------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Recursive<sp/>descent<sp/>parser<sp/>for<sp/>dependency<sp/>specifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">#<sp/>--------------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">parse_requirement(source:<sp/>str)<sp/>-&gt;<sp/>ParsedRequirement:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1__parser_1a2142b0219e75393e5f981a40c3b90fe1" kindref="member">_parse_requirement</ref>(<ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref>(source,<sp/>rules=DEFAULT_RULES))</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1a2142b0219e75393e5f981a40c3b90fe1" kindref="member">_parse_requirement</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>ParsedRequirement:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>requirement<sp/>=<sp/>WS?<sp/>IDENTIFIER<sp/>WS?<sp/>extras<sp/>WS?<sp/>requirement_details</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>name_token<sp/>=<sp/>tokenizer.expect(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;IDENTIFIER&quot;</highlight><highlight class="normal">,<sp/>expected=</highlight><highlight class="stringliteral">&quot;package<sp/>name<sp/>at<sp/>the<sp/>start<sp/>of<sp/>dependency<sp/>specifier&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/>name_token.text</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>extras<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1a3c003698fc73f855875b9fda63472f19" kindref="member">_parse_extras</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>url,<sp/>specifier,<sp/>marker<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1a9352065165f132337ecc6edcb9ccc14f" kindref="member">_parse_requirement_details</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.expect(</highlight><highlight class="stringliteral">&quot;END&quot;</highlight><highlight class="normal">,<sp/>expected=</highlight><highlight class="stringliteral">&quot;end<sp/>of<sp/>dependency<sp/>specifier&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpackaging_1_1__parser_1_1ParsedRequirement" kindref="compound">ParsedRequirement</ref>(name,<sp/>url,<sp/>extras,<sp/>specifier,<sp/>marker)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1a9352065165f132337ecc6edcb9ccc14f" kindref="member">_parse_requirement_details</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer:<sp/>Tokenizer,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">)<sp/>-&gt;<sp/>tuple[str,<sp/>str,<sp/>MarkerList<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>requirement_details<sp/>=<sp/>AT<sp/>URL<sp/>(WS<sp/>requirement_marker?)?</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>specifier<sp/>WS?<sp/>(requirement_marker)?</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>specifier<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>marker<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;AT&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.read()</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url_start<sp/>=<sp/>tokenizer.position</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url<sp/>=<sp/>tokenizer.expect(</highlight><highlight class="stringliteral">&quot;URL&quot;</highlight><highlight class="normal">,<sp/>expected=</highlight><highlight class="stringliteral">&quot;URL<sp/>after<sp/>@&quot;</highlight><highlight class="normal">).text</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;END&quot;</highlight><highlight class="normal">,<sp/>peek=</highlight><highlight class="keyword">True</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(url,<sp/>specifier,<sp/>marker)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.expect(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">,<sp/>expected=</highlight><highlight class="stringliteral">&quot;whitespace<sp/>after<sp/>URL&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>The<sp/>input<sp/>might<sp/>end<sp/>after<sp/>whitespace.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;END&quot;</highlight><highlight class="normal">,<sp/>peek=</highlight><highlight class="keyword">True</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(url,<sp/>specifier,<sp/>marker)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>marker<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1aea28d306db4da8b18980128b9fb3b8d4" kindref="member">_parse_requirement_marker</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer,<sp/>span_start=url_start,<sp/>after=</highlight><highlight class="stringliteral">&quot;URL<sp/>and<sp/>whitespace&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>specifier_start<sp/>=<sp/>tokenizer.position</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>specifier<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1af48dacd7bc864fd81461eae328b23494" kindref="member">_parse_specifier</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;END&quot;</highlight><highlight class="normal">,<sp/>peek=</highlight><highlight class="keyword">True</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(url,<sp/>specifier,<sp/>marker)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>marker<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1aea28d306db4da8b18980128b9fb3b8d4" kindref="member">_parse_requirement_marker</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span_start=specifier_start,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>after=(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;version<sp/>specifier&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>specifier</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;name<sp/>and<sp/>no<sp/>valid<sp/>version<sp/>specifier&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(url,<sp/>specifier,<sp/>marker)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1aea28d306db4da8b18980128b9fb3b8d4" kindref="member">_parse_requirement_marker</ref>(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer:<sp/>Tokenizer,<sp/>*,<sp/>span_start:<sp/>int,<sp/>after:<sp/>str</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">)<sp/>-&gt;<sp/>MarkerList:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>requirement_marker<sp/>=<sp/>SEMICOLON<sp/>marker<sp/>WS?</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;SEMICOLON&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.raise_syntax_error(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;Expected<sp/>end<sp/>or<sp/>semicolon<sp/>(after<sp/>{after})&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span_start=span_start,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.read()</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>marker<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1aece95ee47c73dcdbf8d202a579fc8698" kindref="member">_parse_marker</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>marker</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1a3c003698fc73f855875b9fda63472f19" kindref="member">_parse_extras</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>list[str]:</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>extras<sp/>=<sp/>(LEFT_BRACKET<sp/>wsp*<sp/>extras_list?<sp/>wsp*<sp/>RIGHT_BRACKET)?</highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;LEFT_BRACKET&quot;</highlight><highlight class="normal">,<sp/>peek=</highlight><highlight class="keyword">True</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[]</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>tokenizer.enclosing_tokens(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LEFT_BRACKET&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RIGHT_BRACKET&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>around=</highlight><highlight class="stringliteral">&quot;extras&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extras<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1a9fa76ad47778fcceb8c9cb48cef56c70" kindref="member">_parse_extras_list</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>extras</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1a9fa76ad47778fcceb8c9cb48cef56c70" kindref="member">_parse_extras_list</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>list[str]:</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>extras_list<sp/>=<sp/>identifier<sp/>(wsp*<sp/>&apos;,&apos;<sp/>wsp*<sp/>identifier)*</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>extras:<sp/>list[str]<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;IDENTIFIER&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>extras</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>extras.append(tokenizer.read().text)</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;IDENTIFIER&quot;</highlight><highlight class="normal">,<sp/>peek=</highlight><highlight class="keyword">True</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.raise_syntax_error(</highlight><highlight class="stringliteral">&quot;Expected<sp/>comma<sp/>between<sp/>extra<sp/>names&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;COMMA&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.read()</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_token<sp/>=<sp/>tokenizer.expect(</highlight><highlight class="stringliteral">&quot;IDENTIFIER&quot;</highlight><highlight class="normal">,<sp/>expected=</highlight><highlight class="stringliteral">&quot;extra<sp/>name<sp/>after<sp/>comma&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extras.append(extra_token.text)</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>extras</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1af48dacd7bc864fd81461eae328b23494" kindref="member">_parse_specifier</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>specifier<sp/>=<sp/>LEFT_PARENTHESIS<sp/>WS?<sp/>version_many<sp/>WS?<sp/>RIGHT_PARENTHESIS</highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>WS?<sp/>version_many<sp/>WS?</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>tokenizer.enclosing_tokens(</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LEFT_PARENTHESIS&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RIGHT_PARENTHESIS&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>around=</highlight><highlight class="stringliteral">&quot;version<sp/>specifier&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parsed_specifiers<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1a12be681be357eb1fe54294e9ca10115e" kindref="member">_parse_version_many</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>parsed_specifiers</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1a12be681be357eb1fe54294e9ca10115e" kindref="member">_parse_version_many</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>version_many<sp/>=<sp/>(SPECIFIER<sp/>(WS?<sp/>COMMA<sp/>WS?<sp/>SPECIFIER)*)?</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>parsed_specifiers<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;SPECIFIER&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span_start<sp/>=<sp/>tokenizer.position</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parsed_specifiers<sp/>+=<sp/>tokenizer.read().text</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;VERSION_PREFIX_TRAIL&quot;</highlight><highlight class="normal">,<sp/>peek=</highlight><highlight class="keyword">True</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.raise_syntax_error(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.*<sp/>suffix<sp/>can<sp/>only<sp/>be<sp/>used<sp/>with<sp/>`==`<sp/>or<sp/>`!=`<sp/>operators&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span_start=span_start,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span_end=tokenizer.position<sp/>+<sp/>1,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;VERSION_LOCAL_LABEL_TRAIL&quot;</highlight><highlight class="normal">,<sp/>peek=</highlight><highlight class="keyword">True</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.raise_syntax_error(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Local<sp/>version<sp/>label<sp/>can<sp/>only<sp/>be<sp/>used<sp/>with<sp/>`==`<sp/>or<sp/>`!=`<sp/>operators&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span_start=span_start,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span_end=tokenizer.position,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;COMMA&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parsed_specifiers<sp/>+=<sp/>tokenizer.read().text</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>parsed_specifiers</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">#<sp/>--------------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Recursive<sp/>descent<sp/>parser<sp/>for<sp/>marker<sp/>expression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">#<sp/>--------------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">parse_marker(source:<sp/>str)<sp/>-&gt;<sp/>MarkerList:</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1__parser_1a6c50d1363e628d3fc74a013d329b4950" kindref="member">_parse_full_marker</ref>(<ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref>(source,<sp/>rules=DEFAULT_RULES))</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1a6c50d1363e628d3fc74a013d329b4950" kindref="member">_parse_full_marker</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>MarkerList:</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>retval<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1aece95ee47c73dcdbf8d202a579fc8698" kindref="member">_parse_marker</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.expect(</highlight><highlight class="stringliteral">&quot;END&quot;</highlight><highlight class="normal">,<sp/>expected=</highlight><highlight class="stringliteral">&quot;end<sp/>of<sp/>marker<sp/>expression&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>retval</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1aece95ee47c73dcdbf8d202a579fc8698" kindref="member">_parse_marker</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>MarkerList:</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="264"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>marker<sp/>=<sp/>marker_atom<sp/>(BOOLOP<sp/>marker_atom)+</highlight></codeline>
+<codeline lineno="265"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>expression<sp/>=<sp/>[<ref refid="namespacepackaging_1_1__parser_1aadef04ba155f5d7b55f14e8bdf0726b6" kindref="member">_parse_marker_atom</ref>(tokenizer)]</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;BOOLOP&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>token<sp/>=<sp/>tokenizer.read()</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expr_right<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1aadef04ba155f5d7b55f14e8bdf0726b6" kindref="member">_parse_marker_atom</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expression.extend((token.text,<sp/>expr_right))</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>expression</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1aadef04ba155f5d7b55f14e8bdf0726b6" kindref="member">_parse_marker_atom</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>MarkerAtom:</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="276"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>marker_atom<sp/>=<sp/>WS?<sp/>LEFT_PARENTHESIS<sp/>WS?<sp/>marker<sp/>WS?<sp/>RIGHT_PARENTHESIS<sp/>WS?</highlight></codeline>
+<codeline lineno="277"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>WS?<sp/>marker_item<sp/>WS?</highlight></codeline>
+<codeline lineno="278"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;LEFT_PARENTHESIS&quot;</highlight><highlight class="normal">,<sp/>peek=</highlight><highlight class="keyword">True</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>tokenizer.enclosing_tokens(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LEFT_PARENTHESIS&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RIGHT_PARENTHESIS&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>around=</highlight><highlight class="stringliteral">&quot;marker<sp/>expression&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>marker:<sp/>MarkerAtom<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1aece95ee47c73dcdbf8d202a579fc8698" kindref="member">_parse_marker</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>marker<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1ab186b4a8a89f15fbd4ce1bd4516f6189" kindref="member">_parse_marker_item</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>marker</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1ab186b4a8a89f15fbd4ce1bd4516f6189" kindref="member">_parse_marker_item</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>MarkerItem:</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="298"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>marker_item<sp/>=<sp/>WS?<sp/>marker_var<sp/>WS?<sp/>marker_op<sp/>WS?<sp/>marker_var<sp/>WS?</highlight></codeline>
+<codeline lineno="299"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>marker_var_left<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1a903f5b5c8a32688e0bcc7e19e80f5ee4" kindref="member">_parse_marker_var</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>marker_op<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1ac236faf57df754f111d6276373653196" kindref="member">_parse_marker_op</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>marker_var_right<sp/>=<sp/><ref refid="namespacepackaging_1_1__parser_1a903f5b5c8a32688e0bcc7e19e80f5ee4" kindref="member">_parse_marker_var</ref>(tokenizer)</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>tokenizer.consume(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(marker_var_left,<sp/>marker_op,<sp/>marker_var_right)</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1a903f5b5c8a32688e0bcc7e19e80f5ee4" kindref="member">_parse_marker_var</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>MarkerVar:</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="312"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>marker_var<sp/>=<sp/>VARIABLE<sp/>|<sp/>QUOTED_STRING</highlight></codeline>
+<codeline lineno="313"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;VARIABLE&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1__parser_1af152ab850afac9bd975fedf16e3bf509" kindref="member">process_env_var</ref>(tokenizer.read().text.replace(</highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;QUOTED_STRING&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1__parser_1a6f215513a9ea6931f80015934d89c7d6" kindref="member">process_python_str</ref>(tokenizer.read().text)</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.raise_syntax_error(</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message=</highlight><highlight class="stringliteral">&quot;Expected<sp/>a<sp/>marker<sp/>variable<sp/>or<sp/>quoted<sp/>string&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1af152ab850afac9bd975fedf16e3bf509" kindref="member">process_env_var</ref>(env_var:<sp/>str)<sp/>-&gt;<sp/>Variable:</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>env_var<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&quot;platform_python_implementation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;python_implementation&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpackaging_1_1__parser_1_1Variable" kindref="compound">Variable</ref>(</highlight><highlight class="stringliteral">&quot;platform_python_implementation&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpackaging_1_1__parser_1_1Variable" kindref="compound">Variable</ref>(env_var)</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1a6f215513a9ea6931f80015934d89c7d6" kindref="member">process_python_str</ref>(python_str:<sp/>str)<sp/>-&gt;<sp/>Value:</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>value<sp/>=<sp/>ast.literal_eval(python_str)</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpackaging_1_1__parser_1_1Value" kindref="compound">Value</ref>(str(value))</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepackaging_1_1__parser_1ac236faf57df754f111d6276373653196" kindref="member">_parse_marker_op</ref>(tokenizer:<sp/>Tokenizer)<sp/>-&gt;<sp/>Op:</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="338"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>marker_op<sp/>=<sp/>IN<sp/>|<sp/>NOT<sp/>IN<sp/>|<sp/>OP</highlight></codeline>
+<codeline lineno="339"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;IN&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.read()</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpackaging_1_1__parser_1_1Op" kindref="compound">Op</ref>(</highlight><highlight class="stringliteral">&quot;in&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;NOT&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.read()</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.expect(</highlight><highlight class="stringliteral">&quot;WS&quot;</highlight><highlight class="normal">,<sp/>expected=</highlight><highlight class="stringliteral">&quot;whitespace<sp/>after<sp/>&apos;not&apos;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenizer.expect(</highlight><highlight class="stringliteral">&quot;IN&quot;</highlight><highlight class="normal">,<sp/>expected=</highlight><highlight class="stringliteral">&quot;&apos;in&apos;<sp/>after<sp/>&apos;not&apos;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpackaging_1_1__parser_1_1Op" kindref="compound">Op</ref>(</highlight><highlight class="stringliteral">&quot;not<sp/>in&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>tokenizer.check(</highlight><highlight class="stringliteral">&quot;OP&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpackaging_1_1__parser_1_1Op" kindref="compound">Op</ref>(tokenizer.read().text)</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tokenizer.raise_syntax_error(</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>marker<sp/>operator,<sp/>one<sp/>of<sp/>&lt;=,<sp/>&lt;,<sp/>!=,<sp/>==,<sp/>&gt;=,<sp/>&gt;,<sp/>~=,<sp/>===,<sp/>in,<sp/>not<sp/>in&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/packaging/_parser.py"/>
+  </compounddef>
+</doxygen>

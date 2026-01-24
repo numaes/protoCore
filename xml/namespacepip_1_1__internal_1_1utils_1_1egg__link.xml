@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1egg__link" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::egg_link</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1egg__link_1a8098e9a78b4e61bcf5b83509525709db" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::utils::egg_link.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._internal.utils.egg_link.__all__</qualifiedname>
+        <initializer>=  [
+    &quot;egg_link_path_from_sys_path&quot;,
+    &quot;egg_link_path_from_location&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" line="12" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1egg__link_1a96ba509e2b6d4a475cb82b7a7a63568b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.egg_link._egg_link_names</definition>
+        <argsstring>(str raw_name)</argsstring>
+        <name>_egg_link_names</name>
+        <qualifiedname>pip._internal.utils.egg_link._egg_link_names</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>raw_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a Name metadata value to a .egg-link name, by applying
+the same substitution as pkg_resources&apos;s safe_name function.
+Note: we cannot use canonicalize_name because it has a different logic.
+
+We also look for the raw name (without normalization) as setuptools 69 changed
+the way it names .egg-link files (https://github.com/pypa/setuptools/issues/4167).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" bodystart="18" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1egg__link_1a6e588525971cb01353e2f629b99d7e4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.utils.egg_link.egg_link_path_from_sys_path</definition>
+        <argsstring>(str raw_name)</argsstring>
+        <name>egg_link_path_from_sys_path</name>
+        <qualifiedname>pip._internal.utils.egg_link.egg_link_path_from_sys_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>raw_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Look for a .egg-link file for project name, by walking sys.path.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" bodystart="33" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1egg__link_1a2de794c240520f7e26d4b76a0c57ee95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.utils.egg_link.egg_link_path_from_location</definition>
+        <argsstring>(str raw_name)</argsstring>
+        <name>egg_link_path_from_location</name>
+        <qualifiedname>pip._internal.utils.egg_link.egg_link_path_from_location</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>raw_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the path for the .egg-link file if it exists, otherwise, None.
+
+There&apos;s 3 scenarios:
+1) not in a virtualenv
+   try to find in site.USER_SITE, then site_packages
+2) in a no-global virtualenv
+   try to find in site_packages
+3) in a yes-global virtualenv
+   try to find in site_packages, then site.USER_SITE
+   (don&apos;t look in global location)
+
+For #1 and #3, there could be odd cases, where there&apos;s an egg-link in 2
+locations.
+
+This method will just return the first one found.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" bodystart="46" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

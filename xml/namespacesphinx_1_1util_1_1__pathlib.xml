@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1__pathlib" kind="namespace" language="Python">
+    <compoundname>sphinx::util::_pathlib</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" prot="protected">sphinx::util::_pathlib::_StrPath</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPathProperty" prot="protected">sphinx::util::_pathlib::_StrPathProperty</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1__pathlib_1a94cfa2d7284cbc2ae8d374e5027e923f" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::_pathlib._STR_METHODS</definition>
+        <argsstring></argsstring>
+        <name>_STR_METHODS</name>
+        <qualifiedname>sphinx.util._pathlib._STR_METHODS</qualifiedname>
+        <initializer>=  frozenset(str.__dict__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/_pathlib.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/_pathlib.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1__pathlib_1ab37ffda8eeae004f091301f37fe58107" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::_pathlib._PATH_NAME</definition>
+        <argsstring></argsstring>
+        <name>_PATH_NAME</name>
+        <qualifiedname>sphinx.util._pathlib._PATH_NAME</qualifiedname>
+        <initializer>=  Path().__class__.__name__</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/_pathlib.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/_pathlib.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1__pathlib_1ae4c55b311b6890bd7c989a772ab665b2" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::_pathlib._MSG</definition>
+        <argsstring></argsstring>
+        <name>_MSG</name>
+        <qualifiedname>sphinx.util._pathlib._MSG</qualifiedname>
+        <initializer>=  (
+    &apos;Sphinx 9 will drop support for representing paths as strings. &apos;
+    &apos;Use &quot;pathlib.Path&quot; or &quot;os.fspath&quot; instead.&apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/_pathlib.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/_pathlib.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>What follows is awful and will be gone in Sphinx 9.
+
+Instances of _StrPath should not be constructed except in Sphinx itself.
+Consumers of Sphinx APIs should prefer using ``pathlib.Path`` objects
+where possible. _StrPath objects can be treated as equivalent to ``Path``,
+save that ``_StrPath.replace`` is overridden with ``str.replace``.
+
+To continue treating path-like objects as strings, use ``os.fspath``,
+or explicit string coercion.
+
+In Sphinx 9, ``Path`` objects will be expected and returned in all instances
+that ``_StrPath`` is currently used.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/_pathlib.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

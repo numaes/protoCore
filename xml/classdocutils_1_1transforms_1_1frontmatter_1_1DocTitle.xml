@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::frontmatter::DocTitle</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter" prot="public" virt="non-virtual">docutils.transforms.frontmatter.TitlePromoter</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a410f0248c94fbcca9258b6381abb815c" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.frontmatter.DocTitle::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocTitle.default_priority</qualifiedname>
+        <initializer>=  320</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="198" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a5e0abc4a41219b752ee1e1858b72e1f7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocTitle::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocTitle.document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="212" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a5fb9a8e5b7759c6925c479cac010a5a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocTitle.set_metadata</definition>
+        <argsstring>(self)</argsstring>
+        <name>set_metadata</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocTitle.set_metadata</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set document[&apos;title&apos;] metadata title from the following
+sources, listed in order of priority:
+
+* Existing document[&apos;title&apos;] attribute.
+* &quot;title&quot; setting.
+* Document title node (as promoted by promote_title).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="200" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="200" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a9b6388830cd9a294bb41506ef9fce6b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocTitle.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocTitle.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="216" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="216" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>In reStructuredText_, there is no way to specify a document title
+and subtitle explicitly. Instead, we can supply the document title
+(and possibly the subtitle as well) implicitly, and use this
+two-step transform to &quot;raise&quot; or &quot;promote&quot; the title(s) (and their
+corresponding section contents) to the document level.
+
+1. If the document contains a single top-level section as its first
+   element (instances of `nodes.PreBibliographic` are ignored),
+   the top-level section&apos;s title becomes the document&apos;s title, and
+   the top-level section&apos;s contents become the document&apos;s immediate
+   contents. The title is also used for the &lt;document&gt; element&apos;s
+   &quot;title&quot; attribute default value.
+
+2. If step 1 successfully determines the document title, we
+   continue by checking for a subtitle.
+
+   If the lone top-level section itself contains a single second-level
+   section as its first &quot;non-PreBibliographic&quot; element, that section&apos;s
+   title is promoted to the document&apos;s subtitle, and that section&apos;s
+   contents become the document&apos;s immediate contents.
+
+Example:
+   Given this input text::
+
+       =================
+        Top-Level Title
+       =================
+
+       Second-Level Title
+       ~~~~~~~~~~~~~~~~~~
+
+       A paragraph.
+
+   After parsing and running the DocTitle transform, the result is::
+
+       &lt;document names=&quot;top-level title&quot;&gt;
+           &lt;title&gt;
+               Top-Level Title
+           &lt;subtitle names=&quot;second-level title&quot;&gt;
+               Second-Level Title
+           &lt;paragraph&gt;
+               A paragraph.
+
+   (Note that the implicit hyperlink target generated by the
+   &quot;Second-Level Title&quot; is preserved on the &lt;subtitle&gt; element
+   itself.)
+
+Any `nodes.PreBibliographic` instances occurring before the
+document title or subtitle are accumulated and inserted as
+the first body elements after the title(s).
+
+.. _reStructuredText: https://docutils.sourceforge.io/rst.html
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.frontmatter.DocTitle</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.frontmatter.TitlePromoter</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.frontmatter.DocTitle</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.frontmatter.TitlePromoter</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="141" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="141" bodyend="226"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a9b6388830cd9a294bb41506ef9fce6b0" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocTitle</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a410f0248c94fbcca9258b6381abb815c" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocTitle</scope><name>default_priority</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a5e0abc4a41219b752ee1e1858b72e1f7" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocTitle</scope><name>document</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a5fb9a8e5b7759c6925c479cac010a5a9" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocTitle</scope><name>set_metadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

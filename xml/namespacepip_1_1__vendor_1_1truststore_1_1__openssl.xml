@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1truststore_1_1__openssl" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::truststore::_openssl</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__openssl_1ad8d6b2d8129d6d277bb858755556fbd9" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::truststore::_openssl._CA_FILE_CANDIDATES</definition>
+        <argsstring></argsstring>
+        <name>_CA_FILE_CANDIDATES</name>
+        <qualifiedname>pip._vendor.truststore._openssl._CA_FILE_CANDIDATES</qualifiedname>
+        <initializer>=  [
+    # Alpine, Arch, Fedora 34+, OpenWRT, RHEL 9+, BSD
+    &quot;/etc/ssl/cert.pem&quot;,
+    # Fedora &lt;= 34, RHEL &lt;= 9, CentOS &lt;= 9
+    &quot;/etc/pki/tls/cert.pem&quot;,
+    # Debian, Ubuntu (requires ca-certificates)
+    &quot;/etc/ssl/certs/ca-certificates.crt&quot;,
+    # SUSE
+    &quot;/etc/ssl/ca-bundle.pem&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" line="8" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__openssl_1a639cbfe0670ec90e751779348fd1b523" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_openssl._HASHED_CERT_FILENAME_RE</definition>
+        <argsstring></argsstring>
+        <name>_HASHED_CERT_FILENAME_RE</name>
+        <qualifiedname>pip._vendor.truststore._openssl._HASHED_CERT_FILENAME_RE</qualifiedname>
+        <initializer>=  re.compile(r&quot;^[0-9a-fA-F]{8}\.[0-9]$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__openssl_1a3cc1ed56766744cd29a1fbb3c18bfe07" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Iterator[None]</type>
+        <definition> typing.Iterator[None] pip._vendor.truststore._openssl._configure_context</definition>
+        <argsstring>(ssl.SSLContext ctx)</argsstring>
+        <name>_configure_context</name>
+        <qualifiedname>pip._vendor.truststore._openssl._configure_context</qualifiedname>
+        <param>
+          <type>ssl.SSLContext</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" bodystart="23" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__openssl_1a859fcd93854bd3378aab5572f32f53ef" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.truststore._openssl._capath_contains_certs</definition>
+        <argsstring>(str capath)</argsstring>
+        <name>_capath_contains_certs</name>
+        <qualifiedname>pip._vendor.truststore._openssl._capath_contains_certs</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>capath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether capath exists and contains certs in the expected format.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" line="49" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" bodystart="49" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__openssl_1aefce8f9666a3d2a206b0983a62243cd2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.truststore._openssl._verify_peercerts_impl</definition>
+        <argsstring>(ssl.SSLContext ssl_context, list[bytes] cert_chain, str|None server_hostname=None)</argsstring>
+        <name>_verify_peercerts_impl</name>
+        <qualifiedname>pip._vendor.truststore._openssl._verify_peercerts_impl</qualifiedname>
+        <param>
+          <type>ssl.SSLContext</type>
+          <declname>ssl_context</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>cert_chain</declname>
+          <array>[bytes]</array>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>server_hostname</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" bodystart="63" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_openssl.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

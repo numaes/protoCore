@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="docutils_2parsers_2rst_2directives_2references_8py" kind="file" language="Python">
+    <compoundname>references.py</compoundname>
+    <innerclass refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1references_1_1TargetNotes" prot="public">docutils::parsers::rst::directives::references::TargetNotes</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1parsers">docutils::parsers</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1parsers_1_1rst">docutils::parsers::rst</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1parsers_1_1rst_1_1directives">docutils::parsers::rst::directives</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1_1references">docutils::parsers::rst::directives::references</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1_1references" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>references.py<sp/>7062<sp/>2011-06-30<sp/>22:14:29Z<sp/>milde<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Authors:<sp/>David<sp/>Goodger<sp/>&lt;goodger@python.org&gt;;<sp/>Dmitry<sp/>Jemerov</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">Directives<sp/>for<sp/>references<sp/>and<sp/>targets.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">__docformat__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;reStructuredText&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms" kindref="compound">docutils.transforms</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>references</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers_1_1rst" kindref="compound">docutils.parsers.rst</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Directive</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers_1_1rst" kindref="compound">docutils.parsers.rst</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>directives</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1references_1_1TargetNotes" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1references_1_1TargetNotes" kindref="compound">TargetNotes</ref>(<ref refid="classdocutils_1_1parsers_1_1rst_1_1Directive" kindref="compound">Directive</ref>):</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Target<sp/>footnote<sp/>generation.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>option_spec<sp/>=<sp/>{</highlight><highlight class="stringliteral">&apos;class&apos;</highlight><highlight class="normal">:<sp/>directives.class_option,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;name&apos;</highlight><highlight class="normal">:<sp/>directives.unchanged}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1references_1_1TargetNotes_1a83e904cf7eb075142e2b57d02241ae08" kindref="member">run</ref>(self):</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending<sp/>=<sp/><ref refid="classdocutils_1_1nodes_1_1pending" kindref="compound">nodes.pending</ref>(<ref refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1references_1_1TargetNotes" kindref="compound">references.TargetNotes</ref>)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1parsers_1_1rst_1_1Directive_1a9a22e9028e49d874fff3861a3f55426c" kindref="member">add_name</ref>(pending)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending.details.update(self.<ref refid="classdocutils_1_1parsers_1_1rst_1_1Directive_1aed82732264406094abe7916f0ab1fe9d" kindref="member">options</ref><ref refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1references_1_1TargetNotes_1a5e2a50493725da2eeaf02d148cf946e0" kindref="member">options</ref>)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1parsers_1_1rst_1_1Directive_1a0ae6873df31693dae670557cb4392257" kindref="member">state_machine</ref>.document.note_pending(pending)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[pending]</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/references.py"/>
+  </compounddef>
+</doxygen>

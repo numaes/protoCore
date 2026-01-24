@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbabel_1_1messages_1_1setuptools__frontend_1_1init__catalog" kind="class" language="Python" prot="public">
+    <compoundname>babel::messages::setuptools_frontend::init_catalog</compoundname>
+    <basecompoundref refid="classbabel_1_1messages_1_1frontend_1_1InitCatalog" prot="public" virt="non-virtual">babel.messages.frontend.InitCatalog</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">Command</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>New catalog initialization command for use in ``setup.py`` scripts.
+
+If correctly installed, this command is available to Setuptools-using
+setup scripts automatically. For projects using plain old ``distutils``,
+the command needs to be registered explicitly in ``setup.py``::
+
+    from babel.messages.setuptools_frontend import init_catalog
+
+    setup(
+        ...
+        cmdclass = {&apos;init_catalog&apos;: init_catalog}
+    )
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>babel.messages.setuptools_frontend.init_catalog</label>
+        <link refid="classbabel_1_1messages_1_1setuptools__frontend_1_1init__catalog"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>babel.messages.frontend.CommandMixin</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1CommandMixin"/>
+      </node>
+      <node id="2">
+        <label>babel.messages.frontend.InitCatalog</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1InitCatalog"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Command</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>babel.messages.setuptools_frontend.init_catalog</label>
+        <link refid="classbabel_1_1messages_1_1setuptools__frontend_1_1init__catalog"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>babel.messages.frontend.CommandMixin</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1CommandMixin"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>boolean_options</edgelabel>
+          <edgelabel>multiple_value_options</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>babel.messages.frontend.InitCatalog</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1InitCatalog"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>description</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>boolean_options</edgelabel>
+          <edgelabel>user_options</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="7">
+        <label>Command</label>
+      </node>
+      <node id="6">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/messages/setuptools_frontend.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/setuptools_frontend.py" bodystart="69" bodyend="84"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

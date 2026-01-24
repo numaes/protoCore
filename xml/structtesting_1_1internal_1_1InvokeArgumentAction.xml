@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structtesting_1_1internal_1_1InvokeArgumentAction" kind="struct" language="C++" prot="public">
+    <compoundname>testing::internal::InvokeArgumentAction</compoundname>
+    <includes refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-more-actions_8h" local="no">gmock-more-actions.h</includes>
+    <templateparamlist>
+      <param>
+        <type>std::size_t</type>
+        <declname>index</declname>
+        <defname>index</defname>
+      </param>
+      <param>
+        <type>typename...</type>
+        <declname>Params</declname>
+        <defname>Params</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structtesting_1_1internal_1_1InvokeArgumentAction_1a4920e9887f6ead41efc51072df8c92c7" prot="public" static="no" mutable="no">
+        <type><ref refid="classtesting_1_1internal_1_1FlatTuple" kindref="compound">internal::FlatTuple</ref>&lt; Params... &gt;</type>
+        <definition>internal::FlatTuple&lt; Params... &gt; testing::internal::InvokeArgumentAction&lt; index, Params &gt;::params</definition>
+        <argsstring></argsstring>
+        <name>params</name>
+        <qualifiedname>testing::internal::InvokeArgumentAction::params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" line="615" column="23" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" bodystart="615" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structtesting_1_1internal_1_1InvokeArgumentAction_1aee7d9f321e8f614bd2d6a80b3231f0f3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref></type>
+            <defval><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> std::enable_if&lt;(index &lt; sizeof...(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Args</ref>))&gt;::type</defval>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto testing::internal::InvokeArgumentAction&lt; index, Params &gt;::operator()</definition>
+        <argsstring>(Args &amp;&amp;...args) const -&gt; decltype(internal::InvokeArgument(std::get&lt; index &gt;(std::forward_as_tuple(std::forward&lt; Args &gt;(args)...)), std::declval&lt; const Params &amp; &gt;()...))</argsstring>
+        <name>operator()</name>
+        <qualifiedname>testing::internal::InvokeArgumentAction::operator()</qualifiedname>
+        <param>
+          <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Args</ref> &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" line="603" column="8" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" bodystart="603" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="structtesting_1_1internal_1_1InvokeArgumentAction_1aee7d9f321e8f614bd2d6a80b3231f0f3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+          <param>
+            <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref></type>
+            <defval><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> std::enable_if&lt;(index &lt; sizeof...(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Args</ref>))&gt;::type</defval>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto testing::internal::InvokeArgumentAction&lt; index, Params &gt;::operator()</definition>
+        <argsstring>(Args &amp;&amp;...args) const -&gt; decltype(internal::InvokeArgument(std::get&lt; index &gt;(std::forward_as_tuple(std::forward&lt; Args &gt;(args)...)), std::declval&lt; const Params &amp; &gt;()...))</argsstring>
+        <name>operator()</name>
+        <qualifiedname>testing::internal::InvokeArgumentAction::operator()</qualifiedname>
+        <param>
+          <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Args</ref> &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" line="603" column="8" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" bodystart="603" bodyend="613"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::internal::FlatTuple&lt; Params... &gt;</label>
+        <link refid="classtesting_1_1internal_1_1FlatTuple"/>
+        <childnode refid="3" relation="private-inheritance">
+        </childnode>
+        <childnode refid="3" relation="private-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>testing::internal::FlatTupleBase&lt; FlatTuple&lt; T... &gt;, MakeIndexSequence&lt; sizeof...(T)&gt;::type &gt;</label>
+        <link refid="structtesting_1_1internal_1_1FlatTupleBase"/>
+      </node>
+      <node id="1">
+        <label>testing::internal::InvokeArgumentAction&lt; index, Params &gt;</label>
+        <link refid="structtesting_1_1internal_1_1InvokeArgumentAction"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>params</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" line="600" column="1" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-more-actions.h" bodystart="600" bodyend="616"/>
+    <listofallmembers>
+      <member refid="structtesting_1_1internal_1_1InvokeArgumentAction_1aee7d9f321e8f614bd2d6a80b3231f0f3" prot="public" virt="non-virtual"><scope>testing::internal::InvokeArgumentAction</scope><name>operator()</name></member>
+      <member refid="structtesting_1_1internal_1_1InvokeArgumentAction_1aee7d9f321e8f614bd2d6a80b3231f0f3" prot="public" virt="non-virtual"><scope>testing::internal::InvokeArgumentAction</scope><name>operator()</name></member>
+      <member refid="structtesting_1_1internal_1_1InvokeArgumentAction_1a4920e9887f6ead41efc51072df8c92c7" prot="public" virt="non-virtual"><scope>testing::internal::InvokeArgumentAction</scope><name>params</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

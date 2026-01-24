@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="egg__link_8py" kind="file" language="Python">
+    <compoundname>egg_link.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1egg__link">pip::_internal::utils::egg_link</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1egg__link" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>List,<sp/>Optional</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1locations" kindref="compound">pip._internal.locations</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>site_packages,<sp/>user_site</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv" kindref="compound">pip._internal.utils.virtualenv</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>(</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>running_under_virtualenv,</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>virtualenv_no_global,</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">__all__<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;egg_link_path_from_sys_path&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;egg_link_path_from_location&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">]</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1egg__link_1a96ba509e2b6d4a475cb82b7a7a63568b" kindref="member">_egg_link_names</ref>(raw_name:<sp/>str)<sp/>-&gt;<sp/>List[str]:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Convert<sp/>a<sp/>Name<sp/>metadata<sp/>value<sp/>to<sp/>a<sp/>.egg-link<sp/>name,<sp/>by<sp/>applying</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>same<sp/>substitution<sp/>as<sp/>pkg_resources&apos;s<sp/>safe_name<sp/>function.</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Note:<sp/>we<sp/>cannot<sp/>use<sp/>canonicalize_name<sp/>because<sp/>it<sp/>has<sp/>a<sp/>different<sp/>logic.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>We<sp/>also<sp/>look<sp/>for<sp/>the<sp/>raw<sp/>name<sp/>(without<sp/>normalization)<sp/>as<sp/>setuptools<sp/>69<sp/>changed</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>way<sp/>it<sp/>names<sp/>.egg-link<sp/>files<sp/>(https://github.com/pypa/setuptools/issues/4167).</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>re.sub(</highlight><highlight class="stringliteral">&quot;[^A-Za-z0-9.]+&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal">,<sp/>raw_name)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.egg-link&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;{raw_name}.egg-link&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">egg_link_path_from_sys_path(raw_name:<sp/>str)<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Look<sp/>for<sp/>a<sp/>.egg-link<sp/>file<sp/>for<sp/>project<sp/>name,<sp/>by<sp/>walking<sp/>sys.path.</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>egg_link_names<sp/>=<sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1egg__link_1a96ba509e2b6d4a475cb82b7a7a63568b" kindref="member">_egg_link_names</ref>(raw_name)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>path_item<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sys.path:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>egg_link_name<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>egg_link_names:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>egg_link<sp/>=<sp/>os.path.join(path_item,<sp/>egg_link_name)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>os.path.isfile(egg_link):</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>egg_link</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">egg_link_path_from_location(raw_name:<sp/>str)<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Return<sp/>the<sp/>path<sp/>for<sp/>the<sp/>.egg-link<sp/>file<sp/>if<sp/>it<sp/>exists,<sp/>otherwise,<sp/>None.</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>There&apos;s<sp/>3<sp/>scenarios:</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>1)<sp/>not<sp/>in<sp/>a<sp/>virtualenv</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>try<sp/>to<sp/>find<sp/>in<sp/>site.USER_SITE,<sp/>then<sp/>site_packages</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>2)<sp/>in<sp/>a<sp/>no-global<sp/>virtualenv</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>try<sp/>to<sp/>find<sp/>in<sp/>site_packages</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>3)<sp/>in<sp/>a<sp/>yes-global<sp/>virtualenv</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>try<sp/>to<sp/>find<sp/>in<sp/>site_packages,<sp/>then<sp/>site.USER_SITE</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(don&apos;t<sp/>look<sp/>in<sp/>global<sp/>location)</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>#1<sp/>and<sp/>#3,<sp/>there<sp/>could<sp/>be<sp/>odd<sp/>cases,<sp/>where<sp/>there&apos;s<sp/>an<sp/>egg-link<sp/>in<sp/>2</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>locations.</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>method<sp/>will<sp/>just<sp/>return<sp/>the<sp/>first<sp/>one<sp/>found.</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>sites:<sp/>List[str]<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>running_under_virtualenv():</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sites.append(site_packages)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>virtualenv_no_global()<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>user_site:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sites.append(user_site)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>user_site:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sites.append(user_site)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sites.append(site_packages)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>egg_link_names<sp/>=<sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1egg__link_1a96ba509e2b6d4a475cb82b7a7a63568b" kindref="member">_egg_link_names</ref>(raw_name)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>site<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sites:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>egg_link_name<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>egg_link_names:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>egglink<sp/>=<sp/>os.path.join(site,<sp/>egg_link_name)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>os.path.isfile(egglink):</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>egglink</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/egg_link.py"/>
+  </compounddef>
+</doxygen>

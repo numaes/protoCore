@@ -1,0 +1,3114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1compiler_1_1CodeGenerator" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::compiler::CodeGenerator</compoundname>
+    <basecompoundref refid="classjinja2_1_1visitor_1_1NodeVisitor" prot="public" virt="non-virtual">jinja2.visitor.NodeVisitor</basecompoundref>
+    <derivedcompoundref refid="classjinja2_1_1meta_1_1TrackingCodeGenerator" prot="public" virt="non-virtual">jinja2.meta.TrackingCodeGenerator</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator" prot="public" virt="non-virtual">jinja2.nativetypes.NativeCodeGenerator</derivedcompoundref>
+    <innerclass refid="classjinja2_1_1compiler_1_1CodeGenerator_1_1__FinalizeInfo" prot="protected">jinja2::compiler::CodeGenerator::_FinalizeInfo</innerclass>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a6ee5d615575f380d37df6932dff9158a" prot="protected" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.compiler.CodeGenerator::_finalize</definition>
+        <argsstring></argsstring>
+        <name>_finalize</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._finalize</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1398" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1398" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1ace35953b5df7582d8e28955edcadc9c8" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Add</definition>
+        <argsstring></argsstring>
+        <name>visit_Add</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Add</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;+&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1712" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1712" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac574dc70ddf7fd2040d03646da91452d" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Sub</definition>
+        <argsstring></argsstring>
+        <name>visit_Sub</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Sub</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;-&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1713" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1713" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a927993748787188c0dd3bc492842f0a9" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Mul</definition>
+        <argsstring></argsstring>
+        <name>visit_Mul</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Mul</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;*&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1714" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a8c1079d8b08872d5b6deca04fe8aed9f" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Div</definition>
+        <argsstring></argsstring>
+        <name>visit_Div</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Div</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;/&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1715" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1715" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a00dc17614e4e210d93d6dc73d68f6f33" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_FloorDiv</definition>
+        <argsstring></argsstring>
+        <name>visit_FloorDiv</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_FloorDiv</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;//&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1716" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1afdae4be5d3b08a58b08b3bfe6423754d" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Pow</definition>
+        <argsstring></argsstring>
+        <name>visit_Pow</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Pow</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;**&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1717" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1717" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1aa74a86cf070fcc5fde90782fd63b7624" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Mod</definition>
+        <argsstring></argsstring>
+        <name>visit_Mod</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Mod</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;%&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1718" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1718" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a1098798c3993745cf058377db870d6a1" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_And</definition>
+        <argsstring></argsstring>
+        <name>visit_And</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_And</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;and&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1719" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1719" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac3edeeb43591e6492f3cb3f9e0ea145d" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Or</definition>
+        <argsstring></argsstring>
+        <name>visit_Or</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Or</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" kindref="member">_make_binop</ref>(&quot;or&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1720" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1720" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a3fff6d30a9cc962b5953889a8c34d583" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Pos</definition>
+        <argsstring></argsstring>
+        <name>visit_Pos</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Pos</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a97c666ac13afe53ee17ae58aa268b9c0" kindref="member">_make_unop</ref>(&quot;+&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1721" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1721" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1ae1fe7496ec87931b050f7a9f79b59ded" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Neg</definition>
+        <argsstring></argsstring>
+        <name>visit_Neg</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Neg</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a97c666ac13afe53ee17ae58aa268b9c0" kindref="member">_make_unop</ref>(&quot;-&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1722" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1722" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a93919db93c98858505e15b59c175826e" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::visit_Not</definition>
+        <argsstring></argsstring>
+        <name>visit_Not</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Not</qualifiedname>
+        <initializer>=  <ref refid="namespacejinja2_1_1compiler_1a97c666ac13afe53ee17ae58aa268b9c0" kindref="member">_make_unop</ref>(&quot;not &quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1723" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1723" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1af1d8eb4b71aeb5a492c0c7d69f8583e5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::environment</definition>
+        <argsstring></argsstring>
+        <name>environment</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.environment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="312" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a8cd075eda823a142807e5faf1733ed04" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="313" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a7a2bc803c948887291d889d425ddfc2a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::filename</definition>
+        <argsstring></argsstring>
+        <name>filename</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.filename</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="314" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a237b59cfd7a0f79ec00ddc5503d3c430" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::stream</definition>
+        <argsstring></argsstring>
+        <name>stream</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.stream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="315" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1afeb799fd17d91af66d15ed4a5fc7a299" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::created_block_context</definition>
+        <argsstring></argsstring>
+        <name>created_block_context</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.created_block_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="316" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1af523215e56d80dfb3122a345e24d0b67" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::defer_init</definition>
+        <argsstring></argsstring>
+        <name>defer_init</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.defer_init</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="317" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a987558df4d46d5829f67add50c9f0f08" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::optimizer</definition>
+        <argsstring></argsstring>
+        <name>optimizer</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.optimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="321" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a8e653257c551e1e5d4d8e2c2589b57fe" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::extends_so_far</definition>
+        <argsstring></argsstring>
+        <name>extends_so_far</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.extends_so_far</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="331" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1ad0e3c76cf8772110fc94ca642dc3586d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::has_known_extends</definition>
+        <argsstring></argsstring>
+        <name>has_known_extends</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.has_known_extends</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="336" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a248542df61234a3790e98a62a36af16a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::code_lineno</definition>
+        <argsstring></argsstring>
+        <name>code_lineno</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.code_lineno</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="339" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1ad225197c8fc8d6352ce1a17460837a86" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::filters</definition>
+        <argsstring></argsstring>
+        <name>filters</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="555" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="555" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1aa2bf3d30d0889b148fcd41886e7ecfd1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::tests</definition>
+        <argsstring></argsstring>
+        <name>tests</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.tests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="557" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="557" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a330010b4562f10ec08c06ee2f4086f15" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::_new_lines</definition>
+        <argsstring></argsstring>
+        <name>_new_lines</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._new_lines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="350" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a058d8ceab509323172b8f4fa3a740d53" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::_last_line</definition>
+        <argsstring></argsstring>
+        <name>_last_line</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._last_line</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="353" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a5e6060492cebb885977adb15c26ab4d2" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::_first_write</definition>
+        <argsstring></argsstring>
+        <name>_first_write</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._first_write</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="356" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a2a1313189504118534f22aa03eee831a" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::_last_identifier</definition>
+        <argsstring></argsstring>
+        <name>_last_identifier</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._last_identifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="360" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1abaf049ed72fea0a86d9504900b78d0f9" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::_indentation</definition>
+        <argsstring></argsstring>
+        <name>_indentation</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._indentation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="363" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a577119a7578aefe130adaf5c7211db12" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::_context_reference_stack</definition>
+        <argsstring></argsstring>
+        <name>_context_reference_stack</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._context_reference_stack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="372" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a4e471b0727e9f8de6b4fe1c6bbbe7989" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::_write_debug_info</definition>
+        <argsstring></argsstring>
+        <name>_write_debug_info</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._write_debug_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="460" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1compiler_1_1CodeGenerator_1a5cb92fb96d3e25234ac7e467d50fa7c9" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.compiler.CodeGenerator::_finalize</definition>
+        <argsstring></argsstring>
+        <name>_finalize</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._finalize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1445" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1445" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1aa522b6f8eadc6853f18f07093af1407b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.__init__</definition>
+        <argsstring>(self, &quot;Environment&quot; environment, t.Optional[str] name, t.Optional[str] filename, t.Optional[t.TextIO] stream=None, bool defer_init=False, bool optimized=True)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.__init__</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1meta_1_1TrackingCodeGenerator_1aec3a9bdd44aaf9e543c057558db4b84b">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>stream</declname>
+          <array>[t.TextIO]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>defer_init</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>optimized</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="301" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="309" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a27c413e39d152fb144b22054ef5c9cf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool jinja2.compiler.CodeGenerator.optimized</definition>
+        <argsstring>(self)</argsstring>
+        <name>optimized</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.optimized</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="375" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="375" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ada4ef266deda81593debc7dbb764a0e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;te.NoReturn&quot;</type>
+        <definition> &quot;te.NoReturn&quot; jinja2.compiler.CodeGenerator.fail</definition>
+        <argsstring>(self, str msg, int lineno)</argsstring>
+        <name>fail</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.fail</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Fail with a :exc:`TemplateAssertionError`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="380" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="380" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a9368b006060b69f8bf76ee749a3cb791" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator.temporary_identifier</definition>
+        <argsstring>(self)</argsstring>
+        <name>temporary_identifier</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.temporary_identifier</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a new unique identifier.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="384" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="384" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac4dca3e0a12f3825cb887114f4bf0e2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.buffer</definition>
+        <argsstring>(self, Frame frame)</argsstring>
+        <name>buffer</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.buffer</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Enable buffering for the frame from that point onwards.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="389" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="389" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a5e4aed8e31b5c5b7ceea6ffe58c21b5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.return_buffer_contents</definition>
+        <argsstring>(self, Frame frame, bool force_unescaped=False)</argsstring>
+        <name>return_buffer_contents</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.return_buffer_contents</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force_unescaped</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the buffer contents of the frame.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="394" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="396" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a0b509c2d837ebcce2dbeab60fbc44818" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.indent</definition>
+        <argsstring>(self)</argsstring>
+        <name>indent</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.indent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Indent by one.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="414" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="414" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a063ee362e39ca4f38ee22fede26f4a4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.outdent</definition>
+        <argsstring>(self, int step=1)</argsstring>
+        <name>outdent</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.outdent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Outdent by step.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="418" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="418" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a0f7dc2e15db090b6037d6c01ddabbe39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.start_write</definition>
+        <argsstring>(self, Frame frame, t.Optional[nodes.Node] node=None)</argsstring>
+        <name>start_write</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.start_write</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>node</declname>
+          <array>[nodes.Node]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yield or write into the frame buffer.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="422" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="422" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1abb1bd1a3ea8db7f95f72a2c63e3aa89d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.end_write</definition>
+        <argsstring>(self, Frame frame)</argsstring>
+        <name>end_write</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.end_write</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>End the writing process started by `start_write`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="429" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="429" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac96f8b19e163062a0399bed6095680d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.simple_write</definition>
+        <argsstring>(self, str s, Frame frame, t.Optional[nodes.Node] node=None)</argsstring>
+        <name>simple_write</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.simple_write</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>node</declname>
+          <array>[nodes.Node]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Simple shortcut for start_write + write + end_write.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="434" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="436" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1aac8a3eab088ea170380f114235f4e063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.blockvisit</definition>
+        <argsstring>(self, t.Iterable[nodes.Node] nodes, Frame frame)</argsstring>
+        <name>blockvisit</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.blockvisit</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>nodes</declname>
+          <array>[nodes.Node]</array>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Visit a list of nodes as block in a frame.  If the current frame
+is no buffer a dummy ``if 0: yield None`` is written automatically.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="442" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="442" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a5cabefb033cd9cb17a8aeb8a85e397ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.write</definition>
+        <argsstring>(self, str x)</argsstring>
+        <name>write</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.write</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1meta_1_1TrackingCodeGenerator_1aa611938843b0db0cc427105820d0793b">write</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write a string into the output stream.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="453" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="453" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ab7120535d41472742619faf224228b81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.writeline</definition>
+        <argsstring>(self, str x, t.Optional[nodes.Node] node=None, int extra=0)</argsstring>
+        <name>writeline</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.writeline</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>node</declname>
+          <array>[nodes.Node]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>extra</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Combination of newline and write.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="467" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="469" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a0c1a13188ead1b0083463cee953eabbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.newline</definition>
+        <argsstring>(self, t.Optional[nodes.Node] node=None, int extra=0)</argsstring>
+        <name>newline</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.newline</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>node</declname>
+          <array>[nodes.Node]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>extra</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add one or more newlines before the next write.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="474" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="474" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a5d181201b361587c06c1d67440de92ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.signature</definition>
+        <argsstring>(self, t.Union[nodes.Call, nodes.Filter, nodes.Test] node, Frame frame, t.Optional[t.Mapping[str, t.Any]] extra_kwargs=None)</argsstring>
+        <name>signature</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.signature</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>node</declname>
+          <array>[nodes.Call, nodes.Filter, nodes.Test]</array>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>extra_kwargs</declname>
+          <array>[t.Mapping[str, t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Writes a function call to the stream for the current node.
+A leading comma is added automatically.  The extra keyword
+arguments may not include python keywords otherwise a syntax
+error could occur.  The extra keyword arguments should be given
+as python dict.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="481" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="486" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a0fa2b926a52faa72bea45df991cfd589" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.pull_dependencies</definition>
+        <argsstring>(self, t.Iterable[nodes.Node] nodes)</argsstring>
+        <name>pull_dependencies</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.pull_dependencies</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>nodes</declname>
+          <array>[nodes.Node]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find all filter and test names used in the template and
+assign them to variables in the compiled namespace. Checking
+that the names are registered with the environment is done when
+compiling the Filter and Test nodes. If the node is in an If or
+CondExpr node, the check is done at runtime instead.
+
+.. versionchanged:: 3.0
+    Filters and tests in If and CondExpr nodes are checked at
+    runtime instead of compile time.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="538" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="538" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a9825bf96ff4dfa5a2c88daf0f3ec3d4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.enter_frame</definition>
+        <argsstring>(self, Frame frame)</argsstring>
+        <name>enter_frame</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.enter_frame</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1meta_1_1TrackingCodeGenerator_1ab1681a22443287101975859849a0f708">enter_frame</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="584" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="584" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a483321bfd561c4813edbe556279c385e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.leave_frame</definition>
+        <argsstring>(self, Frame frame, bool with_python_scope=False)</argsstring>
+        <name>leave_frame</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.leave_frame</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>with_python_scope</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="600" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="600" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a6055c2a3edddfada4b43afdb4e46e6a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator.choose_async</definition>
+        <argsstring>(self, str async_value=&quot;async &quot;, str sync_value=&quot;&quot;)</argsstring>
+        <name>choose_async</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.choose_async</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>async_value</declname>
+          <defval>&quot;async &quot;</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sync_value</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="608" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="608" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a9614a5eeb61e9211e465748e9fcb5082" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator.func</definition>
+        <argsstring>(self, str name)</argsstring>
+        <name>func</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.func</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="611" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="611" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ae14bacfc7b4dd5dbb3d17270028995ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Tuple[<ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref>, <ref refid="classjinja2_1_1compiler_1_1MacroRef" kindref="compound">MacroRef</ref>]</type>
+        <definition> t.Tuple[Frame, MacroRef] jinja2.compiler.CodeGenerator.macro_body</definition>
+        <argsstring>(self, t.Union[nodes.Macro, nodes.CallBlock] node, Frame frame)</argsstring>
+        <name>macro_body</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.macro_body</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>node</declname>
+          <array>[nodes.Macro, nodes.CallBlock]</array>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dump the function def of a macro or call block.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="614" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="616" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac81fb033e6704c884d6cd2d5626472a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.macro_def</definition>
+        <argsstring>(self, MacroRef macro_ref, Frame frame)</argsstring>
+        <name>macro_def</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.macro_def</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1MacroRef" kindref="compound">MacroRef</ref></type>
+          <declname>macro_ref</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dump the macro definition for the def created by macro_body.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="697" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="697" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ab0b0213f913551d2a441314f2bb3e309" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator.position</definition>
+        <argsstring>(self, nodes.Node node)</argsstring>
+        <name>position</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.position</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a human readable position for the node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="709" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="709" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a88dac07d8ba0765126efece4a230cc3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator.dump_local_context</definition>
+        <argsstring>(self, Frame frame)</argsstring>
+        <name>dump_local_context</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.dump_local_context</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="716" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="716" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1accf9a2e3dd25d7e44fe0128c54449af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.write_commons</definition>
+        <argsstring>(self)</argsstring>
+        <name>write_commons</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.write_commons</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Writes a common preamble that is used by root and block functions.
+Primarily this sets up common local helpers and enforces a generator
+through a dead branch.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="723" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="723" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1af7b7afd0ba32814ba8cfbb5a9e26b1ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.push_parameter_definitions</definition>
+        <argsstring>(self, Frame frame)</argsstring>
+        <name>push_parameter_definitions</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.push_parameter_definitions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pushes all parameter targets from the given frame into a local
+stack that permits tracking of yet to be assigned parameters.  In
+particular this enables the optimization from `visit_Name` to skip
+undefined expressions for parameters in macros as macros can reference
+otherwise unbound parameters.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="736" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="736" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1aee27a4ea910a2d4ea31460f4c2e51e6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.pop_parameter_definitions</definition>
+        <argsstring>(self)</argsstring>
+        <name>pop_parameter_definitions</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.pop_parameter_definitions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pops the current parameter definitions set.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="745" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="745" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac3be8c6517f961d11692d618f8c58326" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.mark_parameter_stored</definition>
+        <argsstring>(self, str target)</argsstring>
+        <name>mark_parameter_stored</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.mark_parameter_stored</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Marks a parameter in the current parameter definitions as stored.
+This will skip the enforced undefined checks.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="749" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="749" bodyend="755"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a1da8642ce861243b4c2301890fd33033" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.push_context_reference</definition>
+        <argsstring>(self, str target)</argsstring>
+        <name>push_context_reference</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.push_context_reference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="756" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="756" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a6a760093e079e06ac07fc47519be9bbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.pop_context_reference</definition>
+        <argsstring>(self)</argsstring>
+        <name>pop_context_reference</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.pop_context_reference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="759" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="759" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1aa73dbc240a8bcfcf74771bef2f45a802" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator.get_context_ref</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_context_ref</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.get_context_ref</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="762" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="762" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac7ffb766bf4ed92b9d107c4a27c837cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator.get_resolve_func</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_resolve_func</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.get_resolve_func</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="765" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="765" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1aeb3400cc2ae98074092a9961f619f32b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator.derive_context</definition>
+        <argsstring>(self, Frame frame)</argsstring>
+        <name>derive_context</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.derive_context</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="771" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="771" bodyend="773"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a2361d7f71c3784e689aae81eca8cd40b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool jinja2.compiler.CodeGenerator.parameter_is_undeclared</definition>
+        <argsstring>(self, str target)</argsstring>
+        <name>parameter_is_undeclared</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.parameter_is_undeclared</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks if a given target is an undeclared parameter.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="774" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="774" bodyend="779"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a11e04bcd60ad3269ac7d5067bccc4144" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.push_assign_tracking</definition>
+        <argsstring>(self)</argsstring>
+        <name>push_assign_tracking</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.push_assign_tracking</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pushes a new layer for assignment tracking.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="780" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="780" bodyend="783"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1acbcc768abe89f82ec2fac28c53fdd0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.pop_assign_tracking</definition>
+        <argsstring>(self, Frame frame)</argsstring>
+        <name>pop_assign_tracking</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.pop_assign_tracking</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pops the topmost level for assignment tracking and updates the
+context variables if necessary.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="784" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="784" bodyend="826"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a2b3a727484b0a49bfff7071a07f3a897" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Template</definition>
+        <argsstring>(self, nodes.Template node, t.Optional[Frame] frame=None)</argsstring>
+        <name>visit_Template</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Template</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Template" kindref="compound">nodes.Template</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>frame</declname>
+          <array>[Frame]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="829" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="831" bodyend="950"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a864024a55d874d26bf482832f54b620c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Block</definition>
+        <argsstring>(self, nodes.Block node, Frame frame)</argsstring>
+        <name>visit_Block</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Block" kindref="compound">nodes.Block</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Call a block and register it for the template.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="951" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="951" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a3d05e597badc2e0737e587a1b51ba9d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Extends</definition>
+        <argsstring>(self, nodes.Extends node, Frame frame)</argsstring>
+        <name>visit_Extends</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Extends</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Extends" kindref="compound">nodes.Extends</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Calls the extender.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1000" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1000" bodyend="1041"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a628571c947869c57bc4c0e21c0abdb33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Include</definition>
+        <argsstring>(self, nodes.Include node, Frame frame)</argsstring>
+        <name>visit_Include</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Include</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Include" kindref="compound">nodes.Include</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handles includes.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1042" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1042" bodyend="1099"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a3f234c1e72ae8b5a208f1c4fd3c3b7f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Import</definition>
+        <argsstring>(self, nodes.Import node, Frame frame)</argsstring>
+        <name>visit_Import</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Import</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Import" kindref="compound">nodes.Import</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Visit regular imports.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1115" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1115" bodyend="1125"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a89d73a473bc883c75a95c4d0ca16d2b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_FromImport</definition>
+        <argsstring>(self, nodes.FromImport node, Frame frame)</argsstring>
+        <name>visit_FromImport</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_FromImport</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1FromImport" kindref="compound">nodes.FromImport</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Visit named imports.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1126" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1126" bodyend="1180"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1af102cfe5a1b942dcb13a2c0246cf9e98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_For</definition>
+        <argsstring>(self, nodes.For node, Frame frame)</argsstring>
+        <name>visit_For</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_For</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1For" kindref="compound">nodes.For</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1181" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1181" bodyend="1319"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a3e220ccd2a568abad1f51aab55f1c1b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_If</definition>
+        <argsstring>(self, nodes.If node, Frame frame)</argsstring>
+        <name>visit_If</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_If</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1If" kindref="compound">nodes.If</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1320" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1320" bodyend="1340"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a883924c7b08ce81fc2bc13767fa20693" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Macro</definition>
+        <argsstring>(self, nodes.Macro node, Frame frame)</argsstring>
+        <name>visit_Macro</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Macro</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Macro" kindref="compound">nodes.Macro</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1341" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1341" bodyend="1350"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ade1426336af1a76baa47fd376b09ce4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_CallBlock</definition>
+        <argsstring>(self, nodes.CallBlock node, Frame frame)</argsstring>
+        <name>visit_CallBlock</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_CallBlock</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1CallBlock" kindref="compound">nodes.CallBlock</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1351" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1351" bodyend="1358"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a0f21480821888df5d0349800b7fd8110" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_FilterBlock</definition>
+        <argsstring>(self, nodes.FilterBlock node, Frame frame)</argsstring>
+        <name>visit_FilterBlock</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_FilterBlock</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1FilterBlock" kindref="compound">nodes.FilterBlock</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1359" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1359" bodyend="1369"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1aa20c8f0c074bdbf250ef0db4ba9b99c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_With</definition>
+        <argsstring>(self, nodes.With node, Frame frame)</argsstring>
+        <name>visit_With</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_With</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1With" kindref="compound">nodes.With</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1370" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1370" bodyend="1381"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a3449fd62483a830016e147a026ccf707" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_ExprStmt</definition>
+        <argsstring>(self, nodes.ExprStmt node, Frame frame)</argsstring>
+        <name>visit_ExprStmt</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_ExprStmt</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1ExprStmt" kindref="compound">nodes.ExprStmt</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1382" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1382" bodyend="1385"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a4263cf172337441232751853a507630d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Output</definition>
+        <argsstring>(self, nodes.Output node, Frame frame)</argsstring>
+        <name>visit_Output</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Output</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Output" kindref="compound">nodes.Output</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1503" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1503" bodyend="1581"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a54c126c69aef025aa943726690dd38a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Assign</definition>
+        <argsstring>(self, nodes.Assign node, Frame frame)</argsstring>
+        <name>visit_Assign</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Assign</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Assign" kindref="compound">nodes.Assign</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1582" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1582" bodyend="1612"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a4b1312d7386d4483676d21be790e1778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_AssignBlock</definition>
+        <argsstring>(self, nodes.AssignBlock node, Frame frame)</argsstring>
+        <name>visit_AssignBlock</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_AssignBlock</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1AssignBlock" kindref="compound">nodes.AssignBlock</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1613" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1613" bodyend="1634"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1af6009637206a8cb8324f01c5bdd3986b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Name</definition>
+        <argsstring>(self, nodes.Name node, Frame frame)</argsstring>
+        <name>visit_Name</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Name</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Name" kindref="compound">nodes.Name</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1637" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1637" bodyend="1661"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a2a3022e0696c3a324da5b426aa6d518f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_NSRef</definition>
+        <argsstring>(self, nodes.NSRef node, Frame frame)</argsstring>
+        <name>visit_NSRef</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_NSRef</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1NSRef" kindref="compound">nodes.NSRef</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1662" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1662" bodyend="1669"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ad650986378699bafb1e01783343aeaf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Const</definition>
+        <argsstring>(self, nodes.Const node, Frame frame)</argsstring>
+        <name>visit_Const</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Const</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Const" kindref="compound">nodes.Const</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1670" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1670" bodyend="1676"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a807de20da194f2c3245ab11d5e2b92b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_TemplateData</definition>
+        <argsstring>(self, nodes.TemplateData node, Frame frame)</argsstring>
+        <name>visit_TemplateData</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_TemplateData</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1TemplateData" kindref="compound">nodes.TemplateData</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1677" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1677" bodyend="1684"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a3379fd6f648ac91a86b2c90652be4029" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Tuple</definition>
+        <argsstring>(self, nodes.Tuple node, Frame frame)</argsstring>
+        <name>visit_Tuple</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Tuple</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Tuple" kindref="compound">nodes.Tuple</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1685" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1685" bodyend="1693"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a3c248ac184332f5c096ffdd2fe81c44c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_List</definition>
+        <argsstring>(self, nodes.List node, Frame frame)</argsstring>
+        <name>visit_List</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_List</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1List" kindref="compound">nodes.List</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1694" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1694" bodyend="1701"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a8c038d80c418acc81552cfdc0c6c2837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Dict</definition>
+        <argsstring>(self, nodes.Dict node, Frame frame)</argsstring>
+        <name>visit_Dict</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Dict</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Dict" kindref="compound">nodes.Dict</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1702" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1702" bodyend="1711"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1adb7159bee2df727eb96f4771c9910ece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Concat</definition>
+        <argsstring>(self, nodes.Concat node, Frame frame)</argsstring>
+        <name>visit_Concat</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Concat</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Concat" kindref="compound">nodes.Concat</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1726" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1726" bodyend="1738"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a66793b520fa5c3a435b1d939ce0a3a7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Compare</definition>
+        <argsstring>(self, nodes.Compare node, Frame frame)</argsstring>
+        <name>visit_Compare</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Compare</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Compare" kindref="compound">nodes.Compare</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1740" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1740" bodyend="1746"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac97e94a063997ce8625e709dec40413d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Operand</definition>
+        <argsstring>(self, nodes.Operand node, Frame frame)</argsstring>
+        <name>visit_Operand</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Operand</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Operand" kindref="compound">nodes.Operand</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1747" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1747" bodyend="1750"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a731c87f5c76a35ea169cb6ce777e11f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Getattr</definition>
+        <argsstring>(self, nodes.Getattr node, Frame frame)</argsstring>
+        <name>visit_Getattr</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Getattr</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Getattr" kindref="compound">nodes.Getattr</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1752" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1752" bodyend="1762"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a67846e8c2661592565ff6278064ea428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Getitem</definition>
+        <argsstring>(self, nodes.Getitem node, Frame frame)</argsstring>
+        <name>visit_Getitem</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Getitem</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Getitem" kindref="compound">nodes.Getitem</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1764" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1764" bodyend="1783"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ad7b382c60b5d58934a59c4a6c21cff97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Slice</definition>
+        <argsstring>(self, nodes.Slice node, Frame frame)</argsstring>
+        <name>visit_Slice</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Slice</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Slice" kindref="compound">nodes.Slice</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1784" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1784" bodyend="1793"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a8b6c46b42769565ff731ff2307b75509" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Filter</definition>
+        <argsstring>(self, nodes.Filter node, Frame frame)</argsstring>
+        <name>visit_Filter</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Filter" kindref="compound">nodes.Filter</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1837" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1837" bodyend="1852"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac01e945942a8e4868c58f29fd0f23213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Test</definition>
+        <argsstring>(self, nodes.Test node, Frame frame)</argsstring>
+        <name>visit_Test</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Test</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Test" kindref="compound">nodes.Test</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1854" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1854" bodyend="1857"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a833e6f8a4680145bf9d8ce78afcb71d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_CondExpr</definition>
+        <argsstring>(self, nodes.CondExpr node, Frame frame)</argsstring>
+        <name>visit_CondExpr</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_CondExpr</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1CondExpr" kindref="compound">nodes.CondExpr</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1859" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1859" bodyend="1880"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a7cc44420f9dab38ddbcfea4e709bcfef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Call</definition>
+        <argsstring>(self, nodes.Call node, Frame frame, bool forward_caller=False)</argsstring>
+        <name>visit_Call</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Call</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Call" kindref="compound">nodes.Call</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>forward_caller</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1882" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1884" bodyend="1903"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a40369c69abdf9c98a85172724c98610f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Keyword</definition>
+        <argsstring>(self, nodes.Keyword node, Frame frame)</argsstring>
+        <name>visit_Keyword</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Keyword</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Keyword" kindref="compound">nodes.Keyword</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1904" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1904" bodyend="1907"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a0544a89263c15a2d11c41596f2e40446" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_MarkSafe</definition>
+        <argsstring>(self, nodes.MarkSafe node, Frame frame)</argsstring>
+        <name>visit_MarkSafe</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_MarkSafe</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1MarkSafe" kindref="compound">nodes.MarkSafe</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1910" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1910" bodyend="1914"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a64d107cc8042f6744417fa5ce022ab2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_MarkSafeIfAutoescape</definition>
+        <argsstring>(self, nodes.MarkSafeIfAutoescape node, Frame frame)</argsstring>
+        <name>visit_MarkSafeIfAutoescape</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_MarkSafeIfAutoescape</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1MarkSafeIfAutoescape" kindref="compound">nodes.MarkSafeIfAutoescape</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1915" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1917" bodyend="1921"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac284c3ae6628e85a08d308a14556f4eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_EnvironmentAttribute</definition>
+        <argsstring>(self, nodes.EnvironmentAttribute node, Frame frame)</argsstring>
+        <name>visit_EnvironmentAttribute</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_EnvironmentAttribute</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1EnvironmentAttribute" kindref="compound">nodes.EnvironmentAttribute</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1922" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1924" bodyend="1926"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ab58d3b495635535aed672c04c8612133" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_ExtensionAttribute</definition>
+        <argsstring>(self, nodes.ExtensionAttribute node, Frame frame)</argsstring>
+        <name>visit_ExtensionAttribute</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_ExtensionAttribute</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1ExtensionAttribute" kindref="compound">nodes.ExtensionAttribute</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1927" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1929" bodyend="1931"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1acdf4d82ed5e0fede3155b9fba3083af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_ImportedName</definition>
+        <argsstring>(self, nodes.ImportedName node, Frame frame)</argsstring>
+        <name>visit_ImportedName</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_ImportedName</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1ImportedName" kindref="compound">nodes.ImportedName</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1932" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1932" bodyend="1934"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1ac1e414e626e503371eb59417d8a8bec8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_InternalName</definition>
+        <argsstring>(self, nodes.InternalName node, Frame frame)</argsstring>
+        <name>visit_InternalName</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_InternalName</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1InternalName" kindref="compound">nodes.InternalName</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1935" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1935" bodyend="1937"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1afbc86816a92dbaf99ad2a4d63e0d41ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_ContextReference</definition>
+        <argsstring>(self, nodes.ContextReference node, Frame frame)</argsstring>
+        <name>visit_ContextReference</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_ContextReference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1ContextReference" kindref="compound">nodes.ContextReference</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1938" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1940" bodyend="1942"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a58306c70269a4f6b274546d9ed729b73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_DerivedContextReference</definition>
+        <argsstring>(self, nodes.DerivedContextReference node, Frame frame)</argsstring>
+        <name>visit_DerivedContextReference</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_DerivedContextReference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1DerivedContextReference" kindref="compound">nodes.DerivedContextReference</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1943" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1945" bodyend="1947"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1acdd30674e60ca25e85ad24029e1cfe0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Continue</definition>
+        <argsstring>(self, nodes.Continue node, Frame frame)</argsstring>
+        <name>visit_Continue</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Continue</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Continue" kindref="compound">nodes.Continue</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1948" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1948" bodyend="1950"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a71ae79dfac72da5a8370f2fc7b89a0f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Break</definition>
+        <argsstring>(self, nodes.Break node, Frame frame)</argsstring>
+        <name>visit_Break</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Break</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Break" kindref="compound">nodes.Break</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1951" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1951" bodyend="1953"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1abdb26fac1bd995377b96e2a3b7e64bd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_Scope</definition>
+        <argsstring>(self, nodes.Scope node, Frame frame)</argsstring>
+        <name>visit_Scope</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_Scope</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Scope" kindref="compound">nodes.Scope</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1954" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1954" bodyend="1960"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a2893492596c158c1f2470804b222cec4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_OverlayScope</definition>
+        <argsstring>(self, nodes.OverlayScope node, Frame frame)</argsstring>
+        <name>visit_OverlayScope</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_OverlayScope</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1OverlayScope" kindref="compound">nodes.OverlayScope</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1961" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1961" bodyend="1974"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1aede6a35714b432b47dfe7161fe29af76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_EvalContextModifier</definition>
+        <argsstring>(self, nodes.EvalContextModifier node, Frame frame)</argsstring>
+        <name>visit_EvalContextModifier</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_EvalContextModifier</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1EvalContextModifier" kindref="compound">nodes.EvalContextModifier</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1975" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1977" bodyend="1987"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1acd507c991fba396c552e84bfd140557e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator.visit_ScopedEvalContextModifier</definition>
+        <argsstring>(self, nodes.ScopedEvalContextModifier node, Frame frame)</argsstring>
+        <name>visit_ScopedEvalContextModifier</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator.visit_ScopedEvalContextModifier</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1ScopedEvalContextModifier" kindref="compound">nodes.ScopedEvalContextModifier</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1988" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1990" bodyend="1999"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a266ab0cd7b5f2c78dee89105b9c53add" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator._import_common</definition>
+        <argsstring>(self, t.Union[nodes.Import, nodes.FromImport] node, Frame frame)</argsstring>
+        <name>_import_common</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._import_common</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>node</declname>
+          <array>[nodes.Import, nodes.FromImport]</array>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1100" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1102" bodyend="1114"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1af3b128e797148786398408f663973e05" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1compiler_1_1CodeGenerator_1_1__FinalizeInfo" kindref="compound">_FinalizeInfo</ref></type>
+        <definition> _FinalizeInfo jinja2.compiler.CodeGenerator._make_finalize</definition>
+        <argsstring>(self)</argsstring>
+        <name>_make_finalize</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._make_finalize</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build the finalize function to be used on constants and at
+runtime. Cached so it&apos;s only created once for all output nodes.
+
+Returns a ``namedtuple`` with the following attributes:
+
+``const``
+    A function to finalize constant data at compile time.
+
+``src``
+    Source code to output around nodes to be evaluated at
+    runtime.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1400" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1400" bodyend="1447"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1adf19f6905847137ea6df0783c57e6d1c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator._output_const_repr</definition>
+        <argsstring>(self, t.Iterable[t.Any] group)</argsstring>
+        <name>_output_const_repr</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._output_const_repr</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1aafc4ac9b6b9a3911e90c6dedb5c0a7a8">_output_const_repr</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>group</declname>
+          <array>[t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a group of constant values converted from ``Output``
+child nodes, produce a string to write to the template module
+source.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1448" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1448" bodyend="1454"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a7713cde8c021ae15814cb6f41b500728" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.compiler.CodeGenerator._output_child_to_const</definition>
+        <argsstring>(self, nodes.Expr node, Frame frame, _FinalizeInfo finalize)</argsstring>
+        <name>_output_child_to_const</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._output_child_to_const</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1aede3aca889040710c23d754eaf660273">_output_child_to_const</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">nodes.Expr</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1CodeGenerator_1_1__FinalizeInfo" kindref="compound">_FinalizeInfo</ref></type>
+          <declname>finalize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Try to optimize a child of an ``Output`` node by trying to
+convert it to constant, finalized data at compile time.
+
+If :exc:`Impossible` is raised, the node is not constant and
+will be evaluated at runtime. Any other exception will also be
+evaluated at runtime for easier debugging.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1455" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1457" bodyend="1475"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a8cc085e0b26e5d58de557a2b51a4785e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator._output_child_pre</definition>
+        <argsstring>(self, nodes.Expr node, Frame frame, _FinalizeInfo finalize)</argsstring>
+        <name>_output_child_pre</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._output_child_pre</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1a4fef9a3a1dc59743c828ed0b47dba5eb">_output_child_pre</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">nodes.Expr</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1CodeGenerator_1_1__FinalizeInfo" kindref="compound">_FinalizeInfo</ref></type>
+          <declname>finalize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Output extra source code before visiting a child of an
+``Output`` node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1476" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1478" bodyend="1491"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a4b9b2f82f9b5122518f6d9e02b9222ee" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.compiler.CodeGenerator._output_child_post</definition>
+        <argsstring>(self, nodes.Expr node, Frame frame, _FinalizeInfo finalize)</argsstring>
+        <name>_output_child_post</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._output_child_post</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1abd697c49f2e7e314c53dec0bf7b11f3a">_output_child_post</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">nodes.Expr</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1CodeGenerator_1_1__FinalizeInfo" kindref="compound">_FinalizeInfo</ref></type>
+          <declname>finalize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Output extra source code after visiting a child of an
+``Output`` node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1492" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1494" bodyend="1502"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a3a2ea2d2c67fee4a31bae9dd1110cc2e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[None]</type>
+        <definition> t.Iterator[None] jinja2.compiler.CodeGenerator._filter_test_common</definition>
+        <argsstring>(self, t.Union[nodes.Filter, nodes.Test] node, Frame frame, bool is_filter)</argsstring>
+        <name>_filter_test_common</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._filter_test_common</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>node</declname>
+          <array>[nodes.Filter, nodes.Test]</array>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_filter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1795" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1797" bodyend="1835"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classjinja2_1_1compiler_1_1CodeGenerator_1a995194b49acb6859bbc0a2dad1e2b543" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.compiler.CodeGenerator._default_finalize</definition>
+        <argsstring>(t.Any value)</argsstring>
+        <name>_default_finalize</name>
+        <qualifiedname>jinja2.compiler.CodeGenerator._default_finalize</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1a2683c7d1bec0321b12411a2539ef8c4a">_default_finalize</reimplementedby>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The default finalize function if the environment isn&apos;t
+configured with one. Or, if the environment has one, this is
+called on that function&apos;s output for constants.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1391" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="1391" bodyend="1397"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.compiler.CodeGenerator</label>
+        <link refid="classjinja2_1_1compiler_1_1CodeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.meta.TrackingCodeGenerator</label>
+        <link refid="classjinja2_1_1meta_1_1TrackingCodeGenerator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jinja2.nativetypes.NativeCodeGenerator</label>
+        <link refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.compiler.CodeGenerator</label>
+        <link refid="classjinja2_1_1compiler_1_1CodeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="300" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="300" bodyend="1999"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aa522b6f8eadc6853f18f07093af1407b" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a577119a7578aefe130adaf5c7211db12" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_context_reference_stack</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a995194b49acb6859bbc0a2dad1e2b543" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_default_finalize</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a3a2ea2d2c67fee4a31bae9dd1110cc2e" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_filter_test_common</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a6ee5d615575f380d37df6932dff9158a" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_finalize</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a5cb92fb96d3e25234ac7e467d50fa7c9" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_finalize</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a5e6060492cebb885977adb15c26ab4d2" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_first_write</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a266ab0cd7b5f2c78dee89105b9c53add" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_import_common</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1abaf049ed72fea0a86d9504900b78d0f9" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_indentation</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a2a1313189504118534f22aa03eee831a" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_last_identifier</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a058d8ceab509323172b8f4fa3a740d53" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_last_line</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1af3b128e797148786398408f663973e05" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_make_finalize</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a330010b4562f10ec08c06ee2f4086f15" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_new_lines</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a4b9b2f82f9b5122518f6d9e02b9222ee" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_output_child_post</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a8cc085e0b26e5d58de557a2b51a4785e" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_output_child_pre</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a7713cde8c021ae15814cb6f41b500728" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_output_child_to_const</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1adf19f6905847137ea6df0783c57e6d1c" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_output_const_repr</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a4e471b0727e9f8de6b4fe1c6bbbe7989" prot="protected" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>_write_debug_info</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aac8a3eab088ea170380f114235f4e063" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>blockvisit</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac4dca3e0a12f3825cb887114f4bf0e2e" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>buffer</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a6055c2a3edddfada4b43afdb4e46e6a1" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>choose_async</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a248542df61234a3790e98a62a36af16a" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>code_lineno</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1afeb799fd17d91af66d15ed4a5fc7a299" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>created_block_context</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1af523215e56d80dfb3122a345e24d0b67" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>defer_init</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aeb3400cc2ae98074092a9961f619f32b" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>derive_context</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a88dac07d8ba0765126efece4a230cc3b" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>dump_local_context</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1abb1bd1a3ea8db7f95f72a2c63e3aa89d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>end_write</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a9825bf96ff4dfa5a2c88daf0f3ec3d4e" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>enter_frame</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1af1d8eb4b71aeb5a492c0c7d69f8583e5" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>environment</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a8e653257c551e1e5d4d8e2c2589b57fe" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>extends_so_far</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ada4ef266deda81593debc7dbb764a0e8" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>fail</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a7a2bc803c948887291d889d425ddfc2a" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>filename</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ad225197c8fc8d6352ce1a17460837a86" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>filters</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a9614a5eeb61e9211e465748e9fcb5082" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>func</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aa73dbc240a8bcfcf74771bef2f45a802" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>get_context_ref</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac7ffb766bf4ed92b9d107c4a27c837cd" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>get_resolve_func</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ad0e3c76cf8772110fc94ca642dc3586d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>has_known_extends</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a0b509c2d837ebcce2dbeab60fbc44818" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>indent</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a483321bfd561c4813edbe556279c385e" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>leave_frame</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ae14bacfc7b4dd5dbb3d17270028995ae" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>macro_body</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac81fb033e6704c884d6cd2d5626472a5" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>macro_def</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac3be8c6517f961d11692d618f8c58326" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>mark_parameter_stored</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a8cd075eda823a142807e5faf1733ed04" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>name</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a0c1a13188ead1b0083463cee953eabbb" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>newline</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a27c413e39d152fb144b22054ef5c9cf3" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>optimized</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a987558df4d46d5829f67add50c9f0f08" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>optimizer</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a063ee362e39ca4f38ee22fede26f4a4a" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>outdent</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a2361d7f71c3784e689aae81eca8cd40b" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>parameter_is_undeclared</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1acbcc768abe89f82ec2fac28c53fdd0f3" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>pop_assign_tracking</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a6a760093e079e06ac07fc47519be9bbf" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>pop_context_reference</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aee27a4ea910a2d4ea31460f4c2e51e6f" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>pop_parameter_definitions</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ab0b0213f913551d2a441314f2bb3e309" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>position</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a0fa2b926a52faa72bea45df991cfd589" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>pull_dependencies</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a11e04bcd60ad3269ac7d5067bccc4144" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>push_assign_tracking</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a1da8642ce861243b4c2301890fd33033" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>push_context_reference</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1af7b7afd0ba32814ba8cfbb5a9e26b1ce" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>push_parameter_definitions</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a5e4aed8e31b5c5b7ceea6ffe58c21b5c" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>return_buffer_contents</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a5d181201b361587c06c1d67440de92ef" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>signature</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac96f8b19e163062a0399bed6095680d6" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>simple_write</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a0f7dc2e15db090b6037d6c01ddabbe39" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>start_write</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a237b59cfd7a0f79ec00ddc5503d3c430" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>stream</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a9368b006060b69f8bf76ee749a3cb791" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>temporary_identifier</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aa2bf3d30d0889b148fcd41886e7ecfd1" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>tests</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ace35953b5df7582d8e28955edcadc9c8" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Add</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a1098798c3993745cf058377db870d6a1" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_And</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a54c126c69aef025aa943726690dd38a2" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Assign</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a4b1312d7386d4483676d21be790e1778" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_AssignBlock</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a864024a55d874d26bf482832f54b620c" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Block</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a71ae79dfac72da5a8370f2fc7b89a0f4" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Break</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a7cc44420f9dab38ddbcfea4e709bcfef" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Call</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ade1426336af1a76baa47fd376b09ce4d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_CallBlock</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a66793b520fa5c3a435b1d939ce0a3a7f" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Compare</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1adb7159bee2df727eb96f4771c9910ece" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Concat</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a833e6f8a4680145bf9d8ce78afcb71d9" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_CondExpr</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ad650986378699bafb1e01783343aeaf1" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Const</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1afbc86816a92dbaf99ad2a4d63e0d41ba" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_ContextReference</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1acdd30674e60ca25e85ad24029e1cfe0f" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Continue</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a58306c70269a4f6b274546d9ed729b73" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_DerivedContextReference</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a8c038d80c418acc81552cfdc0c6c2837" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Dict</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a8c1079d8b08872d5b6deca04fe8aed9f" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Div</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac284c3ae6628e85a08d308a14556f4eb" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_EnvironmentAttribute</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aede6a35714b432b47dfe7161fe29af76" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_EvalContextModifier</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a3449fd62483a830016e147a026ccf707" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_ExprStmt</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a3d05e597badc2e0737e587a1b51ba9d2" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Extends</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ab58d3b495635535aed672c04c8612133" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_ExtensionAttribute</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a8b6c46b42769565ff731ff2307b75509" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Filter</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a0f21480821888df5d0349800b7fd8110" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_FilterBlock</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a00dc17614e4e210d93d6dc73d68f6f33" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_FloorDiv</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1af102cfe5a1b942dcb13a2c0246cf9e98" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_For</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a89d73a473bc883c75a95c4d0ca16d2b1" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_FromImport</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a731c87f5c76a35ea169cb6ce777e11f3" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Getattr</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a67846e8c2661592565ff6278064ea428" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Getitem</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a3e220ccd2a568abad1f51aab55f1c1b8" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_If</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a3f234c1e72ae8b5a208f1c4fd3c3b7f1" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Import</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1acdf4d82ed5e0fede3155b9fba3083af6" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_ImportedName</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a628571c947869c57bc4c0e21c0abdb33" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Include</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac1e414e626e503371eb59417d8a8bec8" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_InternalName</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a40369c69abdf9c98a85172724c98610f" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Keyword</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a3c248ac184332f5c096ffdd2fe81c44c" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_List</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a883924c7b08ce81fc2bc13767fa20693" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Macro</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a0544a89263c15a2d11c41596f2e40446" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_MarkSafe</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a64d107cc8042f6744417fa5ce022ab2d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_MarkSafeIfAutoescape</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aa74a86cf070fcc5fde90782fd63b7624" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Mod</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a927993748787188c0dd3bc492842f0a9" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Mul</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1af6009637206a8cb8324f01c5bdd3986b" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Name</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ae1fe7496ec87931b050f7a9f79b59ded" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Neg</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a93919db93c98858505e15b59c175826e" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Not</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a2a3022e0696c3a324da5b426aa6d518f" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_NSRef</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac97e94a063997ce8625e709dec40413d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Operand</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac3edeeb43591e6492f3cb3f9e0ea145d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Or</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a4263cf172337441232751853a507630d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Output</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a2893492596c158c1f2470804b222cec4" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_OverlayScope</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a3fff6d30a9cc962b5953889a8c34d583" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Pos</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1afdae4be5d3b08a58b08b3bfe6423754d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Pow</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1abdb26fac1bd995377b96e2a3b7e64bd8" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Scope</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1acd507c991fba396c552e84bfd140557e" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_ScopedEvalContextModifier</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ad7b382c60b5d58934a59c4a6c21cff97" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Slice</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac574dc70ddf7fd2040d03646da91452d" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Sub</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a2b3a727484b0a49bfff7071a07f3a897" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Template</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a807de20da194f2c3245ab11d5e2b92b4" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_TemplateData</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ac01e945942a8e4868c58f29fd0f23213" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Test</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a3379fd6f648ac91a86b2c90652be4029" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_Tuple</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1aa20c8f0c074bdbf250ef0db4ba9b99c4" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>visit_With</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1a5cabefb033cd9cb17a8aeb8a85e397ce" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>write</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1accf9a2e3dd25d7e44fe0128c54449af6" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>write_commons</name></member>
+      <member refid="classjinja2_1_1compiler_1_1CodeGenerator_1ab7120535d41472742619faf224228b81" prot="public" virt="non-virtual"><scope>jinja2::compiler::CodeGenerator</scope><name>writeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

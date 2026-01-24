@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1texescape" kind="namespace" language="Python">
+    <compoundname>sphinx::util::texescape</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1texescape_1a5827b9bd87143695f7e21a3bb60e4518" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list sphinx::util::texescape.tex_replacements</definition>
+        <argsstring></argsstring>
+        <name>tex_replacements</name>
+        <qualifiedname>sphinx.util.texescape.tex_replacements</qualifiedname>
+        <initializer>=  [
+    # map TeX special chars
+    (&apos;$&apos;, r&apos;\$&apos;),
+    (&apos;%&apos;, r&apos;\%&apos;),
+    (&apos;&amp;&apos;, r&apos;\&amp;&apos;),
+    (&apos;#&apos;, r&apos;\#&apos;),
+    (&apos;_&apos;, r&apos;\_&apos;),
+    (&apos;{&apos;, r&apos;\{&apos;),
+    (&apos;}&apos;, r&apos;\}&apos;),
+    (&apos;\\&apos;, r&apos;\textbackslash{}&apos;),
+    (&apos;~&apos;, r&apos;\textasciitilde{}&apos;),
+    (&apos;^&apos;, r&apos;\textasciicircum{}&apos;),
+    # map chars to avoid mis-interpretation in LaTeX
+    (&apos;[&apos;, r&apos;{[}&apos;),
+    (&apos;]&apos;, r&apos;{]}&apos;),
+    # map special Unicode characters to TeX commands
+    (&apos;✓&apos;, r&apos;\(\checkmark\)&apos;),
+    (&apos;✔&apos;, r&apos;\(\pmb{\checkmark}\)&apos;),
+    (&apos;✕&apos;, r&apos;\(\times\)&apos;),
+    (&apos;✖&apos;, r&apos;\(\pmb{\times}\)&apos;),
+    # used to separate -- in options
+    (&apos;﻿&apos;, r&apos;{}&apos;),
+    # map some special Unicode characters to similar ASCII ones
+    # (even for Unicode LaTeX as may not be supported by OpenType font)
+    (&apos;⎽&apos;, r&apos;\_&apos;),
+    (&apos;ℯ&apos;, r&apos;e&apos;),  # U+212F # NoQA: RUF001
+    (&apos;ⅈ&apos;, r&apos;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>&apos;),  # U+2148 # NoQA: RUF001
+    # Greek alphabet not escaped: pdflatex handles it via textalpha and inputenc
+    # OHM SIGN U+2126 is handled by LaTeX textcomp package
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/texescape.py" line="7" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/texescape.py" bodystart="7" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>TeX escaping helper.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/texescape.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

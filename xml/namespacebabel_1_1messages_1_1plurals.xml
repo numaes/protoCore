@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1messages_1_1plurals" kind="namespace" language="Python">
+    <compoundname>babel::messages::plurals</compoundname>
+    <innerclass refid="classbabel_1_1messages_1_1plurals_1_1__PluralTuple" prot="protected">babel::messages::plurals::_PluralTuple</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1plurals_1ad5c1b089e2353135088cc1fd6f9f92a1" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::messages::plurals.LC_CTYPE</definition>
+        <argsstring></argsstring>
+        <name>LC_CTYPE</name>
+        <qualifiedname>babel.messages.plurals.LC_CTYPE</qualifiedname>
+        <initializer>=  default_locale(&apos;LC_CTYPE&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1plurals_1aadcf7a23dfe023d258db372daca21a5b" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict babel::messages::plurals.PLURALS</definition>
+        <argsstring></argsstring>
+        <name>PLURALS</name>
+        <qualifiedname>babel.messages.plurals.PLURALS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1plurals_1ae7e413cccc872540d21ac2bfe1e64866" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple babel::messages::plurals.DEFAULT_PLURAL</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_PLURAL</name>
+        <qualifiedname>babel.messages.plurals.DEFAULT_PLURAL</qualifiedname>
+        <initializer>=  (2, &apos;(n != 1)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" line="203" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1plurals_1aaef90265ed879fa292947777d5e502e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1messages_1_1plurals_1_1__PluralTuple" kindref="compound">_PluralTuple</ref></type>
+        <definition> _PluralTuple babel.messages.plurals.get_plural</definition>
+        <argsstring>(Locale|str|None locale=None)</argsstring>
+        <name>get_plural</name>
+        <qualifiedname>babel.messages.plurals.get_plural</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A tuple with the information catalogs need to perform proper
+pluralization.  The first item of the tuple is the number of plural
+forms, the second the plural expression.
+
+:param locale: the `Locale` object or locale identifier. Defaults to the system character type locale.
+
+&gt;&gt;&gt; get_plural(locale=&apos;en&apos;)
+(2, &apos;(n != 1)&apos;)
+&gt;&gt;&gt; get_plural(locale=&apos;ga&apos;)
+(5, &apos;(n==1 ? 0 : n==2 ? 1 : n&gt;=3 &amp;&amp; n&lt;=6 ? 2 : n&gt;=7 &amp;&amp; n&lt;=10 ? 3 : 4)&apos;)
+
+The object returned is a special tuple with additional members:
+
+&gt;&gt;&gt; tup = get_plural(&quot;ja&quot;)
+&gt;&gt;&gt; tup.num_plurals
+1
+&gt;&gt;&gt; tup.plural_expr
+&apos;0&apos;
+&gt;&gt;&gt; tup.plural_forms
+&apos;nplurals=1; plural=0;&apos;
+
+Converting the tuple into a string prints the plural forms for a
+gettext catalog:
+
+&gt;&gt;&gt; str(tup)
+&apos;nplurals=1; plural=0;&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" line="230" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" bodystart="230" bodyend="267"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.messages.plurals
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+    Plural form definitions.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/messages/plurals.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="trafficscript_8py" kind="file" language="Python">
+    <compoundname>trafficscript.py</compoundname>
+    <innerclass refid="classpygments_1_1lexers_1_1trafficscript_1_1RtsLexer" prot="public">pygments::lexers::trafficscript::RtsLexer</innerclass>
+    <innernamespace refid="namespacepygments">pygments</innernamespace>
+    <innernamespace refid="namespacepygments_1_1lexers">pygments::lexers</innernamespace>
+    <innernamespace refid="namespacepygments_1_1lexers_1_1trafficscript">pygments::lexers::trafficscript</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepygments_1_1lexers_1_1trafficscript" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.lexers.trafficscript</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Lexer<sp/>for<sp/>RiverBed&apos;s<sp/>TrafficScript<sp/>(RTS)<sp/>language.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2025<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1lexer" kindref="compound">pygments.lexer</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>RegexLexer</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1token" kindref="compound">pygments.token</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>String,<sp/>Number,<sp/>Name,<sp/>Keyword,<sp/>Operator,<sp/>Text,<sp/>Comment</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;RtsLexer&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="classpygments_1_1lexers_1_1trafficscript_1_1RtsLexer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1lexers_1_1trafficscript_1_1RtsLexer" kindref="compound">RtsLexer</ref>(<ref refid="classpygments_1_1lexer_1_1RegexLexer" kindref="compound">RegexLexer</ref>):</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>Riverbed<sp/>Stingray<sp/>Traffic<sp/>Manager</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;TrafficScript&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>aliases<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;trafficscript&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;rts&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>filenames<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;*.rts&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>url<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;https://riverbed.com&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>version_added<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;2.1&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>tokens<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;root&apos;</highlight><highlight class="normal"><sp/>:<sp/>[</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&quot;&apos;(\\\\|\\[^\\]|[^&apos;\\])*&apos;&quot;</highlight><highlight class="normal">,<sp/>String),</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;&quot;&apos;</highlight><highlight class="normal">,<sp/>String,<sp/></highlight><highlight class="stringliteral">&apos;escapable-string&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;(0x[0-9a-fA-F]+|\d+)&apos;</highlight><highlight class="normal">,<sp/>Number),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;\d+\.\d+&apos;</highlight><highlight class="normal">,<sp/>Number.Float),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;\$[a-zA-Z](\w|_)*&apos;</highlight><highlight class="normal">,<sp/>Name.Variable),</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;(if|else|for(each)?|in|while|do|break|sub|return|import)&apos;</highlight><highlight class="normal">,<sp/>Keyword),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;[a-zA-Z][\w.]*&apos;</highlight><highlight class="normal">,<sp/>Name.Function),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;[-+*/%=,;(){}&lt;&gt;^.!~|&amp;\[\]\?\:]&apos;</highlight><highlight class="normal">,<sp/>Operator),</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;(&gt;=|&lt;=|==|!=|&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&apos;&amp;&amp;|\|\||&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&apos;\+=|.=|-=|\*=|/=|%=|&lt;&lt;=|&gt;&gt;=|&amp;=|\|=|\^=|&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&apos;&gt;&gt;|&lt;&lt;|&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&apos;\+\+|--|=&gt;)&apos;</highlight><highlight class="normal">,<sp/>Operator),</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;[<sp/>\t\r]+&apos;</highlight><highlight class="normal">,<sp/>Text),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;#[^\n]*&apos;</highlight><highlight class="normal">,<sp/>Comment),</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>],</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;escapable-string&apos;</highlight><highlight class="normal"><sp/>:<sp/>[</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;\\[tsn]&apos;</highlight><highlight class="normal">,<sp/>String.Escape),</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;[^&quot;]&apos;</highlight><highlight class="normal">,<sp/>String),</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;&quot;&apos;</highlight><highlight class="normal">,<sp/>String,<sp/></highlight><highlight class="stringliteral">&apos;#pop&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>],</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/trafficscript.py"/>
+  </compounddef>
+</doxygen>

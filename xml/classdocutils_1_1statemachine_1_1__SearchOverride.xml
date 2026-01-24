@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1statemachine_1_1__SearchOverride" kind="class" language="Python" prot="protected">
+    <compoundname>docutils::statemachine::_SearchOverride</compoundname>
+    <derivedcompoundref refid="classdocutils_1_1statemachine_1_1SearchStateMachine" prot="public" virt="non-virtual">docutils.statemachine.SearchStateMachine</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1statemachine_1_1SearchStateMachineWS" prot="public" virt="non-virtual">docutils.statemachine.SearchStateMachineWS</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1__SearchOverride_1a2b91e9d62432f2a075961ab06ae08dac" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine._SearchOverride::line</definition>
+        <argsstring></argsstring>
+        <name>line</name>
+        <qualifiedname>docutils.statemachine._SearchOverride.line</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1040" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1040" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1__SearchOverride_1af3b89294589c6fc449b2ec267fb4d83d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine._SearchOverride.match</definition>
+        <argsstring>(self, pattern)</argsstring>
+        <name>match</name>
+        <qualifiedname>docutils.statemachine._SearchOverride.match</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>pattern</type>
+          <defname>pattern</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the result of a regular expression search.
+
+Overrides `StateMachine.match()`.
+
+Parameter `pattern`: `re` compiled regular expression.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1032" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1032" bodyend="1042"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Mix-in class to override `StateMachine` regular expression behavior.
+
+Changes regular expression matching, from the default `re.match()`
+(succeeds only if the pattern matches at the start of `self.line`) to
+`re.search()` (succeeds if the pattern matches anywhere in `self.line`).
+When subclassing a `StateMachine`, list this class **first** in the
+inheritance list of the class definition.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.statemachine._SearchOverride</label>
+        <link refid="classdocutils_1_1statemachine_1_1__SearchOverride"/>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.SearchStateMachine</label>
+        <link refid="classdocutils_1_1statemachine_1_1SearchStateMachine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.statemachine.SearchStateMachineWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1SearchStateMachineWS"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1020" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1020" bodyend="1042"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1statemachine_1_1__SearchOverride_1a2b91e9d62432f2a075961ab06ae08dac" prot="public" virt="non-virtual"><scope>docutils::statemachine::_SearchOverride</scope><name>line</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1__SearchOverride_1af3b89294589c6fc449b2ec267fb4d83d" prot="public" virt="non-virtual"><scope>docutils::statemachine::_SearchOverride</scope><name>match</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

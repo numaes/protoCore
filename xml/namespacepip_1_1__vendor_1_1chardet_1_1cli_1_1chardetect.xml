@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1chardet_1_1cli_1_1chardetect" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::chardet::cli::chardetect</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1chardet_1_1cli_1_1chardetect_1a4a442babedbf1e76c06f241dde1b0176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._vendor.chardet.cli.chardetect.description_of</definition>
+        <argsstring>(Iterable[bytes] lines, str name=&quot;stdin&quot;, bool minimal=False, bool should_rename_legacy=False)</argsstring>
+        <name>description_of</name>
+        <qualifiedname>pip._vendor.chardet.cli.chardetect.description_of</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>lines</declname>
+          <array>[bytes]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+          <defval>&quot;stdin&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>minimal</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>should_rename_legacy</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a string describing the probable encoding of a file or
+list of strings.
+
+:param lines: The lines to get the encoding of.
+:type lines: Iterable of bytes
+:param name: Name of file or collection of lines
+:type name: str
+:param should_rename_legacy:  Should we rename legacy encodings to
+                              their more modern equivalents?
+:type should_rename_legacy:   ``bool``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/cli/chardetect.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/cli/chardetect.py" bodystart="29" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1chardet_1_1cli_1_1chardetect_1ac946d375018da3f8b96cbd35a8715f8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.chardet.cli.chardetect.main</definition>
+        <argsstring>(Optional[List[str]] argv=None)</argsstring>
+        <name>main</name>
+        <qualifiedname>pip._vendor.chardet.cli.chardetect.main</qualifiedname>
+        <param>
+          <type>Optional]</type>
+          <declname>argv</declname>
+          <array>[List[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handles command line arguments and gets things started.
+
+:param argv: List of arguments, as if specified on the command-line.
+             If None, ``sys.argv[1:]`` is used instead.
+:type argv: list of str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/cli/chardetect.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/cli/chardetect.py" bodystart="58" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Script which takes one or more file paths and reports on their detected
+encodings
+
+Example::
+
+    % chardetect somefile someotherfile
+    somefile: windows-1252 with confidence 0.5
+    someotherfile: ascii with confidence 1.0
+
+If no paths are provided, it takes its input from stdin.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/cli/chardetect.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

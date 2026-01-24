@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1utils_1_1error__reporting" kind="namespace" language="Python">
+    <compoundname>docutils::utils::error_reporting</compoundname>
+    <innerclass refid="classdocutils_1_1utils_1_1error__reporting_1_1ErrorOutput" prot="public">docutils::utils::error_reporting::ErrorOutput</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1error__reporting_1_1ErrorString" prot="public">docutils::utils::error_reporting::ErrorString</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1error__reporting_1_1SafeString" prot="public">docutils::utils::error_reporting::SafeString</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1error__reporting_1a72ac414208b970949504528a8bba7ae9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::error_reporting.DeprecationWarning</definition>
+        <argsstring></argsstring>
+        <name>DeprecationWarning</name>
+        <qualifiedname>docutils.utils.error_reporting.DeprecationWarning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/error_reporting.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/error_reporting.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1error__reporting_1a78180f96a1a1e4e875c48a8c44a8e397" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::error_reporting.stacklevel</definition>
+        <argsstring></argsstring>
+        <name>stacklevel</name>
+        <qualifiedname>docutils.utils.error_reporting.stacklevel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/error_reporting.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/error_reporting.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1error__reporting_1a0b0aaed62e9e995c204d235f627770ee" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::error_reporting.unicode</definition>
+        <argsstring></argsstring>
+        <name>unicode</name>
+        <qualifiedname>docutils.utils.error_reporting.unicode</qualifiedname>
+        <initializer>=  str</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/error_reporting.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/error_reporting.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Deprecated module to handle Exceptions across Python versions.
+
+.. warning::
+   This module is deprecated with the end of support for Python 2.7
+   and will be removed in Docutils 0.21 or later.
+
+   Replacements:
+     | SafeString  -&gt; str
+     | ErrorString -&gt; docutils.io.error_string()
+     | ErrorOutput -&gt; docutils.io.ErrorOutput
+
+Error reporting should be safe from encoding/decoding errors.
+However, implicit conversions of strings and exceptions like
+
+&gt;&gt;&gt; u&apos;%s world: %s&apos; % (&apos;H\xe4llo&apos;, Exception(u&apos;H\xe4llo&apos;))
+
+fail in some Python versions:
+
+* In Python &lt;= 2.6, ``unicode(&lt;exception instance&gt;)`` uses
+  `__str__` and fails with non-ASCII chars in`unicode` arguments.
+  (work around http://bugs.python.org/issue2517):
+
+* In Python 2, unicode(&lt;exception instance&gt;) fails, with non-ASCII
+  chars in arguments. (Use case: in some locales, the errstr
+  argument of IOError contains non-ASCII chars.)
+
+* In Python 2, str(&lt;exception instance&gt;) fails, with non-ASCII chars
+  in `unicode` arguments.
+
+The `SafeString`, `ErrorString` and `ErrorOutput` classes handle
+common exceptions.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/error_reporting.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

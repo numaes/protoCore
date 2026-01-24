@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::exceptions::ExternallyManagedEnvironment</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1exceptions_1_1DiagnosticPipError" prot="public" virt="non-virtual">pip._internal.exceptions.DiagnosticPipError</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment_1a36f2dc70707895f71fcf7b91a96ccc71" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.exceptions.ExternallyManagedEnvironment::reference</definition>
+        <argsstring></argsstring>
+        <name>reference</name>
+        <qualifiedname>pip._internal.exceptions.ExternallyManagedEnvironment.reference</qualifiedname>
+        <initializer>=  &quot;externally-managed-environment&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="668" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="668" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment_1ab4b0e8fab7be16a6e18d346ab744962a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.exceptions.ExternallyManagedEnvironment.__init__</definition>
+        <argsstring>(self, Optional[str] error)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.exceptions.ExternallyManagedEnvironment.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1exceptions_1_1DiagnosticPipError_1aa319454e56d16f22eaa0214e85877a20">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>error</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="670" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="670" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment_1a9069ac80318b479081de98f971877c15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;ExternallyManagedEnvironment&quot;</type>
+        <definition> &quot;ExternallyManagedEnvironment&quot; pip._internal.exceptions.ExternallyManagedEnvironment.from_config</definition>
+        <argsstring>(cls, Union[pathlib.Path, str] config)</argsstring>
+        <name>from_config</name>
+        <qualifiedname>pip._internal.exceptions.ExternallyManagedEnvironment.from_config</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>config</declname>
+          <array>[pathlib.Path, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="710" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="713" bodyend="729"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment_1ae6aa18f8274dd1667b96aed3eca23bf5" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._internal.exceptions.ExternallyManagedEnvironment._iter_externally_managed_error_keys</definition>
+        <argsstring>()</argsstring>
+        <name>_iter_externally_managed_error_keys</name>
+        <qualifiedname>pip._internal.exceptions.ExternallyManagedEnvironment._iter_externally_managed_error_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="688" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="688" bodyend="708"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The current environment is externally managed.
+
+This is raised when the current environment is externally managed, as
+defined by `PEP 668`_. The ``EXTERNALLY-MANAGED`` configuration is checked
+and displayed when the error is bubbled up to the user.
+
+:param error: The error message read from ``EXTERNALLY-MANAGED``.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.ExternallyManagedEnvironment</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.DiagnosticPipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1DiagnosticPipError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>Exception</label>
+      </node>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.ExternallyManagedEnvironment</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>reference</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.DiagnosticPipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1DiagnosticPipError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>reference</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="658" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="658" bodyend="729"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment_1ab4b0e8fab7be16a6e18d346ab744962a" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::ExternallyManagedEnvironment</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment_1ae6aa18f8274dd1667b96aed3eca23bf5" prot="protected" virt="non-virtual"><scope>pip::_internal::exceptions::ExternallyManagedEnvironment</scope><name>_iter_externally_managed_error_keys</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment_1a9069ac80318b479081de98f971877c15" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::ExternallyManagedEnvironment</scope><name>from_config</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1ExternallyManagedEnvironment_1a36f2dc70707895f71fcf7b91a96ccc71" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::ExternallyManagedEnvironment</scope><name>reference</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

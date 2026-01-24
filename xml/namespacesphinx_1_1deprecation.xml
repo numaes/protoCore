@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1deprecation" kind="namespace" language="Python">
+    <compoundname>sphinx::deprecation</compoundname>
+    <innerclass refid="classsphinx_1_1deprecation_1_1RemovedInSphinx10Warning" prot="public">sphinx::deprecation::RemovedInSphinx10Warning</innerclass>
+    <innerclass refid="classsphinx_1_1deprecation_1_1RemovedInSphinx90Warning" prot="public">sphinx::deprecation::RemovedInSphinx90Warning</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1deprecation_1a287ff8816832fd07fabd4237a7c5d689" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::deprecation.RemovedInNextVersionWarning</definition>
+        <argsstring></argsstring>
+        <name>RemovedInNextVersionWarning</name>
+        <qualifiedname>sphinx.deprecation.RemovedInNextVersionWarning</qualifiedname>
+        <initializer>=  <ref refid="classsphinx_1_1deprecation_1_1RemovedInSphinx90Warning" kindref="compound">RemovedInSphinx90Warning</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/deprecation.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/deprecation.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1deprecation_1a0d14b5dd5244ab711815d584a4edbfcd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::deprecation.category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>sphinx.deprecation.category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/deprecation.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/deprecation.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1deprecation_1a9deed0b5cbb15d443cc5cf11d4acc5bf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.deprecation._deprecation_warning</definition>
+        <argsstring>(str module, str attribute, str canonical_name=&apos;&apos;, *tuple[int, int] remove, bool raises=False)</argsstring>
+        <name>_deprecation_warning</name>
+        <qualifiedname>sphinx.deprecation._deprecation_warning</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>module</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>attribute</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>canonical_name</declname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <param>
+          <type>*tuple</type>
+          <declname>remove</declname>
+          <array>[int, int]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>raises</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper function for module-level deprecations using ``__getattr__``.
+
+:param module: The module containing a deprecated object.
+:param attribute: The name of the deprecated object.
+:param canonical_name: Optional fully-qualified name for its replacement.
+:param remove: Target version for removal.
+:param raises: Indicate whether to raise an exception instead of a warning.
+
+When *raises* is ``True``, an :exc:`AttributeError` is raised instead
+of emitting a warning so that it is easy to locate deprecated objects
+in tests that could suppress deprecation warnings.
+
+Usage::
+
+   # deprecated name -&gt; (object to return, canonical path or empty string, removal version)
+   _DEPRECATED_OBJECTS = {
+       &apos;deprecated_name&apos;: (
+           object_to_return,
+           &apos;fully_qualified_replacement_name&apos;,
+           (9, 0),
+       ),
+   }
+
+
+   def __getattr__(name: str) -&gt; Any:
+       if name not in _DEPRECATED_OBJECTS:
+           msg = f&apos;module {__name__!r} has no attribute {name!r}&apos;
+           raise AttributeError(msg)
+
+       from sphinx.deprecation import _deprecation_warning
+
+       deprecated_object, canonical_name, remove = _DEPRECATED_OBJECTS[name]
+       _deprecation_warning(__name__, name, canonical_name, remove=remove)
+       return deprecated_object
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/deprecation.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/deprecation.py" bodystart="33" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Sphinx deprecation classes and utilities.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/deprecation.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

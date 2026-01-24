@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1truststore_1_1__api" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::truststore::_api</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1truststore_1_1__api_1_1SSLContext" prot="public">pip::_vendor::truststore::_api::SSLContext</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__api_1a2774dff7c1a537b64e43caae76522226" prot="protected" static="no" mutable="no">
+        <type>typing</type>
+        <definition>typing pip::_vendor::truststore::_api._StrOrBytesPath</definition>
+        <argsstring></argsstring>
+        <name>_StrOrBytesPath</name>
+        <qualifiedname>pip._vendor.truststore._api._StrOrBytesPath</qualifiedname>
+        <initializer>=  str | bytes | os.PathLike[str] | os.PathLike[bytes]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__api_1a5cc64b0dac6d9106ff39439c3e67d911" prot="protected" static="no" mutable="no">
+        <type>typing</type>
+        <definition>typing pip::_vendor::truststore::_api._PasswordType</definition>
+        <argsstring></argsstring>
+        <name>_PasswordType</name>
+        <qualifiedname>pip._vendor.truststore._api._PasswordType</qualifiedname>
+        <initializer>=  str | bytes | typing.Callable[[], str | bytes]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__api_1ad772038b4900a50317e5d2f9cd9425ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.truststore._api.inject_into_ssl</definition>
+        <argsstring>()</argsstring>
+        <name>inject_into_ssl</name>
+        <qualifiedname>pip._vendor.truststore._api.inject_into_ssl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Injects the :class:`truststore.SSLContext` into the ``ssl``
+module by replacing :class:`ssl.SSLContext`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" bodystart="31" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__api_1a9d63bedfcf15ac129e2819413cd994c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.truststore._api.extract_from_ssl</definition>
+        <argsstring>()</argsstring>
+        <name>extract_from_ssl</name>
+        <qualifiedname>pip._vendor.truststore._api.extract_from_ssl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Restores the :class:`ssl.SSLContext` class to its original state</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" bodystart="46" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__api_1a1e378e3701671c67236b69f2190a1381" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.truststore._api._verify_peercerts</definition>
+        <argsstring>(ssl.SSLSocket|ssl.SSLObject sock_or_sslobj, str|None server_hostname)</argsstring>
+        <name>_verify_peercerts</name>
+        <qualifiedname>pip._vendor.truststore._api._verify_peercerts</qualifiedname>
+        <param>
+          <type>ssl.SSLSocket|ssl.SSLObject</type>
+          <declname>sock_or_sslobj</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>server_hostname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Verifies the peer certificates from an SSLSocket or SSLObject
+against the certificates in the OS trust store.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" line="279" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" bodystart="281" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_api.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1packaging_1_1version" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::packaging::version</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1__BaseVersion" prot="protected">pip::_vendor::packaging::version::_BaseVersion</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1InvalidVersion" prot="public">pip::_vendor::packaging::version::InvalidVersion</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1LegacyVersion" prot="public">pip::_vendor::packaging::version::LegacyVersion</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1Version" prot="public">pip::_vendor::packaging::version::Version</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1ae05d0491e9bca79ea6a64276e20d553f" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::packaging::version.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._vendor.packaging.version.__all__</qualifiedname>
+        <initializer>=  [&quot;parse&quot;, &quot;Version&quot;, &quot;LegacyVersion&quot;, &quot;InvalidVersion&quot;, &quot;VERSION_PATTERN&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="13" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a1c6fc00ed9b276784511ee1adc8b5737" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version.InfiniteTypes</definition>
+        <argsstring></argsstring>
+        <name>InfiniteTypes</name>
+        <qualifiedname>pip._vendor.packaging.version.InfiniteTypes</qualifiedname>
+        <initializer>=  Union[<ref refid="classpip_1_1__vendor_1_1packaging_1_1__structures_1_1InfinityType" kindref="compound">InfinityType</ref>, <ref refid="classpip_1_1__vendor_1_1packaging_1_1__structures_1_1NegativeInfinityType" kindref="compound">NegativeInfinityType</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1ad765a3a692cf23a82f365e45b36a9cf8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version.PrePostDevType</definition>
+        <argsstring></argsstring>
+        <name>PrePostDevType</name>
+        <qualifiedname>pip._vendor.packaging.version.PrePostDevType</qualifiedname>
+        <initializer>=  Union[<ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a1c6fc00ed9b276784511ee1adc8b5737" kindref="member">InfiniteTypes</ref>, Tuple[str, int]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1ae9a4a776eb6a205d3420461e71d85edd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version.SubLocalType</definition>
+        <argsstring></argsstring>
+        <name>SubLocalType</name>
+        <qualifiedname>pip._vendor.packaging.version.SubLocalType</qualifiedname>
+        <initializer>=  Union[<ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a1c6fc00ed9b276784511ee1adc8b5737" kindref="member">InfiniteTypes</ref>, int, str]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a90f9068b43b9f81840911d51156eee8f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version.LocalType</definition>
+        <argsstring></argsstring>
+        <name>LocalType</name>
+        <qualifiedname>pip._vendor.packaging.version.LocalType</qualifiedname>
+        <initializer>=  Union[
+    <ref refid="classpip_1_1__vendor_1_1packaging_1_1__structures_1_1NegativeInfinityType" kindref="compound">NegativeInfinityType</ref>,
+    Tuple[
+        Union[
+            <ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1ae9a4a776eb6a205d3420461e71d85edd" kindref="member">SubLocalType</ref>,
+            Tuple[<ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1ae9a4a776eb6a205d3420461e71d85edd" kindref="member">SubLocalType</ref>, str],
+            Tuple[<ref refid="classpip_1_1__vendor_1_1packaging_1_1__structures_1_1NegativeInfinityType" kindref="compound">NegativeInfinityType</ref>, <ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1ae9a4a776eb6a205d3420461e71d85edd" kindref="member">SubLocalType</ref>],
+        ],
+        ...,
+    ],
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a507764ccfbe3f5d3bbf8613f4268cc22" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version.CmpKey</definition>
+        <argsstring></argsstring>
+        <name>CmpKey</name>
+        <qualifiedname>pip._vendor.packaging.version.CmpKey</qualifiedname>
+        <initializer>=  Tuple[
+    int, Tuple[int, ...], <ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1ad765a3a692cf23a82f365e45b36a9cf8" kindref="member">PrePostDevType</ref>, <ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1ad765a3a692cf23a82f365e45b36a9cf8" kindref="member">PrePostDevType</ref>, <ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1ad765a3a692cf23a82f365e45b36a9cf8" kindref="member">PrePostDevType</ref>, <ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a90f9068b43b9f81840911d51156eee8f" kindref="member">LocalType</ref>
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a8ac036b644a4534261a53e062568e8f9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version.LegacyCmpKey</definition>
+        <argsstring></argsstring>
+        <name>LegacyCmpKey</name>
+        <qualifiedname>pip._vendor.packaging.version.LegacyCmpKey</qualifiedname>
+        <initializer>=  Tuple[int, Tuple[str, ...]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1add88494efca2f03ef37253dc747bf0c7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version.VersionComparisonMethod</definition>
+        <argsstring></argsstring>
+        <name>VersionComparisonMethod</name>
+        <qualifiedname>pip._vendor.packaging.version.VersionComparisonMethod</qualifiedname>
+        <initializer>=  Callable[
+    [Union[<ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a507764ccfbe3f5d3bbf8613f4268cc22" kindref="member">CmpKey</ref>, <ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a8ac036b644a4534261a53e062568e8f9" kindref="member">LegacyCmpKey</ref>], Union[<ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a507764ccfbe3f5d3bbf8613f4268cc22" kindref="member">CmpKey</ref>, <ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a8ac036b644a4534261a53e062568e8f9" kindref="member">LegacyCmpKey</ref>]], bool
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a722d2d6590262e121bb7dbf6b652fd9d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version._Version</definition>
+        <argsstring></argsstring>
+        <name>_Version</name>
+        <qualifiedname>pip._vendor.packaging.version._Version</qualifiedname>
+        <initializer>=  collections.namedtuple(
+    &quot;_Version&quot;, [&quot;epoch&quot;, &quot;release&quot;, &quot;dev&quot;, &quot;pre&quot;, &quot;post&quot;, &quot;local&quot;]
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="37" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a1c3956b5a0287dc559f843b54692e0e7" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version._legacy_version_component_re</definition>
+        <argsstring></argsstring>
+        <name>_legacy_version_component_re</name>
+        <qualifiedname>pip._vendor.packaging.version._legacy_version_component_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;(\d+ | [a-<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a196ff6a287f53f758b1506f21269fc77" kindref="member">z</ref>]+ | \.| -)&quot;, re.VERBOSE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="168" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a3f2820c3654a067a93bb8c4bea05a8a9" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::packaging::version._legacy_version_replacement_map</definition>
+        <argsstring></argsstring>
+        <name>_legacy_version_replacement_map</name>
+        <qualifiedname>pip._vendor.packaging.version._legacy_version_replacement_map</qualifiedname>
+        <initializer>=  {
+    &quot;pre&quot;: &quot;c&quot;,
+    &quot;preview&quot;: &quot;c&quot;,
+    &quot;-&quot;: &quot;final-&quot;,
+    &quot;rc&quot;: &quot;c&quot;,
+    &quot;dev&quot;: &quot;@&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="170" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a9f1a216a1ea9c569f2204173b6b41b3c" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::packaging::version.VERSION_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>VERSION_PATTERN</name>
+        <qualifiedname>pip._vendor.packaging.version.VERSION_PATTERN</qualifiedname>
+        <initializer>=  r&quot;&quot;&quot;
+    v?
+    (?:
+        (?:(?P&lt;epoch&gt;[0-9]+)!)?                           # epoch
+        (?P&lt;release&gt;[0-9]+(?:\.[0-9]+)*)                  # release segment
+        (?P&lt;pre&gt;                                          # pre-release
+            [-_\.]?
+            (?P&lt;pre_l&gt;(a|b|c|rc|alpha|beta|pre|preview))
+            [-_\.]?
+            (?P&lt;pre_n&gt;[0-9]+)?
+        )?
+        (?P&lt;post&gt;                                         # post release
+            (?:-(?P&lt;post_n1&gt;[0-9]+))
+            |
+            (?:
+                [-_\.]?
+                (?P&lt;post_l&gt;post|rev|r)
+                [-_\.]?
+                (?P&lt;post_n2&gt;[0-9]+)?
+            )
+        )?
+        (?P&lt;dev&gt;                                          # dev release
+            [-_\.]?
+            (?P&lt;dev_l&gt;dev)
+            [-_\.]?
+            (?P&lt;dev_n&gt;[0-9]+)?
+        )?
+    )
+    (?:\+(?P&lt;local&gt;[a-z0-9]+(?:[-_\.][a-z0-9]+)*))?       # local version
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="225" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1aa4fdf7849871c007a47883e3b16b3976" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::version._local_version_separators</definition>
+        <argsstring></argsstring>
+        <name>_local_version_separators</name>
+        <qualifiedname>pip._vendor.packaging.version._local_version_separators</qualifiedname>
+        <initializer>=  re.compile(r&quot;[\._-]&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="429" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="429" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a16f61f9b096f0bbbd8bd792500ca8a55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Union[&quot;LegacyVersion&quot;, &quot;Version&quot;]</type>
+        <definition> Union[&quot;LegacyVersion&quot;, &quot;Version&quot;] pip._vendor.packaging.version.parse</definition>
+        <argsstring>(str version)</argsstring>
+        <name>parse</name>
+        <qualifiedname>pip._vendor.packaging.version.parse</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the given version string and return either a :class:`Version` object
+or a :class:`LegacyVersion` object depending on if the given version is
+a valid PEP 440 version or a legacy version.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="42" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1afe7020a08e66c64755f2dbad757789d1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging.version._parse_version_parts</definition>
+        <argsstring>(str s)</argsstring>
+        <name>_parse_version_parts</name>
+        <qualifiedname>pip._vendor.packaging.version._parse_version_parts</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="179" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="179" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a2b23fbfafd860697211cf3431442611f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a8ac036b644a4534261a53e062568e8f9" kindref="member">LegacyCmpKey</ref></type>
+        <definition> LegacyCmpKey pip._vendor.packaging.version._legacy_cmpkey</definition>
+        <argsstring>(str version)</argsstring>
+        <name>_legacy_cmpkey</name>
+        <qualifiedname>pip._vendor.packaging.version._legacy_cmpkey</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="196" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="196" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1a40d44260d303756ce84a30afff685262" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[Tuple[str, int]]</type>
+        <definition> Optional[Tuple[str, int]] pip._vendor.packaging.version._parse_letter_version</definition>
+        <argsstring>(str letter, Union[str, bytes, SupportsInt] number)</argsstring>
+        <name>_parse_letter_version</name>
+        <qualifiedname>pip._vendor.packaging.version._parse_letter_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>letter</declname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>number</declname>
+          <array>[str, bytes, SupportsInt]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="393" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="395" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1af5744c3c19f4227afd2e5afb556847ce" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a90f9068b43b9f81840911d51156eee8f" kindref="member">LocalType</ref>]</type>
+        <definition> Optional[LocalType] pip._vendor.packaging.version._parse_local_version</definition>
+        <argsstring>(str local)</argsstring>
+        <name>_parse_local_version</name>
+        <qualifiedname>pip._vendor.packaging.version._parse_local_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>local</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Takes a string like abc.1.twelve and turns it into (&quot;abc&quot;, 1, &quot;twelve&quot;).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="432" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="432" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1version_1ac1fd345e6e64611282449be7a8125e8b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version_1a507764ccfbe3f5d3bbf8613f4268cc22" kindref="member">CmpKey</ref></type>
+        <definition> CmpKey pip._vendor.packaging.version._cmpkey</definition>
+        <argsstring>(int epoch, Tuple[int,...] release, Optional[Tuple[str, int]] pre, Optional[Tuple[str, int]] post, Optional[Tuple[str, int]] dev, Optional[Tuple[SubLocalType]] local)</argsstring>
+        <name>_cmpkey</name>
+        <qualifiedname>pip._vendor.packaging.version._cmpkey</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>Tuple</type>
+          <declname>release</declname>
+          <array>[int,...]</array>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>pre</declname>
+          <array>[Tuple[str, int]</array>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>post</declname>
+          <array>[Tuple[str, int]</array>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>dev</declname>
+          <array>[Tuple[str, int]</array>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>local</declname>
+          <array>[Tuple[SubLocalType]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="444" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" bodystart="451" bodyend="505"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/version.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

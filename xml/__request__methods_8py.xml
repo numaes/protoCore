@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__request__methods_8py" kind="file" language="Python">
+    <compoundname>_request_methods.py</compoundname>
+    <innerclass refid="classurllib3_1_1__request__methods_1_1RequestMethods" prot="public">urllib3::_request_methods::RequestMethods</innerclass>
+    <innernamespace refid="namespaceurllib3">urllib3</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1__request__methods">urllib3::_request_methods</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceurllib3_1_1__request__methods" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>json<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_json</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>typing</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>urllib.parse<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>urlencode</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>._base_connection<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_TYPE_BODY</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>._collections<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>HTTPHeaderDict</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.filepost<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_TYPE_FIELDS,<sp/>encode_multipart_formdata</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.response<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BaseHTTPResponse</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;RequestMethods&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">_TYPE_ENCODE_URL_FIELDS<sp/>=<sp/>typing.Union[</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>typing.Sequence[tuple[str,<sp/>typing.Union[str,<sp/>bytes]]],</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>typing.Mapping[str,<sp/>typing.Union[str,<sp/>bytes]],</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">]</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="classurllib3_1_1__request__methods_1_1RequestMethods" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1__request__methods_1_1RequestMethods" kindref="compound">RequestMethods</ref>:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Convenience<sp/>mixin<sp/>for<sp/>classes<sp/>who<sp/>implement<sp/>a<sp/>:meth:`urlopen`<sp/>method,<sp/>such</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>as<sp/>:class:`urllib3.HTTPConnectionPool`<sp/>and</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:class:`urllib3.PoolManager`.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Provides<sp/>behavior<sp/>for<sp/>making<sp/>common<sp/>types<sp/>of<sp/>HTTP<sp/>request<sp/>methods<sp/>and</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>decides<sp/>which<sp/>type<sp/>of<sp/>request<sp/>field<sp/>encoding<sp/>to<sp/>use.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Specifically,</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:meth:`.request_encode_url`<sp/>is<sp/>for<sp/>sending<sp/>requests<sp/>whose<sp/>fields<sp/>are</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>encoded<sp/>in<sp/>the<sp/>URL<sp/>(such<sp/>as<sp/>GET,<sp/>HEAD,<sp/>DELETE).</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:meth:`.request_encode_body`<sp/>is<sp/>for<sp/>sending<sp/>requests<sp/>whose<sp/>fields<sp/>are</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>encoded<sp/>in<sp/>the<sp/>*body*<sp/>of<sp/>the<sp/>request<sp/>using<sp/>multipart<sp/>or<sp/>www-form-urlencoded</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(such<sp/>as<sp/>for<sp/>POST,<sp/>PUT,<sp/>PATCH).</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:meth:`.request`<sp/>is<sp/>for<sp/>making<sp/>any<sp/>kind<sp/>of<sp/>request,<sp/>it<sp/>will<sp/>look<sp/>up<sp/>the</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>appropriate<sp/>encoding<sp/>format<sp/>and<sp/>use<sp/>one<sp/>of<sp/>the<sp/>above<sp/>two<sp/>methods<sp/>to<sp/>make</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>request.</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Initializer<sp/>parameters:</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>headers:</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Headers<sp/>to<sp/>include<sp/>with<sp/>all<sp/>requests,<sp/>unless<sp/>other<sp/>headers<sp/>are<sp/>given</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>explicitly.</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>_encode_url_methods<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HEAD&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OPTIONS&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a46a69c3766cbeba2bfd3948ab6c19de0" kindref="member">__init__</ref>(self,<sp/>headers:<sp/>typing.Mapping[str,<sp/>str]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a1c6141ddb4fc0b12bfa19fa6a6be8aa8" kindref="member">headers</ref><sp/>=<sp/>headers<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>{}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">urlopen(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method:<sp/>str,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url:<sp/>str,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body:<sp/>_TYPE_BODY<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers:<sp/>typing.Mapping[str,<sp/>str]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encode_multipart:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>multipart_boundary:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>**kw:<sp/>typing.Any,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>BaseHTTPResponse:<sp/><sp/></highlight><highlight class="comment">#<sp/>Abstract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Classes<sp/>extending<sp/>RequestMethods<sp/>must<sp/>implement<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;their<sp/>own<sp/>``urlopen``<sp/>method.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">request(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method:<sp/>str,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url:<sp/>str,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body:<sp/>_TYPE_BODY<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fields:<sp/>_TYPE_FIELDS<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers:<sp/>typing.Mapping[str,<sp/>str]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json:<sp/>typing.Any<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>**urlopen_kw:<sp/>typing.Any,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>BaseHTTPResponse:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Make<sp/>a<sp/>request<sp/>using<sp/>:meth:`urlopen`<sp/>with<sp/>the<sp/>appropriate<sp/>encoding<sp/>of</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``fields``<sp/>based<sp/>on<sp/>the<sp/>``method``<sp/>used.</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>is<sp/>a<sp/>convenience<sp/>method<sp/>that<sp/>requires<sp/>the<sp/>least<sp/>amount<sp/>of<sp/>manual</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>effort.<sp/>It<sp/>can<sp/>be<sp/>used<sp/>in<sp/>most<sp/>situations,<sp/>while<sp/>still<sp/>having<sp/>the</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>option<sp/>to<sp/>drop<sp/>down<sp/>to<sp/>more<sp/>specific<sp/>methods<sp/>when<sp/>necessary,<sp/>such<sp/>as</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:meth:`request_encode_url`,<sp/>:meth:`request_encode_body`,</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>or<sp/>even<sp/>the<sp/>lowest<sp/>level<sp/>:meth:`urlopen`.</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>method:</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HTTP<sp/>request<sp/>method<sp/>(such<sp/>as<sp/>GET,<sp/>POST,<sp/>PUT,<sp/>etc.)</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>url:</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>URL<sp/>to<sp/>perform<sp/>the<sp/>request<sp/>on.</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>body:</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Data<sp/>to<sp/>send<sp/>in<sp/>the<sp/>request<sp/>body,<sp/>either<sp/>:class:`str`,<sp/>:class:`bytes`,</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>an<sp/>iterable<sp/>of<sp/>:class:`str`/:class:`bytes`,<sp/>or<sp/>a<sp/>file-like<sp/>object.</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>fields:</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Data<sp/>to<sp/>encode<sp/>and<sp/>send<sp/>in<sp/>the<sp/>URL<sp/>or<sp/>request<sp/>body,<sp/>depending<sp/>on<sp/>``method``.</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>headers:</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Dictionary<sp/>of<sp/>custom<sp/>headers<sp/>to<sp/>send,<sp/>such<sp/>as<sp/>User-Agent,</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If-None-Match,<sp/>etc.<sp/>If<sp/>None,<sp/>pool<sp/>headers<sp/>are<sp/>used.<sp/>If<sp/>provided,</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>these<sp/>headers<sp/>completely<sp/>replace<sp/>any<sp/>pool-specific<sp/>headers.</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>json:</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Data<sp/>to<sp/>encode<sp/>and<sp/>send<sp/>as<sp/>JSON<sp/>with<sp/>UTF-encoded<sp/>in<sp/>the<sp/>request<sp/>body.</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>``&quot;Content-Type&quot;``<sp/>header<sp/>will<sp/>be<sp/>set<sp/>to<sp/>``&quot;application/json&quot;``</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unless<sp/>specified<sp/>otherwise.</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method<sp/>=<sp/>method.upper()</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>json<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>body<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>TypeError(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;request<sp/>got<sp/>values<sp/>for<sp/>both<sp/>&apos;body&apos;<sp/>and<sp/>&apos;json&apos;<sp/>parameters<sp/>which<sp/>are<sp/>mutually<sp/>exclusive&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>json<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>headers<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers<sp/>=<sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a1c6141ddb4fc0b12bfa19fa6a6be8aa8" kindref="member">headers</ref></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&quot;content-type&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>map(str.lower,<sp/>headers.keys())):</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers<sp/>=<sp/><ref refid="classurllib3_1_1__collections_1_1HTTPHeaderDict" kindref="compound">HTTPHeaderDict</ref>(headers)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body<sp/>=<sp/>_json.dumps(json,<sp/>separators=(</highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">),<sp/>ensure_ascii=</highlight><highlight class="keyword">False</highlight><highlight class="normal">).encode(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;utf-8&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>body<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>urlopen_kw[</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">]<sp/>=<sp/>body</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>method<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a195694a8cf6f1b78f20bd84f20b530c0" kindref="member">_encode_url_methods</ref>:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a07da4bf2f77104c62b660d671c1c1d5f" kindref="member">request_encode_url</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fields=fields,<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[arg-type]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers=headers,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>**urlopen_kw,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1aa106f3922a0986cc8ae9f63ed4c2dd80" kindref="member">request_encode_body</ref>(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method,<sp/>url,<sp/>fields=fields,<sp/>headers=headers,<sp/>**urlopen_kw</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a07da4bf2f77104c62b660d671c1c1d5f" kindref="member">request_encode_url</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method:<sp/>str,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url:<sp/>str,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fields:<sp/>_TYPE_ENCODE_URL_FIELDS<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers:<sp/>typing.Mapping[str,<sp/>str]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>**urlopen_kw:<sp/>str,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>BaseHTTPResponse:</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Make<sp/>a<sp/>request<sp/>using<sp/>:meth:`urlopen`<sp/>with<sp/>the<sp/>``fields``<sp/>encoded<sp/>in</highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>url.<sp/>This<sp/>is<sp/>useful<sp/>for<sp/>request<sp/>methods<sp/>like<sp/>GET,<sp/>HEAD,<sp/>DELETE,<sp/>etc.</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>method:</highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HTTP<sp/>request<sp/>method<sp/>(such<sp/>as<sp/>GET,<sp/>POST,<sp/>PUT,<sp/>etc.)</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>url:</highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>URL<sp/>to<sp/>perform<sp/>the<sp/>request<sp/>on.</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>fields:</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Data<sp/>to<sp/>encode<sp/>and<sp/>send<sp/>in<sp/>the<sp/>URL.</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>headers:</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Dictionary<sp/>of<sp/>custom<sp/>headers<sp/>to<sp/>send,<sp/>such<sp/>as<sp/>User-Agent,</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If-None-Match,<sp/>etc.<sp/>If<sp/>None,<sp/>pool<sp/>headers<sp/>are<sp/>used.<sp/>If<sp/>provided,</highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>these<sp/>headers<sp/>completely<sp/>replace<sp/>any<sp/>pool-specific<sp/>headers.</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>headers<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers<sp/>=<sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a1c6141ddb4fc0b12bfa19fa6a6be8aa8" kindref="member">headers</ref></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_kw:<sp/>dict[str,<sp/>typing.Any]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;headers&quot;</highlight><highlight class="normal">:<sp/>headers}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_kw.update(urlopen_kw)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>fields:</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;?&quot;</highlight><highlight class="normal"><sp/>+<sp/>urlencode(fields)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1ad5023faee921d03e65491abf8c804c14" kindref="member">urlopen</ref>(method,<sp/>url,<sp/>**extra_kw)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1aa106f3922a0986cc8ae9f63ed4c2dd80" kindref="member">request_encode_body</ref>(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method:<sp/>str,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url:<sp/>str,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fields:<sp/>_TYPE_FIELDS<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers:<sp/>typing.Mapping[str,<sp/>str]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encode_multipart:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>multipart_boundary:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>**urlopen_kw:<sp/>str,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>BaseHTTPResponse:</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Make<sp/>a<sp/>request<sp/>using<sp/>:meth:`urlopen`<sp/>with<sp/>the<sp/>``fields``<sp/>encoded<sp/>in</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>body.<sp/>This<sp/>is<sp/>useful<sp/>for<sp/>request<sp/>methods<sp/>like<sp/>POST,<sp/>PUT,<sp/>PATCH,<sp/>etc.</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>When<sp/>``encode_multipart=True``<sp/>(default),<sp/>then</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:func:`urllib3.encode_multipart_formdata`<sp/>is<sp/>used<sp/>to<sp/>encode</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>payload<sp/>with<sp/>the<sp/>appropriate<sp/>content<sp/>type.<sp/>Otherwise</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:func:`urllib.parse.urlencode`<sp/>is<sp/>used<sp/>with<sp/>the</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;application/x-www-form-urlencoded&apos;<sp/>content<sp/>type.</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Multipart<sp/>encoding<sp/>must<sp/>be<sp/>used<sp/>when<sp/>posting<sp/>files,<sp/>and<sp/>it&apos;s<sp/>reasonably</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>safe<sp/>to<sp/>use<sp/>it<sp/>in<sp/>other<sp/>times<sp/>too.<sp/>However,<sp/>it<sp/>may<sp/>break<sp/>request</highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>signing,<sp/>such<sp/>as<sp/>with<sp/>OAuth.</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Supports<sp/>an<sp/>optional<sp/>``fields``<sp/>parameter<sp/>of<sp/>key/value<sp/>strings<sp/>AND</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key/filetuple.<sp/>A<sp/>filetuple<sp/>is<sp/>a<sp/>(filename,<sp/>data,<sp/>MIME<sp/>type)<sp/>tuple<sp/>where</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>MIME<sp/>type<sp/>is<sp/>optional.<sp/>For<sp/>example::</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fields<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;foo&apos;:<sp/>&apos;bar&apos;,</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;fakefile&apos;:<sp/>(&apos;foofile.txt&apos;,<sp/>&apos;contents<sp/>of<sp/>foofile&apos;),</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;realfile&apos;:<sp/>(&apos;barfile.txt&apos;,<sp/>open(&apos;realfile&apos;).read()),</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;typedfile&apos;:<sp/>(&apos;bazfile.bin&apos;,<sp/>open(&apos;bazfile&apos;).read(),</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;image/jpeg&apos;),</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;nonamefile&apos;:<sp/>&apos;contents<sp/>of<sp/>nonamefile<sp/>field&apos;,</highlight></codeline>
+<codeline lineno="219"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>When<sp/>uploading<sp/>a<sp/>file,<sp/>providing<sp/>a<sp/>filename<sp/>(the<sp/>first<sp/>parameter<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tuple)<sp/>is<sp/>optional<sp/>but<sp/>recommended<sp/>to<sp/>best<sp/>mimic<sp/>behavior<sp/>of<sp/>browsers.</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="224"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Note<sp/>that<sp/>if<sp/>``headers``<sp/>are<sp/>supplied,<sp/>the<sp/>&apos;Content-Type&apos;<sp/>header<sp/>will</highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>be<sp/>overwritten<sp/>because<sp/>it<sp/>depends<sp/>on<sp/>the<sp/>dynamic<sp/>random<sp/>boundary<sp/>string</highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>which<sp/>is<sp/>used<sp/>to<sp/>compose<sp/>the<sp/>body<sp/>of<sp/>the<sp/>request.<sp/>The<sp/>random<sp/>boundary</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>string<sp/>can<sp/>be<sp/>explicitly<sp/>set<sp/>with<sp/>the<sp/>``multipart_boundary``<sp/>parameter.</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>method:</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HTTP<sp/>request<sp/>method<sp/>(such<sp/>as<sp/>GET,<sp/>POST,<sp/>PUT,<sp/>etc.)</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>url:</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>URL<sp/>to<sp/>perform<sp/>the<sp/>request<sp/>on.</highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>fields:</highlight></codeline>
+<codeline lineno="236"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Data<sp/>to<sp/>encode<sp/>and<sp/>send<sp/>in<sp/>the<sp/>request<sp/>body.</highlight></codeline>
+<codeline lineno="237"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="238"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>headers:</highlight></codeline>
+<codeline lineno="239"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Dictionary<sp/>of<sp/>custom<sp/>headers<sp/>to<sp/>send,<sp/>such<sp/>as<sp/>User-Agent,</highlight></codeline>
+<codeline lineno="240"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If-None-Match,<sp/>etc.<sp/>If<sp/>None,<sp/>pool<sp/>headers<sp/>are<sp/>used.<sp/>If<sp/>provided,</highlight></codeline>
+<codeline lineno="241"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>these<sp/>headers<sp/>completely<sp/>replace<sp/>any<sp/>pool-specific<sp/>headers.</highlight></codeline>
+<codeline lineno="242"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="243"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>encode_multipart:</highlight></codeline>
+<codeline lineno="244"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>True,<sp/>encode<sp/>the<sp/>``fields``<sp/>using<sp/>the<sp/>multipart/form-data<sp/>MIME</highlight></codeline>
+<codeline lineno="245"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>format.</highlight></codeline>
+<codeline lineno="246"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="247"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>multipart_boundary:</highlight></codeline>
+<codeline lineno="248"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>not<sp/>specified,<sp/>then<sp/>a<sp/>random<sp/>boundary<sp/>will<sp/>be<sp/>generated<sp/>using</highlight></codeline>
+<codeline lineno="249"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:func:`urllib3.filepost.choose_boundary`.</highlight></codeline>
+<codeline lineno="250"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>headers<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers<sp/>=<sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a1c6141ddb4fc0b12bfa19fa6a6be8aa8" kindref="member">headers</ref></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_kw:<sp/>dict[str,<sp/>typing.Any]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;headers&quot;</highlight><highlight class="normal">:<sp/><ref refid="classurllib3_1_1__collections_1_1HTTPHeaderDict" kindref="compound">HTTPHeaderDict</ref>(headers)}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body:<sp/>bytes<sp/>|<sp/>str</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>fields:</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>urlopen_kw:</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>TypeError(</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;request<sp/>got<sp/>values<sp/>for<sp/>both<sp/>&apos;fields&apos;<sp/>and<sp/>&apos;body&apos;,<sp/>can<sp/>only<sp/>specify<sp/>one.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>encode_multipart:</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body,<sp/>content_type<sp/>=<sp/>encode_multipart_formdata(</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fields,<sp/>boundary=multipart_boundary</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body,<sp/>content_type<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>urlencode(fields),<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[arg-type]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;application/x-www-form-urlencoded&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_kw[</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">]<sp/>=<sp/>body</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_kw[</highlight><highlight class="stringliteral">&quot;headers&quot;</highlight><highlight class="normal">].setdefault(</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">,<sp/>content_type)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_kw.update(urlopen_kw)</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classurllib3_1_1__request__methods_1_1RequestMethods_1ad5023faee921d03e65491abf8c804c14" kindref="member">urlopen</ref>(method,<sp/>url,<sp/>**extra_kw)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/_request_methods.py"/>
+  </compounddef>
+</doxygen>

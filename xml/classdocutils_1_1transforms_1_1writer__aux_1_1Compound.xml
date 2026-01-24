@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1writer__aux_1_1Compound" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::writer_aux::Compound</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1a0623fcb0145c909c1299b3642b942348" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.writer_aux.Compound::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.writer_aux.Compound.default_priority</qualifiedname>
+        <initializer>=  910</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1ae47f37ec45a7ef77c2a73a66f08bb0ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.writer_aux.Compound.__init__</definition>
+        <argsstring>(self, document, startnode=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.transforms.writer_aux.Compound.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1ab1ceb3a09ea1b3fc6256c2e536f82d6c">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref></type>
+          <defname>document</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1transforms_1_1Transform_1aa3b293e3c50fc8701e4fcbb2c86b32dc" kindref="member">startnode</ref></type>
+          <defname>startnode</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initial setup for in-place document transforms.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1aadfc051f2f9501126e282f6556cda56e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.writer_aux.Compound.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.writer_aux.Compound.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py" line="51" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py" bodystart="51" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>.. warning:: This transform is not used by Docutils since Dec 2010
+             and will be removed in Docutils 0.21 or later.
+
+Flatten all compound paragraphs.  For example, transform ::
+
+    &lt;compound&gt;
+        &lt;paragraph&gt;
+        &lt;literal_block&gt;
+        &lt;paragraph&gt;
+
+into ::
+
+    &lt;paragraph&gt;
+    &lt;literal_block classes=&quot;continued&quot;&gt;
+    &lt;paragraph classes=&quot;continued&quot;&gt;
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.writer_aux.Compound</label>
+        <link refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.writer_aux.Compound</label>
+        <link refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/writer_aux.py" bodystart="23" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1ae47f37ec45a7ef77c2a73a66f08bb0ad" prot="public" virt="non-virtual"><scope>docutils::transforms::writer_aux::Compound</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1aadfc051f2f9501126e282f6556cda56e" prot="public" virt="non-virtual"><scope>docutils::transforms::writer_aux::Compound</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1a0623fcb0145c909c1299b3642b942348" prot="public" virt="non-virtual"><scope>docutils::transforms::writer_aux::Compound</scope><name>default_priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

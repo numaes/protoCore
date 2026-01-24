@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="charset__normalizer_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespacecharset__normalizer">charset_normalizer</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacecharset__normalizer" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">Charset-Normalizer</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">The<sp/>Real<sp/>First<sp/>Universal<sp/>Charset<sp/>Detector.</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">A<sp/>library<sp/>that<sp/>helps<sp/>you<sp/>read<sp/>text<sp/>from<sp/>an<sp/>unknown<sp/>charset<sp/>encoding.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">Motivated<sp/>by<sp/>chardet,<sp/>This<sp/>package<sp/>is<sp/>trying<sp/>to<sp/>resolve<sp/>the<sp/>issue<sp/>by<sp/>taking<sp/>a<sp/>new<sp/>approach.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">All<sp/>IANA<sp/>character<sp/>set<sp/>names<sp/>for<sp/>which<sp/>the<sp/>Python<sp/>core<sp/>library<sp/>provides<sp/>codecs<sp/>are<sp/>supported.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">Basic<sp/>usage:</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>from<sp/>charset_normalizer<sp/>import<sp/>from_bytes</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>results<sp/>=<sp/>from_bytes(&apos;Bсеки<sp/>човек<sp/>има<sp/>право<sp/>на<sp/>образование.<sp/>Oбразованието!&apos;.encode(&apos;utf_8&apos;))</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>best_guess<sp/>=<sp/>results.best()</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>str(best_guess)</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/>&apos;Bсеки<sp/>човек<sp/>има<sp/>право<sp/>на<sp/>образование.<sp/>Oбразованието!&apos;</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">Others<sp/>methods<sp/>and<sp/>usages<sp/>are<sp/>available<sp/>-<sp/>see<sp/>the<sp/>full<sp/>documentation</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral">at<sp/>&lt;https://github.com/Ousret/charset_normalizer&gt;.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral">:copyright:<sp/>(c)<sp/>2021<sp/>by<sp/>Ahmed<sp/>TAHRI</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral">:license:<sp/>MIT,<sp/>see<sp/>LICENSE<sp/>for<sp/>more<sp/>details.</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.api<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>from_bytes,<sp/>from_fp,<sp/>from_path,<sp/>is_binary</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.legacy<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>detect</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.models<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>CharsetMatch,<sp/>CharsetMatches</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.utils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>set_logging_handler</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.version<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>VERSION,<sp/>__version__</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">__all__<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;from_fp&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;from_path&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;from_bytes&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;is_binary&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;detect&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;CharsetMatch&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;CharsetMatches&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;__version__&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;VERSION&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;set_logging_handler&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Attach<sp/>a<sp/>NullHandler<sp/>to<sp/>the<sp/>top<sp/>level<sp/>logger<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">#<sp/>https://docs.python.org/3.3/howto/logging.html#configuring-logging-for-a-library</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">logging.getLogger(</highlight><highlight class="stringliteral">&quot;charset_normalizer&quot;</highlight><highlight class="normal">).addHandler(logging.NullHandler())</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/charset_normalizer/__init__.py"/>
+  </compounddef>
+</doxygen>

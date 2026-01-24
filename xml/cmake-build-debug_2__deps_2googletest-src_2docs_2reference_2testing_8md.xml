@@ -1,0 +1,1445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_8md" kind="file" language="Markdown">
+    <compoundname>testing.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Testing<sp/>Reference</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;!--*<sp/>toc_depth:<sp/>3<sp/>*--&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>page<sp/>lists<sp/>the<sp/>facilities<sp/>provided<sp/>by<sp/>GoogleTest<sp/>for<sp/>writing<sp/>test<sp/>programs.</highlight></codeline>
+<codeline><highlight class="normal">To<sp/>use<sp/>them,<sp/>include<sp/>the<sp/>header<sp/>`gtest/gtest.h`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Macros</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>defines<sp/>the<sp/>following<sp/>macros<sp/>for<sp/>writing<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TEST<sp/>{#TEST}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;pre&gt;</highlight></codeline>
+<codeline><highlight class="normal">TEST(&lt;em&gt;TestSuiteName&lt;/em&gt;,<sp/>&lt;em&gt;TestName&lt;/em&gt;)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>&lt;em&gt;statements&lt;/em&gt;<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">&lt;/pre&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>an<sp/>individual<sp/>test<sp/>named<sp/>*`TestName`*<sp/>in<sp/>the<sp/>test<sp/>suite</highlight></codeline>
+<codeline><highlight class="normal">*`TestSuiteName`*,<sp/>consisting<sp/>of<sp/>the<sp/>given<sp/>statements.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Both<sp/>arguments<sp/>*`TestSuiteName`*<sp/>and<sp/>*`TestName`*<sp/>must<sp/>be<sp/>valid<sp/>C++<sp/>identifiers</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>must<sp/>not<sp/>contain<sp/>underscores<sp/>(`_`).<sp/>Tests<sp/>in<sp/>different<sp/>test<sp/>suites<sp/>can<sp/>have</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>same<sp/>individual<sp/>name.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>statements<sp/>within<sp/>the<sp/>test<sp/>body<sp/>can<sp/>be<sp/>any<sp/>code<sp/>under<sp/>test.</highlight></codeline>
+<codeline><highlight class="normal">[Assertions](assertions.md)<sp/>used<sp/>within<sp/>the<sp/>test<sp/>body<sp/>determine<sp/>the<sp/>outcome<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>test.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TEST_F<sp/>{#TEST_F}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;pre&gt;</highlight></codeline>
+<codeline><highlight class="normal">TEST_F(&lt;em&gt;TestFixtureName&lt;/em&gt;,<sp/>&lt;em&gt;TestName&lt;/em&gt;)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>&lt;em&gt;statements&lt;/em&gt;<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">&lt;/pre&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>an<sp/>individual<sp/>test<sp/>named<sp/>*`TestName`*<sp/>that<sp/>uses<sp/>the<sp/>test<sp/>fixture<sp/>class</highlight></codeline>
+<codeline><highlight class="normal">*`TestFixtureName`*.<sp/>The<sp/>test<sp/>suite<sp/>name<sp/>is<sp/>*`TestFixtureName`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Both<sp/>arguments<sp/>*`TestFixtureName`*<sp/>and<sp/>*`TestName`*<sp/>must<sp/>be<sp/>valid<sp/>C++</highlight></codeline>
+<codeline><highlight class="normal">identifiers<sp/>and<sp/>must<sp/>not<sp/>contain<sp/>underscores<sp/>(`_`).<sp/>*`TestFixtureName`*<sp/>must<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>name<sp/>of<sp/>a<sp/>test<sp/>fixture<sp/>class—see</highlight></codeline>
+<codeline><highlight class="normal">[Test<sp/>Fixtures](../primer.md#same-data-multiple-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>statements<sp/>within<sp/>the<sp/>test<sp/>body<sp/>can<sp/>be<sp/>any<sp/>code<sp/>under<sp/>test.</highlight></codeline>
+<codeline><highlight class="normal">[Assertions](assertions.md)<sp/>used<sp/>within<sp/>the<sp/>test<sp/>body<sp/>determine<sp/>the<sp/>outcome<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>test.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TEST_P<sp/>{#TEST_P}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;pre&gt;</highlight></codeline>
+<codeline><highlight class="normal">TEST_P(&lt;em&gt;TestFixtureName&lt;/em&gt;,<sp/>&lt;em&gt;TestName&lt;/em&gt;)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>&lt;em&gt;statements&lt;/em&gt;<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">&lt;/pre&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>an<sp/>individual<sp/>value-parameterized<sp/>test<sp/>named<sp/>*`TestName`*<sp/>that<sp/>uses<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>fixture<sp/>class<sp/>*`TestFixtureName`*.<sp/>The<sp/>test<sp/>suite<sp/>name<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">*`TestFixtureName`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Both<sp/>arguments<sp/>*`TestFixtureName`*<sp/>and<sp/>*`TestName`*<sp/>must<sp/>be<sp/>valid<sp/>C++</highlight></codeline>
+<codeline><highlight class="normal">identifiers<sp/>and<sp/>must<sp/>not<sp/>contain<sp/>underscores<sp/>(`_`).<sp/>*`TestFixtureName`*<sp/>must<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>name<sp/>of<sp/>a<sp/>value-parameterized<sp/>test<sp/>fixture<sp/>class—see</highlight></codeline>
+<codeline><highlight class="normal">[Value-Parameterized<sp/>Tests](../advanced.md#value-parameterized-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>statements<sp/>within<sp/>the<sp/>test<sp/>body<sp/>can<sp/>be<sp/>any<sp/>code<sp/>under<sp/>test.<sp/>Within<sp/>the<sp/>test</highlight></codeline>
+<codeline><highlight class="normal">body,<sp/>the<sp/>test<sp/>parameter<sp/>can<sp/>be<sp/>accessed<sp/>with<sp/>the<sp/>`GetParam()`<sp/>function<sp/>(see</highlight></codeline>
+<codeline><highlight class="normal">[`WithParamInterface`](#WithParamInterface)).<sp/>For<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">TEST_P(MyTestSuite,<sp/>DoesSomething)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_TRUE(DoSomething(GetParam()));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[Assertions](assertions.md)<sp/>used<sp/>within<sp/>the<sp/>test<sp/>body<sp/>determine<sp/>the<sp/>outcome<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>test.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>[`INSTANTIATE_TEST_SUITE_P`](#INSTANTIATE_TEST_SUITE_P).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>INSTANTIATE_TEST_SUITE_P<sp/>{#INSTANTIATE_TEST_SUITE_P}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`INSTANTIATE_TEST_SUITE_P(`*`InstantiationName`*`,`*`TestSuiteName`*`,`*`param_generator`*`)`</highlight></codeline>
+<codeline><highlight class="normal">\</highlight></codeline>
+<codeline><highlight class="normal">`INSTANTIATE_TEST_SUITE_P(`*`InstantiationName`*`,`*`TestSuiteName`*`,`*`param_generator`*`,`*`name_generator`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Instantiates<sp/>the<sp/>value-parameterized<sp/>test<sp/>suite<sp/>*`TestSuiteName`*<sp/>(defined<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">[`TEST_P`](#TEST_P)).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>argument<sp/>*`InstantiationName`*<sp/>is<sp/>a<sp/>unique<sp/>name<sp/>for<sp/>the<sp/>instantiation<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>suite,<sp/>to<sp/>distinguish<sp/>between<sp/>multiple<sp/>instantiations.<sp/>In<sp/>test<sp/>output,<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">instantiation<sp/>name<sp/>is<sp/>added<sp/>as<sp/>a<sp/>prefix<sp/>to<sp/>the<sp/>test<sp/>suite<sp/>name</highlight></codeline>
+<codeline><highlight class="normal">*`TestSuiteName`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>argument<sp/>*`param_generator`*<sp/>is<sp/>one<sp/>of<sp/>the<sp/>following<sp/>GoogleTest-provided</highlight></codeline>
+<codeline><highlight class="normal">functions<sp/>that<sp/>generate<sp/>the<sp/>test<sp/>parameters,<sp/>all<sp/>defined<sp/>in<sp/>the<sp/>`::testing`</highlight></codeline>
+<codeline><highlight class="normal">namespace:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;span<sp/>id=&quot;param-generators&quot;&gt;&lt;/span&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Parameter<sp/>Generator<sp/>|<sp/>Behavior<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-------------------<sp/>|<sp/>----------------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Range(begin,<sp/>end<sp/>[,<sp/>step])`<sp/>|<sp/>Yields<sp/>values<sp/>`{begin,<sp/>begin+step,<sp/>begin+step+step,<sp/>...}`.<sp/>The<sp/>values<sp/>do<sp/>not<sp/>include<sp/>`end`.<sp/>`step`<sp/>defaults<sp/>to<sp/>1.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Values(v1,<sp/>v2,<sp/>...,<sp/>vN)`<sp/><sp/><sp/><sp/>|<sp/>Yields<sp/>values<sp/>`{v1,<sp/>v2,<sp/>...,<sp/>vN}`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ValuesIn(container)`<sp/>or<sp/>`ValuesIn(begin,end)`<sp/>|<sp/>Yields<sp/>values<sp/>from<sp/>a<sp/>C-style<sp/>array,<sp/>an<sp/>STL-style<sp/>container,<sp/>or<sp/>an<sp/>iterator<sp/>range<sp/>`[begin,<sp/>end)`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Bool()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Yields<sp/>sequence<sp/>`{false,<sp/>true}`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Combine(g1,<sp/>g2,<sp/>...,<sp/>gN)`<sp/><sp/><sp/>|<sp/>Yields<sp/>as<sp/>`std::tuple`<sp/>*n*-tuples<sp/>all<sp/>combinations<sp/>(Cartesian<sp/>product)<sp/>of<sp/>the<sp/>values<sp/>generated<sp/>by<sp/>the<sp/>given<sp/>*n*<sp/>generators<sp/>`g1`,<sp/>`g2`,<sp/>...,<sp/>`gN`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ConvertGenerator&lt;T&gt;(g)`<sp/><sp/><sp/><sp/><sp/>|<sp/>Yields<sp/>values<sp/>generated<sp/>by<sp/>generator<sp/>`g`,<sp/>`static_cast`<sp/>to<sp/>`T`.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>optional<sp/>last<sp/>argument<sp/>*`name_generator`*<sp/>is<sp/>a<sp/>function<sp/>or<sp/>functor<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">generates<sp/>custom<sp/>test<sp/>name<sp/>suffixes<sp/>based<sp/>on<sp/>the<sp/>test<sp/>parameters.<sp/>The<sp/>function</highlight></codeline>
+<codeline><highlight class="normal">must<sp/>accept<sp/>an<sp/>argument<sp/>of<sp/>type</highlight></codeline>
+<codeline><highlight class="normal">[`TestParamInfo&lt;class<sp/>ParamType&gt;`](#TestParamInfo)<sp/>and<sp/>return<sp/>a<sp/>`std::string`.</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>test<sp/>name<sp/>suffix<sp/>can<sp/>only<sp/>contain<sp/>alphanumeric<sp/>characters<sp/>and<sp/>underscores.</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>provides<sp/>[`PrintToStringParamName`](#PrintToStringParamName),<sp/>or<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">custom<sp/>function<sp/>can<sp/>be<sp/>used<sp/>for<sp/>more<sp/>control:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">INSTANTIATE_TEST_SUITE_P(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MyInstantiation,<sp/>MyTestSuite,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>testing::Values(...),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[](const<sp/>testing::TestParamInfo&lt;MyTestSuite::ParamType&gt;&amp;<sp/>info)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Can<sp/>use<sp/>info.param<sp/>here<sp/>to<sp/>generate<sp/>the<sp/>test<sp/>suffix</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>name;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>more<sp/>information,<sp/>see</highlight></codeline>
+<codeline><highlight class="normal">[Value-Parameterized<sp/>Tests](../advanced.md#value-parameterized-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also</highlight></codeline>
+<codeline><highlight class="normal">[`GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST`](#GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TYPED_TEST_SUITE<sp/>{#TYPED_TEST_SUITE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TYPED_TEST_SUITE(`*`TestFixtureName`*`,`*`Types`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>a<sp/>typed<sp/>test<sp/>suite<sp/>based<sp/>on<sp/>the<sp/>test<sp/>fixture<sp/>*`TestFixtureName`*.<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>suite<sp/>name<sp/>is<sp/>*`TestFixtureName`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>argument<sp/>*`TestFixtureName`*<sp/>is<sp/>a<sp/>fixture<sp/>class<sp/>template,<sp/>parameterized<sp/>by<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">type,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>&lt;typename<sp/>T&gt;</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>MyFixture<sp/>:<sp/>public<sp/>testing::Test<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>using<sp/>List<sp/>=<sp/>std::list&lt;T&gt;;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>static<sp/>T<sp/>shared_;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>T<sp/>value_;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>argument<sp/>*`Types`*<sp/>is<sp/>a<sp/>[`Types`](#Types)<sp/>object<sp/>representing<sp/>the<sp/>list<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">types<sp/>to<sp/>run<sp/>the<sp/>tests<sp/>on,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>MyTypes<sp/>=<sp/>::testing::Types&lt;char,<sp/>int,<sp/>unsigned<sp/>int&gt;;</highlight></codeline>
+<codeline><highlight class="normal">TYPED_TEST_SUITE(MyFixture,<sp/>MyTypes);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>type<sp/>alias<sp/>(`using`<sp/>or<sp/>`typedef`)<sp/>is<sp/>necessary<sp/>for<sp/>the<sp/>`TYPED_TEST_SUITE`</highlight></codeline>
+<codeline><highlight class="normal">macro<sp/>to<sp/>parse<sp/>correctly.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>[`TYPED_TEST`](#TYPED_TEST)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[Typed<sp/>Tests](../advanced.md#typed-tests)<sp/>for<sp/>more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TYPED_TEST<sp/>{#TYPED_TEST}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;pre&gt;</highlight></codeline>
+<codeline><highlight class="normal">TYPED_TEST(&lt;em&gt;TestSuiteName&lt;/em&gt;,<sp/>&lt;em&gt;TestName&lt;/em&gt;)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>&lt;em&gt;statements&lt;/em&gt;<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">&lt;/pre&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>an<sp/>individual<sp/>typed<sp/>test<sp/>named<sp/>*`TestName`*<sp/>in<sp/>the<sp/>typed<sp/>test<sp/>suite</highlight></codeline>
+<codeline><highlight class="normal">*`TestSuiteName`*.<sp/>The<sp/>test<sp/>suite<sp/>must<sp/>be<sp/>defined<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">[`TYPED_TEST_SUITE`](#TYPED_TEST_SUITE).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Within<sp/>the<sp/>test<sp/>body,<sp/>the<sp/>special<sp/>name<sp/>`TypeParam`<sp/>refers<sp/>to<sp/>the<sp/>type<sp/>parameter,</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>`TestFixture`<sp/>refers<sp/>to<sp/>the<sp/>fixture<sp/>class.<sp/>See<sp/>the<sp/>following<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">TYPED_TEST(MyFixture,<sp/>Example)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Inside<sp/>a<sp/>test,<sp/>refer<sp/>to<sp/>the<sp/>special<sp/>name<sp/>TypeParam<sp/>to<sp/>get<sp/>the<sp/>type</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>parameter.<sp/><sp/>Since<sp/>we<sp/>are<sp/>inside<sp/>a<sp/>derived<sp/>class<sp/>template,<sp/>C++<sp/>requires</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>us<sp/>to<sp/>visit<sp/>the<sp/>members<sp/>of<sp/>MyFixture<sp/>via<sp/>&apos;this&apos;.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>TypeParam<sp/>n<sp/>=<sp/>this-&gt;value_;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>To<sp/>visit<sp/>static<sp/>members<sp/>of<sp/>the<sp/>fixture,<sp/>add<sp/>the<sp/>&apos;TestFixture::&apos;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>prefix.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>n<sp/>+=<sp/>TestFixture::shared_;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>To<sp/>refer<sp/>to<sp/>typedefs<sp/>in<sp/>the<sp/>fixture,<sp/>add<sp/>the<sp/>&apos;typename<sp/>TestFixture::&apos;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>prefix.<sp/>The<sp/>&apos;typename&apos;<sp/>is<sp/>required<sp/>to<sp/>satisfy<sp/>the<sp/>compiler.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>typename<sp/>TestFixture::List<sp/>values;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>values.push_back(n);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>more<sp/>information,<sp/>see<sp/>[Typed<sp/>Tests](../advanced.md#typed-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TYPED_TEST_SUITE_P<sp/>{#TYPED_TEST_SUITE_P}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TYPED_TEST_SUITE_P(`*`TestFixtureName`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>a<sp/>type-parameterized<sp/>test<sp/>suite<sp/>based<sp/>on<sp/>the<sp/>test<sp/>fixture</highlight></codeline>
+<codeline><highlight class="normal">*`TestFixtureName`*.<sp/>The<sp/>test<sp/>suite<sp/>name<sp/>is<sp/>*`TestFixtureName`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>argument<sp/>*`TestFixtureName`*<sp/>is<sp/>a<sp/>fixture<sp/>class<sp/>template,<sp/>parameterized<sp/>by<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">type.<sp/>See<sp/>[`TYPED_TEST_SUITE`](#TYPED_TEST_SUITE)<sp/>for<sp/>an<sp/>example.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>[`TYPED_TEST_P`](#TYPED_TEST_P)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[Type-Parameterized<sp/>Tests](../advanced.md#type-parameterized-tests)<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TYPED_TEST_P<sp/>{#TYPED_TEST_P}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;pre&gt;</highlight></codeline>
+<codeline><highlight class="normal">TYPED_TEST_P(&lt;em&gt;TestSuiteName&lt;/em&gt;,<sp/>&lt;em&gt;TestName&lt;/em&gt;)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>&lt;em&gt;statements&lt;/em&gt;<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">&lt;/pre&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>an<sp/>individual<sp/>type-parameterized<sp/>test<sp/>named<sp/>*`TestName`*<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">type-parameterized<sp/>test<sp/>suite<sp/>*`TestSuiteName`*.<sp/>The<sp/>test<sp/>suite<sp/>must<sp/>be<sp/>defined</highlight></codeline>
+<codeline><highlight class="normal">with<sp/>[`TYPED_TEST_SUITE_P`](#TYPED_TEST_SUITE_P).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Within<sp/>the<sp/>test<sp/>body,<sp/>the<sp/>special<sp/>name<sp/>`TypeParam`<sp/>refers<sp/>to<sp/>the<sp/>type<sp/>parameter,</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>`TestFixture`<sp/>refers<sp/>to<sp/>the<sp/>fixture<sp/>class.<sp/>See<sp/>[`TYPED_TEST`](#TYPED_TEST)</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>an<sp/>example.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>[`REGISTER_TYPED_TEST_SUITE_P`](#REGISTER_TYPED_TEST_SUITE_P)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[Type-Parameterized<sp/>Tests](../advanced.md#type-parameterized-tests)<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>REGISTER_TYPED_TEST_SUITE_P<sp/>{#REGISTER_TYPED_TEST_SUITE_P}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`REGISTER_TYPED_TEST_SUITE_P(`*`TestSuiteName`*`,`*`TestNames...`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Registers<sp/>the<sp/>type-parameterized<sp/>tests<sp/>*`TestNames...`*<sp/>of<sp/>the<sp/>test<sp/>suite</highlight></codeline>
+<codeline><highlight class="normal">*`TestSuiteName`*.<sp/>The<sp/>test<sp/>suite<sp/>and<sp/>tests<sp/>must<sp/>be<sp/>defined<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">[`TYPED_TEST_SUITE_P`](#TYPED_TEST_SUITE_P)<sp/>and<sp/>[`TYPED_TEST_P`](#TYPED_TEST_P).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Define<sp/>the<sp/>test<sp/>suite<sp/>and<sp/>tests.</highlight></codeline>
+<codeline><highlight class="normal">TYPED_TEST_SUITE_P(MyFixture);</highlight></codeline>
+<codeline><highlight class="normal">TYPED_TEST_P(MyFixture,<sp/>HasPropertyA)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">TYPED_TEST_P(MyFixture,<sp/>HasPropertyB)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Register<sp/>the<sp/>tests<sp/>in<sp/>the<sp/>test<sp/>suite.</highlight></codeline>
+<codeline><highlight class="normal">REGISTER_TYPED_TEST_SUITE_P(MyFixture,<sp/>HasPropertyA,<sp/>HasPropertyB);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>[`INSTANTIATE_TYPED_TEST_SUITE_P`](#INSTANTIATE_TYPED_TEST_SUITE_P)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[Type-Parameterized<sp/>Tests](../advanced.md#type-parameterized-tests)<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>INSTANTIATE_TYPED_TEST_SUITE_P<sp/>{#INSTANTIATE_TYPED_TEST_SUITE_P}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`INSTANTIATE_TYPED_TEST_SUITE_P(`*`InstantiationName`*`,`*`TestSuiteName`*`,`*`Types`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Instantiates<sp/>the<sp/>type-parameterized<sp/>test<sp/>suite<sp/>*`TestSuiteName`*.<sp/>The<sp/>test<sp/>suite</highlight></codeline>
+<codeline><highlight class="normal">must<sp/>be<sp/>registered<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">[`REGISTER_TYPED_TEST_SUITE_P`](#REGISTER_TYPED_TEST_SUITE_P).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>argument<sp/>*`InstantiationName`*<sp/>is<sp/>a<sp/>unique<sp/>name<sp/>for<sp/>the<sp/>instantiation<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>suite,<sp/>to<sp/>distinguish<sp/>between<sp/>multiple<sp/>instantiations.<sp/>In<sp/>test<sp/>output,<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">instantiation<sp/>name<sp/>is<sp/>added<sp/>as<sp/>a<sp/>prefix<sp/>to<sp/>the<sp/>test<sp/>suite<sp/>name</highlight></codeline>
+<codeline><highlight class="normal">*`TestSuiteName`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>argument<sp/>*`Types`*<sp/>is<sp/>a<sp/>[`Types`](#Types)<sp/>object<sp/>representing<sp/>the<sp/>list<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">types<sp/>to<sp/>run<sp/>the<sp/>tests<sp/>on,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>MyTypes<sp/>=<sp/>::testing::Types&lt;char,<sp/>int,<sp/>unsigned<sp/>int&gt;;</highlight></codeline>
+<codeline><highlight class="normal">INSTANTIATE_TYPED_TEST_SUITE_P(MyInstantiation,<sp/>MyFixture,<sp/>MyTypes);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>type<sp/>alias<sp/>(`using`<sp/>or<sp/>`typedef`)<sp/>is<sp/>necessary<sp/>for<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">`INSTANTIATE_TYPED_TEST_SUITE_P`<sp/>macro<sp/>to<sp/>parse<sp/>correctly.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>more<sp/>information,<sp/>see</highlight></codeline>
+<codeline><highlight class="normal">[Type-Parameterized<sp/>Tests](../advanced.md#type-parameterized-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>FRIEND_TEST<sp/>{#FRIEND_TEST}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`FRIEND_TEST(`*`TestSuiteName`*`,`*`TestName`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Within<sp/>a<sp/>class<sp/>body,<sp/>declares<sp/>an<sp/>individual<sp/>test<sp/>as<sp/>a<sp/>friend<sp/>of<sp/>the<sp/>class,</highlight></codeline>
+<codeline><highlight class="normal">enabling<sp/>the<sp/>test<sp/>to<sp/>access<sp/>private<sp/>class<sp/>members.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>the<sp/>class<sp/>is<sp/>defined<sp/>in<sp/>a<sp/>namespace,<sp/>then<sp/>in<sp/>order<sp/>to<sp/>be<sp/>friends<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">class,<sp/>test<sp/>fixtures<sp/>and<sp/>tests<sp/>must<sp/>be<sp/>defined<sp/>in<sp/>the<sp/>exact<sp/>same<sp/>namespace,</highlight></codeline>
+<codeline><highlight class="normal">without<sp/>inline<sp/>or<sp/>anonymous<sp/>namespaces.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>if<sp/>the<sp/>class<sp/>definition<sp/>looks<sp/>like<sp/>the<sp/>following:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">namespace<sp/>my_namespace<sp/>{</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">class<sp/>MyClass<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>friend<sp/>class<sp/>MyClassTest;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>FRIEND_TEST(MyClassTest,<sp/>HasPropertyA);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>FRIEND_TEST(MyClassTest,<sp/>HasPropertyB);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>definition<sp/>of<sp/>class<sp/>MyClass<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">}<sp/><sp/>//<sp/>namespace<sp/>my_namespace</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Then<sp/>the<sp/>test<sp/>code<sp/>should<sp/>look<sp/>like:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">namespace<sp/>my_namespace<sp/>{</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">class<sp/>MyClassTest<sp/>:<sp/>public<sp/>testing::Test<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">TEST_F(MyClassTest,<sp/>HasPropertyA)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">TEST_F(MyClassTest,<sp/>HasPropertyB)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">}<sp/><sp/>//<sp/>namespace<sp/>my_namespace</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[Testing<sp/>Private<sp/>Code](../advanced.md#testing-private-code)<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>SCOPED_TRACE<sp/>{#SCOPED_TRACE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`SCOPED_TRACE(`*`message`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Causes<sp/>the<sp/>current<sp/>file<sp/>name,<sp/>line<sp/>number,<sp/>and<sp/>the<sp/>given<sp/>message<sp/>*`message`*<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">be<sp/>added<sp/>to<sp/>the<sp/>failure<sp/>message<sp/>for<sp/>each<sp/>assertion<sp/>failure<sp/>that<sp/>occurs<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">scope.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>more<sp/>information,<sp/>see</highlight></codeline>
+<codeline><highlight class="normal">[Adding<sp/>Traces<sp/>to<sp/>Assertions](../advanced.md#adding-traces-to-assertions).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>the<sp/>[`ScopedTrace`<sp/>class](#ScopedTrace).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>GTEST_SKIP<sp/>{#GTEST_SKIP}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`GTEST_SKIP()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Prevents<sp/>further<sp/>test<sp/>execution<sp/>at<sp/>runtime.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Can<sp/>be<sp/>used<sp/>in<sp/>individual<sp/>test<sp/>cases<sp/>or<sp/>in<sp/>the<sp/>`SetUp()`<sp/>methods<sp/>of<sp/>test</highlight></codeline>
+<codeline><highlight class="normal">environments<sp/>or<sp/>test<sp/>fixtures<sp/>(classes<sp/>derived<sp/>from<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`Environment`](#Environment)<sp/>or<sp/>[`Test`](#Test)<sp/>classes).<sp/>If<sp/>used<sp/>in<sp/>a<sp/>global</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>environment<sp/>`SetUp()`<sp/>method,<sp/>it<sp/>skips<sp/>all<sp/>tests<sp/>in<sp/>the<sp/>test<sp/>program.<sp/>If</highlight></codeline>
+<codeline><highlight class="normal">used<sp/>in<sp/>a<sp/>test<sp/>fixture<sp/>`SetUp()`<sp/>method,<sp/>it<sp/>skips<sp/>all<sp/>tests<sp/>in<sp/>the<sp/>corresponding</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Similar<sp/>to<sp/>assertions,<sp/>`GTEST_SKIP`<sp/>allows<sp/>streaming<sp/>a<sp/>custom<sp/>message<sp/>into<sp/>it.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[Skipping<sp/>Test<sp/>Execution](../advanced.md#skipping-test-execution)<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST<sp/>{#GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(`*`TestSuiteName`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Allows<sp/>the<sp/>value-parameterized<sp/>test<sp/>suite<sp/>*`TestSuiteName`*<sp/>to<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">uninstantiated.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">By<sp/>default,<sp/>every<sp/>[`TEST_P`](#TEST_P)<sp/>call<sp/>without<sp/>a<sp/>corresponding</highlight></codeline>
+<codeline><highlight class="normal">[`INSTANTIATE_TEST_SUITE_P`](#INSTANTIATE_TEST_SUITE_P)<sp/>call<sp/>causes<sp/>a<sp/>failing</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>in<sp/>the<sp/>test<sp/>suite<sp/>`GoogleTestVerification`.</highlight></codeline>
+<codeline><highlight class="normal">`GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST`<sp/>suppresses<sp/>this<sp/>failure<sp/>for<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">given<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Classes<sp/>and<sp/>types</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>defines<sp/>the<sp/>following<sp/>classes<sp/>and<sp/>types<sp/>to<sp/>help<sp/>with<sp/>writing<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>AssertionResult<sp/>{#AssertionResult}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::AssertionResult`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>class<sp/>for<sp/>indicating<sp/>whether<sp/>an<sp/>assertion<sp/>was<sp/>successful.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>the<sp/>assertion<sp/>wasn&apos;t<sp/>successful,<sp/>the<sp/>`AssertionResult`<sp/>object<sp/>stores<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">non-empty<sp/>failure<sp/>message<sp/>that<sp/>can<sp/>be<sp/>retrieved<sp/>with<sp/>the<sp/>object&apos;s<sp/>`message()`</highlight></codeline>
+<codeline><highlight class="normal">method.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>create<sp/>an<sp/>instance<sp/>of<sp/>this<sp/>class,<sp/>use<sp/>one<sp/>of<sp/>the<sp/>factory<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">[`AssertionSuccess()`](#AssertionSuccess)<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">[`AssertionFailure()`](#AssertionFailure).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>AssertionException<sp/>{#AssertionException}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::AssertionException`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Exception<sp/>which<sp/>can<sp/>be<sp/>thrown<sp/>from</highlight></codeline>
+<codeline><highlight class="normal">[`TestEventListener::OnTestPartResult`](#TestEventListener::OnTestPartResult).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EmptyTestEventListener<sp/>{#EmptyTestEventListener}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::EmptyTestEventListener`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Provides<sp/>an<sp/>empty<sp/>implementation<sp/>of<sp/>all<sp/>methods<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`TestEventListener`](#TestEventListener)<sp/>interface,<sp/>such<sp/>that<sp/>a<sp/>subclass<sp/>only</highlight></codeline>
+<codeline><highlight class="normal">needs<sp/>to<sp/>override<sp/>the<sp/>methods<sp/>it<sp/>cares<sp/>about.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Environment<sp/>{#Environment}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::Environment`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>global<sp/>test<sp/>environment.<sp/>See</highlight></codeline>
+<codeline><highlight class="normal">[Global<sp/>Set-Up<sp/>and<sp/>Tear-Down](../advanced.md#global-set-up-and-tear-down).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Protected<sp/>Methods<sp/>{#Environment-protected}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>SetUp<sp/>{#Environment::SetUp}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>Environment::SetUp()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Override<sp/>this<sp/>to<sp/>define<sp/>how<sp/>to<sp/>set<sp/>up<sp/>the<sp/>environment.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>TearDown<sp/>{#Environment::TearDown}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>Environment::TearDown()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Override<sp/>this<sp/>to<sp/>define<sp/>how<sp/>to<sp/>tear<sp/>down<sp/>the<sp/>environment.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>ScopedTrace<sp/>{#ScopedTrace}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::ScopedTrace`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">An<sp/>instance<sp/>of<sp/>this<sp/>class<sp/>causes<sp/>a<sp/>trace<sp/>to<sp/>be<sp/>included<sp/>in<sp/>every<sp/>test<sp/>failure</highlight></codeline>
+<codeline><highlight class="normal">message<sp/>generated<sp/>by<sp/>code<sp/>in<sp/>the<sp/>scope<sp/>of<sp/>the<sp/>lifetime<sp/>of<sp/>the<sp/>`ScopedTrace`</highlight></codeline>
+<codeline><highlight class="normal">instance.<sp/>The<sp/>effect<sp/>is<sp/>undone<sp/>with<sp/>the<sp/>destruction<sp/>of<sp/>the<sp/>instance.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`ScopedTrace`<sp/>constructor<sp/>has<sp/>the<sp/>following<sp/>form:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>&lt;typename<sp/>T&gt;</highlight></codeline>
+<codeline><highlight class="normal">ScopedTrace(const<sp/>char*<sp/>file,<sp/>int<sp/>line,<sp/>const<sp/>T&amp;<sp/>message)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Example<sp/>usage:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">testing::ScopedTrace<sp/>trace(&quot;file.cc&quot;,<sp/>123,<sp/>&quot;message&quot;);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>resulting<sp/>trace<sp/>includes<sp/>the<sp/>given<sp/>source<sp/>file<sp/>path<sp/>and<sp/>line<sp/>number,<sp/>and<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">given<sp/>message.<sp/>The<sp/>`message`<sp/>argument<sp/>can<sp/>be<sp/>anything<sp/>streamable<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">`std::ostream`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>[`SCOPED_TRACE`](#SCOPED_TRACE).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Test<sp/>{#Test}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::Test`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>abstract<sp/>class<sp/>that<sp/>all<sp/>tests<sp/>inherit<sp/>from.<sp/>`Test`<sp/>is<sp/>not<sp/>copyable.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#Test-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>SetUpTestSuite<sp/>{#Test::SetUpTestSuite}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`static<sp/>void<sp/>Test::SetUpTestSuite()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Performs<sp/>shared<sp/>setup<sp/>for<sp/>all<sp/>tests<sp/>in<sp/>the<sp/>test<sp/>suite.<sp/>GoogleTest<sp/>calls</highlight></codeline>
+<codeline><highlight class="normal">`SetUpTestSuite()`<sp/>before<sp/>running<sp/>the<sp/>first<sp/>test<sp/>in<sp/>the<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>TearDownTestSuite<sp/>{#Test::TearDownTestSuite}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`static<sp/>void<sp/>Test::TearDownTestSuite()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Performs<sp/>shared<sp/>teardown<sp/>for<sp/>all<sp/>tests<sp/>in<sp/>the<sp/>test<sp/>suite.<sp/>GoogleTest<sp/>calls</highlight></codeline>
+<codeline><highlight class="normal">`TearDownTestSuite()`<sp/>after<sp/>running<sp/>the<sp/>last<sp/>test<sp/>in<sp/>the<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>HasFatalFailure<sp/>{#Test::HasFatalFailure}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`static<sp/>bool<sp/>Test::HasFatalFailure()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>current<sp/>test<sp/>has<sp/>a<sp/>fatal<sp/>failure.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>HasNonfatalFailure<sp/>{#Test::HasNonfatalFailure}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`static<sp/>bool<sp/>Test::HasNonfatalFailure()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>current<sp/>test<sp/>has<sp/>a<sp/>nonfatal<sp/>failure.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>HasFailure<sp/>{#Test::HasFailure}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`static<sp/>bool<sp/>Test::HasFailure()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>current<sp/>test<sp/>has<sp/>any<sp/>failure,<sp/>either<sp/>fatal<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">nonfatal.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>IsSkipped<sp/>{#Test::IsSkipped}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`static<sp/>bool<sp/>Test::IsSkipped()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>current<sp/>test<sp/>was<sp/>skipped.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>RecordProperty<sp/>{#Test::RecordProperty}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`static<sp/>void<sp/>Test::RecordProperty(const<sp/>std::string&amp;<sp/>key,<sp/>const<sp/>std::string&amp;</highlight></codeline>
+<codeline><highlight class="normal">value)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`static<sp/>void<sp/>Test::RecordProperty(const<sp/>std::string&amp;<sp/>key,<sp/>int<sp/>value)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Logs<sp/>a<sp/>property<sp/>for<sp/>the<sp/>current<sp/>test,<sp/>test<sp/>suite,<sp/>or<sp/>entire<sp/>invocation<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>program.<sp/>Only<sp/>the<sp/>last<sp/>value<sp/>for<sp/>a<sp/>given<sp/>key<sp/>is<sp/>logged.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>key<sp/>must<sp/>be<sp/>a<sp/>valid<sp/>XML<sp/>attribute<sp/>name,<sp/>and<sp/>cannot<sp/>conflict<sp/>with<sp/>the<sp/>ones</highlight></codeline>
+<codeline><highlight class="normal">already<sp/>used<sp/>by<sp/>GoogleTest<sp/>(`name`,<sp/>`file`,<sp/>`line`,<sp/>`status`,<sp/>`time`,</highlight></codeline>
+<codeline><highlight class="normal">`classname`,<sp/>`type_param`,<sp/>and<sp/>`value_param`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`RecordProperty`<sp/>is<sp/>`public<sp/>static`<sp/>so<sp/>it<sp/>can<sp/>be<sp/>called<sp/>from<sp/>utility<sp/>functions</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>are<sp/>not<sp/>members<sp/>of<sp/>the<sp/>test<sp/>fixture.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Calls<sp/>to<sp/>`RecordProperty`<sp/>made<sp/>during<sp/>the<sp/>lifespan<sp/>of<sp/>the<sp/>test<sp/>(from<sp/>the<sp/>moment</highlight></codeline>
+<codeline><highlight class="normal">its<sp/>constructor<sp/>starts<sp/>to<sp/>the<sp/>moment<sp/>its<sp/>destructor<sp/>finishes)<sp/>are<sp/>output<sp/>in<sp/>XML</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>attributes<sp/>of<sp/>the<sp/>`&lt;testcase&gt;`<sp/>element.<sp/>Properties<sp/>recorded<sp/>from<sp/>a<sp/>fixture&apos;s</highlight></codeline>
+<codeline><highlight class="normal">`SetUpTestSuite`<sp/>or<sp/>`TearDownTestSuite`<sp/>methods<sp/>are<sp/>logged<sp/>as<sp/>attributes<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">corresponding<sp/>`&lt;testsuite&gt;`<sp/>element.<sp/>Calls<sp/>to<sp/>`RecordProperty`<sp/>made<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">global<sp/>context<sp/>(before<sp/>or<sp/>after<sp/>invocation<sp/>of<sp/>`RUN_ALL_TESTS`<sp/>or<sp/>from<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">`SetUp`/`TearDown`<sp/>methods<sp/>of<sp/>registered<sp/>`Environment`<sp/>objects)<sp/>are<sp/>output<sp/>as</highlight></codeline>
+<codeline><highlight class="normal">attributes<sp/>of<sp/>the<sp/>`&lt;testsuites&gt;`<sp/>element.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Protected<sp/>Methods<sp/>{#Test-protected}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>SetUp<sp/>{#Test::SetUp}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>Test::SetUp()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Override<sp/>this<sp/>to<sp/>perform<sp/>test<sp/>fixture<sp/>setup.<sp/>GoogleTest<sp/>calls<sp/>`SetUp()`<sp/>before</highlight></codeline>
+<codeline><highlight class="normal">running<sp/>each<sp/>individual<sp/>test.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>TearDown<sp/>{#Test::TearDown}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>Test::TearDown()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Override<sp/>this<sp/>to<sp/>perform<sp/>test<sp/>fixture<sp/>teardown.<sp/>GoogleTest<sp/>calls<sp/>`TearDown()`</highlight></codeline>
+<codeline><highlight class="normal">after<sp/>running<sp/>each<sp/>individual<sp/>test.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestWithParam<sp/>{#TestWithParam}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TestWithParam&lt;T&gt;`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>convenience<sp/>class<sp/>which<sp/>inherits<sp/>from<sp/>both<sp/>[`Test`](#Test)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[`WithParamInterface&lt;T&gt;`](#WithParamInterface).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestSuite<sp/>{#TestSuite}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>test<sp/>suite.<sp/>`TestSuite`<sp/>is<sp/>not<sp/>copyable.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#TestSuite-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>name<sp/>{#TestSuite::name}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestSuite::name()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>name<sp/>of<sp/>the<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>type_param<sp/>{#TestSuite::type_param}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestSuite::type_param()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>name<sp/>of<sp/>the<sp/>parameter<sp/>type,<sp/>or<sp/>`NULL`<sp/>if<sp/>this<sp/>is<sp/>not<sp/>a<sp/>typed<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">type-parameterized<sp/>test<sp/>suite.<sp/>See<sp/>[Typed<sp/>Tests](../advanced.md#typed-tests)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[Type-Parameterized<sp/>Tests](../advanced.md#type-parameterized-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>should_run<sp/>{#TestSuite::should_run}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestSuite::should_run()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>any<sp/>test<sp/>in<sp/>this<sp/>test<sp/>suite<sp/>should<sp/>run.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>successful_test_count<sp/>{#TestSuite::successful_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestSuite::successful_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>successful<sp/>tests<sp/>in<sp/>this<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>skipped_test_count<sp/>{#TestSuite::skipped_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestSuite::skipped_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>skipped<sp/>tests<sp/>in<sp/>this<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>failed_test_count<sp/>{#TestSuite::failed_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestSuite::failed_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>failed<sp/>tests<sp/>in<sp/>this<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>reportable_disabled_test_count<sp/>{#TestSuite::reportable_disabled_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestSuite::reportable_disabled_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>disabled<sp/>tests<sp/>that<sp/>will<sp/>be<sp/>reported<sp/>in<sp/>the<sp/>XML<sp/>report.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>disabled_test_count<sp/>{#TestSuite::disabled_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestSuite::disabled_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>disabled<sp/>tests<sp/>in<sp/>this<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>reportable_test_count<sp/>{#TestSuite::reportable_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestSuite::reportable_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>tests<sp/>to<sp/>be<sp/>printed<sp/>in<sp/>the<sp/>XML<sp/>report.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>test_to_run_count<sp/>{#TestSuite::test_to_run_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestSuite::test_to_run_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Get<sp/>the<sp/>number<sp/>of<sp/>tests<sp/>in<sp/>this<sp/>test<sp/>suite<sp/>that<sp/>should<sp/>run.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>total_test_count<sp/>{#TestSuite::total_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestSuite::total_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>all<sp/>tests<sp/>in<sp/>this<sp/>test<sp/>suite.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Passed<sp/>{#TestSuite::Passed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestSuite::Passed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>suite<sp/>passed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Failed<sp/>{#TestSuite::Failed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestSuite::Failed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>suite<sp/>failed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>elapsed_time<sp/>{#TestSuite::elapsed_time}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TimeInMillis<sp/>TestSuite::elapsed_time()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>elapsed<sp/>time,<sp/>in<sp/>milliseconds.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>start_timestamp<sp/>{#TestSuite::start_timestamp}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TimeInMillis<sp/>TestSuite::start_timestamp()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>time<sp/>of<sp/>the<sp/>test<sp/>suite<sp/>start,<sp/>in<sp/>ms<sp/>from<sp/>the<sp/>start<sp/>of<sp/>the<sp/>UNIX<sp/>epoch.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>GetTestInfo<sp/>{#TestSuite::GetTestInfo}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestInfo*<sp/>TestSuite::GetTestInfo(int<sp/>i)<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>[`TestInfo`](#TestInfo)<sp/>for<sp/>the<sp/>`i`-th<sp/>test<sp/>among<sp/>all<sp/>the<sp/>tests.<sp/>`i`</highlight></codeline>
+<codeline><highlight class="normal">can<sp/>range<sp/>from<sp/>0<sp/>to<sp/>`total_test_count()<sp/>-<sp/>1`.<sp/>If<sp/>`i`<sp/>is<sp/>not<sp/>in<sp/>that<sp/>range,</highlight></codeline>
+<codeline><highlight class="normal">returns<sp/>`NULL`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>ad_hoc_test_result<sp/>{#TestSuite::ad_hoc_test_result}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestResult&amp;<sp/>TestSuite::ad_hoc_test_result()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>[`TestResult`](#TestResult)<sp/>that<sp/>holds<sp/>test<sp/>properties<sp/>recorded</highlight></codeline>
+<codeline><highlight class="normal">during<sp/>execution<sp/>of<sp/>`SetUpTestSuite`<sp/>and<sp/>`TearDownTestSuite`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestInfo<sp/>{#TestInfo}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TestInfo`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Stores<sp/>information<sp/>about<sp/>a<sp/>test.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#TestInfo-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>test_suite_name<sp/>{#TestInfo::test_suite_name}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestInfo::test_suite_name()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>test<sp/>suite<sp/>name.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>name<sp/>{#TestInfo::name}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestInfo::name()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>test<sp/>name.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>type_param<sp/>{#TestInfo::type_param}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestInfo::type_param()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>name<sp/>of<sp/>the<sp/>parameter<sp/>type,<sp/>or<sp/>`NULL`<sp/>if<sp/>this<sp/>is<sp/>not<sp/>a<sp/>typed<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">type-parameterized<sp/>test.<sp/>See<sp/>[Typed<sp/>Tests](../advanced.md#typed-tests)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[Type-Parameterized<sp/>Tests](../advanced.md#type-parameterized-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>value_param<sp/>{#TestInfo::value_param}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestInfo::value_param()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>text<sp/>representation<sp/>of<sp/>the<sp/>value<sp/>parameter,<sp/>or<sp/>`NULL`<sp/>if<sp/>this<sp/>is<sp/>not</highlight></codeline>
+<codeline><highlight class="normal">a<sp/>value-parameterized<sp/>test.<sp/>See</highlight></codeline>
+<codeline><highlight class="normal">[Value-Parameterized<sp/>Tests](../advanced.md#value-parameterized-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>file<sp/>{#TestInfo::file}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestInfo::file()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>file<sp/>name<sp/>where<sp/>this<sp/>test<sp/>is<sp/>defined.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>line<sp/>{#TestInfo::line}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestInfo::line()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>line<sp/>where<sp/>this<sp/>test<sp/>is<sp/>defined.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>is_in_another_shard<sp/>{#TestInfo::is_in_another_shard}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestInfo::is_in_another_shard()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>this<sp/>test<sp/>should<sp/>not<sp/>be<sp/>run<sp/>because<sp/>it&apos;s<sp/>in<sp/>another<sp/>shard.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>should_run<sp/>{#TestInfo::should_run}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestInfo::should_run()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>this<sp/>test<sp/>should<sp/>run,<sp/>that<sp/>is<sp/>if<sp/>the<sp/>test<sp/>is<sp/>not<sp/>disabled<sp/>(or<sp/>it</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>disabled<sp/>but<sp/>the<sp/>`also_run_disabled_tests`<sp/>flag<sp/>has<sp/>been<sp/>specified)<sp/>and<sp/>its</highlight></codeline>
+<codeline><highlight class="normal">full<sp/>name<sp/>matches<sp/>the<sp/>user-specified<sp/>filter.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>allows<sp/>the<sp/>user<sp/>to<sp/>filter<sp/>the<sp/>tests<sp/>by<sp/>their<sp/>full<sp/>names.<sp/>Only<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">tests<sp/>that<sp/>match<sp/>the<sp/>filter<sp/>will<sp/>run.<sp/>See</highlight></codeline>
+<codeline><highlight class="normal">[Running<sp/>a<sp/>Subset<sp/>of<sp/>the<sp/>Tests](../advanced.md#running-a-subset-of-the-tests)</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>is_reportable<sp/>{#TestInfo::is_reportable}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestInfo::is_reportable()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>this<sp/>test<sp/>will<sp/>appear<sp/>in<sp/>the<sp/>XML<sp/>report.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>result<sp/>{#TestInfo::result}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestResult*<sp/>TestInfo::result()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>result<sp/>of<sp/>the<sp/>test.<sp/>See<sp/>[`TestResult`](#TestResult).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestParamInfo<sp/>{#TestParamInfo}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TestParamInfo&lt;T&gt;`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Describes<sp/>a<sp/>parameter<sp/>to<sp/>a<sp/>value-parameterized<sp/>test.<sp/>The<sp/>type<sp/>`T`<sp/>is<sp/>the<sp/>type<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>parameter.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Contains<sp/>the<sp/>fields<sp/>`param`<sp/>and<sp/>`index`<sp/>which<sp/>hold<sp/>the<sp/>value<sp/>of<sp/>the<sp/>parameter</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>its<sp/>integer<sp/>index<sp/>respectively.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>UnitTest<sp/>{#UnitTest}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::UnitTest`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>class<sp/>contains<sp/>information<sp/>about<sp/>the<sp/>test<sp/>program.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`UnitTest`<sp/>is<sp/>a<sp/>singleton<sp/>class.<sp/>The<sp/>only<sp/>instance<sp/>is<sp/>created<sp/>when</highlight></codeline>
+<codeline><highlight class="normal">`UnitTest::GetInstance()`<sp/>is<sp/>first<sp/>called.<sp/>This<sp/>instance<sp/>is<sp/>never<sp/>deleted.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`UnitTest`<sp/>is<sp/>not<sp/>copyable.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#UnitTest-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>GetInstance<sp/>{#UnitTest::GetInstance}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`static<sp/>UnitTest*<sp/>UnitTest::GetInstance()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>singleton<sp/>`UnitTest`<sp/>object.<sp/>The<sp/>first<sp/>time<sp/>this<sp/>method<sp/>is<sp/>called,<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">`UnitTest`<sp/>object<sp/>is<sp/>constructed<sp/>and<sp/>returned.<sp/>Consecutive<sp/>calls<sp/>will<sp/>return<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">same<sp/>object.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>original_working_dir<sp/>{#UnitTest::original_working_dir}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>UnitTest::original_working_dir()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>working<sp/>directory<sp/>when<sp/>the<sp/>first<sp/>[`TEST()`](#TEST)<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">[`TEST_F()`](#TEST_F)<sp/>was<sp/>executed.<sp/>The<sp/>`UnitTest`<sp/>object<sp/>owns<sp/>the<sp/>string.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>current_test_suite<sp/>{#UnitTest::current_test_suite}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestSuite*<sp/>UnitTest::current_test_suite()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>[`TestSuite`](#TestSuite)<sp/>object<sp/>for<sp/>the<sp/>test<sp/>that&apos;s<sp/>currently</highlight></codeline>
+<codeline><highlight class="normal">running,<sp/>or<sp/>`NULL`<sp/>if<sp/>no<sp/>test<sp/>is<sp/>running.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>current_test_info<sp/>{#UnitTest::current_test_info}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestInfo*<sp/>UnitTest::current_test_info()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>[`TestInfo`](#TestInfo)<sp/>object<sp/>for<sp/>the<sp/>test<sp/>that&apos;s<sp/>currently</highlight></codeline>
+<codeline><highlight class="normal">running,<sp/>or<sp/>`NULL`<sp/>if<sp/>no<sp/>test<sp/>is<sp/>running.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>random_seed<sp/>{#UnitTest::random_seed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::random_seed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>random<sp/>seed<sp/>used<sp/>at<sp/>the<sp/>start<sp/>of<sp/>the<sp/>current<sp/>test<sp/>run.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>successful_test_suite_count<sp/>{#UnitTest::successful_test_suite_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::successful_test_suite_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>successful<sp/>test<sp/>suites.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>failed_test_suite_count<sp/>{#UnitTest::failed_test_suite_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::failed_test_suite_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>failed<sp/>test<sp/>suites.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>total_test_suite_count<sp/>{#UnitTest::total_test_suite_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::total_test_suite_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>all<sp/>test<sp/>suites.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>test_suite_to_run_count<sp/>{#UnitTest::test_suite_to_run_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::test_suite_to_run_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>all<sp/>test<sp/>suites<sp/>that<sp/>contain<sp/>at<sp/>least<sp/>one<sp/>test<sp/>that<sp/>should</highlight></codeline>
+<codeline><highlight class="normal">run.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>successful_test_count<sp/>{#UnitTest::successful_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::successful_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>successful<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>skipped_test_count<sp/>{#UnitTest::skipped_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::skipped_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>skipped<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>failed_test_count<sp/>{#UnitTest::failed_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::failed_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>failed<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>reportable_disabled_test_count<sp/>{#UnitTest::reportable_disabled_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::reportable_disabled_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>disabled<sp/>tests<sp/>that<sp/>will<sp/>be<sp/>reported<sp/>in<sp/>the<sp/>XML<sp/>report.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>disabled_test_count<sp/>{#UnitTest::disabled_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::disabled_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>disabled<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>reportable_test_count<sp/>{#UnitTest::reportable_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::reportable_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>tests<sp/>to<sp/>be<sp/>printed<sp/>in<sp/>the<sp/>XML<sp/>report.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>total_test_count<sp/>{#UnitTest::total_test_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::total_test_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>all<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>test_to_run_count<sp/>{#UnitTest::test_to_run_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>UnitTest::test_to_run_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>tests<sp/>that<sp/>should<sp/>run.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>start_timestamp<sp/>{#UnitTest::start_timestamp}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TimeInMillis<sp/>UnitTest::start_timestamp()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>time<sp/>of<sp/>the<sp/>test<sp/>program<sp/>start,<sp/>in<sp/>ms<sp/>from<sp/>the<sp/>start<sp/>of<sp/>the<sp/>UNIX<sp/>epoch.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>elapsed_time<sp/>{#UnitTest::elapsed_time}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TimeInMillis<sp/>UnitTest::elapsed_time()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>elapsed<sp/>time,<sp/>in<sp/>milliseconds.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Passed<sp/>{#UnitTest::Passed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>UnitTest::Passed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>unit<sp/>test<sp/>passed<sp/>(i.e.<sp/>all<sp/>test<sp/>suites<sp/>passed).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Failed<sp/>{#UnitTest::Failed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>UnitTest::Failed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>unit<sp/>test<sp/>failed<sp/>(i.e.<sp/>some<sp/>test<sp/>suite<sp/>failed<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">something<sp/>outside<sp/>of<sp/>all<sp/>tests<sp/>failed).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>GetTestSuite<sp/>{#UnitTest::GetTestSuite}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestSuite*<sp/>UnitTest::GetTestSuite(int<sp/>i)<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>[`TestSuite`](#TestSuite)<sp/>object<sp/>for<sp/>the<sp/>`i`-th<sp/>test<sp/>suite<sp/>among<sp/>all</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>test<sp/>suites.<sp/>`i`<sp/>can<sp/>range<sp/>from<sp/>0<sp/>to<sp/>`total_test_suite_count()<sp/>-<sp/>1`.<sp/>If<sp/>`i`</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>not<sp/>in<sp/>that<sp/>range,<sp/>returns<sp/>`NULL`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>ad_hoc_test_result<sp/>{#UnitTest::ad_hoc_test_result}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestResult&amp;<sp/>UnitTest::ad_hoc_test_result()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>[`TestResult`](#TestResult)<sp/>containing<sp/>information<sp/>on<sp/>test<sp/>failures</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>properties<sp/>logged<sp/>outside<sp/>of<sp/>individual<sp/>test<sp/>suites.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>listeners<sp/>{#UnitTest::listeners}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TestEventListeners&amp;<sp/>UnitTest::listeners()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>list<sp/>of<sp/>event<sp/>listeners<sp/>that<sp/>can<sp/>be<sp/>used<sp/>to<sp/>track<sp/>events<sp/>inside</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest.<sp/>See<sp/>[`TestEventListeners`](#TestEventListeners).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestEventListener<sp/>{#TestEventListener}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TestEventListener`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>interface<sp/>for<sp/>tracing<sp/>execution<sp/>of<sp/>tests.<sp/>The<sp/>methods<sp/>below<sp/>are<sp/>listed<sp/>in</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>order<sp/>the<sp/>corresponding<sp/>events<sp/>are<sp/>fired.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#TestEventListener-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestProgramStart<sp/>{#TestEventListener::OnTestProgramStart}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestProgramStart(const<sp/>UnitTest&amp;<sp/>unit_test)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>before<sp/>any<sp/>test<sp/>activity<sp/>starts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestIterationStart<sp/>{#TestEventListener::OnTestIterationStart}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestIterationStart(const<sp/>UnitTest&amp;<sp/>unit_test,</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>iteration)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>before<sp/>each<sp/>iteration<sp/>of<sp/>tests<sp/>starts.<sp/>There<sp/>may<sp/>be<sp/>more<sp/>than<sp/>one</highlight></codeline>
+<codeline><highlight class="normal">iteration<sp/>if<sp/>`GTEST_FLAG(repeat)`<sp/>is<sp/>set.<sp/>`iteration`<sp/>is<sp/>the<sp/>iteration<sp/>index,</highlight></codeline>
+<codeline><highlight class="normal">starting<sp/>from<sp/>0.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnEnvironmentsSetUpStart<sp/>{#TestEventListener::OnEnvironmentsSetUpStart}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnEnvironmentsSetUpStart(const<sp/>UnitTest&amp;</highlight></codeline>
+<codeline><highlight class="normal">unit_test)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>before<sp/>environment<sp/>set-up<sp/>for<sp/>each<sp/>iteration<sp/>of<sp/>tests<sp/>starts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnEnvironmentsSetUpEnd<sp/>{#TestEventListener::OnEnvironmentsSetUpEnd}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnEnvironmentsSetUpEnd(const<sp/>UnitTest&amp;</highlight></codeline>
+<codeline><highlight class="normal">unit_test)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>after<sp/>environment<sp/>set-up<sp/>for<sp/>each<sp/>iteration<sp/>of<sp/>tests<sp/>ends.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestSuiteStart<sp/>{#TestEventListener::OnTestSuiteStart}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestSuiteStart(const<sp/>TestSuite&amp;<sp/>test_suite)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>before<sp/>the<sp/>test<sp/>suite<sp/>starts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestStart<sp/>{#TestEventListener::OnTestStart}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestStart(const<sp/>TestInfo&amp;<sp/>test_info)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>before<sp/>the<sp/>test<sp/>starts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestPartResult<sp/>{#TestEventListener::OnTestPartResult}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestPartResult(const<sp/>TestPartResult&amp;</highlight></codeline>
+<codeline><highlight class="normal">test_part_result)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>after<sp/>a<sp/>failed<sp/>assertion<sp/>or<sp/>a<sp/>`SUCCEED()`<sp/>invocation.<sp/>If<sp/>you<sp/>want<sp/>to<sp/>throw</highlight></codeline>
+<codeline><highlight class="normal">an<sp/>exception<sp/>from<sp/>this<sp/>function<sp/>to<sp/>skip<sp/>to<sp/>the<sp/>next<sp/>test,<sp/>it<sp/>must<sp/>be<sp/>an</highlight></codeline>
+<codeline><highlight class="normal">[`AssertionException`](#AssertionException)<sp/>or<sp/>inherited<sp/>from<sp/>it.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestEnd<sp/>{#TestEventListener::OnTestEnd}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestEnd(const<sp/>TestInfo&amp;<sp/>test_info)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>after<sp/>the<sp/>test<sp/>ends.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestSuiteEnd<sp/>{#TestEventListener::OnTestSuiteEnd}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestSuiteEnd(const<sp/>TestSuite&amp;<sp/>test_suite)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>after<sp/>the<sp/>test<sp/>suite<sp/>ends.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnEnvironmentsTearDownStart<sp/>{#TestEventListener::OnEnvironmentsTearDownStart}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnEnvironmentsTearDownStart(const<sp/>UnitTest&amp;</highlight></codeline>
+<codeline><highlight class="normal">unit_test)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>before<sp/>environment<sp/>tear-down<sp/>for<sp/>each<sp/>iteration<sp/>of<sp/>tests<sp/>starts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnEnvironmentsTearDownEnd<sp/>{#TestEventListener::OnEnvironmentsTearDownEnd}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnEnvironmentsTearDownEnd(const<sp/>UnitTest&amp;</highlight></codeline>
+<codeline><highlight class="normal">unit_test)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>after<sp/>environment<sp/>tear-down<sp/>for<sp/>each<sp/>iteration<sp/>of<sp/>tests<sp/>ends.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestIterationEnd<sp/>{#TestEventListener::OnTestIterationEnd}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestIterationEnd(const<sp/>UnitTest&amp;<sp/>unit_test,</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>iteration)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>after<sp/>each<sp/>iteration<sp/>of<sp/>tests<sp/>finishes.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>OnTestProgramEnd<sp/>{#TestEventListener::OnTestProgramEnd}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`virtual<sp/>void<sp/>TestEventListener::OnTestProgramEnd(const<sp/>UnitTest&amp;<sp/>unit_test)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Fired<sp/>after<sp/>all<sp/>test<sp/>activities<sp/>have<sp/>ended.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestEventListeners<sp/>{#TestEventListeners}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TestEventListeners`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Lets<sp/>users<sp/>add<sp/>listeners<sp/>to<sp/>track<sp/>events<sp/>in<sp/>GoogleTest.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#TestEventListeners-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Append<sp/>{#TestEventListeners::Append}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`void<sp/>TestEventListeners::Append(TestEventListener*<sp/>listener)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Appends<sp/>an<sp/>event<sp/>listener<sp/>to<sp/>the<sp/>end<sp/>of<sp/>the<sp/>list.<sp/>GoogleTest<sp/>assumes<sp/>ownership</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>the<sp/>listener<sp/>(i.e.<sp/>it<sp/>will<sp/>delete<sp/>the<sp/>listener<sp/>when<sp/>the<sp/>test<sp/>program</highlight></codeline>
+<codeline><highlight class="normal">finishes).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Release<sp/>{#TestEventListeners::Release}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TestEventListener*<sp/>TestEventListeners::Release(TestEventListener*<sp/>listener)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Removes<sp/>the<sp/>given<sp/>event<sp/>listener<sp/>from<sp/>the<sp/>list<sp/>and<sp/>returns<sp/>it.<sp/>It<sp/>then<sp/>becomes</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>caller&apos;s<sp/>responsibility<sp/>to<sp/>delete<sp/>the<sp/>listener.<sp/>Returns<sp/>`NULL`<sp/>if<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">listener<sp/>is<sp/>not<sp/>found<sp/>in<sp/>the<sp/>list.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>default_result_printer<sp/>{#TestEventListeners::default_result_printer}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TestEventListener*<sp/>TestEventListeners::default_result_printer()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>standard<sp/>listener<sp/>responsible<sp/>for<sp/>the<sp/>default<sp/>console<sp/>output.<sp/>Can<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">removed<sp/>from<sp/>the<sp/>listeners<sp/>list<sp/>to<sp/>shut<sp/>down<sp/>default<sp/>console<sp/>output.<sp/>Note<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">removing<sp/>this<sp/>object<sp/>from<sp/>the<sp/>listener<sp/>list<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">[`Release()`](#TestEventListeners::Release)<sp/>transfers<sp/>its<sp/>ownership<sp/>to<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">caller<sp/>and<sp/>makes<sp/>this<sp/>function<sp/>return<sp/>`NULL`<sp/>the<sp/>next<sp/>time.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>default_xml_generator<sp/>{#TestEventListeners::default_xml_generator}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TestEventListener*<sp/>TestEventListeners::default_xml_generator()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>standard<sp/>listener<sp/>responsible<sp/>for<sp/>the<sp/>default<sp/>XML<sp/>output<sp/>controlled</highlight></codeline>
+<codeline><highlight class="normal">by<sp/>the<sp/>`--gtest_output=xml`<sp/>flag.<sp/>Can<sp/>be<sp/>removed<sp/>from<sp/>the<sp/>listeners<sp/>list<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">users<sp/>who<sp/>want<sp/>to<sp/>shut<sp/>down<sp/>the<sp/>default<sp/>XML<sp/>output<sp/>controlled<sp/>by<sp/>this<sp/>flag<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">substitute<sp/>it<sp/>with<sp/>custom<sp/>one.<sp/>Note<sp/>that<sp/>removing<sp/>this<sp/>object<sp/>from<sp/>the<sp/>listener</highlight></codeline>
+<codeline><highlight class="normal">list<sp/>with<sp/>[`Release()`](#TestEventListeners::Release)<sp/>transfers<sp/>its<sp/>ownership<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>caller<sp/>and<sp/>makes<sp/>this<sp/>function<sp/>return<sp/>`NULL`<sp/>the<sp/>next<sp/>time.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestPartResult<sp/>{#TestPartResult}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TestPartResult`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>copyable<sp/>object<sp/>representing<sp/>the<sp/>result<sp/>of<sp/>a<sp/>test<sp/>part<sp/>(i.e.<sp/>an<sp/>assertion<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">an<sp/>explicit<sp/>`FAIL()`,<sp/>`ADD_FAILURE()`,<sp/>or<sp/>`SUCCESS()`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#TestPartResult-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>type<sp/>{#TestPartResult::type}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`Type<sp/>TestPartResult::type()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>outcome<sp/>of<sp/>the<sp/>test<sp/>part.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>return<sp/>type<sp/>`Type`<sp/>is<sp/>an<sp/>enum<sp/>defined<sp/>as<sp/>follows:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">enum<sp/>Type<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>kSuccess,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Succeeded.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>kNonFatalFailure,<sp/><sp/>//<sp/>Failed<sp/>but<sp/>the<sp/>test<sp/>can<sp/>continue.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>kFatalFailure,<sp/><sp/><sp/><sp/><sp/>//<sp/>Failed<sp/>and<sp/>the<sp/>test<sp/>should<sp/>be<sp/>terminated.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>kSkip<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Skipped.</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>file_name<sp/>{#TestPartResult::file_name}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestPartResult::file_name()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>name<sp/>of<sp/>the<sp/>source<sp/>file<sp/>where<sp/>the<sp/>test<sp/>part<sp/>took<sp/>place,<sp/>or<sp/>`NULL`<sp/>if</highlight></codeline>
+<codeline><highlight class="normal">it&apos;s<sp/>unknown.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>line_number<sp/>{#TestPartResult::line_number}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestPartResult::line_number()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>line<sp/>in<sp/>the<sp/>source<sp/>file<sp/>where<sp/>the<sp/>test<sp/>part<sp/>took<sp/>place,<sp/>or<sp/>`-1`<sp/>if<sp/>it&apos;s</highlight></codeline>
+<codeline><highlight class="normal">unknown.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>summary<sp/>{#TestPartResult::summary}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestPartResult::summary()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>summary<sp/>of<sp/>the<sp/>failure<sp/>message.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>message<sp/>{#TestPartResult::message}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>TestPartResult::message()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>message<sp/>associated<sp/>with<sp/>the<sp/>test<sp/>part.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>skipped<sp/>{#TestPartResult::skipped}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestPartResult::skipped()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>part<sp/>was<sp/>skipped.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>passed<sp/>{#TestPartResult::passed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestPartResult::passed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>part<sp/>passed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>nonfatally_failed<sp/>{#TestPartResult::nonfatally_failed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestPartResult::nonfatally_failed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>part<sp/>non-fatally<sp/>failed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>fatally_failed<sp/>{#TestPartResult::fatally_failed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestPartResult::fatally_failed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>part<sp/>fatally<sp/>failed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>failed<sp/>{#TestPartResult::failed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestPartResult::failed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>part<sp/>failed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestProperty<sp/>{#TestProperty}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TestProperty`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>copyable<sp/>object<sp/>representing<sp/>a<sp/>user-specified<sp/>test<sp/>property<sp/>which<sp/>can<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">output<sp/>as<sp/>a<sp/>key/value<sp/>string<sp/>pair.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#TestProperty-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>key<sp/>{#key}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>key()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>user-supplied<sp/>key.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>value<sp/>{#value}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>char*<sp/>value()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>user-supplied<sp/>value.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>SetValue<sp/>{#SetValue}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`void<sp/>SetValue(const<sp/>std::string&amp;<sp/>new_value)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Sets<sp/>a<sp/>new<sp/>value,<sp/>overriding<sp/>the<sp/>previous<sp/>one.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TestResult<sp/>{#TestResult}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TestResult`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Contains<sp/>information<sp/>about<sp/>the<sp/>result<sp/>of<sp/>a<sp/>single<sp/>test.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TestResult`<sp/>is<sp/>not<sp/>copyable.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Public<sp/>Methods<sp/>{#TestResult-public}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>total_part_count<sp/>{#TestResult::total_part_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestResult::total_part_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>number<sp/>of<sp/>all<sp/>test<sp/>parts.<sp/>This<sp/>is<sp/>the<sp/>sum<sp/>of<sp/>the<sp/>number<sp/>of<sp/>successful</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>parts<sp/>and<sp/>the<sp/>number<sp/>of<sp/>failed<sp/>test<sp/>parts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>test_property_count<sp/>{#TestResult::test_property_count}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>TestResult::test_property_count()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>number<sp/>of<sp/>test<sp/>properties.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Passed<sp/>{#TestResult::Passed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestResult::Passed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>passed<sp/>(i.e.<sp/>no<sp/>test<sp/>part<sp/>failed).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Skipped<sp/>{#TestResult::Skipped}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestResult::Skipped()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>was<sp/>skipped.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>Failed<sp/>{#TestResult::Failed}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestResult::Failed()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>failed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>HasFatalFailure<sp/>{#TestResult::HasFatalFailure}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestResult::HasFatalFailure()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>fatally<sp/>failed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>HasNonfatalFailure<sp/>{#TestResult::HasNonfatalFailure}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`bool<sp/>TestResult::HasNonfatalFailure()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>the<sp/>test<sp/>has<sp/>a<sp/>non-fatal<sp/>failure.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>elapsed_time<sp/>{#TestResult::elapsed_time}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TimeInMillis<sp/>TestResult::elapsed_time()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>elapsed<sp/>time,<sp/>in<sp/>milliseconds.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>start_timestamp<sp/>{#TestResult::start_timestamp}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`TimeInMillis<sp/>TestResult::start_timestamp()<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Gets<sp/>the<sp/>time<sp/>of<sp/>the<sp/>test<sp/>case<sp/>start,<sp/>in<sp/>ms<sp/>from<sp/>the<sp/>start<sp/>of<sp/>the<sp/>UNIX<sp/>epoch.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>GetTestPartResult<sp/>{#TestResult::GetTestPartResult}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestPartResult&amp;<sp/>TestResult::GetTestPartResult(int<sp/>i)<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>[`TestPartResult`](#TestPartResult)<sp/>for<sp/>the<sp/>`i`-th<sp/>test<sp/>part<sp/>result</highlight></codeline>
+<codeline><highlight class="normal">among<sp/>all<sp/>the<sp/>results.<sp/>`i`<sp/>can<sp/>range<sp/>from<sp/>0<sp/>to<sp/>`total_part_count()<sp/>-<sp/>1`.<sp/>If<sp/>`i`</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>not<sp/>in<sp/>that<sp/>range,<sp/>aborts<sp/>the<sp/>program.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#####<sp/>GetTestProperty<sp/>{#TestResult::GetTestProperty}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`const<sp/>TestProperty&amp;<sp/>TestResult::GetTestProperty(int<sp/>i)<sp/>const`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Returns<sp/>the<sp/>[`TestProperty`](#TestProperty)<sp/>object<sp/>for<sp/>the<sp/>`i`-th<sp/>test<sp/>property.</highlight></codeline>
+<codeline><highlight class="normal">`i`<sp/>can<sp/>range<sp/>from<sp/>0<sp/>to<sp/>`test_property_count()<sp/>-<sp/>1`.<sp/>If<sp/>`i`<sp/>is<sp/>not<sp/>in<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">range,<sp/>aborts<sp/>the<sp/>program.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>TimeInMillis<sp/>{#TimeInMillis}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::TimeInMillis`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">An<sp/>integer<sp/>type<sp/>representing<sp/>time<sp/>in<sp/>milliseconds.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Types<sp/>{#Types}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::Types&lt;T...&gt;`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>list<sp/>of<sp/>types<sp/>for<sp/>use<sp/>in<sp/>typed<sp/>tests<sp/>and<sp/>type-parameterized<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>template<sp/>argument<sp/>`T...`<sp/>can<sp/>be<sp/>any<sp/>number<sp/>of<sp/>types,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">testing::Types&lt;char,<sp/>int,<sp/>unsigned<sp/>int&gt;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[Typed<sp/>Tests](../advanced.md#typed-tests)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[Type-Parameterized<sp/>Tests](../advanced.md#type-parameterized-tests)<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>WithParamInterface<sp/>{#WithParamInterface}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::WithParamInterface&lt;T&gt;`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>pure<sp/>interface<sp/>class<sp/>that<sp/>all<sp/>value-parameterized<sp/>tests<sp/>inherit<sp/>from.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>value-parameterized<sp/>test<sp/>fixture<sp/>class<sp/>must<sp/>inherit<sp/>from<sp/>both<sp/>[`Test`](#Test)</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>`WithParamInterface`.<sp/>In<sp/>most<sp/>cases<sp/>that<sp/>just<sp/>means<sp/>inheriting<sp/>from</highlight></codeline>
+<codeline><highlight class="normal">[`TestWithParam`](#TestWithParam),<sp/>but<sp/>more<sp/>complicated<sp/>test<sp/>hierarchies<sp/>may</highlight></codeline>
+<codeline><highlight class="normal">need<sp/>to<sp/>inherit<sp/>from<sp/>`Test`<sp/>and<sp/>`WithParamInterface`<sp/>at<sp/>different<sp/>levels.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>interface<sp/>defines<sp/>the<sp/>type<sp/>alias<sp/>`ParamType`<sp/>for<sp/>the<sp/>parameter<sp/>type<sp/>`T`<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">has<sp/>support<sp/>for<sp/>accessing<sp/>the<sp/>test<sp/>parameter<sp/>value<sp/>via<sp/>the<sp/>`GetParam()`<sp/>method:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">static<sp/>const<sp/>ParamType&amp;<sp/>GetParam()</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>more<sp/>information,<sp/>see</highlight></codeline>
+<codeline><highlight class="normal">[Value-Parameterized<sp/>Tests](../advanced.md#value-parameterized-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Functions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>defines<sp/>the<sp/>following<sp/>functions<sp/>to<sp/>help<sp/>with<sp/>writing<sp/>and<sp/>running</highlight></codeline>
+<codeline><highlight class="normal">tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>InitGoogleTest<sp/>{#InitGoogleTest}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`void<sp/>testing::InitGoogleTest(int*<sp/>argc,<sp/>char**<sp/>argv)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`void<sp/>testing::InitGoogleTest(int*<sp/>argc,<sp/>wchar_t**<sp/>argv)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`void<sp/>testing::InitGoogleTest()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Initializes<sp/>GoogleTest.<sp/>This<sp/>must<sp/>be<sp/>called<sp/>before<sp/>calling</highlight></codeline>
+<codeline><highlight class="normal">[`RUN_ALL_TESTS()`](#RUN_ALL_TESTS).<sp/>In<sp/>particular,<sp/>it<sp/>parses<sp/>the<sp/>command<sp/>line</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>the<sp/>flags<sp/>that<sp/>GoogleTest<sp/>recognizes.<sp/>Whenever<sp/>a<sp/>GoogleTest<sp/>flag<sp/>is<sp/>seen,<sp/>it</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>removed<sp/>from<sp/>`argv`,<sp/>and<sp/>`*argc`<sp/>is<sp/>decremented.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">No<sp/>value<sp/>is<sp/>returned.<sp/>Instead,<sp/>the<sp/>GoogleTest<sp/>flag<sp/>variables<sp/>are<sp/>updated.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`InitGoogleTest(int*<sp/>argc,<sp/>wchar_t**<sp/>argv)`<sp/>overload<sp/>can<sp/>be<sp/>used<sp/>in<sp/>Windows</highlight></codeline>
+<codeline><highlight class="normal">programs<sp/>compiled<sp/>in<sp/>`UNICODE`<sp/>mode.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>argument-less<sp/>`InitGoogleTest()`<sp/>overload<sp/>can<sp/>be<sp/>used<sp/>on<sp/>Arduino/embedded</highlight></codeline>
+<codeline><highlight class="normal">platforms<sp/>where<sp/>there<sp/>is<sp/>no<sp/>`argc`/`argv`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>AddGlobalTestEnvironment<sp/>{#AddGlobalTestEnvironment}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`Environment*<sp/>testing::AddGlobalTestEnvironment(Environment*<sp/>env)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Adds<sp/>a<sp/>test<sp/>environment<sp/>to<sp/>the<sp/>test<sp/>program.<sp/>Must<sp/>be<sp/>called<sp/>before</highlight></codeline>
+<codeline><highlight class="normal">[`RUN_ALL_TESTS()`](#RUN_ALL_TESTS)<sp/>is<sp/>called.<sp/>See</highlight></codeline>
+<codeline><highlight class="normal">[Global<sp/>Set-Up<sp/>and<sp/>Tear-Down](../advanced.md#global-set-up-and-tear-down)<sp/>for</highlight></codeline>
+<codeline><highlight class="normal">more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>[`Environment`](#Environment).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>RegisterTest<sp/>{#RegisterTest}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>&lt;typename<sp/>Factory&gt;</highlight></codeline>
+<codeline><highlight class="normal">TestInfo*<sp/>testing::RegisterTest(const<sp/>char*<sp/>test_suite_name,<sp/>const<sp/>char*<sp/>test_name,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char*<sp/>type_param,<sp/>const<sp/>char*<sp/>value_param,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char*<sp/>file,<sp/>int<sp/>line,<sp/>Factory<sp/>factory)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Dynamically<sp/>registers<sp/>a<sp/>test<sp/>with<sp/>the<sp/>framework.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`factory`<sp/>argument<sp/>is<sp/>a<sp/>factory<sp/>callable<sp/>(move-constructible)<sp/>object<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">function<sp/>pointer<sp/>that<sp/>creates<sp/>a<sp/>new<sp/>instance<sp/>of<sp/>the<sp/>`Test`<sp/>object.<sp/>It<sp/>handles</highlight></codeline>
+<codeline><highlight class="normal">ownership<sp/>to<sp/>the<sp/>caller.<sp/>The<sp/>signature<sp/>of<sp/>the<sp/>callable<sp/>is<sp/>`Fixture*()`,<sp/>where</highlight></codeline>
+<codeline><highlight class="normal">`Fixture`<sp/>is<sp/>the<sp/>test<sp/>fixture<sp/>class<sp/>for<sp/>the<sp/>test.<sp/>All<sp/>tests<sp/>registered<sp/>with<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">same<sp/>`test_suite_name`<sp/>must<sp/>return<sp/>the<sp/>same<sp/>fixture<sp/>type.<sp/>This<sp/>is<sp/>checked<sp/>at</highlight></codeline>
+<codeline><highlight class="normal">runtime.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>framework<sp/>will<sp/>infer<sp/>the<sp/>fixture<sp/>class<sp/>from<sp/>the<sp/>factory<sp/>and<sp/>will<sp/>call<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">`SetUpTestSuite`<sp/>and<sp/>`TearDownTestSuite`<sp/>methods<sp/>for<sp/>it.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Must<sp/>be<sp/>called<sp/>before<sp/>[`RUN_ALL_TESTS()`](#RUN_ALL_TESTS)<sp/>is<sp/>invoked,<sp/>otherwise</highlight></codeline>
+<codeline><highlight class="normal">behavior<sp/>is<sp/>undefined.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See</highlight></codeline>
+<codeline><highlight class="normal">[Registering<sp/>tests<sp/>programmatically](../advanced.md#registering-tests-programmatically)</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>RUN_ALL_TESTS<sp/>{#RUN_ALL_TESTS}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`int<sp/>RUN_ALL_TESTS()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Use<sp/>this<sp/>function<sp/>in<sp/>`main()`<sp/>to<sp/>run<sp/>all<sp/>tests.<sp/>It<sp/>returns<sp/>`0`<sp/>if<sp/>all<sp/>tests<sp/>are</highlight></codeline>
+<codeline><highlight class="normal">successful,<sp/>or<sp/>`1`<sp/>otherwise.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`RUN_ALL_TESTS()`<sp/>should<sp/>be<sp/>invoked<sp/>after<sp/>the<sp/>command<sp/>line<sp/>has<sp/>been<sp/>parsed<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">[`InitGoogleTest()`](#InitGoogleTest).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>function<sp/>was<sp/>formerly<sp/>a<sp/>macro;<sp/>thus,<sp/>it<sp/>is<sp/>in<sp/>the<sp/>global<sp/>namespace<sp/>and<sp/>has</highlight></codeline>
+<codeline><highlight class="normal">an<sp/>all-caps<sp/>name.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>AssertionSuccess<sp/>{#AssertionSuccess}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`AssertionResult<sp/>testing::AssertionSuccess()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Creates<sp/>a<sp/>successful<sp/>assertion<sp/>result.<sp/>See</highlight></codeline>
+<codeline><highlight class="normal">[`AssertionResult`](#AssertionResult).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>AssertionFailure<sp/>{#AssertionFailure}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`AssertionResult<sp/>testing::AssertionFailure()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Creates<sp/>a<sp/>failed<sp/>assertion<sp/>result.<sp/>Use<sp/>the<sp/>`&lt;&lt;`<sp/>operator<sp/>to<sp/>store<sp/>a<sp/>failure</highlight></codeline>
+<codeline><highlight class="normal">message:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">testing::AssertionFailure()<sp/>&lt;&lt;<sp/>&quot;My<sp/>failure<sp/>message&quot;;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[`AssertionResult`](#AssertionResult).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>StaticAssertTypeEq<sp/>{#StaticAssertTypeEq}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`testing::StaticAssertTypeEq&lt;T1,<sp/>T2&gt;()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Compile-time<sp/>assertion<sp/>for<sp/>type<sp/>equality.<sp/>Compiles<sp/>if<sp/>and<sp/>only<sp/>if<sp/>`T1`<sp/>and<sp/>`T2`</highlight></codeline>
+<codeline><highlight class="normal">are<sp/>the<sp/>same<sp/>type.<sp/>The<sp/>value<sp/>it<sp/>returns<sp/>is<sp/>irrelevant.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[Type<sp/>Assertions](../advanced.md#type-assertions)<sp/>for<sp/>more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>PrintToString<sp/>{#PrintToString}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`std::string<sp/>testing::PrintToString(x)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Prints<sp/>any<sp/>value<sp/>`x`<sp/>using<sp/>GoogleTest&apos;s<sp/>value<sp/>printer.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See</highlight></codeline>
+<codeline><highlight class="normal">[Teaching<sp/>GoogleTest<sp/>How<sp/>to<sp/>Print<sp/>Your<sp/>Values](../advanced.md#teaching-googletest-how-to-print-your-values)</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>PrintToStringParamName<sp/>{#PrintToStringParamName}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`std::string<sp/>testing::PrintToStringParamName(TestParamInfo&lt;T&gt;&amp;<sp/>info)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>built-in<sp/>parameterized<sp/>test<sp/>name<sp/>generator<sp/>which<sp/>returns<sp/>the<sp/>result<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">[`PrintToString`](#PrintToString)<sp/>called<sp/>on<sp/>`info.param`.<sp/>Does<sp/>not<sp/>work<sp/>when<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">test<sp/>parameter<sp/>is<sp/>a<sp/>`std::string`<sp/>or<sp/>C<sp/>string.<sp/>See</highlight></codeline>
+<codeline><highlight class="normal">[Specifying<sp/>Names<sp/>for<sp/>Value-Parameterized<sp/>Test<sp/>Parameters](../advanced.md#specifying-names-for-value-parameterized-test-parameters)</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>[`TestParamInfo`](#TestParamInfo)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[`INSTANTIATE_TEST_SUITE_P`](#INSTANTIATE_TEST_SUITE_P).</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/docs/reference/testing.md"/>
+  </compounddef>
+</doxygen>

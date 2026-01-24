@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1runtime_1_1StrictUndefined" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::runtime::StrictUndefined</compoundname>
+    <basecompoundref refid="classjinja2_1_1runtime_1_1Undefined" prot="public" virt="non-virtual">jinja2.runtime.Undefined</basecompoundref>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1runtime_1_1StrictUndefined_1a4d8440654492f186f6ad2c0e0501a5bb" prot="private" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.runtime.StrictUndefined::__slots__</definition>
+        <argsstring></argsstring>
+        <name>__slots__</name>
+        <qualifiedname>jinja2.runtime.StrictUndefined.__slots__</qualifiedname>
+        <initializer>=  ()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="1059" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="1059" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1runtime_1_1StrictUndefined_1aeb62b8669688341802a1738e157b9360" prot="private" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.runtime.StrictUndefined::__iter__</definition>
+        <argsstring></argsstring>
+        <name>__iter__</name>
+        <qualifiedname>jinja2.runtime.StrictUndefined.__iter__</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1runtime_1_1Undefined_1a016a637ab04793a6dcc75979af5a3ea6" kindref="member">Undefined._fail_with_undefined_error</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="1060" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="1060" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1runtime_1_1StrictUndefined_1a624d9157ad7278b8a20a7c5784ee3499" prot="private" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.runtime.StrictUndefined::__eq__</definition>
+        <argsstring></argsstring>
+        <name>__eq__</name>
+        <qualifiedname>jinja2.runtime.StrictUndefined.__eq__</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1runtime_1_1Undefined_1a016a637ab04793a6dcc75979af5a3ea6" kindref="member">Undefined._fail_with_undefined_error</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="1061" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="1061" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1runtime_1_1StrictUndefined_1a8c95c93e5cb3151283ef329fcf8b5b26" prot="private" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.runtime.StrictUndefined::__contains__</definition>
+        <argsstring></argsstring>
+        <name>__contains__</name>
+        <qualifiedname>jinja2.runtime.StrictUndefined.__contains__</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1runtime_1_1Undefined_1a016a637ab04793a6dcc75979af5a3ea6" kindref="member">Undefined._fail_with_undefined_error</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="1062" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="1062" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>An undefined that barks on print and iteration as well as boolean
+tests and all kinds of comparisons.  In other words: you can do nothing
+with it except checking if it&apos;s defined using the `defined` test.
+
+&gt;&gt;&gt; foo = StrictUndefined(name=&apos;foo&apos;)
+&gt;&gt;&gt; str(foo)
+Traceback (most recent call last):
+  ...
+jinja2.exceptions.UndefinedError: &apos;foo&apos; is undefined
+&gt;&gt;&gt; not foo
+Traceback (most recent call last):
+  ...
+jinja2.exceptions.UndefinedError: &apos;foo&apos; is undefined
+&gt;&gt;&gt; foo + 42
+Traceback (most recent call last):
+  ...
+jinja2.exceptions.UndefinedError: &apos;foo&apos; is undefined
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.runtime.StrictUndefined</label>
+        <link refid="classjinja2_1_1runtime_1_1StrictUndefined"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.runtime.Undefined</label>
+        <link refid="classjinja2_1_1runtime_1_1Undefined"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.runtime.StrictUndefined</label>
+        <link refid="classjinja2_1_1runtime_1_1StrictUndefined"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.runtime.Undefined</label>
+        <link refid="classjinja2_1_1runtime_1_1Undefined"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="1039" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="1039" bodyend="1063"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1runtime_1_1StrictUndefined_1a8c95c93e5cb3151283ef329fcf8b5b26" prot="private" virt="non-virtual"><scope>jinja2::runtime::StrictUndefined</scope><name>__contains__</name></member>
+      <member refid="classjinja2_1_1runtime_1_1StrictUndefined_1a624d9157ad7278b8a20a7c5784ee3499" prot="private" virt="non-virtual"><scope>jinja2::runtime::StrictUndefined</scope><name>__eq__</name></member>
+      <member refid="classjinja2_1_1runtime_1_1StrictUndefined_1aeb62b8669688341802a1738e157b9360" prot="private" virt="non-virtual"><scope>jinja2::runtime::StrictUndefined</scope><name>__iter__</name></member>
+      <member refid="classjinja2_1_1runtime_1_1StrictUndefined_1a4d8440654492f186f6ad2c0e0501a5bb" prot="private" virt="non-virtual"><scope>jinja2::runtime::StrictUndefined</scope><name>__slots__</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

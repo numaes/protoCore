@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2docs_2quickstart-bazel_8md" kind="file" language="Markdown">
+    <compoundname>quickstart-bazel.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Quickstart:<sp/>Building<sp/>with<sp/>Bazel</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>tutorial<sp/>aims<sp/>to<sp/>get<sp/>you<sp/>up<sp/>and<sp/>running<sp/>with<sp/>GoogleTest<sp/>using<sp/>the<sp/>Bazel</highlight></codeline>
+<codeline><highlight class="normal">build<sp/>system.<sp/>If<sp/>you&apos;re<sp/>using<sp/>GoogleTest<sp/>for<sp/>the<sp/>first<sp/>time<sp/>or<sp/>need<sp/>a<sp/>refresher,</highlight></codeline>
+<codeline><highlight class="normal">we<sp/>recommend<sp/>this<sp/>tutorial<sp/>as<sp/>a<sp/>starting<sp/>point.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Prerequisites</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>complete<sp/>this<sp/>tutorial,<sp/>you&apos;ll<sp/>need:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>A<sp/>compatible<sp/>operating<sp/>system<sp/>(e.g.<sp/>Linux,<sp/>macOS,<sp/>Windows).</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>A<sp/>compatible<sp/>C++<sp/>compiler<sp/>that<sp/>supports<sp/>at<sp/>least<sp/>C++14.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>[Bazel](https://bazel.build/),<sp/>the<sp/>preferred<sp/>build<sp/>system<sp/>used<sp/>by<sp/>the</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>GoogleTest<sp/>team.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[Supported<sp/>Platforms](platforms.md)<sp/>for<sp/>more<sp/>information<sp/>about<sp/>platforms</highlight></codeline>
+<codeline><highlight class="normal">compatible<sp/>with<sp/>GoogleTest.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>don&apos;t<sp/>already<sp/>have<sp/>Bazel<sp/>installed,<sp/>see<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[Bazel<sp/>installation<sp/>guide](https://bazel.build/install).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">{:<sp/>.callout<sp/>.note}<sp/>Note:<sp/>The<sp/>terminal<sp/>commands<sp/>in<sp/>this<sp/>tutorial<sp/>show<sp/>a<sp/>Unix</highlight></codeline>
+<codeline><highlight class="normal">shell<sp/>prompt,<sp/>but<sp/>the<sp/>commands<sp/>work<sp/>on<sp/>the<sp/>Windows<sp/>command<sp/>line<sp/>as<sp/>well.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Set<sp/>up<sp/>a<sp/>Bazel<sp/>workspace</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A</highlight></codeline>
+<codeline><highlight class="normal">[Bazel<sp/>workspace](https://docs.bazel.build/versions/main/build-ref.html#workspace)</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>a<sp/>directory<sp/>on<sp/>your<sp/>filesystem<sp/>that<sp/>you<sp/>use<sp/>to<sp/>manage<sp/>source<sp/>files<sp/>for<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">software<sp/>you<sp/>want<sp/>to<sp/>build.<sp/>Each<sp/>workspace<sp/>directory<sp/>has<sp/>a<sp/>text<sp/>file<sp/>named</highlight></codeline>
+<codeline><highlight class="normal">`WORKSPACE`<sp/>which<sp/>may<sp/>be<sp/>empty,<sp/>or<sp/>may<sp/>contain<sp/>references<sp/>to<sp/>external</highlight></codeline>
+<codeline><highlight class="normal">dependencies<sp/>required<sp/>to<sp/>build<sp/>the<sp/>outputs.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">First,<sp/>create<sp/>a<sp/>directory<sp/>for<sp/>your<sp/>workspace:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">$<sp/>mkdir<sp/>my_workspace<sp/>&amp;&amp;<sp/>cd<sp/>my_workspace</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Next,<sp/>you’ll<sp/>create<sp/>the<sp/>`WORKSPACE`<sp/>file<sp/>to<sp/>specify<sp/>dependencies.<sp/>A<sp/>common<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">recommended<sp/>way<sp/>to<sp/>depend<sp/>on<sp/>GoogleTest<sp/>is<sp/>to<sp/>use<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">[Bazel<sp/>external<sp/>dependency](https://docs.bazel.build/versions/main/external.html)</highlight></codeline>
+<codeline><highlight class="normal">via<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`http_archive`<sp/>rule](https://docs.bazel.build/versions/main/repo/http.html#http_archive).</highlight></codeline>
+<codeline><highlight class="normal">To<sp/>do<sp/>this,<sp/>in<sp/>the<sp/>root<sp/>directory<sp/>of<sp/>your<sp/>workspace<sp/>(`my_workspace/`),<sp/>create<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">file<sp/>named<sp/>`WORKSPACE`<sp/>with<sp/>the<sp/>following<sp/>contents:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">load(&quot;@bazel_tools//tools/build_defs/repo:http.bzl&quot;,<sp/>&quot;http_archive&quot;)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">http_archive(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>name<sp/>=<sp/>&quot;com_google_googletest&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>urls<sp/>=<sp/>[&quot;https://github.com/google/googletest/archive/5ab508a01f9eb089207ee87fd547d290da39d015.zip&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>strip_prefix<sp/>=<sp/>&quot;googletest-5ab508a01f9eb089207ee87fd547d290da39d015&quot;,</highlight></codeline>
+<codeline><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>above<sp/>configuration<sp/>declares<sp/>a<sp/>dependency<sp/>on<sp/>GoogleTest<sp/>which<sp/>is<sp/>downloaded</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>a<sp/>ZIP<sp/>archive<sp/>from<sp/>GitHub.<sp/>In<sp/>the<sp/>above<sp/>example,</highlight></codeline>
+<codeline><highlight class="normal">`5ab508a01f9eb089207ee87fd547d290da39d015`<sp/>is<sp/>the<sp/>Git<sp/>commit<sp/>hash<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>version<sp/>to<sp/>use;<sp/>we<sp/>recommend<sp/>updating<sp/>the<sp/>hash<sp/>often<sp/>to<sp/>point<sp/>to<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">latest<sp/>version.<sp/>Use<sp/>a<sp/>recent<sp/>hash<sp/>on<sp/>the<sp/>`main`<sp/>branch.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Now<sp/>you&apos;re<sp/>ready<sp/>to<sp/>build<sp/>C++<sp/>code<sp/>that<sp/>uses<sp/>GoogleTest.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Create<sp/>and<sp/>run<sp/>a<sp/>binary</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">With<sp/>your<sp/>Bazel<sp/>workspace<sp/>set<sp/>up,<sp/>you<sp/>can<sp/>now<sp/>use<sp/>GoogleTest<sp/>code<sp/>within<sp/>your</highlight></codeline>
+<codeline><highlight class="normal">own<sp/>project.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">As<sp/>an<sp/>example,<sp/>create<sp/>a<sp/>file<sp/>named<sp/>`hello_test.cc`<sp/>in<sp/>your<sp/>`my_workspace`</highlight></codeline>
+<codeline><highlight class="normal">directory<sp/>with<sp/>the<sp/>following<sp/>contents:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;gtest/gtest.h&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Demonstrate<sp/>some<sp/>basic<sp/>assertions.</highlight></codeline>
+<codeline><highlight class="normal">TEST(HelloTest,<sp/>BasicAssertions)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Expect<sp/>two<sp/>strings<sp/>not<sp/>to<sp/>be<sp/>equal.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_STRNE(&quot;hello&quot;,<sp/>&quot;world&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Expect<sp/>equality.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_EQ(7<sp/>*<sp/>6,<sp/>42);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>provides<sp/>[assertions](primer.md#assertions)<sp/>that<sp/>you<sp/>use<sp/>to<sp/>test<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">behavior<sp/>of<sp/>your<sp/>code.<sp/>The<sp/>above<sp/>sample<sp/>includes<sp/>the<sp/>main<sp/>GoogleTest<sp/>header<sp/>file</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>demonstrates<sp/>some<sp/>basic<sp/>assertions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>build<sp/>the<sp/>code,<sp/>create<sp/>a<sp/>file<sp/>named<sp/>`BUILD`<sp/>in<sp/>the<sp/>same<sp/>directory<sp/>with<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">following<sp/>contents:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">cc_test(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>name<sp/>=<sp/>&quot;hello_test&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>size<sp/>=<sp/>&quot;small&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>srcs<sp/>=<sp/>[&quot;hello_test.cc&quot;],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>deps<sp/>=<sp/>[&quot;@com_google_googletest//:gtest_main&quot;],</highlight></codeline>
+<codeline><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>`cc_test`<sp/>rule<sp/>declares<sp/>the<sp/>C++<sp/>test<sp/>binary<sp/>you<sp/>want<sp/>to<sp/>build,<sp/>and<sp/>links<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>(`//:gtest_main`)<sp/>using<sp/>the<sp/>prefix<sp/>you<sp/>specified<sp/>in<sp/>the<sp/>`WORKSPACE`</highlight></codeline>
+<codeline><highlight class="normal">file<sp/>(`@com_google_googletest`).<sp/>For<sp/>more<sp/>information<sp/>about<sp/>Bazel<sp/>`BUILD`<sp/>files,</highlight></codeline>
+<codeline><highlight class="normal">see<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[Bazel<sp/>C++<sp/>Tutorial](https://docs.bazel.build/versions/main/tutorial/cpp.html).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">{:<sp/>.callout<sp/>.note}</highlight></codeline>
+<codeline><highlight class="normal">NOTE:<sp/>In<sp/>the<sp/>example<sp/>below,<sp/>we<sp/>assume<sp/>Clang<sp/>or<sp/>GCC<sp/>and<sp/>set<sp/>`--cxxopt=-std=c++14`</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>ensure<sp/>that<sp/>GoogleTest<sp/>is<sp/>compiled<sp/>as<sp/>C++14<sp/>instead<sp/>of<sp/>the<sp/>compiler&apos;s<sp/>default</highlight></codeline>
+<codeline><highlight class="normal">setting<sp/>(which<sp/>could<sp/>be<sp/>C++11).<sp/>For<sp/>MSVC,<sp/>the<sp/>equivalent<sp/>would<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">`--cxxopt=/std:c++14`.<sp/>See<sp/>[Supported<sp/>Platforms](platforms.md)<sp/>for<sp/>more<sp/>details</highlight></codeline>
+<codeline><highlight class="normal">on<sp/>supported<sp/>language<sp/>versions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Now<sp/>you<sp/>can<sp/>build<sp/>and<sp/>run<sp/>your<sp/>test:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;pre&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;strong&gt;my_workspace$<sp/>bazel<sp/>test<sp/>--cxxopt=-std=c++14<sp/>--test_output=all<sp/>//:hello_test&lt;/strong&gt;</highlight></codeline>
+<codeline><highlight class="normal">INFO:<sp/>Analyzed<sp/>target<sp/>//:hello_test<sp/>(26<sp/>packages<sp/>loaded,<sp/>362<sp/>targets<sp/>configured).</highlight></codeline>
+<codeline><highlight class="normal">INFO:<sp/>Found<sp/>1<sp/>test<sp/>target...</highlight></codeline>
+<codeline><highlight class="normal">INFO:<sp/>From<sp/>Testing<sp/>//:hello_test:</highlight></codeline>
+<codeline><highlight class="normal">====================<sp/>Test<sp/>output<sp/>for<sp/>//:hello_test:</highlight></codeline>
+<codeline><highlight class="normal">Running<sp/>main()<sp/>from<sp/>gmock_main.cc</highlight></codeline>
+<codeline><highlight class="normal">[==========]<sp/>Running<sp/>1<sp/>test<sp/>from<sp/>1<sp/>test<sp/>suite.</highlight></codeline>
+<codeline><highlight class="normal">[----------]<sp/>Global<sp/>test<sp/>environment<sp/>set-up.</highlight></codeline>
+<codeline><highlight class="normal">[----------]<sp/>1<sp/>test<sp/>from<sp/>HelloTest</highlight></codeline>
+<codeline><highlight class="normal">[<sp/>RUN<sp/><sp/><sp/><sp/><sp/><sp/>]<sp/>HelloTest.BasicAssertions</highlight></codeline>
+<codeline><highlight class="normal">[<sp/><sp/><sp/><sp/><sp/><sp/><sp/>OK<sp/>]<sp/>HelloTest.BasicAssertions<sp/>(0<sp/>ms)</highlight></codeline>
+<codeline><highlight class="normal">[----------]<sp/>1<sp/>test<sp/>from<sp/>HelloTest<sp/>(0<sp/>ms<sp/>total)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[----------]<sp/>Global<sp/>test<sp/>environment<sp/>tear-down</highlight></codeline>
+<codeline><highlight class="normal">[==========]<sp/>1<sp/>test<sp/>from<sp/>1<sp/>test<sp/>suite<sp/>ran.<sp/>(0<sp/>ms<sp/>total)</highlight></codeline>
+<codeline><highlight class="normal">[<sp/><sp/>PASSED<sp/><sp/>]<sp/>1<sp/>test.</highlight></codeline>
+<codeline><highlight class="normal">================================================================================</highlight></codeline>
+<codeline><highlight class="normal">Target<sp/>//:hello_test<sp/>up-to-date:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>bazel-bin/hello_test</highlight></codeline>
+<codeline><highlight class="normal">INFO:<sp/>Elapsed<sp/>time:<sp/>4.190s,<sp/>Critical<sp/>Path:<sp/>3.05s</highlight></codeline>
+<codeline><highlight class="normal">INFO:<sp/>27<sp/>processes:<sp/>8<sp/>internal,<sp/>19<sp/>linux-sandbox.</highlight></codeline>
+<codeline><highlight class="normal">INFO:<sp/>Build<sp/>completed<sp/>successfully,<sp/>27<sp/>total<sp/>actions</highlight></codeline>
+<codeline><highlight class="normal">//:hello_test<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PASSED<sp/>in<sp/>0.1s</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">INFO:<sp/>Build<sp/>completed<sp/>successfully,<sp/>27<sp/>total<sp/>actions</highlight></codeline>
+<codeline><highlight class="normal">&lt;/pre&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Congratulations!<sp/>You&apos;ve<sp/>successfully<sp/>built<sp/>and<sp/>run<sp/>a<sp/>test<sp/>binary<sp/>using</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Next<sp/>steps</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>[Check<sp/>out<sp/>the<sp/>Primer](primer.md)<sp/>to<sp/>start<sp/>learning<sp/>how<sp/>to<sp/>write<sp/>simple</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>tests.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>[See<sp/>the<sp/>code<sp/>samples](samples.md)<sp/>for<sp/>more<sp/>examples<sp/>showing<sp/>how<sp/>to<sp/>use<sp/>a</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>variety<sp/>of<sp/>GoogleTest<sp/>features.</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/docs/quickstart-bazel.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1parsers_1_1Parser" kind="class" language="Python" prot="public">
+    <compoundname>docutils::parsers::Parser</compoundname>
+    <basecompoundref refid="classdocutils_1_1Component" prot="public" virt="non-virtual">docutils.Component</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1null_1_1Parser" prot="public" virt="non-virtual">docutils.parsers.null.Parser</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1Parser" prot="public" virt="non-virtual">docutils.parsers.rst.Parser</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1parsers_1_1Parser" prot="public" virt="non-virtual">sphinx.parsers.Parser</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1Parser_1aef37c9878ba7549b99e70b19cd66aaeb" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.parsers.Parser::settings_spec</definition>
+        <argsstring></argsstring>
+        <name>settings_spec</name>
+        <qualifiedname>docutils.parsers.Parser.settings_spec</qualifiedname>
+        <initializer>=  (
+        &apos;Generic <ref refid="classdocutils_1_1parsers_1_1Parser" kindref="compound">Parser</ref> Options&apos;,
+        None,
+        ((&apos;Disable directives that insert the contents of an external file; &apos;
+          &apos;replaced with a &quot;warning&quot; system message.&apos;,
+          [&apos;--no-file-insertion&apos;],
+          {&apos;action&apos;: &apos;store_false&apos;, &apos;default&apos;: 1,
+           &apos;dest&apos;: &apos;file_insertion_enabled&apos;,
+           &apos;validator&apos;: <ref refid="namespacedocutils_1_1frontend_1ae5594316055412787dd4264f1acb26dd" kindref="member">frontend.validate_boolean</ref>}),
+         (&apos;Enable directives that insert the contents &apos;
+          &apos;of an external file. (default)&apos;,
+          [&apos;--file-insertion-enabled&apos;],
+          {&apos;action&apos;: &apos;store_true&apos;}),
+         (&apos;Disable the &quot;raw&quot; directive; &apos;
+          &apos;replaced with a &quot;warning&quot; system message.&apos;,
+          [&apos;--no-raw&apos;],
+          {&apos;action&apos;: &apos;store_false&apos;, &apos;default&apos;: 1, &apos;dest&apos;: &apos;raw_enabled&apos;,
+           &apos;validator&apos;: <ref refid="namespacedocutils_1_1frontend_1ae5594316055412787dd4264f1acb26dd" kindref="member">frontend.validate_boolean</ref>}),
+         (&apos;Enable the &quot;raw&quot; directive. (default)&apos;,
+          [&apos;--raw-enabled&apos;],
+          {&apos;action&apos;: &apos;store_true&apos;}),
+         (&apos;Maximal number of characters in an input line. Default 10 000.&apos;,
+          [&apos;--line-length-limit&apos;],
+          {&apos;metavar&apos;: &apos;&lt;length&gt;&apos;, &apos;type&apos;: &apos;int&apos;, &apos;default&apos;: 10000,
+           &apos;validator&apos;: <ref refid="namespacedocutils_1_1frontend_1aa68dfedff901d6535f2e346936531c1c" kindref="member">frontend.validate_nonnegative_int</ref>}),
+         )
+        )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1Parser_1ae6de020e4be752b68891f03b8b6f9e60" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.parsers.Parser::component_type</definition>
+        <argsstring></argsstring>
+        <name>component_type</name>
+        <qualifiedname>docutils.parsers.Parser.component_type</qualifiedname>
+        <initializer>=  &apos;parser&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1Parser_1a0b6ebbb205775b473a67269790008ca0" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.parsers.Parser::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.parsers.Parser.config_section</qualifiedname>
+        <initializer>=  &apos;parsers&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1Parser_1a6476c87d8fda084c9e75437206b4ca2f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.Parser::inputstring</definition>
+        <argsstring></argsstring>
+        <name>inputstring</name>
+        <qualifiedname>docutils.parsers.Parser.inputstring</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1Parser_1ae08b4a080d8952b1fa4bb664894440e1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.Parser::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>docutils.parsers.Parser.document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1Parser_1a479b0d269c048ccc6daa28bace8117d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.Parser.parse</definition>
+        <argsstring>(self, inputstring, document)</argsstring>
+        <name>parse</name>
+        <qualifiedname>docutils.parsers.Parser.parse</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1null_1_1Parser_1a6beaec85bf556ca3ec90c5737e5fc883">parse</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1Parser_1aa049bd36adec1321fe8046faa23eba49">parse</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1parsers_1_1RSTParser_1a4f07a30c7356b31182cd12758913403e">parse</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1Parser_1a6476c87d8fda084c9e75437206b4ca2f" kindref="member">inputstring</ref></type>
+          <defname>inputstring</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1Parser_1ae08b4a080d8952b1fa4bb664894440e1" kindref="member">document</ref></type>
+          <defname>document</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to parse `inputstring` into document tree `document`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="47" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1Parser_1ae3370f4a9f5187c92fdc98a1304c5756" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.Parser.setup_parse</definition>
+        <argsstring>(self, inputstring, document)</argsstring>
+        <name>setup_parse</name>
+        <qualifiedname>docutils.parsers.Parser.setup_parse</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1Parser_1a6476c87d8fda084c9e75437206b4ca2f" kindref="member">inputstring</ref></type>
+          <defname>inputstring</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1Parser_1ae08b4a080d8952b1fa4bb664894440e1" kindref="member">document</ref></type>
+          <defname>document</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initial parse setup.  Call at start of `self.parse()`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="51" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="51" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1Parser_1afec41700589f98b9b30133efe9434505" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.Parser.finish_parse</definition>
+        <argsstring>(self)</argsstring>
+        <name>finish_parse</name>
+        <qualifiedname>docutils.parsers.Parser.finish_parse</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Finalize parse details.  Call at end of `self.parse()`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="61" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="61" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.parsers.Parser</label>
+        <link refid="classdocutils_1_1parsers_1_1Parser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="4">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.null.Parser</label>
+        <link refid="classdocutils_1_1parsers_1_1null_1_1Parser"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.Parser</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Parser"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>sphinx.parsers.Parser</label>
+        <link refid="classsphinx_1_1parsers_1_1Parser"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>sphinx.parsers.RSTParser</label>
+        <link refid="classsphinx_1_1parsers_1_1RSTParser"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.parsers.Parser</label>
+        <link refid="classdocutils_1_1parsers_1_1Parser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>settings_spec</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>supported</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>relative_path_settings</edgelabel>
+          <edgelabel>settings_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>default_transforms</edgelabel>
+          <edgelabel>unknown_reference_resolvers</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/__init__.py" bodystart="16" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1parsers_1_1Parser_1ae6de020e4be752b68891f03b8b6f9e60" prot="public" virt="non-virtual"><scope>docutils::parsers::Parser</scope><name>component_type</name></member>
+      <member refid="classdocutils_1_1parsers_1_1Parser_1a0b6ebbb205775b473a67269790008ca0" prot="public" virt="non-virtual"><scope>docutils::parsers::Parser</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1parsers_1_1Parser_1ae08b4a080d8952b1fa4bb664894440e1" prot="public" virt="non-virtual"><scope>docutils::parsers::Parser</scope><name>document</name></member>
+      <member refid="classdocutils_1_1parsers_1_1Parser_1afec41700589f98b9b30133efe9434505" prot="public" virt="non-virtual"><scope>docutils::parsers::Parser</scope><name>finish_parse</name></member>
+      <member refid="classdocutils_1_1parsers_1_1Parser_1a6476c87d8fda084c9e75437206b4ca2f" prot="public" virt="non-virtual"><scope>docutils::parsers::Parser</scope><name>inputstring</name></member>
+      <member refid="classdocutils_1_1parsers_1_1Parser_1a479b0d269c048ccc6daa28bace8117d4" prot="public" virt="non-virtual"><scope>docutils::parsers::Parser</scope><name>parse</name></member>
+      <member refid="classdocutils_1_1parsers_1_1Parser_1aef37c9878ba7549b99e70b19cd66aaeb" prot="public" virt="non-virtual"><scope>docutils::parsers::Parser</scope><name>settings_spec</name></member>
+      <member refid="classdocutils_1_1parsers_1_1Parser_1ae3370f4a9f5187c92fdc98a1304c5756" prot="public" virt="non-virtual"><scope>docutils::parsers::Parser</scope><name>setup_parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

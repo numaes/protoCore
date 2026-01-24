@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1deprecation" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::deprecation</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1deprecation_1_1PipDeprecationWarning" prot="public">pip::_internal::utils::deprecation::PipDeprecationWarning</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1deprecation_1a3176d2d41041fdb856821e895c6aa460" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_internal::utils::deprecation.DEPRECATION_MSG_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>DEPRECATION_MSG_PREFIX</name>
+        <qualifiedname>pip._internal.utils.deprecation.DEPRECATION_MSG_PREFIX</qualifiedname>
+        <initializer>=  &quot;DEPRECATION: &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" line="13" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1deprecation_1a69be3b40f844fb4317b2c5ecd1b15611" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.deprecation._showwarning</definition>
+        <argsstring>(Union[Warning, str] message, Type[Warning] category, str filename, int lineno, Optional[TextIO] file=None, Optional[str] line=None)</argsstring>
+        <name>_showwarning</name>
+        <qualifiedname>pip._internal.utils.deprecation._showwarning</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>message</declname>
+          <array>[Warning, str]</array>
+        </param>
+        <param>
+          <type>Type</type>
+          <declname>category</declname>
+          <array>[Warning]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>file</declname>
+          <array>[TextIO]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>line</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" bodystart="31" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1deprecation_1a5471a21cc58203716a03506a3ff24833" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.deprecation.install_warning_logger</definition>
+        <argsstring>()</argsstring>
+        <name>install_warning_logger</name>
+        <qualifiedname>pip._internal.utils.deprecation.install_warning_logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" bodystart="44" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1deprecation_1a1dbba61518ba7a4af3ff1f8f10e34976" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.deprecation.deprecated</definition>
+        <argsstring>(*str reason, Optional[str] replacement, Optional[str] gone_in, Optional[str] feature_flag=None, Optional[int] issue=None)</argsstring>
+        <name>deprecated</name>
+        <qualifiedname>pip._internal.utils.deprecation.deprecated</qualifiedname>
+        <param>
+          <type>*str</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>replacement</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>gone_in</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>feature_flag</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>issue</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to deprecate existing functionality.
+
+reason:
+    Textual reason shown to the user about why this functionality has
+    been deprecated. Should be a complete sentence.
+replacement:
+    Textual suggestion shown to the user about what alternative
+    functionality they can use.
+gone_in:
+    The version of pip does this functionality should get removed in.
+    Raises an error if pip&apos;s current version is greater than or equal to
+    this.
+feature_flag:
+    Command-line flag of the form --use-feature={feature_flag} for testing
+    upcoming functionality.
+issue:
+    Issue number on the tracker that would serve as a useful place for
+    users to find related discussion and provide feedback.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" bodystart="62" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A module that implements tooling to enable easy warnings about deprecations.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/deprecation.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

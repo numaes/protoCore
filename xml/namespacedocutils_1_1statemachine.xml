@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1statemachine" kind="namespace" language="Python">
+    <compoundname>docutils::statemachine</compoundname>
+    <innerclass refid="classdocutils_1_1statemachine_1_1__SearchOverride" prot="protected">docutils::statemachine::_SearchOverride</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1DuplicateStateError" prot="public">docutils::statemachine::DuplicateStateError</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1DuplicateTransitionError" prot="public">docutils::statemachine::DuplicateTransitionError</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1SearchStateMachine" prot="public">docutils::statemachine::SearchStateMachine</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1SearchStateMachineWS" prot="public">docutils::statemachine::SearchStateMachineWS</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1State" prot="public">docutils::statemachine::State</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1StateCorrection" prot="public">docutils::statemachine::StateCorrection</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1StateMachine" prot="public">docutils::statemachine::StateMachine</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1StateMachineError" prot="public">docutils::statemachine::StateMachineError</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1StateMachineWS" prot="public">docutils::statemachine::StateMachineWS</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1StateWS" prot="public">docutils::statemachine::StateWS</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1StringList" prot="public">docutils::statemachine::StringList</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1TransitionCorrection" prot="public">docutils::statemachine::TransitionCorrection</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1TransitionMethodNotFound" prot="public">docutils::statemachine::TransitionMethodNotFound</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1TransitionPatternNotFound" prot="public">docutils::statemachine::TransitionPatternNotFound</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1UnexpectedIndentationError" prot="public">docutils::statemachine::UnexpectedIndentationError</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1UnknownStateError" prot="public">docutils::statemachine::UnknownStateError</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1UnknownTransitionError" prot="public">docutils::statemachine::UnknownTransitionError</innerclass>
+    <innerclass refid="classdocutils_1_1statemachine_1_1ViewList" prot="public">docutils::statemachine::ViewList</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1statemachine_1a540711819b4e8b0cf15cf546590d97ae" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::statemachine.__docformat__</definition>
+        <argsstring></argsstring>
+        <name>__docformat__</name>
+        <qualifiedname>docutils.statemachine.__docformat__</qualifiedname>
+        <initializer>=  &apos;restructuredtext&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="108" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1statemachine_1a5b2d095d4f84209bcf6c2104fd5e59ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.string2lines</definition>
+        <argsstring>(astring, tab_width=8, convert_whitespace=False, whitespace=re.compile(&apos;[\v\f]&apos;))</argsstring>
+        <name>string2lines</name>
+        <qualifiedname>docutils.statemachine.string2lines</qualifiedname>
+        <param>
+          <type>astring</type>
+          <defname>astring</defname>
+        </param>
+        <param>
+          <type>tab_width</type>
+          <defname>tab_width</defname>
+          <defval>8</defval>
+        </param>
+        <param>
+          <type>convert_whitespace</type>
+          <defname>convert_whitespace</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>whitespace</type>
+          <defname>whitespace</defname>
+          <defval>re.compile(&apos;[\v\f]&apos;)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of one-line strings with tabs expanded, no newlines, and
+trailing whitespace stripped.
+
+Each tab is expanded with between 1 and `tab_width` spaces, so that the
+next character&apos;s index becomes a multiple of `tab_width` (8 by default).
+
+Parameters:
+
+- `astring`: a multi-line string.
+- `tab_width`: the number of columns between tab stops.
+- `convert_whitespace`: convert form feeds and vertical tabs to spaces?
+- `whitespace`: pattern object with the to-be-converted
+  whitespace characters (default [\\v\\f]).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1488" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1489" bodyend="1509"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1statemachine_1a5a82e3d61096e6c0cbbb7d2683df1edd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine._exception_data</definition>
+        <argsstring>()</argsstring>
+        <name>_exception_data</name>
+        <qualifiedname>docutils.statemachine._exception_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return exception information:
+
+- the exception&apos;s class name;
+- the exception object;
+- the name of the file containing the offending code;
+- the line number of the offending code;
+- the function name of the offending code.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1510" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1510" bodyend="1526"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A finite state machine specialized for regular-expression-based text filters,
+this module defines the following classes:
+
+- `StateMachine`, a state machine
+- `State`, a state superclass
+- `StateMachineWS`, a whitespace-sensitive version of `StateMachine`
+- `StateWS`, a state superclass for use with `StateMachineWS`
+- `SearchStateMachine`, uses `re.search()` instead of `re.match()`
+- `SearchStateMachineWS`, uses `re.search()` instead of `re.match()`
+- `ViewList`, extends standard Python lists.
+- `StringList`, string-specific ViewList.
+
+Exception classes:
+
+- `StateMachineError`
+- `UnknownStateError`
+- `DuplicateStateError`
+- `UnknownTransitionError`
+- `DuplicateTransitionError`
+- `TransitionPatternNotFound`
+- `TransitionMethodNotFound`
+- `UnexpectedIndentationError`
+- `TransitionCorrection`: Raised to switch to another transition.
+- `StateCorrection`: Raised to switch to another state &amp; transition.
+
+Functions:
+
+- `string2lines()`: split a multi-line string into a list of one-line strings
+
+
+How To Use This Module
+======================
+(See the individual classes, methods, and attributes for details.)
+
+1. Import it: ``import statemachine`` or ``from statemachine import ...``.
+   You will also need to ``import re``.
+
+2. Derive a subclass of `State` (or `StateWS`) for each state in your state
+   machine::
+
+       class MyState(statemachine.State):
+
+   Within the state&apos;s class definition:
+
+   a) Include a pattern for each transition, in `State.patterns`::
+
+          patterns = {&apos;atransition&apos;: r&apos;pattern&apos;, ...}
+
+   b) Include a list of initial transitions to be set up automatically, in
+      `State.initial_transitions`::
+
+          initial_transitions = [&apos;atransition&apos;, ...]
+
+   c) Define a method for each transition, with the same name as the
+      transition pattern::
+
+          def atransition(self, match, context, next_state):
+              # do something
+              result = [...]  # a list
+              return context, next_state, result
+              # context, next_state may be altered
+
+      Transition methods may raise an `EOFError` to cut processing short.
+
+   d) You may wish to override the `State.bof()` and/or `State.eof()` implicit
+      transition methods, which handle the beginning- and end-of-file.
+
+   e) In order to handle nested processing, you may wish to override the
+      attributes `State.nested_sm` and/or `State.nested_sm_kwargs`.
+
+      If you are using `StateWS` as a base class, in order to handle nested
+      indented blocks, you may wish to:
+
+      - override the attributes `StateWS.indent_sm`,
+        `StateWS.indent_sm_kwargs`, `StateWS.known_indent_sm`, and/or
+        `StateWS.known_indent_sm_kwargs`;
+      - override the `StateWS.blank()` method; and/or
+      - override or extend the `StateWS.indent()`, `StateWS.known_indent()`,
+        and/or `StateWS.firstknown_indent()` methods.
+
+3. Create a state machine object::
+
+       sm = StateMachine(state_classes=[MyState, ...],
+                         initial_state=&apos;MyState&apos;)
+
+4. Obtain the input text, which needs to be converted into a tab-free list of
+   one-line strings. For example, to read text from a file called
+   &apos;inputfile&apos;::
+
+       with open(&apos;inputfile&apos;, encoding=&apos;utf-8&apos;) as fp:
+           input_string = fp.read()
+       input_lines = statemachine.string2lines(input_string)
+
+5. Run the state machine on the input text and collect the results, a list::
+
+       results = sm.run(input_lines)
+
+6. Remove any lingering circular references::
+
+       sm.unlink()
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

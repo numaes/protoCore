@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2googletest_2samples_2sample5__unittest_8cc" kind="file" language="C++">
+    <compoundname>sample5_unittest.cc</compoundname>
+    <includes local="no">limits.h</includes>
+    <includes local="no">time.h</includes>
+    <includes refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8h" local="yes">sample1.h</includes>
+    <includes refid="build_2__deps_2googletest-src_2googletest_2samples_2sample3-inl_8h" local="yes">sample3-inl.h</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>sample1.h</label>
+        <link refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8h"/>
+      </node>
+      <node id="5">
+        <label>sample3-inl.h</label>
+        <link refid="build_2__deps_2googletest-src_2googletest_2samples_2sample3-inl_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>build/_deps/googletest-src/googletest/samples/sample5_unittest.cc</label>
+        <link refid="build_2__deps_2googletest-src_2googletest_2samples_2sample5__unittest_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="2">
+        <label>limits.h</label>
+      </node>
+      <node id="6">
+        <label>stddef.h</label>
+      </node>
+      <node id="3">
+        <label>time.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2005,<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>sample<sp/>teaches<sp/>how<sp/>to<sp/>reuse<sp/>a<sp/>test<sp/>fixture<sp/>in<sp/>multiple<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>cases<sp/>by<sp/>deriving<sp/>sub-fixtures<sp/>from<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>you<sp/>define<sp/>a<sp/>test<sp/>fixture,<sp/>you<sp/>specify<sp/>the<sp/>name<sp/>of<sp/>the<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>case<sp/>that<sp/>will<sp/>use<sp/>this<sp/>fixture.<sp/><sp/>Therefore,<sp/>a<sp/>test<sp/>fixture<sp/>can</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>be<sp/>used<sp/>by<sp/>only<sp/>one<sp/>test<sp/>case.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sometimes,<sp/>more<sp/>than<sp/>one<sp/>test<sp/>cases<sp/>may<sp/>want<sp/>to<sp/>use<sp/>the<sp/>same<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>slightly<sp/>different<sp/>test<sp/>fixtures.<sp/><sp/>For<sp/>example,<sp/>you<sp/>may<sp/>want<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>make<sp/>sure<sp/>that<sp/>all<sp/>tests<sp/>for<sp/>a<sp/>GUI<sp/>library<sp/>don&apos;t<sp/>leak<sp/>important</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>system<sp/>resources<sp/>like<sp/>fonts<sp/>and<sp/>brushes.<sp/><sp/>In<sp/>Google<sp/>Test,<sp/>you<sp/>do</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>by<sp/>putting<sp/>the<sp/>shared<sp/>logic<sp/>in<sp/>a<sp/>super<sp/>(as<sp/>in<sp/>&quot;super<sp/>class&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>test<sp/>fixture,<sp/>and<sp/>then<sp/>have<sp/>each<sp/>test<sp/>case<sp/>use<sp/>a<sp/>fixture<sp/>derived</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>from<sp/>this<sp/>super<sp/>fixture.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample1_8h" kindref="compound">sample1.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample3-inl_8h" kindref="compound">sample3-inl.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>this<sp/>sample,<sp/>we<sp/>want<sp/>to<sp/>ensure<sp/>that<sp/>every<sp/>test<sp/>finishes<sp/>within</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>~5<sp/>seconds.<sp/><sp/>If<sp/>a<sp/>test<sp/>takes<sp/>longer<sp/>to<sp/>run,<sp/>we<sp/>consider<sp/>it<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>failure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>We<sp/>put<sp/>the<sp/>code<sp/>for<sp/>timing<sp/>a<sp/>test<sp/>in<sp/>a<sp/>test<sp/>fixture<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;QuickTest&quot;.<sp/><sp/>QuickTest<sp/>is<sp/>intended<sp/>to<sp/>be<sp/>the<sp/>super<sp/>fixture<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>other<sp/>fixtures<sp/>derive<sp/>from,<sp/>therefore<sp/>there<sp/>is<sp/>no<sp/>test<sp/>case<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>name<sp/>&quot;QuickTest&quot;.<sp/><sp/>This<sp/>is<sp/>OK.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Later,<sp/>we<sp/>will<sp/>derive<sp/>multiple<sp/>test<sp/>fixtures<sp/>from<sp/>QuickTest.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">QuickTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">testing::Test</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Remember<sp/>that<sp/>SetUp()<sp/>is<sp/>run<sp/>immediately<sp/>before<sp/>a<sp/>test<sp/>starts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>a<sp/>good<sp/>place<sp/>to<sp/>record<sp/>the<sp/>start<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test_1a190315150c303ddf801313fd1a777733" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>start_time_<sp/>=<sp/>time(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>TearDown()<sp/>is<sp/>invoked<sp/>immediately<sp/>after<sp/>a<sp/>test<sp/>finishes.<sp/><sp/>Here<sp/>we</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>check<sp/>if<sp/>the<sp/>test<sp/>was<sp/>too<sp/>slow.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test_1a5f0ab439802cbe0ef7552f1a9f791923" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gets<sp/>the<sp/>time<sp/>when<sp/>the<sp/>test<sp/>finishes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>time_t<sp/>end_time<sp/>=<sp/>time(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Asserts<sp/>that<sp/>the<sp/>test<sp/>took<sp/>no<sp/>more<sp/>than<sp/>~5<sp/>seconds.<sp/><sp/>Did<sp/>you</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>know<sp/>that<sp/>you<sp/>can<sp/>use<sp/>assertions<sp/>in<sp/>SetUp()<sp/>and<sp/>TearDown()<sp/>as</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>well?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(end_time<sp/>-<sp/>start_time_<sp/>&lt;=<sp/>5)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>test<sp/>took<sp/>too<sp/>long.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>UTC<sp/>time<sp/>(in<sp/>seconds)<sp/>when<sp/>the<sp/>test<sp/>starts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>time_t<sp/>start_time_;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>We<sp/>derive<sp/>a<sp/>fixture<sp/>named<sp/>IntegerFunctionTest<sp/>from<sp/>the<sp/>QuickTest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fixture.<sp/><sp/>All<sp/>tests<sp/>using<sp/>this<sp/>fixture<sp/>will<sp/>be<sp/>automatically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>required<sp/>to<sp/>be<sp/>quick.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">IntegerFunctionTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>QuickTest<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>don&apos;t<sp/>need<sp/>any<sp/>more<sp/>logic<sp/>than<sp/>already<sp/>in<sp/>the<sp/>QuickTest<sp/>fixture.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Therefore<sp/>the<sp/>body<sp/>is<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Now<sp/>we<sp/>can<sp/>write<sp/>tests<sp/>in<sp/>the<sp/>IntegerFunctionTest<sp/>test<sp/>case.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>Factorial()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(IntegerFunctionTest,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Tests<sp/>factorial<sp/>of<sp/>negative<sp/>numbers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>(-5));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>(-1));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aa8bc8320813e1abb0016129b636e3b27" kindref="member">EXPECT_GT</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>(-10),<sp/>0);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Tests<sp/>factorial<sp/>of<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>(0));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Tests<sp/>factorial<sp/>of<sp/>positive<sp/>numbers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>(1));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(2,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>(2));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(6,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>(3));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(40320,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a0e7da4d7a69c5b5afb707807aa177017" kindref="member">Factorial</ref>(8));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>IsPrime()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(IntegerFunctionTest,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Tests<sp/>negative<sp/>input.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(-1));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(-2));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(INT_MIN));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Tests<sp/>some<sp/>trivial<sp/>cases.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(0));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(1));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(2));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(3));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Tests<sp/>positive<sp/>input.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(4));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(5));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(6));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(<ref refid="build_2__deps_2googletest-src_2googletest_2samples_2sample1_8cc_1a7093217f5edc11fe277d03bd064e5f11" kindref="member">IsPrime</ref>(23));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>next<sp/>test<sp/>case<sp/>(named<sp/>&quot;QueueTest&quot;)<sp/>also<sp/>needs<sp/>to<sp/>be<sp/>quick,<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>we<sp/>derive<sp/>another<sp/>fixture<sp/>from<sp/>QuickTest.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>QueueTest<sp/>test<sp/>fixture<sp/>has<sp/>some<sp/>logic<sp/>and<sp/>shared<sp/>objects<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>addition<sp/>to<sp/>what&apos;s<sp/>in<sp/>QuickTest<sp/>already.<sp/><sp/>We<sp/>define<sp/>the<sp/>additional</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>stuff<sp/>inside<sp/>the<sp/>body<sp/>of<sp/>the<sp/>test<sp/>fixture,<sp/>as<sp/>usual.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">QueueTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>QuickTest<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First,<sp/>we<sp/>need<sp/>to<sp/>set<sp/>up<sp/>the<sp/>super<sp/>fixture<sp/>(QuickTest).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>QuickTest::SetUp();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second,<sp/>some<sp/>additional<sp/>setup<sp/>for<sp/>this<sp/>fixture.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>q1_.Enqueue(1);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>q2_.Enqueue(2);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>q2_.Enqueue(3);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>By<sp/>default,<sp/>TearDown()<sp/>inherits<sp/>the<sp/>behavior<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>QuickTest::TearDown().<sp/><sp/>As<sp/>we<sp/>have<sp/>no<sp/>additional<sp/>cleaning<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>QueueTest,<sp/>we<sp/>omit<sp/>it<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>virtual<sp/>void<sp/>TearDown()<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>QuickTest::TearDown();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><ref refid="classQueue" kindref="compound">Queue&lt;int&gt;</ref><sp/>q0_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><ref refid="classQueue" kindref="compound">Queue&lt;int&gt;</ref><sp/>q1_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><ref refid="classQueue" kindref="compound">Queue&lt;int&gt;</ref><sp/>q2_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Now,<sp/>let&apos;s<sp/>write<sp/>tests<sp/>using<sp/>the<sp/>QueueTest<sp/>fixture.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>the<sp/>default<sp/>constructor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(QueueTest,<sp/>DefaultConstructor)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(0u,<sp/>q0_.Size());<sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>Dequeue().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(QueueTest,<sp/>Dequeue)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>n<sp/>=<sp/>q0_.Dequeue();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(n<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/>n<sp/>=<sp/>q1_.Dequeue();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(n<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/>*n);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(0u,<sp/>q1_.Size());</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>n;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/>n<sp/>=<sp/>q2_.Dequeue();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(n<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(2,<sp/>*n);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1u,<sp/>q2_.Size());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>n;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>necessary,<sp/>you<sp/>can<sp/>derive<sp/>further<sp/>test<sp/>fixtures<sp/>from<sp/>a<sp/>derived</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fixture<sp/>itself.<sp/><sp/>For<sp/>example,<sp/>you<sp/>can<sp/>derive<sp/>another<sp/>fixture<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueueTest.<sp/><sp/>Google<sp/>Test<sp/>imposes<sp/>no<sp/>limit<sp/>on<sp/>how<sp/>deep<sp/>the<sp/>hierarchy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>can<sp/>be.<sp/><sp/>In<sp/>practice,<sp/>however,<sp/>you<sp/>probably<sp/>don&apos;t<sp/>want<sp/>it<sp/>to<sp/>be<sp/>too</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>deep<sp/>as<sp/>to<sp/>be<sp/>confusing.</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/googletest/samples/sample5_unittest.cc"/>
+  </compounddef>
+</doxygen>

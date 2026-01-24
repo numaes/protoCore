@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1visitor_1_1NodeVisitor" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::visitor::NodeVisitor</compoundname>
+    <derivedcompoundref refid="classjinja2_1_1compiler_1_1CodeGenerator" prot="public" virt="non-virtual">jinja2.compiler.CodeGenerator</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1compiler_1_1DependencyFinderVisitor" prot="public" virt="non-virtual">jinja2.compiler.DependencyFinderVisitor</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1compiler_1_1UndeclaredNameVisitor" prot="public" virt="non-virtual">jinja2.compiler.UndeclaredNameVisitor</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor" prot="public" virt="non-virtual">jinja2.idtracking.FrameSymbolVisitor</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1idtracking_1_1RootVisitor" prot="public" virt="non-virtual">jinja2.idtracking.RootVisitor</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1visitor_1_1NodeTransformer" prot="public" virt="non-virtual">jinja2.visitor.NodeTransformer</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1visitor_1_1NodeVisitor_1a48f14e449d8a76b3abe49109a6a1aef9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Optional[<ref refid="classjinja2_1_1visitor_1_1VisitCallable" kindref="compound">VisitCallable</ref>]&quot;</type>
+        <definition> &quot;t.Optional[VisitCallable]&quot; jinja2.visitor.NodeVisitor.get_visitor</definition>
+        <argsstring>(self, Node node)</argsstring>
+        <name>get_visitor</name>
+        <qualifiedname>jinja2.visitor.NodeVisitor.get_visitor</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the visitor function for this node or `None` if no visitor
+exists for this node.  In that case the generic visit function is
+used instead.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/visitor.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/visitor.py" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1visitor_1_1NodeVisitor_1ac46313d5a7f643dd6b516f67e7a0e3cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.visitor.NodeVisitor.visit</definition>
+        <argsstring>(self, Node node, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>visit</name>
+        <qualifiedname>jinja2.visitor.NodeVisitor.visit</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Visit a node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/visitor.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/visitor.py" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1visitor_1_1NodeVisitor_1a9020040a2124eaa206bd1505642fa9fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.visitor.NodeVisitor.generic_visit</definition>
+        <argsstring>(self, Node node, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>generic_visit</name>
+        <qualifiedname>jinja2.visitor.NodeVisitor.generic_visit</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1visitor_1_1NodeTransformer_1a508dde6856298458dc79732fa6cd6edd">generic_visit</reimplementedby>
+        <reimplementedby refid="classjinja2_1_1idtracking_1_1RootVisitor_1ae316dd3b990f89ce46b8972bb3a67185">generic_visit</reimplementedby>
+        <reimplementedby refid="classjinja2_1_1optimizer_1_1Optimizer_1abcfac0d346c036c692b55a107534c137">generic_visit</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called if no explicit visitor function exists for a node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/visitor.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/visitor.py" bodystart="44" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Walks the abstract syntax tree and call visitor functions for every
+node found.  The visitor functions may return values which will be
+forwarded by the `visit` method.
+
+Per default the visitor functions for the nodes are ``&apos;visit_&apos;`` +
+class name of the node.  So a `TryFinally` node visit function would
+be `visit_TryFinally`.  This behavior can be changed by overriding
+the `get_visitor` function.  If no visitor function exists for a node
+(return value `None`) the `generic_visit` visitor is used instead.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+      <node id="2">
+        <label>jinja2.compiler.CodeGenerator</label>
+        <link refid="classjinja2_1_1compiler_1_1CodeGenerator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.compiler.DependencyFinderVisitor</label>
+        <link refid="classjinja2_1_1compiler_1_1DependencyFinderVisitor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>jinja2.compiler.UndeclaredNameVisitor</label>
+        <link refid="classjinja2_1_1compiler_1_1UndeclaredNameVisitor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>jinja2.idtracking.FrameSymbolVisitor</label>
+        <link refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>jinja2.idtracking.RootVisitor</label>
+        <link refid="classjinja2_1_1idtracking_1_1RootVisitor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.meta.TrackingCodeGenerator</label>
+        <link refid="classjinja2_1_1meta_1_1TrackingCodeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jinja2.nativetypes.NativeCodeGenerator</label>
+        <link refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>jinja2.optimizer.Optimizer</label>
+        <link refid="classjinja2_1_1optimizer_1_1Optimizer"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>jinja2.visitor.NodeTransformer</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeTransformer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/visitor.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/visitor.py" bodystart="16" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1visitor_1_1NodeVisitor_1a9020040a2124eaa206bd1505642fa9fa" prot="public" virt="non-virtual"><scope>jinja2::visitor::NodeVisitor</scope><name>generic_visit</name></member>
+      <member refid="classjinja2_1_1visitor_1_1NodeVisitor_1a48f14e449d8a76b3abe49109a6a1aef9" prot="public" virt="non-virtual"><scope>jinja2::visitor::NodeVisitor</scope><name>get_visitor</name></member>
+      <member refid="classjinja2_1_1visitor_1_1NodeVisitor_1ac46313d5a7f643dd6b516f67e7a0e3cb" prot="public" virt="non-virtual"><scope>jinja2::visitor::NodeVisitor</scope><name>visit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

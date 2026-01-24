@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1http__date" kind="namespace" language="Python">
+    <compoundname>sphinx::util::http_date</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1http__date_1aac29a217428d3e5ef0abb93710ad609c" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::http_date._WEEKDAY_NAME</definition>
+        <argsstring></argsstring>
+        <name>_WEEKDAY_NAME</name>
+        <qualifiedname>sphinx.util.http_date._WEEKDAY_NAME</qualifiedname>
+        <initializer>=  (&apos;Mon&apos;, &apos;Tue&apos;, &apos;Wed&apos;, &apos;Thu&apos;, &apos;Fri&apos;, &apos;Sat&apos;, &apos;Sun&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1http__date_1a91b9c41d4aed6cf175a7a331e9e22bff" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::http_date._MONTH_NAME</definition>
+        <argsstring></argsstring>
+        <name>_MONTH_NAME</name>
+        <qualifiedname>sphinx.util.http_date._MONTH_NAME</qualifiedname>
+        <initializer>=  (&apos;&apos;,  # Placeholder for indexing purposes
+               &apos;Jan&apos;, &apos;Feb&apos;, &apos;Mar&apos;, &apos;Apr&apos;, &apos;May&apos;, &apos;Jun&apos;,
+               &apos;Jul&apos;, &apos;Aug&apos;, &apos;Sep&apos;, &apos;Oct&apos;, &apos;Nov&apos;, &apos;Dec&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1http__date_1a797ae13e5da79ff1f9c2eb68da870c1e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::http_date._GMT_OFFSET</definition>
+        <argsstring></argsstring>
+        <name>_GMT_OFFSET</name>
+        <qualifiedname>sphinx.util.http_date._GMT_OFFSET</qualifiedname>
+        <initializer>=  float(time.localtime().tm_gmtoff)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1http__date_1a483557646ed756df99b3a7dee7d02d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.http_date.epoch_to_rfc1123</definition>
+        <argsstring>(float epoch)</argsstring>
+        <name>epoch_to_rfc1123</name>
+        <qualifiedname>sphinx.util.http_date.epoch_to_rfc1123</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>epoch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return HTTP-date string from epoch offset.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" bodystart="21" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1http__date_1ae412fd06fce7af940af04664cd5eb9c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float sphinx.util.http_date.rfc1123_to_epoch</definition>
+        <argsstring>(str rfc1123)</argsstring>
+        <name>rfc1123_to_epoch</name>
+        <qualifiedname>sphinx.util.http_date.rfc1123_to_epoch</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>rfc1123</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return epoch offset from HTTP-date string.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" bodystart="29" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Convert times to and from HTTP-date serialisations.
+
+Reference: https://www.rfc-editor.org/rfc/rfc7231#section-7.1.1.1
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/http_date.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,935 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1nodes" kind="namespace" language="Python">
+    <compoundname>sphinx::util::nodes</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1nodes_1_1NodeMatcher" prot="public">sphinx::util::nodes::NodeMatcher</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1aeef809e269192e1b2f6483734b47cee9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::nodes.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.util.nodes.logger</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" kindref="member">logging.getLogger</ref>(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1a92721dc3f8b375ab0f743e5ca16c9e3c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::nodes.explicit_title_re</definition>
+        <argsstring></argsstring>
+        <name>explicit_title_re</name>
+        <qualifiedname>sphinx.util.nodes.explicit_title_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(.+?)\s*(?&lt;!\x00)&lt;([^&lt;]*?)&gt;$&apos;, re.DOTALL)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1af489ec6dffaa9d9ec6631321c0ddfd97" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::nodes.caption_ref_re</definition>
+        <argsstring></argsstring>
+        <name>caption_ref_re</name>
+        <qualifiedname>sphinx.util.nodes.caption_ref_re</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1nodes_1a92721dc3f8b375ab0f743e5ca16c9e3c" kindref="member">explicit_title_re</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1abf2216cbe580f15765d90768cecc9427" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::nodes.N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <qualifiedname>sphinx.util.nodes.N</qualifiedname>
+        <initializer>=  TypeVar(&apos;N&apos;, bound=<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1aab188c851a38d0e8bcf77e4b9071f0ad" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::nodes.IGNORED_NODES</definition>
+        <argsstring></argsstring>
+        <name>IGNORED_NODES</name>
+        <qualifiedname>sphinx.util.nodes.IGNORED_NODES</qualifiedname>
+        <initializer>=  (
+    nodes.Invisible,
+    nodes.literal_block,
+    nodes.doctest_block,
+    <ref refid="classsphinx_1_1addnodes_1_1versionmodified" kindref="compound">addnodes.versionmodified</ref>,
+    # XXX there are probably more
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="222" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1afdefe0b2b6e0c7fda6bbb0440ad93a19" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::nodes.LITERAL_TYPE_NODES</definition>
+        <argsstring></argsstring>
+        <name>LITERAL_TYPE_NODES</name>
+        <qualifiedname>sphinx.util.nodes.LITERAL_TYPE_NODES</qualifiedname>
+        <initializer>=  (
+    nodes.literal_block,
+    nodes.doctest_block,
+    nodes.math_block,
+    nodes.raw,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="281" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1a277d5d78f8c6386cfe5c84461b18d456" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::nodes.IMAGE_TYPE_NODES</definition>
+        <argsstring></argsstring>
+        <name>IMAGE_TYPE_NODES</name>
+        <qualifiedname>sphinx.util.nodes.IMAGE_TYPE_NODES</qualifiedname>
+        <initializer>=  (
+    nodes.image,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="287" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1a1ed280675b19c19f607fc9e5058b66bf" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list sphinx::util::nodes.indextypes</definition>
+        <argsstring></argsstring>
+        <name>indextypes</name>
+        <qualifiedname>sphinx.util.nodes.indextypes</qualifiedname>
+        <initializer>=  [&apos;single&apos;, &apos;pair&apos;, &apos;double&apos;, &apos;triple&apos;, &apos;see&apos;, &apos;seealso&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="400" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1a1d408c4bd730b156a07be929a57acb37" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::nodes._non_id_chars</definition>
+        <argsstring></argsstring>
+        <name>_non_id_chars</name>
+        <qualifiedname>sphinx.util.nodes._non_id_chars</qualifiedname>
+        <initializer>=  re.compile(&apos;[^a-zA-Z0-9._]+&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="534" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="534" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1a81caaacbe7e675e0fbba586b5b4245aa" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::nodes._non_id_at_ends</definition>
+        <argsstring></argsstring>
+        <name>_non_id_at_ends</name>
+        <qualifiedname>sphinx.util.nodes._non_id_at_ends</qualifiedname>
+        <initializer>=  re.compile(&apos;^[-0-9._]+|-+$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="535" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1ae44a5eed2f83ad85be97ac59b83d25bf" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::util::nodes._non_id_translate</definition>
+        <argsstring></argsstring>
+        <name>_non_id_translate</name>
+        <qualifiedname>sphinx.util.nodes._non_id_translate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="536" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="536" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1a8f92c58e890909ce6d55817e12b97401" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::util::nodes._non_id_translate_digraphs</definition>
+        <argsstring></argsstring>
+        <name>_non_id_translate_digraphs</name>
+        <qualifiedname>sphinx.util.nodes._non_id_translate_digraphs</qualifiedname>
+        <initializer>=  {
+    0x00DF: &apos;sz&apos;,  # ligature sz
+    0x00E6: &apos;ae&apos;,  # ae
+    0x0153: &apos;oe&apos;,  # ligature oe
+    0x0238: &apos;db&apos;,  # db digraph
+    0x0239: &apos;qp&apos;,  # qp digraph
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="571" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="571" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1a5e20ab6c7acc060360f498c0945ae981" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::nodes.NON_SMARTQUOTABLE_PARENT_NODES</definition>
+        <argsstring></argsstring>
+        <name>NON_SMARTQUOTABLE_PARENT_NODES</name>
+        <qualifiedname>sphinx.util.nodes.NON_SMARTQUOTABLE_PARENT_NODES</qualifiedname>
+        <initializer>=  (
+    nodes.FixedTextElement,
+    nodes.literal,
+    nodes.math,
+    nodes.image,
+    nodes.raw,
+    nodes.problematic,
+    <ref refid="classsphinx_1_1addnodes_1_1not__smartquotable" kindref="compound">addnodes.not_smartquotable</ref>,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="665" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="665" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1aa666ff3b2fd68e7ffbc7f51771aa3a65" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::nodes.copy</definition>
+        <argsstring></argsstring>
+        <name>copy</name>
+        <qualifiedname>sphinx.util.nodes.copy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="734" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="734" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1nodes_1acace5518a74243b22c0ffe260562d760" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::nodes.deepcopy</definition>
+        <argsstring></argsstring>
+        <name>deepcopy</name>
+        <qualifiedname>sphinx.util.nodes.deepcopy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="752" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="752" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a280f90a260457e3b0c058b14ef36b776" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.nodes.get_full_module_name</definition>
+        <argsstring>(Node node)</argsstring>
+        <name>get_full_module_name</name>
+        <qualifiedname>sphinx.util.nodes.get_full_module_name</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return full module dotted path like: &apos;docutils.nodes.paragraph&apos;
+
+:param nodes.Node node: target node
+:return: full module dotted path
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="101" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a53a2409d6b379b2ba4913672c1b52900" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.nodes.repr_domxml</definition>
+        <argsstring>(Node node, int length=80)</argsstring>
+        <name>repr_domxml</name>
+        <qualifiedname>sphinx.util.nodes.repr_domxml</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+          <defval>80</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return DOM XML representation of the specified node like:
+&apos;&lt;paragraph translatable=&quot;False&quot;&gt;&lt;inline classes=&quot;versionadded&quot;&gt;Added in version...&apos;
+
+:param nodes.Node node: target node
+:param int length:
+   length of return value to be striped. if false-value is specified, repr_domxml
+   returns full of DOM XML representation.
+:return: DOM XML representation
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="110" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="110" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a371f22d32473da9f7a3a4eeea9a2c284" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.nodes.apply_source_workaround</definition>
+        <argsstring>(Element node)</argsstring>
+        <name>apply_source_workaround</name>
+        <qualifiedname>sphinx.util.nodes.apply_source_workaround</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="129" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="129" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a4c88f7324040e975c3fb5aa8962242e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.nodes.is_translatable</definition>
+        <argsstring>(Node node)</argsstring>
+        <name>is_translatable</name>
+        <qualifiedname>sphinx.util.nodes.is_translatable</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="231" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="231" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1aa8b1d96fab11b1c0488c0644eb3a4b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[tuple[<ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>, str]]</type>
+        <definition> Iterable[tuple[Element, str]] sphinx.util.nodes.extract_messages</definition>
+        <argsstring>(Element doctree)</argsstring>
+        <name>extract_messages</name>
+        <qualifiedname>sphinx.util.nodes.extract_messages</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract translatable messages from a document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="292" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="292" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a8b788135ad744c9b0c7cf14d75e4cea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.nodes.get_node_source</definition>
+        <argsstring>(Element node)</argsstring>
+        <name>get_node_source</name>
+        <qualifiedname>sphinx.util.nodes.get_node_source</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="321" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="321" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1ae75e5beae7155281e9056c13e0684f6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.util.nodes.get_node_line</definition>
+        <argsstring>(Element node)</argsstring>
+        <name>get_node_line</name>
+        <qualifiedname>sphinx.util.nodes.get_node_line</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="329" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="329" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1ac8e879fb0b6ab89439e8a5a1ae310a34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[<ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>]</type>
+        <definition> Iterable[Element] sphinx.util.nodes.traverse_parent</definition>
+        <argsstring>(Element node, Any cls=None)</argsstring>
+        <name>traverse_parent</name>
+        <qualifiedname>sphinx.util.nodes.traverse_parent</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>cls</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="337" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="337" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a3bd48d2ed4d32f16238f383046823540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>|None</type>
+        <definition> Node | None sphinx.util.nodes.get_prev_node</definition>
+        <argsstring>(Node node)</argsstring>
+        <name>get_prev_node</name>
+        <qualifiedname>sphinx.util.nodes.get_prev_node</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="344" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="344" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a2584b6cffc37ccf469cac1500e5aa23c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[tuple[<ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>, list[tuple[str, str, str, str, str|None]]]]</type>
+        <definition> Iterable[tuple[Element, list[tuple[str, str, str, str, str | None]]]] sphinx.util.nodes.traverse_translatable_index</definition>
+        <argsstring>(Element doctree)</argsstring>
+        <name>traverse_translatable_index</name>
+        <qualifiedname>sphinx.util.nodes.traverse_translatable_index</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Traverse translatable index node from a document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="352" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="354" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a091516180f1765e96c909e43952092f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.nodes.nested_parse_with_titles</definition>
+        <argsstring>(RSTState state, StringList content, Node node, int content_offset=0)</argsstring>
+        <name>nested_parse_with_titles</name>
+        <qualifiedname>sphinx.util.nodes.nested_parse_with_titles</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState" kindref="compound">RSTState</ref></type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref></type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>content_offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Version of state.nested_parse() that allows titles and does not require
+titles to have the same decoration as the calling document.
+
+This is useful when the parsed content comes from a completely different
+context, such as docstrings.
+
+This function is retained for compatibility and will be deprecated in
+Sphinx 8. Prefer ``nested_parse_to_nodes()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="365" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="367" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a9aba026a4bc89a148a273390d5f650c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.nodes.clean_astext</definition>
+        <argsstring>(Element node)</argsstring>
+        <name>clean_astext</name>
+        <qualifiedname>sphinx.util.nodes.clean_astext</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Like node.astext(), but ignore images.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="382" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="382" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1ad4e99261efd4cbf86d549b95136658d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[bool, str, str]</type>
+        <definition> tuple[bool, str, str] sphinx.util.nodes.split_explicit_title</definition>
+        <argsstring>(str text)</argsstring>
+        <name>split_explicit_title</name>
+        <qualifiedname>sphinx.util.nodes.split_explicit_title</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Split role content into title and target, if given.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="392" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="392" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a7d07935ee243a3a6ba8bab9ad0c9e247" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[tuple[str, str, str, str, str|None]]</type>
+        <definition> list[tuple[str, str, str, str, str | None]] sphinx.util.nodes.process_index_entry</definition>
+        <argsstring>(str entry, str targetid)</argsstring>
+        <name>process_index_entry</name>
+        <qualifiedname>sphinx.util.nodes.process_index_entry</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>targetid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="403" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="406" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a22ed773b5e32d439d4f0336853b4fdd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.document</type>
+        <definition> nodes.document sphinx.util.nodes.inline_all_toctrees</definition>
+        <argsstring>(Builder builder, set[str] docnameset, str docname, nodes.document tree, Callable[[str], str] colorfunc, list[str] traversed, str indent=&apos;&apos;)</argsstring>
+        <name>inline_all_toctrees</name>
+        <qualifiedname>sphinx.util.nodes.inline_all_toctrees</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>set</type>
+          <declname>docnameset</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>tree</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>colorfunc</defname>
+          <array>[[str]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>colorfunc</declname>
+          <defname>traversed</defname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>traversed</declname>
+          <defname>indent</defname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>indent</declname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Inline all toctrees in the *tree*.
+
+Record all docnames in *docnameset*, and output docnames with *colorfunc*.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="455" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="463" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a736a9c6255d472d2ccd6297d895a63df" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.nodes._make_id</definition>
+        <argsstring>(str string)</argsstring>
+        <name>_make_id</name>
+        <qualifiedname>sphinx.util.nodes._make_id</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert `string` into an identifier and return it.
+
+This function is a modified version of ``docutils.nodes.make_id()`` of
+docutils-0.16.
+
+Changes:
+
+* Allow to use capital alphabet characters
+* Allow to use dots (&quot;.&quot;) and underscores (&quot;_&quot;) for an identifier
+  without a leading character.
+
+# Author: David Goodger &lt;goodger@python.org&gt;
+# Maintainer: docutils-develop@lists.sourceforge.net
+# Copyright: This module has been placed in the public domain.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="507" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="507" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1aba0cc50e3ec9ee6ee412da2c8c5a453d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.nodes.make_id</definition>
+        <argsstring>(BuildEnvironment env, nodes.document document, str prefix=&apos;&apos;, str|None term=None)</argsstring>
+        <name>make_id</name>
+        <qualifiedname>sphinx.util.nodes.make_id</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>document</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>prefix</declname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>term</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate an appropriate node_id for given *prefix* and *term*.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="580" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="585" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a90de7a11539d55054beabc80cdbd67ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref>|None</type>
+        <definition> Element | None sphinx.util.nodes.find_pending_xref_condition</definition>
+        <argsstring>(addnodes.pending_xref node, str condition)</argsstring>
+        <name>find_pending_xref_condition</name>
+        <qualifiedname>sphinx.util.nodes.find_pending_xref_condition</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">addnodes.pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>condition</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pick matched pending_xref_condition node up from the pending_xref.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="610" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="612" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1aee251cc67572b965856a6e0b86d76f02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference</type>
+        <definition> nodes.reference sphinx.util.nodes.make_refnode</definition>
+        <argsstring>(Builder builder, str fromdocname, str todocname, str|None targetid, Node|list[Node] child, str|None title=None)</argsstring>
+        <name>make_refnode</name>
+        <qualifiedname>sphinx.util.nodes.make_refnode</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fromdocname</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>todocname</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>targetid</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>|list</type>
+          <declname>child</declname>
+          <array>[Node]</array>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>title</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Shortcut to create a reference node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="623" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="630" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1af9c546d7a3bf7bae11d99b5715c5879d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.nodes.set_source_info</definition>
+        <argsstring>(Directive directive, Node node)</argsstring>
+        <name>set_source_info</name>
+        <qualifiedname>sphinx.util.nodes.set_source_info</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1rst_1_1Directive" kindref="compound">Directive</ref></type>
+          <declname>directive</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="648" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="648" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1adbe27336146a3f4509c2053476620d38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.nodes.set_role_source_info</definition>
+        <argsstring>(Inliner inliner, int lineno, Node node)</argsstring>
+        <name>set_role_source_info</name>
+        <qualifiedname>sphinx.util.nodes.set_role_source_info</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Inliner" kindref="compound">Inliner</ref></type>
+          <declname>inliner</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="654" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="654" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1ab6c29e8ea55e46b3432f6ff6438cac1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.nodes.copy_source_info</definition>
+        <argsstring>(Element src, Element dst)</argsstring>
+        <name>copy_source_info</name>
+        <qualifiedname>sphinx.util.nodes.copy_source_info</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>dst</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="659" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="659" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a0489d289c388112195eb0bd4e05634df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.nodes.is_smartquotable</definition>
+        <argsstring>(Node node)</argsstring>
+        <name>is_smartquotable</name>
+        <qualifiedname>sphinx.util.nodes.is_smartquotable</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether the node is smart-quotable or not.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="676" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="676" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a9b3cb423721e144b2a44362e5b2f8eff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.nodes.process_only_nodes</definition>
+        <argsstring>(Node document, Tags tags)</argsstring>
+        <name>process_only_nodes</name>
+        <qualifiedname>sphinx.util.nodes.process_only_nodes</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>document</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref></type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Filter ``only`` nodes which do not match *tags*.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="687" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="687" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a89d0d21c46eabe0748802d10b9b87b41" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.nodes._only_node_keep_children</definition>
+        <argsstring>(addnodes.only node, Tags tags)</argsstring>
+        <name>_only_node_keep_children</name>
+        <qualifiedname>sphinx.util.nodes._only_node_keep_children</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1only" kindref="compound">addnodes.only</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref></type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Keep children if tags match or error.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="700" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="700" bodyend="712"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a8ae8f6f7a717f2c1d8c8059f0931d7ca" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+        <definition> Element sphinx.util.nodes._copy_except__document</definition>
+        <argsstring>(Element el)</argsstring>
+        <name>_copy_except__document</name>
+        <qualifiedname>sphinx.util.nodes._copy_except__document</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>el</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Monkey-patch ```nodes.Element.copy``` to not copy the ``_document``
+attribute.
+
+See: https://github.com/sphinx-doc/sphinx/issues/11116#issuecomment-1376767086
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="713" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="713" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1nodes_1a13a8603acf99daca11ece9f3396c5553" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+        <definition> Element sphinx.util.nodes._deepcopy</definition>
+        <argsstring>(Element el)</argsstring>
+        <name>_deepcopy</name>
+        <qualifiedname>sphinx.util.nodes._deepcopy</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>el</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Monkey-patch ```nodes.Element.deepcopy``` for speed.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="737" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" bodystart="737" bodyend="751"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Docutils node-related utility functions for Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/nodes.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

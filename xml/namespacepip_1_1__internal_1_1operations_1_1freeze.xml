@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1operations_1_1freeze" kind="namespace" language="Python">
+    <compoundname>pip::_internal::operations::freeze</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1freeze_1_1__EditableInfo" prot="protected">pip::_internal::operations::freeze::_EditableInfo</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1freeze_1_1FrozenRequirement" prot="public">pip::_internal::operations::freeze::FrozenRequirement</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1freeze_1a9af16aabecbcae08546946f45c00e541" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::freeze.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.operations.freeze.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1freeze_1a6727fc459e43e76c3376eb89bef80cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[str, None, None]</type>
+        <definition> Generator[str, None, None] pip._internal.operations.freeze.freeze</definition>
+        <argsstring>(Optional[List[str]] requirement=None, bool local_only=False, bool user_only=False, Optional[List[str]] paths=None, bool isolated=False, bool exclude_editable=False, Container[str] skip=())</argsstring>
+        <name>freeze</name>
+        <qualifiedname>pip._internal.operations.freeze.freeze</qualifiedname>
+        <param>
+          <type>Optional]</type>
+          <declname>requirement</declname>
+          <array>[List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>local_only</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user_only</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>paths</declname>
+          <array>[List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>exclude_editable</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Container</type>
+          <declname>skip</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" bodystart="34" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1freeze_1a6459dcd45b9829542dc6546fd7af1a03" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.operations.freeze._format_as_name_version</definition>
+        <argsstring>(BaseDistribution dist)</argsstring>
+        <name>_format_as_name_version</name>
+        <qualifiedname>pip._internal.operations.freeze._format_as_name_version</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+          <declname>dist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" line="147" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" bodystart="147" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1freeze_1a214f67a14ef70a58fb181ff0c8cb8b3b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1operations_1_1freeze_1_1__EditableInfo" kindref="compound">_EditableInfo</ref></type>
+        <definition> _EditableInfo pip._internal.operations.freeze._get_editable_info</definition>
+        <argsstring>(BaseDistribution dist)</argsstring>
+        <name>_get_editable_info</name>
+        <qualifiedname>pip._internal.operations.freeze._get_editable_info</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+          <declname>dist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compute and return values (req, comments) for use in
+FrozenRequirement.from_dist().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" line="154" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" bodystart="154" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

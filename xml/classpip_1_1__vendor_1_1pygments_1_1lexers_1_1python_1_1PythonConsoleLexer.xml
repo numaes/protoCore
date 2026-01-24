@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pygments::lexers::python::PythonConsoleLexer</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer" prot="public" virt="non-virtual">pip._vendor.pygments.lexer.DelegatingLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1a069fb5e91216099cb2df656c41c99a5d" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.pygments.lexers.python.PythonConsoleLexer::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pip._vendor.pygments.lexers.python.PythonConsoleLexer.name</qualifiedname>
+        <initializer>=  &apos;Python console session&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" line="698" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" bodystart="698" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1a20a8ab1f3b8ed0c9575e34fcb365355b" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pip._vendor.pygments.lexers.python.PythonConsoleLexer::aliases</definition>
+        <argsstring></argsstring>
+        <name>aliases</name>
+        <qualifiedname>pip._vendor.pygments.lexers.python.PythonConsoleLexer.aliases</qualifiedname>
+        <initializer>=  [&apos;pycon&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" line="699" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" bodystart="699" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1adb21f877acb399badb7ad023a53d4a94" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pip._vendor.pygments.lexers.python.PythonConsoleLexer::mimetypes</definition>
+        <argsstring></argsstring>
+        <name>mimetypes</name>
+        <qualifiedname>pip._vendor.pygments.lexers.python.PythonConsoleLexer.mimetypes</qualifiedname>
+        <initializer>=  [&apos;text/<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>-python-doctest&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" line="700" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" bodystart="700" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1a33a1fd5770f246487c5a6b7ee6230bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pygments.lexers.python.PythonConsoleLexer.__init__</definition>
+        <argsstring>(self, **options)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pygments.lexers.python.PythonConsoleLexer.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer_1aeea720a819f5e42c7e1ce6abf1f5094b">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This constructor takes arbitrary options as keyword arguments.
+Every subclass must first process its own options and then call
+the `Lexer` constructor, since it processes the basic
+options like `stripnl`.
+
+An example looks like this:
+
+.. sourcecode:: python
+
+   def __init__(self, **options):
+       self.compress = options.get(&apos;compress&apos;, &apos;&apos;)
+       Lexer.__init__(self, **options)
+
+As these options must all be specifiable as strings (due to the
+command line usage), there are various utility functions
+available to help with that, see `Utilities`_.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" line="702" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" bodystart="702" bodyend="719"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>For Python console output or doctests, such as:
+
+.. sourcecode:: pycon
+
+    &gt;&gt;&gt; a = &apos;foo&apos;
+    &gt;&gt;&gt; print(a)
+    foo
+    &gt;&gt;&gt; 1 / 0
+    Traceback (most recent call last):
+      File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+    ZeroDivisionError: integer division or modulo by zero
+
+Additional options:
+
+`python3`
+    Use Python 3 lexer for code.  Default is ``True``.
+
+    .. versionadded:: 1.0
+    .. versionchanged:: 2.5
+       Now defaults to ``True``.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pygments.lexers.python.PythonConsoleLexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pygments.lexer.DelegatingLexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pygments.lexer.Lexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._vendor.pygments.lexer.LexerMeta</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pygments.lexers.python.PythonConsoleLexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pygments.lexer.DelegatingLexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1DelegatingLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pygments.lexer.Lexer</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>alias_filenames</edgelabel>
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>filenames</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._vendor.pygments.lexer.LexerMeta</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" line="674" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/python.py" bodystart="674" bodyend="719"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1a33a1fd5770f246487c5a6b7ee6230bdf" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexers::python::PythonConsoleLexer</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1a20a8ab1f3b8ed0c9575e34fcb365355b" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexers::python::PythonConsoleLexer</scope><name>aliases</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1adb21f877acb399badb7ad023a53d4a94" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexers::python::PythonConsoleLexer</scope><name>mimetypes</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1lexers_1_1python_1_1PythonConsoleLexer_1a069fb5e91216099cb2df656c41c99a5d" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::lexers::python::PythonConsoleLexer</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

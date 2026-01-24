@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="urllib3_2util_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespaceurllib3">urllib3</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1util">urllib3::util</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceurllib3_1_1util" refkind="compound"><highlight class="comment">#<sp/>For<sp/>backwards<sp/>compatibility,<sp/>provide<sp/>imports<sp/>that<sp/>used<sp/>to<sp/>be<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.connection<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>is_connection_dropped</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.request<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SKIP_HEADER,<sp/>SKIPPABLE_HEADERS,<sp/>make_headers</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.response<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>is_fp_closed</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.retry<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Retry</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.ssl_<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>(</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>ALPN_PROTOCOLS,</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>IS_PYOPENSSL,</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>SSLContext,</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>assert_fingerprint,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>create_urllib3_context,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>resolve_cert_reqs,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>resolve_ssl_version,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>ssl_wrap_socket,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.timeout<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Timeout</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.url<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Url,<sp/>parse_url</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.wait<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>wait_for_read,<sp/>wait_for_write</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal">__all__<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;IS_PYOPENSSL&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SSLContext&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ALPN_PROTOCOLS&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Retry&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Timeout&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Url&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;assert_fingerprint&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;create_urllib3_context&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;is_connection_dropped&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;is_fp_closed&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;parse_url&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;make_headers&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;resolve_cert_reqs&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;resolve_ssl_version&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ssl_wrap_socket&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;wait_for_read&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;wait_for_write&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SKIP_HEADER&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SKIPPABLE_HEADERS&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/__init__.py"/>
+  </compounddef>
+</doxygen>

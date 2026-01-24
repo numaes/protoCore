@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="next__steps_8md" kind="file" language="Markdown">
+    <compoundname>next_steps.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Proto:<sp/>A<sp/>Vision<sp/>for<sp/>the<sp/>Future</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>document<sp/>outlines<sp/>the<sp/>strategic<sp/>vision,<sp/>roadmap,<sp/>and<sp/>immediate<sp/>priorities<sp/>for<sp/>the<sp/>Proto<sp/>ecosystem.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>The<sp/>Grand<sp/>Vision:<sp/>Unleashing<sp/>Multithreading<sp/>for<sp/>Everyone</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**ProtoCore**<sp/>is<sp/>the<sp/>foundation<sp/>of<sp/>an<sp/>ecosystem<sp/>designed<sp/>to<sp/>bring<sp/>unlimited,<sp/>GIL-free<sp/>multithreading<sp/>to<sp/>languages<sp/>traditionally<sp/>constrained<sp/>by<sp/>single-threaded<sp/>execution.<sp/>Our<sp/>mission<sp/>is<sp/>to<sp/>unlock<sp/>the<sp/>full<sp/>power<sp/>of<sp/>modern<sp/>multi-core<sp/>processors<sp/>for<sp/>developers<sp/>and<sp/>end-users,<sp/>enabling<sp/>a<sp/>new<sp/>generation<sp/>of<sp/>high-performance<sp/>applications<sp/>on<sp/>the<sp/>web<sp/>and<sp/>beyond.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">We<sp/>envision<sp/>a<sp/>future<sp/>where<sp/>complex,<sp/>computationally<sp/>intensive<sp/>applications—such<sp/>as<sp/>CAD<sp/>software,<sp/>deep<sp/>learning<sp/>tools,<sp/>and<sp/>large-scale<sp/>simulations—run<sp/>seamlessly<sp/>in<sp/>a<sp/>web<sp/>browser,<sp/>leveraging<sp/>the<sp/>hardware<sp/>that<sp/>users<sp/>already<sp/>own.<sp/>This<sp/>will<sp/>democratize<sp/>high-performance<sp/>computing<sp/>and<sp/>erase<sp/>the<sp/>boundaries<sp/>of<sp/>what<sp/>is<sp/>possible<sp/>on<sp/>the<sp/>internet.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>The<sp/>Ecosystem<sp/>Architecture</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Our<sp/>strategy<sp/>is<sp/>to<sp/>build<sp/>a<sp/>layered<sp/>ecosystem,<sp/>with<sp/>ProtoCore<sp/>at<sp/>its<sp/>heart.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>1.<sp/>The<sp/>Foundation:<sp/>Language-Specific<sp/>Core<sp/>Libraries</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>adapt<sp/>ProtoCore<sp/>to<sp/>a<sp/>new<sp/>language,<sp/>a<sp/>dedicated<sp/>C++<sp/>library<sp/>must<sp/>be<sp/>created.<sp/>This<sp/>library<sp/>serves<sp/>as<sp/>a<sp/>bridge,<sp/>mapping<sp/>the<sp/>language&apos;s<sp/>specific<sp/>object<sp/>model<sp/>and<sp/>low-level<sp/>primitives<sp/>to<sp/>ProtoCore&apos;s<sp/>execution<sp/>model.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**`protoPythonCore`**:<sp/>The<sp/>core<sp/>library<sp/>for<sp/>Python.<sp/>It<sp/>will<sp/>define<sp/>the<sp/>object<sp/>hierarchy<sp/>and<sp/>fundamental<sp/>operations<sp/>that<sp/>align<sp/>with<sp/>Python&apos;s<sp/>semantics,<sp/>providing<sp/>a<sp/>clean<sp/>C++<sp/>API<sp/>for<sp/>executing<sp/>Python<sp/>code.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**`protoJSCore`**:<sp/>The<sp/>core<sp/>library<sp/>for<sp/>JavaScript.<sp/>It<sp/>will<sp/>provide<sp/>the<sp/>necessary<sp/>infrastructure<sp/>to<sp/>build<sp/>a<sp/>compliant<sp/>and<sp/>high-performance<sp/>JavaScript<sp/>engine.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>2.<sp/>The<sp/>Tools:<sp/>Compilers<sp/>and<sp/>Interpreters</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Built<sp/>upon<sp/>these<sp/>core<sp/>libraries,<sp/>we<sp/>will<sp/>develop<sp/>the<sp/>user-facing<sp/>tools<sp/>that<sp/>bring<sp/>Proto<sp/>to<sp/>life.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**`protoPython`**:<sp/>A<sp/>Python-to-C++<sp/>transpiler.<sp/>Written<sp/>in<sp/>Python<sp/>itself,<sp/>it<sp/>will<sp/>leverage<sp/>the<sp/>standard<sp/>`ast`<sp/>module<sp/>to<sp/>parse<sp/>Python<sp/>code<sp/>and<sp/>translate<sp/>it<sp/>into<sp/>high-performance<sp/>C++<sp/>modules.<sp/>These<sp/>modules<sp/>will<sp/>interface<sp/>directly<sp/>with<sp/>`protoPythonCore`,<sp/>achieving<sp/>near-native<sp/>speed<sp/>while<sp/>preserving<sp/>Python&apos;s<sp/>familiar<sp/>syntax.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**`protoJS`**:<sp/>A<sp/>C++-based<sp/>JavaScript<sp/>interpreter.<sp/>Designed<sp/>as<sp/>a<sp/>Node.js-equivalent<sp/>environment,<sp/>`protoJS`<sp/>will<sp/>use<sp/>`protoJSCore`<sp/>directly<sp/>to<sp/>offer<sp/>a<sp/>powerful,<sp/>multithreaded<sp/>server-side<sp/>JavaScript<sp/>runtime.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>3.<sp/>The<sp/>Ultimate<sp/>Goal:<sp/>A<sp/>Proto-Powered<sp/>Web<sp/>Browser</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>culmination<sp/>of<sp/>this<sp/>vision<sp/>is<sp/>to<sp/>evolve<sp/>`protoJS`<sp/>into<sp/>a<sp/>full-fledged<sp/>web<sp/>browser<sp/>engine.<sp/>By<sp/>building<sp/>a<sp/>browser<sp/>from<sp/>the<sp/>ground<sp/>up<sp/>on<sp/>the<sp/>Proto<sp/>ecosystem,<sp/>we<sp/>can<sp/>finally<sp/>free<sp/>web<sp/>applications<sp/>from<sp/>the<sp/>constraints<sp/>of<sp/>single-threaded<sp/>JavaScript.<sp/>This<sp/>will<sp/>empower<sp/>developers<sp/>to<sp/>create<sp/>web<sp/>experiences<sp/>that<sp/>fully<sp/>utilize<sp/>the<sp/>multi-core<sp/>architecture<sp/>of<sp/>modern<sp/>computers,<sp/>making<sp/>the<sp/>web<sp/>a<sp/>viable<sp/>platform<sp/>for<sp/>applications<sp/>previously<sp/>confined<sp/>to<sp/>the<sp/>desktop.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>How<sp/>You<sp/>Can<sp/>Contribute</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">We<sp/>are<sp/>looking<sp/>for<sp/>passionate<sp/>developers<sp/>to<sp/>join<sp/>us<sp/>in<sp/>this<sp/>ambitious<sp/>journey.<sp/>Whether<sp/>your<sp/>interest<sp/>lies<sp/>in<sp/>compilers,<sp/>language<sp/>runtimes,<sp/>or<sp/>systems<sp/>programming,<sp/>there<sp/>is<sp/>a<sp/>place<sp/>for<sp/>you<sp/>in<sp/>the<sp/>Proto<sp/>ecosystem.<sp/>This<sp/>is<sp/>an<sp/>opportunity<sp/>to<sp/>be<sp/>part<sp/>of<sp/>a<sp/>project<sp/>that<sp/>could<sp/>fundamentally<sp/>change<sp/>the<sp/>internet.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+    </programlisting>
+    <location file="next_steps.md"/>
+  </compounddef>
+</doxygen>

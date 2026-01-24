@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cp949prober_8py" kind="file" language="Python">
+    <compoundname>cp949prober.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1chardet_1_1cp949prober_1_1CP949Prober" prot="public">pip::_vendor::chardet::cp949prober::CP949Prober</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet">pip::_vendor::chardet</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet_1_1cp949prober">pip::_vendor::chardet::cp949prober</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1chardet_1_1cp949prober" refkind="compound"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.chardistribution<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>EUCKRDistributionAnalysis</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.codingstatemachine<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>CodingStateMachine</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.mbcharsetprober<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>MultiByteCharSetProber</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.mbcssm<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>CP949_SM_MODEL</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classpip_1_1__vendor_1_1chardet_1_1cp949prober_1_1CP949Prober" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1chardet_1_1cp949prober_1_1CP949Prober" kindref="compound">CP949Prober</ref>(<ref refid="classpip_1_1__vendor_1_1chardet_1_1mbcharsetprober_1_1MultiByteCharSetProber" kindref="compound">MultiByteCharSetProber</ref>):</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1chardet_1_1cp949prober_1_1CP949Prober_1a542bb997536ce9d3168f8c707a99b9c3" kindref="member">__init__</ref>(self)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classpip_1_1__vendor_1_1chardet_1_1cp949prober_1_1CP949Prober_1a542bb997536ce9d3168f8c707a99b9c3" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1chardet_1_1cp949prober_1_1CP949Prober_1a17e6369ef9b98d583d2c5436ab1a23c4" kindref="member">coding_sm</ref><sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1chardet_1_1codingstatemachine_1_1CodingStateMachine" kindref="compound">CodingStateMachine</ref>(CP949_SM_MODEL)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>NOTE:<sp/>CP949<sp/>is<sp/>a<sp/>superset<sp/>of<sp/>EUC-KR,<sp/>so<sp/>the<sp/>distribution<sp/>should<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/><sp/><sp/>not<sp/>different.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1chardet_1_1cp949prober_1_1CP949Prober_1aa11cb25b182a139c02cc51d03118c876" kindref="member">distribution_analyzer</ref><sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1chardet_1_1chardistribution_1_1EUCKRDistributionAnalysis" kindref="compound">EUCKRDistributionAnalysis</ref>()</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1chardet_1_1charsetprober_1_1CharSetProber_1aa710833ab46cd39e91a4cb7e51225db1" kindref="member">reset</ref><ref refid="classpip_1_1__vendor_1_1chardet_1_1mbcharsetprober_1_1MultiByteCharSetProber_1aa7855364c1f28f9b01b8c4eed4861b80" kindref="member">reset</ref>()</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1chardet_1_1mbcharsetprober_1_1MultiByteCharSetProber_1ac482e22b085d0a35cdc126c21501feda" kindref="member">charset_name</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CP949&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1chardet_1_1mbcharsetprober_1_1MultiByteCharSetProber_1a5335f4c3b71f52f1743d36fca617d366" kindref="member">language</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Korean&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/cp949prober.py"/>
+  </compounddef>
+</doxygen>

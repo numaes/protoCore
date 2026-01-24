@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2docs_2reference_2actions_8md" kind="file" language="Markdown">
+    <compoundname>actions.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Actions<sp/>Reference</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[**Actions**](../gmock_for_dummies.md#actions-what-should-it-do)<sp/>specify<sp/>what<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">mock<sp/>function<sp/>should<sp/>do<sp/>when<sp/>invoked.<sp/>This<sp/>page<sp/>lists<sp/>the<sp/>built-in<sp/>actions</highlight></codeline>
+<codeline><highlight class="normal">provided<sp/>by<sp/>GoogleTest.<sp/>All<sp/>actions<sp/>are<sp/>defined<sp/>in<sp/>the<sp/>`::testing`<sp/>namespace.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Returning<sp/>a<sp/>Value</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Action<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:--------------------------------<sp/>|<sp/>:--------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Return()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Return<sp/>from<sp/>a<sp/>`void`<sp/>mock<sp/>function.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Return(value)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Return<sp/>`value`.<sp/>If<sp/>the<sp/>type<sp/>of<sp/>`value`<sp/>is<sp/><sp/><sp/><sp/><sp/>different<sp/>to<sp/>the<sp/>mock<sp/>function&apos;s<sp/>return<sp/>type,<sp/>`value`<sp/>is<sp/>converted<sp/>to<sp/>the<sp/>latter<sp/>type<sp/>&lt;i&gt;at<sp/>the<sp/>time<sp/>the<sp/>expectation<sp/>is<sp/>set&lt;/i&gt;,<sp/>not<sp/>when<sp/>the<sp/>action<sp/>is<sp/>executed.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ReturnArg&lt;N&gt;()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Return<sp/>the<sp/>`N`-th<sp/>(0-based)<sp/>argument.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ReturnNew&lt;T&gt;(a1,<sp/>...,<sp/>ak)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Return<sp/>`new<sp/>T(a1,<sp/>...,<sp/>ak)`;<sp/>a<sp/>different<sp/><sp/><sp/><sp/><sp/><sp/>object<sp/>is<sp/>created<sp/>each<sp/>time.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ReturnNull()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Return<sp/>a<sp/>null<sp/>pointer.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ReturnPointee(ptr)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Return<sp/>the<sp/>value<sp/>pointed<sp/>to<sp/>by<sp/>`ptr`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ReturnRef(variable)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Return<sp/>a<sp/>reference<sp/>to<sp/>`variable`.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ReturnRefOfCopy(value)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Return<sp/>a<sp/>reference<sp/>to<sp/>a<sp/>copy<sp/>of<sp/>`value`;<sp/>the<sp/><sp/>copy<sp/>lives<sp/>as<sp/>long<sp/>as<sp/>the<sp/>action.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ReturnRoundRobin({a1,<sp/>...,<sp/>ak})`<sp/>|<sp/>Each<sp/>call<sp/>will<sp/>return<sp/>the<sp/>next<sp/>`ai`<sp/>in<sp/>the<sp/>list,<sp/>starting<sp/>at<sp/>the<sp/>beginning<sp/>when<sp/>the<sp/>end<sp/>of<sp/>the<sp/>list<sp/>is<sp/>reached.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Side<sp/>Effects</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Action<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:---------------------------------<sp/>|<sp/>:--------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Assign(&amp;variable,<sp/>value)`<sp/>|<sp/>Assign<sp/>`value`<sp/>to<sp/>variable.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`DeleteArg&lt;N&gt;()`<sp/>|<sp/>Delete<sp/>the<sp/>`N`-th<sp/>(0-based)<sp/>argument,<sp/>which<sp/>must<sp/>be<sp/>a<sp/>pointer.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SaveArg&lt;N&gt;(pointer)`<sp/>|<sp/>Save<sp/>the<sp/>`N`-th<sp/>(0-based)<sp/>argument<sp/>to<sp/>`*pointer`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SaveArgPointee&lt;N&gt;(pointer)`<sp/>|<sp/>Save<sp/>the<sp/>value<sp/>pointed<sp/>to<sp/>by<sp/>the<sp/>`N`-th<sp/>(0-based)<sp/>argument<sp/>to<sp/>`*pointer`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SetArgReferee&lt;N&gt;(value)`<sp/>|<sp/>Assign<sp/>`value`<sp/>to<sp/>the<sp/>variable<sp/>referenced<sp/>by<sp/>the<sp/>`N`-th<sp/>(0-based)<sp/>argument.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SetArgPointee&lt;N&gt;(value)`<sp/>|<sp/>Assign<sp/>`value`<sp/>to<sp/>the<sp/>variable<sp/>pointed<sp/>by<sp/>the<sp/>`N`-th<sp/>(0-based)<sp/>argument.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SetArgumentPointee&lt;N&gt;(value)`<sp/>|<sp/>Same<sp/>as<sp/>`SetArgPointee&lt;N&gt;(value)`.<sp/>Deprecated.<sp/>Will<sp/>be<sp/>removed<sp/>in<sp/>v1.7.0.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SetArrayArgument&lt;N&gt;(first,<sp/>last)`<sp/>|<sp/>Copies<sp/>the<sp/>elements<sp/>in<sp/>source<sp/>range<sp/>[`first`,<sp/>`last`)<sp/>to<sp/>the<sp/>array<sp/>pointed<sp/>to<sp/>by<sp/>the<sp/>`N`-th<sp/>(0-based)<sp/>argument,<sp/>which<sp/>can<sp/>be<sp/>either<sp/>a<sp/>pointer<sp/>or<sp/>an<sp/>iterator.<sp/>The<sp/>action<sp/>does<sp/>not<sp/>take<sp/>ownership<sp/>of<sp/>the<sp/>elements<sp/>in<sp/>the<sp/>source<sp/>range.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`SetErrnoAndReturn(error,<sp/>value)`<sp/>|<sp/>Set<sp/>`errno`<sp/>to<sp/>`error`<sp/>and<sp/>return<sp/>`value`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Throw(exception)`<sp/>|<sp/>Throws<sp/>the<sp/>given<sp/>exception,<sp/>which<sp/>can<sp/>be<sp/>any<sp/>copyable<sp/>value.<sp/>Available<sp/>since<sp/>v1.1.0.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>a<sp/>Function,<sp/>Functor,<sp/>or<sp/>Lambda<sp/>as<sp/>an<sp/>Action</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>the<sp/>following,<sp/>by<sp/>&quot;callable&quot;<sp/>we<sp/>mean<sp/>a<sp/>free<sp/>function,<sp/>`std::function`,</highlight></codeline>
+<codeline><highlight class="normal">functor,<sp/>or<sp/>lambda.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Action<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:----------------------------------<sp/>|<sp/>:-------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`f`<sp/>|<sp/>Invoke<sp/>`f`<sp/>with<sp/>the<sp/>arguments<sp/>passed<sp/>to<sp/>the<sp/>mock<sp/>function,<sp/>where<sp/>`f`<sp/>is<sp/>a<sp/>callable.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Invoke(f)`<sp/>|<sp/>Invoke<sp/>`f`<sp/>with<sp/>the<sp/>arguments<sp/>passed<sp/>to<sp/>the<sp/>mock<sp/>function,<sp/>where<sp/>`f`<sp/>can<sp/>be<sp/>a<sp/>global/static<sp/>function<sp/>or<sp/>a<sp/>functor.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Invoke(object_pointer,<sp/>&amp;class::method)`<sp/>|<sp/>Invoke<sp/>the<sp/>method<sp/>on<sp/>the<sp/>object<sp/>with<sp/>the<sp/>arguments<sp/>passed<sp/>to<sp/>the<sp/>mock<sp/>function.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`InvokeWithoutArgs(f)`<sp/>|<sp/>Invoke<sp/>`f`,<sp/>which<sp/>can<sp/>be<sp/>a<sp/>global/static<sp/>function<sp/>or<sp/>a<sp/>functor.<sp/>`f`<sp/>must<sp/>take<sp/>no<sp/>arguments.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`InvokeWithoutArgs(object_pointer,<sp/>&amp;class::method)`<sp/>|<sp/>Invoke<sp/>the<sp/>method<sp/>on<sp/>the<sp/>object,<sp/>which<sp/>takes<sp/>no<sp/>arguments.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`InvokeArgument&lt;N&gt;(arg1,<sp/>arg2,<sp/>...,<sp/>argk)`<sp/>|<sp/>Invoke<sp/>the<sp/>mock<sp/>function&apos;s<sp/>`N`-th<sp/>(0-based)<sp/>argument,<sp/>which<sp/>must<sp/>be<sp/>a<sp/>function<sp/>or<sp/>a<sp/>functor,<sp/>with<sp/>the<sp/>`k`<sp/>arguments.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>return<sp/>value<sp/>of<sp/>the<sp/>invoked<sp/>function<sp/>is<sp/>used<sp/>as<sp/>the<sp/>return<sp/>value<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">action.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>defining<sp/>a<sp/>callable<sp/>to<sp/>be<sp/>used<sp/>with<sp/>`Invoke*()`,<sp/>you<sp/>can<sp/>declare<sp/>any<sp/>unused</highlight></codeline>
+<codeline><highlight class="normal">parameters<sp/>as<sp/>`Unused`:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Invoke;</highlight></codeline>
+<codeline><highlight class="normal">double<sp/>Distance(Unused,<sp/>double<sp/>x,<sp/>double<sp/>y)<sp/>{<sp/>return<sp/>sqrt(x*x<sp/>+<sp/>y*y);<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(mock,<sp/>Foo(&quot;Hi&quot;,<sp/>_,<sp/>_)).WillOnce(Invoke(Distance));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`Invoke(callback)`<sp/>and<sp/>`InvokeWithoutArgs(callback)`<sp/>take<sp/>ownership<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">`callback`,<sp/>which<sp/>must<sp/>be<sp/>permanent.<sp/>The<sp/>type<sp/>of<sp/>`callback`<sp/>must<sp/>be<sp/>a<sp/>base</highlight></codeline>
+<codeline><highlight class="normal">callback<sp/>type<sp/>instead<sp/>of<sp/>a<sp/>derived<sp/>one,<sp/>e.g.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>BlockingClosure*<sp/>done<sp/>=<sp/>new<sp/>BlockingClosure;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>Invoke(done)<sp/>...;<sp/><sp/>//<sp/>This<sp/>won&apos;t<sp/>compile!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>Closure*<sp/>done2<sp/>=<sp/>new<sp/>BlockingClosure;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>Invoke(done2)<sp/>...;<sp/><sp/>//<sp/>This<sp/>works.</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>`InvokeArgument&lt;N&gt;(...)`,<sp/>if<sp/>an<sp/>argument<sp/>needs<sp/>to<sp/>be<sp/>passed<sp/>by<sp/>reference,</highlight></codeline>
+<codeline><highlight class="normal">wrap<sp/>it<sp/>inside<sp/>`std::ref()`.<sp/>For<sp/>example,</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::InvokeArgument;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">InvokeArgument&lt;2&gt;(5,<sp/>string(&quot;Hi&quot;),<sp/>std::ref(foo))</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">calls<sp/>the<sp/>mock<sp/>function&apos;s<sp/>#2<sp/>argument,<sp/>passing<sp/>to<sp/>it<sp/>`5`<sp/>and<sp/>`string(&quot;Hi&quot;)`<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">value,<sp/>and<sp/>`foo`<sp/>by<sp/>reference.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Default<sp/>Action</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Action<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:------------<sp/>|<sp/>:-----------------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`DoDefault()`<sp/>|<sp/>Do<sp/>the<sp/>default<sp/>action<sp/>(specified<sp/>by<sp/>`ON_CALL()`<sp/>or<sp/>the<sp/>built-in<sp/>one).<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">{:<sp/>.callout<sp/>.note}</highlight></codeline>
+<codeline><highlight class="normal">**Note:**<sp/>due<sp/>to<sp/>technical<sp/>reasons,<sp/>`DoDefault()`<sp/>cannot<sp/>be<sp/>used<sp/>inside<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">composite<sp/>action<sp/>-<sp/>trying<sp/>to<sp/>do<sp/>so<sp/>will<sp/>result<sp/>in<sp/>a<sp/>run-time<sp/>error.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Composite<sp/>Actions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Action<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:-----------------------------<sp/>|<sp/>:------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`DoAll(a1,<sp/>a2,<sp/>...,<sp/>an)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Do<sp/>all<sp/>actions<sp/>`a1`<sp/>to<sp/>`an`<sp/>and<sp/>return<sp/>the<sp/>result<sp/>of<sp/>`an`<sp/>in<sp/>each<sp/>invocation.<sp/>The<sp/>first<sp/>`n<sp/>-<sp/>1`<sp/>sub-actions<sp/>must<sp/>return<sp/>void<sp/>and<sp/>will<sp/>receive<sp/>a<sp/><sp/>readonly<sp/>view<sp/>of<sp/>the<sp/>arguments.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`IgnoreResult(a)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Perform<sp/>action<sp/>`a`<sp/>and<sp/>ignore<sp/>its<sp/>result.<sp/>`a`<sp/>must<sp/>not<sp/>return<sp/>void.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`WithArg&lt;N&gt;(a)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Pass<sp/>the<sp/>`N`-th<sp/>(0-based)<sp/>argument<sp/>of<sp/>the<sp/>mock<sp/>function<sp/>to<sp/>action<sp/>`a`<sp/>and<sp/>perform<sp/>it.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`WithArgs&lt;N1,<sp/>N2,<sp/>...,<sp/>Nk&gt;(a)`<sp/>|<sp/>Pass<sp/>the<sp/>selected<sp/>(0-based)<sp/>arguments<sp/>of<sp/>the<sp/>mock<sp/>function<sp/>to<sp/>action<sp/>`a`<sp/>and<sp/>perform<sp/>it.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`WithoutArgs(a)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Perform<sp/>action<sp/>`a`<sp/>without<sp/>any<sp/>arguments.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Defining<sp/>Actions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Macro<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:---------------------------------<sp/>|<sp/>:--------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ACTION(Sum)<sp/>{<sp/>return<sp/>arg0<sp/>+<sp/>arg1;<sp/>}`<sp/>|<sp/>Defines<sp/>an<sp/>action<sp/>`Sum()`<sp/>to<sp/>return<sp/>the<sp/>sum<sp/>of<sp/>the<sp/>mock<sp/>function&apos;s<sp/>argument<sp/>#0<sp/>and<sp/>#1.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ACTION_P(Plus,<sp/>n)<sp/>{<sp/>return<sp/>arg0<sp/>+<sp/>n;<sp/>}`<sp/>|<sp/>Defines<sp/>an<sp/>action<sp/>`Plus(n)`<sp/>to<sp/>return<sp/>the<sp/>sum<sp/>of<sp/>the<sp/>mock<sp/>function&apos;s<sp/>argument<sp/>#0<sp/>and<sp/>`n`.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ACTION_Pk(Foo,<sp/>p1,<sp/>...,<sp/>pk)<sp/>{<sp/>statements;<sp/>}`<sp/>|<sp/>Defines<sp/>a<sp/>parameterized<sp/>action<sp/>`Foo(p1,<sp/>...,<sp/>pk)`<sp/>to<sp/>execute<sp/>the<sp/>given<sp/>`statements`.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`ACTION*`<sp/>macros<sp/>cannot<sp/>be<sp/>used<sp/>inside<sp/>a<sp/>function<sp/>or<sp/>class.</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/docs/reference/actions.md"/>
+  </compounddef>
+</doxygen>

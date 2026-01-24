@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates" kind="namespace" language="Python">
+    <compoundname>pip::_internal::resolution::resolvelib::candidates</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate" prot="protected">pip::_internal::resolution::resolvelib::candidates::_InstallRequirementBackedCandidate</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate" prot="public">pip::_internal::resolution::resolvelib::candidates::AlreadyInstalledCandidate</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1EditableCandidate" prot="public">pip::_internal::resolution::resolvelib::candidates::EditableCandidate</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate" prot="public">pip::_internal::resolution::resolvelib::candidates::ExtrasCandidate</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1LinkCandidate" prot="public">pip::_internal::resolution::resolvelib::candidates::LinkCandidate</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate" prot="public">pip::_internal::resolution::resolvelib::candidates::RequiresPythonCandidate</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1ac5b291a4474200eda2ec2cd46ffb112e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::resolvelib::candidates.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.candidates.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1a8592eae0a6ef6cfbe8ef62bd6763555e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::resolvelib::candidates.BaseCandidate</definition>
+        <argsstring></argsstring>
+        <name>BaseCandidate</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.candidates.BaseCandidate</qualifiedname>
+        <initializer>=  Union[
+    &quot;AlreadyInstalledCandidate&quot;,
+    &quot;EditableCandidate&quot;,
+    &quot;LinkCandidate&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1a39eab6c4cdd87415872a1017d76772a0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::resolvelib::candidates.REQUIRES_PYTHON_IDENTIFIER</definition>
+        <argsstring></argsstring>
+        <name>REQUIRES_PYTHON_IDENTIFIER</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.candidates.REQUIRES_PYTHON_IDENTIFIER</qualifiedname>
+        <initializer>=  cast(NormalizedName, &quot;&lt;Python from Requires-Python&gt;&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1aaa1442fbff959c004929b4341fe4011c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1a8592eae0a6ef6cfbe8ef62bd6763555e" kindref="member">BaseCandidate</ref>]</type>
+        <definition> Optional[BaseCandidate] pip._internal.resolution.resolvelib.candidates.as_base_candidate</definition>
+        <argsstring>(Candidate candidate)</argsstring>
+        <name>as_base_candidate</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.candidates.as_base_candidate</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref></type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The runtime version of BaseCandidate.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" bodystart="41" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1a560c5e86ed810a035d53680a76317c80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.resolution.resolvelib.candidates.make_install_req_from_link</definition>
+        <argsstring>(Link link, InstallRequirement template)</argsstring>
+        <name>make_install_req_from_link</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.candidates.make_install_req_from_link</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>template</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" bodystart="55" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1a51aab3d0ab8f83ebc19dcb93ce316be1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.resolution.resolvelib.candidates.make_install_req_from_editable</definition>
+        <argsstring>(Link link, InstallRequirement template)</argsstring>
+        <name>make_install_req_from_editable</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.candidates.make_install_req_from_editable</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>template</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" bodystart="80" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1ae3184a1d2631747fe58044097f3dfe58" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.resolution.resolvelib.candidates._make_install_req_from_dist</definition>
+        <argsstring>(BaseDistribution dist, InstallRequirement template)</argsstring>
+        <name>_make_install_req_from_dist</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.candidates._make_install_req_from_dist</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+          <declname>dist</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>template</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" bodystart="100" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/candidates.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cli_2main_8py" kind="file" language="Python">
+    <compoundname>main.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1cli">pip::_internal::cli</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1cli_1_1main">pip::_internal::cli::main</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1cli_1_1main" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Primary<sp/>application<sp/>entrypoint.</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>locale</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>warnings</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>List,<sp/>Optional</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1cli_1_1autocompletion" kindref="compound">pip._internal.cli.autocompletion</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>autocomplete</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1cli_1_1main__parser" kindref="compound">pip._internal.cli.main_parser</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>parse_command</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1commands" kindref="compound">pip._internal.commands</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>create_command</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1exceptions" kindref="compound">pip._internal.exceptions</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>PipError</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils" kindref="compound">pip._internal.utils</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>deprecation</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">logger<sp/>=<sp/>logging.getLogger(__name__)</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Do<sp/>not<sp/>import<sp/>and<sp/>use<sp/>main()<sp/>directly!<sp/>Using<sp/>it<sp/>directly<sp/>is<sp/>actively</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">#<sp/>discouraged<sp/>by<sp/>pip&apos;s<sp/>maintainers.<sp/>The<sp/>name,<sp/>location<sp/>and<sp/>behavior<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">#<sp/>this<sp/>function<sp/>is<sp/>subject<sp/>to<sp/>change,<sp/>so<sp/>calling<sp/>it<sp/>directly<sp/>is<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">#<sp/>portable<sp/>across<sp/>different<sp/>pip<sp/>versions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">#<sp/>In<sp/>addition,<sp/>running<sp/>pip<sp/>in-process<sp/>is<sp/>unsupported<sp/>and<sp/>unsafe.<sp/>This<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">#<sp/>elaborated<sp/>in<sp/>detail<sp/>at</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">#<sp/>https://pip.pypa.io/en/stable/user_guide/#using-pip-from-your-program.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">#<sp/>That<sp/>document<sp/>also<sp/>provides<sp/>suggestions<sp/>that<sp/>should<sp/>work<sp/>for<sp/>nearly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">#<sp/>all<sp/>users<sp/>that<sp/>are<sp/>considering<sp/>importing<sp/>and<sp/>using<sp/>main()<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">#<sp/>However,<sp/>we<sp/>know<sp/>that<sp/>certain<sp/>users<sp/>will<sp/>still<sp/>want<sp/>to<sp/>invoke<sp/>pip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">#<sp/>in-process.<sp/>If<sp/>you<sp/>understand<sp/>and<sp/>accept<sp/>the<sp/>implications<sp/>of<sp/>using<sp/>pip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">#<sp/>in<sp/>an<sp/>unsupported<sp/>manner,<sp/>the<sp/>best<sp/>approach<sp/>is<sp/>to<sp/>use<sp/>runpy<sp/>to<sp/>avoid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">#<sp/>depending<sp/>on<sp/>the<sp/>exact<sp/>location<sp/>of<sp/>this<sp/>entry<sp/>point.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">#<sp/>The<sp/>following<sp/>example<sp/>shows<sp/>how<sp/>to<sp/>use<sp/>runpy<sp/>to<sp/>invoke<sp/>pip<sp/>in<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">#<sp/>case:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>sys.argv<sp/>=<sp/>[&quot;pip&quot;,<sp/>your,<sp/>args,<sp/>here]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>runpy.run_module(&quot;pip&quot;,<sp/>run_name=&quot;__main__&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Note<sp/>that<sp/>this<sp/>will<sp/>exit<sp/>the<sp/>process<sp/>after<sp/>running,<sp/>unlike<sp/>a<sp/>direct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">#<sp/>call<sp/>to<sp/>main.<sp/>As<sp/>it<sp/>is<sp/>not<sp/>safe<sp/>to<sp/>do<sp/>any<sp/>processing<sp/>after<sp/>calling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">#<sp/>main,<sp/>this<sp/>should<sp/>not<sp/>be<sp/>an<sp/>issue<sp/>in<sp/>practice.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">main(args:<sp/>Optional[List[str]]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>args<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>args<sp/>=<sp/>sys.argv[1:]</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Suppress<sp/>the<sp/>pkg_resources<sp/>deprecation<sp/>warning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Note<sp/>-<sp/>we<sp/>use<sp/>a<sp/>module<sp/>of<sp/>.*pkg_resources<sp/>to<sp/>cover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>the<sp/>normal<sp/>case<sp/>(pip._vendor.pkg_resources)<sp/>and<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>devendored<sp/>case<sp/>(a<sp/>bare<sp/>pkg_resources)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>warnings.filterwarnings(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>action=</highlight><highlight class="stringliteral">&quot;ignore&quot;</highlight><highlight class="normal">,<sp/>category=DeprecationWarning,<sp/>module=</highlight><highlight class="stringliteral">&quot;.*pkg_resources&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Configure<sp/>our<sp/>deprecation<sp/>warnings<sp/>to<sp/>be<sp/>sent<sp/>through<sp/>loggers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>deprecation.install_warning_logger()</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>autocomplete()</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cmd_name,<sp/>cmd_args<sp/>=<sp/>parse_command(args)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>PipError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>exc:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.stderr.write(f</highlight><highlight class="stringliteral">&quot;ERROR:<sp/>{exc}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.stderr.write(os.linesep)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.exit(1)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Needed<sp/>for<sp/>locale.getpreferredencoding(False)<sp/>to<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>in<sp/>pip._internal.utils.encoding.auto_decode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>locale.setlocale(locale.LC_ALL,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>locale.Error<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>e:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>setlocale<sp/>can<sp/>apparently<sp/>crash<sp/>if<sp/>locale<sp/>are<sp/>uninitialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.debug(</highlight><highlight class="stringliteral">&quot;Ignoring<sp/>error<sp/>%s<sp/>when<sp/>setting<sp/>locale&quot;</highlight><highlight class="normal">,<sp/>e)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>command<sp/>=<sp/>create_command(cmd_name,<sp/>isolated=(</highlight><highlight class="stringliteral">&quot;--isolated&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>cmd_args))</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>command.main(cmd_args)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/main.py"/>
+  </compounddef>
+</doxygen>

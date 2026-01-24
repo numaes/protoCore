@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="installed_8py" kind="file" language="Python">
+    <compoundname>installed.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution" prot="public">pip::_internal::distributions::installed::InstalledDistribution</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1distributions">pip::_internal::distributions</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1distributions_1_1installed">pip::_internal::distributions::installed</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1distributions_1_1installed" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Optional</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1distributions_1_1base" kindref="compound">pip._internal.distributions.base</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>AbstractDistribution</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1index_1_1package__finder" kindref="compound">pip._internal.index.package_finder</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>PackageFinder</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata" kindref="compound">pip._internal.metadata</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BaseDistribution</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution" kindref="compound">InstalledDistribution</ref>(<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution" kindref="compound">AbstractDistribution</ref>):</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Represents<sp/>an<sp/>installed<sp/>package.</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>does<sp/>not<sp/>need<sp/>any<sp/>preparation<sp/>as<sp/>the<sp/>required<sp/>information<sp/>has<sp/>already</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>been<sp/>computed.</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution_1a1bc56220c5f98091fe1d9c9759649910" kindref="member">build_tracker_id</ref>(self)<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_metadata_distribution(self)<sp/>-&gt;<sp/>BaseDistribution:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a4e0f5834a91b4f3ab6be563959652df9" kindref="member">req</ref>.satisfied_by<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;not<sp/>actually<sp/>installed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a4e0f5834a91b4f3ab6be563959652df9" kindref="member">req</ref>.satisfied_by</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution_1a003e4fae83e40a392011fe50d428ea4b" kindref="member">prepare_distribution_metadata</ref>(</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finder:<sp/>PackageFinder,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>build_isolation:<sp/>bool,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>check_build_deps:<sp/>bool,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py"/>
+  </compounddef>
+</doxygen>

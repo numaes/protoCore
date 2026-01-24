@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2docs_2gmock__faq_8md" kind="file" language="Markdown">
+    <compoundname>gmock_faq.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Legacy<sp/>gMock<sp/>FAQ</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>When<sp/>I<sp/>call<sp/>a<sp/>method<sp/>on<sp/>my<sp/>mock<sp/>object,<sp/>the<sp/>method<sp/>for<sp/>the<sp/>real<sp/>object<sp/>is<sp/>invoked<sp/>instead.<sp/>What&apos;s<sp/>the<sp/>problem?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>order<sp/>for<sp/>a<sp/>method<sp/>to<sp/>be<sp/>mocked,<sp/>it<sp/>must<sp/>be<sp/>*virtual*,<sp/>unless<sp/>you<sp/>use<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[high-perf<sp/>dependency<sp/>injection<sp/>technique](gmock_cook_book.md#MockingNonVirtualMethods).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Can<sp/>I<sp/>mock<sp/>a<sp/>variadic<sp/>function?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>cannot<sp/>mock<sp/>a<sp/>variadic<sp/>function<sp/>(i.e.<sp/>a<sp/>function<sp/>taking<sp/>ellipsis<sp/>(`...`)</highlight></codeline>
+<codeline><highlight class="normal">arguments)<sp/>directly<sp/>in<sp/>gMock.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>problem<sp/>is<sp/>that<sp/>in<sp/>general,<sp/>there<sp/>is<sp/>*no<sp/>way*<sp/>for<sp/>a<sp/>mock<sp/>object<sp/>to<sp/>know<sp/>how</highlight></codeline>
+<codeline><highlight class="normal">many<sp/>arguments<sp/>are<sp/>passed<sp/>to<sp/>the<sp/>variadic<sp/>method,<sp/>and<sp/>what<sp/>the<sp/>arguments&apos;<sp/>types</highlight></codeline>
+<codeline><highlight class="normal">are.<sp/>Only<sp/>the<sp/>*author<sp/>of<sp/>the<sp/>base<sp/>class*<sp/>knows<sp/>the<sp/>protocol,<sp/>and<sp/>we<sp/>cannot<sp/>look</highlight></codeline>
+<codeline><highlight class="normal">into<sp/>his<sp/>or<sp/>her<sp/>head.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Therefore,<sp/>to<sp/>mock<sp/>such<sp/>a<sp/>function,<sp/>the<sp/>*user*<sp/>must<sp/>teach<sp/>the<sp/>mock<sp/>object<sp/>how<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">figure<sp/>out<sp/>the<sp/>number<sp/>of<sp/>arguments<sp/>and<sp/>their<sp/>types.<sp/>One<sp/>way<sp/>to<sp/>do<sp/>it<sp/>is<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">provide<sp/>overloaded<sp/>versions<sp/>of<sp/>the<sp/>function.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Ellipsis<sp/>arguments<sp/>are<sp/>inherited<sp/>from<sp/>C<sp/>and<sp/>not<sp/>really<sp/>a<sp/>C++<sp/>feature.<sp/>They<sp/>are</highlight></codeline>
+<codeline><highlight class="normal">unsafe<sp/>to<sp/>use<sp/>and<sp/>don&apos;t<sp/>work<sp/>with<sp/>arguments<sp/>that<sp/>have<sp/>constructors<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">destructors.<sp/>Therefore<sp/>we<sp/>recommend<sp/>to<sp/>avoid<sp/>them<sp/>in<sp/>C++<sp/>as<sp/>much<sp/>as<sp/>possible.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>MSVC<sp/>gives<sp/>me<sp/>warning<sp/>C4301<sp/>or<sp/>C4373<sp/>when<sp/>I<sp/>define<sp/>a<sp/>mock<sp/>method<sp/>with<sp/>a<sp/>const<sp/>parameter.<sp/>Why?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>compile<sp/>this<sp/>using<sp/>Microsoft<sp/>Visual<sp/>C++<sp/>2005<sp/>SP1:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>void<sp/>Bar(const<sp/>int<sp/>i)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">class<sp/>MockFoo<sp/>:<sp/>public<sp/>Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(void,<sp/>Bar,<sp/>(const<sp/>int<sp/>i),<sp/>(override));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>may<sp/>get<sp/>the<sp/>following<sp/>warning:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">warning<sp/>C4301:<sp/>&apos;MockFoo::Bar&apos;:<sp/>overriding<sp/>virtual<sp/>function<sp/>only<sp/>differs<sp/>from<sp/>&apos;Foo::Bar&apos;<sp/>by<sp/>const/volatile<sp/>qualifier</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>a<sp/>MSVC<sp/>bug.<sp/>The<sp/>same<sp/>code<sp/>compiles<sp/>fine<sp/>with<sp/>gcc,<sp/>for<sp/>example.<sp/>If<sp/>you</highlight></codeline>
+<codeline><highlight class="normal">use<sp/>Visual<sp/>C++<sp/>2008<sp/>SP1,<sp/>you<sp/>would<sp/>get<sp/>the<sp/>warning:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```shell</highlight></codeline>
+<codeline><highlight class="normal">warning<sp/>C4373:<sp/>&apos;MockFoo::Bar&apos;:<sp/>virtual<sp/>function<sp/>overrides<sp/>&apos;Foo::Bar&apos;,<sp/>previous<sp/>versions<sp/>of<sp/>the<sp/>compiler<sp/>did<sp/>not<sp/>override<sp/>when<sp/>parameters<sp/>only<sp/>differed<sp/>by<sp/>const/volatile<sp/>qualifiers</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>C++,<sp/>if<sp/>you<sp/>*declare*<sp/>a<sp/>function<sp/>with<sp/>a<sp/>`const`<sp/>parameter,<sp/>the<sp/>`const`</highlight></codeline>
+<codeline><highlight class="normal">modifier<sp/>is<sp/>ignored.<sp/>Therefore,<sp/>the<sp/>`Foo`<sp/>base<sp/>class<sp/>above<sp/>is<sp/>equivalent<sp/>to:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>void<sp/>Bar(int<sp/>i)<sp/>=<sp/>0;<sp/><sp/>//<sp/>int<sp/>or<sp/>const<sp/>int?<sp/><sp/>Makes<sp/>no<sp/>difference.</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>fact,<sp/>you<sp/>can<sp/>*declare*<sp/>`Bar()`<sp/>with<sp/>an<sp/>`int`<sp/>parameter,<sp/>and<sp/>define<sp/>it<sp/>with<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">`const<sp/>int`<sp/>parameter.<sp/>The<sp/>compiler<sp/>will<sp/>still<sp/>match<sp/>them<sp/>up.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Since<sp/>making<sp/>a<sp/>parameter<sp/>`const`<sp/>is<sp/>meaningless<sp/>in<sp/>the<sp/>method<sp/>declaration,<sp/>we</highlight></codeline>
+<codeline><highlight class="normal">recommend<sp/>to<sp/>remove<sp/>it<sp/>in<sp/>both<sp/>`Foo`<sp/>and<sp/>`MockFoo`.<sp/>That<sp/>should<sp/>workaround<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">VC<sp/>bug.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>we<sp/>are<sp/>talking<sp/>about<sp/>the<sp/>*top-level*<sp/>`const`<sp/>modifier<sp/>here.<sp/>If<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">function<sp/>parameter<sp/>is<sp/>passed<sp/>by<sp/>pointer<sp/>or<sp/>reference,<sp/>declaring<sp/>the<sp/>pointee<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">referee<sp/>as<sp/>`const`<sp/>is<sp/>still<sp/>meaningful.<sp/>For<sp/>example,<sp/>the<sp/>following<sp/>two</highlight></codeline>
+<codeline><highlight class="normal">declarations<sp/>are<sp/>*not*<sp/>equivalent:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>Bar(int*<sp/>p);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Neither<sp/>p<sp/>nor<sp/>*p<sp/>is<sp/>const.</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>Bar(const<sp/>int*<sp/>p);<sp/><sp/>//<sp/>p<sp/>is<sp/>not<sp/>const,<sp/>but<sp/>*p<sp/>is.</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>I<sp/>can&apos;t<sp/>figure<sp/>out<sp/>why<sp/>gMock<sp/>thinks<sp/>my<sp/>expectations<sp/>are<sp/>not<sp/>satisfied.<sp/>What<sp/>should<sp/>I<sp/>do?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>might<sp/>want<sp/>to<sp/>run<sp/>your<sp/>test<sp/>with<sp/>`--gmock_verbose=info`.<sp/>This<sp/>flag<sp/>lets</highlight></codeline>
+<codeline><highlight class="normal">gMock<sp/>print<sp/>a<sp/>trace<sp/>of<sp/>every<sp/>mock<sp/>function<sp/>call<sp/>it<sp/>receives.<sp/>By<sp/>studying<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">trace,<sp/>you&apos;ll<sp/>gain<sp/>insights<sp/>on<sp/>why<sp/>the<sp/>expectations<sp/>you<sp/>set<sp/>are<sp/>not<sp/>met.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>see<sp/>the<sp/>message<sp/>&quot;The<sp/>mock<sp/>function<sp/>has<sp/>no<sp/>default<sp/>action<sp/>set,<sp/>and<sp/>its</highlight></codeline>
+<codeline><highlight class="normal">return<sp/>type<sp/>has<sp/>no<sp/>default<sp/>value<sp/>set.&quot;,<sp/>then<sp/>try</highlight></codeline>
+<codeline><highlight class="normal">[adding<sp/>a<sp/>default<sp/>action](gmock_cheat_sheet.md#OnCall).<sp/>Due<sp/>to<sp/>a<sp/>known<sp/>issue,</highlight></codeline>
+<codeline><highlight class="normal">unexpected<sp/>calls<sp/>on<sp/>mocks<sp/>without<sp/>default<sp/>actions<sp/>don&apos;t<sp/>print<sp/>out<sp/>a<sp/>detailed</highlight></codeline>
+<codeline><highlight class="normal">comparison<sp/>between<sp/>the<sp/>actual<sp/>arguments<sp/>and<sp/>the<sp/>expected<sp/>arguments.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>My<sp/>program<sp/>crashed<sp/>and<sp/>`ScopedMockLog`<sp/>spit<sp/>out<sp/>tons<sp/>of<sp/>messages.<sp/>Is<sp/>it<sp/>a<sp/>gMock<sp/>bug?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">gMock<sp/>and<sp/>`ScopedMockLog`<sp/>are<sp/>likely<sp/>doing<sp/>the<sp/>right<sp/>thing<sp/>here.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>a<sp/>test<sp/>crashes,<sp/>the<sp/>failure<sp/>signal<sp/>handler<sp/>will<sp/>try<sp/>to<sp/>log<sp/>a<sp/>lot<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">information<sp/>(the<sp/>stack<sp/>trace,<sp/>and<sp/>the<sp/>address<sp/>map,<sp/>for<sp/>example).<sp/>The<sp/>messages</highlight></codeline>
+<codeline><highlight class="normal">are<sp/>compounded<sp/>if<sp/>you<sp/>have<sp/>many<sp/>threads<sp/>with<sp/>depth<sp/>stacks.<sp/>When<sp/>`ScopedMockLog`</highlight></codeline>
+<codeline><highlight class="normal">intercepts<sp/>these<sp/>messages<sp/>and<sp/>finds<sp/>that<sp/>they<sp/>don&apos;t<sp/>match<sp/>any<sp/>expectations,<sp/>it</highlight></codeline>
+<codeline><highlight class="normal">prints<sp/>an<sp/>error<sp/>for<sp/>each<sp/>of<sp/>them.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>learn<sp/>to<sp/>ignore<sp/>the<sp/>errors,<sp/>or<sp/>you<sp/>can<sp/>rewrite<sp/>your<sp/>expectations<sp/>to<sp/>make</highlight></codeline>
+<codeline><highlight class="normal">your<sp/>test<sp/>more<sp/>robust,<sp/>for<sp/>example,<sp/>by<sp/>adding<sp/>something<sp/>like:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::AnyNumber;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Not;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Ignores<sp/>any<sp/>log<sp/>not<sp/>done<sp/>by<sp/>us.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(log,<sp/>Log(_,<sp/>Not(EndsWith(&quot;/my_file.cc&quot;)),<sp/>_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.Times(AnyNumber());</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>How<sp/>can<sp/>I<sp/>assert<sp/>that<sp/>a<sp/>function<sp/>is<sp/>NEVER<sp/>called?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(foo,<sp/>Bar(_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.Times(0);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>I<sp/>have<sp/>a<sp/>failed<sp/>test<sp/>where<sp/>gMock<sp/>tells<sp/>me<sp/>TWICE<sp/>that<sp/>a<sp/>particular<sp/>expectation<sp/>is<sp/>not<sp/>satisfied.<sp/>Isn&apos;t<sp/>this<sp/>redundant?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>gMock<sp/>detects<sp/>a<sp/>failure,<sp/>it<sp/>prints<sp/>relevant<sp/>information<sp/>(the<sp/>mock<sp/>function</highlight></codeline>
+<codeline><highlight class="normal">arguments,<sp/>the<sp/>state<sp/>of<sp/>relevant<sp/>expectations,<sp/>and<sp/>etc)<sp/>to<sp/>help<sp/>the<sp/>user<sp/>debug.</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>another<sp/>failure<sp/>is<sp/>detected,<sp/>gMock<sp/>will<sp/>do<sp/>the<sp/>same,<sp/>including<sp/>printing<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">state<sp/>of<sp/>relevant<sp/>expectations.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Sometimes<sp/>an<sp/>expectation&apos;s<sp/>state<sp/>didn&apos;t<sp/>change<sp/>between<sp/>two<sp/>failures,<sp/>and<sp/>you&apos;ll</highlight></codeline>
+<codeline><highlight class="normal">see<sp/>the<sp/>same<sp/>description<sp/>of<sp/>the<sp/>state<sp/>twice.<sp/>They<sp/>are<sp/>however<sp/>*not*<sp/>redundant,</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>they<sp/>refer<sp/>to<sp/>*different<sp/>points<sp/>in<sp/>time*.<sp/>The<sp/>fact<sp/>they<sp/>are<sp/>the<sp/>same<sp/>*is*</highlight></codeline>
+<codeline><highlight class="normal">interesting<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>I<sp/>get<sp/>a<sp/>heapcheck<sp/>failure<sp/>when<sp/>using<sp/>a<sp/>mock<sp/>object,<sp/>but<sp/>using<sp/>a<sp/>real<sp/>object<sp/>is<sp/>fine.<sp/>What<sp/>can<sp/>be<sp/>wrong?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Does<sp/>the<sp/>class<sp/>(hopefully<sp/>a<sp/>pure<sp/>interface)<sp/>you<sp/>are<sp/>mocking<sp/>have<sp/>a<sp/>virtual</highlight></codeline>
+<codeline><highlight class="normal">destructor?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Whenever<sp/>you<sp/>derive<sp/>from<sp/>a<sp/>base<sp/>class,<sp/>make<sp/>sure<sp/>its<sp/>destructor<sp/>is<sp/>virtual.</highlight></codeline>
+<codeline><highlight class="normal">Otherwise<sp/>Bad<sp/>Things<sp/>will<sp/>happen.<sp/>Consider<sp/>the<sp/>following<sp/>code:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>Base<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Not<sp/>virtual,<sp/>but<sp/>should<sp/>be.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>~Base()<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">class<sp/>Derived<sp/>:<sp/>public<sp/>Base<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/>private:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>std::string<sp/>value_;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>Base*<sp/>p<sp/>=<sp/>new<sp/>Derived;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>delete<sp/>p;<sp/><sp/>//<sp/>Surprise!<sp/>~Base()<sp/>will<sp/>be<sp/>called,<sp/>but<sp/>~Derived()<sp/>will<sp/>not</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>-<sp/>value_<sp/>is<sp/>leaked.</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">By<sp/>changing<sp/>`~Base()`<sp/>to<sp/>virtual,<sp/>`~Derived()`<sp/>will<sp/>be<sp/>correctly<sp/>called<sp/>when</highlight></codeline>
+<codeline><highlight class="normal">`delete<sp/>p`<sp/>is<sp/>executed,<sp/>and<sp/>the<sp/>heap<sp/>checker<sp/>will<sp/>be<sp/>happy.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>&quot;newer<sp/>expectations<sp/>override<sp/>older<sp/>ones&quot;<sp/>rule<sp/>makes<sp/>writing<sp/>expectations<sp/>awkward.<sp/>Why<sp/>does<sp/>gMock<sp/>do<sp/>that?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>people<sp/>complain<sp/>about<sp/>this,<sp/>often<sp/>they<sp/>are<sp/>referring<sp/>to<sp/>code<sp/>like:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>foo.Bar()<sp/>should<sp/>be<sp/>called<sp/>twice,<sp/>return<sp/>1<sp/>the<sp/>first<sp/>time,<sp/>and<sp/>return</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>2<sp/>the<sp/>second<sp/>time.<sp/><sp/>However,<sp/>I<sp/>have<sp/>to<sp/>write<sp/>the<sp/>expectations<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>reverse<sp/>order.<sp/><sp/>This<sp/>sucks<sp/>big<sp/>time!!!</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(foo,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(Return(2))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(foo,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(Return(1))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>problem,<sp/>is<sp/>that<sp/>they<sp/>didn&apos;t<sp/>pick<sp/>the<sp/>**best**<sp/>way<sp/>to<sp/>express<sp/>the<sp/>test&apos;s</highlight></codeline>
+<codeline><highlight class="normal">intent.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">By<sp/>default,<sp/>expectations<sp/>don&apos;t<sp/>have<sp/>to<sp/>be<sp/>matched<sp/>in<sp/>*any*<sp/>particular<sp/>order.<sp/>If</highlight></codeline>
+<codeline><highlight class="normal">you<sp/>want<sp/>them<sp/>to<sp/>match<sp/>in<sp/>a<sp/>certain<sp/>order,<sp/>you<sp/>need<sp/>to<sp/>be<sp/>explicit.<sp/>This<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">gMock&apos;s<sp/>(and<sp/>jMock&apos;s)<sp/>fundamental<sp/>philosophy:<sp/>it&apos;s<sp/>easy<sp/>to<sp/>accidentally</highlight></codeline>
+<codeline><highlight class="normal">over-specify<sp/>your<sp/>tests,<sp/>and<sp/>we<sp/>want<sp/>to<sp/>make<sp/>it<sp/>harder<sp/>to<sp/>do<sp/>so.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">There<sp/>are<sp/>two<sp/>better<sp/>ways<sp/>to<sp/>write<sp/>the<sp/>test<sp/>spec.<sp/>You<sp/>could<sp/>either<sp/>put<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">expectations<sp/>in<sp/>sequence:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>foo.Bar()<sp/>should<sp/>be<sp/>called<sp/>twice,<sp/>return<sp/>1<sp/>the<sp/>first<sp/>time,<sp/>and<sp/>return</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>2<sp/>the<sp/>second<sp/>time.<sp/><sp/>Using<sp/>a<sp/>sequence,<sp/>we<sp/>can<sp/>write<sp/>the<sp/>expectations</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>in<sp/>their<sp/>natural<sp/>order.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>InSequence<sp/>s;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_CALL(foo,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(Return(1))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_CALL(foo,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(Return(2))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">or<sp/>you<sp/>can<sp/>put<sp/>the<sp/>sequence<sp/>of<sp/>actions<sp/>in<sp/>the<sp/>same<sp/>expectation:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>foo.Bar()<sp/>should<sp/>be<sp/>called<sp/>twice,<sp/>return<sp/>1<sp/>the<sp/>first<sp/>time,<sp/>and<sp/>return</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>2<sp/>the<sp/>second<sp/>time.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(foo,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(Return(1))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(Return(2))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Back<sp/>to<sp/>the<sp/>original<sp/>questions:<sp/>why<sp/>does<sp/>gMock<sp/>search<sp/>the<sp/>expectations<sp/>(and</highlight></codeline>
+<codeline><highlight class="normal">`ON_CALL`s)<sp/>from<sp/>back<sp/>to<sp/>front?<sp/>Because<sp/>this<sp/>allows<sp/>a<sp/>user<sp/>to<sp/>set<sp/>up<sp/>a<sp/>mock&apos;s</highlight></codeline>
+<codeline><highlight class="normal">behavior<sp/>for<sp/>the<sp/>common<sp/>case<sp/>early<sp/>(e.g.<sp/>in<sp/>the<sp/>mock&apos;s<sp/>constructor<sp/>or<sp/>the<sp/>test</highlight></codeline>
+<codeline><highlight class="normal">fixture&apos;s<sp/>set-up<sp/>phase)<sp/>and<sp/>customize<sp/>it<sp/>with<sp/>more<sp/>specific<sp/>rules<sp/>later.<sp/>If</highlight></codeline>
+<codeline><highlight class="normal">gMock<sp/>searches<sp/>from<sp/>front<sp/>to<sp/>back,<sp/>this<sp/>very<sp/>useful<sp/>pattern<sp/>won&apos;t<sp/>be<sp/>possible.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>gMock<sp/>prints<sp/>a<sp/>warning<sp/>when<sp/>a<sp/>function<sp/>without<sp/>EXPECT_CALL<sp/>is<sp/>called,<sp/>even<sp/>if<sp/>I<sp/>have<sp/>set<sp/>its<sp/>behavior<sp/>using<sp/>ON_CALL.<sp/>Would<sp/>it<sp/>be<sp/>reasonable<sp/>not<sp/>to<sp/>show<sp/>the<sp/>warning<sp/>in<sp/>this<sp/>case?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>choosing<sp/>between<sp/>being<sp/>neat<sp/>and<sp/>being<sp/>safe,<sp/>we<sp/>lean<sp/>toward<sp/>the<sp/>latter.<sp/>So</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>answer<sp/>is<sp/>that<sp/>we<sp/>think<sp/>it&apos;s<sp/>better<sp/>to<sp/>show<sp/>the<sp/>warning.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Often<sp/>people<sp/>write<sp/>`ON_CALL`s<sp/>in<sp/>the<sp/>mock<sp/>object&apos;s<sp/>constructor<sp/>or<sp/>`SetUp()`,<sp/>as</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>default<sp/>behavior<sp/>rarely<sp/>changes<sp/>from<sp/>test<sp/>to<sp/>test.<sp/>Then<sp/>in<sp/>the<sp/>test<sp/>body</highlight></codeline>
+<codeline><highlight class="normal">they<sp/>set<sp/>the<sp/>expectations,<sp/>which<sp/>are<sp/>often<sp/>different<sp/>for<sp/>each<sp/>test.<sp/>Having<sp/>an</highlight></codeline>
+<codeline><highlight class="normal">`ON_CALL`<sp/>in<sp/>the<sp/>set-up<sp/>part<sp/>of<sp/>a<sp/>test<sp/>doesn&apos;t<sp/>mean<sp/>that<sp/>the<sp/>calls<sp/>are<sp/>expected.</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>there&apos;s<sp/>no<sp/>`EXPECT_CALL`<sp/>and<sp/>the<sp/>method<sp/>is<sp/>called,<sp/>it&apos;s<sp/>possibly<sp/>an<sp/>error.<sp/>If</highlight></codeline>
+<codeline><highlight class="normal">we<sp/>quietly<sp/>let<sp/>the<sp/>call<sp/>go<sp/>through<sp/>without<sp/>notifying<sp/>the<sp/>user,<sp/>bugs<sp/>may<sp/>creep<sp/>in</highlight></codeline>
+<codeline><highlight class="normal">unnoticed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If,<sp/>however,<sp/>you<sp/>are<sp/>sure<sp/>that<sp/>the<sp/>calls<sp/>are<sp/>OK,<sp/>you<sp/>can<sp/>write</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(foo,<sp/>Bar(_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillRepeatedly(...);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">instead<sp/>of</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ON_CALL(foo,<sp/>Bar(_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillByDefault(...);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>tells<sp/>gMock<sp/>that<sp/>you<sp/>do<sp/>expect<sp/>the<sp/>calls<sp/>and<sp/>no<sp/>warning<sp/>should<sp/>be<sp/>printed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Also,<sp/>you<sp/>can<sp/>control<sp/>the<sp/>verbosity<sp/>by<sp/>specifying<sp/>`--gmock_verbose=error`.<sp/>Other</highlight></codeline>
+<codeline><highlight class="normal">values<sp/>are<sp/>`info`<sp/>and<sp/>`warning`.<sp/>If<sp/>you<sp/>find<sp/>the<sp/>output<sp/>too<sp/>noisy<sp/>when</highlight></codeline>
+<codeline><highlight class="normal">debugging,<sp/>just<sp/>choose<sp/>a<sp/>less<sp/>verbose<sp/>level.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>How<sp/>can<sp/>I<sp/>delete<sp/>the<sp/>mock<sp/>function&apos;s<sp/>argument<sp/>in<sp/>an<sp/>action?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>your<sp/>mock<sp/>function<sp/>takes<sp/>a<sp/>pointer<sp/>argument<sp/>and<sp/>you<sp/>want<sp/>to<sp/>delete<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">argument,<sp/>you<sp/>can<sp/>use<sp/>testing::DeleteArg&lt;N&gt;()<sp/>to<sp/>delete<sp/>the<sp/>N&apos;th<sp/>(zero-indexed)</highlight></codeline>
+<codeline><highlight class="normal">argument:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(void,<sp/>Bar,<sp/>(X*<sp/>x,<sp/>const<sp/>Y&amp;<sp/>y));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(mock_foo_,<sp/>Bar(_,<sp/>_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(testing::DeleteArg&lt;0&gt;()));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>How<sp/>can<sp/>I<sp/>perform<sp/>an<sp/>arbitrary<sp/>action<sp/>on<sp/>a<sp/>mock<sp/>function&apos;s<sp/>argument?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>find<sp/>yourself<sp/>needing<sp/>to<sp/>perform<sp/>some<sp/>action<sp/>that&apos;s<sp/>not<sp/>supported<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">gMock<sp/>directly,<sp/>remember<sp/>that<sp/>you<sp/>can<sp/>define<sp/>your<sp/>own<sp/>actions<sp/>using</highlight></codeline>
+<codeline><highlight class="normal">[`MakeAction()`](#NewMonoActions)<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">[`MakePolymorphicAction()`](#NewPolyActions),<sp/>or<sp/>you<sp/>can<sp/>write<sp/>a<sp/>stub<sp/>function</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>invoke<sp/>it<sp/>using<sp/>[`Invoke()`](#FunctionsAsActions).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Invoke;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(void,<sp/>Bar,<sp/>(X*<sp/>p));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(mock_foo_,<sp/>Bar(_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(Invoke(MyAction(...)));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>My<sp/>code<sp/>calls<sp/>a<sp/>static/global<sp/>function.<sp/>Can<sp/>I<sp/>mock<sp/>it?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can,<sp/>but<sp/>you<sp/>need<sp/>to<sp/>make<sp/>some<sp/>changes.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>general,<sp/>if<sp/>you<sp/>find<sp/>yourself<sp/>needing<sp/>to<sp/>mock<sp/>a<sp/>static<sp/>function,<sp/>it&apos;s<sp/>a<sp/>sign</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>your<sp/>modules<sp/>are<sp/>too<sp/>tightly<sp/>coupled<sp/>(and<sp/>less<sp/>flexible,<sp/>less<sp/>reusable,</highlight></codeline>
+<codeline><highlight class="normal">less<sp/>testable,<sp/>etc).<sp/>You<sp/>are<sp/>probably<sp/>better<sp/>off<sp/>defining<sp/>a<sp/>small<sp/>interface<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">call<sp/>the<sp/>function<sp/>through<sp/>that<sp/>interface,<sp/>which<sp/>then<sp/>can<sp/>be<sp/>easily<sp/>mocked.<sp/>It&apos;s</highlight></codeline>
+<codeline><highlight class="normal">a<sp/>bit<sp/>of<sp/>work<sp/>initially,<sp/>but<sp/>usually<sp/>pays<sp/>for<sp/>itself<sp/>quickly.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>Google<sp/>Testing<sp/>Blog</highlight></codeline>
+<codeline><highlight class="normal">[post](https://testing.googleblog.com/2008/06/defeat-static-cling.html)<sp/>says<sp/>it</highlight></codeline>
+<codeline><highlight class="normal">excellently.<sp/>Check<sp/>it<sp/>out.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>My<sp/>mock<sp/>object<sp/>needs<sp/>to<sp/>do<sp/>complex<sp/>stuff.<sp/>It&apos;s<sp/>a<sp/>lot<sp/>of<sp/>pain<sp/>to<sp/>specify<sp/>the<sp/>actions.<sp/>gMock<sp/>sucks!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">I<sp/>know<sp/>it&apos;s<sp/>not<sp/>a<sp/>question,<sp/>but<sp/>you<sp/>get<sp/>an<sp/>answer<sp/>for<sp/>free<sp/>any<sp/>way.<sp/>:-)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">With<sp/>gMock,<sp/>you<sp/>can<sp/>create<sp/>mocks<sp/>in<sp/>C++<sp/>easily.<sp/>And<sp/>people<sp/>might<sp/>be<sp/>tempted<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">use<sp/>them<sp/>everywhere.<sp/>Sometimes<sp/>they<sp/>work<sp/>great,<sp/>and<sp/>sometimes<sp/>you<sp/>may<sp/>find<sp/>them,</highlight></codeline>
+<codeline><highlight class="normal">well,<sp/>a<sp/>pain<sp/>to<sp/>use.<sp/>So,<sp/>what&apos;s<sp/>wrong<sp/>in<sp/>the<sp/>latter<sp/>case?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>you<sp/>write<sp/>a<sp/>test<sp/>without<sp/>using<sp/>mocks,<sp/>you<sp/>exercise<sp/>the<sp/>code<sp/>and<sp/>assert<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">it<sp/>returns<sp/>the<sp/>correct<sp/>value<sp/>or<sp/>that<sp/>the<sp/>system<sp/>is<sp/>in<sp/>an<sp/>expected<sp/>state.<sp/>This<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">sometimes<sp/>called<sp/>&quot;state-based<sp/>testing&quot;.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Mocks<sp/>are<sp/>great<sp/>for<sp/>what<sp/>some<sp/>call<sp/>&quot;interaction-based&quot;<sp/>testing:<sp/>instead<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">checking<sp/>the<sp/>system<sp/>state<sp/>at<sp/>the<sp/>very<sp/>end,<sp/>mock<sp/>objects<sp/>verify<sp/>that<sp/>they<sp/>are</highlight></codeline>
+<codeline><highlight class="normal">invoked<sp/>the<sp/>right<sp/>way<sp/>and<sp/>report<sp/>an<sp/>error<sp/>as<sp/>soon<sp/>as<sp/>it<sp/>arises,<sp/>giving<sp/>you<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">handle<sp/>on<sp/>the<sp/>precise<sp/>context<sp/>in<sp/>which<sp/>the<sp/>error<sp/>was<sp/>triggered.<sp/>This<sp/>is<sp/>often</highlight></codeline>
+<codeline><highlight class="normal">more<sp/>effective<sp/>and<sp/>economical<sp/>to<sp/>do<sp/>than<sp/>state-based<sp/>testing.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>are<sp/>doing<sp/>state-based<sp/>testing<sp/>and<sp/>using<sp/>a<sp/>test<sp/>double<sp/>just<sp/>to<sp/>simulate</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>real<sp/>object,<sp/>you<sp/>are<sp/>probably<sp/>better<sp/>off<sp/>using<sp/>a<sp/>fake.<sp/>Using<sp/>a<sp/>mock<sp/>in<sp/>this</highlight></codeline>
+<codeline><highlight class="normal">case<sp/>causes<sp/>pain,<sp/>as<sp/>it&apos;s<sp/>not<sp/>a<sp/>strong<sp/>point<sp/>for<sp/>mocks<sp/>to<sp/>perform<sp/>complex</highlight></codeline>
+<codeline><highlight class="normal">actions.<sp/>If<sp/>you<sp/>experience<sp/>this<sp/>and<sp/>think<sp/>that<sp/>mocks<sp/>suck,<sp/>you<sp/>are<sp/>just<sp/>not</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>the<sp/>right<sp/>tool<sp/>for<sp/>your<sp/>problem.<sp/>Or,<sp/>you<sp/>might<sp/>be<sp/>trying<sp/>to<sp/>solve<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">wrong<sp/>problem.<sp/>:-)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>I<sp/>got<sp/>a<sp/>warning<sp/>&quot;Uninteresting<sp/>function<sp/>call<sp/>encountered<sp/>-<sp/>default<sp/>action<sp/>taken..&quot;<sp/>Should<sp/>I<sp/>panic?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">By<sp/>all<sp/>means,<sp/>NO!<sp/>It&apos;s<sp/>just<sp/>an<sp/>FYI.<sp/>:-)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">What<sp/>it<sp/>means<sp/>is<sp/>that<sp/>you<sp/>have<sp/>a<sp/>mock<sp/>function,<sp/>you<sp/>haven&apos;t<sp/>set<sp/>any<sp/>expectations</highlight></codeline>
+<codeline><highlight class="normal">on<sp/>it<sp/>(by<sp/>gMock&apos;s<sp/>rule<sp/>this<sp/>means<sp/>that<sp/>you<sp/>are<sp/>not<sp/>interested<sp/>in<sp/>calls<sp/>to<sp/>this</highlight></codeline>
+<codeline><highlight class="normal">function<sp/>and<sp/>therefore<sp/>it<sp/>can<sp/>be<sp/>called<sp/>any<sp/>number<sp/>of<sp/>times),<sp/>and<sp/>it<sp/>is<sp/>called.</highlight></codeline>
+<codeline><highlight class="normal">That&apos;s<sp/>OK<sp/>-<sp/>you<sp/>didn&apos;t<sp/>say<sp/>it&apos;s<sp/>not<sp/>OK<sp/>to<sp/>call<sp/>the<sp/>function!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">What<sp/>if<sp/>you<sp/>actually<sp/>meant<sp/>to<sp/>disallow<sp/>this<sp/>function<sp/>to<sp/>be<sp/>called,<sp/>but<sp/>forgot<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">write<sp/>`EXPECT_CALL(foo,<sp/>Bar()).Times(0)`?<sp/>While<sp/>one<sp/>can<sp/>argue<sp/>that<sp/>it&apos;s<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">user&apos;s<sp/>fault,<sp/>gMock<sp/>tries<sp/>to<sp/>be<sp/>nice<sp/>and<sp/>prints<sp/>you<sp/>a<sp/>note.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">So,<sp/>when<sp/>you<sp/>see<sp/>the<sp/>message<sp/>and<sp/>believe<sp/>that<sp/>there<sp/>shouldn&apos;t<sp/>be<sp/>any</highlight></codeline>
+<codeline><highlight class="normal">uninteresting<sp/>calls,<sp/>you<sp/>should<sp/>investigate<sp/>what&apos;s<sp/>going<sp/>on.<sp/>To<sp/>make<sp/>your<sp/>life</highlight></codeline>
+<codeline><highlight class="normal">easier,<sp/>gMock<sp/>dumps<sp/>the<sp/>stack<sp/>trace<sp/>when<sp/>an<sp/>uninteresting<sp/>call<sp/>is<sp/>encountered.</highlight></codeline>
+<codeline><highlight class="normal">From<sp/>that<sp/>you<sp/>can<sp/>figure<sp/>out<sp/>which<sp/>mock<sp/>function<sp/>it<sp/>is,<sp/>and<sp/>how<sp/>it<sp/>is<sp/>called.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>I<sp/>want<sp/>to<sp/>define<sp/>a<sp/>custom<sp/>action.<sp/>Should<sp/>I<sp/>use<sp/>Invoke()<sp/>or<sp/>implement<sp/>the<sp/>ActionInterface<sp/>interface?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Either<sp/>way<sp/>is<sp/>fine<sp/>-<sp/>you<sp/>want<sp/>to<sp/>choose<sp/>the<sp/>one<sp/>that&apos;s<sp/>more<sp/>convenient<sp/>for<sp/>your</highlight></codeline>
+<codeline><highlight class="normal">circumstance.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Usually,<sp/>if<sp/>your<sp/>action<sp/>is<sp/>for<sp/>a<sp/>particular<sp/>function<sp/>type,<sp/>defining<sp/>it<sp/>using</highlight></codeline>
+<codeline><highlight class="normal">`Invoke()`<sp/>should<sp/>be<sp/>easier;<sp/>if<sp/>your<sp/>action<sp/>can<sp/>be<sp/>used<sp/>in<sp/>functions<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">different<sp/>types<sp/>(e.g.<sp/>if<sp/>you<sp/>are<sp/>defining<sp/>`Return(*value*)`),</highlight></codeline>
+<codeline><highlight class="normal">`MakePolymorphicAction()`<sp/>is<sp/>easiest.<sp/>Sometimes<sp/>you<sp/>want<sp/>precise<sp/>control<sp/>on<sp/>what</highlight></codeline>
+<codeline><highlight class="normal">types<sp/>of<sp/>functions<sp/>the<sp/>action<sp/>can<sp/>be<sp/>used<sp/>in,<sp/>and<sp/>implementing<sp/>`ActionInterface`</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>the<sp/>way<sp/>to<sp/>go<sp/>here.<sp/>See<sp/>the<sp/>implementation<sp/>of<sp/>`Return()`<sp/>in<sp/>`gmock-actions.h`</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>an<sp/>example.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>I<sp/>use<sp/>SetArgPointee()<sp/>in<sp/>WillOnce(),<sp/>but<sp/>gcc<sp/>complains<sp/>about<sp/>&quot;conflicting<sp/>return<sp/>type<sp/>specified&quot;.<sp/>What<sp/>does<sp/>it<sp/>mean?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>got<sp/>this<sp/>error<sp/>as<sp/>gMock<sp/>has<sp/>no<sp/>idea<sp/>what<sp/>value<sp/>it<sp/>should<sp/>return<sp/>when<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">mock<sp/>method<sp/>is<sp/>called.<sp/>`SetArgPointee()`<sp/>says<sp/>what<sp/>the<sp/>side<sp/>effect<sp/>is,<sp/>but</highlight></codeline>
+<codeline><highlight class="normal">doesn&apos;t<sp/>say<sp/>what<sp/>the<sp/>return<sp/>value<sp/>should<sp/>be.<sp/>You<sp/>need<sp/>`DoAll()`<sp/>to<sp/>chain<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">`SetArgPointee()`<sp/>with<sp/>a<sp/>`Return()`<sp/>that<sp/>provides<sp/>a<sp/>value<sp/>appropriate<sp/>to<sp/>the<sp/>API</highlight></codeline>
+<codeline><highlight class="normal">being<sp/>mocked.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>this<sp/>[recipe](gmock_cook_book.md#mocking-side-effects)<sp/>for<sp/>more<sp/>details<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">an<sp/>example.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>I<sp/>have<sp/>a<sp/>huge<sp/>mock<sp/>class,<sp/>and<sp/>Microsoft<sp/>Visual<sp/>C++<sp/>runs<sp/>out<sp/>of<sp/>memory<sp/>when<sp/>compiling<sp/>it.<sp/>What<sp/>can<sp/>I<sp/>do?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">We&apos;ve<sp/>noticed<sp/>that<sp/>when<sp/>the<sp/>`/clr`<sp/>compiler<sp/>flag<sp/>is<sp/>used,<sp/>Visual<sp/>C++<sp/>uses<sp/>5~6</highlight></codeline>
+<codeline><highlight class="normal">times<sp/>as<sp/>much<sp/>memory<sp/>when<sp/>compiling<sp/>a<sp/>mock<sp/>class.<sp/>We<sp/>suggest<sp/>to<sp/>avoid<sp/>`/clr`</highlight></codeline>
+<codeline><highlight class="normal">when<sp/>compiling<sp/>native<sp/>C++<sp/>mocks.</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/docs/gmock_faq.md"/>
+  </compounddef>
+</doxygen>

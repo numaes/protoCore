@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Proto:<sp/>A<sp/>High-Performance,<sp/>Embeddable<sp/>Dynamic<sp/>Object<sp/>System<sp/>for<sp/>C++</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[![Language](https://img.shields.io/badge/Language-C%2B%2B20-blue.svg)](https://isocpp.org/)</highlight></codeline>
+<codeline><highlight class="normal">[![Build<sp/>System](https://img.shields.io/badge/Build-CMake-green.svg)](https://cmake.org/)</highlight></codeline>
+<codeline><highlight class="normal">[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Proto<sp/>is<sp/>a<sp/>powerful,<sp/>embeddable<sp/>runtime<sp/>written<sp/>in<sp/>modern<sp/>C++<sp/>that<sp/>brings<sp/>the<sp/>flexibility<sp/>of<sp/>dynamic,<sp/>prototype-based<sp/>object<sp/>systems<sp/>(like<sp/>those<sp/>in<sp/>JavaScript<sp/>or<sp/>Python)<sp/>into<sp/>the<sp/>world<sp/>of<sp/>high-performance,<sp/>compiled<sp/>applications.**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">It<sp/>is<sp/>designed<sp/>for<sp/>developers<sp/>who<sp/>need<sp/>to<sp/>script<sp/>complex<sp/>application<sp/>behavior,<sp/>configure<sp/>systems<sp/>dynamically,<sp/>or<sp/>build<sp/>domain-specific<sp/>languages<sp/>without<sp/>sacrificing<sp/>the<sp/>speed<sp/>and<sp/>control<sp/>of<sp/>C++.<sp/>With<sp/>Proto,<sp/>you<sp/>get<sp/>an<sp/>elegant<sp/>API,<sp/>automatic<sp/>memory<sp/>management,<sp/>and<sp/>a<sp/>robust,<sp/>immutable<sp/>data<sp/>model<sp/>designed<sp/>for<sp/>elite<sp/>concurrency.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Quick<sp/>Start:<sp/>A<sp/>&quot;Hello,<sp/>World&quot;<sp/>Example</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>how<sp/>easy<sp/>it<sp/>is<sp/>to<sp/>get<sp/>started.<sp/>This<sp/>minimal<sp/>example<sp/>creates<sp/>a<sp/>list,<sp/>appends<sp/>some<sp/>values,<sp/>and<sp/>prints<sp/>the<sp/>result.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;iostream&gt;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&quot;headers/protoCore.h&quot;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">int<sp/>main()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>1.<sp/>Create<sp/>the<sp/>runtime<sp/>space.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>proto::ProtoSpace<sp/>space;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>proto::ProtoContext*<sp/>context<sp/>=<sp/>space.rootContext;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>2.<sp/>Create<sp/>and<sp/>manipulate<sp/>objects.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>The<sp/>API<sp/>is<sp/>const-correct<sp/>and<sp/>immutable<sp/>by<sp/>default.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>proto::ProtoList*<sp/>list<sp/>=<sp/>context-&gt;newList();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>list<sp/>=<sp/>list-&gt;appendLast(context,<sp/>context-&gt;fromUTF8String(&quot;Hello&quot;));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>list<sp/>=<sp/>list-&gt;appendLast(context,<sp/>context-&gt;fromLong(12345));<sp/>//<sp/>SmallInteger</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>list<sp/>=<sp/>list-&gt;appendLast(context,<sp/>context-&gt;fromFloat(987.65));<sp/>//<sp/>Double</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>list<sp/>=<sp/>list-&gt;appendLast(context,<sp/>context-&gt;fromLong(1LL<sp/>&lt;&lt;<sp/>60));<sp/>//<sp/>LargeInteger</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>3.<sp/>Use<sp/>the<sp/>objects.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;List<sp/>size:<sp/>&quot;<sp/>&lt;&lt;<sp/>list-&gt;getSize(context)<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Expected<sp/>output:<sp/>List<sp/>size:<sp/>4</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Core<sp/>Features</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Rich<sp/>Dynamic<sp/>Typing<sp/>in<sp/>C++**:<sp/>Create<sp/>and<sp/>manipulate<sp/>a<sp/>rich<sp/>set<sp/>of<sp/>types,<sp/>including<sp/>booleans,<sp/>strings,<sp/>sets,<sp/>multisets,<sp/>and<sp/>a<sp/>powerful<sp/>numeric<sp/>hierarchy<sp/>with<sp/>arbitrary-precision<sp/>integers<sp/>(`LargeInteger`)<sp/>and<sp/>64-bit<sp/>floating-point<sp/>numbers<sp/>(`Double`).</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Prototypal<sp/>Inheritance**:<sp/>A<sp/>flexible<sp/>and<sp/>powerful<sp/>object<sp/>model<sp/>based<sp/>on<sp/>Lieberman<sp/>prototypes.<sp/>Objects<sp/>inherit<sp/>directly<sp/>from<sp/>other<sp/>objects,<sp/>allowing<sp/>for<sp/>dynamic<sp/>structure<sp/>and<sp/>behavior<sp/>sharing.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Immutable-by-Default<sp/>Data<sp/>Structures**:<sp/>Collections<sp/>like<sp/>lists,<sp/>tuples,<sp/>and<sp/>dictionaries<sp/>are<sp/>immutable.<sp/>Operations<sp/>like<sp/>`append`<sp/>or<sp/>`set`<sp/>return<sp/>new,<sp/>modified<sp/>versions,<sp/>eliminating<sp/>a<sp/>whole<sp/>class<sp/>of<sp/>bugs<sp/>related<sp/>to<sp/>shared<sp/>state<sp/>and<sp/>making<sp/>concurrent<sp/>programming<sp/>safer<sp/>and<sp/>easier<sp/>to<sp/>reason<sp/>about.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**True,<sp/>GIL-Free<sp/>Concurrency**:<sp/>Each<sp/>`ProtoThread`<sp/>is<sp/>a<sp/>native<sp/>OS<sp/>thread.<sp/>The<sp/>runtime<sp/>was<sp/>designed<sp/>from<sp/>the<sp/>ground<sp/>up<sp/>for<sp/>parallelism<sp/>and<sp/>has<sp/>no<sp/>Global<sp/>Interpreter<sp/>Lock,<sp/>allowing<sp/>it<sp/>to<sp/>take<sp/>full<sp/>advantage<sp/>of<sp/>modern<sp/>multi-core<sp/>processors.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Low-Latency<sp/>Automatic<sp/>Memory<sp/>Management**:<sp/>A<sp/>concurrent,<sp/>stop-the-world<sp/>garbage<sp/>collector<sp/>manages<sp/>the<sp/>lifecycle<sp/>of<sp/>all<sp/>objects,<sp/>freeing<sp/>you<sp/>from<sp/>manual<sp/>`new`<sp/>and<sp/>`delete`<sp/>with<sp/>minimal<sp/>application<sp/>pauses.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Clean,<sp/>`const`-Correct<sp/>C++<sp/>API**:<sp/>The<sp/>entire<sp/>system<sp/>is<sp/>exposed<sp/>through<sp/>a<sp/>clear<sp/>and<sp/>minimal<sp/>public<sp/>API<sp/>(`protoCore.h`)<sp/>that<sp/>has<sp/>been<sp/>refactored<sp/>for<sp/>`const`-correctness,<sp/>improving<sp/>safety<sp/>and<sp/>expressiveness.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Architectural<sp/>Highlights</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto&apos;s<sp/>performance<sp/>and<sp/>safety<sp/>stem<sp/>from<sp/>a<sp/>set<sp/>of<sp/>deeply<sp/>integrated<sp/>architectural<sp/>decisions:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Immutable-First<sp/>Object<sp/>Model**:<sp/>At<sp/>its<sp/>core,<sp/>Proto<sp/>is<sp/>built<sp/>around<sp/>immutable<sp/>data<sp/>structures.<sp/>Operations<sp/>that<sp/>&quot;modify&quot;<sp/>collections<sp/>like<sp/>tuples<sp/>or<sp/>strings<sp/>actually<sp/>produce<sp/>new<sp/>versions,<sp/>efficiently<sp/>sharing<sp/>the<sp/>unchanged<sp/>parts<sp/>of<sp/>the<sp/>original<sp/>(structural<sp/>sharing).<sp/>This<sp/>design<sp/>is<sp/>the<sp/>foundation<sp/>of<sp/>Proto&apos;s<sp/>concurrency<sp/>story,<sp/>making<sp/>parallel<sp/>programming<sp/>fundamentally<sp/>safer.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Hardware-Aware<sp/>Memory<sp/>Model**:<sp/>Proto&apos;s<sp/>memory<sp/>architecture<sp/>is<sp/>meticulously<sp/>designed<sp/>to<sp/>leverage<sp/>the<sp/>features<sp/>of<sp/>modern<sp/>multi-core<sp/>CPUs,<sp/>resulting<sp/>in<sp/>elite<sp/>performance:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**Hybrid<sp/>Numeric<sp/>System**:<sp/>Proto<sp/>features<sp/>a<sp/>sophisticated<sp/>numeric<sp/>system<sp/>that<sp/>maximizes<sp/>efficiency.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**Tagged<sp/>Pointers**:<sp/>Integers<sp/>that<sp/>fit<sp/>within<sp/>56<sp/>bits<sp/>(`SmallInteger`)<sp/>are<sp/>stored<sp/>directly<sp/>inside<sp/>the<sp/>64-bit<sp/>pointer.<sp/>This<sp/>provides<sp/>extreme<sp/>cache<sp/>locality<sp/>and<sp/>avoids<sp/>heap<sp/>allocation<sp/>entirely<sp/>for<sp/>the<sp/>most<sp/>common<sp/>numeric<sp/>values.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**Heap-Allocated<sp/>Objects**:<sp/>For<sp/>numbers<sp/>that<sp/>exceed<sp/>this<sp/>range,<sp/>Proto<sp/>automatically<sp/>and<sp/>transparently<sp/>promotes<sp/>them<sp/>to<sp/>heap-allocated<sp/>objects:<sp/>`LargeInteger`<sp/>for<sp/>arbitrary-precision<sp/>integers<sp/>and<sp/>`Double`<sp/>for<sp/>64-bit<sp/>floating-point<sp/>numbers.<sp/>This<sp/>hybrid<sp/>approach<sp/>provides<sp/>the<sp/>best<sp/>of<sp/>both<sp/>worlds:<sp/>extreme<sp/>speed<sp/>for<sp/>common<sp/>cases<sp/>and<sp/>unlimited<sp/>precision<sp/>when<sp/>needed.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**Eliminating<sp/>False<sp/>Sharing**:<sp/>All<sp/>heap<sp/>objects<sp/>reside<sp/>in<sp/>64-byte<sp/>`Cell`s,<sp/>perfectly<sp/>aligning<sp/>with<sp/>the<sp/>64-byte<sp/>cache<sp/>lines<sp/>of<sp/>modern<sp/>CPUs.<sp/>This<sp/>ensures<sp/>that<sp/>when<sp/>different<sp/>cores<sp/>access<sp/>different<sp/>objects,<sp/>they<sp/>are<sp/>guaranteed<sp/>not<sp/>to<sp/>contend<sp/>for<sp/>the<sp/>same<sp/>cache<sp/>line—a<sp/>common<sp/>and<sp/>severe<sp/>performance<sp/>bottleneck<sp/>in<sp/>multithreaded<sp/>applications.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**Concurrent<sp/>Garbage<sp/>Collector**:<sp/>A<sp/>dedicated<sp/>GC<sp/>thread<sp/>works<sp/>in<sp/>parallel<sp/>with<sp/>the<sp/>application,<sp/>with<sp/>extremely<sp/>short<sp/>&quot;stop-the-world&quot;<sp/>pauses,<sp/>making<sp/>Proto<sp/>suitable<sp/>for<sp/>interactive<sp/>and<sp/>soft<sp/>real-time<sp/>applications.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Building<sp/>the<sp/>Project</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>project<sp/>uses<sp/>**CMake**<sp/>for<sp/>a<sp/>modern,<sp/>cross-platform<sp/>build<sp/>system.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Prerequisites</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**CMake**<sp/>(version<sp/>3.16<sp/>or<sp/>higher)</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>A<sp/>modern<sp/>C++<sp/>compiler<sp/>that<sp/>supports<sp/>C++20<sp/>(e.g.,<sp/>**GCC<sp/>10+**,<sp/>**Clang<sp/>12+**)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Compilation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Clone<sp/>the<sp/>repository:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```bash</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>git<sp/>clone<sp/>&lt;repository_url&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cd<sp/>protoCoreCore</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Configure<sp/>and<sp/>Build:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>This<sp/>standard<sp/>&quot;out-of-source&quot;<sp/>build<sp/>keeps<sp/>your<sp/>source<sp/>directory<sp/>clean.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```bash</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mkdir<sp/>build</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cd<sp/>build</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cmake<sp/>..</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>make</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>will<sp/>produce<sp/>the<sp/>`libprotoCore.a`<sp/>static<sp/>library,<sp/>along<sp/>with<sp/>all<sp/>test<sp/>and<sp/>benchmark<sp/>executables<sp/>inside<sp/>the<sp/>`build`<sp/>directory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Running<sp/>Tests<sp/>and<sp/>Benchmarks</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">After<sp/>a<sp/>successful<sp/>build,<sp/>all<sp/>executables<sp/>are<sp/>located<sp/>in<sp/>the<sp/>`build`<sp/>directory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Running<sp/>the<sp/>Test<sp/>Suite</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>project<sp/>uses<sp/>the<sp/>**Google<sp/>Test**<sp/>framework.<sp/>To<sp/>run<sp/>all<sp/>tests:</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>build</highlight></codeline>
+<codeline><highlight class="normal">ctest<sp/>--verbose</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Running<sp/>the<sp/>Benchmarks</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>benchmarks<sp/>provide<sp/>insight<sp/>into<sp/>Proto&apos;s<sp/>performance<sp/>characteristics.</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">./build/performance/immutable_sharing_benchmark</highlight></codeline>
+<codeline><highlight class="normal">./build/performance/concurrent_append_benchmark</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Building<sp/>the<sp/>Documentation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>project<sp/>documentation<sp/>is<sp/>generated<sp/>using<sp/>**Doxygen**,<sp/>**Sphinx**,<sp/>and<sp/>**Breathe**.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Navigate<sp/>to<sp/>the<sp/>docs<sp/>directory:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```bash</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cd<sp/>docs</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Build<sp/>the<sp/>HTML<sp/>documentation:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>A<sp/>simple<sp/>`Makefile`<sp/>handles<sp/>the<sp/>entire<sp/>process.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```bash</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>make<sp/>html</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**View<sp/>the<sp/>results:**</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Open<sp/>`docs/_build/html/index.html`<sp/>in<sp/>your<sp/>web<sp/>browser.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>License</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>project<sp/>is<sp/>licensed<sp/>under<sp/>the<sp/>MIT<sp/>License.<sp/>See<sp/>the<sp/>[LICENSE](LICENSE)<sp/>file<sp/>for<sp/>details.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Copyright<sp/>(c)<sp/>2024</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Contributing</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">We<sp/>welcome<sp/>contributions!<sp/>This<sp/>project<sp/>is<sp/>at<sp/>a<sp/>perfect<sp/>stage<sp/>for<sp/>developers<sp/>interested<sp/>in<sp/>compilers,<sp/>memory<sp/>management,<sp/>and<sp/>high-performance<sp/>C++.<sp/>Please<sp/>check<sp/>out<sp/>`DESIGN.md`<sp/>for<sp/>architectural<sp/>details<sp/>and<sp/>`next_steps.md`<sp/>for<sp/>our<sp/>roadmap.<sp/>Feel<sp/>free<sp/>to<sp/>open<sp/>an<sp/>issue<sp/>on<sp/>GitHub<sp/>to<sp/>discuss<sp/>your<sp/>ideas.</highlight></codeline>
+    </programlisting>
+    <location file="README.md"/>
+  </compounddef>
+</doxygen>

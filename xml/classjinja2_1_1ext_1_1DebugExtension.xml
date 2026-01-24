@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1ext_1_1DebugExtension" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::ext::DebugExtension</compoundname>
+    <basecompoundref refid="classjinja2_1_1ext_1_1Extension" prot="public" virt="non-virtual">jinja2.ext.Extension</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1ext_1_1DebugExtension_1a5418e2ebf05834e843152932fbd5666f" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2.ext.DebugExtension::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>jinja2.ext.DebugExtension.tags</qualifiedname>
+        <initializer>=  {&quot;debug&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" line="636" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="636" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1DebugExtension_1ad6d64e4f581102bbe67227c73d6d7882" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1nodes_1_1Output" kindref="compound">nodes.Output</ref></type>
+        <definition> nodes.Output jinja2.ext.DebugExtension.parse</definition>
+        <argsstring>(self, &quot;Parser&quot; parser)</argsstring>
+        <name>parse</name>
+        <qualifiedname>jinja2.ext.DebugExtension.parse</qualifiedname>
+        <reimplements refid="classjinja2_1_1ext_1_1Extension_1ab21761ef8794ae53ffb445c8c03cdeed">parse</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Parser&quot;</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>If any of the :attr:`tags` matched this method is called with the
+parser as first argument.  The token the parser stream is pointing at
+is the name token that matched.  This method has to return one or a
+list of multiple nodes.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" line="638" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="638" bodyend="643"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1DebugExtension_1ad067cef1fb3098122925aa594f140b14" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.ext.DebugExtension._render</definition>
+        <argsstring>(self, Context context)</argsstring>
+        <name>_render</name>
+        <qualifiedname>jinja2.ext.DebugExtension._render</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1runtime_1_1Context" kindref="compound">Context</ref></type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" line="644" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="644" bodyend="654"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A ``{% debug %}`` tag that dumps the available variables,
+filters, and tests.
+
+.. code-block:: html+jinja
+
+    &lt;pre&gt;{% debug %}&lt;/pre&gt;
+
+.. code-block:: text
+
+    {&apos;context&apos;: {&apos;cycler&apos;: &lt;class &apos;jinja2.utils.Cycler&apos;&gt;,
+                 ...,
+                 &apos;namespace&apos;: &lt;class &apos;jinja2.utils.Namespace&apos;&gt;},
+     &apos;filters&apos;: [&apos;abs&apos;, &apos;attr&apos;, &apos;batch&apos;, &apos;capitalize&apos;, &apos;center&apos;, &apos;count&apos;, &apos;d&apos;,
+                 ..., &apos;urlencode&apos;, &apos;urlize&apos;, &apos;wordcount&apos;, &apos;wordwrap&apos;, &apos;xmlattr&apos;],
+     &apos;tests&apos;: [&apos;!=&apos;, &apos;&lt;&apos;, &apos;&lt;=&apos;, &apos;==&apos;, &apos;&gt;&apos;, &apos;&gt;=&apos;, &apos;callable&apos;, &apos;defined&apos;,
+               ..., &apos;odd&apos;, &apos;sameas&apos;, &apos;sequence&apos;, &apos;string&apos;, &apos;undefined&apos;, &apos;upper&apos;]}
+
+.. versionadded:: 2.11.0
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.ext.DebugExtension</label>
+        <link refid="classjinja2_1_1ext_1_1DebugExtension"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.ext.Extension</label>
+        <link refid="classjinja2_1_1ext_1_1Extension"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.ext.DebugExtension</label>
+        <link refid="classjinja2_1_1ext_1_1DebugExtension"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.ext.Extension</label>
+        <link refid="classjinja2_1_1ext_1_1Extension"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" line="615" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="615" bodyend="654"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1ext_1_1DebugExtension_1ad067cef1fb3098122925aa594f140b14" prot="protected" virt="non-virtual"><scope>jinja2::ext::DebugExtension</scope><name>_render</name></member>
+      <member refid="classjinja2_1_1ext_1_1DebugExtension_1ad6d64e4f581102bbe67227c73d6d7882" prot="public" virt="non-virtual"><scope>jinja2::ext::DebugExtension</scope><name>parse</name></member>
+      <member refid="classjinja2_1_1ext_1_1DebugExtension_1a5418e2ebf05834e843152932fbd5666f" prot="public" virt="non-virtual"><scope>jinja2::ext::DebugExtension</scope><name>tags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::domains::std::ConfigurationValue</compoundname>
+    <basecompoundref refid="classsphinx_1_1directives_1_1ObjectDescription" prot="public" virt="non-virtual">sphinx.directives.ObjectDescription</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">str</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a74d6da89e8c1791a843ddd24a995cb95" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.domains.std.ConfigurationValue::index_template</definition>
+        <argsstring></argsstring>
+        <name>index_template</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue.index_template</qualifiedname>
+        <initializer>=  _(&apos;%s; configuration <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="119" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a86034639d101bd29000c774aa8bcff8b" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.domains.std.ConfigurationValue::option_spec</definition>
+        <argsstring></argsstring>
+        <name>option_spec</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue.option_spec</qualifiedname>
+        <initializer>=  {
+        &apos;no-index&apos;: directives.flag,
+        &apos;no-index-entry&apos;: directives.flag,
+        &apos;no-contents-entry&apos;: directives.flag,
+        &apos;no-typesetting&apos;: directives.flag,
+        &apos;type&apos;: directives.unchanged_required,
+        &apos;default&apos;: directives.unchanged_required,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="120" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a2611d479109bb4b3e255e3c8567843fa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.domains.std.ConfigurationValue::objtype</definition>
+        <argsstring></argsstring>
+        <name>objtype</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue.objtype</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="154" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1adb528e4401f770d8320b12d9a2585628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.domains.std.ConfigurationValue.handle_signature</definition>
+        <argsstring>(self, str sig, desc_signature sig_node)</argsstring>
+        <name>handle_signature</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue.handle_signature</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1ae1e5e2560890e3a5b9dda0cbb813eaff">handle_signature</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>signode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the signature *sig*.
+
+The individual nodes are then appended to *signode*.
+If ValueError is raised, parsing is aborted and the whole
+*sig* is put into a single desc_name node.
+
+The return value should be a value that identifies the object.  It is
+passed to :meth:`add_target_and_index()` unchanged, and otherwise only
+used to skip duplicates.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="129" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a72a32d232a6b8e4b7ea9735819517642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.std.ConfigurationValue.add_target_and_index</definition>
+        <argsstring>(self, str name, str sig, desc_signature signode)</argsstring>
+        <name>add_target_and_index</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue.add_target_and_index</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1a14dbd6a54bc4522f0616a92b8e5b16cc">add_target_and_index</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>signode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add cross-reference IDs and entries to self.indexnode, if applicable.
+
+*name* is whatever :meth:`handle_signature()` returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="145" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a573c61180edd1dfc8680b6f4dd3b39ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.std.ConfigurationValue.transform_content</definition>
+        <argsstring>(self, addnodes.desc_content content_node)</argsstring>
+        <name>transform_content</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue.transform_content</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1a6ec33e17c89beacd25352edc2a92cf93">transform_content</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__content" kindref="compound">addnodes.desc_content</ref></type>
+          <declname>content_node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Insert *type* and *default* as a field list.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="156" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="156" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1aae465ec15c9010e73a5b4f94625d2b71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[nodes.field, list[<ref refid="classdocutils_1_1nodes_1_1system__message" kindref="compound">system_message</ref>]]</type>
+        <definition> tuple[nodes.field, list[system_message]] sphinx.domains.std.ConfigurationValue.format_type</definition>
+        <argsstring>(self, str type_)</argsstring>
+        <name>format_type</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue.format_type</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>type_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Formats the ``:type:`` option.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="170" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="170" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1ad674c1b2af6c52d4c617b91991f8ac34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[nodes.field, list[<ref refid="classdocutils_1_1nodes_1_1system__message" kindref="compound">system_message</ref>]]</type>
+        <definition> tuple[nodes.field, list[system_message]] sphinx.domains.std.ConfigurationValue.format_default</definition>
+        <argsstring>(self, str default)</argsstring>
+        <name>format_default</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue.format_default</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>default</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Formats the ``:default:`` option.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="180" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="180" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a3a4ee3c56d516fea008b1aaa613042ff" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str,...]</type>
+        <definition> tuple[str, ...] sphinx.domains.std.ConfigurationValue._object_hierarchy_parts</definition>
+        <argsstring>(self, desc_signature sig_node)</argsstring>
+        <name>_object_hierarchy_parts</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue._object_hierarchy_parts</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1af627914ddfbb917202dc79313d7c9fb5">_object_hierarchy_parts</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>sig_node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a tuple of strings, one entry for each part of the object&apos;s
+hierarchy (e.g. ``(&apos;module&apos;, &apos;submodule&apos;, &apos;Class&apos;, &apos;method&apos;)``). The
+returned tuple is used to properly nest children within parents in the
+table of contents, and can also be used within the
+:py:meth:`_toc_entry_name` method.
+
+This method must not be used outwith table of contents generation.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="136" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a3f920cf174541c9e1d0e70f3055a87b6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.domains.std.ConfigurationValue._toc_entry_name</definition>
+        <argsstring>(self, desc_signature sig_node)</argsstring>
+        <name>_toc_entry_name</name>
+        <qualifiedname>sphinx.domains.std.ConfigurationValue._toc_entry_name</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1a3a72cd3ddc341fe9b4a53c58c67001b1">_toc_entry_name</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>sig_node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the text of the table of contents entry for the object.
+
+This function is called once, in :py:meth:`run`, to set the name for the
+table of contents entry (a special attribute ``_toc_name`` is set on the
+object node, later used in
+``environment.collectors.toctree.TocTreeCollector.process_doc().build_toc()``
+when the table of contents entries are collected).
+
+To support table of contents entries for their objects, domains must
+override this method, also respecting the configuration setting
+``toc_object_entries_show_parents``. Domains must also override
+:py:meth:`_object_hierarchy_parts`, with one (string) entry for each part of the
+object&apos;s hierarchy. The result of this method is set on the signature
+node, and can be accessed as ``sig_node[&apos;_toc_parts&apos;]`` for use within
+this method. The resulting tuple is also used to properly nest children
+within parents in the table of contents.
+
+An example implementations of this method is within the python domain
+(:meth:`!PyObject._toc_entry_name`). The python domain sets the
+``_toc_parts`` attribute within the :py:meth:`handle_signature()`
+method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="139" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="139" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="6">
+        <label>ObjDescT</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.std.ConfigurationValue</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Generic</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>ObjDescT</label>
+      </node>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.std.ConfigurationValue</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>index_template</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>addnodes</label>
+      </node>
+      <node id="2">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>doc_field_types</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>domain</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>indexnode</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="5">
+        <label>Generic</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="118" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="118" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a3a4ee3c56d516fea008b1aaa613042ff" prot="protected" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>_object_hierarchy_parts</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a3f920cf174541c9e1d0e70f3055a87b6" prot="protected" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>_toc_entry_name</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a72a32d232a6b8e4b7ea9735819517642" prot="public" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>add_target_and_index</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1ad674c1b2af6c52d4c617b91991f8ac34" prot="public" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>format_default</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1aae465ec15c9010e73a5b4f94625d2b71" prot="public" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>format_type</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1adb528e4401f770d8320b12d9a2585628" prot="public" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>handle_signature</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a74d6da89e8c1791a843ddd24a995cb95" prot="public" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>index_template</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a2611d479109bb4b3e255e3c8567843fa" prot="public" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>objtype</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a86034639d101bd29000c774aa8bcff8b" prot="public" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>option_spec</name></member>
+      <member refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue_1a573c61180edd1dfc8680b6f4dd3b39ae" prot="public" virt="non-virtual"><scope>sphinx::domains::std::ConfigurationValue</scope><name>transform_content</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::latex::transforms::LaTeXFootnoteTransform</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.SphinxPostTransform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform_1aee795d39cf7b5ae3f3c300efcad1ed04" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.builders.latex.transforms.LaTeXFootnoteTransform::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>sphinx.builders.latex.transforms.LaTeXFootnoteTransform.default_priority</qualifiedname>
+        <initializer>=  600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="362" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform_1a70db9cc65e3934557172239946081948" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.builders.latex.transforms.LaTeXFootnoteTransform::formats</definition>
+        <argsstring></argsstring>
+        <name>formats</name>
+        <qualifiedname>sphinx.builders.latex.transforms.LaTeXFootnoteTransform.formats</qualifiedname>
+        <initializer>=  (&apos;latex&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="363" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="363" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform_1a7b18575b294c4e7b0dddb1204b5aea5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.transforms.LaTeXFootnoteTransform.run</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.builders.latex.transforms.LaTeXFootnoteTransform.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform_1abc3400574a7c87e684a8033535e8d4e2">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main method of post transforms.
+
+Subclasses should override this method instead of ``apply()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="365" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="365" bodyend="373"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Convert footnote definitions and references to appropriate form to LaTeX.
+
+* Replace footnotes on restricted zone (e.g. headings) by footnotemark node.
+  In addition, append a footnotetext node after the zone.
+
+  Before::
+
+      &lt;section&gt;
+          &lt;title&gt;
+              headings having footnotes
+              &lt;footnote_reference&gt;
+                  1
+          &lt;footnote ids=&quot;id1&quot;&gt;
+              &lt;label&gt;
+                  1
+              &lt;paragraph&gt;
+                  footnote body
+
+  After::
+
+      &lt;section&gt;
+          &lt;title&gt;
+              headings having footnotes
+              &lt;footnotemark refid=&quot;id1&quot;&gt;
+                  1
+          &lt;footnotetext ids=&quot;id1&quot;&gt;
+              &lt;label&gt;
+                  1
+              &lt;paragraph&gt;
+                  footnote body
+
+* Integrate footnote definitions and footnote references to single footnote node
+
+  Before::
+
+      blah blah blah
+      &lt;footnote_reference refid=&quot;id1&quot;&gt;
+          1
+      blah blah blah ...
+
+      &lt;footnote ids=&quot;id1&quot;&gt;
+          &lt;label&gt;
+              1
+          &lt;paragraph&gt;
+              footnote body
+
+  After::
+
+      blah blah blah
+      &lt;footnote ids=&quot;id1&quot;&gt;
+          &lt;label&gt;
+              1
+          &lt;paragraph&gt;
+              footnote body
+      blah blah blah ...
+
+* Replace second and subsequent footnote references which refers same footnote definition
+  by footnotemark node.  Additionally, the footnote definition node is marked as
+  &quot;referred&quot;.
+
+  Before::
+
+      blah blah blah
+      &lt;footnote_reference refid=&quot;id1&quot;&gt;
+          1
+      blah blah blah
+      &lt;footnote_reference refid=&quot;id1&quot;&gt;
+          1
+      blah blah blah ...
+
+      &lt;footnote ids=&quot;id1&quot;&gt;
+          &lt;label&gt;
+              1
+          &lt;paragraph&gt;
+              footnote body
+
+  After::
+
+      blah blah blah
+      &lt;footnote ids=&quot;id1&quot; referred=True&gt;
+          &lt;label&gt;
+              1
+          &lt;paragraph&gt;
+              footnote body
+      blah blah blah
+      &lt;footnotemark refid=&quot;id1&quot;&gt;
+          1
+      blah blah blah ...
+
+* Remove unreferenced footnotes
+
+  Before::
+
+      &lt;footnote ids=&quot;id1&quot;&gt;
+          &lt;label&gt;
+              1
+          &lt;paragraph&gt;
+              Unreferenced footnote!
+
+  After::
+
+      &lt;!-- nothing! --&gt;
+
+* Move footnotes in a title of table or thead to head of tbody
+
+  Before::
+
+      &lt;table&gt;
+          &lt;title&gt;
+              title having footnote_reference
+              &lt;footnote_reference refid=&quot;id1&quot;&gt;
+                  1
+          &lt;tgroup&gt;
+              &lt;thead&gt;
+                  &lt;row&gt;
+                      &lt;entry&gt;
+                          header having footnote_reference
+                          &lt;footnote_reference refid=&quot;id2&quot;&gt;
+                              2
+              &lt;tbody&gt;
+                  &lt;row&gt;
+                  ...
+
+      &lt;footnote ids=&quot;id1&quot;&gt;
+          &lt;label&gt;
+              1
+          &lt;paragraph&gt;
+              footnote body
+
+      &lt;footnote ids=&quot;id2&quot;&gt;
+          &lt;label&gt;
+              2
+          &lt;paragraph&gt;
+              footnote body
+
+  After::
+
+      &lt;table&gt;
+          &lt;title&gt;
+              title having footnote_reference
+              &lt;footnotemark refid=&quot;id1&quot;&gt;
+                  1
+          &lt;tgroup&gt;
+              &lt;thead&gt;
+                  &lt;row&gt;
+                      &lt;entry&gt;
+                          header having footnote_reference
+                          &lt;footnotemark refid=&quot;id2&quot;&gt;
+                              2
+              &lt;tbody&gt;
+                  &lt;footnotetext ids=&quot;id1&quot;&gt;
+                      &lt;label&gt;
+                          1
+                      &lt;paragraph&gt;
+                          footnote body
+
+                  &lt;footnotetext ids=&quot;id2&quot;&gt;
+                      &lt;label&gt;
+                          2
+                      &lt;paragraph&gt;
+                          footnote body
+                  &lt;row&gt;
+                  ...
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.transforms.LaTeXFootnoteTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.transforms.LaTeXFootnoteTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>formats</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>builders</edgelabel>
+          <edgelabel>formats</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="196" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="196" bodyend="373"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform_1aee795d39cf7b5ae3f3c300efcad1ed04" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::LaTeXFootnoteTransform</scope><name>default_priority</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform_1a70db9cc65e3934557172239946081948" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::LaTeXFootnoteTransform</scope><name>formats</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform_1a7b18575b294c4e7b0dddb1204b5aea5e" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::LaTeXFootnoteTransform</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

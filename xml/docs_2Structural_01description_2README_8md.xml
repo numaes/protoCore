@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="docs_2Structural_01description_2README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Welcome<sp/>to<sp/>Proto</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto<sp/>is<sp/>a<sp/>high-performance,<sp/>low-latency<sp/>C++<sp/>runtime<sp/>library<sp/>engineered<sp/>for<sp/>systems<sp/>where<sp/>predictable,<sp/>real-time<sp/>performance<sp/>is<sp/>paramount.<sp/>It<sp/>achieves<sp/>this<sp/>through<sp/>a<sp/>unique<sp/>combination<sp/>of<sp/>architectural<sp/>choices<sp/>that<sp/>eliminate<sp/>common<sp/>performance<sp/>bottlenecks.<sp/>By<sp/>providing<sp/>near-zero<sp/>overhead<sp/>for<sp/>core<sp/>operations<sp/>like<sp/>garbage<sp/>collection<sp/>and<sp/>attribute<sp/>access,<sp/>Proto<sp/>allows<sp/>developers<sp/>to<sp/>build<sp/>complex<sp/>systems<sp/>that<sp/>remain<sp/>fast<sp/>and<sp/>responsive<sp/>under<sp/>concurrent<sp/>load.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Key<sp/>Features</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Aggressive<sp/>Per-Thread<sp/>Caching:**<sp/>Attribute<sp/>lookups,<sp/>a<sp/>frequent<sp/>operation<sp/>in<sp/>object-oriented<sp/>systems,<sp/>are<sp/>transformed<sp/>into<sp/>a<sp/>constant-time<sp/>(`O(1)`)<sp/>operation<sp/>via<sp/>a<sp/>per-thread<sp/>cache.<sp/>This<sp/>avoids<sp/>costly<sp/>prototype<sp/>chain<sp/>traversals<sp/>and<sp/>requires<sp/>zero<sp/>cross-thread<sp/>locking.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Minimal<sp/>Stop-The-World<sp/>GC:**<sp/>A<sp/>concurrent<sp/>garbage<sp/>collector<sp/>that<sp/>limits<sp/>its<sp/>&quot;stop-the-world&quot;<sp/>phase<sp/>to<sp/>a<sp/>fast,<sp/>parallel<sp/>cache<sp/>clearing<sp/>operation,<sp/>making<sp/>GC<sp/>pauses<sp/>brief<sp/>and<sp/>predictable.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Lock-Free<sp/>Mutability:**<sp/>A<sp/>novel<sp/>model<sp/>for<sp/>handling<sp/>mutable<sp/>state<sp/>via<sp/>an<sp/>atomic<sp/>indirection<sp/>table,<sp/>which<sp/>eliminates<sp/>the<sp/>need<sp/>for<sp/>mutexes<sp/>on<sp/>state<sp/>changes<sp/>and<sp/>dramatically<sp/>simplifies<sp/>GC<sp/>root<sp/>scanning.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Efficient<sp/>Immutable<sp/>Data<sp/>Structures:**<sp/>Core<sp/>collections<sp/>like<sp/>strings<sp/>and<sp/>tuples<sp/>are<sp/>implemented<sp/>as<sp/>immutable<sp/>tree-like<sp/>structures<sp/>(ropes),<sp/>making<sp/>operations<sp/>like<sp/>concatenation<sp/>and<sp/>slicing<sp/>`O(log<sp/>N)`<sp/>instead<sp/>of<sp/>`O(N)`.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Prototype-Based<sp/>Object<sp/>Model:**<sp/>A<sp/>flexible,<sp/>dynamic<sp/>object<sp/>system<sp/>based<sp/>on<sp/>prototypes,<sp/>not<sp/>classes.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Agnostic<sp/>&amp;<sp/>Embeddable:**<sp/>Designed<sp/>as<sp/>a<sp/>library<sp/>to<sp/>be<sp/>the<sp/>backend<sp/>for<sp/>any<sp/>language,<sp/>interpreter,<sp/>VM,<sp/>or<sp/>AOT<sp/>compiler.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Who<sp/>is<sp/>this<sp/>for?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto<sp/>is<sp/>designed<sp/>for<sp/>a<sp/>wide<sp/>range<sp/>of<sp/>developers<sp/>and<sp/>researchers:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**University<sp/>Students:**<sp/>An<sp/>excellent<sp/>case<sp/>study<sp/>for<sp/>learning<sp/>about<sp/>advanced<sp/>runtime<sp/>design,<sp/>garbage<sp/>collection,<sp/>and<sp/>concurrency<sp/>models.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Language<sp/>Designers<sp/>&amp;<sp/>Implementers:**<sp/>A<sp/>solid<sp/>foundation<sp/>for<sp/>creating<sp/>new<sp/>dynamic<sp/>languages<sp/>or<sp/>high-performance<sp/>virtual<sp/>machines.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Game<sp/>Developers:**<sp/>A<sp/>runtime<sp/>that<sp/>can<sp/>help<sp/>achieve<sp/>smooth,<sp/>stutter-free<sp/>performance<sp/>in<sp/>game<sp/>engines.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Fintech<sp/>Engineers:**<sp/>For<sp/>building<sp/>low-latency<sp/>trading<sp/>and<sp/>financial<sp/>modeling<sp/>systems<sp/>where<sp/>every<sp/>microsecond<sp/>counts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Getting<sp/>Started</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Ready<sp/>to<sp/>dive<sp/>in?<sp/>Our<sp/>Quick<sp/>Start<sp/>guide<sp/>will<sp/>walk<sp/>you<sp/>through<sp/>building<sp/>the<sp/>library<sp/>and<sp/>running<sp/>your<sp/>first<sp/>&quot;Hello,<sp/>Proto!&quot;<sp/>application.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**[Get<sp/>started<sp/>now!](./guides/01_quick_start.md)**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Diving<sp/>Deeper</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Understand<sp/>the<sp/>core<sp/>architectural<sp/>decisions<sp/>that<sp/>make<sp/>Proto<sp/>unique.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**[The<sp/>Low-Latency<sp/>Garbage<sp/>Collector](./architecture/01_garbage_collector.md)**</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**[The<sp/>Lock-Free<sp/>Mutability<sp/>Model](./architecture/02_mutability_model.md)**</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**[The<sp/>Object<sp/>and<sp/>Type<sp/>System](./architecture/03_object_model.md)**</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**[FFI<sp/>and<sp/>C++<sp/>Integration](./architecture/04_ffi_and_integration.md)**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Community<sp/>&amp;<sp/>Contribution</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto<sp/>is<sp/>an<sp/>open-source<sp/>project,<sp/>and<sp/>we<sp/>welcome<sp/>contributors<sp/>of<sp/>all<sp/>levels.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**[GitHub<sp/>Repository](https://github.com/your-repo/proto)**</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**[Join<sp/>the<sp/>Discussion](https://github.com/your-repo/proto/discussions)**</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**[Contributor&apos;s<sp/>Guide](./guides/03_contributing.md)**</highlight></codeline>
+    </programlisting>
+    <location file="docs/Structural description/README.md"/>
+  </compounddef>
+</doxygen>

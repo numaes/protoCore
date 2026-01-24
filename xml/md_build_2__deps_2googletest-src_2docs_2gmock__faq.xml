@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_build_2__deps_2googletest-src_2docs_2gmock__faq" kind="page">
+    <compoundname>md_build_2__deps_2googletest-src_2docs_2gmock__faq</compoundname>
+    <title>Legacy gMock FAQ</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md180"/> </para>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md181">
+<title>When I call a method on my mock object, the method for the real object is invoked instead. What&apos;s the problem?</title>
+<para>In order for a method to be mocked, it must be <emphasis>virtual</emphasis>, unless you use the <ulink url="gmock_cook_book.md#MockingNonVirtualMethods">high-perf dependency injection technique</ulink>.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md182">
+<title>Can I mock a variadic function?</title>
+<para>You cannot mock a variadic function (i.e. a function taking ellipsis (<computeroutput>...</computeroutput>) arguments) directly in gMock.</para>
+<para>The problem is that in general, there is <emphasis>no way</emphasis> for a mock object to know how many arguments are passed to the variadic method, and what the arguments&apos; types are. Only the <emphasis>author of the base class</emphasis> knows the protocol, and we cannot look into his or her head.</para>
+<para>Therefore, to mock such a function, the <emphasis>user</emphasis> must teach the mock object how to figure out the number of arguments and their types. One way to do it is to provide overloaded versions of the function.</para>
+<para>Ellipsis arguments are inherited from C and not really a C++ feature. They are unsafe to use and don&apos;t work with arguments that have constructors or destructors. Therefore we recommend to avoid them in C++ as much as possible.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md183">
+<title>MSVC gives me warning C4301 or C4373 when I define a mock method with a const parameter. Why?</title>
+<para>If you compile this using Microsoft Visual C++ 2005 SP1:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Bar(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockFoo<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>Bar,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>You may get the following warning:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">warning<sp/>C4301:<sp/>&apos;MockFoo::Bar&apos;:<sp/>overriding<sp/>virtual<sp/>function<sp/>only<sp/>differs<sp/>from<sp/>&apos;Foo::Bar&apos;<sp/>by<sp/>const/volatile<sp/>qualifier</highlight></codeline>
+</programlisting></para>
+<para>This is a MSVC bug. The same code compiles fine with gcc, for example. If you use Visual C++ 2008 SP1, you would get the warning:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">warning<sp/>C4373:<sp/>&apos;MockFoo::Bar&apos;:<sp/>virtual<sp/>function<sp/>overrides<sp/>&apos;Foo::Bar&apos;,<sp/>previous<sp/>versions<sp/>of<sp/>the<sp/>compiler<sp/>did<sp/>not<sp/>override<sp/>when<sp/>parameters<sp/>only<sp/>differed<sp/>by<sp/>const/volatile<sp/>qualifiers</highlight></codeline>
+</programlisting></para>
+<para>In C++, if you <emphasis>declare</emphasis> a function with a <computeroutput>const</computeroutput> parameter, the <computeroutput>const</computeroutput> modifier is ignored. Therefore, the <computeroutput>Foo</computeroutput> base class above is equivalent to:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Bar(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>int<sp/>or<sp/>const<sp/>int?<sp/><sp/>Makes<sp/>no<sp/>difference.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>In fact, you can <emphasis>declare</emphasis> <computeroutput>Bar()</computeroutput> with an <computeroutput>int</computeroutput> parameter, and define it with a <computeroutput>const int</computeroutput> parameter. The compiler will still match them up.</para>
+<para>Since making a parameter <computeroutput>const</computeroutput> is meaningless in the method declaration, we recommend to remove it in both <computeroutput>Foo</computeroutput> and <computeroutput><ref refid="classMockFoo" kindref="compound">MockFoo</ref></computeroutput>. That should workaround the VC bug.</para>
+<para>Note that we are talking about the <emphasis>top-level</emphasis> <computeroutput>const</computeroutput> modifier here. If the function parameter is passed by pointer or reference, declaring the pointee or referee as <computeroutput>const</computeroutput> is still meaningful. For example, the following two declarations are <emphasis>not</emphasis> equivalent:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Bar(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref>);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Neither<sp/>p<sp/>nor<sp/>*p<sp/>is<sp/>const.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Bar(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref>);<sp/><sp/></highlight><highlight class="comment">//<sp/>p<sp/>is<sp/>not<sp/>const,<sp/>but<sp/>*p<sp/>is.</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md184">
+<title>I can&apos;t figure out why gMock thinks my expectations are not satisfied. What should I do?</title>
+<para>You might want to run your test with <computeroutput>--gmock_verbose=info</computeroutput>. This flag lets gMock print a trace of every mock function call it receives. By studying the trace, you&apos;ll gain insights on why the expectations you set are not met.</para>
+<para>If you see the message &quot;The mock function has no default action set, and its
+return type has no default value set.&quot;, then try <ulink url="gmock_cheat_sheet.md#OnCall">adding a default action</ulink>. Due to a known issue, unexpected calls on mocks without default actions don&apos;t print out a detailed comparison between the actual arguments and the expected arguments.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md185">
+<title>My program crashed and &lt;tt&gt;ScopedMockLog&lt;/tt&gt; spit out tons of messages. Is it a gMock bug?</title>
+<para>gMock and <computeroutput>ScopedMockLog</computeroutput> are likely doing the right thing here.</para>
+<para>When a test crashes, the failure signal handler will try to log a lot of information (the stack trace, and the address map, for example). The messages are compounded if you have many threads with depth stacks. When <computeroutput>ScopedMockLog</computeroutput> intercepts these messages and finds that they don&apos;t match any expectations, it prints an error for each of them.</para>
+<para>You can learn to ignore the errors, or you can rewrite your expectations to make your test more robust, for example, by adding something like:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::AnyNumber;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Not;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Ignores<sp/>any<sp/>log<sp/>not<sp/>done<sp/>by<sp/>us.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(log,<sp/><ref refid="namespacetesting_1_1internal_1a8a57ce0412334a3f487bbaa8321febbe" kindref="member">Log</ref>(_,<sp/>Not(<ref refid="namespacetesting_1_1internal_1a4fe0a2f1ea296e6d92e6dcf8942818d6" kindref="member">EndsWith</ref>(</highlight><highlight class="stringliteral">&quot;/my_file.cc&quot;</highlight><highlight class="normal">)),<sp/>_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.Times(<ref refid="namespacetesting_1aa1f8a6371097e1e9b8d6866020f35252" kindref="member">AnyNumber</ref>());</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md186">
+<title>How can I assert that a function is NEVER called?</title>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.Times(0);</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md187">
+<title>I have a failed test where gMock tells me TWICE that a particular expectation is not satisfied. Isn&apos;t this redundant?</title>
+<para>When gMock detects a failure, it prints relevant information (the mock function arguments, the state of relevant expectations, and etc) to help the user debug. If another failure is detected, gMock will do the same, including printing the state of relevant expectations.</para>
+<para>Sometimes an expectation&apos;s state didn&apos;t change between two failures, and you&apos;ll see the same description of the state twice. They are however <emphasis>not</emphasis> redundant, as they refer to <emphasis>different points in time</emphasis>. The fact they are the same <emphasis>is</emphasis> interesting information.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md188">
+<title>I get a heapcheck failure when using a mock object, but using a real object is fine. What can be wrong?</title>
+<para>Does the class (hopefully a pure interface) you are mocking have a virtual destructor?</para>
+<para>Whenever you derive from a base class, make sure its destructor is virtual. Otherwise Bad Things will happen. Consider the following code:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classBase" kindref="compound">Base</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>virtual,<sp/>but<sp/>should<sp/>be.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="classBase" kindref="compound">~Base</ref>()<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Derived<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classBase" kindref="compound">Base</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>std::string<sp/>value_;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="classBase" kindref="compound">Base</ref>*<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref><sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Derived;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Surprise!<sp/>~Base()<sp/>will<sp/>be<sp/>called,<sp/>but<sp/>~Derived()<sp/>will<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>value_<sp/>is<sp/>leaked.</highlight></codeline>
+</programlisting></para>
+<para>By changing <computeroutput>~Base()</computeroutput> to virtual, <computeroutput>~Derived()</computeroutput> will be correctly called when <computeroutput>delete p</computeroutput> is executed, and the heap checker will be happy.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md189">
+<title>The &quot;newer expectations override older ones&quot; rule makes writing expectations awkward. Why does gMock do that?</title>
+<para>When people complain about this, often they are referring to code like:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>foo.Bar()<sp/>should<sp/>be<sp/>called<sp/>twice,<sp/>return<sp/>1<sp/>the<sp/>first<sp/>time,<sp/>and<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>the<sp/>second<sp/>time.<sp/><sp/>However,<sp/>I<sp/>have<sp/>to<sp/>write<sp/>the<sp/>expectations<sp/>in<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>reverse<sp/>order.<sp/><sp/>This<sp/>sucks<sp/>big<sp/>time!!!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(2))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(1))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+</programlisting></para>
+<para>The problem, is that they didn&apos;t pick the <bold>best</bold> way to express the test&apos;s intent.</para>
+<para>By default, expectations don&apos;t have to be matched in <emphasis>any</emphasis> particular order. If you want them to match in a certain order, you need to be explicit. This is gMock&apos;s (and jMock&apos;s) fundamental philosophy: it&apos;s easy to accidentally over-specify your tests, and we want to make it harder to do so.</para>
+<para>There are two better ways to write the test spec. You could either put the expectations in sequence:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>foo.Bar()<sp/>should<sp/>be<sp/>called<sp/>twice,<sp/>return<sp/>1<sp/>the<sp/>first<sp/>time,<sp/>and<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>the<sp/>second<sp/>time.<sp/><sp/>Using<sp/>a<sp/>sequence,<sp/>we<sp/>can<sp/>write<sp/>the<sp/>expectations</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>in<sp/>their<sp/>natural<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>InSequence<sp/>s;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(1))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(2))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+</programlisting></para>
+<para>or you can put the sequence of actions in the same expectation:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>foo.Bar()<sp/>should<sp/>be<sp/>called<sp/>twice,<sp/>return<sp/>1<sp/>the<sp/>first<sp/>time,<sp/>and<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>the<sp/>second<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(1))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(2))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+</programlisting></para>
+<para>Back to the original questions: why does gMock search the expectations (and <computeroutput>ON_CALL</computeroutput>s) from back to front? Because this allows a user to set up a mock&apos;s behavior for the common case early (e.g. in the mock&apos;s constructor or the test fixture&apos;s set-up phase) and customize it with more specific rules later. If gMock searches from front to back, this very useful pattern won&apos;t be possible.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md190">
+<title>gMock prints a warning when a function without EXPECT_CALL is called, even if I have set its behavior using ON_CALL. Would it be reasonable not to show the warning in this case?</title>
+<para>When choosing between being neat and being safe, we lean toward the latter. So the answer is that we think it&apos;s better to show the warning.</para>
+<para>Often people write <computeroutput>ON_CALL</computeroutput>s in the mock object&apos;s constructor or <computeroutput>SetUp()</computeroutput>, as the default behavior rarely changes from test to test. Then in the test body they set the expectations, which are often different for each test. Having an <computeroutput>ON_CALL</computeroutput> in the set-up part of a test doesn&apos;t mean that the calls are expected. If there&apos;s no <computeroutput>EXPECT_CALL</computeroutput> and the method is called, it&apos;s possibly an error. If we quietly let the call go through without notifying the user, bugs may creep in unnoticed.</para>
+<para>If, however, you are sure that the calls are OK, you can write</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillRepeatedly(...);</highlight></codeline>
+</programlisting></para>
+<para>instead of</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillByDefault(...);</highlight></codeline>
+</programlisting></para>
+<para>This tells gMock that you do expect the calls and no warning should be printed.</para>
+<para>Also, you can control the verbosity by specifying <computeroutput>--gmock_verbose=error</computeroutput>. Other values are <computeroutput>info</computeroutput> and <computeroutput>warning</computeroutput>. If you find the output too noisy when debugging, just choose a less verbose level.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md191">
+<title>How can I delete the mock function&apos;s argument in an action?</title>
+<para>If your mock function takes a pointer argument and you want to delete that argument, you can use <ref refid="namespacetesting_1a07fc507392118e742af3b0463709c943" kindref="member">testing::DeleteArg&lt;N&gt;()</ref> to delete the N&apos;th (zero-indexed) argument:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>Bar,<sp/>(X*<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Y&amp;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(mock_foo_,<sp/>Bar(_,<sp/>_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(testing::DeleteArg&lt;0&gt;()));</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md192">
+<title>How can I perform an arbitrary action on a mock function&apos;s argument?</title>
+<para>If you find yourself needing to perform some action that&apos;s not supported by gMock directly, remember that you can define your own actions using <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cook__book_1NewMonoActions" kindref="member">`MakeAction()`</ref> or <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cook__book_1NewPolyActions" kindref="member">`MakePolymorphicAction()`</ref>, or you can write a stub function and invoke it using <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cook__book_1FunctionsAsActions" kindref="member">`Invoke()`</ref>.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Invoke;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>Bar,<sp/>(X*<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref>));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(mock_foo_,<sp/>Bar(_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1af5cacf4475557b5a3e37af3836564235" kindref="member">Invoke</ref>(MyAction(...)));</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md193">
+<title>My code calls a static/global function. Can I mock it?</title>
+<para>You can, but you need to make some changes.</para>
+<para>In general, if you find yourself needing to mock a static function, it&apos;s a sign that your modules are too tightly coupled (and less flexible, less reusable, less testable, etc). You are probably better off defining a small interface and call the function through that interface, which then can be easily mocked. It&apos;s a bit of work initially, but usually pays for itself quickly.</para>
+<para>This Google Testing Blog <ulink url="https://testing.googleblog.com/2008/06/defeat-static-cling.html">post</ulink> says it excellently. Check it out.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md194">
+<title>My mock object needs to do complex stuff. It&apos;s a lot of pain to specify the actions. gMock sucks!</title>
+<para>I know it&apos;s not a question, but you get an answer for free any way. :-)</para>
+<para>With gMock, you can create mocks in C++ easily. And people might be tempted to use them everywhere. Sometimes they work great, and sometimes you may find them, well, a pain to use. So, what&apos;s wrong in the latter case?</para>
+<para>When you write a test without using mocks, you exercise the code and assert that it returns the correct value or that the system is in an expected state. This is sometimes called &quot;state-based testing&quot;.</para>
+<para>Mocks are great for what some call &quot;interaction-based&quot; testing: instead of checking the system state at the very end, mock objects verify that they are invoked the right way and report an error as soon as it arises, giving you a handle on the precise context in which the error was triggered. This is often more effective and economical to do than state-based testing.</para>
+<para>If you are doing state-based testing and using a test double just to simulate the real object, you are probably better off using a fake. Using a mock in this case causes pain, as it&apos;s not a strong point for mocks to perform complex actions. If you experience this and think that mocks suck, you are just not using the right tool for your problem. Or, you might be trying to solve the wrong problem. :-)</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md195">
+<title>I got a warning &quot;Uninteresting function call encountered - default action taken..&quot; Should I panic?</title>
+<para>By all means, NO! It&apos;s just an FYI. :-)</para>
+<para>What it means is that you have a mock function, you haven&apos;t set any expectations on it (by gMock&apos;s rule this means that you are not interested in calls to this function and therefore it can be called any number of times), and it is called. That&apos;s OK - you didn&apos;t say it&apos;s not OK to call the function!</para>
+<para>What if you actually meant to disallow this function to be called, but forgot to write <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL(foo, Bar())</ref>.Times(0)</computeroutput>? While one can argue that it&apos;s the user&apos;s fault, gMock tries to be nice and prints you a note.</para>
+<para>So, when you see the message and believe that there shouldn&apos;t be any uninteresting calls, you should investigate what&apos;s going on. To make your life easier, gMock dumps the stack trace when an uninteresting call is encountered. From that you can figure out which mock function it is, and how it is called.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md196">
+<title>I want to define a custom action. Should I use Invoke() or implement the ActionInterface interface?</title>
+<para>Either way is fine - you want to choose the one that&apos;s more convenient for your circumstance.</para>
+<para>Usually, if your action is for a particular function type, defining it using <computeroutput>Invoke()</computeroutput> should be easier; if your action can be used in functions of different types (e.g. if you are defining <computeroutput>Return(*value*)</computeroutput>), <computeroutput>MakePolymorphicAction()</computeroutput> is easiest. Sometimes you want precise control on what types of functions the action can be used in, and implementing <computeroutput>ActionInterface</computeroutput> is the way to go here. See the implementation of <computeroutput>Return()</computeroutput> in <computeroutput>gmock-actions.h</computeroutput> for an example.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md197">
+<title>I use SetArgPointee() in WillOnce(), but gcc complains about &quot;conflicting return type specified&quot;. What does it mean?</title>
+<para>You got this error as gMock has no idea what value it should return when the mock method is called. <computeroutput>SetArgPointee()</computeroutput> says what the side effect is, but doesn&apos;t say what the return value should be. You need <computeroutput>DoAll()</computeroutput> to chain a <computeroutput>SetArgPointee()</computeroutput> with a <computeroutput>Return()</computeroutput> that provides a value appropriate to the API being mocked.</para>
+<para>See this <ulink url="gmock_cook_book.md#mocking-side-effects">recipe</ulink> for more details and an example.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__faq_1autotoc_md198">
+<title>I have a huge mock class, and Microsoft Visual C++ runs out of memory when compiling it. What can I do?</title>
+<para>We&apos;ve noticed that when the <computeroutput>/clr</computeroutput> compiler flag is used, Visual C++ uses 5~6 times as much memory when compiling a mock class. We suggest to avoid <computeroutput>/clr</computeroutput> when compiling native C++ mocks. </para>
+</sect2>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/docs/gmock_faq.md"/>
+  </compounddef>
+</doxygen>

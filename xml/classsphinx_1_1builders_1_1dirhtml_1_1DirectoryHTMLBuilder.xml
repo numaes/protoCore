@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::dirhtml::DirectoryHTMLBuilder</compoundname>
+    <basecompoundref refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder" prot="public" virt="non-virtual">sphinx.builders.html.StandaloneHTMLBuilder</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1abe11ab4badd3faa3054aecd914a63a50" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders.dirhtml.DirectoryHTMLBuilder::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sphinx.builders.dirhtml.DirectoryHTMLBuilder.name</qualifiedname>
+        <initializer>=  &apos;dirhtml&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1ae3f2b8206dfa3691b3609e376980582d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.dirhtml.DirectoryHTMLBuilder::outdir</definition>
+        <argsstring></argsstring>
+        <name>outdir</name>
+        <qualifiedname>sphinx.builders.dirhtml.DirectoryHTMLBuilder.outdir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1a06d1dd8a22465dcc39ee6e46efa0b785" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.dirhtml.DirectoryHTMLBuilder.get_target_uri</definition>
+        <argsstring>(self, str docname, str|None typ=None)</argsstring>
+        <name>get_target_uri</name>
+        <qualifiedname>sphinx.builders.dirhtml.DirectoryHTMLBuilder.get_target_uri</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ac01426ceb573be4f02a23667917d734a">get_target_uri</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>typ</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the target URI for a document name.
+
+*typ* can be used to qualify the link characteristic for individual
+builders.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" bodystart="27" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1acc1e087efe5df26936a2eef219e13c3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Path</type>
+        <definition> Path sphinx.builders.dirhtml.DirectoryHTMLBuilder.get_output_path</definition>
+        <argsstring>(self, str page_name)</argsstring>
+        <name>get_output_path</name>
+        <qualifiedname>sphinx.builders.dirhtml.DirectoryHTMLBuilder.get_output_path</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a696de78ec76309fd67c13c3d31967604">get_output_path</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>page_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" bodystart="34" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A StandaloneHTMLBuilder that creates all HTML pages as &quot;index.html&quot; in
+a directory given by their pagename, so that generated URLs don&apos;t have
+``.html`` in them.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.builders.dirhtml.DirectoryHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.html.StandaloneHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.dirhtml.DirectoryHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>epilog</edgelabel>
+          <edgelabel>format</edgelabel>
+          <edgelabel>name</edgelabel>
+          <edgelabel>versioning_method</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>supported_image_types</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.html.StandaloneHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>format</edgelabel>
+          <edgelabel>imgpath</edgelabel>
+          <edgelabel>link_suffix</edgelabel>
+          <edgelabel>name</edgelabel>
+          <edgelabel>out_suffix</edgelabel>
+          <edgelabel>searchindex_filename</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>indexer_format</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>domain_indices</edgelabel>
+          <edgelabel>supported_image_types</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>Any</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/dirhtml.py" bodystart="19" bodyend="40"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1acc1e087efe5df26936a2eef219e13c3b" prot="public" virt="non-virtual"><scope>sphinx::builders::dirhtml::DirectoryHTMLBuilder</scope><name>get_output_path</name></member>
+      <member refid="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1a06d1dd8a22465dcc39ee6e46efa0b785" prot="public" virt="non-virtual"><scope>sphinx::builders::dirhtml::DirectoryHTMLBuilder</scope><name>get_target_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1abe11ab4badd3faa3054aecd914a63a50" prot="public" virt="non-virtual"><scope>sphinx::builders::dirhtml::DirectoryHTMLBuilder</scope><name>name</name></member>
+      <member refid="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1ae3f2b8206dfa3691b3609e376980582d" prot="public" virt="non-virtual"><scope>sphinx::builders::dirhtml::DirectoryHTMLBuilder</scope><name>outdir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2googletest_2test_2googletest-filter-unittest___8cc" kind="file" language="C++">
+    <compoundname>googletest-filter-unittest_.cc</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>build/_deps/googletest-src/googletest/test/googletest-filter-unittest_.cc</label>
+        <link refid="build_2__deps_2googletest-src_2googletest_2test_2googletest-filter-unittest___8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="build_2__deps_2googletest-src_2googletest_2test_2googletest-filter-unittest___8cc_1a3c04138a5bfe5d72780bb7e82a18e627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest_.cc" line="102" column="5" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest_.cc" bodystart="102" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2005,<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Unit<sp/>test<sp/>for<sp/>Google<sp/>Test<sp/>test<sp/>filters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>user<sp/>can<sp/>specify<sp/>which<sp/>test(s)<sp/>in<sp/>a<sp/>Google<sp/>Test<sp/>program<sp/>to<sp/>run<sp/>via</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>either<sp/>the<sp/>GTEST_FILTER<sp/>environment<sp/>variable<sp/>or<sp/>the<sp/>--gtest_filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>flag.<sp/><sp/>This<sp/>is<sp/>used<sp/>for<sp/>testing<sp/>such<sp/>functionality.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>program<sp/>will<sp/>be<sp/>invoked<sp/>from<sp/>a<sp/>Python<sp/>unit<sp/>test.<sp/><sp/>Don&apos;t<sp/>run<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>case<sp/>FooTest.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">FooTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">testing::Test</ref><sp/>{};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Abc)<sp/>{}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Xyz)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>case<sp/>BarTest.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BarTest,<sp/>TestOne)<sp/>{}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BarTest,<sp/>TestTwo)<sp/>{}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BarTest,<sp/>TestThree)<sp/>{}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BarTest,<sp/>DISABLED_TestFour)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BarTest,<sp/>DISABLED_TestFive)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>case<sp/>BazTest.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BazTest,<sp/>TestOne)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BazTest,<sp/>TestA)<sp/>{}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BazTest,<sp/>TestB)<sp/>{}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BazTest,<sp/>DISABLED_TestC)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>case<sp/>HasDeathTest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(HasDeathTest,<sp/>Test1)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-death-test_8h_1a8564de0e012dd0898949c513d1571f8b" kindref="member">EXPECT_DEATH_IF_SUPPORTED</ref>(exit(1),<sp/></highlight><highlight class="stringliteral">&quot;.*&quot;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>We<sp/>need<sp/>at<sp/>least<sp/>two<sp/>death<sp/>tests<sp/>to<sp/>make<sp/>sure<sp/>that<sp/>the<sp/>all<sp/>death<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>aren&apos;t<sp/>on<sp/>the<sp/>first<sp/>shard.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(HasDeathTest,<sp/>Test2)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-death-test_8h_1a8564de0e012dd0898949c513d1571f8b" kindref="member">EXPECT_DEATH_IF_SUPPORTED</ref>(exit(1),<sp/></highlight><highlight class="stringliteral">&quot;.*&quot;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>case<sp/>FoobarTest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(DISABLED_FoobarTest,<sp/>Test1)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(DISABLED_FoobarTest,<sp/>DISABLED_Test2)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>case<sp/>FoobarbazTest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(DISABLED_FoobarbazTest,<sp/>TestA)<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ParamTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1TestWithParam" kindref="compound">testing::TestWithParam</ref>&lt;int&gt;<sp/>{};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a1adc861b311e3fbd97bcc72e0b0f5962" kindref="member">TEST_P</ref>(ParamTest,<sp/>TestX)<sp/>{}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a1adc861b311e3fbd97bcc72e0b0f5962" kindref="member">TEST_P</ref>(ParamTest,<sp/>TestY)<sp/>{}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a6a5cb3ce0a0fe17f84f357a6f39a4ba5" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(SeqP,<sp/>ParamTest,<sp/><ref refid="namespacetesting_1abd3c87b40c2a0663691c9b617ed5fcc2" kindref="member">testing::Values</ref>(1,<sp/>2));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a6a5cb3ce0a0fe17f84f357a6f39a4ba5" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(SeqQ,<sp/>ParamTest,<sp/><ref refid="namespacetesting_1abd3c87b40c2a0663691c9b617ed5fcc2" kindref="member">testing::Values</ref>(5,<sp/>6));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2src_2gmock__main_8cc_1a7f83bdc516d2cb86e20235d94ddf055a" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**argv)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><ref refid="namespacetesting_1ace27eb9a2534996f3711aa719689f987" kindref="member">::testing::InitGoogleTest</ref>(&amp;argc,<sp/>argv);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest_.cc"/>
+  </compounddef>
+</doxygen>

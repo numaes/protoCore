@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1bccache" kind="namespace" language="Python">
+    <compoundname>jinja2::bccache</compoundname>
+    <innerclass refid="classjinja2_1_1bccache_1_1__MemcachedClient" prot="protected">jinja2::bccache::_MemcachedClient</innerclass>
+    <innerclass refid="classjinja2_1_1bccache_1_1Bucket" prot="public">jinja2::bccache::Bucket</innerclass>
+    <innerclass refid="classjinja2_1_1bccache_1_1BytecodeCache" prot="public">jinja2::bccache::BytecodeCache</innerclass>
+    <innerclass refid="classjinja2_1_1bccache_1_1FileSystemBytecodeCache" prot="public">jinja2::bccache::FileSystemBytecodeCache</innerclass>
+    <innerclass refid="classjinja2_1_1bccache_1_1MemcachedBytecodeCache" prot="public">jinja2::bccache::MemcachedBytecodeCache</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1bccache_1a20569affbc7b932a7c16ce8668d10c48" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int jinja2::bccache.bc_version</definition>
+        <argsstring></argsstring>
+        <name>bc_version</name>
+        <qualifiedname>jinja2.bccache.bc_version</qualifiedname>
+        <initializer>=  5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1bccache_1a819b0f9c7e14a2e48681b07aebef787c" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2::bccache.bc_magic</definition>
+        <argsstring></argsstring>
+        <name>bc_magic</name>
+        <qualifiedname>jinja2.bccache.bc_magic</qualifiedname>
+        <initializer>=  (
+    b&quot;j2&quot;
+    + pickle.dumps(<ref refid="namespacejinja2_1_1bccache_1a20569affbc7b932a7c16ce8668d10c48" kindref="member">bc_version</ref>, 2)
+    + pickle.dumps((sys.version_info[0] &lt;&lt; 24) | sys.version_info[1], 2)
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="39" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The optional bytecode cache system. This is useful if you have very
+complex template situations and the compilation of all those templates
+slows down your application too much.
+
+Situations where this is useful are often forking web applications that
+are initialized on the first request.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

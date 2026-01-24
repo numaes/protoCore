@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::frontmatter::TitlePromoter</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle" prot="public" virt="non-virtual">docutils.transforms.frontmatter.DocTitle</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1frontmatter_1_1SectionSubTitle" prot="public" virt="non-virtual">docutils.transforms.frontmatter.SectionSubTitle</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter_1af41593be687d24f403e3418d36a4fa3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.TitlePromoter.promote_title</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>promote_title</name>
+        <qualifiedname>docutils.transforms.frontmatter.TitlePromoter.promote_title</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Transform the following tree::
+
+    &lt;node&gt;
+        &lt;section&gt;
+            &lt;title&gt;
+            ...
+
+into ::
+
+    &lt;node&gt;
+        &lt;title&gt;
+        ...
+
+`node` is normally a document.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="38" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter_1ad7df1cc77c84ad05badfb6dedb6dbece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.TitlePromoter.promote_subtitle</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>promote_subtitle</name>
+        <qualifiedname>docutils.transforms.frontmatter.TitlePromoter.promote_subtitle</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Transform the following node tree::
+
+    &lt;node&gt;
+        &lt;title&gt;
+        &lt;section&gt;
+            &lt;title&gt;
+            ...
+
+into ::
+
+    &lt;node&gt;
+        &lt;title&gt;
+        &lt;subtitle&gt;
+        ...
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="81" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="81" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter_1aa2ecc713fb6725bb821fc0220bffd7c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.TitlePromoter.candidate_index</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>candidate_index</name>
+        <qualifiedname>docutils.transforms.frontmatter.TitlePromoter.candidate_index</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find and return the promotion candidate and its index.
+
+Return (None, None) if no valid candidate was found.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="126" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="126" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Abstract base class for DocTitle and SectionSubTitle transforms.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.frontmatter.TitlePromoter</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="3">
+        <label>docutils.transforms.frontmatter.DocTitle</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.transforms.frontmatter.SectionSubTitle</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1SectionSubTitle"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.frontmatter.TitlePromoter</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="32" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter_1aa2ecc713fb6725bb821fc0220bffd7c8" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::TitlePromoter</scope><name>candidate_index</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter_1ad7df1cc77c84ad05badfb6dedb6dbece" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::TitlePromoter</scope><name>promote_subtitle</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter_1af41593be687d24f403e3418d36a4fa3f" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::TitlePromoter</scope><name>promote_title</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

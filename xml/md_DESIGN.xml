@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_DESIGN" kind="page">
+    <compoundname>md_DESIGN</compoundname>
+    <title>Proto: Architectural Design</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_DESIGN_1autotoc_md830"/> This document outlines the core architectural principles and design decisions behind the Proto library. It is intended for developers who wish to understand the &quot;why&quot; behind the code, contribute to the project, or learn from its design.</para>
+<sect1 id="md_DESIGN_1autotoc_md831">
+<title>Core Philosophy</title>
+<para>Proto is built on a set of synergistic principles designed to unify performance, flexibility, and concurrent safety:</para>
+<para><orderedlist>
+<listitem><para><bold>Immutability by Default</bold>: Core data structures are immutable to eliminate entire classes of concurrency bugs. Modifications produce new versions via structural sharing (copy-on-write), making parallel code safer and easier to reason about.</para>
+</listitem><listitem><para><bold>Performance through a Hardware-Aware Memory Model</bold>: The memory model is designed for extreme speed and low latency, using techniques like tagged pointers, per-thread allocation, and cache-line alignment to work <emphasis>with</emphasis> the hardware, not against it.</para>
+</listitem><listitem><para><bold>Flexible Prototype-Based Object Model</bold>: Instead of rigid class hierarchies, Proto uses a powerful object model based on Lieberman-style prototypes, allowing for dynamic and flexible object composition and inheritance.</para>
+</listitem><listitem><para><bold>Concurrency as a First-Class Citizen</bold>: The entire system is architected for true, GIL-free parallelism. Safety is derived from the immutable data model, not from complex and error-prone locking.</para>
+</listitem></orderedlist>
+</para>
+<para><hruler/>
+</para>
+</sect1>
+<sect1 id="md_DESIGN_1autotoc_md833">
+<title>Gemini Implementation Guidelines</title>
+<para>To ensure consistent and correct code generation, the following architectural rules must be strictly followed in all sessions:</para>
+<para><orderedlist>
+<listitem><para><bold>Public API vs. Internal Implementation</bold>:<itemizedlist>
+<listitem><para>The public-facing API is defined in <computeroutput><ref refid="protoCore_8h" kindref="compound">headers/protoCore.h</ref></computeroutput>. These classes (e.g., <computeroutput>ProtoObject</computeroutput>, <computeroutput>ProtoList</computeroutput>) are opaque &quot;handles&quot; for users of the library.</para>
+</listitem><listitem><para>The internal implementation classes are defined in <computeroutput><ref refid="proto__internal_8h" kindref="compound">headers/proto_internal.h</ref></computeroutput> and always have the <computeroutput>Implementation</computeroutput> suffix (e.g., <computeroutput>ProtoListImplementation</computeroutput>). These classes inherit from <computeroutput>Cell</computeroutput> and contain the actual data and logic.</para>
+</listitem><listitem><para>Public API methods are <bold>never</bold> virtual and should not be implemented in the header. They are &quot;trampoline&quot; functions that delegate the call to the corresponding internal implementation class.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Casting and Type Conversion</bold>:<itemizedlist>
+<listitem><para>To get from a public API object to its internal implementation, always use the <computeroutput>toImpl&lt;...&gt;()</computeroutput> template function. For example: <computeroutput>toImpl&lt;const ProtoListImplementation&gt;(myProtoList)</computeroutput>.</para>
+</listitem><listitem><para>To get from an internal implementation object back to its public API handle, use the <computeroutput>as...()</computeroutput> method (e.g., <computeroutput>myProtoListImpl-&gt;asProtoList(context)</computeroutput>).</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Method Naming Convention</bold>:<itemizedlist>
+<listitem><para>Public API methods use standard camelCase (e.g., <computeroutput>myList-&gt;getSize(context)</computeroutput>).</para>
+</listitem><listitem><para>Internal implementation methods that are part of the public API&apos;s implementation are prefixed with <computeroutput>impl</computeroutput> (e.g., <computeroutput>myListImpl-&gt;implGetSize(context)</computeroutput>).</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>File Structure</bold>:<itemizedlist>
+<listitem><para>The implementation for a public class <computeroutput>ProtoFoo</computeroutput> and its internal counterpart <computeroutput>ProtoFooImplementation</computeroutput> should reside in <computeroutput>core/ProtoFoo.cpp</computeroutput>.</para>
+</listitem><listitem><para>All internal class definitions <bold>must</bold> be in <computeroutput><ref refid="proto__internal_8h" kindref="compound">headers/proto_internal.h</ref></computeroutput>.</para>
+</listitem><listitem><para>All public API class declarations <bold>must</bold> be in <computeroutput><ref refid="protoCore_8h" kindref="compound">headers/protoCore.h</ref></computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</listitem></orderedlist>
+</para>
+<para><hruler/>
+</para>
+</sect1>
+<sect1 id="md_DESIGN_1autotoc_md835">
+<title>High-Level Architecture</title>
+<para>At a high level, the system is composed of a few key entities:</para>
+<para><programlisting><codeline><highlight class="normal">+-------------------------------------------------+</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ProtoSpace<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>(The<sp/>Global<sp/>Runtime<sp/>Environment)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Manages<sp/>the<sp/>Heap<sp/>&amp;<sp/>Garbage<sp/>Collector<sp/>(GC)<sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Owns<sp/>the<sp/>Object<sp/>Prototypes<sp/>(List,<sp/>String...)<sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Manages<sp/>the<sp/>list<sp/>of<sp/>all<sp/>active<sp/>threads<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Holds<sp/>the<sp/>global<sp/>interned<sp/>tuple<sp/>dictionary<sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>+--------------------+<sp/><sp/><sp/>+--------------------+<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>|<sp/><sp/><sp/>ProtoThread<sp/>1<sp/><sp/><sp/><sp/>|<sp/><sp/><sp/>|<sp/><sp/><sp/>ProtoThread<sp/>2<sp/><sp/><sp/><sp/>|<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>|<sp/>(Native<sp/>OS<sp/>Thread)<sp/>|<sp/><sp/><sp/>|<sp/>(Native<sp/>OS<sp/>Thread)<sp/>|<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>|<sp/>-<sp/>Owns<sp/>a<sp/>Context<sp/><sp/><sp/>|<sp/><sp/><sp/>|<sp/>-<sp/>Owns<sp/>a<sp/>Context<sp/><sp/><sp/>|<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>+--------------------+<sp/><sp/><sp/>+--------------------+<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">+-------------------------------------------------+</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Owns</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v</highlight></codeline>
+<codeline><highlight class="normal">+-------------------------------------------------+</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ProtoContext<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>(A<sp/>Thread&apos;s<sp/>Call<sp/>Stack<sp/>&amp;<sp/>Execution<sp/>State)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Points<sp/>to<sp/>the<sp/>current<sp/>ProtoSpace<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Tracks<sp/>the<sp/>call<sp/>stack<sp/>(previous<sp/>context)<sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Holds<sp/>local<sp/>variables<sp/>for<sp/>the<sp/>current<sp/>scope<sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Manages<sp/>a<sp/>per-thread<sp/>memory<sp/>arena<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">+-------------------------------------------------+</highlight></codeline>
+</programlisting></para>
+<para><hruler/>
+</para>
+</sect1>
+<sect1 id="md_DESIGN_1autotoc_md837">
+<title>1. The Memory Model: Performance and Safety</title>
+<para>The memory management system is a cornerstone of Proto&apos;s performance.</para>
+<sect2 id="md_DESIGN_1autotoc_md838">
+<title>The &lt;tt&gt;ProtoObject*&lt;/tt&gt; Handle: Pointer or Immediate Value?</title>
+<para>To avoid the overhead of heap allocation for simple values, Proto uses <bold>tagged pointers</bold>. A 64-bit <computeroutput>ProtoObject*</computeroutput> is not just a pointer; it&apos;s a &quot;handle&quot; that can represent either a heap object or an immediate value. The lowest bits of the address are used as a tag:</para>
+<para><itemizedlist>
+<listitem><para><bold>If the tag indicates a pointer</bold>, the remaining bits are the memory address of a <computeroutput>Cell</computeroutput> on the heap.</para>
+</listitem><listitem><para><bold>If the tag indicates an embedded value</bold>, the remaining bits store the value directly (e.g., a 56-bit integer, a boolean).</para>
+</listitem></itemizedlist>
+</para>
+<para>This is the single most important optimization for scalar operations, as it makes them as fast as primitive C++ types and avoids triggering the garbage collector.</para>
+</sect2>
+<sect2 id="md_DESIGN_1autotoc_md839">
+<title>The Memory Arena: Lock-Free, Per-Thread Allocation</title>
+<para><itemizedlist>
+<listitem><para><bold>Fixed-Size Cells</bold>: All heap-allocated objects reside in 64-byte memory blocks called <computeroutput>Cell</computeroutput>s. This strategy eliminates memory fragmentation and simplifies the allocator. The 64-byte size is chosen to align perfectly with the cache lines of modern CPUs, preventing &quot;false sharing&quot; in concurrent applications.</para>
+</listitem><listitem><para><bold>Per-Thread Arenas</bold>: Each <computeroutput>ProtoThread</computeroutput> maintains its own local pool of free <computeroutput>Cell</computeroutput>s. When an object needs to be allocated, the thread takes a cell from its local pool. This operation is the key to high-speed allocation: it is extremely fast and <bold>requires no global lock</bold>, allowing threads to allocate memory in parallel at full speed with zero contention.</para>
+</listitem><listitem><para><bold>Global Space</bold>: Only when a thread&apos;s local pool is exhausted does it request a new, large batch of cells from the global <computeroutput>ProtoSpace</computeroutput>. This amortization strategy minimizes global synchronization.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_DESIGN_1autotoc_md840">
+<title>The Garbage Collector (GC): Concurrent and Low-Latency</title>
+<para>The GC is designed to minimize application pauses.</para>
+<para><itemizedlist>
+<listitem><para><bold>Dedicated GC Thread</bold>: The GC runs in its own background thread.</para>
+</listitem><listitem><para><bold>Brief Stop-The-World Phase</bold>: The GC only requires a very short &quot;stop-the-world&quot; pause. During this phase, all application threads are temporarily halted so the GC can safely and quickly scan the root set (thread stacks, global objects). This is the only moment of significant synchronization.</para>
+</listitem><listitem><para><bold>Concurrent Mark and Sweep</bold>: Once the roots are identified, the marking and sweeping phases can run concurrently while the application threads resume execution. The immutable nature of the data structures is critical here, as it guarantees that the object graph will not be modified during the concurrent marking phase.</para>
+</listitem><listitem><para><bold>Implicit Generational Collection</bold>: The <computeroutput>ProtoContext</computeroutput> object, which represents a function&apos;s scope, tracks all new cells allocated within it. When a context is destroyed (i.e., a function returns), it provides its list of newly-allocated cells to the <computeroutput>ProtoSpace</computeroutput>. This acts as a highly efficient, implicit form of generational GC, as most objects are short-lived and can be identified for collection very quickly.</para>
+</listitem></itemizedlist>
+</para>
+<para><hruler/>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_DESIGN_1autotoc_md842">
+<title>2. The Data Model: Immutable and Efficient</title>
+<para>All core collection types in Proto are implemented as persistent, immutable data structures, backed by self-balancing AVL trees. This provides efficient structural sharing and guarantees O(log n) performance for most operations.</para>
+<para><itemizedlist>
+<listitem><para>**<computeroutput>ProtoTuple</computeroutput> &amp; <computeroutput>ProtoString</computeroutput>**: These are implemented as <bold>ropes</bold>, a tree structure where leaves are small, fixed-size arrays of data. This makes operations like concatenation, slicing, and insertion extremely efficient, even for very large strings and tuples, as it avoids massive data copies by simply creating new tree nodes that point to existing, shared data.</para>
+</listitem><listitem><para>**<computeroutput>ProtoList</computeroutput> &amp; <computeroutput>ProtoSparseList</computeroutput>**: These are also backed by balanced trees, ensuring that operations at any point in the collection (beginning, middle, or end) have consistent, logarithmic time complexity.</para>
+</listitem><listitem><para><bold>Interning for Tuples &amp; Strings</bold>: To conserve memory and speed up equality checks, all <bold>Tuples</bold> and <bold>Strings</bold> are interned. This means distinct objects with identical content share the same memory address.<itemizedlist>
+<listitem><para><bold>Tuples</bold>: Managed by a global <computeroutput>tupleRoot</computeroutput> dictionary (BST).</para>
+</listitem><listitem><para><bold>Strings</bold>: Managed by a global <computeroutput>stringInternMap</computeroutput> (Hash Set). Since Strings are implemented as wrappers around Tuples, checking string equality often reduces to checking pointer equality of the underlying interned tuple.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Sets &amp; Multisets</bold>:<itemizedlist>
+<listitem><para>**<computeroutput>ProtoSet</computeroutput>**: Implemented using a <computeroutput>ProtoSparseList</computeroutput> where keys are the hash of elements and values are the elements themselves.</para>
+</listitem><listitem><para>**<computeroutput>ProtoMultiset</computeroutput>**: Implemented as a &quot;Bag of Counts&quot;. It uses a <computeroutput>ProtoSparseList</computeroutput> where keys are element hashes and values are <computeroutput>SmallInteger</computeroutput> counts, allowing for efficient allocation-free tracking of duplicates.</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+<para><hruler/>
+</para>
+</sect1>
+<sect1 id="md_DESIGN_1autotoc_md844">
+<title>3. The Object Model: Prototypes and Controlled Mutability</title>
+<para>Proto implements a flexible and dynamic object model inspired by the Self programming language and JavaScript.</para>
+<para><itemizedlist>
+<listitem><para>**<computeroutput>ProtoObjectCell</computeroutput>**: A standard object is represented internally by a <computeroutput>ProtoObjectCell</computeroutput>. This cell contains:<itemizedlist>
+<listitem><para>A <computeroutput>ParentLink</computeroutput> pointing to its prototype(s). The <computeroutput>ParentLinkImplementation</computeroutput> allows for a linked list of parents, effectively enabling multiple inheritance through delegation.</para>
+</listitem><listitem><para>A <computeroutput>ProtoSparseList</computeroutput> to hold its own local attributes.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Prototype Chains</bold>: Objects inherit behavior and data from their prototypes. The <computeroutput>ParentLink</computeroutput> forms a chain (or more accurately, a directed acyclic graph), allowing for multiple inheritance. Attribute lookup traverses this graph depth-first until a match is found or all paths end.</para>
+</listitem><listitem><para><bold>Methods and Bindings</bold>: When a function is retrieved from an object, it is often wrapped in a <computeroutput>ProtoMethodCell</computeroutput>. This cell binds the function to the <computeroutput>self</computeroutput> object, ensuring that when the method is invoked, it has access to the correct receiver.</para>
+</listitem><listitem><para><bold>Controlled Mutability</bold>: While the default is immutability, Proto provides a safe mechanism for controlled mutation. A mutable object holds a unique ID that refers to an entry in a global, thread-safe sparse list (<computeroutput>mutableRoot</computeroutput> in <computeroutput>ProtoSpace</computeroutput>). A &quot;mutation&quot; is an atomic <computeroutput>compare-and-swap</computeroutput> operation that replaces the immutable value associated with that ID, preserving the safety of the overall system while providing the convenience of mutable state.</para>
+</listitem></itemizedlist>
+</para>
+<para><hruler/>
+</para>
+</sect1>
+<sect1 id="md_DESIGN_1autotoc_md846">
+<title>4. Execution Model and Method Invocation</title>
+<para>The execution in Proto is centered around the <computeroutput>ProtoContext</computeroutput> and the concept of &quot;trampoline&quot; calls.</para>
+<sect2 id="md_DESIGN_1autotoc_md847">
+<title>Method Invocation Lifecycle</title>
+<para><orderedlist>
+<listitem><para><bold>Lookup</bold>: When a method is called on a <computeroutput>ProtoObject</computeroutput>, the system first looks for the attribute in the object&apos;s own <computeroutput>ProtoSparseList</computeroutput>.</para>
+</listitem><listitem><para><bold>Delegation</bold>: If not found locally, it recursively searches through the <computeroutput>ParentLink</computeroutput> chain.</para>
+</listitem><listitem><para><bold>Binding</bold>: If the found value is a function (a <computeroutput>ProtoMethod</computeroutput>), it is wrapped in a <computeroutput>ProtoMethodCell</computeroutput> along with the receiver (<computeroutput>self</computeroutput>).</para>
+</listitem><listitem><para><bold>Invocation</bold>: The <computeroutput>ProtoMethodCell::implInvoke</computeroutput> is called. This sets up the execution environment within the current <computeroutput>ProtoContext</computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+</sect2>
+<sect2 id="md_DESIGN_1autotoc_md848">
+<title>The &lt;tt&gt;ReturnReference&lt;/tt&gt; Mechanism</title>
+<para>Internally, Proto uses a special <computeroutput>ReturnReference</computeroutput> cell. This is not exposed to the user but serves as a way for methods to return values through the <computeroutput>ProtoContext</computeroutput> while still being managed by the garbage collector. It ensures that the return value is tracked as a root if a GC cycle occurs exactly during a return operation.</para>
+<para><hruler/>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_DESIGN_1autotoc_md850">
+<title>Conclusion: A Synergistic Design</title>
+<para>No single feature of Proto stands alone. The <computeroutput>const</computeroutput>-correct, immutable API is what makes the concurrent GC safe. The tagged-pointer system is what makes the use of <computeroutput>ProtoObject*</computeroutput> as a universal handle performant. The per-thread memory arenas are what enable true, GIL-free concurrency. Together, these elements create a runtime that is uniquely positioned to offer both the flexibility of a dynamic language and the raw performance of modern C++. </para>
+</sect1>
+    </detaileddescription>
+    <location file="DESIGN.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1mathjax" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::mathjax</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1mathjax_1a09baf8d9c92bc6c6f1671f6357f59799" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::ext::mathjax.MATHJAX_URL</definition>
+        <argsstring></argsstring>
+        <name>MATHJAX_URL</name>
+        <qualifiedname>sphinx.ext.mathjax.MATHJAX_URL</qualifiedname>
+        <initializer>=  &apos;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1mathjax_1a7ceb3a6bf4d46ad259d5b8ae33441feb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::mathjax.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.mathjax.logger</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" kindref="member">sphinx.util.logging.getLogger</ref>(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1mathjax_1a221dface7dd054128c221acdc007ad72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.mathjax.html_visit_math</definition>
+        <argsstring>(HTML5Translator self, nodes.math node)</argsstring>
+        <name>html_visit_math</name>
+        <qualifiedname>sphinx.ext.mathjax.html_visit_math</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1html5_1_1HTML5Translator" kindref="compound">HTML5Translator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>nodes.math</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" bodystart="36" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1mathjax_1ac0cd7193170fa9e938c28a5ef1de340b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.mathjax.html_visit_displaymath</definition>
+        <argsstring>(HTML5Translator self, nodes.math_block node)</argsstring>
+        <name>html_visit_displaymath</name>
+        <qualifiedname>sphinx.ext.mathjax.html_visit_displaymath</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1html5_1_1HTML5Translator" kindref="compound">HTML5Translator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>nodes.math_block</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" line="49" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" bodystart="49" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1mathjax_1a398d05dd2aa533920a69f615d19b205c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.mathjax.install_mathjax</definition>
+        <argsstring>(Sphinx app, str pagename, str templatename, dict[str, Any] context, Any event_arg)</argsstring>
+        <name>install_mathjax</name>
+        <qualifiedname>sphinx.ext.mathjax.install_mathjax</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pagename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>templatename</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>context</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>event_arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" line="81" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" bodystart="87" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1mathjax_1aa3d628fec23edde6411858febcd25de1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.mathjax.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.mathjax.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" line="125" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" bodystart="125" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Allow `MathJax`_ to be used to display math in Sphinx&apos;s HTML writer.
+
+This requires the MathJax JavaScript library on your webserver/computer.
+
+.. _MathJax: https://www.mathjax.org/
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/mathjax.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

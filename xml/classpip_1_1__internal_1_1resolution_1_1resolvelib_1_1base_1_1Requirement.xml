@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::resolution::resolvelib::base::Requirement</compoundname>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1ExplicitRequirement" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.requirements.ExplicitRequirement</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1RequiresPythonRequirement" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.requirements.RequiresPythonRequirement</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1SpecifierRequirement" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.requirements.SpecifierRequirement</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1UnsatisfiableRequirement" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.requirements.UnsatisfiableRequirement</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1a9e7ef67fedb014e089230eab20cd5e62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>NormalizedName</type>
+        <definition> NormalizedName pip._internal.resolution.resolvelib.base.Requirement.project_name</definition>
+        <argsstring>(self)</argsstring>
+        <name>project_name</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Requirement.project_name</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1ExplicitRequirement_1a295ba3ae7f6e43ae7f3addb1d50e70fd">project_name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1SpecifierRequirement_1a1610069dd17d6255c0dea8a1d2e6763f">project_name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1RequiresPythonRequirement_1af5ab8fd112f3ff86dd04c739a9565227">project_name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1UnsatisfiableRequirement_1a9d0359f486d02c7db78c02de65707837">project_name</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The &quot;project name&quot; of a requirement.
+
+This is different from ``name`` if this requirement contains extras,
+in which case ``name`` would contain the ``[...]`` part, while this
+refers to the name of the project.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="64" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1a013752876d4b3521f3a087987b443d90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.resolution.resolvelib.base.Requirement.name</definition>
+        <argsstring>(self)</argsstring>
+        <name>name</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Requirement.name</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1ExplicitRequirement_1a3e8f9b07c17be864b1a90cc2f5e87b35">name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1SpecifierRequirement_1af2ae64f787d166605910d13457564fd9">name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1RequiresPythonRequirement_1ac555e717a97ebb38cb2ad735939cf8b8">name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1UnsatisfiableRequirement_1a78f7012fa925a93d5600232bf2bc9728">name</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The name identifying this requirement in the resolver.
+
+This is different from ``project_name`` if this requirement contains
+extras, where ``project_name`` would not contain the ``[...]`` part.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="74" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1addbed24aeb39f9da1d54ae4b20701373" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.resolution.resolvelib.base.Requirement.is_satisfied_by</definition>
+        <argsstring>(self, &quot;Candidate&quot; candidate)</argsstring>
+        <name>is_satisfied_by</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Requirement.is_satisfied_by</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1ExplicitRequirement_1a559172368a3ea40038ac48fc8916a527">is_satisfied_by</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1SpecifierRequirement_1a525011600989ab9d54d7ffaa2fc8086c">is_satisfied_by</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1RequiresPythonRequirement_1a7d59b2c9d613f9c3e18bdd3e5a116c6c">is_satisfied_by</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1UnsatisfiableRequirement_1a77f7a4b61a4747256191666708ae21a5">is_satisfied_by</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Candidate&quot;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="82" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="82" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1a201b67a52a187c265ae7b79c9102ea57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1a7a2c09bcc8e3ed1bda952dd7706ecfb9" kindref="member">CandidateLookup</ref></type>
+        <definition> CandidateLookup pip._internal.resolution.resolvelib.base.Requirement.get_candidate_lookup</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_candidate_lookup</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Requirement.get_candidate_lookup</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1ExplicitRequirement_1a751f39cb51d2947419acd8b05e2edcbc">get_candidate_lookup</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1SpecifierRequirement_1a1fb93be6481516e0ac510b563f020b36">get_candidate_lookup</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1RequiresPythonRequirement_1ad84c8ad938d4f7c149dcab1071678d91">get_candidate_lookup</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1UnsatisfiableRequirement_1a179d3399a356209e6d47cb8793411176">get_candidate_lookup</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1afff808a74ea4d44aa4ecbcaa1e682429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.resolution.resolvelib.base.Requirement.format_for_error</definition>
+        <argsstring>(self)</argsstring>
+        <name>format_for_error</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Requirement.format_for_error</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1ExplicitRequirement_1a17eb2ff16bc4120ea4c28e61aae690a1">format_for_error</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1SpecifierRequirement_1ad9458bfd2d1003dee6f6665f13aba931">format_for_error</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1RequiresPythonRequirement_1a89f12b195c19eff63f8a1c0653252367">format_for_error</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1UnsatisfiableRequirement_1a7e37ed05280b2f048406eadf0d7d9928">format_for_error</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="88" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="88" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.resolution.resolvelib.base.Requirement</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement"/>
+      </node>
+      <node id="2">
+        <label>pip._internal.resolution.resolvelib.requirements.ExplicitRequirement</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1ExplicitRequirement"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.resolution.resolvelib.requirements.RequiresPythonRequirement</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1RequiresPythonRequirement"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.resolution.resolvelib.requirements.SpecifierRequirement</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1SpecifierRequirement"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.resolution.resolvelib.requirements.SpecifierWithoutExtrasRequirement</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1SpecifierWithoutExtrasRequirement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._internal.resolution.resolvelib.requirements.UnsatisfiableRequirement</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1requirements_1_1UnsatisfiableRequirement"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="62" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1afff808a74ea4d44aa4ecbcaa1e682429" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Requirement</scope><name>format_for_error</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1a201b67a52a187c265ae7b79c9102ea57" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Requirement</scope><name>get_candidate_lookup</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1addbed24aeb39f9da1d54ae4b20701373" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Requirement</scope><name>is_satisfied_by</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1a013752876d4b3521f3a087987b443d90" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Requirement</scope><name>name</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement_1a9e7ef67fedb014e089230eab20cd5e62" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Requirement</scope><name>project_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

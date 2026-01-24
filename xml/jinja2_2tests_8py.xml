@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="jinja2_2tests_8py" kind="file" language="Python">
+    <compoundname>tests.py</compoundname>
+    <innernamespace refid="namespacejinja2">jinja2</innernamespace>
+    <innernamespace refid="namespacejinja2_1_1tests">jinja2::tests</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacejinja2_1_1tests" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Built-in<sp/>template<sp/>tests<sp/>used<sp/>with<sp/>the<sp/>``is``<sp/>operator.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>operator</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>t</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>abc</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>numbers<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Number</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.runtime<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Undefined</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.utils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>pass_environment</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>t.TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.environment<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Environment</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a8286202812abe73baf396786e9182923" kindref="member">test_odd</ref>(value:<sp/>int)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>variable<sp/>is<sp/>odd.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/>%<sp/>2<sp/>==<sp/>1</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a502734ee841d2e89119cb2dd77f1b70a" kindref="member">test_even</ref>(value:<sp/>int)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>variable<sp/>is<sp/>even.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/>%<sp/>2<sp/>==<sp/>0</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a7eb3d23afda7fa57ad68ce0be088da52" kindref="member">test_divisibleby</ref>(value:<sp/>int,<sp/>num:<sp/>int)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>if<sp/>a<sp/>variable<sp/>is<sp/>divisible<sp/>by<sp/>a<sp/>number.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/>%<sp/>num<sp/>==<sp/>0</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a638ac335e7ffe020fcad9bb15ae54c70" kindref="member">test_defined</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>variable<sp/>is<sp/>defined:</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>sourcecode::<sp/>jinja</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>if<sp/>variable<sp/>is<sp/>defined<sp/>%}</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value<sp/>of<sp/>variable:<sp/>{{<sp/>variable<sp/>}}</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>else<sp/>%}</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variable<sp/>is<sp/>not<sp/>defined</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>endif<sp/>%}</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>See<sp/>the<sp/>:func:`default`<sp/>filter<sp/>for<sp/>a<sp/>simple<sp/>way<sp/>to<sp/>set<sp/>undefined</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>variables.</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>Undefined)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1adf725b2b35e73fa7a4c0d14e69148ae0" kindref="member">test_undefined</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Like<sp/>:func:`defined`<sp/>but<sp/>the<sp/>other<sp/>way<sp/>round.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>Undefined)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">@pass_environment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a692c24aa2e6ac08bde17d48813de0d6b" kindref="member">test_filter</ref>(env:<sp/></highlight><highlight class="stringliteral">&quot;Environment&quot;</highlight><highlight class="normal">,<sp/>value:<sp/>str)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>if<sp/>a<sp/>filter<sp/>exists<sp/>by<sp/>name.<sp/>Useful<sp/>if<sp/>a<sp/>filter<sp/>may<sp/>be</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>optionally<sp/>available.</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>code-block::<sp/>jinja</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>if<sp/>&apos;markdown&apos;<sp/>is<sp/>filter<sp/>%}</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{<sp/>value<sp/>|<sp/>markdown<sp/>}}</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>else<sp/>%}</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{<sp/>value<sp/>}}</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>endif<sp/>%}</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>3.0</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>env.filters</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">@pass_environment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a07a9d73077ac63306ae803a83d0f203d" kindref="member">test_test</ref>(env:<sp/></highlight><highlight class="stringliteral">&quot;Environment&quot;</highlight><highlight class="normal">,<sp/>value:<sp/>str)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>if<sp/>a<sp/>test<sp/>exists<sp/>by<sp/>name.<sp/>Useful<sp/>if<sp/>a<sp/>test<sp/>may<sp/>be</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>optionally<sp/>available.</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>code-block::<sp/>jinja</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>if<sp/>&apos;loud&apos;<sp/>is<sp/>test<sp/>%}</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>if<sp/>value<sp/>is<sp/>loud<sp/>%}</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{<sp/>value|upper<sp/>}}</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>else<sp/>%}</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{<sp/>value|lower<sp/>}}</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>endif<sp/>%}</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>else<sp/>%}</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{<sp/>value<sp/>}}</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>endif<sp/>%}</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>3.0</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>env.tests</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1ac831064a9594d5f36fa5ecec43df1d53" kindref="member">test_none</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>variable<sp/>is<sp/>none.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a748d3ef90632509cba4c52f8f7cb038d" kindref="member">test_boolean</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>object<sp/>is<sp/>a<sp/>boolean<sp/>value.</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.11</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1ae23ca63af60e781bfef30c4a99f54d15" kindref="member">test_false</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>object<sp/>is<sp/>False.</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.11</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a77669d92cd487233da9f92b90f319dea" kindref="member">test_true</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>object<sp/>is<sp/>True.</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.11</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">#<sp/>NOTE:<sp/>The<sp/>existing<sp/>&apos;number&apos;<sp/>test<sp/>matches<sp/>booleans<sp/>and<sp/>floats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a2db88528e6f885a575b3a4bdc1ef221f" kindref="member">test_integer</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>object<sp/>is<sp/>an<sp/>integer.</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.11</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>int)<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">#<sp/>NOTE:<sp/>The<sp/>existing<sp/>&apos;number&apos;<sp/>test<sp/>matches<sp/>booleans<sp/>and<sp/>integers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1aecff6aec2c3e5551308126274aa99a72" kindref="member">test_float</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>object<sp/>is<sp/>a<sp/>float.</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.11</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>float)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a4200612ac7196e283e443cfdd1b521ed" kindref="member">test_lower</ref>(value:<sp/>str)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>variable<sp/>is<sp/>lowercased.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>str(value).islower()</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1ac0b4492e740ab5919ae40852adec09a1" kindref="member">test_upper</ref>(value:<sp/>str)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>variable<sp/>is<sp/>uppercased.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>str(value).isupper()</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1aad94739304ba39acc4fe922727fc7ed5" kindref="member">test_string</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>object<sp/>is<sp/>a<sp/>string.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>str)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a88b3e7e26a564f35a9d8c44668f1d87a" kindref="member">test_mapping</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>object<sp/>is<sp/>a<sp/>mapping<sp/>(dict<sp/>etc.).</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.6</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>abc.Mapping)</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a05201059a7a31faa35dff4da91cbde0c" kindref="member">test_number</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>variable<sp/>is<sp/>a<sp/>number.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>Number)</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1ae7ac8f71d2342fcd9d3d67164baf1e97" kindref="member">test_sequence</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>true<sp/>if<sp/>the<sp/>variable<sp/>is<sp/>a<sp/>sequence.<sp/>Sequences<sp/>are<sp/>variables</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>that<sp/>are<sp/>iterable.</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>len(value)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value.__getitem__<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa<sp/>B018</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>Exception:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1a4a929a1c96c36915d88d52f1a38220b3" kindref="member">test_sameas</ref>(value:<sp/>t.Any,<sp/>other:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>if<sp/>an<sp/>object<sp/>points<sp/>to<sp/>the<sp/>same<sp/>memory<sp/>address<sp/>than<sp/>another</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>object:</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>sourcecode::<sp/>jinja</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>if<sp/>foo.attribute<sp/>is<sp/>sameas<sp/>false<sp/>%}</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>foo<sp/>attribute<sp/>really<sp/>is<sp/>the<sp/>`False`<sp/>singleton</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{%<sp/>endif<sp/>%}</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/>other</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1aa7c6b19d667ff8e4c2fbaef4355fd69d" kindref="member">test_iterable</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>if<sp/>it&apos;s<sp/>possible<sp/>to<sp/>iterate<sp/>over<sp/>an<sp/>object.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iter(value)</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>TypeError:</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1adac1d99a03db20919c5d06541841b53b" kindref="member">test_escaped</ref>(value:<sp/>t.Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>if<sp/>the<sp/>value<sp/>is<sp/>escaped.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hasattr(value,<sp/></highlight><highlight class="stringliteral">&quot;__html__&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1tests_1ad22b9fce154d85feb03a1acbfe55d664" kindref="member">test_in</ref>(value:<sp/>t.Any,<sp/>seq:<sp/>t.Container[t.Any])<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>if<sp/>value<sp/>is<sp/>in<sp/>seq.</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.10</highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>seq</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">TESTS<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;odd&quot;</highlight><highlight class="normal">:<sp/>test_odd,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;even&quot;</highlight><highlight class="normal">:<sp/>test_even,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;divisibleby&quot;</highlight><highlight class="normal">:<sp/>test_divisibleby,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;defined&quot;</highlight><highlight class="normal">:<sp/>test_defined,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;undefined&quot;</highlight><highlight class="normal">:<sp/>test_undefined,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">:<sp/>test_filter,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">:<sp/>test_test,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">:<sp/>test_none,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;boolean&quot;</highlight><highlight class="normal">:<sp/>test_boolean,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">:<sp/>test_false,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">:<sp/>test_true,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">:<sp/>test_integer,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">:<sp/>test_float,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;lower&quot;</highlight><highlight class="normal">:<sp/>test_lower,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;upper&quot;</highlight><highlight class="normal">:<sp/>test_upper,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">:<sp/>test_string,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;mapping&quot;</highlight><highlight class="normal">:<sp/>test_mapping,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;number&quot;</highlight><highlight class="normal">:<sp/>test_number,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sequence&quot;</highlight><highlight class="normal">:<sp/>test_sequence,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;iterable&quot;</highlight><highlight class="normal">:<sp/>test_iterable,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;callable&quot;</highlight><highlight class="normal">:<sp/>callable,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sameas&quot;</highlight><highlight class="normal">:<sp/>test_sameas,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;escaped&quot;</highlight><highlight class="normal">:<sp/>test_escaped,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in&quot;</highlight><highlight class="normal">:<sp/>test_in,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;==&quot;</highlight><highlight class="normal">:<sp/>operator.eq,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;eq&quot;</highlight><highlight class="normal">:<sp/>operator.eq,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;equalto&quot;</highlight><highlight class="normal">:<sp/>operator.eq,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;!=&quot;</highlight><highlight class="normal">:<sp/>operator.ne,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ne&quot;</highlight><highlight class="normal">:<sp/>operator.ne,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&gt;&quot;</highlight><highlight class="normal">:<sp/>operator.gt,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;gt&quot;</highlight><highlight class="normal">:<sp/>operator.gt,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;greaterthan&quot;</highlight><highlight class="normal">:<sp/>operator.gt,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ge&quot;</highlight><highlight class="normal">:<sp/>operator.ge,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&gt;=&quot;</highlight><highlight class="normal">:<sp/>operator.ge,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;&quot;</highlight><highlight class="normal">:<sp/>operator.lt,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;lt&quot;</highlight><highlight class="normal">:<sp/>operator.lt,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;lessthan&quot;</highlight><highlight class="normal">:<sp/>operator.lt,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;=&quot;</highlight><highlight class="normal">:<sp/>operator.le,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;le&quot;</highlight><highlight class="normal">:<sp/>operator.le,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/tests.py"/>
+  </compounddef>
+</doxygen>

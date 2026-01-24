@@ -1,0 +1,639 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::distlib::locators::SimpleScrapingLocator</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator" prot="public" virt="non-virtual">pip._vendor.distlib.locators.Locator</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1aec97199f322ac61ab5a009d30c3c2a93" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.distlib.locators.SimpleScrapingLocator::decoders</definition>
+        <argsstring></argsstring>
+        <name>decoders</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.decoders</qualifiedname>
+        <initializer>=  {
+        &apos;deflate&apos;: zlib.decompress,
+        &apos;gzip&apos;: lambda b: gzip.GzipFile(fileobj=BytesIO(b)).read(),
+        &apos;none&apos;: lambda b: b,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="594" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="594" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1ab40f62c6258707e0329e710d7700c086" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::platform_dependent</definition>
+        <argsstring></argsstring>
+        <name>platform_dependent</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.platform_dependent</qualifiedname>
+        <initializer>=  re.compile(r&apos;\b(linux_(i\d86|x86_64|arm\w+)|&apos;
+                                    r&apos;win(32|_amd64)|macosx_?\d+)\b&apos;, re.I)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="671" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="671" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1ae6e3091d3fb7b2e823c4532dcbfa2b4a" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::_distname_re</definition>
+        <argsstring></argsstring>
+        <name>_distname_re</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._distname_re</qualifiedname>
+        <initializer>=  re.compile(&apos;&lt;a href=[^&gt;]*&gt;([^&lt;]+)&lt;&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="821" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="821" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1ab15ddbc7ce13679c25ff8949a654d1b8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::base_url</definition>
+        <argsstring></argsstring>
+        <name>base_url</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.base_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="611" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="611" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a4d515374c6b8f51e803eef2375a6f2f0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.timeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="612" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="612" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a573c917721a75fb2b613a88de23f245f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::skip_externals</definition>
+        <argsstring></argsstring>
+        <name>skip_externals</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.skip_externals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="617" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a36b92458b635ce89cbee73f0f3551156" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::num_workers</definition>
+        <argsstring></argsstring>
+        <name>num_workers</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.num_workers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="618" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="618" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a66e7fb39dbad424ac98724d1d919bc3e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::platform_check</definition>
+        <argsstring></argsstring>
+        <name>platform_check</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.platform_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="625" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="625" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a404af46095eacf38efdf97cff5855b38" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="656" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="656" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1aad70587390d19cbd6df0df4e53d51889" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::project_name</definition>
+        <argsstring></argsstring>
+        <name>project_name</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.project_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="657" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="657" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1aa1a351a05a40b0f7cae20bde97bcfc71" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::excluded_extensions</definition>
+        <argsstring></argsstring>
+        <name>excluded_extensions</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.excluded_extensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="707" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="707" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a79df5a4432fd0e75d28bbfd0ab9e743c" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::_page_cache</definition>
+        <argsstring></argsstring>
+        <name>_page_cache</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._page_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="613" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="613" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a6a31d58eb6386490a3642ea53aeacad4" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::_seen</definition>
+        <argsstring></argsstring>
+        <name>_seen</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._seen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="614" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="614" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1aa5a32a47e54cd10fdeb4196a98de4690" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::_to_fetch</definition>
+        <argsstring></argsstring>
+        <name>_to_fetch</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._to_fetch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="615" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="615" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a4f326658a0cfc87db9e71c4557a36359" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::_bad_hosts</definition>
+        <argsstring></argsstring>
+        <name>_bad_hosts</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._bad_hosts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="616" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="616" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a7c4fc92de3e3218394846e3ccc3b741c" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::_lock</definition>
+        <argsstring></argsstring>
+        <name>_lock</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._lock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="619" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="619" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a5e62646753ca784c80fb3bb09933b120" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::_gplock</definition>
+        <argsstring></argsstring>
+        <name>_gplock</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._gplock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="624" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="624" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a988246772c5e51b655fa1d0efa648967" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator::_threads</definition>
+        <argsstring></argsstring>
+        <name>_threads</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._threads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="633" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="633" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a7bdebae13007458ae2d2e9c55f972679" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator.__init__</definition>
+        <argsstring>(self, url, timeout=None, num_workers=10, **kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator_1a2dfb6c6cef7ff235c82ea3ea3d485de9">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a4d515374c6b8f51e803eef2375a6f2f0" kindref="member">timeout</ref></type>
+          <defname>timeout</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a36b92458b635ce89cbee73f0f3551156" kindref="member">num_workers</ref></type>
+          <defname>num_workers</defname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialise an instance.
+:param url: The root URL to use for scraping.
+:param timeout: The timeout, in seconds, to be applied to requests.
+                This defaults to ``None`` (no timeout specified).
+:param num_workers: The number of worker threads you want to do I/O,
+                    This defaults to 10.
+:param kwargs: Passed to the superclass.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="600" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="600" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1afe4bfff89d445875f73836f760b079d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator.get_page</definition>
+        <argsstring>(self, url)</argsstring>
+        <name>get_page</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.get_page</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the HTML for an URL, possibly from an in-memory cache.
+
+XXX TODO Note: this cache is never actually cleared. It&apos;s assumed that
+the data won&apos;t get stale over the lifetime of a locator instance (not
+necessarily true for the default_locator).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="762" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="762" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a2fc521f9a282617c5438038d695f3cca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator.get_distribution_names</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_distribution_names</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator.get_distribution_names</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator_1a6716616ed2fe1a1a9d97c07c8a0f2a15">get_distribution_names</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return all the distribution names known to this locator.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="823" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="823" bodyend="835"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1af2923a84f15ace0f6d4b92fb425a81ba" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator._prepare_threads</definition>
+        <argsstring>(self)</argsstring>
+        <name>_prepare_threads</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._prepare_threads</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Threads are created only when get_project is called, and terminate
+before it returns. They are there primarily to parallelise I/O (i.e.
+fetching web pages).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="627" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="627" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1af3e92181d15b3a8a771da364c2bc2c25" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator._wait_threads</definition>
+        <argsstring>(self)</argsstring>
+        <name>_wait_threads</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._wait_threads</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Tell all the threads to terminate (by sending a sentinel value) and
+wait for them to do so.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="640" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="640" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a5782df290143d4a7d89d4e86d51ee1ea" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator._get_project</definition>
+        <argsstring>(self, name)</argsstring>
+        <name>_get_project</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._get_project</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator_1ad2635a6a42c128cf108492e9cd33fb89">_get_project</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>For a given project, get a dictionary mapping available versions to Distribution
+instances.
+
+This should be implemented in subclasses.
+
+If called from a locate() request, self.matcher will be set to a
+matcher for the requirement to satisfy, otherwise it will be None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="653" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="653" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1abc5a1534d0128fd1c231bda806ce83f7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator._is_platform_dependent</definition>
+        <argsstring>(self, url)</argsstring>
+        <name>_is_platform_dependent</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._is_platform_dependent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Does an URL refer to a platform-specific download?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="674" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="674" bodyend="679"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a2f2b8e39784ce35599a3a27ae0af83cd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator._process_download</definition>
+        <argsstring>(self, url)</argsstring>
+        <name>_process_download</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._process_download</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>See if an URL is a suitable download for a project.
+
+If it is, register information in the result dictionary (for
+_get_project) about the specific version it&apos;s for.
+
+Note that the return value isn&apos;t actually used other than as a boolean
+value.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="680" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="680" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a17d3ed32b7cdd5236b4c7bd3fdbcdee0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator._should_queue</definition>
+        <argsstring>(self, link, referrer, rel)</argsstring>
+        <name>_should_queue</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._should_queue</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>link</type>
+          <defname>link</defname>
+        </param>
+        <param>
+          <type>referrer</type>
+          <defname>referrer</defname>
+        </param>
+        <param>
+          <type>rel</type>
+          <defname>rel</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine whether a link URL from a referring page and with a
+particular &quot;rel&quot; attribute should be queued for scraping.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="700" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="700" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a72156eb8243de03d8881db3caaa60b8c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.SimpleScrapingLocator._fetch</definition>
+        <argsstring>(self)</argsstring>
+        <name>_fetch</name>
+        <qualifiedname>pip._vendor.distlib.locators.SimpleScrapingLocator._fetch</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a URL to fetch from the work queue, get the HTML page, examine its
+links for download candidates and candidates for further scraping.
+
+This is a handy method to run in a thread.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="729" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="729" bodyend="761"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A locator which scrapes HTML pages to locate downloads for a distribution.
+This runs multiple threads to do the I/O; performance is at least as good
+as pip&apos;s PackageFinder, which works in an analogous fashion.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.locators.SimpleScrapingLocator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.locators.Locator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.locators.SimpleScrapingLocator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.locators.Locator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>binary_extensions</edgelabel>
+          <edgelabel>downloadable_extensions</edgelabel>
+          <edgelabel>excluded_extensions</edgelabel>
+          <edgelabel>source_extensions</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="586" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="586" bodyend="835"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a7bdebae13007458ae2d2e9c55f972679" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a4f326658a0cfc87db9e71c4557a36359" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_bad_hosts</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1ae6e3091d3fb7b2e823c4532dcbfa2b4a" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_distname_re</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a72156eb8243de03d8881db3caaa60b8c" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_fetch</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a5782df290143d4a7d89d4e86d51ee1ea" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_get_project</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a5e62646753ca784c80fb3bb09933b120" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_gplock</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1abc5a1534d0128fd1c231bda806ce83f7" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_is_platform_dependent</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a7c4fc92de3e3218394846e3ccc3b741c" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_lock</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a79df5a4432fd0e75d28bbfd0ab9e743c" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_page_cache</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1af2923a84f15ace0f6d4b92fb425a81ba" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_prepare_threads</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a2f2b8e39784ce35599a3a27ae0af83cd" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_process_download</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a6a31d58eb6386490a3642ea53aeacad4" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_seen</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a17d3ed32b7cdd5236b4c7bd3fdbcdee0" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_should_queue</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a988246772c5e51b655fa1d0efa648967" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_threads</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1aa5a32a47e54cd10fdeb4196a98de4690" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_to_fetch</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1af3e92181d15b3a8a771da364c2bc2c25" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>_wait_threads</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1ab15ddbc7ce13679c25ff8949a654d1b8" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>base_url</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1aec97199f322ac61ab5a009d30c3c2a93" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>decoders</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1aa1a351a05a40b0f7cae20bde97bcfc71" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>excluded_extensions</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a2fc521f9a282617c5438038d695f3cca" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>get_distribution_names</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1afe4bfff89d445875f73836f760b079d2" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>get_page</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a36b92458b635ce89cbee73f0f3551156" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>num_workers</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a66e7fb39dbad424ac98724d1d919bc3e" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>platform_check</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1ab40f62c6258707e0329e710d7700c086" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>platform_dependent</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1aad70587390d19cbd6df0df4e53d51889" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>project_name</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a404af46095eacf38efdf97cff5855b38" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>result</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a573c917721a75fb2b613a88de23f245f" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>skip_externals</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator_1a4d515374c6b8f51e803eef2375a6f2f0" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::SimpleScrapingLocator</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

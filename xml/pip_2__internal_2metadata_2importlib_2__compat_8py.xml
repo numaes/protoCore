@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__internal_2metadata_2importlib_2__compat_8py" kind="file" language="Python">
+    <compoundname>_compat.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BadMetadata" prot="public">pip::_internal::metadata::importlib::_compat::BadMetadata</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath" prot="public">pip::_internal::metadata::importlib::_compat::BasePath</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1metadata">pip::_internal::metadata</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1metadata_1_1importlib">pip::_internal::metadata::importlib</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1metadata_1_1importlib_1_1__compat">pip::_internal::metadata::importlib::_compat</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1metadata_1_1importlib_1_1__compat" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespaceimportlib_1_1metadata" kindref="compound">importlib.metadata</ref></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Any,<sp/>Optional,<sp/>Protocol,<sp/>cast</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5" refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BadMetadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BadMetadata" kindref="compound">BadMetadata</ref>(ValueError):</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BadMetadata_1a6be685ecef7925aec2a364da65dcb47a" kindref="member">__init__</ref>(self,<sp/>dist:<sp/>importlib.metadata.Distribution,<sp/>*,<sp/>reason:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BadMetadata_1a4dc68e4e2105339c5f20c7926368684c" kindref="member">dist</ref><sp/>=<sp/>dist</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BadMetadata_1ad9fcc6f6660f6657d3938a022b018f9b" kindref="member">reason</ref><sp/>=<sp/>reason</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BadMetadata_1a7e4947ee2db8055756351256944c241f" kindref="member">__str__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&quot;Bad<sp/>metadata<sp/>in<sp/>{self.dist}<sp/>({self.reason})&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath" kindref="compound">BasePath</ref>(Protocol):</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>protocol<sp/>that<sp/>various<sp/>path<sp/>objects<sp/>conform.</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>exists<sp/>because<sp/>importlib.metadata<sp/>uses<sp/>both<sp/>``pathlib.Path``<sp/>and</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``zipfile.Path``,<sp/>and<sp/>we<sp/>need<sp/>a<sp/>common<sp/>base<sp/>for<sp/>type<sp/>hints<sp/>(Union<sp/>does<sp/>not</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>work<sp/>well<sp/>since<sp/>``zipfile.Path``<sp/>is<sp/>too<sp/>new<sp/>for<sp/>our<sp/>linter<sp/>setup).</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>does<sp/>not<sp/>mean<sp/>to<sp/>be<sp/>exhaustive,<sp/>but<sp/>only<sp/>contains<sp/>things<sp/>that<sp/>present</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>in<sp/>both<sp/>classes<sp/>*that<sp/>we<sp/>need*.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">name(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError()</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath_1ae0c98fb915c623449f9b91d3d5c1a383" kindref="member">parent</ref>(self)<sp/>-&gt;<sp/>&quot;BasePath&quot;:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError()</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_info_location(d:<sp/>importlib.metadata.Distribution)<sp/>-&gt;<sp/>Optional[BasePath]:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Find<sp/>the<sp/>path<sp/>to<sp/>the<sp/>distribution&apos;s<sp/>metadata<sp/>directory.</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>HACK:<sp/>This<sp/>relies<sp/>on<sp/>importlib.metadata&apos;s<sp/>private<sp/>``_path``<sp/>attribute.<sp/>Not</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>all<sp/>distributions<sp/>exist<sp/>on<sp/>disk,<sp/>so<sp/>importlib.metadata<sp/>is<sp/>correct<sp/>to<sp/>not</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>expose<sp/>the<sp/>attribute<sp/>as<sp/>public.<sp/>But<sp/>pip&apos;s<sp/>code<sp/>base<sp/>is<sp/>old<sp/>and<sp/>not<sp/>as<sp/>clean,</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>so<sp/>we<sp/>do<sp/>this<sp/>to<sp/>avoid<sp/>having<sp/>to<sp/>rewrite<sp/>too<sp/>many<sp/>things.<sp/>Hopefully<sp/>we<sp/>can</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>eliminate<sp/>this<sp/>some<sp/>day.</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getattr(d,<sp/></highlight><highlight class="stringliteral">&quot;_path&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_dist_name(dist:<sp/>importlib.metadata.Distribution)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>distribution&apos;s<sp/>project<sp/>name.</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>``name``<sp/>attribute<sp/>is<sp/>only<sp/>available<sp/>in<sp/>Python<sp/>3.10<sp/>or<sp/>later.<sp/>We<sp/>are</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>targeting<sp/>exactly<sp/>that,<sp/>but<sp/>Mypy<sp/>does<sp/>not<sp/>know<sp/>this.</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/>cast(Any,<sp/>dist).name</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(name,<sp/>str):</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BadMetadata" kindref="compound">BadMetadata</ref>(dist,<sp/>reason=</highlight><highlight class="stringliteral">&quot;invalid<sp/>metadata<sp/>entry<sp/>&apos;name&apos;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>name</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_compat.py"/>
+  </compounddef>
+</doxygen>

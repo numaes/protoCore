@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="virtualenv_8py" kind="file" language="Python">
+    <compoundname>virtualenv.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv">pip::_internal::utils::virtualenv</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>site</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>List,<sp/>Optional</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">logger<sp/>=<sp/>logging.getLogger(__name__)</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">_INCLUDE_SYSTEM_SITE_PACKAGES_REGEX<sp/>=<sp/>re.compile(</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;include-system-site-packages\s*=\s*(?P&lt;value&gt;true|false)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1aed731bfe94b9796505e1ff4fd42b19a1" kindref="member">_running_under_venv</ref>()<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Checks<sp/>if<sp/>sys.base_prefix<sp/>and<sp/>sys.prefix<sp/>match.</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>handles<sp/>PEP<sp/>405<sp/>compliant<sp/>virtual<sp/>environments.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sys.prefix<sp/>!=<sp/>getattr(sys,<sp/></highlight><highlight class="stringliteral">&quot;base_prefix&quot;</highlight><highlight class="normal">,<sp/>sys.prefix)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1aaf9d4a53a44e3f745ea031e69da3d5c1" kindref="member">_running_under_legacy_virtualenv</ref>()<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Checks<sp/>if<sp/>sys.real_prefix<sp/>is<sp/>set.</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>handles<sp/>virtual<sp/>environments<sp/>created<sp/>with<sp/>pypa&apos;s<sp/>virtualenv.</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>pypa/virtualenv<sp/>case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hasattr(sys,<sp/></highlight><highlight class="stringliteral">&quot;real_prefix&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a1a2c66bfc9145510287d22e501cec479" kindref="member">running_under_virtualenv</ref>()<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;True<sp/>if<sp/>we&apos;re<sp/>running<sp/>inside<sp/>a<sp/>virtual<sp/>environment,<sp/>False<sp/>otherwise.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1aed731bfe94b9796505e1ff4fd42b19a1" kindref="member">_running_under_venv</ref>()<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1aaf9d4a53a44e3f745ea031e69da3d5c1" kindref="member">_running_under_legacy_virtualenv</ref>()</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1af2fe6f19fabf3ef002d2b07a4dbdb57c" kindref="member">_get_pyvenv_cfg_lines</ref>()<sp/>-&gt;<sp/>Optional[List[str]]:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Reads<sp/>{sys.prefix}/pyvenv.cfg<sp/>and<sp/>returns<sp/>its<sp/>contents<sp/>as<sp/>list<sp/>of<sp/>lines</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns<sp/>None,<sp/>if<sp/>it<sp/>could<sp/>not<sp/>read/access<sp/>the<sp/>file.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>pyvenv_cfg_file<sp/>=<sp/>os.path.join(sys.prefix,<sp/></highlight><highlight class="stringliteral">&quot;pyvenv.cfg&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Although<sp/>PEP<sp/>405<sp/>does<sp/>not<sp/>specify,<sp/>the<sp/>built-in<sp/>venv<sp/>module<sp/>always</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>writes<sp/>with<sp/>UTF-8.<sp/>(pypa/pip#8717)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>open(pyvenv_cfg_file,<sp/>encoding=</highlight><highlight class="stringliteral">&quot;utf-8&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>f:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f.read().splitlines()<sp/><sp/></highlight><highlight class="comment">#<sp/>avoids<sp/>trailing<sp/>newlines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>OSError:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a1453e76c8ea0ef8cd4be7418331c70b7" kindref="member">_no_global_under_venv</ref>()<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>`{sys.prefix}/pyvenv.cfg`<sp/>for<sp/>system<sp/>site-packages<sp/>inclusion</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>PEP<sp/>405<sp/>specifies<sp/>that<sp/>when<sp/>system<sp/>site-packages<sp/>are<sp/>not<sp/>supposed<sp/>to<sp/>be</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>visible<sp/>from<sp/>a<sp/>virtual<sp/>environment,<sp/>`pyvenv.cfg`<sp/>must<sp/>contain<sp/>the<sp/>following</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>line:</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>include-system-site-packages<sp/>=<sp/>false</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Additionally,<sp/>log<sp/>a<sp/>warning<sp/>if<sp/>accessing<sp/>the<sp/>file<sp/>fails.</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_lines<sp/>=<sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1af2fe6f19fabf3ef002d2b07a4dbdb57c" kindref="member">_get_pyvenv_cfg_lines</ref>()</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>cfg_lines<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>We&apos;re<sp/>not<sp/>in<sp/>a<sp/>&quot;sane&quot;<sp/>venv,<sp/>so<sp/>assume<sp/>there<sp/>is<sp/>no<sp/>system</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>site-packages<sp/>access<sp/>(since<sp/>that&apos;s<sp/>PEP<sp/>405&apos;s<sp/>default<sp/>state).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.warning(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Could<sp/>not<sp/>access<sp/>&apos;pyvenv.cfg&apos;<sp/>despite<sp/>a<sp/>virtual<sp/>environment<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;being<sp/>active.<sp/>Assuming<sp/>global<sp/>site-packages<sp/>is<sp/>not<sp/>accessible<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in<sp/>this<sp/>environment.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>line<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>cfg_lines:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>match<sp/>=<sp/>_INCLUDE_SYSTEM_SITE_PACKAGES_REGEX.match(line)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>match<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>match.group(</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a8f46841222ff028ac8b875fc12d570e6" kindref="member">_no_global_under_legacy_virtualenv</ref>()<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Check<sp/>if<sp/>&quot;no-global-site-packages.txt&quot;<sp/>exists<sp/>beside<sp/>site.py</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>mirrors<sp/>logic<sp/>in<sp/>pypa/virtualenv<sp/>for<sp/>determining<sp/>whether<sp/>system</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>site-packages<sp/>are<sp/>visible<sp/>in<sp/>the<sp/>virtual<sp/>environment.</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>site_mod_dir<sp/>=<sp/>os.path.dirname(os.path.abspath(site.__file__))</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>no_global_site_packages_file<sp/>=<sp/>os.path.join(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>site_mod_dir,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;no-global-site-packages.txt&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.path.exists(no_global_site_packages_file)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a99ca853f7d8a95c6d242805cbc366bb0" kindref="member">virtualenv_no_global</ref>()<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Returns<sp/>a<sp/>boolean,<sp/>whether<sp/>running<sp/>in<sp/>venv<sp/>with<sp/>no<sp/>system<sp/>site-packages.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>PEP<sp/>405<sp/>compliance<sp/>needs<sp/>to<sp/>be<sp/>checked<sp/>first<sp/>since<sp/>virtualenv<sp/>&gt;=20<sp/>would</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>return<sp/>True<sp/>for<sp/>both<sp/>checks,<sp/>but<sp/>is<sp/>only<sp/>able<sp/>to<sp/>use<sp/>the<sp/>PEP<sp/>405<sp/>config.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1aed731bfe94b9796505e1ff4fd42b19a1" kindref="member">_running_under_venv</ref>():</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a1453e76c8ea0ef8cd4be7418331c70b7" kindref="member">_no_global_under_venv</ref>()</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1aaf9d4a53a44e3f745ea031e69da3d5c1" kindref="member">_running_under_legacy_virtualenv</ref>():</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv_1a8f46841222ff028ac8b875fc12d570e6" kindref="member">_no_global_under_legacy_virtualenv</ref>()</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/virtualenv.py"/>
+  </compounddef>
+</doxygen>

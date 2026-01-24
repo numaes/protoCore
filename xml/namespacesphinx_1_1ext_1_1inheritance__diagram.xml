@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1inheritance__diagram" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::inheritance_diagram</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1inheritance__diagram" prot="public">sphinx::ext::inheritance_diagram::inheritance_diagram</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1InheritanceDiagram" prot="public">sphinx::ext::inheritance_diagram::InheritanceDiagram</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1InheritanceException" prot="public">sphinx::ext::inheritance_diagram::InheritanceException</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1InheritanceGraph" prot="public">sphinx::ext::inheritance_diagram::InheritanceGraph</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1afa203b89f1f48b9aa476900635654125" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::inheritance_diagram.module_sig_re</definition>
+        <argsstring></argsstring>
+        <name>module_sig_re</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.module_sig_re</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1a2547e899020ee8cf901f92158a2d221d" prot="public" static="no" mutable="no">
+        <type>Final</type>
+        <definition>Final sphinx::ext::inheritance_diagram.PY_BUILTINS</definition>
+        <argsstring></argsstring>
+        <name>PY_BUILTINS</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.PY_BUILTINS</qualifiedname>
+        <initializer>=  frozenset(filter(inspect.isclass, vars(builtins).values()))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1af2334edfc5163b493e7b9c32bb7741f0" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::inheritance_diagram.__module__</definition>
+        <argsstring></argsstring>
+        <name>__module__</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.__module__</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="136" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1a39d68dcab54461619ea78a82e42ccfb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.ext.inheritance_diagram.try_import</definition>
+        <argsstring>(str objname)</argsstring>
+        <name>try_import</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.try_import</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>objname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Import a object or module using *name* and *currentmodule*.
+*name* should be a relative name from *currentmodule* or
+a fully-qualified name.
+
+Returns imported object or module.  If failed, returns None value.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="81" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="81" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1a66a5a9cc8c324429bad61fe4dd86ad3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[type[Any]]</type>
+        <definition> list[type[Any]] sphinx.ext.inheritance_diagram.import_classes</definition>
+        <argsstring>(str name, str currmodule)</argsstring>
+        <name>import_classes</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.import_classes</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>currmodule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Import a class using its fully-qualified *name*.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="110" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="110" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1a29384d64cd19b53edf1c90eb977e95c3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[type[Any]]</type>
+        <definition> Iterator[type[Any]] sphinx.ext.inheritance_diagram._subclasses</definition>
+        <argsstring>(type[Any] cls)</argsstring>
+        <name>_subclasses</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram._subclasses</qualifiedname>
+        <param>
+          <type>type</type>
+          <declname>cls</declname>
+          <array>[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="456" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="456" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1ac73698939a905e1d0f107e54d79475df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.inheritance_diagram.get_graph_hash</definition>
+        <argsstring>(inheritance_diagram node)</argsstring>
+        <name>get_graph_hash</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.get_graph_hash</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1inheritance__diagram" kindref="compound">inheritance_diagram</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="462" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="462" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1a2cf2f283f2a44217b76f81ab848a3c25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.inheritance_diagram.html_visit_inheritance_diagram</definition>
+        <argsstring>(HTML5Translator self, inheritance_diagram node)</argsstring>
+        <name>html_visit_inheritance_diagram</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.html_visit_inheritance_diagram</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1html5_1_1HTML5Translator" kindref="compound">HTML5Translator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1inheritance__diagram" kindref="compound">inheritance_diagram</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Output the graph for HTML.  This will insert a PNG with clickable
+image map.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="467" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="469" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1ab6e2e0bec7d4922b1c582efd3b2bd8d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.inheritance_diagram.latex_visit_inheritance_diagram</definition>
+        <argsstring>(LaTeXTranslator self, inheritance_diagram node)</argsstring>
+        <name>latex_visit_inheritance_diagram</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.latex_visit_inheritance_diagram</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1latex_1_1LaTeXTranslator" kindref="compound">LaTeXTranslator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1inheritance__diagram" kindref="compound">inheritance_diagram</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Output the graph for LaTeX.  This will insert a PDF.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="513" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="515" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1a63de950b5dd9a3c9f2180e1ed309675f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.inheritance_diagram.texinfo_visit_inheritance_diagram</definition>
+        <argsstring>(TexinfoTranslator self, inheritance_diagram node)</argsstring>
+        <name>texinfo_visit_inheritance_diagram</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.texinfo_visit_inheritance_diagram</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoTranslator" kindref="compound">TexinfoTranslator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1inheritance__diagram" kindref="compound">inheritance_diagram</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Output the graph for Texinfo.  This will insert a PNG.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="529" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="532" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1a947ebfa5e1262032f19b307664d3006f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.inheritance_diagram.skip</definition>
+        <argsstring>(nodes.NodeVisitor self, inheritance_diagram node)</argsstring>
+        <name>skip</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.skip</qualifiedname>
+        <param>
+          <type>nodes.NodeVisitor</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1inheritance__diagram" kindref="compound">inheritance_diagram</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="546" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="546" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1inheritance__diagram_1a5cc8aca9b5b0d6d1d2a55fefd309ef1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.inheritance_diagram.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.inheritance_diagram.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="550" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" bodystart="550" bodyend="569"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Defines a docutils directive for inserting inheritance diagrams.
+
+Provide the directive with one or more classes or modules (separated
+by whitespace).  For modules, all of the classes in that module will
+be used.
+
+Example::
+
+   Given the following classes:
+
+   class A: pass
+   class B(A): pass
+   class C(A): pass
+   class D(B, C): pass
+   class E(B): pass
+
+   .. inheritance-diagram: D E
+
+   Produces a graph like the following:
+
+               A
+              / \
+             B   C
+            / \ /
+           E   D
+
+The graph is inserted as a PNG+image map into HTML and a PDF in
+LaTeX.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/inheritance_diagram.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

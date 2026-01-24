@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::napoleon::docstring</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1napoleon_1_1docstring_1_1Deque" prot="public">sphinx::ext::napoleon::docstring::Deque</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1napoleon_1_1docstring_1_1GoogleDocstring" prot="public">sphinx::ext::napoleon::docstring::GoogleDocstring</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1napoleon_1_1docstring_1_1NumpyDocstring" prot="public">sphinx::ext::napoleon::docstring::NumpyDocstring</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a1eb0e4810ca0bc6027ad87bf4fe69531" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a429b6e03231b3ecf97956dc28039b56e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._directive_regex</definition>
+        <argsstring></argsstring>
+        <name>_directive_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._directive_regex</qualifiedname>
+        <initializer>=  re.compile(r&apos;\.\. \S+::&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a093e269b04f37e06ad881cb809c1891a" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._google_section_regex</definition>
+        <argsstring></argsstring>
+        <name>_google_section_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._google_section_regex</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(\s|\w)+:\s*$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a625cafa946555d1caa170204d747e5cb" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._google_typed_arg_regex</definition>
+        <argsstring></argsstring>
+        <name>_google_typed_arg_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._google_typed_arg_regex</qualifiedname>
+        <initializer>=  re.compile(r&apos;(.+?)\(\s*(.*[^\s]+)\s*\)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1aaa88bd6fd00d221db4d30331d88e128d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._numpy_section_regex</definition>
+        <argsstring></argsstring>
+        <name>_numpy_section_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._numpy_section_regex</qualifiedname>
+        <initializer>=  re.compile(r&apos;^[=\-`:\&apos;&quot;~^_*+#&lt;&gt;]{2,}\s*$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a29512c8126cc2a672da6caf439a8a456" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._single_colon_regex</definition>
+        <argsstring></argsstring>
+        <name>_single_colon_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._single_colon_regex</qualifiedname>
+        <initializer>=  re.compile(r&apos;(?&lt;!:):(?!:)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1ad5776955bd30c4d174043a69fed6b8a6" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._xref_or_code_regex</definition>
+        <argsstring></argsstring>
+        <name>_xref_or_code_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._xref_or_code_regex</qualifiedname>
+        <initializer>=  re.compile(
+    r&apos;((?::(?:[a-zA-Z0-9]+[\-_+:.])*[a-zA-Z0-9]+:`.+?`)|&apos;
+    r&apos;(?:``.+?``)|&apos;
+    r&apos;(?::meta .+:.*)|&apos;
+    r&apos;(?:`.+?\s*(?&lt;!\x00)&lt;.*?&gt;`))&apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1ae590f9c641e6fe11497554cbbf826c38" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._xref_regex</definition>
+        <argsstring></argsstring>
+        <name>_xref_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._xref_regex</qualifiedname>
+        <initializer>=  re.compile(
+    r&apos;(?:(?::(?:[a-zA-Z0-9]+[\-_+:.])*[a-zA-Z0-9]+:)?`.+?`)&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1ad29e09d18f54259b99b151405c9904fe" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._bullet_list_regex</definition>
+        <argsstring></argsstring>
+        <name>_bullet_list_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._bullet_list_regex</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(\*|\+|\-)(\s+\S|\s*$)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="39" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a365e8c26543f4404aa6719087686916e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._enumerated_list_regex</definition>
+        <argsstring></argsstring>
+        <name>_enumerated_list_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._enumerated_list_regex</qualifiedname>
+        <initializer>=  re.compile(
+    r&apos;^(?P&lt;paren&gt;\()?&apos;
+    r&apos;(\d+|#|[ivxlcdm]+|[IVXLCDM]+|[a-zA-Z])&apos;
+    r&apos;(?(paren)\)|\.)(\s+\S|\s*$)&apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a44295585ceecb8bdd2a173abc4933bf9" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._token_regex</definition>
+        <argsstring></argsstring>
+        <name>_token_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._token_regex</qualifiedname>
+        <initializer>=  re.compile(
+    r&apos;(,\sor\s|\sor\s|\sof\s|:\s|\sto\s|,\sand\s|\sand\s|,\s&apos;
+    r&apos;|[{]|[}]&apos;
+    r&apos;|&quot;(?:\\&quot;|[^&quot;])*&quot;&apos;
+    r&quot;|&apos;(?:\\&apos;|[^&apos;])*&apos;)&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1ab6429aa640a0c13cd54579a2fd228575" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._default_regex</definition>
+        <argsstring></argsstring>
+        <name>_default_regex</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._default_regex</qualifiedname>
+        <initializer>=  re.compile(
+    r&apos;^default[^_0-9A-Za-<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a196ff6a287f53f758b1506f21269fc77" kindref="member">z</ref>].*$&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="51" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1aebed19cd72913b977469e25454fb7705" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::napoleon::docstring._SINGLETONS</definition>
+        <argsstring></argsstring>
+        <name>_SINGLETONS</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._SINGLETONS</qualifiedname>
+        <initializer>=  frozenset({&apos;None&apos;, &apos;True&apos;, &apos;False&apos;, &apos;Ellipsis&apos;, &apos;...&apos;})</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="54" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a4bcd8950256790c9fab39512e8d2fdbd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.ext.napoleon.docstring._recombine_set_tokens</definition>
+        <argsstring>(list[str] tokens)</argsstring>
+        <name>_recombine_set_tokens</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._recombine_set_tokens</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>tokens</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="78" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a7c43ebbc85a101988833987ddfbbe0b2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.ext.napoleon.docstring._tokenize_type_spec</definition>
+        <argsstring>(str spec)</argsstring>
+        <name>_tokenize_type_spec</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._tokenize_type_spec</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="134" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="134" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1aba7f4b0e93be937059316716e754cd3d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.napoleon.docstring._token_type</definition>
+        <argsstring>(str token, str|None debug_location=None)</argsstring>
+        <name>_token_type</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._token_type</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>debug_location</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="155" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="155" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1a1d99e7e214884820d5e3b33aceb3a95c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.napoleon.docstring._convert_type_spec</definition>
+        <argsstring>(str _type, dict[str, str]|None translations=None, str|None debug_location=None)</argsstring>
+        <name>_convert_type_spec</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._convert_type_spec</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>_type</declname>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>translations</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>debug_location</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="214" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="218" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1_1docstring_1aea5ecc0bba73fd34897f120049271c3a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.napoleon.docstring._convert_type_spec_obj</definition>
+        <argsstring>(str obj, dict[str, str] translations)</argsstring>
+        <name>_convert_type_spec_obj</name>
+        <qualifiedname>sphinx.ext.napoleon.docstring._convert_type_spec_obj</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>translations</declname>
+          <array>[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="242" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" bodystart="242" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Classes for docstring parsing and formatting.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/napoleon/docstring.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::distributions::installed::InstalledDistribution</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution" prot="public" virt="non-virtual">pip._internal.distributions.base.AbstractDistribution</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution_1a1bc56220c5f98091fe1d9c9759649910" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.distributions.installed.InstalledDistribution.build_tracker_id</definition>
+        <argsstring>(self)</argsstring>
+        <name>build_tracker_id</name>
+        <qualifiedname>pip._internal.distributions.installed.InstalledDistribution.build_tracker_id</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a5b4ed500201f999a71d1704352c57fc4">build_tracker_id</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A string that uniquely identifies this requirement to the build tracker.
+
+If None, then this dist has no work to do in the build tracker, and
+``.prepare_distribution_metadata()`` will not be called.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py" bodystart="16" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution_1aac4a4b1df73ce21034f57578883bee04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.distributions.installed.InstalledDistribution.get_metadata_distribution</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_metadata_distribution</name>
+        <qualifiedname>pip._internal.distributions.installed.InstalledDistribution.get_metadata_distribution</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a8a9045d38e8e4cc04e6d69f7b254a29b">get_metadata_distribution</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py" bodystart="19" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution_1a003e4fae83e40a392011fe50d428ea4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.distributions.installed.InstalledDistribution.prepare_distribution_metadata</definition>
+        <argsstring>(self, PackageFinder finder, bool build_isolation, bool check_build_deps)</argsstring>
+        <name>prepare_distribution_metadata</name>
+        <qualifiedname>pip._internal.distributions.installed.InstalledDistribution.prepare_distribution_metadata</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1af650f387809c32d2196f05376bd6c187">prepare_distribution_metadata</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+          <declname>finder</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>build_isolation</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>check_build_deps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py" bodystart="28" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Represents an installed package.
+
+This does not need any preparation as the required information has already
+been computed.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>abc.ABCMeta</label>
+      </node>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.distributions.installed.InstalledDistribution</label>
+        <link refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.distributions.base.AbstractDistribution</label>
+        <link refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>abc.ABCMeta</label>
+      </node>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.distributions.installed.InstalledDistribution</label>
+        <link refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.distributions.base.AbstractDistribution</label>
+        <link refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py" line="8" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/installed.py" bodystart="8" bodyend="30"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution_1a1bc56220c5f98091fe1d9c9759649910" prot="public" virt="non-virtual"><scope>pip::_internal::distributions::installed::InstalledDistribution</scope><name>build_tracker_id</name></member>
+      <member refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution_1aac4a4b1df73ce21034f57578883bee04" prot="public" virt="non-virtual"><scope>pip::_internal::distributions::installed::InstalledDistribution</scope><name>get_metadata_distribution</name></member>
+      <member refid="classpip_1_1__internal_1_1distributions_1_1installed_1_1InstalledDistribution_1a003e4fae83e40a392011fe50d428ea4b" prot="public" virt="non-virtual"><scope>pip::_internal::distributions::installed::InstalledDistribution</scope><name>prepare_distribution_metadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

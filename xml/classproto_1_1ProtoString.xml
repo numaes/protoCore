@@ -1,0 +1,543 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classproto_1_1ProtoString" kind="class" language="C++" prot="public">
+    <compoundname>proto::ProtoString</compoundname>
+    <includes refid="protoCore_8h" local="no">protoCore.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a715667e396aa38f472a677dbe5abb5d6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::fromUTF8String</definition>
+        <argsstring>(ProtoContext *context, const char *zeroTerminatedUtf8String)</argsstring>
+        <name>fromUTF8String</name>
+        <qualifiedname>proto::ProtoString::fromUTF8String</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>zeroTerminatedUtf8String</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="243" column="34" bodyfile="core/Proto.cpp" bodystart="453" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classproto_1_1ProtoString_1ac15e65f62b0b28283a0b680f84389963" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int proto::ProtoString::cmp_to_string</definition>
+        <argsstring>(ProtoContext *context, const ProtoString *otherString) const</argsstring>
+        <name>cmp_to_string</name>
+        <qualifiedname>proto::ProtoString::cmp_to_string</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+          <declname>otherString</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="245" column="13" bodyfile="core/ProtoString.cpp" bodystart="180" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a6a1678bdc332454677aeabcaedbd77f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+        <definition>const ProtoObject * proto::ProtoString::getAt</definition>
+        <argsstring>(ProtoContext *context, int index) const</argsstring>
+        <name>getAt</name>
+        <qualifiedname>proto::ProtoString::getAt</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="248" column="27" bodyfile="core/ProtoString.cpp" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a0572fd70c85d73168550e8ffa4786c7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned long</type>
+        <definition>unsigned long proto::ProtoString::getSize</definition>
+        <argsstring>(ProtoContext *context) const</argsstring>
+        <name>getSize</name>
+        <qualifiedname>proto::ProtoString::getSize</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="249" column="23" bodyfile="core/ProtoString.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a7baddead89de9b8e61015b166ec596de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::getSlice</definition>
+        <argsstring>(ProtoContext *context, int from, int to) const</argsstring>
+        <name>getSlice</name>
+        <qualifiedname>proto::ProtoString::getSlice</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="250" column="27" bodyfile="core/ProtoString.cpp" bodystart="169" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a17dbc1880307c996909c5de121eccc87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::setAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObject *character) const</argsstring>
+        <name>setAt</name>
+        <qualifiedname>proto::ProtoString::setAt</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+          <declname>character</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="253" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a99a7ec18d3987d13ed1126d646d0ff8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::insertAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObject *character) const</argsstring>
+        <name>insertAt</name>
+        <qualifiedname>proto::ProtoString::insertAt</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+          <declname>character</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="254" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a16d4d77f8cb600535c6b14da73199461" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::setAtString</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoString *otherString) const</argsstring>
+        <name>setAtString</name>
+        <qualifiedname>proto::ProtoString::setAtString</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+          <declname>otherString</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="255" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a8add4d23d900a0cdec68cec5da9eaf77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::insertAtString</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoString *otherString) const</argsstring>
+        <name>insertAtString</name>
+        <qualifiedname>proto::ProtoString::insertAtString</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+          <declname>otherString</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="256" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a42a710969063cdbedc4b601feb5c4c0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::appendFirst</definition>
+        <argsstring>(ProtoContext *context, const ProtoString *otherString) const</argsstring>
+        <name>appendFirst</name>
+        <qualifiedname>proto::ProtoString::appendFirst</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+          <declname>otherString</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="257" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1ad8ec75684d1c15469856e63526afb5c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::appendLast</definition>
+        <argsstring>(ProtoContext *context, const ProtoString *otherString) const</argsstring>
+        <name>appendLast</name>
+        <qualifiedname>proto::ProtoString::appendLast</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+          <declname>otherString</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="258" column="27" bodyfile="core/Proto.cpp" bodystart="457" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1ac9b1ec68b042946bce59d06d6819e282" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::splitFirst</definition>
+        <argsstring>(ProtoContext *context, int count) const</argsstring>
+        <name>splitFirst</name>
+        <qualifiedname>proto::ProtoString::splitFirst</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="259" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1ab9a6afc5772a351ae8233927f6ac5f33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::splitLast</definition>
+        <argsstring>(ProtoContext *context, int count) const</argsstring>
+        <name>splitLast</name>
+        <qualifiedname>proto::ProtoString::splitLast</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="260" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1ab06dcf721d6e83cee4355608afd5adfe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::removeFirst</definition>
+        <argsstring>(ProtoContext *context, int count) const</argsstring>
+        <name>removeFirst</name>
+        <qualifiedname>proto::ProtoString::removeFirst</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="261" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a1812c025a96f26f535cc15021e1f3ea7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::removeLast</definition>
+        <argsstring>(ProtoContext *context, int count) const</argsstring>
+        <name>removeLast</name>
+        <qualifiedname>proto::ProtoString::removeLast</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="262" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1adab2e5e312d8746d7a3833b0efdb110a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::removeAt</definition>
+        <argsstring>(ProtoContext *context, int index) const</argsstring>
+        <name>removeAt</name>
+        <qualifiedname>proto::ProtoString::removeAt</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="263" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1ac0b2e3f858179199628bc8f6e6415681" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::removeSlice</definition>
+        <argsstring>(ProtoContext *context, int from, int to) const</argsstring>
+        <name>removeSlice</name>
+        <qualifiedname>proto::ProtoString::removeSlice</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="264" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a48e21e06b26ebd175e9e389c7572c715" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+        <definition>const ProtoObject * proto::ProtoString::asObject</definition>
+        <argsstring>(ProtoContext *context) const</argsstring>
+        <name>asObject</name>
+        <qualifiedname>proto::ProtoString::asObject</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="267" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a78540f05af03d318e0d663f6a0ca2ea9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
+        <definition>const ProtoList * proto::ProtoString::asList</definition>
+        <argsstring>(ProtoContext *context) const</argsstring>
+        <name>asList</name>
+        <qualifiedname>proto::ProtoString::asList</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="268" column="25" bodyfile="core/ProtoString.cpp" bodystart="165" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a7f88c71823415db2f8b9cec16af503ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoStringIterator" kindref="compound">ProtoStringIterator</ref> *</type>
+        <definition>const ProtoStringIterator * proto::ProtoString::getIterator</definition>
+        <argsstring>(ProtoContext *context) const</argsstring>
+        <name>getIterator</name>
+        <qualifiedname>proto::ProtoString::getIterator</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="269" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a4f528e480e5e489ec3cee5ece1ddf0fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned long</type>
+        <definition>unsigned long proto::ProtoString::getHash</definition>
+        <argsstring>(ProtoContext *context) const</argsstring>
+        <name>getHash</name>
+        <qualifiedname>proto::ProtoString::getHash</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="270" column="23" bodyfile="core/Proto.cpp" bodystart="456" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1ac332610c105ca538d6c25033dc386324" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
+        <definition>const ProtoString * proto::ProtoString::isCell</definition>
+        <argsstring>(ProtoContext *context) const</argsstring>
+        <name>isCell</name>
+        <qualifiedname>proto::ProtoString::isCell</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="271" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoString_1a861610c184aac2233982f645a7e5a4d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1Cell" kindref="compound">Cell</ref> *</type>
+        <definition>const Cell * proto::ProtoString::asCell</definition>
+        <argsstring>(ProtoContext *context) const</argsstring>
+        <name>asCell</name>
+        <qualifiedname>proto::ProtoString::asCell</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/protoCore.h" line="272" column="20" bodyfile="core/Proto.cpp" bodystart="458" bodyend="458"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="headers/protoCore.h" line="240" column="5" bodyfile="headers/protoCore.h" bodystart="241" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classproto_1_1ProtoString_1a42a710969063cdbedc4b601feb5c4c0b" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>appendFirst</name></member>
+      <member refid="classproto_1_1ProtoString_1ad8ec75684d1c15469856e63526afb5c0" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>appendLast</name></member>
+      <member refid="classproto_1_1ProtoString_1a861610c184aac2233982f645a7e5a4d0" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>asCell</name></member>
+      <member refid="classproto_1_1ProtoString_1a78540f05af03d318e0d663f6a0ca2ea9" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>asList</name></member>
+      <member refid="classproto_1_1ProtoString_1a48e21e06b26ebd175e9e389c7572c715" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>asObject</name></member>
+      <member refid="classproto_1_1ProtoString_1ac15e65f62b0b28283a0b680f84389963" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>cmp_to_string</name></member>
+      <member refid="classproto_1_1ProtoString_1a715667e396aa38f472a677dbe5abb5d6" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>fromUTF8String</name></member>
+      <member refid="classproto_1_1ProtoString_1a6a1678bdc332454677aeabcaedbd77f7" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>getAt</name></member>
+      <member refid="classproto_1_1ProtoString_1a4f528e480e5e489ec3cee5ece1ddf0fa" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>getHash</name></member>
+      <member refid="classproto_1_1ProtoString_1a7f88c71823415db2f8b9cec16af503ab" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>getIterator</name></member>
+      <member refid="classproto_1_1ProtoString_1a0572fd70c85d73168550e8ffa4786c7a" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>getSize</name></member>
+      <member refid="classproto_1_1ProtoString_1a7baddead89de9b8e61015b166ec596de" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>getSlice</name></member>
+      <member refid="classproto_1_1ProtoString_1a99a7ec18d3987d13ed1126d646d0ff8a" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>insertAt</name></member>
+      <member refid="classproto_1_1ProtoString_1a8add4d23d900a0cdec68cec5da9eaf77" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>insertAtString</name></member>
+      <member refid="classproto_1_1ProtoString_1ac332610c105ca538d6c25033dc386324" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>isCell</name></member>
+      <member refid="classproto_1_1ProtoString_1adab2e5e312d8746d7a3833b0efdb110a" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>removeAt</name></member>
+      <member refid="classproto_1_1ProtoString_1ab06dcf721d6e83cee4355608afd5adfe" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>removeFirst</name></member>
+      <member refid="classproto_1_1ProtoString_1a1812c025a96f26f535cc15021e1f3ea7" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>removeLast</name></member>
+      <member refid="classproto_1_1ProtoString_1ac0b2e3f858179199628bc8f6e6415681" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>removeSlice</name></member>
+      <member refid="classproto_1_1ProtoString_1a17dbc1880307c996909c5de121eccc87" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>setAt</name></member>
+      <member refid="classproto_1_1ProtoString_1a16d4d77f8cb600535c6b14da73199461" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>setAtString</name></member>
+      <member refid="classproto_1_1ProtoString_1ac9b1ec68b042946bce59d06d6819e282" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>splitFirst</name></member>
+      <member refid="classproto_1_1ProtoString_1ab9a6afc5772a351ae8233927f6ac5f33" prot="public" virt="non-virtual"><scope>proto::ProtoString</scope><name>splitLast</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

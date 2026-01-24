@@ -1,0 +1,580 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1req_1_1req__file" kind="namespace" language="Python">
+    <compoundname>pip::_internal::req::req_file</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1req_1_1req__file_1_1OptionParsingError" prot="public">pip::_internal::req::req_file::OptionParsingError</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1req_1_1req__file_1_1ParsedLine" prot="public">pip::_internal::req::req_file::ParsedLine</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1req_1_1req__file_1_1ParsedRequirement" prot="public">pip::_internal::req::req_file::ParsedRequirement</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1req_1_1req__file_1_1RequirementsFileParser" prot="public">pip::_internal::req::req_file::RequirementsFileParser</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1aa351ee86e7546c82395a2d8b92998866" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::req::req_file.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._internal.req.req_file.__all__</qualifiedname>
+        <initializer>=  [&quot;parse_requirements&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="39" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a6bcd7f95031c74c3a0c6950f59b7ae2b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::req_file.ReqFileLines</definition>
+        <argsstring></argsstring>
+        <name>ReqFileLines</name>
+        <qualifiedname>pip._internal.req.req_file.ReqFileLines</qualifiedname>
+        <initializer>=  Iterable[Tuple[int, str]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1aef579255ac99d908c14a7231cc5bb5a1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::req_file.LineParser</definition>
+        <argsstring></argsstring>
+        <name>LineParser</name>
+        <qualifiedname>pip._internal.req.req_file.LineParser</qualifiedname>
+        <initializer>=  Callable[[str], Tuple[str, Values]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a07a6d7a4863b3e41652b385ec7f87d7b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::req_file.SCHEME_RE</definition>
+        <argsstring></argsstring>
+        <name>SCHEME_RE</name>
+        <qualifiedname>pip._internal.req.req_file.SCHEME_RE</qualifiedname>
+        <initializer>=  re.compile(r&quot;^(http|https|file):&quot;, re.I)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1ab54ff2bcd8ab7312fb2912154934eee0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::req_file.COMMENT_RE</definition>
+        <argsstring></argsstring>
+        <name>COMMENT_RE</name>
+        <qualifiedname>pip._internal.req.req_file.COMMENT_RE</qualifiedname>
+        <initializer>=  re.compile(r&quot;(^|\s+)#.*$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a51f683b92d8d3ccf2663d3b7ac1210c6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::req_file.ENV_VAR_RE</definition>
+        <argsstring></argsstring>
+        <name>ENV_VAR_RE</name>
+        <qualifiedname>pip._internal.req.req_file.ENV_VAR_RE</qualifiedname>
+        <initializer>=  re.compile(r&quot;(?P&lt;var&gt;\$\{(?P&lt;name&gt;[A-Z0-9_]+)\})&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1ab97fd49b4c3dba7e12f2e838f67e4a11" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::req::req_file.SUPPORTED_OPTIONS</definition>
+        <argsstring></argsstring>
+        <name>SUPPORTED_OPTIONS</name>
+        <qualifiedname>pip._internal.req.req_file.SUPPORTED_OPTIONS</qualifiedname>
+        <initializer>=  [
+    cmdoptions.index_url,
+    cmdoptions.extra_index_url,
+    cmdoptions.no_index,
+    cmdoptions.constraints,
+    cmdoptions.requirements,
+    cmdoptions.editable,
+    cmdoptions.find_links,
+    cmdoptions.no_binary,
+    cmdoptions.only_binary,
+    cmdoptions.prefer_binary,
+    cmdoptions.require_hashes,
+    cmdoptions.pre,
+    cmdoptions.trusted_host,
+    cmdoptions.use_new_feature,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="54" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1adf9fe333d32b76b8a202f81da460b1a3" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::req::req_file.SUPPORTED_OPTIONS_REQ</definition>
+        <argsstring></argsstring>
+        <name>SUPPORTED_OPTIONS_REQ</name>
+        <qualifiedname>pip._internal.req.req_file.SUPPORTED_OPTIONS_REQ</qualifiedname>
+        <initializer>=  [
+    cmdoptions.global_options,
+    cmdoptions.hash,
+    cmdoptions.config_settings,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a0803819299368608d3a490bd66af0413" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::req::req_file.SUPPORTED_OPTIONS_EDITABLE_REQ</definition>
+        <argsstring></argsstring>
+        <name>SUPPORTED_OPTIONS_EDITABLE_REQ</name>
+        <qualifiedname>pip._internal.req.req_file.SUPPORTED_OPTIONS_EDITABLE_REQ</qualifiedname>
+        <initializer>=  [
+    cmdoptions.config_settings,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a689e26741255339d8e2d2e0b202a381e" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::req::req_file.SUPPORTED_OPTIONS_REQ_DEST</definition>
+        <argsstring></argsstring>
+        <name>SUPPORTED_OPTIONS_REQ_DEST</name>
+        <qualifiedname>pip._internal.req.req_file.SUPPORTED_OPTIONS_REQ_DEST</qualifiedname>
+        <initializer>=  [str(o().dest) for o in <ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1adf9fe333d32b76b8a202f81da460b1a3" kindref="member">SUPPORTED_OPTIONS_REQ</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="84" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a4a6629c53e4c061cd29c38371b661983" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::req::req_file.SUPPORTED_OPTIONS_EDITABLE_REQ_DEST</definition>
+        <argsstring></argsstring>
+        <name>SUPPORTED_OPTIONS_EDITABLE_REQ_DEST</name>
+        <qualifiedname>pip._internal.req.req_file.SUPPORTED_OPTIONS_EDITABLE_REQ_DEST</qualifiedname>
+        <initializer>=  [
+    str(o().dest) for o in <ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1a0803819299368608d3a490bd66af0413" kindref="member">SUPPORTED_OPTIONS_EDITABLE_REQ</ref>
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a8a0ac5c5ae95df009fff19596bba84e5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::req_file.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.req.req_file.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="89" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a98dc1d161342c950439a3ea05c3117bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="classpip_1_1__internal_1_1req_1_1req__file_1_1ParsedRequirement" kindref="compound">ParsedRequirement</ref>, None, None]</type>
+        <definition> Generator[ParsedRequirement, None, None] pip._internal.req.req_file.parse_requirements</definition>
+        <argsstring>(str filename, PipSession session, Optional[&quot;PackageFinder&quot;] finder=None, Optional[optparse.Values] options=None, bool constraint=False)</argsstring>
+        <name>parse_requirements</name>
+        <qualifiedname>pip._internal.req.req_file.parse_requirements</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>finder</declname>
+          <array>[&quot;PackageFinder&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>options</declname>
+          <array>[optparse.Values]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>constraint</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a requirements file and yield ParsedRequirement instances.
+
+:param filename:    Path or url of requirements file.
+:param session:     PipSession instance.
+:param finder:      Instance of pip.index.PackageFinder.
+:param options:     cli options.
+:param constraint:  If true, parsing a constraint file rather than
+    requirements file.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="143" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a16a10eabe89f4b32a34a6e12f3c4f61d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1a6bcd7f95031c74c3a0c6950f59b7ae2b" kindref="member">ReqFileLines</ref></type>
+        <definition> ReqFileLines pip._internal.req.req_file.preprocess</definition>
+        <argsstring>(str content)</argsstring>
+        <name>preprocess</name>
+        <qualifiedname>pip._internal.req.req_file.preprocess</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Split, filter, and join lines, and return a line iterator
+
+:param content: the content of the requirements file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="164" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="164" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1abfca62db5d5d7e092375c3fcc564e012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__file_1_1ParsedRequirement" kindref="compound">ParsedRequirement</ref></type>
+        <definition> ParsedRequirement pip._internal.req.req_file.handle_requirement_line</definition>
+        <argsstring>(ParsedLine line, Optional[optparse.Values] options=None)</argsstring>
+        <name>handle_requirement_line</name>
+        <qualifiedname>pip._internal.req.req_file.handle_requirement_line</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__file_1_1ParsedLine" kindref="compound">ParsedLine</ref></type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>options</declname>
+          <array>[optparse.Values]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="176" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="179" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a986b01b6cceade9d36e94f87100ca11c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.req.req_file.handle_option_line</definition>
+        <argsstring>(Values opts, str filename, int lineno, Optional[&quot;PackageFinder&quot;] finder=None, Optional[optparse.Values] options=None, Optional[PipSession] session=None)</argsstring>
+        <name>handle_option_line</name>
+        <qualifiedname>pip._internal.req.req_file.handle_option_line</qualifiedname>
+        <param>
+          <type>Values</type>
+          <declname>opts</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>finder</declname>
+          <array>[&quot;PackageFinder&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>options</declname>
+          <array>[optparse.Values]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>session</declname>
+          <array>[PipSession]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="210" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="217" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a66359970456ebcbcd2d0cc7a5af19a1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="classpip_1_1__internal_1_1req_1_1req__file_1_1ParsedRequirement" kindref="compound">ParsedRequirement</ref>]</type>
+        <definition> Optional[ParsedRequirement] pip._internal.req.req_file.handle_line</definition>
+        <argsstring>(ParsedLine line, Optional[optparse.Values] options=None, Optional[&quot;PackageFinder&quot;] finder=None, Optional[PipSession] session=None)</argsstring>
+        <name>handle_line</name>
+        <qualifiedname>pip._internal.req.req_file.handle_line</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__file_1_1ParsedLine" kindref="compound">ParsedLine</ref></type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>options</declname>
+          <array>[optparse.Values]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>finder</declname>
+          <array>[&quot;PackageFinder&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>session</declname>
+          <array>[PipSession]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handle a single parsed requirements line; This can result in
+creating/yielding requirements, or updating the finder.
+
+:param line:        The parsed line to be processed.
+:param options:     CLI options.
+:param finder:      The finder - updated by non-requirement lines.
+:param session:     The session - updated by non-requirement lines.
+
+Returns a ParsedRequirement object if the line is a requirement line,
+otherwise returns None.
+
+For lines that contain requirements, the only options that have an effect
+are from SUPPORTED_OPTIONS_REQ, and they are scoped to the
+requirement. Other options from SUPPORTED_OPTIONS may be present, but are
+ignored.
+
+For lines that do not contain requirements, the only options that have an
+effect are from SUPPORTED_OPTIONS. Options from SUPPORTED_OPTIONS_REQ may
+be present, but are ignored. These lines may contain multiple options
+(although our docs imply only one is supported), and all our parsed and
+affect the finder.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="280" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="285" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1adaf0f17e1d1dad0e40a4fbb7eb184ca3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1aef579255ac99d908c14a7231cc5bb5a1" kindref="member">LineParser</ref></type>
+        <definition> LineParser pip._internal.req.req_file.get_line_parser</definition>
+        <argsstring>(Optional[&quot;PackageFinder&quot;] finder)</argsstring>
+        <name>get_line_parser</name>
+        <qualifiedname>pip._internal.req.req_file.get_line_parser</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>finder</declname>
+          <array>[&quot;PackageFinder&quot;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="394" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="394" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1adca49b696e4748bf27133819a32630bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str]</type>
+        <definition> Tuple[str, str] pip._internal.req.req_file.break_args_options</definition>
+        <argsstring>(str line)</argsstring>
+        <name>break_args_options</name>
+        <qualifiedname>pip._internal.req.req_file.break_args_options</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Break up the line into an args and options string.  We only want to shlex
+(and then optparse) the options, not the args.  args can contain markers
+which are corrupted by shlex.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="418" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="418" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a9bdfec2f7212b3d02233e15697accf0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>optparse.OptionParser</type>
+        <definition> optparse.OptionParser pip._internal.req.req_file.build_parser</definition>
+        <argsstring>()</argsstring>
+        <name>build_parser</name>
+        <qualifiedname>pip._internal.req.req_file.build_parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a parser for parsing requirement lines
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="440" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="440" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a93269fd95a1a9d8803053e948a293ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1a6bcd7f95031c74c3a0c6950f59b7ae2b" kindref="member">ReqFileLines</ref></type>
+        <definition> ReqFileLines pip._internal.req.req_file.join_lines</definition>
+        <argsstring>(ReqFileLines lines_enum)</argsstring>
+        <name>join_lines</name>
+        <qualifiedname>pip._internal.req.req_file.join_lines</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1a6bcd7f95031c74c3a0c6950f59b7ae2b" kindref="member">ReqFileLines</ref></type>
+          <declname>lines_enum</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Joins a line ending in &apos;\&apos; with the previous line (except when following
+comments).  The joined line takes on the index of the first line.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="463" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="463" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a40df00a3ee6fabe682d935acd7533287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1a6bcd7f95031c74c3a0c6950f59b7ae2b" kindref="member">ReqFileLines</ref></type>
+        <definition> ReqFileLines pip._internal.req.req_file.ignore_comments</definition>
+        <argsstring>(ReqFileLines lines_enum)</argsstring>
+        <name>ignore_comments</name>
+        <qualifiedname>pip._internal.req.req_file.ignore_comments</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1a6bcd7f95031c74c3a0c6950f59b7ae2b" kindref="member">ReqFileLines</ref></type>
+          <declname>lines_enum</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Strips comments and filter empty lines.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="494" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="494" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1aaa2783c13f9c17b7d9df8fe14ab757ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1a6bcd7f95031c74c3a0c6950f59b7ae2b" kindref="member">ReqFileLines</ref></type>
+        <definition> ReqFileLines pip._internal.req.req_file.expand_env_variables</definition>
+        <argsstring>(ReqFileLines lines_enum)</argsstring>
+        <name>expand_env_variables</name>
+        <qualifiedname>pip._internal.req.req_file.expand_env_variables</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1req_1_1req__file_1a6bcd7f95031c74c3a0c6950f59b7ae2b" kindref="member">ReqFileLines</ref></type>
+          <declname>lines_enum</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace all environment variables that can be retrieved via `os.getenv`.
+
+The only allowed format for environment variables defined in the
+requirement file is `${MY_VARIABLE_1}` to ensure two things:
+
+1. Strings that contain a `$` aren&apos;t accidentally (partially) expanded.
+2. Ensure consistency across platforms for requirement files.
+
+These points are the result of a discussion on the `github pull
+request #3514 &lt;https://github.com/pypa/pip/pull/3514&gt;`_.
+
+Valid characters in variable names follow the `POSIX standard
+&lt;http://pubs.opengroup.org/onlinepubs/9699919799/&gt;`_ and are limited
+to uppercase letter, digits and the `_` (underscore).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="505" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="505" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1req__file_1a5ed17b2cb10a68a923360641e20c9292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str]</type>
+        <definition> Tuple[str, str] pip._internal.req.req_file.get_file_content</definition>
+        <argsstring>(str url, PipSession session)</argsstring>
+        <name>get_file_content</name>
+        <qualifiedname>pip._internal.req.req_file.get_file_content</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Gets the content of a file; it may be a filename, file: URL, or
+http: URL.  Returns (location, content).  Content is unicode.
+Respects # -*- coding: declarations on the retrieved files.
+
+:param url:         File path or url.
+:param session:     PipSession instance.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="532" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" bodystart="532" bodyend="555"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Requirements file parsing
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_file.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

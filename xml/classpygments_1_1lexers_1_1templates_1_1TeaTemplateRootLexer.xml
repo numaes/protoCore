@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1templates_1_1TeaTemplateRootLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::templates::TeaTemplateRootLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1templates_1_1TeaTemplateRootLexer_1a96769b8d3a0615ff4f8010a594adf03d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.templates.TeaTemplateRootLexer::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.templates.TeaTemplateRootLexer.tokens</qualifiedname>
+        <initializer>=  {
+        &apos;root&apos;: [
+            (r&apos;&lt;%\S?&apos;, Keyword, &apos;sec&apos;),
+            (r&apos;[^&lt;]+&apos;, Other),
+            (r&apos;&lt;&apos;, Other),
+        ],
+        &apos;sec&apos;: [
+            (r&apos;%&gt;&apos;, Keyword, &apos;#pop&apos;),
+            # note: &apos;\w\W&apos; != &apos;.&apos; without DOTALL.
+            (r&apos;[\w\W]+?(?=%&gt;|\Z)&apos;, using(<ref refid="classpygments_1_1lexers_1_1jvm_1_1TeaLangLexer" kindref="compound">TeaLangLexer</ref>)),
+        ],
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/templates.py" line="1696" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/templates.py" bodystart="1696" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base for the `TeaTemplateLexer`. Yields `Token.Other` for area outside of
+code blocks.
+
+.. versionadded:: 1.5
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.templates.TeaTemplateRootLexer</label>
+        <link refid="classpygments_1_1lexers_1_1templates_1_1TeaTemplateRootLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.templates.TeaTemplateRootLexer</label>
+        <link refid="classpygments_1_1lexers_1_1templates_1_1TeaTemplateRootLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>alias_filenames</edgelabel>
+          <edgelabel>aliases</edgelabel>
+          <edgelabel>filenames</edgelabel>
+          <edgelabel>mimetypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/templates.py" line="1688" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/lexers/templates.py" bodystart="1688" bodyend="1709"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1templates_1_1TeaTemplateRootLexer_1a96769b8d3a0615ff4f8010a594adf03d" prot="public" virt="non-virtual"><scope>pygments::lexers::templates::TeaTemplateRootLexer</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

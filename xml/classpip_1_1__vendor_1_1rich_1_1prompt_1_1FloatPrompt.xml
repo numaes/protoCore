@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1rich_1_1prompt_1_1FloatPrompt" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::rich::prompt::FloatPrompt</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1rich_1_1prompt_1_1PromptBase" prot="public" virt="non-virtual">pip._vendor.rich.prompt.PromptBase</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">int</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1rich_1_1prompt_1_1FloatPrompt_1a5fd2ef60ac47cd5404a6888c2069381b" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.rich.prompt.FloatPrompt::response_type</definition>
+        <argsstring></argsstring>
+        <name>response_type</name>
+        <qualifiedname>pip._vendor.rich.prompt.FloatPrompt.response_type</qualifiedname>
+        <initializer>=  float</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/prompt.py" line="318" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/prompt.py" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1rich_1_1prompt_1_1FloatPrompt_1a5bef054906727e4dadbdc7629fc0567a" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.rich.prompt.FloatPrompt::validate_error_message</definition>
+        <argsstring></argsstring>
+        <name>validate_error_message</name>
+        <qualifiedname>pip._vendor.rich.prompt.FloatPrompt.validate_error_message</qualifiedname>
+        <initializer>=  &quot;[prompt.invalid]Please enter a number&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/prompt.py" line="319" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/prompt.py" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A prompt that returns a float.
+
+Example:
+    &gt;&gt;&gt; temperature = FloatPrompt.ask(&quot;Enter desired temperature&quot;)</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>PromptType</label>
+      </node>
+      <node id="5">
+        <label>int</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.rich.prompt.FloatPrompt</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1prompt_1_1FloatPrompt"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.rich.prompt.PromptBase</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1prompt_1_1PromptBase"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Generic</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>PromptType</label>
+      </node>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="8">
+        <label>int</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.rich.prompt.FloatPrompt</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1prompt_1_1FloatPrompt"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>validate_error_message</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.rich.prompt.PromptBase</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1prompt_1_1PromptBase"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>prompt_suffix</edgelabel>
+          <edgelabel>validate_error_message</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>illegal_choice_message</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>choices</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>tuple</label>
+      </node>
+      <node id="3">
+        <label>Generic</label>
+      </node>
+      <node id="7">
+        <label>Optional</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/prompt.py" line="310" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/prompt.py" bodystart="310" bodyend="321"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1prompt_1_1FloatPrompt_1a5fd2ef60ac47cd5404a6888c2069381b" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::prompt::FloatPrompt</scope><name>response_type</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1prompt_1_1FloatPrompt_1a5bef054906727e4dadbdc7629fc0567a" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::prompt::FloatPrompt</scope><name>validate_error_message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

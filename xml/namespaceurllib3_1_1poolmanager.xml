@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1poolmanager" kind="namespace" language="Python">
+    <compoundname>urllib3::poolmanager</compoundname>
+    <innerclass refid="classurllib3_1_1poolmanager_1_1PoolKey" prot="public">urllib3::poolmanager::PoolKey</innerclass>
+    <innerclass refid="classurllib3_1_1poolmanager_1_1PoolManager" prot="public">urllib3::poolmanager::PoolManager</innerclass>
+    <innerclass refid="classurllib3_1_1poolmanager_1_1ProxyManager" prot="public">urllib3::poolmanager::ProxyManager</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1poolmanager_1a7bbe10c4e1acd1d8af15182fb5a76fda" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list urllib3::poolmanager.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>urllib3.poolmanager.__all__</qualifiedname>
+        <initializer>=  [&quot;PoolManager&quot;, &quot;ProxyManager&quot;, &quot;proxy_from_url&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1poolmanager_1ab0955d12079c87e443650268d0451c6f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::poolmanager.log</definition>
+        <argsstring></argsstring>
+        <name>log</name>
+        <qualifiedname>urllib3.poolmanager.log</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1poolmanager_1a3dd0eae1b26a2c3bceb43811db3d0b9f" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple urllib3::poolmanager.SSL_KEYWORDS</definition>
+        <argsstring></argsstring>
+        <name>SSL_KEYWORDS</name>
+        <qualifiedname>urllib3.poolmanager.SSL_KEYWORDS</qualifiedname>
+        <initializer>=  (
+    &quot;key_file&quot;,
+    &quot;cert_file&quot;,
+    &quot;cert_reqs&quot;,
+    &quot;ca_certs&quot;,
+    &quot;ca_cert_data&quot;,
+    &quot;ssl_version&quot;,
+    &quot;ssl_minimum_version&quot;,
+    &quot;ssl_maximum_version&quot;,
+    &quot;ca_cert_dir&quot;,
+    &quot;ssl_context&quot;,
+    &quot;key_password&quot;,
+    &quot;server_hostname&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="37" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1poolmanager_1ab8437dde82fe41cefaccd6b85d2dbbb6" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::poolmanager._DEFAULT_BLOCKSIZE</definition>
+        <argsstring></argsstring>
+        <name>_DEFAULT_BLOCKSIZE</name>
+        <qualifiedname>urllib3.poolmanager._DEFAULT_BLOCKSIZE</qualifiedname>
+        <initializer>=  16384</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1poolmanager_1a822e54fa999acb2b0204fa4bc0231214" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::poolmanager.key_fn_by_scheme</definition>
+        <argsstring></argsstring>
+        <name>key_fn_by_scheme</name>
+        <qualifiedname>urllib3.poolmanager.key_fn_by_scheme</qualifiedname>
+        <initializer>=  {
+    &quot;http&quot;: functools.partial(<ref refid="namespaceurllib3_1_1poolmanager_1aa8a9182a1caba32bd04a27afc0bfb33e" kindref="member">_default_key_normalizer</ref>, <ref refid="classurllib3_1_1poolmanager_1_1PoolKey" kindref="compound">PoolKey</ref>),
+    &quot;https&quot;: functools.partial(<ref refid="namespaceurllib3_1_1poolmanager_1aa8a9182a1caba32bd04a27afc0bfb33e" kindref="member">_default_key_normalizer</ref>, <ref refid="classurllib3_1_1poolmanager_1_1PoolKey" kindref="compound">PoolKey</ref>),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="154" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1poolmanager_1afb2cd20600f2758042a468ea9f3e8727" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::poolmanager.pool_classes_by_scheme</definition>
+        <argsstring></argsstring>
+        <name>pool_classes_by_scheme</name>
+        <qualifiedname>urllib3.poolmanager.pool_classes_by_scheme</qualifiedname>
+        <initializer>=  {&quot;http&quot;: <ref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref>, &quot;https&quot;: <ref refid="classurllib3_1_1connectionpool_1_1HTTPSConnectionPool" kindref="compound">HTTPSConnectionPool</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="159" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1poolmanager_1aa8a9182a1caba32bd04a27afc0bfb33e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1poolmanager_1_1PoolKey" kindref="compound">PoolKey</ref></type>
+        <definition> PoolKey urllib3.poolmanager._default_key_normalizer</definition>
+        <argsstring>(type[PoolKey] key_class, dict[str, typing.Any] request_context)</argsstring>
+        <name>_default_key_normalizer</name>
+        <qualifiedname>urllib3.poolmanager._default_key_normalizer</qualifiedname>
+        <param>
+          <type>type</type>
+          <declname>key_class</declname>
+          <array>[PoolKey]</array>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>request_context</declname>
+          <array>[str, typing.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a pool key out of a request context dictionary.
+
+According to RFC 3986, both the scheme and host are case-insensitive.
+Therefore, this function normalizes both before constructing the pool
+key for an HTTPS request. If you wish to change this behaviour, provide
+alternate callables to ``key_fn_by_scheme``.
+
+:param key_class:
+    The class to use when constructing the key. This should be a namedtuple
+    with the ``scheme`` and ``host`` keys at a minimum.
+:type  key_class: namedtuple
+:param request_context:
+    A dictionary-like object that contain the context for a request.
+:type  request_context: dict
+
+:return: A namedtuple that can be used as a connection pool key.
+:rtype:  PoolKey
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="95" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="97" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1poolmanager_1a249e429da05be8c7439df8cc2acdf572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1poolmanager_1_1ProxyManager" kindref="compound">ProxyManager</ref></type>
+        <definition> ProxyManager urllib3.poolmanager.proxy_from_url</definition>
+        <argsstring>(str url, **typing.Any kw)</argsstring>
+        <name>proxy_from_url</name>
+        <qualifiedname>urllib3.poolmanager.proxy_from_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>**typing.Any</type>
+          <declname>kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="652" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="652" bodyend="654"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

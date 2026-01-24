@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_build_2__deps_2googletest-src_2docs_2faq" kind="page">
+    <compoundname>md_build_2__deps_2googletest-src_2docs_2faq</compoundname>
+    <title>GoogleTest FAQ</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md82"/> </para>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md83">
+<title>Why should test suite names and test names not contain underscore?</title>
+<para>{: .callout .note} Note: GoogleTest reserves underscore (<computeroutput>_</computeroutput>) for special purpose keywords, such as <ulink url="advanced.md#temporarily-disabling-tests">the <computeroutput>DISABLED_</computeroutput> prefix</ulink>, in addition to the following rationale.</para>
+<para>Underscore (<computeroutput>_</computeroutput>) is special, as C++ reserves the following to be used by the compiler and the standard library:</para>
+<para><orderedlist>
+<listitem><para>any identifier that starts with an <computeroutput>_</computeroutput> followed by an upper-case letter, and</para>
+</listitem><listitem><para>any identifier that contains two consecutive underscores (i.e. <computeroutput>__</computeroutput>) <emphasis>anywhere</emphasis> in its name.</para>
+</listitem></orderedlist>
+</para>
+<para>User code is <emphasis>prohibited</emphasis> from using such identifiers.</para>
+<para>Now let&apos;s look at what this means for <computeroutput>TEST</computeroutput> and <computeroutput>TEST_F</computeroutput>.</para>
+<para>Currently <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST(TestSuiteName, TestName)</ref></computeroutput> generates a class named <computeroutput>TestSuiteName_TestName_Test</computeroutput>. What happens if <computeroutput>TestSuiteName</computeroutput> or <computeroutput>TestName</computeroutput> contains <computeroutput>_</computeroutput>?</para>
+<para><orderedlist>
+<listitem><para>If <computeroutput>TestSuiteName</computeroutput> starts with an <computeroutput>_</computeroutput> followed by an upper-case letter (say, <computeroutput>_Foo</computeroutput>), we end up with <computeroutput>_Foo_TestName_Test</computeroutput>, which is reserved and thus invalid.</para>
+</listitem><listitem><para>If <computeroutput>TestSuiteName</computeroutput> ends with an <computeroutput>_</computeroutput> (say, <computeroutput>Foo_</computeroutput>), we get <computeroutput>Foo__TestName_Test</computeroutput>, which is invalid.</para>
+</listitem><listitem><para>If <computeroutput>TestName</computeroutput> starts with an <computeroutput>_</computeroutput> (say, <computeroutput>_Bar</computeroutput>), we get <computeroutput>TestSuiteName__Bar_Test</computeroutput>, which is invalid.</para>
+</listitem><listitem><para>If <computeroutput>TestName</computeroutput> ends with an <computeroutput>_</computeroutput> (say, <computeroutput>Bar_</computeroutput>), we get <computeroutput>TestSuiteName_Bar__Test</computeroutput>, which is invalid.</para>
+</listitem></orderedlist>
+</para>
+<para>So clearly <computeroutput>TestSuiteName</computeroutput> and <computeroutput>TestName</computeroutput> cannot start or end with <computeroutput>_</computeroutput> (Actually, <computeroutput>TestSuiteName</computeroutput> can start with <computeroutput>_</computeroutput> <ndash/> as long as the <computeroutput>_</computeroutput> isn&apos;t followed by an upper-case letter. But that&apos;s getting complicated. So for simplicity we just say that it cannot start with <computeroutput>_</computeroutput>.).</para>
+<para>It may seem fine for <computeroutput>TestSuiteName</computeroutput> and <computeroutput>TestName</computeroutput> to contain <computeroutput>_</computeroutput> in the middle. However, consider this:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(Time,<sp/>Flies_Like_An_Arrow)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(Time_Flies,<sp/>Like_An_Arrow)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+</programlisting></para>
+<para>Now, the two <computeroutput>TEST</computeroutput>s will both generate the same class (<computeroutput>Time_Flies_Like_An_Arrow_Test</computeroutput>). That&apos;s not good.</para>
+<para>So for simplicity, we just ask the users to avoid <computeroutput>_</computeroutput> in <computeroutput>TestSuiteName</computeroutput> and <computeroutput>TestName</computeroutput>. The rule is more constraining than necessary, but it&apos;s simple and easy to remember. It also gives GoogleTest some wiggle room in case its implementation needs to change in the future.</para>
+<para>If you violate the rule, there may not be immediate consequences, but your test may (just may) break with a new compiler (or a new version of the compiler you are using) or with a new version of GoogleTest. Therefore it&apos;s best to follow the rule.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md84">
+<title>Why does GoogleTest support &lt;tt&gt;EXPECT_EQ(NULL, ptr)&lt;/tt&gt; and &lt;tt&gt;ASSERT_EQ(NULL, ptr)&lt;/tt&gt; but not &lt;tt&gt;EXPECT_NE(NULL, ptr)&lt;/tt&gt; and &lt;tt&gt;ASSERT_NE(NULL, ptr)&lt;/tt&gt;?</title>
+<para>First of all, you can use <computeroutput>nullptr</computeroutput> with each of these macros, e.g. <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ(ptr, nullptr)</ref></computeroutput>, <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE(ptr, nullptr)</ref></computeroutput>, <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a1a6db8b1338ee7040329322b77779086" kindref="member">ASSERT_EQ(ptr, nullptr)</ref></computeroutput>, <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aa866c8dece57912e6f51495ed3e8d8d5" kindref="member">ASSERT_NE(ptr, nullptr)</ref></computeroutput>. This is the preferred syntax in the style guide because <computeroutput>nullptr</computeroutput> does not have the type problems that <computeroutput>NULL</computeroutput> does.</para>
+<para>Due to some peculiarity of C++, it requires some non-trivial template meta programming tricks to support using <computeroutput>NULL</computeroutput> as an argument of the <computeroutput>EXPECT_XX()</computeroutput> and <computeroutput>ASSERT_XX()</computeroutput> macros. Therefore we only do it where it&apos;s most needed (otherwise we make the implementation of GoogleTest harder to maintain and more error-prone than necessary).</para>
+<para>Historically, the <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ()</ref></computeroutput> macro took the <emphasis>expected</emphasis> value as its first argument and the <emphasis>actual</emphasis> value as the second, though this argument order is now discouraged. It was reasonable that someone wanted to write <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ(NULL, some_expression)</ref></computeroutput>, and this indeed was requested several times. Therefore we implemented it.</para>
+<para>The need for <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE(NULL, ptr)</ref></computeroutput> wasn&apos;t nearly as strong. When the assertion fails, you already know that <computeroutput>ptr</computeroutput> must be <computeroutput>NULL</computeroutput>, so it doesn&apos;t add any information to print <computeroutput>ptr</computeroutput> in this case. That means <computeroutput>EXPECT_TRUE(ptr != NULL)</computeroutput> works just as well.</para>
+<para>If we were to support <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE(NULL, ptr)</ref></computeroutput>, for consistency we&apos;d have to support <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE(ptr, NULL)</ref></computeroutput> as well. This means using the template meta programming tricks twice in the implementation, making it even harder to understand and maintain. We believe the benefit doesn&apos;t justify the cost.</para>
+<para>Finally, with the growth of the gMock matcher library, we are encouraging people to use the unified <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-matchers_8h_1ac31e206123aa702e1152bb2735b31409" kindref="member">EXPECT_THAT(value, matcher)</ref></computeroutput> syntax more often in tests. One significant advantage of the matcher approach is that matchers can be easily combined to form new matchers, while the <computeroutput>EXPECT_NE</computeroutput>, etc, macros cannot be easily combined. Therefore we want to invest more in the matchers than in the <computeroutput>EXPECT_XX()</computeroutput> macros.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md85">
+<title>I need to test that different implementations of an interface satisfy some common requirements. Should I use typed tests or value-parameterized tests?</title>
+<para>For testing various implementations of the same interface, either typed tests or value-parameterized tests can get it done. It&apos;s really up to you the user to decide which is more convenient for you, depending on your particular case. Some rough guidelines:</para>
+<para><itemizedlist>
+<listitem><para>Typed tests can be easier to write if instances of the different implementations can be created the same way, modulo the type. For example, if all these implementations have a public default constructor (such that you can write <computeroutput>new TypeParam</computeroutput>), or if their factory functions have the same form (e.g. <computeroutput>CreateInstance&lt;TypeParam&gt;()</computeroutput>).</para>
+</listitem><listitem><para>Value-parameterized tests can be easier to write if you need different code patterns to create different implementations&apos; instances, e.g. <computeroutput>new Foo</computeroutput> vs <computeroutput>new Bar(5)</computeroutput>. To accommodate for the differences, you can write factory function wrappers and pass these function pointers to the tests as their parameters.</para>
+</listitem><listitem><para>When a typed test fails, the default output includes the name of the type, which can help you quickly identify which implementation is wrong. Value-parameterized tests only show the number of the failed iteration by default. You will need to define a function that returns the iteration name and pass it as the third parameter to INSTANTIATE_TEST_SUITE_P to have more useful output.</para>
+</listitem><listitem><para>When using typed tests, you need to make sure you are testing against the interface type, not the concrete types (in other words, you want to make sure <computeroutput>implicit_cast&lt;MyInterface*&gt;(my_concrete_impl)</computeroutput> works, not just that <computeroutput>my_concrete_impl</computeroutput> works). It&apos;s less likely to make mistakes in this area when using value-parameterized tests.</para>
+</listitem></itemizedlist>
+</para>
+<para>I hope I didn&apos;t confuse you more. :-) If you don&apos;t mind, I&apos;d suggest you to give both approaches a try. Practice is a much better way to grasp the subtle differences between the two tools. Once you have some concrete experience, you can much more easily decide which one to use the next time.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md86">
+<title>I got some run-time errors about invalid proto descriptors when using &lt;tt&gt;ProtocolMessageEquals&lt;/tt&gt;. Help!</title>
+<para>{: .callout .note} <bold>Note:</bold> <computeroutput>ProtocolMessageEquals</computeroutput> and <computeroutput>ProtocolMessageEquiv</computeroutput> are <emphasis>deprecated</emphasis> now. Please use <computeroutput>EqualsProto</computeroutput>, etc instead.</para>
+<para><computeroutput>ProtocolMessageEquals</computeroutput> and <computeroutput>ProtocolMessageEquiv</computeroutput> were redefined recently and are now less tolerant of invalid protocol buffer definitions. In particular, if you have a <computeroutput>foo.proto</computeroutput> that doesn&apos;t fully qualify the type of a protocol message it references (e.g. <computeroutput>message&lt;Bar&gt;</computeroutput> where it should be <computeroutput>message&lt;blah.Bar&gt;</computeroutput>), you will now get run-time errors like:</para>
+<para><programlisting><codeline><highlight class="normal">...<sp/>descriptor.cc:...]<sp/>Invalid<sp/>proto<sp/>descriptor<sp/>for<sp/>file<sp/>&quot;path/to/foo.proto&quot;:</highlight></codeline>
+<codeline><highlight class="normal">...<sp/>descriptor.cc:...]<sp/><sp/>blah.MyMessage.my_field:<sp/>&quot;.Bar&quot;<sp/>is<sp/>not<sp/>defined.</highlight></codeline>
+</programlisting></para>
+<para>If you see this, your <computeroutput>.proto</computeroutput> file is broken and needs to be fixed by making the types fully qualified. The new definition of <computeroutput>ProtocolMessageEquals</computeroutput> and <computeroutput>ProtocolMessageEquiv</computeroutput> just happen to reveal your bug.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md87">
+<title>My death test modifies some state, but the change seems lost after the death test finishes. Why?</title>
+<para>Death tests (<computeroutput>EXPECT_DEATH</computeroutput>, etc) are executed in a sub-process s.t. the expected crash won&apos;t kill the test program (i.e. the parent process). As a result, any in-memory side effects they incur are observable in their respective sub-processes, but not in the parent process. You can think of them as running in a parallel universe, more or less.</para>
+<para>In particular, if you use mocking and the death test statement invokes some mock methods, the parent process will think the calls have never occurred. Therefore, you may want to move your <computeroutput>EXPECT_CALL</computeroutput> statements inside the <computeroutput>EXPECT_DEATH</computeroutput> macro.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md88">
+<title>EXPECT_EQ(htonl(blah), blah_blah) generates weird compiler errors in opt mode. Is this a GoogleTest bug?</title>
+<para>Actually, the bug is in <computeroutput>htonl()</computeroutput>.</para>
+<para>According to <lsquo/>&apos;man htonl<rsquo/><computeroutput>,</computeroutput>htonl()<computeroutput>is a *function*, which means it&apos;s valid to use</computeroutput>htonl<computeroutput>as a function pointer. However, in opt mode</computeroutput>htonl()` is defined as a <emphasis>macro</emphasis>, which breaks this usage.</para>
+<para>Worse, the macro definition of <computeroutput>htonl()</computeroutput> uses a <computeroutput>gcc</computeroutput> extension and is <emphasis>not</emphasis> standard C++. That hacky implementation has some ad hoc limitations. In particular, it prevents you from writing <computeroutput>Foo&lt;sizeof(htonl(x))&gt;()</computeroutput>, where <computeroutput>Foo</computeroutput> is a template that has an integral argument.</para>
+<para>The implementation of <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ(a, b)</ref></computeroutput> uses <computeroutput>sizeof(... a ...)</computeroutput> inside a template argument, and thus doesn&apos;t compile in opt mode when <computeroutput>a</computeroutput> contains a call to <computeroutput>htonl()</computeroutput>. It is difficult to make <computeroutput>EXPECT_EQ</computeroutput> bypass the <computeroutput>htonl()</computeroutput> bug, as the solution must work with different compilers on various platforms.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md89">
+<title>The compiler complains about &quot;undefined references&quot; to some static const member variables, but I did define them in the class body. What&apos;s wrong?</title>
+<para>If your class has a static data member:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>foo.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kBar<sp/>=<sp/>100;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>You also need to define it <emphasis>outside</emphasis> of the class body in <computeroutput>foo.cc</computeroutput>:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>Foo::kBar;<sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>initializer<sp/>here.</highlight></codeline>
+</programlisting></para>
+<para>Otherwise your code is <bold>invalid C++</bold>, and may break in unexpected ways. In particular, using it in GoogleTest comparison assertions (<computeroutput>EXPECT_EQ</computeroutput>, etc) will generate an &quot;undefined reference&quot; linker error. The fact that &quot;it used to work&quot; doesn&apos;t mean it&apos;s valid. It just means that you were lucky. :-)</para>
+<para>If the declaration of the static data member is <computeroutput>constexpr</computeroutput> then it is implicitly an <computeroutput>inline</computeroutput> definition, and a separate definition in <computeroutput>foo.cc</computeroutput> is not needed:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>foo.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kBar<sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Defines<sp/>kBar,<sp/>no<sp/>need<sp/>to<sp/>do<sp/>it<sp/>in<sp/>foo.cc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md90">
+<title>Can I derive a test fixture from another?</title>
+<para>Yes.</para>
+<para>Each test fixture has a corresponding and same named test suite. This means only one test suite can use a particular fixture. Sometimes, however, multiple test cases may want to use the same or slightly different fixtures. For example, you may want to make sure that all of a GUI library&apos;s test suites don&apos;t leak important system resources like fonts and brushes.</para>
+<para>In GoogleTest, you share a fixture among test suites by putting the shared logic in a base test fixture, then deriving from that base a separate fixture for each test suite that wants to use this common logic. You then use <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F()</ref></computeroutput> to write tests using each derived fixture.</para>
+<para>Typically, your code looks like this:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Defines<sp/>a<sp/>base<sp/>test<sp/>fixture.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">BaseTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">::testing::Test</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Derives<sp/>a<sp/>fixture<sp/>FooTest<sp/>from<sp/>BaseTest.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">FooTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>BaseTest<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test_1a190315150c303ddf801313fd1a777733" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>BaseTest::SetUp();<sp/><sp/></highlight><highlight class="comment">//<sp/>Sets<sp/>up<sp/>the<sp/>base<sp/>fixture<sp/>first.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...<sp/>additional<sp/>set-up<sp/>work<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test_1a5f0ab439802cbe0ef7552f1a9f791923" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...<sp/>clean-up<sp/>work<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>FooTest<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>BaseTest::TearDown();<sp/><sp/></highlight><highlight class="comment">//<sp/>Remember<sp/>to<sp/>tear<sp/>down<sp/>the<sp/>base<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>after<sp/>cleaning<sp/>up<sp/>FooTest!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/><ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1afe9f9d3726257e0f373bbd6ce81cac41" kindref="member">functions</ref><sp/>and<sp/>variables<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>FooTest<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>that<sp/>use<sp/>the<sp/>fixture<sp/>FooTest.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Bar)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Baz)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">...<sp/>additional<sp/>fixtures<sp/>derived<sp/>from<sp/>BaseTest<sp/>...</highlight></codeline>
+</programlisting></para>
+<para>If necessary, you can continue to derive test fixtures from a derived fixture. GoogleTest has no limit on how deep the hierarchy can be.</para>
+<para>For a complete example using derived test fixtures, see <ulink url="https://github.com/google/googletest/blob/main/googletest/samples/sample5_unittest.cc">sample5_unittest.cc</ulink>.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md91">
+<title>My compiler complains &quot;void value not ignored as it ought to be.&quot; What does this mean?</title>
+<para>You&apos;re probably using an <computeroutput>ASSERT_*()</computeroutput> in a function that doesn&apos;t return <computeroutput>void</computeroutput>. <computeroutput>ASSERT_*()</computeroutput> can only be used in <computeroutput>void</computeroutput> functions, due to exceptions being disabled by our build system. Please see more details <ulink url="advanced.md#assertion-placement">here</ulink>.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md92">
+<title>My death test hangs (or seg-faults). How do I fix it?</title>
+<para>In GoogleTest, death tests are run in a child process and the way they work is delicate. To write death tests you really need to understand how they work—see the details at <ulink url="reference/assertions.md#death">Death Assertions</ulink> in the Assertions Reference.</para>
+<para>In particular, death tests don&apos;t like having multiple threads in the parent process. So the first thing you can try is to eliminate creating threads outside of <computeroutput>EXPECT_DEATH()</computeroutput>. For example, you may want to use mocks or fake objects instead of real ones in your tests.</para>
+<para>Sometimes this is impossible as some library you must use may be creating threads before <computeroutput>main()</computeroutput> is even reached. In this case, you can try to minimize the chance of conflicts by either moving as many activities as possible inside <computeroutput>EXPECT_DEATH()</computeroutput> (in the extreme case, you want to move everything inside), or leaving as few things as possible in it. Also, you can try to set the death test style to <computeroutput>&quot;threadsafe&quot;</computeroutput>, which is safer but slower, and see if it helps.</para>
+<para>If you go with thread-safe death tests, remember that they rerun the test program from the beginning in the child process. Therefore make sure your program can run side-by-side with itself and is deterministic.</para>
+<para>In the end, this boils down to good concurrent programming. You have to make sure that there are no race conditions or deadlocks in your program. No silver bullet - sorry!</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2faq_1CtorVsSetUp">
+<title>Should I use the constructor/destructor of the test fixture or SetUp()/TearDown()?</title>
+<para>The first thing to remember is that GoogleTest does <bold>not</bold> reuse the same test fixture object across multiple tests. For each <computeroutput>TEST_F</computeroutput>, GoogleTest will create a <bold>fresh</bold> test fixture object, immediately call <computeroutput>SetUp()</computeroutput>, run the test body, call <computeroutput>TearDown()</computeroutput>, and then delete the test fixture object.</para>
+<para>When you need to write per-test set-up and tear-down logic, you have the choice between using the test fixture constructor/destructor or <computeroutput>SetUp()/TearDown()</computeroutput>. The former is usually preferred, as it has the following benefits:</para>
+<para><itemizedlist>
+<listitem><para>By initializing a member variable in the constructor, we have the option to make it <computeroutput>const</computeroutput>, which helps prevent accidental changes to its value and makes the tests more obviously correct.</para>
+</listitem><listitem><para>In case we need to subclass the test fixture class, the subclass&apos; constructor is guaranteed to call the base class&apos; constructor <emphasis>first</emphasis>, and the subclass&apos; destructor is guaranteed to call the base class&apos; destructor <emphasis>afterward</emphasis>. With <computeroutput>SetUp()/TearDown()</computeroutput>, a subclass may make the mistake of forgetting to call the base class&apos; <computeroutput>SetUp()/TearDown()</computeroutput> or call them at the wrong time.</para>
+</listitem></itemizedlist>
+</para>
+<para>You may still want to use <computeroutput>SetUp()/TearDown()</computeroutput> in the following cases:</para>
+<para><itemizedlist>
+<listitem><para>C++ does not allow virtual function calls in constructors and destructors. You can call a method declared as virtual, but it will not use dynamic dispatch. It will use the definition from the class the constructor of which is currently executing. This is because calling a virtual method before the derived class constructor has a chance to run is very dangerous - the virtual method might operate on uninitialized data. Therefore, if you need to call a method that will be overridden in a derived class, you have to use <computeroutput>SetUp()/TearDown()</computeroutput>.</para>
+</listitem><listitem><para>In the body of a constructor (or destructor), it&apos;s not possible to use the <computeroutput>ASSERT_xx</computeroutput> macros. Therefore, if the set-up operation could cause a fatal test failure that should prevent the test from running, it&apos;s necessary to use <computeroutput>abort</computeroutput> and abort the whole test executable, or to use <computeroutput>SetUp()</computeroutput> instead of a constructor.</para>
+</listitem><listitem><para>If the tear-down operation could throw an exception, you must use <computeroutput>TearDown()</computeroutput> as opposed to the destructor, as throwing in a destructor leads to undefined behavior and usually will kill your program right away. Note that many standard libraries (like STL) may throw when exceptions are enabled in the compiler. Therefore you should prefer <computeroutput>TearDown()</computeroutput> if you want to write portable tests that work with or without exceptions.</para>
+</listitem><listitem><para>The GoogleTest team is considering making the assertion macros throw on platforms where exceptions are enabled (e.g. Windows, Mac OS, and Linux client-side), which will eliminate the need for the user to propagate failures from a subroutine to its caller. Therefore, you shouldn&apos;t use GoogleTest assertions in a destructor if your code could run on such a platform.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md93">
+<title>The compiler complains &quot;no matching function to call&quot; when I use ASSERT_PRED*. How do I fix it?</title>
+<para>See details for <ulink url="reference/assertions.md#EXPECT_PRED"><computeroutput>EXPECT_PRED*</computeroutput></ulink> in the Assertions Reference.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md94">
+<title>My compiler complains about &quot;ignoring return value&quot; when I call RUN_ALL_TESTS(). Why?</title>
+<para>Some people had been ignoring the return value of <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS()</ref></computeroutput>. That is, instead of</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal">++</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS</ref>();</highlight></codeline>
+</programlisting></para>
+<para>they write</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal">++</highlight></codeline>
+<codeline><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS</ref>();</highlight></codeline>
+</programlisting></para>
+<para>This is <bold>wrong and dangerous</bold>. The testing services needs to see the return value of <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS()</ref></computeroutput> in order to determine if a test has passed. If your <computeroutput>main()</computeroutput> function ignores it, your test will be considered successful even if it has a GoogleTest assertion failure. Very bad.</para>
+<para>We have decided to fix this (thanks to Michael Chastain for the idea). Now, your code will no longer be able to ignore <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS()</ref></computeroutput> when compiled with <computeroutput>gcc</computeroutput>. If you do so, you&apos;ll get a compiler error.</para>
+<para>If you see the compiler complaining about you ignoring the return value of <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS()</ref></computeroutput>, the fix is simple: just make sure its value is used as the return value of <computeroutput>main()</computeroutput>.</para>
+<para>But how could we introduce a change that breaks existing tests? Well, in this case, the code was already broken in the first place, so we didn&apos;t break it. :-)</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md95">
+<title>My compiler complains that a constructor (or destructor) cannot return a value. What&apos;s going on?</title>
+<para>Due to a peculiarity of C++, in order to support the syntax for streaming messages to an <computeroutput>ASSERT_*</computeroutput>, e.g.</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal">++</highlight></codeline>
+<codeline><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a1a6db8b1338ee7040329322b77779086" kindref="member">ASSERT_EQ</ref>(1,<sp/>Foo())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;blah<sp/>blah&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>;</highlight></codeline>
+</programlisting></para>
+<para>we had to give up using <computeroutput>ASSERT*</computeroutput> and <computeroutput>FAIL*</computeroutput> (but not <computeroutput>EXPECT*</computeroutput> and <computeroutput>ADD_FAILURE*</computeroutput>) in constructors and destructors. The workaround is to move the content of your constructor/destructor to a private void member function, or switch to <computeroutput>EXPECT_*()</computeroutput> if that works. This <ulink url="advanced.md#assertion-placement">section</ulink> in the user&apos;s guide explains it.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md96">
+<title>My SetUp() function is not called. Why?</title>
+<para>C++ is case-sensitive. Did you spell it as <computeroutput>Setup()</computeroutput>?</para>
+<para>Similarly, sometimes people spell <computeroutput>SetUpTestSuite()</computeroutput> as <computeroutput>SetupTestSuite()</computeroutput> and wonder why it&apos;s never called.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md97">
+<title>I have several test suites which share the same test fixture logic, do I have to define a new test fixture class for each of them? This seems pretty tedious.</title>
+<para>You don&apos;t have to. Instead of</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">FooTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>BaseTest<sp/>{};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Abc)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Def)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">BarTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>BaseTest<sp/>{};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(BarTest,<sp/>Abc)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(BarTest,<sp/>Def)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+</programlisting></para>
+<para>you can simply <computeroutput>typedef</computeroutput> the test fixtures:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>BaseTest<sp/>FooTest;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Abc)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Def)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>BaseTest<sp/>BarTest;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(BarTest,<sp/>Abc)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(BarTest,<sp/>Def)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md98">
+<title>GoogleTest output is buried in a whole bunch of LOG messages. What do I do?</title>
+<para>The GoogleTest output is meant to be a concise and human-friendly report. If your test generates textual output itself, it will mix with the GoogleTest output, making it hard to read. However, there is an easy solution to this problem.</para>
+<para>Since <computeroutput>LOG</computeroutput> messages go to stderr, we decided to let GoogleTest output go to stdout. This way, you can easily separate the two using redirection. For example:</para>
+<para><programlisting filename=".shell"><codeline><highlight class="normal">$<sp/>./my_test<sp/>&gt;<sp/>gtest_output.txt</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md99">
+<title>Why should I prefer test fixtures over global variables?</title>
+<para>There are several good reasons:</para>
+<para><orderedlist>
+<listitem><para>It&apos;s likely your test needs to change the states of its global variables. This makes it difficult to keep side effects from escaping one test and contaminating others, making debugging difficult. By using fixtures, each test has a fresh set of variables that&apos;s different (but with the same names). Thus, tests are kept independent of each other.</para>
+</listitem><listitem><para>Global variables pollute the global namespace.</para>
+</listitem><listitem><para>Test fixtures can be reused via subclassing, which cannot be done easily with global variables. This is useful if many test suites have something in common.</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md100">
+<title>What can the statement argument in ASSERT_DEATH() be?</title>
+<para><computeroutput>ASSERT_DEATH(statement, matcher)</computeroutput> (or any death assertion macro) can be used wherever *<computeroutput>statement</computeroutput>* is valid. So basically *<computeroutput>statement</computeroutput>* can be any C++ statement that makes sense in the current context. In particular, it can reference global and/or local variables, and can be:</para>
+<para><itemizedlist>
+<listitem><para>a simple function call (often the case),</para>
+</listitem><listitem><para>a complex expression, or</para>
+</listitem><listitem><para>a compound statement.</para>
+</listitem></itemizedlist>
+</para>
+<para>Some examples are shown here:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>death<sp/>test<sp/>can<sp/>be<sp/>a<sp/>simple<sp/>function<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(MyDeathTest,<sp/>FunctionCall)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ASSERT_DEATH(Xyz(5),<sp/></highlight><highlight class="stringliteral">&quot;Xyz<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Or<sp/>a<sp/>complex<sp/>expression<sp/>that<sp/>references<sp/>variables<sp/>and<sp/>functions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(MyDeathTest,<sp/>ComplexExpression)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref><sp/>=<sp/>Condition();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ASSERT_DEATH((c<sp/>?<sp/>Func1(0)<sp/>:<sp/>object2.<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-spec-builders__test_8cc_1a95606368148f3e5aab5db46c32466afd" kindref="member">Method</ref>(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">)),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(Func1|Method)<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Death<sp/>assertions<sp/>can<sp/>be<sp/>used<sp/>anywhere<sp/>in<sp/>a<sp/>function.<sp/><sp/>In</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>particular,<sp/>they<sp/>can<sp/>be<sp/>inside<sp/>a<sp/>loop.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(MyDeathTest,<sp/>InsideLoop)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>Foo(0),<sp/>Foo(1),<sp/>...,<sp/>and<sp/>Foo(4)<sp/>all<sp/>die.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>5;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>++)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DEATH_M(Foo(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>),<sp/></highlight><highlight class="stringliteral">&quot;Foo<sp/>has<sp/>\\d+<sp/>errors&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classtesting_1_1Message" kindref="compound">::testing::Message</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;where<sp/>i<sp/>is<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>death<sp/>assertion<sp/>can<sp/>contain<sp/>a<sp/>compound<sp/>statement.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(MyDeathTest,<sp/>CompoundStatement)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>at<sp/>lease<sp/>one<sp/>of<sp/>Bar(0),<sp/>Bar(1),<sp/>...,<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Bar(4)<sp/>dies.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ASSERT_DEATH({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>5;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>++)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>Bar(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;Bar<sp/>has<sp/>\\d+<sp/>errors&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md101">
+<title>I have a fixture class &lt;tt&gt;FooTest&lt;/tt&gt;, but &lt;tt&gt;TEST_F(FooTest, Bar)&lt;/tt&gt; gives me error &lt;tt&gt;&quot;no matching function for call to `FooTest::FooTest()&apos;&quot;&lt;/tt&gt;. Why?</title>
+<para>GoogleTest needs to be able to create objects of your test fixture class, so it must have a default constructor. Normally the compiler will define one for you. However, there are cases where you have to define your own:</para>
+<para><itemizedlist>
+<listitem><para>If you explicitly declare a non-default constructor for class <computeroutput><ref refid="classFooTest" kindref="compound">FooTest</ref></computeroutput> (<computeroutput>DISALLOW_EVIL_CONSTRUCTORS()</computeroutput> does this), then you need to define a default constructor, even if it would be empty.</para>
+</listitem><listitem><para>If <computeroutput><ref refid="classFooTest" kindref="compound">FooTest</ref></computeroutput> has a const non-static data member, then you have to define the default constructor <emphasis>and</emphasis> initialize the const member in the initializer list of the constructor. (Early versions of <computeroutput>gcc</computeroutput> doesn&apos;t force you to initialize the const member. It&apos;s a bug that has been fixed in <computeroutput>gcc 4</computeroutput>.)</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md102">
+<title>Why does ASSERT_DEATH complain about previous threads that were already joined?</title>
+<para>With the Linux pthread library, there is no turning back once you cross the line from a single thread to multiple threads. The first time you create a thread, a manager thread is created in addition, so you get 3, not 2, threads. Later when the thread you create joins the main thread, the thread count decrements by 1, but the manager thread will never be killed, so you still have 2 threads, which means you cannot safely run a death test.</para>
+<para>The new NPTL thread library doesn&apos;t suffer from this problem, as it doesn&apos;t create a manager thread. However, if you don&apos;t control which machine your test runs on, you shouldn&apos;t depend on this.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md103">
+<title>Why does GoogleTest require the entire test suite, instead of individual tests, to be named *DeathTest when it uses ASSERT_DEATH?</title>
+<para>GoogleTest does not interleave tests from different test suites. That is, it runs all tests in one test suite first, and then runs all tests in the next test suite, and so on. GoogleTest does this because it needs to set up a test suite before the first test in it is run, and tear it down afterwards. Splitting up the test case would require multiple set-up and tear-down processes, which is inefficient and makes the semantics unclean.</para>
+<para>If we were to determine the order of tests based on test name instead of test case name, then we would have a problem with the following situation:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>AbcDeathTest)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Uvw)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(BarTest,<sp/>DefDeathTest)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(BarTest,<sp/>Xyz)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+</programlisting></para>
+<para>Since <computeroutput>FooTest.AbcDeathTest</computeroutput> needs to run before <computeroutput>BarTest.Xyz</computeroutput>, and we don&apos;t interleave tests from different test suites, we need to run all tests in the <computeroutput><ref refid="classFooTest" kindref="compound">FooTest</ref></computeroutput> case before running any test in the <computeroutput>BarTest</computeroutput> case. This contradicts with the requirement to run <computeroutput>BarTest.DefDeathTest</computeroutput> before <computeroutput>FooTest.Uvw</computeroutput>.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md104">
+<title>But I don&apos;t like calling my entire test suite *DeathTest when it contains both death tests and non-death tests. What do I do?</title>
+<para>You don&apos;t have to, but if you like, you may split up the test suite into <computeroutput><ref refid="classFooTest" kindref="compound">FooTest</ref></computeroutput> and <computeroutput>FooDeathTest</computeroutput>, where the names make it clear that they are related:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">FooTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">::testing::Test</ref><sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Abc)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooTest,<sp/>Def)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">FooDeathTest<sp/>=<sp/>FooTest;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooDeathTest,<sp/>Uvw)<sp/>{<sp/>...<sp/>EXPECT_DEATH(...)<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(FooDeathTest,<sp/>Xyz)<sp/>{<sp/>...<sp/>ASSERT_DEATH(...)<sp/>...<sp/>}</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md105">
+<title>GoogleTest prints the LOG messages in a death test&apos;s child process only when the test fails. How can I see the LOG messages when the death test succeeds?</title>
+<para>Printing the LOG messages generated by the statement inside <computeroutput>EXPECT_DEATH()</computeroutput> makes it harder to search for real problems in the parent&apos;s log. Therefore, GoogleTest only prints them when the death test has failed.</para>
+<para>If you really need to see such LOG messages, a workaround is to temporarily break the death test (e.g. by changing the regex pattern it is expected to match). Admittedly, this is a hack. We&apos;ll consider a more permanent solution after the fork-and-exec-style death tests are implemented.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md106">
+<title>The compiler complains about ‘no match for &apos;operator&lt;&lt;’` when I use an assertion. What gives?</title>
+<para>If you use a user-defined type <computeroutput>FooType</computeroutput> in an assertion, you must make sure there is an <computeroutput>std::ostream&amp; operator&lt;&lt;(std::ostream&amp;, const FooType&amp;)</computeroutput> function defined such that we can print a value of <computeroutput>FooType</computeroutput>.</para>
+<para>In addition, if <computeroutput>FooType</computeroutput> is declared in a name space, the <computeroutput>&lt;&lt;</computeroutput> operator also needs to be defined in the <emphasis>same</emphasis> name space. See <ulink url="http://abseil.io/tips/49">Tip of the Week #49</ulink> for details.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md107">
+<title>How do I suppress the memory leak messages on Windows?</title>
+<para>Since the statically initialized GoogleTest singleton requires allocations on the heap, the Visual C++ memory leak detector will report memory leaks at the end of the program run. The easiest way to avoid this is to use the <computeroutput>_CrtMemCheckpoint</computeroutput> and <computeroutput>_CrtMemDumpAllObjectsSince</computeroutput> calls to not report any statically initialized heap objects. See MSDN for more details and additional heap check/debug routines.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md108">
+<title>How can my code detect if it is running in a test?</title>
+<para>If you write code that sniffs whether it&apos;s running in a test and does different things accordingly, you are leaking test-only logic into production code and there is no easy way to ensure that the test-only code paths aren&apos;t run by mistake in production. Such cleverness also leads to <ulink url="https://en.wikipedia.org/wiki/Heisenbug">Heisenbugs</ulink>. Therefore we strongly advise against the practice, and GoogleTest doesn&apos;t provide a way to do it.</para>
+<para>In general, the recommended way to cause the code to behave differently under test is <ulink url="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</ulink>. You can inject different functionality from the test and from the production code. Since your production code doesn&apos;t link in the for-test logic at all (the <ulink url="http://docs.bazel.build/versions/master/be/common-definitions.html#common.testonly"><computeroutput>testonly</computeroutput></ulink> attribute for BUILD targets helps to ensure that), there is no danger in accidentally running it.</para>
+<para>However, if you <emphasis>really</emphasis>, <emphasis>really</emphasis>, <emphasis>really</emphasis> have no choice, and if you follow the rule of ending your test program names with <computeroutput>_test</computeroutput>, you can use the <emphasis>horrible</emphasis> hack of sniffing your executable name (<computeroutput>argv[0]</computeroutput> in <computeroutput>main()</computeroutput>) to know whether the code is under test.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md109">
+<title>How do I temporarily disable a test?</title>
+<para>If you have a broken test that you cannot fix right away, you can add the <computeroutput>DISABLED_</computeroutput> prefix to its name. This will exclude it from execution. This is better than commenting out the code or using <computeroutput>#if 0</computeroutput>, as disabled tests are still compiled (and thus won&apos;t rot).</para>
+<para>To include disabled tests in test execution, just invoke the test program with the <computeroutput>--gtest_also_run_disabled_tests</computeroutput> flag.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2faq_1autotoc_md110">
+<title>Is it OK if I have two separate &lt;tt&gt;TEST(Foo, Bar)&lt;/tt&gt; test methods defined in different namespaces?</title>
+<para>Yes.</para>
+<para>The rule is <bold>all test methods in the same test suite must use the same fixture class.</bold> This means that the following is <bold>allowed</bold> because both tests use the same fixture class (<computeroutput><ref refid="classtesting_1_1Test" kindref="compound">testing::Test</ref></computeroutput>).</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacefoo" kindref="compound">foo</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(CoolTest,<sp/>DoSomething)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a75adcdf89f69b0b615e395daafc315af" kindref="member">SUCCEED</ref>();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>foo</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacebar" kindref="compound">bar</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(CoolTest,<sp/>DoSomething)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a75adcdf89f69b0b615e395daafc315af" kindref="member">SUCCEED</ref>();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bar</highlight></codeline>
+</programlisting></para>
+<para>However, the following code is <bold>not allowed</bold> and will produce a runtime error from GoogleTest because the test methods are using different test fixture classes with the same test suite name.</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacefoo" kindref="compound">foo</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">CoolTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">::testing::Test</ref><sp/>{};<sp/><sp/></highlight><highlight class="comment">//<sp/>Fixture<sp/>foo::CoolTest</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(CoolTest,<sp/>DoSomething)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a75adcdf89f69b0b615e395daafc315af" kindref="member">SUCCEED</ref>();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>foo</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacebar" kindref="compound">bar</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">CoolTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">::testing::Test</ref><sp/>{};<sp/><sp/></highlight><highlight class="comment">//<sp/>Fixture:<sp/>bar::CoolTest</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(CoolTest,<sp/>DoSomething)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a75adcdf89f69b0b615e395daafc315af" kindref="member">SUCCEED</ref>();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bar</highlight></codeline>
+</programlisting> </para>
+</sect1>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/docs/faq.md"/>
+  </compounddef>
+</doxygen>

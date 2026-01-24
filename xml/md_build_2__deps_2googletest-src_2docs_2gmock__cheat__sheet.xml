@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet" kind="page">
+    <compoundname>md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet</compoundname>
+    <title>gMock Cheat Sheet</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1autotoc_md111"/> </para>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1autotoc_md112">
+<title>Defining a Mock Class</title>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1MockClass">
+<title>Mocking a Normal Class</title>
+<para>Given</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~Foo();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>GetSize()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1gmock__matchers__test_1a738a538e1705ea49670aeb3ed25108e6" kindref="member">Describe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1gmock__matchers__test_1a738a538e1705ea49670aeb3ed25108e6" kindref="member">Describe</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>type)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Process(Bar<sp/>elem,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc_1afd9db40e3361ae09188795e8cbe19752" kindref="member">count</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>(note that <computeroutput>~Foo()</computeroutput> <bold>must</bold> be virtual) we can define its mock as</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockFoo<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>GetSize,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>Describe,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>Describe,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>type),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/>Process,<sp/>(Bar<sp/>elem,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc_1afd9db40e3361ae09188795e8cbe19752" kindref="member">count</ref>),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>To create a &quot;nice&quot; mock, which ignores all uninteresting calls, a &quot;naggy&quot; mock, which warns on all uninteresting calls, or a &quot;strict&quot; mock, which treats them as failures:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::NiceMock;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::NaggyMock;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::StrictMock;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">NiceMock&lt;MockFoo&gt;<sp/>nice_foo;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>type<sp/>is<sp/>a<sp/>subclass<sp/>of<sp/>MockFoo.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">NaggyMock&lt;MockFoo&gt;<sp/>naggy_foo;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>type<sp/>is<sp/>a<sp/>subclass<sp/>of<sp/>MockFoo.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">StrictMock&lt;MockFoo&gt;<sp/>strict_foo;<sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>type<sp/>is<sp/>a<sp/>subclass<sp/>of<sp/>MockFoo.</highlight></codeline>
+</programlisting></para>
+<para>{: .callout .note} <bold>Note:</bold> A mock object is currently naggy by default. We may make it nice by default in the future.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1MockTemplate">
+<title>Mocking a Class Template</title>
+<para>Class templates can be mocked just like any class.</para>
+<para>To mock</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Elem&gt;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">StackInterface<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~StackInterface();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>GetSize()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Push(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Elem&amp;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>(note that all member functions that are mocked, including <computeroutput>~StackInterface()</computeroutput> <bold>must</bold> be virtual).</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Elem&gt;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockStack<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>StackInterface&lt;Elem&gt;<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>GetSize,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>Push,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Elem&amp;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1autotoc_md113">
+<title>Specifying Calling Conventions for Mock Functions</title>
+<para>If your mock function doesn&apos;t use the default calling convention, you can specify it by adding <computeroutput>Calltype(convention)</computeroutput> to <computeroutput>MOCK_METHOD</computeroutput>&apos;s 4th parameter. For example,</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/>Foo,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n),<sp/>(Calltype(STDMETHODCALLTYPE)));</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>Bar,<sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/>Calltype(STDMETHODCALLTYPE)));</highlight></codeline>
+</programlisting></para>
+<para>where <computeroutput>STDMETHODCALLTYPE</computeroutput> is defined by <computeroutput>&lt;objbase.h&gt;</computeroutput> on Windows.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1UsingMocks">
+<title>Using Mocks in Tests</title>
+<para>The typical work flow is:</para>
+<para><orderedlist>
+<listitem><para>Import the gMock names you need to use. All gMock symbols are in the <computeroutput>testing</computeroutput> namespace unless they are macros or otherwise noted.</para>
+</listitem><listitem><para>Create the mock objects.</para>
+</listitem><listitem><para>Optionally, set the default actions of the mock objects.</para>
+</listitem><listitem><para>Set your expectations on the mock objects (How will they be called? What will they do?).</para>
+</listitem><listitem><para>Exercise code that uses the mock objects; if necessary, check the result using googletest assertions.</para>
+</listitem><listitem><para>When a mock object is destructed, gMock automatically verifies that all expectations on it have been satisfied.</para>
+</listitem></orderedlist>
+</para>
+<para>Here&apos;s an example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(BarTest,<sp/>DoesThis)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MockFoo<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>GetSize())<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#3</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillByDefault(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(1));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>other<sp/>default<sp/>actions<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/><ref refid="namespacetesting_1_1gmock__matchers__test_1a738a538e1705ea49670aeb3ed25108e6" kindref="member">Describe</ref>(5))<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#4</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.Times(3)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillRepeatedly(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(</highlight><highlight class="stringliteral">&quot;Category<sp/>5&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>other<sp/>expectations<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(MyProductionFunction(&amp;<ref refid="namespacefoo" kindref="compound">foo</ref>),<sp/></highlight><highlight class="stringliteral">&quot;good&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>#5</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#6</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1OnCall">
+<title>Setting Default Actions</title>
+<para>gMock has a <bold>built-in default action</bold> for any function that returns <computeroutput>void</computeroutput>, <computeroutput>bool</computeroutput>, a numeric value, or a pointer. In C++11, it will additionally returns the default-constructed value, if one exists for the given type.</para>
+<para>To customize the default action for functions with return type <computeroutput>T</computeroutput>, use <ulink url="reference/mocking.md#DefaultValue"><computeroutput>DefaultValue&lt;T&gt;</computeroutput></ulink>. For example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Sets<sp/>the<sp/>default<sp/>action<sp/>for<sp/>return<sp/>type<sp/>std::unique_ptr&lt;Buzz&gt;<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>creating<sp/>a<sp/>new<sp/>Buzz<sp/>every<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">DefaultValue&lt;std::unique_ptr&lt;Buzz&gt;&gt;::SetFactory(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;Buzz&gt;(AccessLevel::kInternal);<sp/>});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>this<sp/>fires,<sp/>the<sp/>default<sp/>action<sp/>of<sp/>MakeBuzz()<sp/>will<sp/>run,<sp/>which</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>will<sp/>return<sp/>a<sp/>new<sp/>Buzz<sp/>object.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(mock_buzzer_,<sp/>MakeBuzz(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">)).Times(<ref refid="namespacetesting_1aa1f8a6371097e1e9b8d6866020f35252" kindref="member">AnyNumber</ref>());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buzz1<sp/>=<sp/>mock_buzzer_.MakeBuzz(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buzz2<sp/>=<sp/>mock_buzzer_.MakeBuzz(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE</ref>(buzz1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE</ref>(buzz2,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE</ref>(buzz1,<sp/>buzz2);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Resets<sp/>the<sp/>default<sp/>action<sp/>for<sp/>return<sp/>type<sp/>std::unique_ptr&lt;Buzz&gt;,</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>avoid<sp/>interfere<sp/>with<sp/>other<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">DefaultValue&lt;std::unique_ptr&lt;Buzz&gt;&gt;::Clear();</highlight></codeline>
+</programlisting></para>
+<para>To customize the default action for a particular method of a specific mock object, use <ulink url="reference/mocking.md#ON_CALL"><computeroutput>ON_CALL</computeroutput></ulink>. <computeroutput>ON_CALL</computeroutput> has a similar syntax to <computeroutput>EXPECT_CALL</computeroutput>, but it is used for setting default behaviors when you do not require that the mock method is called. See <ulink url="gmock_cook_book.md#UseOnCall">Knowing When to Expect</ulink> for a more detailed discussion.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1ExpectCall">
+<title>Setting Expectations</title>
+<para>See <ulink url="reference/mocking.md#EXPECT_CALL"><computeroutput>EXPECT_CALL</computeroutput></ulink> in the Mocking Reference.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1MatcherList">
+<title>Matchers</title>
+<para>See the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">Matchers Reference</ref>.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1ActionList">
+<title>Actions</title>
+<para>See the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2actions" kindref="compound">Actions Reference</ref>.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1CardinalityList">
+<title>Cardinalities</title>
+<para>See the <ulink url="reference/mocking.md#EXPECT_CALL.Times"><computeroutput>Times</computeroutput> clause</ulink> of <computeroutput>EXPECT_CALL</computeroutput> in the Mocking Reference.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1autotoc_md114">
+<title>Expectation Order</title>
+<para>By default, expectations can be matched in <emphasis>any</emphasis> order. If some or all expectations must be matched in a given order, you can use the <ulink url="reference/mocking.md#EXPECT_CALL.After"><computeroutput>After</computeroutput> clause</ulink> or <ulink url="reference/mocking.md#EXPECT_CALL.InSequence"><computeroutput>InSequence</computeroutput> clause</ulink> of <computeroutput>EXPECT_CALL</computeroutput>, or use an <ulink url="reference/mocking.md#InSequence"><computeroutput>InSequence</computeroutput> object</ulink>.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1autotoc_md115">
+<title>Verifying and Resetting a Mock</title>
+<para>gMock will verify the expectations on a mock object when it is destructed, or you can do it earlier:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Mock;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>and<sp/>removes<sp/>the<sp/>expectations<sp/>on<sp/>mock_obj;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>successful.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Mock::VerifyAndClearExpectations(&amp;mock_obj);</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verifies<sp/>and<sp/>removes<sp/>the<sp/>expectations<sp/>on<sp/>mock_obj;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>also<sp/>removes<sp/>the<sp/>default<sp/>actions<sp/>set<sp/>by<sp/>ON_CALL();</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>successful.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Mock::VerifyAndClear(&amp;mock_obj);</highlight></codeline>
+</programlisting></para>
+<para>Do not set new expectations after verifying and clearing a mock after its use. Setting expectations after code that exercises the mock has undefined behavior. See <ulink url="gmock_for_dummies.md#using-mocks-in-tests">Using Mocks in Tests</ulink> for more information.</para>
+<para>You can also tell gMock that a mock object can be leaked and doesn&apos;t need to be verified:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Mock::AllowLeak(&amp;mock_obj);</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1autotoc_md116">
+<title>Mock Classes</title>
+<para>gMock defines a convenient mock class template</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockFunction&lt;<ref refid="namespacesphinx_1_1util_1_1display_1a9b7cbc0fe0fd7cb53d25cd9fe6550323" kindref="member">R</ref>(A1,<sp/>...,<sp/>An)&gt;<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(R,<sp/>Call,<sp/>(A1,<sp/>...,<sp/>An));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>See this <ulink url="gmock_cook_book.md#UsingCheckPoints">recipe</ulink> for one application of it.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_1autotoc_md117">
+<title>Flags</title>
+<para><table rows="3" cols="2"><row>
+<entry thead="yes" align='left'><para>Flag   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>--gmock_catch_leaked_mocks=0</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Don&apos;t report leaked mock objects as failures.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>--gmock_verbose=LEVEL</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Sets the default verbosity level (<computeroutput>info</computeroutput>, <computeroutput>warning</computeroutput>, or <computeroutput>error</computeroutput>) of Google <ref refid="classMock" kindref="compound">Mock</ref> messages.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/docs/gmock_cheat_sheet.md"/>
+  </compounddef>
+</doxygen>

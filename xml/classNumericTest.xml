@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classNumericTest" kind="class" language="C++" prot="public">
+    <compoundname>NumericTest</compoundname>
+    <basecompoundref refid="classtesting_1_1Test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classNumericTest_1ab9bc689237b05ae8c23a16c053370fab" prot="protected" static="no" mutable="no">
+        <type><ref refid="classproto_1_1ProtoSpace" kindref="compound">proto::ProtoSpace</ref> *</type>
+        <definition>proto::ProtoSpace* NumericTest::space</definition>
+        <argsstring></argsstring>
+        <name>space</name>
+        <qualifiedname>NumericTest::space</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="test/NumericTests.cpp" line="12" column="23" bodyfile="test/NumericTests.cpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classNumericTest_1ae86ddcc0cfda4d042de255fec32258ff" prot="protected" static="no" mutable="no">
+        <type><ref refid="classproto_1_1ProtoContext" kindref="compound">proto::ProtoContext</ref> *</type>
+        <definition>proto::ProtoContext* NumericTest::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>NumericTest::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="test/NumericTests.cpp" line="13" column="25" bodyfile="test/NumericTests.cpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classNumericTest_1a2abb0410172df11a69a4bff7433981c1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void NumericTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>NumericTest::SetUp</qualifiedname>
+        <reimplements refid="classtesting_1_1Test_1a190315150c303ddf801313fd1a777733">SetUp</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="test/NumericTests.cpp" line="15" column="10" bodyfile="test/NumericTests.cpp" bodystart="15" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classNumericTest_1a297825923610824dc97b4e87fa9a4f59" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void NumericTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>NumericTest::TearDown</qualifiedname>
+        <reimplements refid="classtesting_1_1Test_1a5f0ab439802cbe0ef7552f1a9f791923">TearDown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="test/NumericTests.cpp" line="20" column="10" bodyfile="test/NumericTests.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>NumericTest</label>
+        <link refid="classNumericTest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1Test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>NumericTest</label>
+        <link refid="classNumericTest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>space</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>context</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>proto::Cell</label>
+        <link refid="classproto_1_1Cell"/>
+      </node>
+      <node id="10">
+        <label>proto::DirtySegment</label>
+        <link refid="structproto_1_1DirtySegment"/>
+        <childnode refid="9" relation="usage">
+          <edgelabel>cellChain</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>proto::ProtoContext</label>
+        <link refid="classproto_1_1ProtoContext"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>previous</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>space</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>thread</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>closureLocals</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>returnValue</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>freeCells</edgelabel>
+          <edgelabel>lastAllocatedCell</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>proto::ProtoObject</label>
+        <link refid="classproto_1_1ProtoObject"/>
+      </node>
+      <node id="3">
+        <label>proto::ProtoSpace</label>
+        <link refid="classproto_1_1ProtoSpace"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>attributeNotFoundGetCallback</edgelabel>
+          <edgelabel>booleanPrototype</edgelabel>
+          <edgelabel>bufferPrototype</edgelabel>
+          <edgelabel>bytePrototype</edgelabel>
+          <edgelabel>datePrototype</edgelabel>
+          <edgelabel>doublePrototype</edgelabel>
+          <edgelabel>floatPrototype</edgelabel>
+          <edgelabel>invalidConversionCallback</edgelabel>
+          <edgelabel>largeIntegerPrototype</edgelabel>
+          <edgelabel>listIteratorPrototype</edgelabel>
+          <edgelabel>...</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>literalCallMethod</edgelabel>
+          <edgelabel>literalGetAttribute</edgelabel>
+          <edgelabel>literalSetAttribute</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>mainContext</edgelabel>
+          <edgelabel>rootContext</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>threads</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>freeCells</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>dirtySegments</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>proto::ProtoSparseList</label>
+        <link refid="classproto_1_1ProtoSparseList"/>
+      </node>
+      <node id="5">
+        <label>proto::ProtoString</label>
+        <link refid="classproto_1_1ProtoString"/>
+      </node>
+      <node id="7">
+        <label>proto::ProtoThread</label>
+        <link refid="classproto_1_1ProtoThread"/>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1Test"/>
+      </node>
+    </collaborationgraph>
+    <location file="test/NumericTests.cpp" line="10" column="1" bodyfile="test/NumericTests.cpp" bodystart="10" bodyend="23"/>
+    <listofallmembers>
+      <member refid="classNumericTest_1ae86ddcc0cfda4d042de255fec32258ff" prot="protected" virt="non-virtual"><scope>NumericTest</scope><name>context</name></member>
+      <member refid="classtesting_1_1Test_1a7a00be7dd0a6bfdc8d47a1b784623613" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>HasFailure</name></member>
+      <member refid="classtesting_1_1Test_1a7a00be7dd0a6bfdc8d47a1b784623613" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>HasFailure</name></member>
+      <member refid="classtesting_1_1Test_1a5e83604628ef542af888d631566ff60c" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>HasFatalFailure</name></member>
+      <member refid="classtesting_1_1Test_1a0a89846458f0e8ed1c9457c957e8182a" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>HasFatalFailure</name></member>
+      <member refid="classtesting_1_1Test_1a8c00e8cc6fe10616b480bd54d2a426cb" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>HasNonfatalFailure</name></member>
+      <member refid="classtesting_1_1Test_1a07e896f1b1836f8ac075c26d7b7c9fb8" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>HasNonfatalFailure</name></member>
+      <member refid="classtesting_1_1Test_1a7f0ada5dbc9e772acb2b6cd0b1b300d7" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>IsSkipped</name></member>
+      <member refid="classtesting_1_1Test_1a1723aea1d7bd468265f4134241596752" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>IsSkipped</name></member>
+      <member refid="classtesting_1_1Test_1a1559ce1c83f56993b582650c091535a7" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>RecordProperty</name></member>
+      <member refid="classtesting_1_1Test_1a24fea27f32ac2d9b023cb8e58bb6590a" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>RecordProperty</name></member>
+      <member refid="classtesting_1_1Test_1ae0448aec9e389fab70f6a75a59ff6aa2" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>RecordProperty</name></member>
+      <member refid="classtesting_1_1Test_1a24fea27f32ac2d9b023cb8e58bb6590a" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>RecordProperty</name></member>
+      <member refid="classNumericTest_1a2abb0410172df11a69a4bff7433981c1" prot="protected" virt="virtual"><scope>NumericTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1Test_1a5ccbac42fee8c5b00b0bfe89b6c49d79" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>SetUpTestCase</name></member>
+      <member refid="classtesting_1_1Test_1a5ccbac42fee8c5b00b0bfe89b6c49d79" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>SetUpTestCase</name></member>
+      <member refid="classtesting_1_1Test_1ae173b07a0fdd09fc1d417a2bb6cbdd76" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>SetUpTestSuite</name></member>
+      <member refid="classtesting_1_1Test_1ae173b07a0fdd09fc1d417a2bb6cbdd76" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>SetUpTestSuite</name></member>
+      <member refid="classNumericTest_1ab9bc689237b05ae8c23a16c053370fab" prot="protected" virt="non-virtual"><scope>NumericTest</scope><name>space</name></member>
+      <member refid="classNumericTest_1a297825923610824dc97b4e87fa9a4f59" prot="protected" virt="virtual"><scope>NumericTest</scope><name>TearDown</name></member>
+      <member refid="classtesting_1_1Test_1af374706cbaf0ffc460f4fd04e7c150f1" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>TearDownTestCase</name></member>
+      <member refid="classtesting_1_1Test_1af374706cbaf0ffc460f4fd04e7c150f1" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>TearDownTestCase</name></member>
+      <member refid="classtesting_1_1Test_1a7704c8223ba28338a66ca2eaeba66383" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>TearDownTestSuite</name></member>
+      <member refid="classtesting_1_1Test_1a7704c8223ba28338a66ca2eaeba66383" prot="public" virt="non-virtual"><scope>NumericTest</scope><name>TearDownTestSuite</name></member>
+      <member refid="classtesting_1_1Test_1a99f2bbfac6c95612322b0f10e607ebe5" prot="protected" virt="non-virtual"><scope>NumericTest</scope><name>Test</name></member>
+      <member refid="classtesting_1_1Test_1a68b7618abd1fc6d13382738b0d3b5c7c" prot="protected" virt="non-virtual"><scope>NumericTest</scope><name>Test</name></member>
+      <member refid="classtesting_1_1Test_1a2b0a62f1e667bbe8d8cb18d785bfa991" prot="public" virt="virtual"><scope>NumericTest</scope><name>~Test</name></member>
+      <member refid="classtesting_1_1Test_1ad99dc9b12208fd4bffc367f0a1e3df1b" prot="public" virt="virtual"><scope>NumericTest</scope><name>~Test</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

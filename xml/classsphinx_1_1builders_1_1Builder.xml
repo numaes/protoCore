@@ -1,0 +1,1638 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1Builder" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::Builder</compoundname>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1changes_1_1ChangesBuilder" prot="public" virt="non-virtual">sphinx.builders.changes.ChangesBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1dummy_1_1DummyBuilder" prot="public" virt="non-virtual">sphinx.builders.dummy.DummyBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1gettext_1_1I18nBuilder" prot="public" virt="non-virtual">sphinx.builders.gettext.I18nBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder" prot="public" virt="non-virtual">sphinx.builders.html.StandaloneHTMLBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder" prot="public" virt="non-virtual">sphinx.builders.latex.LaTeXBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1manpage_1_1ManualPageBuilder" prot="public" virt="non-virtual">sphinx.builders.manpage.ManualPageBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder" prot="public" virt="non-virtual">sphinx.builders.texinfo.TexinfoBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1text_1_1TextBuilder" prot="public" virt="non-virtual">sphinx.builders.text.TextBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1xml_1_1XMLBuilder" prot="public" virt="non-virtual">sphinx.builders.xml.XMLBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1coverage_1_1CoverageBuilder" prot="public" virt="non-virtual">sphinx.ext.coverage.CoverageBuilder</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1doctest_1_1DocTestBuilder" prot="public" virt="non-virtual">sphinx.ext.doctest.DocTestBuilder</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1adb6f92e004e62fbf499fc170bd75d17a" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders.Builder::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sphinx.builders.Builder.name</qualifiedname>
+        <initializer>=  &apos;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a6ef807c77bb603ed30e9c873f5b5f685" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders.Builder::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>sphinx.builders.Builder.format</qualifiedname>
+        <initializer>=  &apos;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a5fd1df9e7a5eece73fa9360ec2359c9b" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders.Builder::epilog</definition>
+        <argsstring></argsstring>
+        <name>epilog</name>
+        <qualifiedname>sphinx.builders.Builder.epilog</qualifiedname>
+        <initializer>=  &apos;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="84" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a32f018d372dc4d7029403241bfcd4a90" prot="public" static="yes" mutable="no">
+        <type>type</type>
+        <definition>type sphinx.builders.Builder::default_translator_class</definition>
+        <argsstring></argsstring>
+        <name>default_translator_class</name>
+        <qualifiedname>sphinx.builders.Builder.default_translator_class</qualifiedname>
+        <initializer>[nodes.NodeVisitor]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="88" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1ad74eacab6d72f30958d9983d394aa0ef" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders.Builder::versioning_method</definition>
+        <argsstring></argsstring>
+        <name>versioning_method</name>
+        <qualifiedname>sphinx.builders.Builder.versioning_method</qualifiedname>
+        <initializer>=  &apos;none&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="90" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a2e195ab431f3dfd93bb8eda8753653ec" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders.Builder::versioning_compare</definition>
+        <argsstring></argsstring>
+        <name>versioning_compare</name>
+        <qualifiedname>sphinx.builders.Builder.versioning_compare</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="91" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a1adfa57a38ee2391a12681aa81c8de46" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders.Builder::allow_parallel</definition>
+        <argsstring></argsstring>
+        <name>allow_parallel</name>
+        <qualifiedname>sphinx.builders.Builder.allow_parallel</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="93" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a9cd2950f229062ea02fec2a6dabd7434" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders.Builder::use_message_catalog</definition>
+        <argsstring></argsstring>
+        <name>use_message_catalog</name>
+        <qualifiedname>sphinx.builders.Builder.use_message_catalog</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="95" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a9db17eda9ad084c5855ae3a3211bc951" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list sphinx.builders.Builder::supported_image_types</definition>
+        <argsstring></argsstring>
+        <name>supported_image_types</name>
+        <qualifiedname>sphinx.builders.Builder.supported_image_types</qualifiedname>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="99" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1aab2fc2f59076ffa13fe679d49b6c0345" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders.Builder::supported_remote_images</definition>
+        <argsstring></argsstring>
+        <name>supported_remote_images</name>
+        <qualifiedname>sphinx.builders.Builder.supported_remote_images</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a8d9b921970150735605c38850d6eb642" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders.Builder::supported_data_uri_images</definition>
+        <argsstring></argsstring>
+        <name>supported_data_uri_images</name>
+        <qualifiedname>sphinx.builders.Builder.supported_data_uri_images</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="103" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a1288e42f3a398015135831e15c61559b" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::srcdir</definition>
+        <argsstring></argsstring>
+        <name>srcdir</name>
+        <qualifiedname>sphinx.builders.Builder.srcdir</qualifiedname>
+        <initializer>=  <ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPathProperty" kindref="compound">_StrPathProperty</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="105" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a7c955ad858c74ff97174a9300ffc5fd7" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::confdir</definition>
+        <argsstring></argsstring>
+        <name>confdir</name>
+        <qualifiedname>sphinx.builders.Builder.confdir</qualifiedname>
+        <initializer>=  <ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPathProperty" kindref="compound">_StrPathProperty</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="106" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1aafb484a11980d39c99bf0d8c1ca29891" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::outdir</definition>
+        <argsstring></argsstring>
+        <name>outdir</name>
+        <qualifiedname>sphinx.builders.Builder.outdir</qualifiedname>
+        <initializer>=  <ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPathProperty" kindref="compound">_StrPathProperty</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="107" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1aa824e5cd2a57f1a81409a603d1fb06bd" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::doctreedir</definition>
+        <argsstring></argsstring>
+        <name>doctreedir</name>
+        <qualifiedname>sphinx.builders.Builder.doctreedir</qualifiedname>
+        <initializer>=  <ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPathProperty" kindref="compound">_StrPathProperty</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="108" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a7e77488b9dfa17b5fb4b0989ad626bda" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::versioning_method</definition>
+        <argsstring></argsstring>
+        <name>versioning_method</name>
+        <qualifiedname>sphinx.builders.Builder.versioning_method</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="119" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1afb35ae513b53b3a371f9b139fe0145ee" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::versioning_compare</definition>
+        <argsstring></argsstring>
+        <name>versioning_compare</name>
+        <qualifiedname>sphinx.builders.Builder.versioning_compare</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="119" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1afe088f44ad56d39c182d9c81c2ea9679" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>sphinx.builders.Builder.format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="123" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1aa2d64b7ed500d0515aa89995110781f4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sphinx.builders.Builder.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="124" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a795665d02cc61cad152c58c299790d0f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::imagedir</definition>
+        <argsstring></argsstring>
+        <name>imagedir</name>
+        <qualifiedname>sphinx.builders.Builder.imagedir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="131" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a251556b7ec3d46b3aab729adf15b1a18" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::imgpath</definition>
+        <argsstring></argsstring>
+        <name>imgpath</name>
+        <qualifiedname>sphinx.builders.Builder.imgpath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="133" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1ae4e131d2e3a374a4e2c28a29b492dd55" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::parallel_ok</definition>
+        <argsstring></argsstring>
+        <name>parallel_ok</name>
+        <qualifiedname>sphinx.builders.Builder.parallel_ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="136" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a8381b53716b81005e6a2bf7f4ab912d9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::templates</definition>
+        <argsstring></argsstring>
+        <name>templates</name>
+        <qualifiedname>sphinx.builders.Builder.templates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="169" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1ad3762c2225f749723f0da8acda3b85f5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::app</definition>
+        <argsstring></argsstring>
+        <name>app</name>
+        <qualifiedname>sphinx.builders.Builder.app</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="407" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1ad68fe04e7411678e648039a311b49520" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::env</definition>
+        <argsstring></argsstring>
+        <name>env</name>
+        <qualifiedname>sphinx.builders.Builder.env</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="422" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1a846d2ee477fea51f6821cfece7aecc0b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::finish_tasks</definition>
+        <argsstring></argsstring>
+        <name>finish_tasks</name>
+        <qualifiedname>sphinx.builders.Builder.finish_tasks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="451" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1Builder_1aaabfb720f11a0ae83f3d664e4a498e1e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.Builder::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>sphinx.builders.Builder.config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="471" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="471" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a1b3c069cd63050d71e638f6bab41f6e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.__init__</definition>
+        <argsstring>(self, Sphinx app, BuildEnvironment env)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.builders.Builder.__init__</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a2a8b89bd747f7886e6a6465427d7aab7">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="110" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="110" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1aeb92abf87f4ef1e6033573ae4046bb35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>type[nodes.NodeVisitor]</type>
+        <definition> type[nodes.NodeVisitor] sphinx.builders.Builder.get_translator_class</definition>
+        <argsstring>(self, *Any args)</argsstring>
+        <name>get_translator_class</name>
+        <qualifiedname>sphinx.builders.Builder.get_translator_class</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a class of translator.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="143" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="143" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a6c54030fdb7476c78fc6d18df2cce42c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.NodeVisitor</type>
+        <definition> nodes.NodeVisitor sphinx.builders.Builder.create_translator</definition>
+        <argsstring>(self, *Any args)</argsstring>
+        <name>create_translator</name>
+        <qualifiedname>sphinx.builders.Builder.create_translator</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an instance of translator.
+
+This method returns an instance of ``default_translator_class`` by default.
+Users can replace the translator class with ``app.set_translator()`` API.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="147" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="147" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a3a3338352ca4084aff4fa1d67c1dbf29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.init</definition>
+        <argsstring>(self)</argsstring>
+        <name>init</name>
+        <qualifiedname>sphinx.builders.Builder.init</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a48e6f66f12b811c4d77386e4bc7d0ea3">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1changes_1_1ChangesBuilder_1a8de2a604d87996ad072f7fc8a79843af">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1dummy_1_1DummyBuilder_1acb1e9ed230b49446e31eaddf75f343d1">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1gettext_1_1I18nBuilder_1a6bfe80f879b42b5215e698b570c5ee0c">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1gettext_1_1MessageCatalogBuilder_1a29fc773ad0ab9bd0c65e2bf4b167c034">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a38542eaec543ce37e1660d43bfa7e0ab">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ab46ede23ded0a1caeb43080fe44c2cf0">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1linkcheck_1_1CheckExternalLinksBuilder_1aeefdcfffba355c747ac1113139cd3ebe">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1manpage_1_1ManualPageBuilder_1a2ad1ef42dc1b671d8f06f3838533b5d6">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder_1a8f5d5a4ba394e1ca198667a2fb67cb1d">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1text_1_1TextBuilder_1a0f469d56789a7a04670cd26af44e8a32">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1xml_1_1XMLBuilder_1a737e07da8a3ca0c683b6aa24bd7d05b6">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1coverage_1_1CoverageBuilder_1a7edd5686d0595b830a1739d48268bb75">init</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1doctest_1_1DocTestBuilder_1aa2e38ee95dab1ceda5da7155f4017bec">init</reimplementedby>
+        <reimplementedby refid="classapplehelp_1_1AppleHelpBuilder_1aa8f3c20122b3534cfd78f9bc9bafb61c">init</reimplementedby>
+        <reimplementedby refid="classdevhelp_1_1DevhelpBuilder_1a7a360bb117d495a0581f11acf7a237e4">init</reimplementedby>
+        <reimplementedby refid="classhtmlhelp_1_1HTMLHelpBuilder_1a1ca9defb452248ff18a05d82faa71e12">init</reimplementedby>
+        <reimplementedby refid="classqthelp_1_1QtHelpBuilder_1aaee430814129537d6bec5f705bccf1e4">init</reimplementedby>
+        <reimplementedby refid="classserializinghtml_1_1SerializingHTMLBuilder_1a7762ad1f12dd93ad1b830b7735000610">init</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load necessary templates and perform initialization.  The default
+implementation does nothing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="156" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="156" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a777ec6918e2c7a91eb2373d6fa1b22e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.create_template_bridge</definition>
+        <argsstring>(self)</argsstring>
+        <name>create_template_bridge</name>
+        <qualifiedname>sphinx.builders.Builder.create_template_bridge</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the template bridge configured.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="162" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="162" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a76def68326a1d6bd664c0d1b98803a97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.Builder.get_target_uri</definition>
+        <argsstring>(self, str docname, str|None typ=None)</argsstring>
+        <name>get_target_uri</name>
+        <qualifiedname>sphinx.builders.Builder.get_target_uri</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder_1a06d1dd8a22465dcc39ee6e46efa0b785">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1dummy_1_1DummyBuilder_1ac3ce6674ecea2f0e968eb1e8e4adfc12">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1gettext_1_1I18nBuilder_1a61c0a067549ca2bf102ba41147186831">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ac01426ceb573be4f02a23667917d734a">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a9aa37030c3d86cc21fa0d1007956606d">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1manpage_1_1ManualPageBuilder_1af215625b6d20eacbbf0460f6bf95908b">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ae6ce4ef593a7e4ff7bb29f8ab7eb2741">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder_1a980a8cab230829a216d97b185aa6e80b">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1text_1_1TextBuilder_1a79944181990760f6be5941730351ee79">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1xml_1_1XMLBuilder_1a8d70961a3d80a4fef585604e8eb15513">get_target_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1doctest_1_1DocTestBuilder_1a2b0f67cf2774747e5ba196d37f447ed8">get_target_uri</reimplementedby>
+        <reimplementedby refid="classserializinghtml_1_1SerializingHTMLBuilder_1a0101d59f40ad1acd88bab30ad3de9332">get_target_uri</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>typ</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the target URI for a document name.
+
+*typ* can be used to qualify the link characteristic for individual
+builders.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="175" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="175" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1aba1e325ab3ab6521cdfa194286240798" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.Builder.get_relative_uri</definition>
+        <argsstring>(self, str from_, str to, str|None typ=None)</argsstring>
+        <name>get_relative_uri</name>
+        <qualifiedname>sphinx.builders.Builder.get_relative_uri</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aa69244da9cebf281458ba98bc8feb6c7">get_relative_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a1104ad1e1f0827c925a9ab4ad278df59">get_relative_uri</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder_1a1c13d2c79119cf4db810f02eb0df1b59">get_relative_uri</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>from_</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>typ</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a relative URI between two source filenames.
+
+:raises: :exc:`!NoUri` if there&apos;s no way to return a sensible URI.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="183" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="183" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a0c12e2255176dcc8ae899dd0d486e68f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|Iterable[str]</type>
+        <definition> str | Iterable[str] sphinx.builders.Builder.get_outdated_docs</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_outdated_docs</name>
+        <qualifiedname>sphinx.builders.Builder.get_outdated_docs</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1changes_1_1ChangesBuilder_1aec9c80e3bbd586cd8f0bcba34523c616">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1dummy_1_1DummyBuilder_1affbc9616ee6a58c441c59bd35983579f">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1gettext_1_1I18nBuilder_1ace4b8a81e07d07011f3d4e261604468e">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a3a0c5dce042743e472f1dc424dceba3f">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aab1e680b91e507a9649756376fbfebbf">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1manpage_1_1ManualPageBuilder_1a3bd8c0d90a851bc43eeb7f52c69b5f93">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a4d2342f83d73ad70f908f267a15786e1">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder_1a79c882ab84105910b619a67c16004eee">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1text_1_1TextBuilder_1ad6dd8da69b275b7193732139b49711a4">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1xml_1_1XMLBuilder_1a6fe8c8587f1871f209ba42e54825f7ed">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1coverage_1_1CoverageBuilder_1aaca22bb0525945bfac3900378eff5a13">get_outdated_docs</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1doctest_1_1DocTestBuilder_1a71e6b81982f967a0f7df476f8bcc9d5e">get_outdated_docs</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an iterable of output files that are outdated, or a string
+describing what an update build will build.
+
+If the builder does not output individual files corresponding to
+source files, return a string here.  If it does, return an iterable
+of those files that need to be written.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="193" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="193" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1ae3e99f79ef17782912659d4f9f461830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.builders.Builder.get_asset_paths</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_asset_paths</name>
+        <qualifiedname>sphinx.builders.Builder.get_asset_paths</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1afd72826f78413bb601c98e217f279474">get_asset_paths</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return list of paths for assets (ex. templates, CSS, etc.).</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="203" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="203" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1ac47924773ce09d810e04bf852e270018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.post_process_images</definition>
+        <argsstring>(self, Node doctree)</argsstring>
+        <name>post_process_images</name>
+        <qualifiedname>sphinx.builders.Builder.post_process_images</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ab22d4795452a3478e08b36f152a09fa3">post_process_images</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pick the best candidate for all image URIs.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="207" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="207" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a7315870f39330408ec2ca53b91780c6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.compile_catalogs</definition>
+        <argsstring>(self, set[CatalogInfo] catalogs, str message)</argsstring>
+        <name>compile_catalogs</name>
+        <qualifiedname>sphinx.builders.Builder.compile_catalogs</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1gettext_1_1I18nBuilder_1a57ea3b83e30683aeacc5c5fde64b914d">compile_catalogs</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>set</type>
+          <declname>catalogs</declname>
+          <array>[CatalogInfo]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="248" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="248" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a0d4af5a2785056d0c8df04d23ff0fce0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.compile_all_catalogs</definition>
+        <argsstring>(self)</argsstring>
+        <name>compile_all_catalogs</name>
+        <qualifiedname>sphinx.builders.Builder.compile_all_catalogs</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="268" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="268" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1ad125c4ec57c0b86ad7715d9f44e9e92f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.compile_specific_catalogs</definition>
+        <argsstring>(self, Iterable[Path] specified_files)</argsstring>
+        <name>compile_specific_catalogs</name>
+        <qualifiedname>sphinx.builders.Builder.compile_specific_catalogs</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>specified_files</declname>
+          <array>[Path]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="278" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="278" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1abfc4e1d3f179fc94e5b4d514b80052f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.compile_update_catalogs</definition>
+        <argsstring>(self)</argsstring>
+        <name>compile_update_catalogs</name>
+        <qualifiedname>sphinx.builders.Builder.compile_update_catalogs</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="301" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="301" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a078e301df92248c02021b2730a1bc7b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.build_all</definition>
+        <argsstring>(self)</argsstring>
+        <name>build_all</name>
+        <qualifiedname>sphinx.builders.Builder.build_all</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build all source files.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="315" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="315" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a053684305a173fcd6c13b3cd98fa3874" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.build_specific</definition>
+        <argsstring>(self, Sequence[Path] filenames)</argsstring>
+        <name>build_specific</name>
+        <qualifiedname>sphinx.builders.Builder.build_specific</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>filenames</declname>
+          <array>[Path]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Only rebuild as much as needed for changes in the *filenames*.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="322" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="322" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a20c019b06fce2e1aac52aae9ca53e216" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.build_update</definition>
+        <argsstring>(self)</argsstring>
+        <name>build_update</name>
+        <qualifiedname>sphinx.builders.Builder.build_update</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Only rebuild what was changed or added since last build.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="366" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="366" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a3a6c9217e71926c846b2f580f1eea6c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.build</definition>
+        <argsstring>(self, Iterable[str]|None docnames, str|None summary=None, Literal[&apos;all&apos;, &apos;specific&apos;, &apos;update&apos;] method=&apos;update&apos;)</argsstring>
+        <name>build</name>
+        <qualifiedname>sphinx.builders.Builder.build</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1gettext_1_1MessageCatalogBuilder_1afe8e1e065bfda54f368f0c233dfb504c">build</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Iterable|None</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>summary</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>method</declname>
+          <array>[ &apos;all&apos;, &apos;specific&apos;, &apos;update&apos;]</array>
+          <defval>&apos;update&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main build method, usually called by a specific ``build_*`` method.
+
+First updates the environment, and then calls
+:meth:`!write`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="383" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="388" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1ae7e96d5a20869692388c4af80b913b04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.builders.Builder.read</definition>
+        <argsstring>(self)</argsstring>
+        <name>read</name>
+        <qualifiedname>sphinx.builders.Builder.read</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>(Re-)read all files new or changed since last update.
+
+Store all environment docnames in the canonical format (ie using SEP as
+a separator in place of os.path.sep).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="463" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="463" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a979e839731ac0ab8dc5264ccc9fd1a31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.read_doc</definition>
+        <argsstring>(self, str docname, *bool _cache=True)</argsstring>
+        <name>read_doc</name>
+        <qualifiedname>sphinx.builders.Builder.read_doc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>_cache</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a file and add/update inventory entries for the doctree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="622" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="622" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a17405c55a4df299e2021443a3d01ea1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.write_doctree</definition>
+        <argsstring>(self, str docname, nodes.document doctree, *bool _cache=True)</argsstring>
+        <name>write_doctree</name>
+        <qualifiedname>sphinx.builders.Builder.write_doctree</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>doctree</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>_cache</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the doctree to a file, to be used as a cache by re-builds.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="661" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="667" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a0cd25b37da7f78216f2e356f83fef910" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.write</definition>
+        <argsstring>(self, Iterable[str]|None build_docnames, Iterable[str] updated_docnames, Literal[&apos;all&apos;, &apos;specific&apos;, &apos;update&apos;] method=&apos;update&apos;)</argsstring>
+        <name>write</name>
+        <qualifiedname>sphinx.builders.Builder.write</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Iterable|None</type>
+          <declname>build_docnames</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>updated_docnames</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>method</declname>
+          <array>[ &apos;all&apos;, &apos;specific&apos;, &apos;update&apos;]</array>
+          <defval>&apos;update&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write builder specific output files.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="692" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="697" bodyend="736"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1aeb476e0ce33dcb388010dd93ffb7780c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.write_documents</definition>
+        <argsstring>(self, Set[str] docnames)</argsstring>
+        <name>write_documents</name>
+        <qualifiedname>sphinx.builders.Builder.write_documents</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1changes_1_1ChangesBuilder_1af53789c4ec219ea24ca017c0b0fc8c32">write_documents</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a6a13e9f68c717d30f7b62b6b3138284a">write_documents</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1manpage_1_1ManualPageBuilder_1a566a1a5474eb570409f0e9b6f6ceb596">write_documents</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ab0ef430b7b70b49f81ac0f3adad05013">write_documents</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder_1a27640d8f9c3fdad70ef307d45792d636">write_documents</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1coverage_1_1CoverageBuilder_1a0ccfe0cd5b0594c4298b2e4d43bc0d69">write_documents</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1doctest_1_1DocTestBuilder_1a62746caa96a846893517d7ce0b9ed0e7">write_documents</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write all documents in *docnames*.
+
+This method can be overridden if a builder does not create
+output files for each document.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="737" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="737" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a7a9b5f62382c631803acb5dd7ae128b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.prepare_writing</definition>
+        <argsstring>(self, Set[str] docnames)</argsstring>
+        <name>prepare_writing</name>
+        <qualifiedname>sphinx.builders.Builder.prepare_writing</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder_1a997b71d886f3244bae0ad3e438f90ccd">prepare_writing</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1epub3_1_1Epub3Builder_1a316de1662166633ee4bd98afc70f8874">prepare_writing</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a34d30242e6f7ac0c4be3b19311dcefe6">prepare_writing</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ae4bf73bc351bc1db5fdb0df69762e96d">prepare_writing</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1text_1_1TextBuilder_1a562d8387e586713281d3dc75689c0451">prepare_writing</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1xml_1_1XMLBuilder_1a58482bc67cd1fbfbb221e6f7e2cd92a1">prepare_writing</reimplementedby>
+        <reimplementedby refid="classhtmlhelp_1_1HTMLHelpBuilder_1a80e83876d47df262581eae5032ef8ab3">prepare_writing</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A place where you can add logic before :meth:`write_doc` is run</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="813" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="813" bodyend="816"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1ac067f9fe46076dd8e43e4dc260abe482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.copy_assets</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_assets</name>
+        <qualifiedname>sphinx.builders.Builder.copy_assets</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a6377133f82c97eff21e57d7fc7d31cae">copy_assets</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1afa2b9166ae7ce037f8b2f54253ff9a26">copy_assets</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder_1a39db176cd39186dbf1c4b48051b36226">copy_assets</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Where assets (images, static files, etc) are copied before writing</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="817" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="817" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a471469e1b31b6f0350e9069f22f15f40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.write_doc</definition>
+        <argsstring>(self, str docname, nodes.document doctree)</argsstring>
+        <name>write_doc</name>
+        <qualifiedname>sphinx.builders.Builder.write_doc</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1affc473680b9c9db63771c3f922922f60">write_doc</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1dummy_1_1DummyBuilder_1aa89bfd0301162fde0d4c222cc43a2795">write_doc</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1gettext_1_1I18nBuilder_1a4a306aaedb1c063ab29000d3aeecb547">write_doc</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a3befa9ac9e524665a0fc04bf69c31f8c">write_doc</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1text_1_1TextBuilder_1a8e910386c8357c1cd711f73f2103e68c">write_doc</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1xml_1_1XMLBuilder_1aa176c0b5e4b0a56ba76af1b205691478">write_doc</reimplementedby>
+        <reimplementedby refid="classhtmlhelp_1_1HTMLHelpBuilder_1ac2fa9ac7197d7e51d78e9235aa999071">write_doc</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the output file for the document
+
+:param docname: the :term:`docname &lt;document name&gt;`.
+:param doctree: defines the content to be written.
+
+The output filename must be determined within this method,
+typically by calling :meth:`~.Builder.get_target_uri`
+or :meth:`~.Builder.get_relative_uri`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="821" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="821" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1ab1a5d03a8978c00796cd4c82e00eccfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.write_doc_serialized</definition>
+        <argsstring>(self, str docname, nodes.document doctree)</argsstring>
+        <name>write_doc_serialized</name>
+        <qualifiedname>sphinx.builders.Builder.write_doc_serialized</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ae9fdad962dee4b53aab159c935b12360">write_doc_serialized</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handle parts of write_doc that must be called in the main process
+if parallel build is active.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="833" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="833" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a43e2013572c826d5991e0003ec8c49bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.finish</definition>
+        <argsstring>(self)</argsstring>
+        <name>finish</name>
+        <qualifiedname>sphinx.builders.Builder.finish</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1changes_1_1ChangesBuilder_1a8cabc2164f4865c1a4e15a28494a1553">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1dummy_1_1DummyBuilder_1a09c4b8c19b8e4d763d01aff8a585512b">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1gettext_1_1MessageCatalogBuilder_1a6b95ca94b4ac0d54655337fb442f1487">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a56bfa5b539fa2308e8bf9076ff0945ef">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ae6ab954f385704c8759bcdea2d1a5989">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1linkcheck_1_1CheckExternalLinksBuilder_1aa4962c11e0c3b6a751f1f37979091ef0">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1manpage_1_1ManualPageBuilder_1a2bee4b6aa225e2749ab439d8329f8f04">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a2b5d3b2c0caf8b48d68de56344c8548b">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1text_1_1TextBuilder_1a66ce02e4197fb010334f68a33298d403">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1xml_1_1XMLBuilder_1a7ea6a09859b3b793d67ff378f115866f">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1coverage_1_1CoverageBuilder_1aa17c5012b6ff505abeeca3d63a1443e9">finish</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1ext_1_1doctest_1_1DocTestBuilder_1a7ceef975ee7917fd40d471e9ef6bc2ee">finish</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Finish the building process.
+
+The default implementation does nothing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="839" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="839" bodyend="845"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1afc4367f8469962f9a707cfe7292192f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder.cleanup</definition>
+        <argsstring>(self)</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>sphinx.builders.Builder.cleanup</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a5c0f29bc2b44d2d2f6544c674912e648">cleanup</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Cleanup any resources.
+
+The default implementation does nothing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="846" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="846" bodyend="852"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a311ea3d3808ae0055195608e554617b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.builders.Builder.get_builder_config</definition>
+        <argsstring>(self, str option, str default)</argsstring>
+        <name>get_builder_config</name>
+        <qualifiedname>sphinx.builders.Builder.get_builder_config</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>default</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a builder specific option.
+
+This method allows customization of common builder settings by
+inserting the name of the current builder in the option key.
+If the key does not exist, use default as builder name.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="853" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="853" bodyend="869"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a58a79cb71cdd918931d0054107b63113" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>NullTranslations|None</type>
+        <definition> NullTranslations | None sphinx.builders.Builder._translator</definition>
+        <argsstring>(self)</argsstring>
+        <name>_translator</name>
+        <qualifiedname>sphinx.builders.Builder._translator</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="140" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a485c012a0d8e75a74a70083847949a8a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder._read_serial</definition>
+        <argsstring>(self, list[str] docnames)</argsstring>
+        <name>_read_serial</name>
+        <qualifiedname>sphinx.builders.Builder._read_serial</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="573" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="573" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a8062dd737be02c3001a0ddd8e8d034d0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder._read_parallel</definition>
+        <argsstring>(self, list[str] docnames, int nproc)</argsstring>
+        <name>_read_parallel</name>
+        <qualifiedname>sphinx.builders.Builder._read_parallel</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nproc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="586" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="586" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a9eb46b77ef4bb772d984452be3b4f871" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder._write_serial</definition>
+        <argsstring>(self, Sequence[str] docnames)</argsstring>
+        <name>_write_serial</name>
+        <qualifiedname>sphinx.builders.Builder._write_serial</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="751" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="751" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1Builder_1a072f673bb28a74488e0e89fc6595cf25" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.Builder._write_parallel</definition>
+        <argsstring>(self, Sequence[str] docnames, int nproc)</argsstring>
+        <name>_write_parallel</name>
+        <qualifiedname>sphinx.builders.Builder._write_parallel</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nproc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="770" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="770" bodyend="812"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Builds target formats from the reST sources.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="8">
+        <label>applehelp.AppleHelpBuilder</label>
+        <link refid="classapplehelp_1_1AppleHelpBuilder"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>devhelp.DevhelpBuilder</label>
+        <link refid="classdevhelp_1_1DevhelpBuilder"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>htmlhelp.HTMLHelpBuilder</label>
+        <link refid="classhtmlhelp_1_1HTMLHelpBuilder"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>qthelp.QtHelpBuilder</label>
+        <link refid="classqthelp_1_1QtHelpBuilder"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>serializinghtml.JSONHTMLBuilder</label>
+        <link refid="classserializinghtml_1_1JSONHTMLBuilder"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>serializinghtml.PickleHTMLBuilder</label>
+        <link refid="classserializinghtml_1_1PickleHTMLBuilder"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>serializinghtml.SerializingHTMLBuilder</label>
+        <link refid="classserializinghtml_1_1SerializingHTMLBuilder"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+      </node>
+      <node id="15">
+        <label>sphinx.builders._epub_base.EpubBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.changes.ChangesBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1changes_1_1ChangesBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sphinx.builders.dirhtml.DirectoryHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1dirhtml_1_1DirectoryHTMLBuilder"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.builders.dummy.DummyBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1dummy_1_1DummyBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>sphinx.builders.epub3.Epub3Builder</label>
+        <link refid="classsphinx_1_1builders_1_1epub3_1_1Epub3Builder"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.builders.gettext.I18nBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1gettext_1_1I18nBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>sphinx.builders.gettext.MessageCatalogBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1gettext_1_1MessageCatalogBuilder"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>sphinx.builders.html.StandaloneHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>sphinx.builders.latex.LaTeXBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.builders.linkcheck.CheckExternalLinksBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1linkcheck_1_1CheckExternalLinksBuilder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>sphinx.builders.manpage.ManualPageBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1manpage_1_1ManualPageBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>sphinx.builders.singlehtml.SingleFileHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>sphinx.builders.texinfo.TexinfoBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1texinfo_1_1TexinfoBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>sphinx.builders.text.TextBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1text_1_1TextBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>sphinx.builders.xml.PseudoXMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1xml_1_1PseudoXMLBuilder"/>
+        <childnode refid="23" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>sphinx.builders.xml.XMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1xml_1_1XMLBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>sphinx.ext.coverage.CoverageBuilder</label>
+        <link refid="classsphinx_1_1ext_1_1coverage_1_1CoverageBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>sphinx.ext.doctest.DocTestBuilder</label>
+        <link refid="classsphinx_1_1ext_1_1doctest_1_1DocTestBuilder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>epilog</edgelabel>
+          <edgelabel>format</edgelabel>
+          <edgelabel>name</edgelabel>
+          <edgelabel>versioning_method</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>supported_image_types</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>list</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" line="68" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/__init__.py" bodystart="68" bodyend="869"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a1b3c069cd63050d71e638f6bab41f6e8" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a8062dd737be02c3001a0ddd8e8d034d0" prot="protected" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>_read_parallel</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a485c012a0d8e75a74a70083847949a8a" prot="protected" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>_read_serial</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a58a79cb71cdd918931d0054107b63113" prot="protected" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>_translator</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a072f673bb28a74488e0e89fc6595cf25" prot="protected" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>_write_parallel</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a9eb46b77ef4bb772d984452be3b4f871" prot="protected" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>_write_serial</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a1adfa57a38ee2391a12681aa81c8de46" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>allow_parallel</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ad3762c2225f749723f0da8acda3b85f5" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>app</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a3a6c9217e71926c846b2f580f1eea6c3" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>build</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a078e301df92248c02021b2730a1bc7b1" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>build_all</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a053684305a173fcd6c13b3cd98fa3874" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>build_specific</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a20c019b06fce2e1aac52aae9ca53e216" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>build_update</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1afc4367f8469962f9a707cfe7292192f5" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>cleanup</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a0d4af5a2785056d0c8df04d23ff0fce0" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>compile_all_catalogs</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a7315870f39330408ec2ca53b91780c6c" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>compile_catalogs</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ad125c4ec57c0b86ad7715d9f44e9e92f" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>compile_specific_catalogs</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1abfc4e1d3f179fc94e5b4d514b80052f9" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>compile_update_catalogs</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a7c955ad858c74ff97174a9300ffc5fd7" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>confdir</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1aaabfb720f11a0ae83f3d664e4a498e1e" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>config</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ac067f9fe46076dd8e43e4dc260abe482" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>copy_assets</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a777ec6918e2c7a91eb2373d6fa1b22e8" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>create_template_bridge</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a6c54030fdb7476c78fc6d18df2cce42c" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>create_translator</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a32f018d372dc4d7029403241bfcd4a90" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>default_translator_class</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1aa824e5cd2a57f1a81409a603d1fb06bd" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>doctreedir</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ad68fe04e7411678e648039a311b49520" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>env</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a5fd1df9e7a5eece73fa9360ec2359c9b" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>epilog</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a43e2013572c826d5991e0003ec8c49bc" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>finish</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a846d2ee477fea51f6821cfece7aecc0b" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>finish_tasks</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a6ef807c77bb603ed30e9c873f5b5f685" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>format</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1afe088f44ad56d39c182d9c81c2ea9679" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>format</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ae3e99f79ef17782912659d4f9f461830" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>get_asset_paths</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a311ea3d3808ae0055195608e554617b5" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>get_builder_config</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a0c12e2255176dcc8ae899dd0d486e68f" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>get_outdated_docs</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1aba1e325ab3ab6521cdfa194286240798" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>get_relative_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a76def68326a1d6bd664c0d1b98803a97" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>get_target_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1aeb92abf87f4ef1e6033573ae4046bb35" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>get_translator_class</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a795665d02cc61cad152c58c299790d0f" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>imagedir</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a251556b7ec3d46b3aab729adf15b1a18" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>imgpath</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a3a3338352ca4084aff4fa1d67c1dbf29" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>init</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1adb6f92e004e62fbf499fc170bd75d17a" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>name</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1aa2d64b7ed500d0515aa89995110781f4" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>name</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1aafb484a11980d39c99bf0d8c1ca29891" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>outdir</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ae4e131d2e3a374a4e2c28a29b492dd55" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>parallel_ok</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ac47924773ce09d810e04bf852e270018" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>post_process_images</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a7a9b5f62382c631803acb5dd7ae128b3" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>prepare_writing</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ae7e96d5a20869692388c4af80b913b04" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>read</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a979e839731ac0ab8dc5264ccc9fd1a31" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>read_doc</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a1288e42f3a398015135831e15c61559b" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>srcdir</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a8d9b921970150735605c38850d6eb642" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>supported_data_uri_images</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a9db17eda9ad084c5855ae3a3211bc951" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>supported_image_types</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1aab2fc2f59076ffa13fe679d49b6c0345" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>supported_remote_images</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a8381b53716b81005e6a2bf7f4ab912d9" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>templates</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a9cd2950f229062ea02fec2a6dabd7434" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>use_message_catalog</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a2e195ab431f3dfd93bb8eda8753653ec" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>versioning_compare</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1afb35ae513b53b3a371f9b139fe0145ee" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>versioning_compare</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ad74eacab6d72f30958d9983d394aa0ef" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>versioning_method</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a7e77488b9dfa17b5fb4b0989ad626bda" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>versioning_method</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a0cd25b37da7f78216f2e356f83fef910" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>write</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a471469e1b31b6f0350e9069f22f15f40" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>write_doc</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1ab1a5d03a8978c00796cd4c82e00eccfc" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>write_doc_serialized</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1a17405c55a4df299e2021443a3d01ea1c" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>write_doctree</name></member>
+      <member refid="classsphinx_1_1builders_1_1Builder_1aeb476e0ce33dcb388010dd93ffb7780c" prot="public" virt="non-virtual"><scope>sphinx::builders::Builder</scope><name>write_documents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

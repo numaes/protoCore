@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="locations_2base_8py" kind="file" language="Python">
+    <compoundname>base.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1locations">pip::_internal::locations</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1locations_1_1base">pip::_internal::locations::base</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1locations_1_1base" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>functools</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>site</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sysconfig</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>typing</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1exceptions" kindref="compound">pip._internal.exceptions</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>InstallationError</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils" kindref="compound">pip._internal.utils</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>appdirs</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1virtualenv" kindref="compound">pip._internal.utils.virtualenv</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>running_under_virtualenv</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Application<sp/>Directories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">USER_CACHE_DIR<sp/>=<sp/>appdirs.user_cache_dir(</highlight><highlight class="stringliteral">&quot;pip&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/>FIXME<sp/>doesn&apos;t<sp/>account<sp/>for<sp/>venv<sp/>linked<sp/>to<sp/>global<sp/>site-packages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">site_packages:<sp/>str<sp/>=<sp/>sysconfig.get_path(</highlight><highlight class="stringliteral">&quot;purelib&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1locations_1_1base_1aa6a0cb09f9b0d74683c251409f4ff456" kindref="member">get_major_minor_version</ref>()<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Return<sp/>the<sp/>major-minor<sp/>version<sp/>of<sp/>the<sp/>current<sp/>Python<sp/>as<sp/>a<sp/>string,<sp/>e.g.</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;3.7&quot;<sp/>or<sp/>&quot;3.10&quot;.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;{}.{}&quot;</highlight><highlight class="normal">.format(*sys.version_info)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">change_root(new_root:<sp/>str,<sp/>pathname:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>&apos;pathname&apos;<sp/>with<sp/>&apos;new_root&apos;<sp/>prepended.</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>&apos;pathname&apos;<sp/>is<sp/>relative,<sp/>this<sp/>is<sp/>equivalent<sp/>to<sp/>os.path.join(new_root,<sp/>pathname).</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Otherwise,<sp/>it<sp/>requires<sp/>making<sp/>&apos;pathname&apos;<sp/>relative<sp/>and<sp/>then<sp/>joining<sp/>the</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>two,<sp/>which<sp/>is<sp/>tricky<sp/>on<sp/>DOS/Windows<sp/>and<sp/>Mac<sp/>OS.</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>is<sp/>borrowed<sp/>from<sp/>Python&apos;s<sp/>standard<sp/>library&apos;s<sp/>distutils<sp/>module.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>os.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;posix&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>os.path.isabs(pathname):</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.path.join(new_root,<sp/>pathname)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.path.join(new_root,<sp/>pathname[1:])</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>os.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;nt&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(drive,<sp/>path)<sp/>=<sp/>os.path.splitdrive(pathname)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>path[0]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;\\&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path<sp/>=<sp/>path[1:]</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.path.join(new_root,<sp/>path)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError" kindref="compound">InstallationError</ref>(</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;Unknown<sp/>platform:<sp/>{os.name}\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Can<sp/>not<sp/>change<sp/>root<sp/>path<sp/>prefix<sp/>on<sp/>unknown<sp/>platform.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1locations_1_1base_1a0a7999ea17a16f9f0e7cf3fc625182a5" kindref="member">get_src_prefix</ref>()<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>running_under_virtualenv():</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>src_prefix<sp/>=<sp/>os.path.join(sys.prefix,<sp/></highlight><highlight class="stringliteral">&quot;src&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>FIXME:<sp/>keep<sp/>src<sp/>in<sp/>cwd<sp/>for<sp/>now<sp/>(it<sp/>is<sp/>not<sp/>a<sp/>temporary<sp/>folder)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>src_prefix<sp/>=<sp/>os.path.join(os.getcwd(),<sp/></highlight><highlight class="stringliteral">&quot;src&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>OSError:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>In<sp/>case<sp/>the<sp/>current<sp/>working<sp/>directory<sp/>has<sp/>been<sp/>renamed<sp/>or<sp/>deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.exit(</highlight><highlight class="stringliteral">&quot;The<sp/>folder<sp/>you<sp/>are<sp/>executing<sp/>pip<sp/>from<sp/>can<sp/>no<sp/>longer<sp/>be<sp/>found.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>under<sp/>macOS<sp/>+<sp/>virtualenv<sp/>sys.prefix<sp/>is<sp/>not<sp/>properly<sp/>resolved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>it<sp/>is<sp/>something<sp/>like<sp/>/path/to/python/bin/..</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.path.abspath(src_prefix)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Use<sp/>getusersitepackages<sp/>if<sp/>this<sp/>is<sp/>present,<sp/>as<sp/>it<sp/>ensures<sp/>that<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>value<sp/>is<sp/>initialised<sp/>properly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>user_site:<sp/>typing.Optional[str]<sp/>=<sp/>site.getusersitepackages()</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>AttributeError:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>user_site<sp/>=<sp/>site.USER_SITE</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">@functools.lru_cache(maxsize=None)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1locations_1_1base_1a4875831a8e84371a0ce768a879577cb1" kindref="member">is_osx_framework</ref>()<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bool(sysconfig.get_config_var(</highlight><highlight class="stringliteral">&quot;PYTHONFRAMEWORK&quot;</highlight><highlight class="normal">))</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py"/>
+  </compounddef>
+</doxygen>

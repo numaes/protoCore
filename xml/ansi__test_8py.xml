@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="ansi__test_8py" kind="file" language="Python">
+    <compoundname>ansi_test.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test_1_1AnsiTest" prot="public">pip::_vendor::colorama::tests::ansi_test::AnsiTest</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama">pip::_vendor::colorama</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama_1_1tests">pip::_vendor::colorama::tests</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test">pip::_vendor::colorama::tests::ansi_test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test" refkind="compound"><highlight class="comment">#<sp/>Copyright<sp/>Jonathan<sp/>Hartley<sp/>2013.<sp/>BSD<sp/>3-Clause<sp/>license,<sp/>see<sp/>LICENSE<sp/>file.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>unittest<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TestCase,<sp/>main</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..ansi<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Back,<sp/>Fore,<sp/>Style</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..ansitowin32<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>AnsiToWin32</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">stdout_orig<sp/>=<sp/>sys.stdout</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">stderr_orig<sp/>=<sp/>sys.stderr</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test_1_1AnsiTest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test_1_1AnsiTest" kindref="compound">AnsiTest</ref>(TestCase):</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test_1_1AnsiTest_1a3534c37ed2c8b2294419b2cd74bda4df" kindref="member">setUp</ref>(self):</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>sanity<sp/>check:<sp/>stdout<sp/>should<sp/>be<sp/>a<sp/>file<sp/>or<sp/>StringIO<sp/>object.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>It<sp/>will<sp/>only<sp/>be<sp/>AnsiToWin32<sp/>if<sp/>init()<sp/>has<sp/>previously<sp/>wrapped<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertNotEqual(type(sys.stdout),<sp/>AnsiToWin32)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertNotEqual(type(sys.stderr),<sp/>AnsiToWin32)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test_1_1AnsiTest_1adb0dbdf0483b68afbc8c4237f2448a44" kindref="member">tearDown</ref>(self):</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.stdout<sp/>=<sp/>stdout_orig</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.stderr<sp/>=<sp/>stderr_orig</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test_1_1AnsiTest_1af3c14612717b779d60a5ad1cfc0fa283" kindref="member">testForeAttributes</ref>(self):</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.BLACK,<sp/></highlight><highlight class="stringliteral">&apos;\033[30m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.RED,<sp/></highlight><highlight class="stringliteral">&apos;\033[31m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.GREEN,<sp/></highlight><highlight class="stringliteral">&apos;\033[32m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.YELLOW,<sp/></highlight><highlight class="stringliteral">&apos;\033[33m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.BLUE,<sp/></highlight><highlight class="stringliteral">&apos;\033[34m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.MAGENTA,<sp/></highlight><highlight class="stringliteral">&apos;\033[35m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.CYAN,<sp/></highlight><highlight class="stringliteral">&apos;\033[36m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.WHITE,<sp/></highlight><highlight class="stringliteral">&apos;\033[37m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.RESET,<sp/></highlight><highlight class="stringliteral">&apos;\033[39m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Check<sp/>the<sp/>light,<sp/>extended<sp/>versions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.LIGHTBLACK_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[90m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.LIGHTRED_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[91m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.LIGHTGREEN_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[92m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.LIGHTYELLOW_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[93m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.LIGHTBLUE_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[94m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.LIGHTMAGENTA_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[95m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.LIGHTCYAN_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[96m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Fore.LIGHTWHITE_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[97m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test_1_1AnsiTest_1a007c2dd3cc5a13ec44d0278327fe20bc" kindref="member">testBackAttributes</ref>(self):</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.BLACK,<sp/></highlight><highlight class="stringliteral">&apos;\033[40m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.RED,<sp/></highlight><highlight class="stringliteral">&apos;\033[41m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.GREEN,<sp/></highlight><highlight class="stringliteral">&apos;\033[42m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.YELLOW,<sp/></highlight><highlight class="stringliteral">&apos;\033[43m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.BLUE,<sp/></highlight><highlight class="stringliteral">&apos;\033[44m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.MAGENTA,<sp/></highlight><highlight class="stringliteral">&apos;\033[45m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.CYAN,<sp/></highlight><highlight class="stringliteral">&apos;\033[46m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.WHITE,<sp/></highlight><highlight class="stringliteral">&apos;\033[47m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.RESET,<sp/></highlight><highlight class="stringliteral">&apos;\033[49m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Check<sp/>the<sp/>light,<sp/>extended<sp/>versions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.LIGHTBLACK_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[100m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.LIGHTRED_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[101m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.LIGHTGREEN_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[102m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.LIGHTYELLOW_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[103m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.LIGHTBLUE_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[104m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.LIGHTMAGENTA_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[105m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.LIGHTCYAN_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[106m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Back.LIGHTWHITE_EX,<sp/></highlight><highlight class="stringliteral">&apos;\033[107m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1tests_1_1ansi__test_1_1AnsiTest_1a95f7710704778283000fead2d1576668" kindref="member">testStyleAttributes</ref>(self):</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Style.DIM,<sp/></highlight><highlight class="stringliteral">&apos;\033[2m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Style.NORMAL,<sp/></highlight><highlight class="stringliteral">&apos;\033[22m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(Style.BRIGHT,<sp/></highlight><highlight class="stringliteral">&apos;\033[1m&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>main()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/colorama/tests/ansi_test.py"/>
+  </compounddef>
+</doxygen>

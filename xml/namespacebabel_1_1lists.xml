@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1lists" kind="namespace" language="Python">
+    <compoundname>babel::lists</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1lists_1a165b7c89328cb427e00430d447771a58" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>babel::lists._DEFAULT_LOCALE</definition>
+        <argsstring></argsstring>
+        <name>_DEFAULT_LOCALE</name>
+        <qualifiedname>babel.lists._DEFAULT_LOCALE</qualifiedname>
+        <initializer>=  default_locale()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/lists.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/lists.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1lists_1aad719a1bcb1907a1f6220ac09e327f3e" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict babel::lists._style_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>_style_fallbacks</name>
+        <qualifiedname>babel.lists._style_fallbacks</qualifiedname>
+        <initializer>=  {
+    &quot;or-narrow&quot;: [&quot;or-short&quot;, &quot;or&quot;],
+    &quot;or-short&quot;: [&quot;or&quot;],
+    &quot;standard-narrow&quot;: [&quot;standard-short&quot;, &quot;standard&quot;],
+    &quot;standard-short&quot;: [&quot;standard&quot;],
+    &quot;unit&quot;: [&quot;unit-short&quot;, &quot;standard&quot;],
+    &quot;unit-narrow&quot;: [&quot;unit-short&quot;, &quot;unit&quot;, &quot;standard&quot;],
+    &quot;unit-short&quot;: [&quot;standard&quot;],
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/lists.py" line="114" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/lists.py" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1lists_1a87fb6b007590f537746c2c8b078e98e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.lists.__getattr__</definition>
+        <argsstring>(name)</argsstring>
+        <name>__getattr__</name>
+        <qualifiedname>babel.lists.__getattr__</qualifiedname>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/lists.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/lists.py" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1lists_1a337025bae8d6e92ea8201134d03303fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.lists.format_list</definition>
+        <argsstring>(Sequence[str] lst, Literal[&apos;standard&apos;, &apos;standard-short&apos;, &apos;or&apos;, &apos;or-short&apos;, &apos;unit&apos;, &apos;unit-short&apos;, &apos;unit-narrow&apos;] style=&apos;standard&apos;, Locale|str|None locale=None)</argsstring>
+        <name>format_list</name>
+        <qualifiedname>babel.lists.format_list</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>lst</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>style</declname>
+          <array>[ &apos;standard&apos;, &apos;standard-short&apos;, &apos;or&apos;, &apos;or-short&apos;, &apos;unit&apos;, &apos;unit-short&apos;, &apos;unit-narrow&apos;]</array>
+          <defval>&apos;standard&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format the items in `lst` as a list.
+
+&gt;&gt;&gt; format_list([&apos;apples&apos;, &apos;oranges&apos;, &apos;pears&apos;], locale=&apos;en&apos;)
+u&apos;apples, oranges, and pears&apos;
+&gt;&gt;&gt; format_list([&apos;apples&apos;, &apos;oranges&apos;, &apos;pears&apos;], locale=&apos;zh&apos;)
+u&apos;apples\u3001oranges\u548cpears&apos;
+&gt;&gt;&gt; format_list([&apos;omena&apos;, &apos;peruna&apos;, &apos;aplari&apos;], style=&apos;or&apos;, locale=&apos;fi&apos;)
+u&apos;omena, peruna tai aplari&apos;
+
+Not all styles are necessarily available in all locales.
+The function will attempt to fall back to replacement styles according to the rules
+set forth in the CLDR root XML file, and raise a ValueError if no suitable replacement
+can be found.
+
+The following text is verbatim from the Unicode TR35-49 spec [1].
+
+* standard:
+  A typical &apos;and&apos; list for arbitrary placeholders.
+  eg. &quot;January, February, and March&quot;
+* standard-short:
+  A short version of an &apos;and&apos; list, suitable for use with short or abbreviated placeholder values.
+  eg. &quot;Jan., Feb., and Mar.&quot;
+* or:
+  A typical &apos;or&apos; list for arbitrary placeholders.
+  eg. &quot;January, February, or March&quot;
+* or-short:
+  A short version of an &apos;or&apos; list.
+  eg. &quot;Jan., Feb., or Mar.&quot;
+* unit:
+  A list suitable for wide units.
+  eg. &quot;3 feet, 7 inches&quot;
+* unit-short:
+  A list suitable for short units
+  eg. &quot;3 ft, 7 in&quot;
+* unit-narrow:
+  A list suitable for narrow units, where space on the screen is very limited.
+  eg. &quot;3′ 7″&quot;
+
+[1]: https://www.unicode.org/reports/tr35/tr35-49/tr35-general.html#ListPatterns
+
+:param lst: a sequence of items to format in to a list
+:param style: the style to format the list with. See above for description.
+:param locale: the locale. Defaults to the system locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/lists.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/lists.py" bodystart="42" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1lists_1a51d720c21b726dc565c85ebc7f4ecd58" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.lists._resolve_list_style</definition>
+        <argsstring>(Locale locale, str style)</argsstring>
+        <name>_resolve_list_style</name>
+        <qualifiedname>babel.lists._resolve_list_style</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref></type>
+          <declname>locale</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>style</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/lists.py" line="125" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/lists.py" bodystart="125" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.lists
+    ~~~~~~~~~~~
+
+    Locale dependent formatting of lists.
+
+    The default locale for the functions in this module is determined by the
+    following environment variables, in that order:
+
+     * ``LC_ALL``, and
+     * ``LANG``
+
+    :copyright: (c) 2015-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/lists.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

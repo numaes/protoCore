@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1roles_1_1Keyboard" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::roles::Keyboard</compoundname>
+    <basecompoundref refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole" prot="public" virt="non-virtual">sphinx.util.docutils.SphinxRole</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1roles_1_1Keyboard_1a8a0df0623064c154711e5d5e28af4c08" prot="protected" static="yes" mutable="no">
+        <type>Final</type>
+        <definition>Final sphinx.roles.Keyboard::_pattern</definition>
+        <argsstring></argsstring>
+        <name>_pattern</name>
+        <qualifiedname>sphinx.roles.Keyboard._pattern</qualifiedname>
+        <initializer>=  re.compile(r&apos;(?&lt;=.)([\-+^]| +)(?=.)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="487" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="487" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1roles_1_1Keyboard_1a221de7fdc85084778043addcd632bc86" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.roles.Keyboard::rawtext</definition>
+        <argsstring></argsstring>
+        <name>rawtext</name>
+        <qualifiedname>sphinx.roles.Keyboard.rawtext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="496" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1roles_1_1Keyboard_1a09111725f5176f2bf952386be66d01a0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.roles.Keyboard::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>sphinx.roles.Keyboard.text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="496" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="496" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1roles_1_1Keyboard_1ac79ad1eae8a39898d04787a4241d9614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>], list[<ref refid="classdocutils_1_1nodes_1_1system__message" kindref="compound">system_message</ref>]]</type>
+        <definition> tuple[list[Node], list[system_message]] sphinx.roles.Keyboard.run</definition>
+        <argsstring>(self)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.roles.Keyboard.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole_1aae39740f3681eb6cbd25db5127fbc06e">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="489" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="489" bodyend="515"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classsphinx_1_1roles_1_1Keyboard_1a71ab42b841669208ea40dd89424a9e5d" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.roles.Keyboard._is_multi_word_key</definition>
+        <argsstring>(list[str] parts)</argsstring>
+        <name>_is_multi_word_key</name>
+        <qualifiedname>sphinx.roles.Keyboard._is_multi_word_key</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>parts</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="517" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="517" bodyend="531"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Implement the :kbd: role.
+
+Split words in the text by separator or whitespace,
+but keep multi-word keys together.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.roles.Keyboard</label>
+        <link refid="classsphinx_1_1roles_1_1Keyboard"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.util.docutils.SphinxRole</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>Sequence</label>
+      </node>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>docutils.parsers.rst.states.Inliner</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Inliner"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>email_pattern</edgelabel>
+          <edgelabel>emailc</edgelabel>
+          <edgelabel>non_unescaped_whitespace_escape_before</edgelabel>
+          <edgelabel>non_whitespace_after</edgelabel>
+          <edgelabel>non_whitespace_before</edgelabel>
+          <edgelabel>non_whitespace_escape_before</edgelabel>
+          <edgelabel>rfc_url</edgelabel>
+          <edgelabel>simplename</edgelabel>
+          <edgelabel>uri_end</edgelabel>
+          <edgelabel>uri_end_delim</edgelabel>
+          <edgelabel>...</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.roles.Keyboard</label>
+        <link refid="classsphinx_1_1roles_1_1Keyboard"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>_pattern</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.util.docutils.SphinxRole</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name</edgelabel>
+          <edgelabel>rawtext</edgelabel>
+          <edgelabel>text</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>inliner</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>content</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Final</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="479" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="479" bodyend="531"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1roles_1_1Keyboard_1a71ab42b841669208ea40dd89424a9e5d" prot="protected" virt="non-virtual"><scope>sphinx::roles::Keyboard</scope><name>_is_multi_word_key</name></member>
+      <member refid="classsphinx_1_1roles_1_1Keyboard_1a8a0df0623064c154711e5d5e28af4c08" prot="protected" virt="non-virtual"><scope>sphinx::roles::Keyboard</scope><name>_pattern</name></member>
+      <member refid="classsphinx_1_1roles_1_1Keyboard_1a221de7fdc85084778043addcd632bc86" prot="public" virt="non-virtual"><scope>sphinx::roles::Keyboard</scope><name>rawtext</name></member>
+      <member refid="classsphinx_1_1roles_1_1Keyboard_1ac79ad1eae8a39898d04787a4241d9614" prot="public" virt="non-virtual"><scope>sphinx::roles::Keyboard</scope><name>run</name></member>
+      <member refid="classsphinx_1_1roles_1_1Keyboard_1a09111725f5176f2bf952386be66d01a0" prot="public" virt="non-virtual"><scope>sphinx::roles::Keyboard</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

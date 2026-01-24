@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1parser" kind="namespace" language="Python">
+    <compoundname>jinja2::parser</compoundname>
+    <innerclass refid="classjinja2_1_1parser_1_1Parser" prot="public">jinja2::parser::Parser</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1parser_1a26903cfe68fdfd31858aa5f987bb7874" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::parser._ImportInclude</definition>
+        <argsstring></argsstring>
+        <name>_ImportInclude</name>
+        <qualifiedname>jinja2.parser._ImportInclude</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;_ImportInclude&quot;, <ref refid="classjinja2_1_1nodes_1_1Import" kindref="compound">nodes.Import</ref>, <ref refid="classjinja2_1_1nodes_1_1Include" kindref="compound">nodes.Include</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1parser_1a84f07fd11312e05cfcd297f2b99efb2e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::parser._MacroCall</definition>
+        <argsstring></argsstring>
+        <name>_MacroCall</name>
+        <qualifiedname>jinja2.parser._MacroCall</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;_MacroCall&quot;, <ref refid="classjinja2_1_1nodes_1_1Macro" kindref="compound">nodes.Macro</ref>, <ref refid="classjinja2_1_1nodes_1_1CallBlock" kindref="compound">nodes.CallBlock</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1parser_1ab893b26c0aa4281440af90e1d81862f7" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::parser._statement_keywords</definition>
+        <argsstring></argsstring>
+        <name>_statement_keywords</name>
+        <qualifiedname>jinja2.parser._statement_keywords</qualifiedname>
+        <initializer>=  frozenset(
+    [
+        &quot;for&quot;,
+        &quot;if&quot;,
+        &quot;block&quot;,
+        &quot;extends&quot;,
+        &quot;print&quot;,
+        &quot;macro&quot;,
+        &quot;include&quot;,
+        &quot;from&quot;,
+        &quot;import&quot;,
+        &quot;set&quot;,
+        &quot;with&quot;,
+        &quot;autoescape&quot;,
+    ]
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1parser_1acbed51cdd2af4807137bd046876d9c3e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::parser._compare_operators</definition>
+        <argsstring></argsstring>
+        <name>_compare_operators</name>
+        <qualifiedname>jinja2.parser._compare_operators</qualifiedname>
+        <initializer>=  frozenset([&quot;eq&quot;, &quot;ne&quot;, &quot;lt&quot;, &quot;lteq&quot;, &quot;gt&quot;, &quot;gteq&quot;])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1parser_1a3d52363efb55cf5d155ee11de4d38589" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2::parser._math_nodes</definition>
+        <argsstring></argsstring>
+        <name>_math_nodes</name>
+        <qualifiedname>jinja2.parser._math_nodes</qualifiedname>
+        <initializer>=  {
+    &quot;add&quot;: <ref refid="classjinja2_1_1nodes_1_1Add" kindref="compound">nodes.Add</ref>,
+    &quot;sub&quot;: <ref refid="classjinja2_1_1nodes_1_1Sub" kindref="compound">nodes.Sub</ref>,
+    &quot;mul&quot;: <ref refid="classjinja2_1_1nodes_1_1Mul" kindref="compound">nodes.Mul</ref>,
+    &quot;div&quot;: <ref refid="classjinja2_1_1nodes_1_1Div" kindref="compound">nodes.Div</ref>,
+    &quot;floordiv&quot;: <ref refid="classjinja2_1_1nodes_1_1FloorDiv" kindref="compound">nodes.FloorDiv</ref>,
+    &quot;mod&quot;: <ref refid="classjinja2_1_1nodes_1_1Mod" kindref="compound">nodes.Mod</ref>,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Parse tokens from the lexer into nodes for the compiler.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/parser.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

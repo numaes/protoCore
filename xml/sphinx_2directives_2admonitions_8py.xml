@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2directives_2admonitions_8py" kind="file" language="Python">
+    <compoundname>admonitions.py</compoundname>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" prot="public">sphinx::directives::admonitions::SphinxAdmonition</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Admonition" prot="public">sphinx::directives::admonitions::Admonition</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Attention" prot="public">sphinx::directives::admonitions::Attention</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Caution" prot="public">sphinx::directives::admonitions::Caution</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Danger" prot="public">sphinx::directives::admonitions::Danger</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Error" prot="public">sphinx::directives::admonitions::Error</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Hint" prot="public">sphinx::directives::admonitions::Hint</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Important" prot="public">sphinx::directives::admonitions::Important</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Note" prot="public">sphinx::directives::admonitions::Note</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Tip" prot="public">sphinx::directives::admonitions::Tip</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1Warning" prot="public">sphinx::directives::admonitions::Warning</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1admonitions_1_1SeeAlso" prot="public">sphinx::directives::admonitions::SeeAlso</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1directives">sphinx::directives</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1directives_1_1admonitions">sphinx::directives::admonitions</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1directives_1_1admonitions" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1_1admonitions" kindref="compound">docutils.parsers.rst.directives.admonitions</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BaseAdmonition</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>sphinx<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>addnodes</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1docutils" kindref="compound">sphinx.util.docutils</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SphinxDirective</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ClassVar</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1nodes" kindref="compound">docutils.nodes</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Node</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1application" kindref="compound">sphinx.application</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Sphinx</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1typing" kindref="compound">sphinx.util.typing</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ExtensionMetadata,<sp/>OptionSpec</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1directives_1_1admonitions_1aee88a80e1d11c4351f0ff3231524c782" kindref="member">_collapsible_arg</ref>(argument:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>argument<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;open&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(value<sp/>:=<sp/>argument.lower().strip())<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>{</highlight><highlight class="stringliteral">&apos;open&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;closed&apos;</highlight><highlight class="normal">}:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>msg<sp/>=<sp/>f</highlight><highlight class="stringliteral">&apos;&quot;{argument}&quot;<sp/>unknown;<sp/>choose<sp/>from<sp/>&quot;open&quot;<sp/>or<sp/>&quot;closed&quot;.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ValueError(msg)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>(<ref refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1admonitions_1_1BaseAdmonition" kindref="compound">BaseAdmonition</ref>,<sp/><ref refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective" kindref="compound">SphinxDirective</ref>):</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>option_spec:<sp/>ClassVar[OptionSpec]<sp/>=<sp/>BaseAdmonition.option_spec.copy()<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[union-attr]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>option_spec<sp/>|=<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;collapsible&apos;</highlight><highlight class="normal">:<sp/>_collapsible_arg,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class:<sp/>type[nodes.Admonition]<sp/>=<sp/>nodes.admonition</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Subclasses<sp/>must<sp/>set<sp/>this<sp/>to<sp/>the<sp/>appropriate<sp/>admonition<sp/>node<sp/>class.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition_1a498c182797b3f282c9a1631f88549284" kindref="member">run</ref>(self)<sp/>-&gt;<sp/>list[Node]:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(admonition_node,)<sp/>=<sp/>super().<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition_1a498c182797b3f282c9a1631f88549284" kindref="member">run</ref>()</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[admonition_node]</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classsphinx_1_1directives_1_1admonitions_1_1Admonition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Admonition" kindref="compound">Admonition</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>required_arguments<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.admonition</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classsphinx_1_1directives_1_1admonitions_1_1Attention" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Attention" kindref="compound">Attention</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.attention</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classsphinx_1_1directives_1_1admonitions_1_1Caution" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Caution" kindref="compound">Caution</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.caution</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classsphinx_1_1directives_1_1admonitions_1_1Danger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Danger" kindref="compound">Danger</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.danger</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classsphinx_1_1directives_1_1admonitions_1_1Error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Error" kindref="compound">Error</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.error</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classsphinx_1_1directives_1_1admonitions_1_1Hint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Hint" kindref="compound">Hint</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.hint</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classsphinx_1_1directives_1_1admonitions_1_1Important" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Important" kindref="compound">Important</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.important</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classsphinx_1_1directives_1_1admonitions_1_1Note" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Note" kindref="compound">Note</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.note</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classsphinx_1_1directives_1_1admonitions_1_1Tip" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Tip" kindref="compound">Tip</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.tip</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classsphinx_1_1directives_1_1admonitions_1_1Warning" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1Warning" kindref="compound">Warning</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/>nodes.warning</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classsphinx_1_1directives_1_1admonitions_1_1SeeAlso" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1directives_1_1admonitions_1_1SeeAlso" kindref="compound">SeeAlso</ref>(<ref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" kindref="compound">SphinxAdmonition</ref>):</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;An<sp/>admonition<sp/>mentioning<sp/>things<sp/>to<sp/>look<sp/>at<sp/>as<sp/>reference.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>node_class<sp/>=<sp/><ref refid="classsphinx_1_1addnodes_1_1seealso" kindref="compound">addnodes.seealso</ref></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">setup(app:<sp/>Sphinx)<sp/>-&gt;<sp/>ExtensionMetadata:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;admonition&apos;</highlight><highlight class="normal">,<sp/>Admonition,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;attention&apos;</highlight><highlight class="normal">,<sp/>Attention,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;caution&apos;</highlight><highlight class="normal">,<sp/>Caution,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;danger&apos;</highlight><highlight class="normal">,<sp/>Danger,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;error&apos;</highlight><highlight class="normal">,<sp/>Error,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;hint&apos;</highlight><highlight class="normal">,<sp/>Hint,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;important&apos;</highlight><highlight class="normal">,<sp/>Important,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;note&apos;</highlight><highlight class="normal">,<sp/>Note,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;tip&apos;</highlight><highlight class="normal">,<sp/>Tip,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;warning&apos;</highlight><highlight class="normal">,<sp/>Warning,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;seealso&apos;</highlight><highlight class="normal">,<sp/>SeeAlso,<sp/>override=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;version&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;builtin&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;parallel_read_safe&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;parallel_write_safe&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/directives/admonitions.py"/>
+  </compounddef>
+</doxygen>

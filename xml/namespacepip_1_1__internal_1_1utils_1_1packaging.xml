@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1packaging" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::packaging</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1packaging_1afb02c97bd12fc893c2b69f725d62adeb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::packaging.NormalizedExtra</definition>
+        <argsstring></argsstring>
+        <name>NormalizedExtra</name>
+        <qualifiedname>pip._internal.utils.packaging.NormalizedExtra</qualifiedname>
+        <initializer>=  NewType(&quot;NormalizedExtra&quot;, str)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" line="9" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1packaging_1aeeaf45933f76591f1a386645f06bff17" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::packaging.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.utils.packaging.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" line="11" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" bodystart="11" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1packaging_1abf820e5254e920a6969e26a79032b15e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.packaging.check_requires_python</definition>
+        <argsstring>(Optional[str] requires_python, Tuple[int,...] version_info)</argsstring>
+        <name>check_requires_python</name>
+        <qualifiedname>pip._internal.utils.packaging.check_requires_python</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>requires_python</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Tuple</type>
+          <declname>version_info</declname>
+          <array>[int,...]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the given Python version matches a &quot;Requires-Python&quot; specifier.
+
+:param version_info: A 3-tuple of ints representing a Python
+    major-minor-micro version to check (e.g. `sys.version_info[:3]`).
+
+:return: `True` if the given Python version satisfies the requirement.
+    Otherwise, return `False`.
+
+:raises InvalidSpecifier: If `requires_python` has an invalid format.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" bodystart="16" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1packaging_1adba45bb028f0faacaa4d929a87e59206" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref></type>
+        <definition> Requirement pip._internal.utils.packaging.get_requirement</definition>
+        <argsstring>(str req_string)</argsstring>
+        <name>get_requirement</name>
+        <qualifiedname>pip._internal.utils.packaging.get_requirement</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>req_string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Construct a packaging.Requirement object with caching</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" bodystart="38" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1packaging_1a44f71efabe09bd27afd0f9f256ee9417" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1utils_1_1packaging_1afb02c97bd12fc893c2b69f725d62adeb" kindref="member">NormalizedExtra</ref></type>
+        <definition> NormalizedExtra pip._internal.utils.packaging.safe_extra</definition>
+        <argsstring>(str extra)</argsstring>
+        <name>safe_extra</name>
+        <qualifiedname>pip._internal.utils.packaging.safe_extra</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>extra</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert an arbitrary string to a standard &apos;extra&apos; name
+
+Any runs of non-alphanumeric characters are replaced with a single &apos;_&apos;,
+and the result is always lowercased.
+
+This function is duplicated from ``pkg_resources``. Note that this is not
+the same to either ``canonicalize_name`` or ``_egg_link_name``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" bodystart="48" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc" kind="file" language="C++">
+    <compoundname>gmock_stress_test.cc</compoundname>
+    <includes local="yes">gmock/gmock.h</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>build/_deps/googletest-src/googlemock/test/gmock_stress_test.cc</label>
+        <link refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="3">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacetesting">testing</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc_1a356e01cb7dd3338b406f2905cfdc1107" prot="public" static="no" mutable="no">
+        <type><ref refid="classMockFoo" kindref="compound">MockFoo</ref> *</type>
+        <definition>MockFoo* mock_foo</definition>
+        <argsstring></argsstring>
+        <name>mock_foo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_stress_test.cc" line="89" column="11" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_stress_test.cc" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc_1afd9db40e3361ae09188795e8cbe19752" prot="public" static="no" mutable="no">
+        <type>int *</type>
+        <definition>int* count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_stress_test.cc" line="90" column="7" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_stress_test.cc" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc_1a3c04138a5bfe5d72780bb7e82a18e627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_stress_test.cc" line="219" column="5" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_stress_test.cc" bodystart="219" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2007,<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>that<sp/>Google<sp/>Mock<sp/>constructs<sp/>can<sp/>be<sp/>used<sp/>in<sp/>a<sp/>large<sp/>number<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>threads<sp/>concurrently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gmock/gmock.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetesting" kindref="compound">testing</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>From<sp/>gtest-port.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">using<sp/>::testing::internal::ThreadWithParam;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>maximum<sp/>number<sp/>of<sp/>test<sp/>threads<sp/>(not<sp/>including<sp/>helper<sp/>threads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>create.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kMaxTestThreads<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>How<sp/>many<sp/>times<sp/>to<sp/>repeat<sp/>a<sp/>task<sp/>in<sp/>a<sp/>test<sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepeat<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockFoo<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1ac49d366be035ee87b73264a29059cdc7" kindref="member">MOCK_METHOD1</ref>(Bar,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n));<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOLINT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1ab3fb7d97f21dc99205db38a14df4a1c4" kindref="member">MOCK_METHOD2</ref>(Baz,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>s1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s2));<sp/><sp/></highlight><highlight class="comment">//<sp/>NOLINT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>for<sp/>waiting<sp/>for<sp/>the<sp/>given<sp/>thread<sp/>to<sp/>finish<sp/>and<sp/>then<sp/>deleting<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>JoinAndDelete(ThreadWithParam&lt;T&gt;*<sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><ref refid="namespacepackaging_1_1__musllinux_1a443e31063cc51804165a7ab21ee977ce" kindref="member">t</ref>-&gt;Join();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1__musllinux_1a443e31063cc51804165a7ab21ee977ce" kindref="member">t</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Dummy<sp/>{};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>that<sp/>different<sp/>mock<sp/>objects<sp/>can<sp/>be<sp/>used<sp/>in<sp/>their<sp/>respective</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>threads.<sp/><sp/>This<sp/>should<sp/>generate<sp/>no<sp/>Google<sp/>Test<sp/>failure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TestConcurrentMockObjects(Dummy<sp/></highlight><highlight class="comment">/*<sp/>dummy<sp/>*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Creates<sp/>a<sp/>mock<sp/>and<sp/>does<sp/>some<sp/>typical<sp/>operations<sp/>on<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>MockFoo<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(_)).WillByDefault(<ref refid="namespacetesting_1a492ba67db1dfe5dc8257b6e3d38b8183" kindref="member">Return</ref>(1));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Baz(_,<sp/>_)).WillByDefault(<ref refid="namespacetesting_1a492ba67db1dfe5dc8257b6e3d38b8183" kindref="member">Return</ref>(</highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Baz(_,<sp/></highlight><highlight class="stringliteral">&quot;you&quot;</highlight><highlight class="normal">)).WillByDefault(<ref refid="namespacetesting_1a492ba67db1dfe5dc8257b6e3d38b8183" kindref="member">Return</ref>(</highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(0)).Times(<ref refid="namespacetesting_1a5487cd1068c78821ced96fbf542a91bb" kindref="member">AtMost</ref>(3));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Baz(_,<sp/>_));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Baz(</highlight><highlight class="stringliteral">&quot;hi&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;you&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1a492ba67db1dfe5dc8257b6e3d38b8183" kindref="member">Return</ref>(</highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillRepeatedly(<ref refid="namespacetesting_1ae041df61ff61ccb9753ba15b4309e1a6" kindref="member">DoDefault</ref>());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Bar(0));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Bar(0));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(</highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">,<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Baz(</highlight><highlight class="stringliteral">&quot;hi&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;you&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(</highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">,<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Baz(</highlight><highlight class="stringliteral">&quot;hi&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;you&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(</highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">,<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Baz(</highlight><highlight class="stringliteral">&quot;hi&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;me&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>invoking<sp/>methods<sp/>of<sp/>the<sp/>same<sp/>mock<sp/>object<sp/>in<sp/>multiple<sp/>threads.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Helper1Param<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>MockFoo*<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc_1a356e01cb7dd3338b406f2905cfdc1107" kindref="member">mock_foo</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock__stress__test_8cc_1afd9db40e3361ae09188795e8cbe19752" kindref="member">count</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Helper1(Helper1Param<sp/>param)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>kRepeat;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>++)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1af53f92900705f7de3c139a05b2f9ef16" kindref="member">ch</ref><sp/>=<sp/>param.mock_foo-&gt;Baz(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1af53f92900705f7de3c139a05b2f9ef16" kindref="member">ch</ref><sp/>==<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>It<sp/>was<sp/>an<sp/>expected<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>(*param.count)++;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>It<sp/>was<sp/>an<sp/>excessive<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(</highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">,<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1af53f92900705f7de3c139a05b2f9ef16" kindref="member">ch</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>unexpected<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(</highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">,<sp/>param.mock_foo-&gt;Baz(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>failure.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>uninteresting<sp/>call.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(1,<sp/>param.mock_foo-&gt;Bar(5));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>should<sp/>generate<sp/>3*kRepeat<sp/>+<sp/>1<sp/>failures<sp/>in<sp/>total.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TestConcurrentCallsOnSameObject(Dummy<sp/></highlight><highlight class="comment">/*<sp/>dummy<sp/>*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/>MockFoo<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(_)).WillByDefault(<ref refid="namespacetesting_1a492ba67db1dfe5dc8257b6e3d38b8183" kindref="member">Return</ref>(1));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Baz(_,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">)).Times(kRepeat).WillRepeatedly(<ref refid="namespacetesting_1a492ba67db1dfe5dc8257b6e3d38b8183" kindref="member">Return</ref>(</highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Baz(_,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>to<sp/>be<sp/>unsatisfied.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>chunk<sp/>of<sp/>code<sp/>should<sp/>generate<sp/>kRepeat<sp/>failures<sp/>about</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>excessive<sp/>calls,<sp/>and<sp/>2*kRepeat<sp/>failures<sp/>about<sp/>unexpected<sp/>calls.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count1<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Helper1Param<sp/>param<sp/>=<sp/>{&amp;<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>&amp;count1};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>ThreadWithParam&lt;Helper1Param&gt;*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1__musllinux_1a443e31063cc51804165a7ab21ee977ce" kindref="member">t</ref><sp/>=</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>ThreadWithParam&lt;Helper1Param&gt;(Helper1,<sp/>param,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count2<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Helper1Param<sp/>param2<sp/>=<sp/>{&amp;<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>&amp;count2};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/>Helper1(param2);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/>JoinAndDelete(t);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(kRepeat,<sp/>count1<sp/>+<sp/>count2);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>foo&apos;s<sp/>destructor<sp/>should<sp/>generate<sp/>one<sp/>failure<sp/>about<sp/>unsatisfied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>expectation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>using<sp/>the<sp/>same<sp/>mock<sp/>object<sp/>in<sp/>multiple<sp/>threads<sp/>when<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>expectations<sp/>are<sp/>partially<sp/>ordered.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Helper2(MockFoo*<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>kRepeat;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>++)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacefoo" kindref="compound">foo</ref>-&gt;Bar(2);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacefoo" kindref="compound">foo</ref>-&gt;Bar(3);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>should<sp/>generate<sp/>no<sp/>Google<sp/>Test<sp/>failures.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TestPartiallyOrderedExpectationsWithThreads(Dummy<sp/></highlight><highlight class="comment">/*<sp/>dummy<sp/>*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>MockFoo<sp/><ref refid="namespacefoo" kindref="compound">foo</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><ref refid="namespacepip_1_1__vendor_1_1typing__extensions_1ab883f984413b6bd2654af7d98bed94b2" kindref="member">Sequence</ref><sp/>s1,<sp/>s2;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>InSequence<sp/>dummy;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(0));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(1)).InSequence(s1,<sp/>s2);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(2))</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.Times(2<sp/>*<sp/>kRepeat)</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.InSequence(s1)</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(3)).Times(2<sp/>*<sp/>kRepeat).InSequence(s2);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>InSequence<sp/>dummy;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(2)).InSequence(s1,<sp/>s2);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/>Bar(4));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Bar(0);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Bar(1);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/>ThreadWithParam&lt;MockFoo*&gt;*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1__musllinux_1a443e31063cc51804165a7ab21ee977ce" kindref="member">t</ref><sp/>=</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>ThreadWithParam&lt;MockFoo*&gt;(Helper2,<sp/>&amp;<ref refid="namespacefoo" kindref="compound">foo</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/>Helper2(&amp;<ref refid="namespacefoo" kindref="compound">foo</ref>);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/>JoinAndDelete(t);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Bar(2);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><ref refid="namespacefoo" kindref="compound">foo</ref>.Bar(4);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>using<sp/>Google<sp/>Mock<sp/>constructs<sp/>in<sp/>many<sp/>threads<sp/>concurrently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(StressTest,<sp/>CanUseGMockWithThreads)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/>void<sp/>(*test_routines[])(Dummy<sp/>dummy)<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&amp;TestConcurrentMockObjects,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&amp;TestConcurrentCallsOnSameObject,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&amp;TestPartiallyOrderedExpectationsWithThreads,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRoutines<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(test_routines)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(test_routines[0]);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kCopiesOfEachRoutine<sp/>=<sp/>kMaxTestThreads<sp/>/<sp/>kRoutines;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kTestThreads<sp/>=<sp/>kCopiesOfEachRoutine<sp/>*<sp/>kRoutines;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/>ThreadWithParam&lt;Dummy&gt;*<sp/>threads[kTestThreads]<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>kTestThreads;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>++)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Creates<sp/>a<sp/>thread<sp/>to<sp/>run<sp/>the<sp/>test<sp/>function.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>threads[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>]<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>ThreadWithParam&lt;Dummy&gt;(test_routines[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>%<sp/>kRoutines],</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Dummy(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a8ef4cb4c465db8c15464aecc6d9510ef" kindref="member">GTEST_LOG_</ref>(INFO)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Thread<sp/>#&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>running<sp/>.<sp/>.<sp/>.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>this<sp/>point,<sp/>we<sp/>have<sp/>many<sp/>threads<sp/>running.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>kTestThreads;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>++)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>JoinAndDelete(threads[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>]);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensures<sp/>that<sp/>the<sp/>correct<sp/>number<sp/>of<sp/>failures<sp/>have<sp/>been<sp/>reported.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TestInfo*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1distro_1_1distro_1a747623d2b5c8d8c3c3e5a84375af22b9" kindref="member">info</ref><sp/>=<sp/><ref refid="classtesting_1_1UnitTest_1a24192400b70b3b946746954e9574fb8e" kindref="member">UnitTest::GetInstance</ref>()-&gt;<ref refid="classtesting_1_1UnitTest_1a088eaf814a33085ace3d881d22e6bdea" kindref="member">current_test_info</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TestResult&amp;<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1prompt_1ae8c100ce7b4b02ef7ce94d7581f2ac82" kindref="member">result</ref><sp/>=<sp/>*<ref refid="namespacepip_1_1__vendor_1_1distro_1_1distro_1a747623d2b5c8d8c3c3e5a84375af22b9" kindref="member">info</ref>-&gt;result();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kExpectedFailures<sp/>=<sp/>(3<sp/>*<sp/>kRepeat<sp/>+<sp/>1)<sp/>*<sp/>kCopiesOfEachRoutine;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1ab54343f0a36dc4cb0ce8a478dd7847b8" kindref="member">GTEST_CHECK_</ref>(kExpectedFailures<sp/>==<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1prompt_1ae8c100ce7b4b02ef7ce94d7581f2ac82" kindref="member">result</ref>.total_part_count())</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kExpectedFailures<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>failures,<sp/>but<sp/>got<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1prompt_1ae8c100ce7b4b02ef7ce94d7581f2ac82" kindref="member">result</ref>.total_part_count();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2src_2gmock__main_8cc_1a7f83bdc516d2cb86e20235d94ddf055a" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>argv)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><ref refid="namespacetesting_1a9276d4bc746722cb4fe99415c1dc778f" kindref="member">testing::InitGoogleMock</ref>(&amp;argc,<sp/>argv);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>exit_code<sp/>=<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>to<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1ab54343f0a36dc4cb0ce8a478dd7847b8" kindref="member">GTEST_CHECK_</ref>(exit_code<sp/>!=<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;RUN_ALL_TESTS()<sp/>did<sp/>not<sp/>fail<sp/>as<sp/>expected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;\nPASS\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/googlemock/test/gmock_stress_test.cc"/>
+  </compounddef>
+</doxygen>

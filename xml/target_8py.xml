@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="target_8py" kind="file" language="Python">
+    <compoundname>target.py</compoundname>
+    <innerclass refid="classbreathe_1_1renderer_1_1target_1_1TargetHandler" prot="public">breathe::renderer::target::TargetHandler</innerclass>
+    <innerclass refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler" prot="protected">breathe::renderer::target::_RealTargetHandler</innerclass>
+    <innerclass refid="classbreathe_1_1renderer_1_1target_1_1__NullTargetHandler" prot="protected">breathe::renderer::target::_NullTargetHandler</innerclass>
+    <innernamespace refid="namespacebreathe">breathe</innernamespace>
+    <innernamespace refid="namespacebreathe_1_1renderer">breathe::renderer</innernamespace>
+    <innernamespace refid="namespacebreathe_1_1renderer_1_1target">breathe::renderer::target</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacebreathe_1_1renderer_1_1target" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections.abc<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Sequence</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Any</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1nodes" kindref="compound">docutils.nodes</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Element</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacebreathe_1_1project" kindref="compound">breathe.project</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ProjectInfo</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="classbreathe_1_1renderer_1_1target_1_1TargetHandler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1renderer_1_1target_1_1TargetHandler" kindref="compound">TargetHandler</ref>:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1renderer_1_1target_1_1TargetHandler_1aade0af8c7f98ec9113d41b3ad704c418" kindref="member">create_target</ref>(self,<sp/>refid:<sp/>str)<sp/>-&gt;<sp/>Sequence[Element]:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler" kindref="compound">_RealTargetHandler</ref>(<ref refid="classbreathe_1_1renderer_1_1target_1_1TargetHandler" kindref="compound">TargetHandler</ref>):</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler_1a4d29ad399ea97cd2925d9ec74d241d36" kindref="member">__init__</ref>(self,<sp/>project_info:<sp/>ProjectInfo,<sp/>document:<sp/>nodes.document):</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler_1af6a266734d19d7ab74d8fd24f39f8baa" kindref="member">project_info</ref><sp/>=<sp/>project_info</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler_1ac76808c53d3a91b78715e1f5a2c63396" kindref="member">document</ref><sp/>=<sp/>document</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler_1a3c33e79d610d2ab9e34642a8c461b92a" kindref="member">create_target</ref>(self,<sp/>refid:<sp/>str)<sp/>-&gt;<sp/>list[Element]:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Creates<sp/>a<sp/>target<sp/>node<sp/>and<sp/>registers<sp/>it<sp/>with<sp/>the<sp/>document<sp/>and<sp/>returns<sp/>it<sp/>in<sp/>a<sp/>list&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target<sp/>=<sp/>nodes.target(ids=[refid],<sp/>names=[refid])</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler_1ac76808c53d3a91b78715e1f5a2c63396" kindref="member">document</ref>.note_explicit_target(target)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>Exception:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>TODO:<sp/>We<sp/>should<sp/>really<sp/>return<sp/>a<sp/>docutils<sp/>warning<sp/>node<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&quot;Warning:<sp/>Duplicate<sp/>target<sp/>detected:<sp/>%s&quot;</highlight><highlight class="normal"><sp/>%<sp/>refid)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[target]</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classbreathe_1_1renderer_1_1target_1_1__NullTargetHandler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1renderer_1_1target_1_1__NullTargetHandler" kindref="compound">_NullTargetHandler</ref>(<ref refid="classbreathe_1_1renderer_1_1target_1_1TargetHandler" kindref="compound">TargetHandler</ref>):</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1renderer_1_1target_1_1__NullTargetHandler_1aa9c69cbe4a772070bcd3a53df3c6cf34" kindref="member">create_target</ref>(self,<sp/>refid:<sp/>str)<sp/>-&gt;<sp/>list[Element]:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[]</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">create_target_handler(</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>options:<sp/>dict[str,<sp/>Any],<sp/>project_info:<sp/>ProjectInfo,<sp/>document:<sp/>nodes.document</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">)<sp/>-&gt;<sp/>TargetHandler:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;no-link&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>options:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classbreathe_1_1renderer_1_1target_1_1__NullTargetHandler" kindref="compound">_NullTargetHandler</ref>()</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classbreathe_1_1renderer_1_1target_1_1__RealTargetHandler" kindref="compound">_RealTargetHandler</ref>(project_info,<sp/>document)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/target.py"/>
+  </compounddef>
+</doxygen>

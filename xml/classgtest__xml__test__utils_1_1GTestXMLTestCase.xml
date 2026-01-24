@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classgtest__xml__test__utils_1_1GTestXMLTestCase" kind="class" language="Python" prot="public">
+    <compoundname>gtest_xml_test_utils::GTestXMLTestCase</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">gtest_test_utils.TestCase</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">gtest_test_utils.TestCase</basecompoundref>
+    <derivedcompoundref refid="classgtest__xml__outfiles__test_1_1GTestXMLOutFilesTest" prot="public" virt="non-virtual">gtest_xml_outfiles_test.GTestXMLOutFilesTest</derivedcompoundref>
+    <derivedcompoundref refid="classgtest__xml__outfiles__test_1_1GTestXMLOutFilesTest" prot="public" virt="non-virtual">gtest_xml_outfiles_test.GTestXMLOutFilesTest</derivedcompoundref>
+    <derivedcompoundref refid="classgtest__xml__output__unittest_1_1GTestXMLOutputUnitTest" prot="public" virt="non-virtual">gtest_xml_output_unittest.GTestXMLOutputUnitTest</derivedcompoundref>
+    <derivedcompoundref refid="classgtest__xml__output__unittest_1_1GTestXMLOutputUnitTest" prot="public" virt="non-virtual">gtest_xml_output_unittest.GTestXMLOutputUnitTest</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a1933850539bc8e2b60f9ffbb0f5a40b7" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict gtest_xml_test_utils.GTestXMLTestCase::identifying_attribute</definition>
+        <argsstring></argsstring>
+        <name>identifying_attribute</name>
+        <qualifiedname>gtest_xml_test_utils.GTestXMLTestCase.identifying_attribute</qualifiedname>
+        <initializer>=  {
+      &apos;testsuites&apos;: &apos;name&apos;,
+      &apos;testsuite&apos;: &apos;name&apos;,
+      &apos;testcase&apos;: &apos;name&apos;,
+      &apos;failure&apos;: &apos;message&apos;,
+      &apos;skipped&apos;: &apos;message&apos;,
+      &apos;property&apos;: &apos;name&apos;,
+  }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="122" column="1" bodyfile="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a15d033a555b3e323399c4a03e57e82d1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>gtest_xml_test_utils.GTestXMLTestCase::identifying_attribute</definition>
+        <argsstring></argsstring>
+        <name>identifying_attribute</name>
+        <qualifiedname>gtest_xml_test_utils.GTestXMLTestCase.identifying_attribute</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="163" column="1" bodyfile="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classgtest__xml__test__utils_1_1GTestXMLTestCase_1aa18d40539741ab7357616c9557781e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gtest_xml_test_utils.GTestXMLTestCase.AssertEquivalentNodes</definition>
+        <argsstring>(self, expected_node, actual_node)</argsstring>
+        <name>AssertEquivalentNodes</name>
+        <qualifiedname>gtest_xml_test_utils.GTestXMLTestCase.AssertEquivalentNodes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>expected_node</type>
+          <defname>expected_node</defname>
+        </param>
+        <param>
+          <type>actual_node</type>
+          <defname>actual_node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Asserts that actual_node is equivalent to expected_node.
+
+Asserts that actual_node (a DOM node object) is equivalent to
+expected_node (another DOM node object), in that either both of
+them are CDATA nodes and have the same value, or both are DOM
+elements and actual_node meets all of the following conditions:
+
+*  It has the same tag name as expected_node.
+*  It has the same set of attributes as expected_node, each with
+   the same value as the corresponding attribute of expected_node.
+   Exceptions are any attribute named &quot;time&quot;, which needs only be
+   convertible to a floating-point number and any attribute named
+   &quot;type_param&quot; which only has to be non-empty.
+*  It has an equivalent set of child nodes (including elements and
+   CDATA sections) as expected_node.  Note that we ignore the
+   order of the children as they are not guaranteed to be in any
+   particular order.
+
+Args:
+  expected_node: expected DOM node object
+  actual_node: actual DOM node object
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="42" column="1" bodyfile="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="42" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a2b8aed90eb732e3cc3f0cc333e19a2f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gtest_xml_test_utils.GTestXMLTestCase.NormalizeXml</definition>
+        <argsstring>(self, element)</argsstring>
+        <name>NormalizeXml</name>
+        <qualifiedname>gtest_xml_test_utils.GTestXMLTestCase.NormalizeXml</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>element</type>
+          <defname>element</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalizes XML that may change from run to run.
+
+Normalizes Google Test&apos;s XML output to eliminate references to transient
+information that may change from run to run.
+
+*  The &quot;time&quot; attribute of &lt;testsuites&gt;, &lt;testsuite&gt; and &lt;testcase&gt;
+   elements is replaced with a single asterisk, if it contains
+   only digit characters.
+*  The &quot;timestamp&quot; attribute of &lt;testsuites&gt; elements is replaced with a
+   single asterisk, if it contains a valid ISO8601 datetime value.
+*  The &quot;type_param&quot; attribute of &lt;testcase&gt; elements is replaced with a
+   single asterisk (if it sn non-empty) as it is the type name returned
+   by the compiler and is platform dependent.
+*  The line info reported in the first line of the &quot;message&quot;
+   attribute and CDATA section of &lt;failure&gt; elements is replaced with the
+   file&apos;s basename and a single asterisk for the line number.
+*  The directory names in file paths are removed.
+*  The stack traces are removed.
+
+Args:
+  element: DOM element to normalize
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="186" column="1" bodyfile="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="186" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classgtest__xml__test__utils_1_1GTestXMLTestCase_1aa18d40539741ab7357616c9557781e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gtest_xml_test_utils.GTestXMLTestCase.AssertEquivalentNodes</definition>
+        <argsstring>(self, expected_node, actual_node)</argsstring>
+        <name>AssertEquivalentNodes</name>
+        <qualifiedname>gtest_xml_test_utils.GTestXMLTestCase.AssertEquivalentNodes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>expected_node</type>
+          <defname>expected_node</defname>
+        </param>
+        <param>
+          <type>actual_node</type>
+          <defname>actual_node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Asserts that actual_node is equivalent to expected_node.
+
+Asserts that actual_node (a DOM node object) is equivalent to
+expected_node (another DOM node object), in that either both of
+them are CDATA nodes and have the same value, or both are DOM
+elements and actual_node meets all of the following conditions:
+
+*  It has the same tag name as expected_node.
+*  It has the same set of attributes as expected_node, each with
+   the same value as the corresponding attribute of expected_node.
+   Exceptions are any attribute named &quot;time&quot;, which needs only be
+   convertible to a floating-point number and any attribute named
+   &quot;type_param&quot; which only has to be non-empty.
+*  It has an equivalent set of child nodes (including elements and
+   CDATA sections) as expected_node.  Note that we ignore the
+   order of the children as they are not guaranteed to be in any
+   particular order.
+
+Args:
+  expected_node: expected DOM node object
+  actual_node: actual DOM node object
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="42" column="1" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="42" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a2b8aed90eb732e3cc3f0cc333e19a2f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gtest_xml_test_utils.GTestXMLTestCase.NormalizeXml</definition>
+        <argsstring>(self, element)</argsstring>
+        <name>NormalizeXml</name>
+        <qualifiedname>gtest_xml_test_utils.GTestXMLTestCase.NormalizeXml</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>element</type>
+          <defname>element</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalizes XML that may change from run to run.
+
+Normalizes Google Test&apos;s XML output to eliminate references to transient
+information that may change from run to run.
+
+*  The &quot;time&quot; attribute of &lt;testsuites&gt;, &lt;testsuite&gt; and &lt;testcase&gt;
+   elements is replaced with a single asterisk, if it contains
+   only digit characters.
+*  The &quot;timestamp&quot; attribute of &lt;testsuites&gt; elements is replaced with a
+   single asterisk, if it contains a valid ISO8601 datetime value.
+*  The &quot;type_param&quot; attribute of &lt;testcase&gt; elements is replaced with a
+   single asterisk (if it sn non-empty) as it is the type name returned
+   by the compiler and is platform dependent.
+*  The line info reported in the first line of the &quot;message&quot;
+   attribute and CDATA section of &lt;failure&gt; elements is replaced with the
+   file&apos;s basename and a single asterisk for the line number.
+*  The directory names in file paths are removed.
+*  The stack traces are removed.
+
+Args:
+  element: DOM element to normalize
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="186" column="1" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="186" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a2359b446aa283a582efe48d1e2f3f75a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gtest_xml_test_utils.GTestXMLTestCase._GetChildren</definition>
+        <argsstring>(self, element)</argsstring>
+        <name>_GetChildren</name>
+        <qualifiedname>gtest_xml_test_utils.GTestXMLTestCase._GetChildren</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>element</type>
+          <defname>element</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Fetches all of the child nodes of element, a DOM Element object.
+
+Returns them as the values of a dictionary keyed by the IDs of the children.
+For &lt;testsuites&gt;, &lt;testsuite&gt;, &lt;testcase&gt;, and &lt;property&gt; elements, the ID
+is the value of their &quot;name&quot; attribute; for &lt;failure&gt; elements, it is the
+value of the &quot;message&quot; attribute; for &lt;properties&gt; elements, it is the value
+of their parent&apos;s &quot;name&quot; attribute plus the literal string &quot;properties&quot;;
+CDATA sections and non-whitespace text nodes are concatenated into a single
+CDATA section with ID &quot;detail&quot;.  An exception is raised if any element other
+than the above four is encountered, if two child elements with the same
+identifying attributes are encountered, or if any other type of node is
+encountered.
+
+Args:
+  element: DOM Element object
+
+Returns:
+  Dictionary where keys are the IDs of the children.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="131" column="1" bodyfile="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="131" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a2359b446aa283a582efe48d1e2f3f75a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gtest_xml_test_utils.GTestXMLTestCase._GetChildren</definition>
+        <argsstring>(self, element)</argsstring>
+        <name>_GetChildren</name>
+        <qualifiedname>gtest_xml_test_utils.GTestXMLTestCase._GetChildren</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>element</type>
+          <defname>element</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Fetches all of the child nodes of element, a DOM Element object.
+
+Returns them as the values of a dictionary keyed by the IDs of the children.
+For &lt;testsuites&gt;, &lt;testsuite&gt;, &lt;testcase&gt;, and &lt;property&gt; elements, the ID
+is the value of their &quot;name&quot; attribute; for &lt;failure&gt; elements, it is the
+value of the &quot;message&quot; attribute; for &lt;properties&gt; elements, it is the value
+of their parent&apos;s &quot;name&quot; attribute plus the literal string &quot;properties&quot;;
+CDATA sections and non-whitespace text nodes are concatenated into a single
+CDATA section with ID &quot;detail&quot;.  An exception is raised if any element other
+than the above four is encountered, if two child elements with the same
+identifying attributes are encountered, or if any other type of node is
+encountered.
+
+Args:
+  element: DOM Element object
+
+Returns:
+  Dictionary where keys are the IDs of the children.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="131" column="1" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="131" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base class for tests of Google Test&apos;s XML output functionality.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>gtest_test_utils.TestCase</label>
+      </node>
+      <node id="3">
+        <label>gtest_xml_outfiles_test.GTestXMLOutFilesTest</label>
+        <link refid="classgtest__xml__outfiles__test_1_1GTestXMLOutFilesTest"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>gtest_xml_output_unittest.GTestXMLOutputUnitTest</label>
+        <link refid="classgtest__xml__output__unittest_1_1GTestXMLOutputUnitTest"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gtest_xml_test_utils.GTestXMLTestCase</label>
+        <link refid="classgtest__xml__test__utils_1_1GTestXMLTestCase"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>gtest_test_utils.TestCase</label>
+      </node>
+      <node id="1">
+        <label>gtest_xml_test_utils.GTestXMLTestCase</label>
+        <link refid="classgtest__xml__test__utils_1_1GTestXMLTestCase"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" line="39" column="1" bodyfile="build/_deps/googletest-src/googletest/test/gtest_xml_test_utils.py" bodystart="39" bodyend="243"/>
+    <listofallmembers>
+      <member refid="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a2359b446aa283a582efe48d1e2f3f75a" prot="protected" virt="non-virtual"><scope>gtest_xml_test_utils::GTestXMLTestCase</scope><name>_GetChildren</name></member>
+      <member refid="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a2359b446aa283a582efe48d1e2f3f75a" prot="protected" virt="non-virtual"><scope>gtest_xml_test_utils::GTestXMLTestCase</scope><name>_GetChildren</name></member>
+      <member refid="classgtest__xml__test__utils_1_1GTestXMLTestCase_1aa18d40539741ab7357616c9557781e82" prot="public" virt="non-virtual"><scope>gtest_xml_test_utils::GTestXMLTestCase</scope><name>AssertEquivalentNodes</name></member>
+      <member refid="classgtest__xml__test__utils_1_1GTestXMLTestCase_1aa18d40539741ab7357616c9557781e82" prot="public" virt="non-virtual"><scope>gtest_xml_test_utils::GTestXMLTestCase</scope><name>AssertEquivalentNodes</name></member>
+      <member refid="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a1933850539bc8e2b60f9ffbb0f5a40b7" prot="public" virt="non-virtual"><scope>gtest_xml_test_utils::GTestXMLTestCase</scope><name>identifying_attribute</name></member>
+      <member refid="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a15d033a555b3e323399c4a03e57e82d1" prot="public" virt="non-virtual"><scope>gtest_xml_test_utils::GTestXMLTestCase</scope><name>identifying_attribute</name></member>
+      <member refid="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a2b8aed90eb732e3cc3f0cc333e19a2f0" prot="public" virt="non-virtual"><scope>gtest_xml_test_utils::GTestXMLTestCase</scope><name>NormalizeXml</name></member>
+      <member refid="classgtest__xml__test__utils_1_1GTestXMLTestCase_1a2b8aed90eb732e3cc3f0cc333e19a2f0" prot="public" virt="non-virtual"><scope>gtest_xml_test_utils::GTestXMLTestCase</scope><name>NormalizeXml</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

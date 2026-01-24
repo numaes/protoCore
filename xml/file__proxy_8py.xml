@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="file__proxy_8py" kind="file" language="Python">
+    <compoundname>file_proxy.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy" prot="public">pip::_vendor::rich::file_proxy::FileProxy</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich">pip::_vendor::rich</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich_1_1file__proxy">pip::_vendor::rich::file_proxy</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1rich_1_1file__proxy" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>io</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>IO,<sp/>TYPE_CHECKING,<sp/>Any,<sp/>List</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.ansi<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>AnsiDecoder</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.text<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Text</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.console<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Console</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy" kindref="compound">FileProxy</ref>(io.TextIOBase):</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Wraps<sp/>a<sp/>file<sp/>(e.g.<sp/>sys.stdout)<sp/>and<sp/>redirects<sp/>writes<sp/>to<sp/>a<sp/>console.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a784ebfc931aec5c21cf95b595368c5ed" kindref="member">__init__</ref>(self,<sp/>console:<sp/></highlight><highlight class="stringliteral">&quot;Console&quot;</highlight><highlight class="normal">,<sp/>file:<sp/>IO[str])<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a223ee37491d35e25bc25bc39f156d595" kindref="member">__console</ref><sp/>=<sp/>console</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a8103834f0c0db89f963022725ea0cac9" kindref="member">__file</ref><sp/>=<sp/>file</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.__buffer:<sp/>List[str]<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1af2b76745c70418cb473240730bcc4bb7" kindref="member">__ansi_decoder</ref><sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1ansi_1_1AnsiDecoder" kindref="compound">AnsiDecoder</ref>()</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a16f433708db8996cbccb92ee69a75271" kindref="member">rich_proxied_file</ref>(self)<sp/>-&gt;<sp/>IO[str]:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>proxied<sp/>file.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a8103834f0c0db89f963022725ea0cac9" kindref="member">__file</ref></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a947f2df2e0aff51c7278e4cc27fdad4c" kindref="member">__getattr__</ref>(self,<sp/>name:<sp/>str)<sp/>-&gt;<sp/>Any:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getattr(self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a8103834f0c0db89f963022725ea0cac9" kindref="member">__file</ref>,<sp/>name)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a433bec714cb79fe570a7fa947d7ef607" kindref="member">write</ref>(self,<sp/>text:<sp/>str)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(text,<sp/>str):</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>TypeError(f</highlight><highlight class="stringliteral">&quot;write()<sp/>argument<sp/>must<sp/>be<sp/>str,<sp/>not<sp/>{type(text).__name__}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer<sp/>=<sp/>self.__buffer</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lines:<sp/>List[str]<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>text:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>line,<sp/>new_line,<sp/>text<sp/>=<sp/>text.partition(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>new_line:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lines.append(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(buffer)<sp/>+<sp/>line)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer.clear()</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer.append(line)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>lines:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>console<sp/>=<sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a223ee37491d35e25bc25bc39f156d595" kindref="member">__console</ref></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>console:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1text_1_1Text" kindref="compound">Text</ref>(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">).join(</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1af2b76745c70418cb473240730bcc4bb7" kindref="member">__ansi_decoder</ref>.decode_line(line)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>line<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>lines</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>console.print(output)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>len(text)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1af9df24b30b10915478c4224d64b42339" kindref="member">flush</ref>(self)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(self.__buffer)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>output:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a223ee37491d35e25bc25bc39f156d595" kindref="member">__console</ref>.print(output)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>self.__buffer[:]</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1af1cc4bfdb380df0faf645be4512a5534" kindref="member">fileno</ref>(self)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1a8103834f0c0db89f963022725ea0cac9" kindref="member">__file</ref>.<ref refid="classpip_1_1__vendor_1_1rich_1_1file__proxy_1_1FileProxy_1af1cc4bfdb380df0faf645be4512a5534" kindref="member">fileno</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/file_proxy.py"/>
+  </compounddef>
+</doxygen>

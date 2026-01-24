@@ -1,0 +1,977 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1distro_1_1distro" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::distro::distro</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1distro_1_1distro_1_1cached__property" prot="public">pip::_vendor::distro::distro::cached_property</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distro_1_1distro_1_1InfoDict" prot="public">pip::_vendor::distro::distro::InfoDict</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distro_1_1distro_1_1LinuxDistribution" prot="public">pip::_vendor::distro::distro::LinuxDistribution</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distro_1_1distro_1_1VersionDict" prot="public">pip::_vendor::distro::distro::VersionDict</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a88f8fedc594df3311cb43314c50b83cc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distro::distro.TypedDict</definition>
+        <argsstring></argsstring>
+        <name>TypedDict</name>
+        <qualifiedname>pip._vendor.distro.distro.TypedDict</qualifiedname>
+        <initializer>=  dict</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1af9127c1b5fe8b21e852bd41a904e4e9a" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distro::distro.__version__</definition>
+        <argsstring></argsstring>
+        <name>__version__</name>
+        <qualifiedname>pip._vendor.distro.distro.__version__</qualifiedname>
+        <initializer>=  &quot;1.8.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1abb0bfd4d787d53533ea31fb95fc9fc38" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distro::distro._UNIXCONFDIR</definition>
+        <argsstring></argsstring>
+        <name>_UNIXCONFDIR</name>
+        <qualifiedname>pip._vendor.distro.distro._UNIXCONFDIR</qualifiedname>
+        <initializer>=  os.environ.get(&quot;UNIXCONFDIR&quot;, &quot;/etc&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a0fa80b83dea876a60e941eee9c494dbf" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distro::distro._UNIXUSRLIBDIR</definition>
+        <argsstring></argsstring>
+        <name>_UNIXUSRLIBDIR</name>
+        <qualifiedname>pip._vendor.distro.distro._UNIXUSRLIBDIR</qualifiedname>
+        <initializer>=  os.environ.get(&quot;UNIXUSRLIBDIR&quot;, &quot;/usr/lib&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a6e3e32bb556c124aa3026ec752810cb7" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distro::distro._OS_RELEASE_BASENAME</definition>
+        <argsstring></argsstring>
+        <name>_OS_RELEASE_BASENAME</name>
+        <qualifiedname>pip._vendor.distro.distro._OS_RELEASE_BASENAME</qualifiedname>
+        <initializer>=  &quot;os-release&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a4723102f8e8cc4b99419364380e4d85b" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::distro::distro.NORMALIZED_OS_ID</definition>
+        <argsstring></argsstring>
+        <name>NORMALIZED_OS_ID</name>
+        <qualifiedname>pip._vendor.distro.distro.NORMALIZED_OS_ID</qualifiedname>
+        <initializer>=  {
+    &quot;ol&quot;: &quot;oracle&quot;,  # Oracle Linux
+    &quot;opensuse-leap&quot;: &quot;opensuse&quot;,  # Newer versions of OpenSuSE report as opensuse-leap
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="86" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1ad2346f86f5c50f37ca1b3d31dc2c7594" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::distro::distro.NORMALIZED_LSB_ID</definition>
+        <argsstring></argsstring>
+        <name>NORMALIZED_LSB_ID</name>
+        <qualifiedname>pip._vendor.distro.distro.NORMALIZED_LSB_ID</qualifiedname>
+        <initializer>=  {
+    &quot;enterpriseenterpriseas&quot;: &quot;oracle&quot;,  # Oracle Enterprise Linux 4
+    &quot;enterpriseenterpriseserver&quot;: &quot;oracle&quot;,  # Oracle Linux 5
+    &quot;redhatenterpriseworkstation&quot;: &quot;rhel&quot;,  # RHEL 6, 7 Workstation
+    &quot;redhatenterpriseserver&quot;: &quot;rhel&quot;,  # RHEL 6, 7 Server
+    &quot;redhatenterprisecomputenode&quot;: &quot;rhel&quot;,  # RHEL 6 ComputeNode
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1ad7c518fb49fed573b1ac5934b003e8a8" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::distro::distro.NORMALIZED_DISTRO_ID</definition>
+        <argsstring></argsstring>
+        <name>NORMALIZED_DISTRO_ID</name>
+        <qualifiedname>pip._vendor.distro.distro.NORMALIZED_DISTRO_ID</qualifiedname>
+        <initializer>=  {
+    &quot;redhat&quot;: &quot;rhel&quot;,  # RHEL 6.<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>, 7.<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="113" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a75e685d6ac8af058d3b6aac85fde68de" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distro::distro._DISTRO_RELEASE_CONTENT_REVERSED_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>_DISTRO_RELEASE_CONTENT_REVERSED_PATTERN</name>
+        <qualifiedname>pip._vendor.distro.distro._DISTRO_RELEASE_CONTENT_REVERSED_PATTERN</qualifiedname>
+        <initializer>=  re.compile(
+    r&quot;(?:[^)]*\)(.*)\()? *(?:STL )?([\d.+\-a-<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a196ff6a287f53f758b1506f21269fc77" kindref="member">z</ref>]*\d) *(?:esaeler *)?(.+)&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="118" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a0775f9b68a7d6d5ca1c7fb5db35e1135" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distro::distro._DISTRO_RELEASE_BASENAME_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>_DISTRO_RELEASE_BASENAME_PATTERN</name>
+        <qualifiedname>pip._vendor.distro.distro._DISTRO_RELEASE_BASENAME_PATTERN</qualifiedname>
+        <initializer>=  re.compile(r&quot;(\w+)[-_](release|<ref refid="namespacepip_1_1__vendor_1_1distro_1_1distro_1ad47003d9bf08cfbdc31367bbbd84bab6" kindref="member">version</ref>)$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="123" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1aa714f7cab79dc238f490d4decc30e644" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::distro::distro._DISTRO_RELEASE_BASENAMES</definition>
+        <argsstring></argsstring>
+        <name>_DISTRO_RELEASE_BASENAMES</name>
+        <qualifiedname>pip._vendor.distro.distro._DISTRO_RELEASE_BASENAMES</qualifiedname>
+        <initializer>=  [
+    &quot;SuSE-release&quot;,
+    &quot;arch-release&quot;,
+    &quot;base-release&quot;,
+    &quot;centos-release&quot;,
+    &quot;fedora-release&quot;,
+    &quot;gentoo-release&quot;,
+    &quot;mageia-release&quot;,
+    &quot;mandrake-release&quot;,
+    &quot;mandriva-release&quot;,
+    &quot;mandrivalinux-release&quot;,
+    &quot;manjaro-release&quot;,
+    &quot;oracle-release&quot;,
+    &quot;redhat-release&quot;,
+    &quot;rocky-release&quot;,
+    &quot;sl-release&quot;,
+    &quot;slackware-version&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="126" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a08184eda92f46c420dc67c54a83d8f0e" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_vendor::distro::distro._DISTRO_RELEASE_IGNORE_BASENAMES</definition>
+        <argsstring></argsstring>
+        <name>_DISTRO_RELEASE_IGNORE_BASENAMES</name>
+        <qualifiedname>pip._vendor.distro.distro._DISTRO_RELEASE_IGNORE_BASENAMES</qualifiedname>
+        <initializer>=  (
+    &quot;debian_version&quot;,
+    &quot;lsb-release&quot;,
+    &quot;oem-release&quot;,
+    <ref refid="namespacepip_1_1__vendor_1_1distro_1_1distro_1a6e3e32bb556c124aa3026ec752810cb7" kindref="member">_OS_RELEASE_BASENAME</ref>,
+    &quot;system-release&quot;,
+    &quot;plesk-release&quot;,
+    &quot;iredmail-release&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="146" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1aeea0ae7f6757391f492ea4f7fcc01cce" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distro::distro._distro</definition>
+        <argsstring></argsstring>
+        <name>_distro</name>
+        <qualifiedname>pip._vendor.distro.distro._distro</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1distro_1_1distro_1_1LinuxDistribution" kindref="compound">LinuxDistribution</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="1355" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="1355" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1ad391ecad97ffc1164d96af9807e5da6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str, str]</type>
+        <definition> Tuple[str, str, str] pip._vendor.distro.distro.linux_distribution</definition>
+        <argsstring>(bool full_distribution_name=True)</argsstring>
+        <name>linux_distribution</name>
+        <qualifiedname>pip._vendor.distro.distro.linux_distribution</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>full_distribution_name</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>.. deprecated:: 1.6.0
+
+    :func:`distro.linux_distribution()` is deprecated. It should only be
+    used as a compatibility shim with Python&apos;s
+    :py:func:`platform.linux_distribution()`. Please use :func:`distro.id`,
+    :func:`distro.version` and :func:`distro.name` instead.
+
+Return information about the current OS distribution as a tuple
+``(id_name, version, codename)`` with items as follows:
+
+* ``id_name``:  If *full_distribution_name* is false, the result of
+  :func:`distro.id`. Otherwise, the result of :func:`distro.name`.
+
+* ``version``:  The result of :func:`distro.version`.
+
+* ``codename``:  The extra item (usually in parentheses) after the
+  os-release version number, or the result of :func:`distro.codename`.
+
+The interface of this function is compatible with the original
+:py:func:`platform.linux_distribution` function, supporting a subset of
+its parameters.
+
+The data it returns may not exactly be the same, because it uses more data
+sources than the original function, and that may lead to different data if
+the OS distribution is not consistent across multiple data sources it
+provides (there are indeed such distributions ...).
+
+Another reason for differences is the fact that the :func:`distro.id`
+method normalizes the distro ID string to a reliable machine-readable value
+for a number of popular OS distributions.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="157" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="157" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a6514fce341f96f0beb6798442e3820c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.id</definition>
+        <argsstring>()</argsstring>
+        <name>id</name>
+        <qualifiedname>pip._vendor.distro.distro.id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the distro ID of the current distribution, as a
+machine-readable string.
+
+For a number of OS distributions, the returned distro ID value is
+*reliable*, in the sense that it is documented and that it does not change
+across releases of the distribution.
+
+This package maintains the following reliable distro ID values:
+
+==============  =========================================
+Distro ID       Distribution
+==============  =========================================
+&quot;ubuntu&quot;        Ubuntu
+&quot;debian&quot;        Debian
+&quot;rhel&quot;          RedHat Enterprise Linux
+&quot;centos&quot;        CentOS
+&quot;fedora&quot;        Fedora
+&quot;sles&quot;          SUSE Linux Enterprise Server
+&quot;opensuse&quot;      openSUSE
+&quot;amzn&quot;          Amazon Linux
+&quot;arch&quot;          Arch Linux
+&quot;buildroot&quot;     Buildroot
+&quot;cloudlinux&quot;    CloudLinux OS
+&quot;exherbo&quot;       Exherbo Linux
+&quot;gentoo&quot;        GenToo Linux
+&quot;ibm_powerkvm&quot;  IBM PowerKVM
+&quot;kvmibm&quot;        KVM for IBM z Systems
+&quot;linuxmint&quot;     Linux Mint
+&quot;mageia&quot;        Mageia
+&quot;mandriva&quot;      Mandriva Linux
+&quot;parallels&quot;     Parallels
+&quot;pidora&quot;        Pidora
+&quot;raspbian&quot;      Raspbian
+&quot;oracle&quot;        Oracle Linux (and Oracle Enterprise Linux)
+&quot;scientific&quot;    Scientific Linux
+&quot;slackware&quot;     Slackware
+&quot;xenserver&quot;     XenServer
+&quot;openbsd&quot;       OpenBSD
+&quot;netbsd&quot;        NetBSD
+&quot;freebsd&quot;       FreeBSD
+&quot;midnightbsd&quot;   MidnightBSD
+&quot;rocky&quot;         Rocky Linux
+&quot;aix&quot;           AIX
+&quot;guix&quot;          Guix System
+==============  =========================================
+
+If you have a need to get distros for reliable IDs added into this set,
+or if you find that the :func:`distro.id` function returns a different
+distro ID for one of the listed distros, please create an issue in the
+`distro issue tracker`_.
+
+**Lookup hierarchy and transformations:**
+
+First, the ID is obtained from the following sources, in the specified
+order. The first available and non-empty value is used:
+
+* the value of the &quot;ID&quot; attribute of the os-release file,
+
+* the value of the &quot;Distributor ID&quot; attribute returned by the lsb_release
+  command,
+
+* the first part of the file name of the distro release file,
+
+The so determined ID value then passes the following transformations,
+before it is returned by this method:
+
+* it is translated to lower case,
+
+* blanks (which should not be there anyway) are translated to underscores,
+
+* a normalization of the ID is performed, based upon
+  `normalization tables`_. The purpose of this normalization is to ensure
+  that the ID is as reliable as possible, even across incompatible changes
+  in the OS distributions. A common reason for an incompatible change is
+  the addition of an os-release file, or the addition of the lsb_release
+  command, with ID values that differ from what was previously determined
+  from the distro release file name.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="200" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="200" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a4aaea87247c97ab4b7bab45d7c552bac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.name</definition>
+        <argsstring>(bool pretty=False)</argsstring>
+        <name>name</name>
+        <qualifiedname>pip._vendor.distro.distro.name</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>pretty</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the name of the current OS distribution, as a human-readable
+string.
+
+If *pretty* is false, the name is returned without version or codename.
+(e.g. &quot;CentOS Linux&quot;)
+
+If *pretty* is true, the version and codename are appended.
+(e.g. &quot;CentOS Linux 7.1.1503 (Core)&quot;)
+
+**Lookup hierarchy:**
+
+The name is obtained from the following sources, in the specified order.
+The first available and non-empty value is used:
+
+* If *pretty* is false:
+
+  - the value of the &quot;NAME&quot; attribute of the os-release file,
+
+  - the value of the &quot;Distributor ID&quot; attribute returned by the lsb_release
+    command,
+
+  - the value of the &quot;&lt;name&gt;&quot; field of the distro release file.
+
+* If *pretty* is true:
+
+  - the value of the &quot;PRETTY_NAME&quot; attribute of the os-release file,
+
+  - the value of the &quot;Description&quot; attribute returned by the lsb_release
+    command,
+
+  - the value of the &quot;&lt;name&gt;&quot; field of the distro release file, appended
+    with the value of the pretty version (&quot;&lt;version_id&gt;&quot; and &quot;&lt;codename&gt;&quot;
+    fields) of the distro release file, if available.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="283" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="283" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1ad47003d9bf08cfbdc31367bbbd84bab6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.version</definition>
+        <argsstring>(bool pretty=False, bool best=False)</argsstring>
+        <name>version</name>
+        <qualifiedname>pip._vendor.distro.distro.version</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>pretty</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>best</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the version of the current OS distribution, as a human-readable
+string.
+
+If *pretty* is false, the version is returned without codename (e.g.
+&quot;7.0&quot;).
+
+If *pretty* is true, the codename in parenthesis is appended, if the
+codename is non-empty (e.g. &quot;7.0 (Maipo)&quot;).
+
+Some distributions provide version numbers with different precisions in
+the different sources of distribution information. Examining the different
+sources in a fixed priority order does not always yield the most precise
+version (e.g. for Debian 8.2, or CentOS 7.1).
+
+Some other distributions may not provide this kind of information. In these
+cases, an empty string would be returned. This behavior can be observed
+with rolling releases distributions (e.g. Arch Linux).
+
+The *best* parameter can be used to control the approach for the returned
+version:
+
+If *best* is false, the first non-empty version number in priority order of
+the examined sources is returned.
+
+If *best* is true, the most precise version number out of all examined
+sources is returned.
+
+**Lookup hierarchy:**
+
+In all cases, the version number is obtained from the following sources.
+If *best* is false, this order represents the priority order:
+
+* the value of the &quot;VERSION_ID&quot; attribute of the os-release file,
+* the value of the &quot;Release&quot; attribute returned by the lsb_release
+  command,
+* the version number parsed from the &quot;&lt;version_id&gt;&quot; field of the first line
+  of the distro release file,
+* the version number parsed from the &quot;PRETTY_NAME&quot; attribute of the
+  os-release file, if it follows the format of the distro release files.
+* the version number parsed from the &quot;Description&quot; attribute returned by
+  the lsb_release command, if it follows the format of the distro release
+  files.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="322" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="322" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a1f45c7620f8778f1ab82770a8530ca2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str, str]</type>
+        <definition> Tuple[str, str, str] pip._vendor.distro.distro.version_parts</definition>
+        <argsstring>(bool best=False)</argsstring>
+        <name>version_parts</name>
+        <qualifiedname>pip._vendor.distro.distro.version_parts</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>best</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the version of the current OS distribution as a tuple
+``(major, minor, build_number)`` with items as follows:
+
+* ``major``:  The result of :func:`distro.major_version`.
+
+* ``minor``:  The result of :func:`distro.minor_version`.
+
+* ``build_number``:  The result of :func:`distro.build_number`.
+
+For a description of the *best* parameter, see the :func:`distro.version`
+method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="370" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="370" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a7e24f4ab7cbcafd3380230790ee96077" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.major_version</definition>
+        <argsstring>(bool best=False)</argsstring>
+        <name>major_version</name>
+        <qualifiedname>pip._vendor.distro.distro.major_version</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>best</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the major version of the current OS distribution, as a string,
+if provided.
+Otherwise, the empty string is returned. The major version is the first
+part of the dot-separated version string.
+
+For a description of the *best* parameter, see the :func:`distro.version`
+method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="387" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="387" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a0a132e2618bc16892ff81e38823e615f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.minor_version</definition>
+        <argsstring>(bool best=False)</argsstring>
+        <name>minor_version</name>
+        <qualifiedname>pip._vendor.distro.distro.minor_version</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>best</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the minor version of the current OS distribution, as a string,
+if provided.
+Otherwise, the empty string is returned. The minor version is the second
+part of the dot-separated version string.
+
+For a description of the *best* parameter, see the :func:`distro.version`
+method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="400" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="400" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1af361f30e1cdd324e0555b7f1872ab445" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.build_number</definition>
+        <argsstring>(bool best=False)</argsstring>
+        <name>build_number</name>
+        <qualifiedname>pip._vendor.distro.distro.build_number</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>best</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the build number of the current OS distribution, as a string,
+if provided.
+Otherwise, the empty string is returned. The build number is the third part
+of the dot-separated version string.
+
+For a description of the *best* parameter, see the :func:`distro.version`
+method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="413" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="413" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1aafb57ebb0c8d548ae613cea4bc407e20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.like</definition>
+        <argsstring>()</argsstring>
+        <name>like</name>
+        <qualifiedname>pip._vendor.distro.distro.like</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a space-separated list of distro IDs of distributions that are
+closely related to the current OS distribution in regards to packaging
+and programming interfaces, for example distributions the current
+distribution is a derivative from.
+
+**Lookup hierarchy:**
+
+This information item is only provided by the os-release file.
+For details, see the description of the &quot;ID_LIKE&quot; attribute in the
+`os-release man page
+&lt;http://www.freedesktop.org/software/systemd/man/os-release.html&gt;`_.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="426" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="426" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a9834ceae803e4def9736dfb25653a4dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.codename</definition>
+        <argsstring>()</argsstring>
+        <name>codename</name>
+        <qualifiedname>pip._vendor.distro.distro.codename</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the codename for the release of the current OS distribution,
+as a string.
+
+If the distribution does not have a codename, an empty string is returned.
+
+Note that the returned codename is not always really a codename. For
+example, openSUSE returns &quot;x86_64&quot;. This function does not handle such
+cases in any special way and just returns the string it finds, if any.
+
+**Lookup hierarchy:**
+
+* the codename within the &quot;VERSION&quot; attribute of the os-release file, if
+  provided,
+
+* the value of the &quot;Codename&quot; attribute returned by the lsb_release
+  command,
+
+* the value of the &quot;&lt;codename&gt;&quot; field of the distro release file.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="443" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="443" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a747623d2b5c8d8c3c3e5a84375af22b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1distro_1_1distro_1_1InfoDict" kindref="compound">InfoDict</ref></type>
+        <definition> InfoDict pip._vendor.distro.distro.info</definition>
+        <argsstring>(bool pretty=False, bool best=False)</argsstring>
+        <name>info</name>
+        <qualifiedname>pip._vendor.distro.distro.info</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>pretty</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>best</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return certain machine-readable information items about the current OS
+distribution in a dictionary, as shown in the following example:
+
+.. sourcecode:: python
+
+    {
+        &apos;id&apos;: &apos;rhel&apos;,
+        &apos;version&apos;: &apos;7.0&apos;,
+        &apos;version_parts&apos;: {
+            &apos;major&apos;: &apos;7&apos;,
+            &apos;minor&apos;: &apos;0&apos;,
+            &apos;build_number&apos;: &apos;&apos;
+        },
+        &apos;like&apos;: &apos;fedora&apos;,
+        &apos;codename&apos;: &apos;Maipo&apos;
+    }
+
+The dictionary structure and keys are always the same, regardless of which
+information items are available in the underlying data sources. The values
+for the various keys are as follows:
+
+* ``id``:  The result of :func:`distro.id`.
+
+* ``version``:  The result of :func:`distro.version`.
+
+* ``version_parts -&gt; major``:  The result of :func:`distro.major_version`.
+
+* ``version_parts -&gt; minor``:  The result of :func:`distro.minor_version`.
+
+* ``version_parts -&gt; build_number``:  The result of
+  :func:`distro.build_number`.
+
+* ``like``:  The result of :func:`distro.like`.
+
+* ``codename``:  The result of :func:`distro.codename`.
+
+For a description of the *pretty* and *best* parameters, see the
+:func:`distro.version` method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="467" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="467" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a01c149e1ada431c7a2d1f9b84e9c433e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, str]</type>
+        <definition> Dict[str, str] pip._vendor.distro.distro.os_release_info</definition>
+        <argsstring>()</argsstring>
+        <name>os_release_info</name>
+        <qualifiedname>pip._vendor.distro.distro.os_release_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a dictionary containing key-value pairs for the information items
+from the os-release file data source of the current OS distribution.
+
+See `os-release file`_ for details about these information items.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="511" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="511" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a052f07125226700163da678fbf2e4c33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, str]</type>
+        <definition> Dict[str, str] pip._vendor.distro.distro.lsb_release_info</definition>
+        <argsstring>()</argsstring>
+        <name>lsb_release_info</name>
+        <qualifiedname>pip._vendor.distro.distro.lsb_release_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a dictionary containing key-value pairs for the information items
+from the lsb_release command data source of the current OS distribution.
+
+See `lsb_release command output`_ for details about these information
+items.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="521" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="521" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a93908a8329b7b68049bcce8e42533a3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, str]</type>
+        <definition> Dict[str, str] pip._vendor.distro.distro.distro_release_info</definition>
+        <argsstring>()</argsstring>
+        <name>distro_release_info</name>
+        <qualifiedname>pip._vendor.distro.distro.distro_release_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a dictionary containing key-value pairs for the information items
+from the distro release file data source of the current OS distribution.
+
+See `distro release file`_ for details about these information items.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="532" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="532" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1aeec2c285871c4055e4e3a139d34354ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, str]</type>
+        <definition> Dict[str, str] pip._vendor.distro.distro.uname_info</definition>
+        <argsstring>()</argsstring>
+        <name>uname_info</name>
+        <qualifiedname>pip._vendor.distro.distro.uname_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a dictionary containing key-value pairs for the information items
+from the distro release file data source of the current OS distribution.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="542" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="542" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1ae7e5eb09aaa3157780f4ffc5f120c508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.os_release_attr</definition>
+        <argsstring>(str attribute)</argsstring>
+        <name>os_release_attr</name>
+        <qualifiedname>pip._vendor.distro.distro.os_release_attr</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>attribute</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a single named information item from the os-release file data source
+of the current OS distribution.
+
+Parameters:
+
+* ``attribute`` (string): Key of the information item.
+
+Returns:
+
+* (string): Value of the information item, if the item exists.
+  The empty string, if the item does not exist.
+
+See `os-release file`_ for details about these information items.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="550" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="550" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a263528457b4aef8bd0e72dd49d916057" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.lsb_release_attr</definition>
+        <argsstring>(str attribute)</argsstring>
+        <name>lsb_release_attr</name>
+        <qualifiedname>pip._vendor.distro.distro.lsb_release_attr</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>attribute</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a single named information item from the lsb_release command output
+data source of the current OS distribution.
+
+Parameters:
+
+* ``attribute`` (string): Key of the information item.
+
+Returns:
+
+* (string): Value of the information item, if the item exists.
+  The empty string, if the item does not exist.
+
+See `lsb_release command output`_ for details about these information
+items.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="569" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="569" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a1ae069b73e36be1c2d981f4532a8c5ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.distro_release_attr</definition>
+        <argsstring>(str attribute)</argsstring>
+        <name>distro_release_attr</name>
+        <qualifiedname>pip._vendor.distro.distro.distro_release_attr</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>attribute</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a single named information item from the distro release file
+data source of the current OS distribution.
+
+Parameters:
+
+* ``attribute`` (string): Key of the information item.
+
+Returns:
+
+* (string): Value of the information item, if the item exists.
+  The empty string, if the item does not exist.
+
+See `distro release file`_ for details about these information items.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="589" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="589" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a37b120859b57d8945f92e96bd035115e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.distro.distro.uname_attr</definition>
+        <argsstring>(str attribute)</argsstring>
+        <name>uname_attr</name>
+        <qualifiedname>pip._vendor.distro.distro.uname_attr</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>attribute</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a single named information item from the distro release file
+data source of the current OS distribution.
+
+Parameters:
+
+* ``attribute`` (string): Key of the information item.
+
+Returns:
+
+* (string): Value of the information item, if the item exists.
+            The empty string, if the item does not exist.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="608" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="608" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distro_1_1distro_1a4684698d5d8ba3dad61031dc3f7d2291" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.distro.distro.main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <qualifiedname>pip._vendor.distro.distro.main</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="1358" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" bodystart="1358" bodyend="1397"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The ``distro`` package (``distro`` stands for Linux Distribution) provides
+information about the Linux distribution it runs on, such as a reliable
+machine-readable distro ID, or version information.
+
+It is the recommended replacement for Python&apos;s original
+:py:func:`platform.linux_distribution` function, but it provides much more
+functionality. An alternative implementation became necessary because Python
+3.5 deprecated this function, and Python 3.8 removed it altogether. Its
+predecessor function :py:func:`platform.dist` was already deprecated since
+Python 2.6 and removed in Python 3.8. Still, there are many cases in which
+access to OS distribution information is needed. See `Python issue 1322
+&lt;https://bugs.python.org/issue1322&gt;`_ for more information.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distro/distro.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

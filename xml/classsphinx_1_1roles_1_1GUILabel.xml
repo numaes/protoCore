@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1roles_1_1GUILabel" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::roles::GUILabel</compoundname>
+    <basecompoundref refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole" prot="public" virt="non-virtual">sphinx.util.docutils.SphinxRole</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1roles_1_1MenuSelection" prot="public" virt="non-virtual">sphinx.roles.MenuSelection</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1roles_1_1GUILabel_1a247a8da7cbe04a3f1b125a2482476aaa" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.roles.GUILabel::amp_re</definition>
+        <argsstring></argsstring>
+        <name>amp_re</name>
+        <qualifiedname>sphinx.roles.GUILabel.amp_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;(?&lt;!&amp;)&amp;(?![&amp;\s])&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="389" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="389" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1roles_1_1GUILabel_1a416666e4f13fa840d2826c0037724e91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>], list[<ref refid="classdocutils_1_1nodes_1_1system__message" kindref="compound">system_message</ref>]]</type>
+        <definition> tuple[list[Node], list[system_message]] sphinx.roles.GUILabel.run</definition>
+        <argsstring>(self)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.roles.GUILabel.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole_1aae39740f3681eb6cbd25db5127fbc06e">run</reimplements>
+        <reimplementedby refid="classsphinx_1_1roles_1_1MenuSelection_1ae50d0c4d6cfd7efbecc9f6238e674bf0">run</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="391" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="391" bodyend="405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.roles.GUILabel</label>
+        <link refid="classsphinx_1_1roles_1_1GUILabel"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.roles.MenuSelection</label>
+        <link refid="classsphinx_1_1roles_1_1MenuSelection"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.util.docutils.SphinxRole</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>Sequence</label>
+      </node>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>docutils.parsers.rst.states.Inliner</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Inliner"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>email_pattern</edgelabel>
+          <edgelabel>emailc</edgelabel>
+          <edgelabel>non_unescaped_whitespace_escape_before</edgelabel>
+          <edgelabel>non_whitespace_after</edgelabel>
+          <edgelabel>non_whitespace_before</edgelabel>
+          <edgelabel>non_whitespace_escape_before</edgelabel>
+          <edgelabel>rfc_url</edgelabel>
+          <edgelabel>simplename</edgelabel>
+          <edgelabel>uri_end</edgelabel>
+          <edgelabel>uri_end_delim</edgelabel>
+          <edgelabel>...</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.roles.GUILabel</label>
+        <link refid="classsphinx_1_1roles_1_1GUILabel"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.util.docutils.SphinxRole</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name</edgelabel>
+          <edgelabel>rawtext</edgelabel>
+          <edgelabel>text</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>inliner</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>content</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" line="388" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="388" bodyend="405"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1roles_1_1GUILabel_1a247a8da7cbe04a3f1b125a2482476aaa" prot="public" virt="non-virtual"><scope>sphinx::roles::GUILabel</scope><name>amp_re</name></member>
+      <member refid="classsphinx_1_1roles_1_1GUILabel_1a416666e4f13fa840d2826c0037724e91" prot="public" virt="non-virtual"><scope>sphinx::roles::GUILabel</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

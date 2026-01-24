@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1units" kind="namespace" language="Python">
+    <compoundname>babel::units</compoundname>
+    <innerclass refid="classbabel_1_1units_1_1UnknownUnitError" prot="public">babel::units::UnknownUnitError</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1units_1a392996d72f4f8acc986fbb53a1d0ca58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None babel.units.get_unit_name</definition>
+        <argsstring>(str measurement_unit, Literal[&apos;short&apos;, &apos;long&apos;, &apos;narrow&apos;] length=&apos;long&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_unit_name</name>
+        <qualifiedname>babel.units.get_unit_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>measurement_unit</declname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>length</declname>
+          <array>[ &apos;short&apos;, &apos;long&apos;, &apos;narrow&apos;]</array>
+          <defval>&apos;long&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the display name for a measurement unit in the given locale.
+
+&gt;&gt;&gt; get_unit_name(&quot;radian&quot;, locale=&quot;en&quot;)
+&apos;radians&apos;
+
+Unknown units will raise exceptions:
+
+&gt;&gt;&gt; get_unit_name(&quot;battery&quot;, locale=&quot;fi&quot;)
+Traceback (most recent call last):
+    ...
+UnknownUnitError: battery/long is not a known unit/length in fi
+
+:param measurement_unit: the code of a measurement unit.
+                         Known units can be found in the CLDR Unit Validity XML file:
+                         https://unicode.org/repos/cldr/tags/latest/common/validity/unit.xml
+
+:param length: &quot;short&quot;, &quot;long&quot; or &quot;narrow&quot;
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:return: The unit display name, or None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/units.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/units.py" bodystart="19" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1units_1a2329458b54d3b5a41334523d79bdbe87" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None babel.units._find_unit_pattern</definition>
+        <argsstring>(str unit_id, Locale|str|None locale=None)</argsstring>
+        <name>_find_unit_pattern</name>
+        <qualifiedname>babel.units._find_unit_pattern</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>unit_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Expand a unit into a qualified form.
+
+Known units can be found in the CLDR Unit Validity XML file:
+https://unicode.org/repos/cldr/tags/latest/common/validity/unit.xml
+
+&gt;&gt;&gt; _find_unit_pattern(&quot;radian&quot;, locale=&quot;en&quot;)
+&apos;angle-radian&apos;
+
+Unknown values will return None.
+
+&gt;&gt;&gt; _find_unit_pattern(&quot;horse&quot;, locale=&quot;en&quot;)
+
+:param unit_id: the code of a measurement unit.
+:return: A key to the `unit_patterns` mapping, or None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/units.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/units.py" bodystart="48" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1units_1add26c1f1586be124b02661deb8c9deab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.units.format_unit</definition>
+        <argsstring>(str|float|decimal.Decimal value, str measurement_unit, Literal[&apos;short&apos;, &apos;long&apos;, &apos;narrow&apos;] length=&apos;long&apos;, str|None format=None, Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>format_unit</name>
+        <qualifiedname>babel.units.format_unit</qualifiedname>
+        <param>
+          <type>str|float|decimal.Decimal</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>measurement_unit</declname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>length</declname>
+          <array>[ &apos;short&apos;, &apos;long&apos;, &apos;narrow&apos;]</array>
+          <defval>&apos;long&apos;</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>format</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format a value of a given unit.
+
+Values are formatted according to the locale&apos;s usual pluralization rules
+and number formats.
+
+&gt;&gt;&gt; format_unit(12, &apos;length-meter&apos;, locale=&apos;ro_RO&apos;)
+u&apos;12 metri&apos;
+&gt;&gt;&gt; format_unit(15.5, &apos;length-mile&apos;, locale=&apos;fi_FI&apos;)
+u&apos;15,5 mailia&apos;
+&gt;&gt;&gt; format_unit(1200, &apos;pressure-millimeter-ofhg&apos;, locale=&apos;nb&apos;)
+u&apos;1\\xa0200 millimeter kvikks\\xf8lv&apos;
+&gt;&gt;&gt; format_unit(270, &apos;ton&apos;, locale=&apos;en&apos;)
+u&apos;270 tons&apos;
+&gt;&gt;&gt; format_unit(1234.5, &apos;kilogram&apos;, locale=&apos;ar_EG&apos;, numbering_system=&apos;default&apos;)
+u&apos;1٬234٫5 كيلوغرام&apos;
+
+Number formats may be overridden with the ``format`` parameter.
+
+&gt;&gt;&gt; import decimal
+&gt;&gt;&gt; format_unit(decimal.Decimal(&quot;-42.774&quot;), &apos;temperature-celsius&apos;, &apos;short&apos;, format=&apos;#.0&apos;, locale=&apos;fr&apos;)
+u&apos;-42,8\\u202f\\xb0C&apos;
+
+The locale&apos;s usual pluralization rules are respected.
+
+&gt;&gt;&gt; format_unit(1, &apos;length-meter&apos;, locale=&apos;ro_RO&apos;)
+u&apos;1 metru&apos;
+&gt;&gt;&gt; format_unit(0, &apos;length-mile&apos;, locale=&apos;cy&apos;)
+u&apos;0 mi&apos;
+&gt;&gt;&gt; format_unit(1, &apos;length-mile&apos;, locale=&apos;cy&apos;)
+u&apos;1 filltir&apos;
+&gt;&gt;&gt; format_unit(3, &apos;length-mile&apos;, locale=&apos;cy&apos;)
+u&apos;3 milltir&apos;
+
+&gt;&gt;&gt; format_unit(15, &apos;length-horse&apos;, locale=&apos;fi&apos;)
+Traceback (most recent call last):
+    ...
+UnknownUnitError: length-horse is not a known unit in fi
+
+.. versionadded:: 2.2.0
+
+:param value: the value to format. If this is a string, no number formatting will be attempted.
+:param measurement_unit: the code of a measurement unit.
+                         Known units can be found in the CLDR Unit Validity XML file:
+                         https://unicode.org/repos/cldr/tags/latest/common/validity/unit.xml
+:param length: &quot;short&quot;, &quot;long&quot; or &quot;narrow&quot;
+:param format: An optional format, as accepted by `format_decimal`.
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/units.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/units.py" bodystart="83" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1units_1a4652ac3869282a36f69040a0cffd086d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None babel.units._find_compound_unit</definition>
+        <argsstring>(str numerator_unit, str denominator_unit, Locale|str|None locale=None)</argsstring>
+        <name>_find_compound_unit</name>
+        <qualifiedname>babel.units._find_compound_unit</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>numerator_unit</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>denominator_unit</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find a predefined compound unit pattern.
+
+Used internally by format_compound_unit.
+
+&gt;&gt;&gt; _find_compound_unit(&quot;kilometer&quot;, &quot;hour&quot;, locale=&quot;en&quot;)
+&apos;speed-kilometer-per-hour&apos;
+
+&gt;&gt;&gt; _find_compound_unit(&quot;mile&quot;, &quot;gallon&quot;, locale=&quot;en&quot;)
+&apos;consumption-mile-per-gallon&apos;
+
+If no predefined compound pattern can be found, `None` is returned.
+
+&gt;&gt;&gt; _find_compound_unit(&quot;gallon&quot;, &quot;mile&quot;, locale=&quot;en&quot;)
+
+&gt;&gt;&gt; _find_compound_unit(&quot;horse&quot;, &quot;purple&quot;, locale=&quot;en&quot;)
+
+:param numerator_unit: The numerator unit&apos;s identifier
+:param denominator_unit: The denominator unit&apos;s identifier
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:return: A key to the `unit_patterns` mapping, or None.
+:rtype: str|None
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/units.py" line="158" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/units.py" bodystart="162" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1units_1a5cd8c0a54ac000c9fb5413dc5b4fb164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None babel.units.format_compound_unit</definition>
+        <argsstring>(str|float|decimal.Decimal numerator_value, str|None numerator_unit=None, str|float|decimal.Decimal denominator_value=1, str|None denominator_unit=None, Literal[&quot;short&quot;, &quot;long&quot;, &quot;narrow&quot;] length=&quot;long&quot;, str|None format=None, Locale|str|None locale=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>format_compound_unit</name>
+        <qualifiedname>babel.units.format_compound_unit</qualifiedname>
+        <param>
+          <type>str|float|decimal.Decimal</type>
+          <declname>numerator_value</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>numerator_unit</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|float|decimal.Decimal</type>
+          <declname>denominator_value</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>denominator_unit</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>length</declname>
+          <array>[&quot;short&quot;, &quot;long&quot;, &quot;narrow&quot;]</array>
+          <defval>&quot;long&quot;</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>format</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format a compound number value, i.e. &quot;kilometers per hour&quot; or similar.
+
+Both unit specifiers are optional to allow for formatting of arbitrary values still according
+to the locale&apos;s general &quot;per&quot; formatting specifier.
+
+&gt;&gt;&gt; format_compound_unit(7, denominator_value=11, length=&quot;short&quot;, locale=&quot;pt&quot;)
+&apos;7/11&apos;
+
+&gt;&gt;&gt; format_compound_unit(150, &quot;kilometer&quot;, denominator_unit=&quot;hour&quot;, locale=&quot;sv&quot;)
+&apos;150 kilometer per timme&apos;
+
+&gt;&gt;&gt; format_compound_unit(150, &quot;kilowatt&quot;, denominator_unit=&quot;year&quot;, locale=&quot;fi&quot;)
+&apos;150 kilowattia / vuosi&apos;
+
+&gt;&gt;&gt; format_compound_unit(32.5, &quot;ton&quot;, 15, denominator_unit=&quot;hour&quot;, locale=&quot;en&quot;)
+&apos;32.5 tons per 15 hours&apos;
+
+&gt;&gt;&gt; format_compound_unit(1234.5, &quot;ton&quot;, 15, denominator_unit=&quot;hour&quot;, locale=&quot;ar_EG&quot;, numbering_system=&quot;arab&quot;)
+&apos;1٬234٫5 طن لكل 15 ساعة&apos;
+
+&gt;&gt;&gt; format_compound_unit(160, denominator_unit=&quot;square-meter&quot;, locale=&quot;fr&quot;)
+&apos;160 par m\\xe8tre carr\\xe9&apos;
+
+&gt;&gt;&gt; format_compound_unit(4, &quot;meter&quot;, &quot;ratakisko&quot;, length=&quot;short&quot;, locale=&quot;fi&quot;)
+&apos;4 m/ratakisko&apos;
+
+&gt;&gt;&gt; format_compound_unit(35, &quot;minute&quot;, denominator_unit=&quot;nautical-mile&quot;, locale=&quot;sv&quot;)
+&apos;35 minuter per nautisk mil&apos;
+
+&gt;&gt;&gt; from babel.numbers import format_currency
+&gt;&gt;&gt; format_compound_unit(format_currency(35, &quot;JPY&quot;, locale=&quot;de&quot;), denominator_unit=&quot;liter&quot;, locale=&quot;de&quot;)
+&apos;35\\xa0\\xa5 pro Liter&apos;
+
+See https://www.unicode.org/reports/tr35/tr35-general.html#perUnitPatterns
+
+:param numerator_value: The numerator value. This may be a string,
+                        in which case it is considered preformatted and the unit is ignored.
+:param numerator_unit: The numerator unit. See `format_unit`.
+:param denominator_value: The denominator value. This may be a string,
+                          in which case it is considered preformatted and the unit is ignored.
+:param denominator_unit: The denominator unit. See `format_unit`.
+:param length: The formatting length. &quot;short&quot;, &quot;long&quot; or &quot;narrow&quot;
+:param format: An optional format, as accepted by `format_decimal`.
+:param locale: the `Locale` object or locale identifier. Defaults to the system numeric locale.
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+:return: A formatted compound value.
+:raise `UnsupportedNumberingSystemError`: If the numbering system is not supported by the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/units.py" line="210" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/units.py" bodystart="220" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/units.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

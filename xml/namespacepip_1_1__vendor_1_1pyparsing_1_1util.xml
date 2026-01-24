@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1pyparsing_1_1util" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::pyparsing::util</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1util_1_1____config__flags" prot="private">pip::_vendor::pyparsing::util::__config_flags</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1util_1_1__FifoCache" prot="protected">pip::_vendor::pyparsing::util::_FifoCache</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1util_1_1__UnboundedCache" prot="protected">pip::_vendor::pyparsing::util::_UnboundedCache</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1util_1_1LRUMemo" prot="public">pip::_vendor::pyparsing::util::LRUMemo</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1util_1_1UnboundedMemo" prot="public">pip::_vendor::pyparsing::util::UnboundedMemo</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a0e371fe6bcb860af064e90095f9da874" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::util._bslash</definition>
+        <argsstring></argsstring>
+        <name>_bslash</name>
+        <qualifiedname>pip._vendor.pyparsing.util._bslash</qualifiedname>
+        <initializer>=  chr(92)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="10" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a15889fc8460b2c7e0054571f6c201701" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::util.C</definition>
+        <argsstring></argsstring>
+        <name>C</name>
+        <qualifiedname>pip._vendor.pyparsing.util.C</qualifiedname>
+        <initializer>=  TypeVar(&quot;C&quot;, bound=Callable)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="11" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="11" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1aa022c966ad2d618dfbe51708a09038da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._vendor.pyparsing.util.col</definition>
+        <argsstring>(int loc, str strg)</argsstring>
+        <name>col</name>
+        <qualifiedname>pip._vendor.pyparsing.util.col</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>loc</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>strg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns current column within a string, counting newlines as line separators.
+The first column is number 1.
+
+Note: the default parsing behavior is to expand tabs in the input string
+before starting the parsing process.  See
+:class:`ParserElement.parse_string` for more
+information on parsing strings containing ``&lt;TAB&gt;`` s, and suggested
+methods to maintain a consistent view of the parsed string, the parse
+location, and line and column positions within the parsed string.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="40" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a3104e3727d606724b03b32b8cbd71c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._vendor.pyparsing.util.lineno</definition>
+        <argsstring>(int loc, str strg)</argsstring>
+        <name>lineno</name>
+        <qualifiedname>pip._vendor.pyparsing.util.lineno</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>loc</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>strg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns current line number within a string, counting newlines as line separators.
+The first line is number 1.
+
+Note - the default parsing behavior is to expand tabs in the input string
+before starting the parsing process.  See :class:`ParserElement.parse_string`
+for more information on parsing strings containing ``&lt;TAB&gt;`` s, and
+suggested methods to maintain a consistent view of the parsed string, the
+parse location, and line and column positions within the parsed string.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="57" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="57" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a40a31320307d6d3c32604643d70688ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.pyparsing.util.line</definition>
+        <argsstring>(int loc, str strg)</argsstring>
+        <name>line</name>
+        <qualifiedname>pip._vendor.pyparsing.util.line</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>loc</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>strg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the line of text containing loc within a string, counting newlines as line separators.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="71" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="71" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1ad202103e1ef0b025eec2b36e93c9dd73" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.pyparsing.util._escape_regex_range_chars</definition>
+        <argsstring>(str s)</argsstring>
+        <name>_escape_regex_range_chars</name>
+        <qualifiedname>pip._vendor.pyparsing.util._escape_regex_range_chars</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="177" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a5518fd6fedfcb91dfd1ab8849fa54bec" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.pyparsing.util._collapse_string_to_ranges</definition>
+        <argsstring>(Union[str, Iterable[str]] s, bool re_escape=True)</argsstring>
+        <name>_collapse_string_to_ranges</name>
+        <qualifiedname>pip._vendor.pyparsing.util._collapse_string_to_ranges</qualifiedname>
+        <param>
+          <type>Union]</type>
+          <declname>s</declname>
+          <array>[str, Iterable[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>re_escape</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="186" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="188" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a555273144a74c51fec0da3c9000dca78" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list</type>
+        <definition> list pip._vendor.pyparsing.util._flatten</definition>
+        <argsstring>(list ll)</argsstring>
+        <name>_flatten</name>
+        <qualifiedname>pip._vendor.pyparsing.util._flatten</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>ll</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="230" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="230" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a3f0e2dcc7f2a18e46c20fd08077cf305" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a15889fc8460b2c7e0054571f6c201701" kindref="member">C</ref></type>
+        <definition> C pip._vendor.pyparsing.util._make_synonym_function</definition>
+        <argsstring>(str compat_name, C fn)</argsstring>
+        <name>_make_synonym_function</name>
+        <qualifiedname>pip._vendor.pyparsing.util._make_synonym_function</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>compat_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a15889fc8460b2c7e0054571f6c201701" kindref="member">C</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="240" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="240" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1aa0a326ac48445dbcf87b99f05b15bd02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Callable[[Callable], <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a15889fc8460b2c7e0054571f6c201701" kindref="member">C</ref>]</type>
+        <definition> Callable[[Callable], C] pip._vendor.pyparsing.util.replaced_by_pep8</definition>
+        <argsstring>(C fn)</argsstring>
+        <name>replaced_by_pep8</name>
+        <qualifiedname>pip._vendor.pyparsing.util.replaced_by_pep8</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1util_1a15889fc8460b2c7e0054571f6c201701" kindref="member">C</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Decorator for pre-PEP8 compatibility synonyms, to link them to the new function.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="280" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" bodystart="280" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/util.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

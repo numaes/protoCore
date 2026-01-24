@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pygments_2formatters_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innerclass refid="classpygments_1_1formatters_1_1__automodule" prot="protected">pygments::formatters::_automodule</innerclass>
+    <innernamespace refid="namespacepygments">pygments</innernamespace>
+    <innernamespace refid="namespacepygments_1_1formatters">pygments::formatters</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepygments_1_1formatters" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.formatters</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Pygments<sp/>formatters.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2025<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>types</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>fnmatch</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>os.path<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>basename</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1formatters_1_1__mapping" kindref="compound">pygments.formatters._mapping</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>FORMATTERS</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1plugin" kindref="compound">pygments.plugin</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>find_plugin_formatters</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1util" kindref="compound">pygments.util</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ClassNotFound</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;get_formatter_by_name&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;get_formatter_for_filename&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;get_all_formatters&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;load_formatter_from_file&apos;</highlight><highlight class="normal">]<sp/>+<sp/>list(FORMATTERS)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">_formatter_cache<sp/>=<sp/>{}<sp/><sp/></highlight><highlight class="comment">#<sp/>classes<sp/>by<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">_pattern_cache<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1formatters_1abeb42f2252a2f18c6ab0e1357cdab22b" kindref="member">_fn_matches</ref>(fn,<sp/>glob):</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>whether<sp/>the<sp/>supplied<sp/>file<sp/>name<sp/>fn<sp/>matches<sp/>pattern<sp/>filename.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>glob<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>_pattern_cache:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pattern<sp/>=<sp/>_pattern_cache[glob]<sp/>=<sp/>re.compile(fnmatch.translate(glob))</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pattern.match(fn)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_pattern_cache[glob].match(fn)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1formatters_1a4763bedf74483f06d452ded1f8320997" kindref="member">_load_formatters</ref>(module_name):</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Load<sp/>a<sp/>formatter<sp/>(and<sp/>all<sp/>others<sp/>in<sp/>the<sp/>module<sp/>too).&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>mod<sp/>=<sp/>__import__(module_name,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>[</highlight><highlight class="stringliteral">&apos;__all__&apos;</highlight><highlight class="normal">])</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>formatter_name<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>mod.__all__:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls<sp/>=<sp/>getattr(mod,<sp/>formatter_name)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_formatter_cache[cls.name]<sp/>=<sp/>cls</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1formatters_1ad7d1a496672f6fe493fdfc44679408c7" kindref="member">get_all_formatters</ref>():</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>a<sp/>generator<sp/>for<sp/>all<sp/>formatter<sp/>classes.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>NB:<sp/>this<sp/>returns<sp/>formatter<sp/>classes,<sp/>not<sp/>info<sp/>like<sp/>get_all_lexers().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>info<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>FORMATTERS.values():</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>info[1]<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>_formatter_cache:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacepygments_1_1formatters_1a4763bedf74483f06d452ded1f8320997" kindref="member">_load_formatters</ref>(info[0])</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>_formatter_cache[info[1]]</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>_,<sp/>formatter<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>find_plugin_formatters():</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>formatter</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">find_formatter_class(alias):</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Lookup<sp/>a<sp/>formatter<sp/>by<sp/>alias.</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns<sp/>None<sp/>if<sp/>not<sp/>found.</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>module_name,<sp/>name,<sp/>aliases,<sp/>_,<sp/>_<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>FORMATTERS.values():</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>alias<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>aliases:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>name<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>_formatter_cache:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacepygments_1_1formatters_1a4763bedf74483f06d452ded1f8320997" kindref="member">_load_formatters</ref>(module_name)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_formatter_cache[name]</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>_,<sp/>cls<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>find_plugin_formatters():</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>alias<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>cls.aliases:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cls</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_formatter_by_name(_alias,<sp/>**options):</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Return<sp/>an<sp/>instance<sp/>of<sp/>a<sp/>:class:`.Formatter`<sp/>subclass<sp/>that<sp/>has<sp/>`alias`<sp/>in<sp/>its</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>aliases<sp/>list.<sp/>The<sp/>formatter<sp/>is<sp/>given<sp/>the<sp/>`options`<sp/>at<sp/>its<sp/>instantiation.</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Will<sp/>raise<sp/>:exc:`pygments.util.ClassNotFound`<sp/>if<sp/>no<sp/>formatter<sp/>with<sp/>that</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>alias<sp/>is<sp/>found.</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>cls<sp/>=<sp/>find_formatter_class(_alias)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>cls<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpygments_1_1util_1_1ClassNotFound" kindref="compound">ClassNotFound</ref>(f</highlight><highlight class="stringliteral">&quot;no<sp/>formatter<sp/>found<sp/>for<sp/>name<sp/>{_alias!r}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cls(**options)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">load_formatter_from_file(filename,<sp/>formattername=&quot;CustomFormatter&quot;,<sp/>**options):</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Return<sp/>a<sp/>`Formatter`<sp/>subclass<sp/>instance<sp/>loaded<sp/>from<sp/>the<sp/>provided<sp/>file,<sp/>relative</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>to<sp/>the<sp/>current<sp/>directory.</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>file<sp/>is<sp/>expected<sp/>to<sp/>contain<sp/>a<sp/>Formatter<sp/>class<sp/>named<sp/>``formattername``</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(by<sp/>default,<sp/>CustomFormatter).<sp/>Users<sp/>should<sp/>be<sp/>very<sp/>careful<sp/>with<sp/>the<sp/>input,<sp/>because</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>this<sp/>method<sp/>is<sp/>equivalent<sp/>to<sp/>running<sp/>``eval()``<sp/>on<sp/>the<sp/>input<sp/>file.<sp/>The<sp/>formatter<sp/>is</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>given<sp/>the<sp/>`options`<sp/>at<sp/>its<sp/>instantiation.</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:exc:`pygments.util.ClassNotFound`<sp/>is<sp/>raised<sp/>if<sp/>there<sp/>are<sp/>any<sp/>errors<sp/>loading</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>formatter.</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionadded::<sp/>2.2</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>This<sp/>empty<sp/>dict<sp/>will<sp/>contain<sp/>the<sp/>namespace<sp/>for<sp/>the<sp/>exec&apos;d<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>custom_namespace<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>open(filename,<sp/></highlight><highlight class="stringliteral">&apos;rb&apos;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>f:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exec(f.read(),<sp/>custom_namespace)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Retrieve<sp/>the<sp/>class<sp/>`formattername`<sp/>from<sp/>that<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>formattername<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>custom_namespace:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpygments_1_1util_1_1ClassNotFound" kindref="compound">ClassNotFound</ref>(f</highlight><highlight class="stringliteral">&apos;no<sp/>valid<sp/>{formattername}<sp/>class<sp/>found<sp/>in<sp/>{filename}&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>formatter_class<sp/>=<sp/>custom_namespace[formattername]</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>And<sp/>finally<sp/>instantiate<sp/>it<sp/>with<sp/>the<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>formatter_class(**options)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>OSError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>err:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpygments_1_1util_1_1ClassNotFound" kindref="compound">ClassNotFound</ref>(f</highlight><highlight class="stringliteral">&apos;cannot<sp/>read<sp/>{filename}:<sp/>{err}&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ClassNotFound:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>Exception<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>err:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpygments_1_1util_1_1ClassNotFound" kindref="compound">ClassNotFound</ref>(f</highlight><highlight class="stringliteral">&apos;error<sp/>when<sp/>loading<sp/>custom<sp/>formatter:<sp/>{err}&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_formatter_for_filename(fn,<sp/>**options):</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Return<sp/>a<sp/>:class:`.Formatter`<sp/>subclass<sp/>instance<sp/>that<sp/>has<sp/>a<sp/>filename<sp/>pattern</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>matching<sp/>`fn`.<sp/>The<sp/>formatter<sp/>is<sp/>given<sp/>the<sp/>`options`<sp/>at<sp/>its<sp/>instantiation.</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Will<sp/>raise<sp/>:exc:`pygments.util.ClassNotFound`<sp/>if<sp/>no<sp/>formatter<sp/>for<sp/>that<sp/>filename</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>is<sp/>found.</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>basename(fn)</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>modname,<sp/>name,<sp/>_,<sp/>filenames,<sp/>_<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>FORMATTERS.values():</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>filename<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>filenames:</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1formatters_1abeb42f2252a2f18c6ab0e1357cdab22b" kindref="member">_fn_matches</ref>(fn,<sp/>filename):</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>name<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>_formatter_cache:</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacepygments_1_1formatters_1a4763bedf74483f06d452ded1f8320997" kindref="member">_load_formatters</ref>(modname)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_formatter_cache[name](**options)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>_name,<sp/>cls<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>find_plugin_formatters():</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>filename<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>cls.filenames:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1formatters_1abeb42f2252a2f18c6ab0e1357cdab22b" kindref="member">_fn_matches</ref>(fn,<sp/>filename):</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cls(**options)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpygments_1_1util_1_1ClassNotFound" kindref="compound">ClassNotFound</ref>(f</highlight><highlight class="stringliteral">&quot;no<sp/>formatter<sp/>found<sp/>for<sp/>file<sp/>name<sp/>{fn!r}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classpygments_1_1formatters_1_1__automodule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1formatters_1_1__automodule" kindref="compound">_automodule</ref>(types.ModuleType):</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Automatically<sp/>import<sp/>formatters.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1formatters_1_1__automodule_1abeeb68ad54e3c535d20861ee67806d09" kindref="member">__getattr__</ref>(self,<sp/>name):</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info<sp/>=<sp/>FORMATTERS.get(name)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>info:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacepygments_1_1formatters_1a4763bedf74483f06d452ded1f8320997" kindref="member">_load_formatters</ref>(info[0])</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls<sp/>=<sp/>_formatter_cache[info[1]]</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setattr(self,<sp/>name,<sp/>cls)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cls</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>AttributeError(name)</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">oldmod<sp/>=<sp/>sys.modules[__name__]</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">newmod<sp/>=<sp/><ref refid="classpygments_1_1formatters_1_1__automodule" kindref="compound">_automodule</ref>(__name__)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">newmod.__dict__.update(oldmod.__dict__)</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">sys.modules[__name__]<sp/>=<sp/>newmod</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">del<sp/>newmod.newmod,<sp/>newmod.oldmod,<sp/>newmod.sys,<sp/>newmod.types</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/formatters/__init__.py"/>
+  </compounddef>
+</doxygen>

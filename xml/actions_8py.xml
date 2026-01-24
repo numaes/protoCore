@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="actions_8py" kind="file" language="Python">
+    <compoundname>actions.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce" prot="public">pip::_vendor::pyparsing::actions::OnlyOnce</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1pyparsing">pip::_vendor::pyparsing</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions">pip::_vendor::pyparsing::actions</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions" refkind="compound"><highlight class="comment">#<sp/>actions.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.exceptions<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ParseException</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.util<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>col,<sp/>replaced_by_pep8</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7" refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce" kindref="compound">OnlyOnce</ref>:</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Wrapper<sp/>for<sp/>parse<sp/>actions,<sp/>to<sp/>ensure<sp/>they<sp/>are<sp/>only<sp/>called<sp/>once.</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1a585d87f65872140ca452a424a6947535" kindref="member">__init__</ref>(self,<sp/>method_call):</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.core<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_trim_arity</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1a9c4127de23e5c1f39d1c6cb0191a5793" kindref="member">callable</ref><sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1ac83883e276adf19ff2326fd030ccc0a1" kindref="member">_trim_arity</ref>(method_call)</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1a5464bae22a7fa50f9c8045aadad7c76e" kindref="member">called</ref><sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1a796621103fd4c77edc30b5b0efcb4688" kindref="member">__call__</ref>(self,<sp/>s,<sp/>l,<sp/>t):</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1a5464bae22a7fa50f9c8045aadad7c76e" kindref="member">called</ref>:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results<sp/>=<sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1a9c4127de23e5c1f39d1c6cb0191a5793" kindref="member">callable</ref>(s,<sp/>l,<sp/>t)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1a5464bae22a7fa50f9c8045aadad7c76e" kindref="member">called</ref><sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>results</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseException" kindref="compound">ParseException</ref>(s,<sp/>l,<sp/></highlight><highlight class="stringliteral">&quot;OnlyOnce<sp/>obj<sp/>called<sp/>multiple<sp/>times<sp/>w/out<sp/>reset&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1ade60712d7228b9a80d9ed6a3d7926910" kindref="member">reset</ref>(self):</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Allow<sp/>the<sp/>associated<sp/>parse<sp/>action<sp/>to<sp/>be<sp/>called<sp/>once<sp/>more.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1actions_1_1OnlyOnce_1a5464bae22a7fa50f9c8045aadad7c76e" kindref="member">called</ref><sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1a2c2361659773feb9541b082074a7d5da" kindref="member">match_only_at_col</ref>(n):</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Helper<sp/>method<sp/>for<sp/>defining<sp/>parse<sp/>actions<sp/>that<sp/>require<sp/>matching<sp/>at</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>a<sp/>specific<sp/>column<sp/>in<sp/>the<sp/>input<sp/>text.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">verify_col(strg,<sp/>locn,<sp/>toks):</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>col(locn,<sp/>strg)<sp/>!=<sp/>n:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseException" kindref="compound">ParseException</ref>(strg,<sp/>locn,<sp/>f</highlight><highlight class="stringliteral">&quot;matched<sp/>token<sp/>not<sp/>at<sp/>column<sp/>{n}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>verify_col</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1a50c205d7a3c982e66c548d121b15d161" kindref="member">replace_with</ref>(repl_str):</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Helper<sp/>method<sp/>for<sp/>common<sp/>parse<sp/>actions<sp/>that<sp/>simply<sp/>return</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>a<sp/>literal<sp/>value.<sp/><sp/>Especially<sp/>useful<sp/>when<sp/>used<sp/>with</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:class:`transform_string&lt;ParserElement.transform_string&gt;`<sp/>().</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Example::</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>num<sp/>=<sp/>Word(nums).set_parse_action(lambda<sp/>toks:<sp/>int(toks[0]))</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>na<sp/>=<sp/>one_of(&quot;N/A<sp/>NA&quot;).set_parse_action(replace_with(math.nan))</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term<sp/>=<sp/>na<sp/>|<sp/>num</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>term[1,<sp/>...].parse_string(&quot;324<sp/>234<sp/>N/A<sp/>234&quot;)<sp/>#<sp/>-&gt;<sp/>[324,<sp/>234,<sp/>nan,<sp/>234]</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">lambda</highlight><highlight class="normal"><sp/>s,<sp/>l,<sp/>t:<sp/>[repl_str]</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1adb9b0be155f9b4eb6d7c19f828203299" kindref="member">remove_quotes</ref>(s,<sp/>l,<sp/>t):</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Helper<sp/>parse<sp/>action<sp/>for<sp/>removing<sp/>quotation<sp/>marks<sp/>from<sp/>parsed</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>quoted<sp/>strings.</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Example::</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>by<sp/>default,<sp/>quotation<sp/>marks<sp/>are<sp/>included<sp/>in<sp/>parsed<sp/>results</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quoted_string.parse_string(&quot;&apos;Now<sp/>is<sp/>the<sp/>Winter<sp/>of<sp/>our<sp/>Discontent&apos;&quot;)<sp/>#<sp/>-&gt;<sp/>[&quot;&apos;Now<sp/>is<sp/>the<sp/>Winter<sp/>of<sp/>our<sp/>Discontent&apos;&quot;]</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>use<sp/>remove_quotes<sp/>to<sp/>strip<sp/>quotation<sp/>marks<sp/>from<sp/>parsed<sp/>results</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quoted_string.set_parse_action(remove_quotes)</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quoted_string.parse_string(&quot;&apos;Now<sp/>is<sp/>the<sp/>Winter<sp/>of<sp/>our<sp/>Discontent&apos;&quot;)<sp/>#<sp/>-&gt;<sp/>[&quot;Now<sp/>is<sp/>the<sp/>Winter<sp/>of<sp/>our<sp/>Discontent&quot;]</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>t[0][1:-1]</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1a6afb157be4891920d8a924deb9164c92" kindref="member">with_attribute</ref>(*args,<sp/>**attr_dict):</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Helper<sp/>to<sp/>create<sp/>a<sp/>validating<sp/>parse<sp/>action<sp/>to<sp/>be<sp/>used<sp/>with<sp/>start</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>tags<sp/>created<sp/>with<sp/>:class:`make_xml_tags`<sp/>or</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:class:`make_html_tags`.<sp/>Use<sp/>``with_attribute``<sp/>to<sp/>qualify</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>a<sp/>starting<sp/>tag<sp/>with<sp/>a<sp/>required<sp/>attribute<sp/>value,<sp/>to<sp/>avoid<sp/>false</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>matches<sp/>on<sp/>common<sp/>tags<sp/>such<sp/>as<sp/>``&lt;TD&gt;``<sp/>or<sp/>``&lt;DIV&gt;``.</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Call<sp/>``with_attribute``<sp/>with<sp/>a<sp/>series<sp/>of<sp/>attribute<sp/>names<sp/>and</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>values.<sp/>Specify<sp/>the<sp/>list<sp/>of<sp/>filter<sp/>attributes<sp/>names<sp/>and<sp/>values<sp/>as:</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>keyword<sp/>arguments,<sp/>as<sp/>in<sp/>``(align=&quot;right&quot;)``,<sp/>or</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>as<sp/>an<sp/>explicit<sp/>dict<sp/>with<sp/>``**``<sp/>operator,<sp/>when<sp/>an<sp/>attribute</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>is<sp/>also<sp/>a<sp/>Python<sp/>reserved<sp/>word,<sp/>as<sp/>in<sp/>``**{&quot;class&quot;:&quot;Customer&quot;,<sp/>&quot;align&quot;:&quot;right&quot;}``</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>a<sp/>list<sp/>of<sp/>name-value<sp/>tuples,<sp/>as<sp/>in<sp/>``((&quot;ns1:class&quot;,<sp/>&quot;Customer&quot;),<sp/>(&quot;ns2:align&quot;,<sp/>&quot;right&quot;))``</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>attribute<sp/>names<sp/>with<sp/>a<sp/>namespace<sp/>prefix,<sp/>you<sp/>must<sp/>use<sp/>the<sp/>second</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>form.<sp/><sp/>Attribute<sp/>names<sp/>are<sp/>matched<sp/>insensitive<sp/>to<sp/>upper/lower<sp/>case.</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>just<sp/>testing<sp/>for<sp/>``class``<sp/>(with<sp/>or<sp/>without<sp/>a<sp/>namespace),<sp/>use</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:class:`with_class`.</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>To<sp/>verify<sp/>that<sp/>the<sp/>attribute<sp/>exists,<sp/>but<sp/>without<sp/>specifying<sp/>a<sp/>value,</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pass<sp/>``with_attribute.ANY_VALUE``<sp/>as<sp/>the<sp/>value.</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Example::</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>html<sp/>=<sp/>&apos;&apos;&apos;</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;div&gt;</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Some<sp/>text</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;div<sp/>type=&quot;grid&quot;&gt;1<sp/>4<sp/>0<sp/>1<sp/>0&lt;/div&gt;</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;div<sp/>type=&quot;graph&quot;&gt;1,3<sp/>2,3<sp/>1,1&lt;/div&gt;</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;div&gt;this<sp/>has<sp/>no<sp/>type&lt;/div&gt;</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/div&gt;</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;&apos;&apos;</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>div,div_end<sp/>=<sp/>make_html_tags(&quot;div&quot;)</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>only<sp/>match<sp/>div<sp/>tag<sp/>having<sp/>a<sp/>type<sp/>attribute<sp/>with<sp/>value<sp/>&quot;grid&quot;</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>div_grid<sp/>=<sp/>div().set_parse_action(with_attribute(type=&quot;grid&quot;))</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grid_expr<sp/>=<sp/>div_grid<sp/>+<sp/>SkipTo(div<sp/>|<sp/>div_end)(&quot;body&quot;)</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>grid_header<sp/>in<sp/>grid_expr.search_string(html):</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(grid_header.body)</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>construct<sp/>a<sp/>match<sp/>with<sp/>any<sp/>div<sp/>tag<sp/>having<sp/>a<sp/>type<sp/>attribute,<sp/>regardless<sp/>of<sp/>the<sp/>value</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>div_any_type<sp/>=<sp/>div().set_parse_action(with_attribute(type=with_attribute.ANY_VALUE))</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>div_expr<sp/>=<sp/>div_any_type<sp/>+<sp/>SkipTo(div<sp/>|<sp/>div_end)(&quot;body&quot;)</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>div_header<sp/>in<sp/>div_expr.search_string(html):</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(div_header.body)</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>prints::</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1<sp/>4<sp/>0<sp/>1<sp/>0</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1<sp/>4<sp/>0<sp/>1<sp/>0</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,3<sp/>2,3<sp/>1,1</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>args:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attrs<sp/>=<sp/>args[:]</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attrs<sp/>=<sp/>attr_dict.items()</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>attrs<sp/>=<sp/>[(k,<sp/>v)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>k,<sp/>v<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>attrs]</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">pa(s,<sp/>l,<sp/>tokens):</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>attrName,<sp/>attrValue<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>attrs:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>attrName<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>tokens:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseException" kindref="compound">ParseException</ref>(s,<sp/>l,<sp/></highlight><highlight class="stringliteral">&quot;no<sp/>matching<sp/>attribute<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>attrName)</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>attrValue<sp/>!=<sp/>with_attribute.ANY_VALUE<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>tokens[attrName]<sp/>!=<sp/>attrValue:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseException" kindref="compound">ParseException</ref>(</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>l,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;attribute<sp/>{attrName!r}<sp/>has<sp/>value<sp/>{tokens[attrName]!r},<sp/>must<sp/>be<sp/>{attrValue!r}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pa</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">with_attribute.ANY_VALUE<sp/>=<sp/>object()<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore<sp/>[attr-defined]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1ad748b8e14b4b3987189e6cf7391d6a95" kindref="member">with_class</ref>(classname,<sp/>namespace=&quot;&quot;):</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Simplified<sp/>version<sp/>of<sp/>:class:`with_attribute`<sp/>when</highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>matching<sp/>on<sp/>a<sp/>div<sp/>class<sp/>-<sp/>made<sp/>difficult<sp/>because<sp/>``class``<sp/>is</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>a<sp/>reserved<sp/>word<sp/>in<sp/>Python.</highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Example::</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>html<sp/>=<sp/>&apos;&apos;&apos;</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;div&gt;</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Some<sp/>text</highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;div<sp/>class=&quot;grid&quot;&gt;1<sp/>4<sp/>0<sp/>1<sp/>0&lt;/div&gt;</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;div<sp/>class=&quot;graph&quot;&gt;1,3<sp/>2,3<sp/>1,1&lt;/div&gt;</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;div&gt;this<sp/>&amp;lt;div&amp;gt;<sp/>has<sp/>no<sp/>class&lt;/div&gt;</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/div&gt;</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;&apos;&apos;</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>div,div_end<sp/>=<sp/>make_html_tags(&quot;div&quot;)</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>div_grid<sp/>=<sp/>div().set_parse_action(with_class(&quot;grid&quot;))</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grid_expr<sp/>=<sp/>div_grid<sp/>+<sp/>SkipTo(div<sp/>|<sp/>div_end)(&quot;body&quot;)</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>grid_header<sp/>in<sp/>grid_expr.search_string(html):</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(grid_header.body)</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>div_any_type<sp/>=<sp/>div().set_parse_action(with_class(withAttribute.ANY_VALUE))</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>div_expr<sp/>=<sp/>div_any_type<sp/>+<sp/>SkipTo(div<sp/>|<sp/>div_end)(&quot;body&quot;)</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>div_header<sp/>in<sp/>div_expr.search_string(html):</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(div_header.body)</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>prints::</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1<sp/>4<sp/>0<sp/>1<sp/>0</highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1<sp/>4<sp/>0<sp/>1<sp/>0</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,3<sp/>2,3<sp/>1,1</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>classattr<sp/>=<sp/>f</highlight><highlight class="stringliteral">&quot;{namespace}:class&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>namespace<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;class&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1a6afb157be4891920d8a924deb9164c92" kindref="member">with_attribute</ref>(**{classattr:<sp/>classname})</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">#<sp/>pre-PEP8<sp/>compatibility<sp/>symbols</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">#<sp/>fmt:<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">@replaced_by_pep8(replace_with)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1af99652c05432071359394e0362ef53d9" kindref="member">replaceWith</ref>():<sp/>...</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="preprocessor">@replaced_by_pep8(remove_quotes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1a2995205d261eb0ec6f710ce8ec31ac2e" kindref="member">removeQuotes</ref>():<sp/>...</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="preprocessor">@replaced_by_pep8(with_attribute)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1a6352ab25703637ef1f33eda68a747fd9" kindref="member">withAttribute</ref>():<sp/>...</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="preprocessor">@replaced_by_pep8(with_class)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1a6e091b1bc6673712be5023bb836f52a6" kindref="member">withClass</ref>():<sp/>...</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="preprocessor">@replaced_by_pep8(match_only_at_col)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1actions_1aec0bbd74f0e2101b517efcd681d7d95d" kindref="member">matchOnlyAtCol</ref>():<sp/>...</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">#<sp/>fmt:<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/actions.py"/>
+  </compounddef>
+</doxygen>

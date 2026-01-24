@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="docutils_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innerclass refid="classdocutils_1_1VersionInfo" prot="public">docutils::VersionInfo</innerclass>
+    <innerclass refid="classdocutils_1_1ApplicationError" prot="public">docutils::ApplicationError</innerclass>
+    <innerclass refid="classdocutils_1_1DataError" prot="public">docutils::DataError</innerclass>
+    <innerclass refid="classdocutils_1_1SettingsSpec" prot="public">docutils::SettingsSpec</innerclass>
+    <innerclass refid="classdocutils_1_1TransformSpec" prot="public">docutils::TransformSpec</innerclass>
+    <innerclass refid="classdocutils_1_1Component" prot="public">docutils::Component</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>__init__.py<sp/>9649<sp/>2024-04-23<sp/>18:54:26Z<sp/>grubert<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>David<sp/>Goodger<sp/>&lt;goodger@python.org&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">This<sp/>is<sp/>the<sp/>Docutils<sp/>(Python<sp/>Documentation<sp/>Utilities)<sp/>package.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral">Package<sp/>Structure</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">=================</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral">Modules:</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">-<sp/>__init__.py:<sp/>Contains<sp/>component<sp/>base<sp/>classes,<sp/>exception<sp/>classes,<sp/>and</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/>Docutils<sp/>version<sp/>information.</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">-<sp/>core.py:<sp/>Contains<sp/>the<sp/>``Publisher``<sp/>class<sp/>and<sp/>``publish_*()``<sp/>convenience</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/>functions.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral">-<sp/>frontend.py:<sp/>Runtime<sp/>settings<sp/>(command-line<sp/>interface,<sp/>configuration<sp/>files)</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/>processing,<sp/>for<sp/>Docutils<sp/>front-ends.</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">-<sp/>io.py:<sp/>Provides<sp/>a<sp/>uniform<sp/>API<sp/>for<sp/>low-level<sp/>input<sp/>and<sp/>output.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral">-<sp/>nodes.py:<sp/>Docutils<sp/>document<sp/>tree<sp/>(doctree)<sp/>node<sp/>class<sp/>library.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral">-<sp/>statemachine.py:<sp/>A<sp/>finite<sp/>state<sp/>machine<sp/>specialized<sp/>for</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/>regular-expression-based<sp/>text<sp/>filters.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">Subpackages:</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">-<sp/>languages:<sp/>Language-specific<sp/>mappings<sp/>of<sp/>terms.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral">-<sp/>parsers:<sp/>Syntax-specific<sp/>input<sp/>parser<sp/>modules<sp/>or<sp/>packages.</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">-<sp/>readers:<sp/>Context-specific<sp/>input<sp/>handlers<sp/>which<sp/>understand<sp/>the<sp/>data</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/>source<sp/>and<sp/>manage<sp/>a<sp/>parser.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral">-<sp/>transforms:<sp/>Modules<sp/>used<sp/>by<sp/>readers<sp/>and<sp/>writers<sp/>to<sp/>modify</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/>the<sp/>Docutils<sp/>document<sp/>tree.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral">-<sp/>utils:<sp/>Contains<sp/>the<sp/>``Reporter``<sp/>system<sp/>warning<sp/>class<sp/>and<sp/>miscellaneous</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/>utilities<sp/>used<sp/>by<sp/>readers,<sp/>writers,<sp/>and<sp/>transforms.</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/>utils/urischemes.py:<sp/>Contains<sp/>a<sp/>complete<sp/>mapping<sp/>of<sp/>known<sp/>URI<sp/>addressing</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/>scheme<sp/>names<sp/>to<sp/>descriptions.</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral">-<sp/>utils/math:<sp/>Contains<sp/>functions<sp/>for<sp/>conversion<sp/>of<sp/>mathematical<sp/>notation</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/>between<sp/>different<sp/>formats<sp/>(LaTeX,<sp/>MathML,<sp/>text,<sp/>...).</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral">-<sp/>writers:<sp/>Format-specific<sp/>output<sp/>translators.</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>namedtuple</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">__docformat__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;reStructuredText&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">__version__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;0.21.2&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Docutils<sp/>version<sp/>identifier<sp/>(complies<sp/>with<sp/>PEP<sp/>440)::</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>major.minor[.micro][releaselevel[serial]][.dev]</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral">For<sp/>version<sp/>comparison<sp/>operations,<sp/>use<sp/>`__version_info__`<sp/>(see,<sp/>below)</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral">rather<sp/>than<sp/>parsing<sp/>the<sp/>text<sp/>of<sp/>`__version__`.</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral">https://docutils.sourceforge.io/docs/dev/policies.html#version-identification</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">__version_details__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Optional<sp/>extra<sp/>version<sp/>details<sp/>(e.g.<sp/>&apos;snapshot<sp/>2005-05-29,<sp/>r3410&apos;).</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral">For<sp/>development<sp/>and<sp/>release<sp/>status,<sp/>use<sp/>`__version__<sp/>and<sp/>`__version_info__`.</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classdocutils_1_1VersionInfo" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1VersionInfo" kindref="compound">VersionInfo</ref>(namedtuple(</highlight><highlight class="stringliteral">&apos;VersionInfo&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;major<sp/>minor<sp/>micro<sp/>releaselevel<sp/>serial<sp/>release&apos;</highlight><highlight class="normal">)):</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1VersionInfo_1ad15dbd6126461b0182dea2ef2c8de7c6" kindref="member">__new__</ref>(cls,<sp/>major=0,<sp/>minor=0,<sp/>micro=0,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>releaselevel=&apos;final&apos;,<sp/>serial=0,<sp/>release=True):</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>releaselevels<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;alpha&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;beta&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;candidate&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;final&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>releaselevel<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>releaselevels:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ValueError(</highlight><highlight class="stringliteral">&apos;releaselevel<sp/>must<sp/>be<sp/>one<sp/>of<sp/>%r.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%<sp/>(releaselevels,<sp/>))</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>releaselevel<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;final&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>release:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ValueError(</highlight><highlight class="stringliteral">&apos;releaselevel<sp/>&quot;final&quot;<sp/>must<sp/>not<sp/>be<sp/>used<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;with<sp/>development<sp/>versions<sp/>(leads<sp/>to<sp/>wrong<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;version<sp/>ordering<sp/>of<sp/>the<sp/>related<sp/>__version__&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>cf.<sp/>https://peps.python.org/pep-0440/#summary-of-permitted-suffixes-and-relative-ordering<sp/><sp/>#<sp/>noqa</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>serial<sp/>!=<sp/>0:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ValueError(</highlight><highlight class="stringliteral">&apos;&quot;serial&quot;<sp/>must<sp/>be<sp/>0<sp/>for<sp/>final<sp/>releases&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>super().<ref refid="classdocutils_1_1VersionInfo_1ad15dbd6126461b0182dea2ef2c8de7c6" kindref="member">__new__</ref>(cls,<sp/>major,<sp/>minor,<sp/>micro,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>releaselevel,<sp/>serial,<sp/>release)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1VersionInfo_1a48168e2c9319b21ef714d858ba5e0cdb" kindref="member">__lt__</ref>(self,<sp/>other):</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(other,<sp/>tuple):</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other<sp/>=<sp/><ref refid="classdocutils_1_1VersionInfo" kindref="compound">VersionInfo</ref>(*other)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tuple.__lt__(self,<sp/>other)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1VersionInfo_1a194b6e5ddb4669bbea3ab08da3369e8d" kindref="member">__gt__</ref>(self,<sp/>other):</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(other,<sp/>tuple):</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other<sp/>=<sp/><ref refid="classdocutils_1_1VersionInfo" kindref="compound">VersionInfo</ref>(*other)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tuple.__gt__(self,<sp/>other)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1VersionInfo_1a10f42bb9a38f35df4704e50ebc382699" kindref="member">__le__</ref>(self,<sp/>other):</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(other,<sp/>tuple):</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other<sp/>=<sp/><ref refid="classdocutils_1_1VersionInfo" kindref="compound">VersionInfo</ref>(*other)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tuple.__le__(self,<sp/>other)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1VersionInfo_1afc3293f227448d21cb660983ea25af8b" kindref="member">__ge__</ref>(self,<sp/>other):</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(other,<sp/>tuple):</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other<sp/>=<sp/><ref refid="classdocutils_1_1VersionInfo" kindref="compound">VersionInfo</ref>(*other)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tuple.__ge__(self,<sp/>other)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">__version_info__<sp/>=<sp/><ref refid="classdocutils_1_1VersionInfo" kindref="compound">VersionInfo</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>major=0,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>minor=21,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>micro=2,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>releaselevel=</highlight><highlight class="stringliteral">&apos;final&apos;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">#<sp/>one<sp/>of<sp/>&apos;alpha&apos;,<sp/>&apos;beta&apos;,<sp/>&apos;candidate&apos;,<sp/>&apos;final&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>serial=0,<sp/><sp/></highlight><highlight class="comment">#<sp/>pre-release<sp/>number<sp/>(0<sp/>for<sp/>final<sp/>releases<sp/>and<sp/>snapshots)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>release=</highlight><highlight class="keyword">True</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">#<sp/>True<sp/>for<sp/>official<sp/>releases<sp/>and<sp/>pre-releases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Comprehensive<sp/>version<sp/>information<sp/>tuple.</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral">https://docutils.sourceforge.io/docs/dev/policies.html#version-identification</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classdocutils_1_1ApplicationError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1ApplicationError" kindref="compound">ApplicationError</ref>(Exception):<sp/></highlight><highlight class="keyword">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="classdocutils_1_1DataError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1DataError" kindref="compound">DataError</ref>(<ref refid="classdocutils_1_1ApplicationError" kindref="compound">ApplicationError</ref>):<sp/></highlight><highlight class="keyword">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classdocutils_1_1SettingsSpec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1SettingsSpec" kindref="compound">SettingsSpec</ref>:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Runtime<sp/>setting<sp/>specification<sp/>base<sp/>class.</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>SettingsSpec<sp/>subclass<sp/>objects<sp/>used<sp/>by<sp/>`docutils.frontend.OptionParser`.</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>TODO:<sp/>replace<sp/>settings_specs<sp/>with<sp/>a<sp/>new<sp/>data<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Backwards<sp/>compatiblity:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/>Drop-in<sp/>components:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/>Sphinx<sp/>supplies<sp/>settings_spec<sp/>in<sp/>the<sp/>current<sp/>format<sp/>in<sp/>some<sp/>places</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/>Myst<sp/>parser<sp/>provides<sp/>a<sp/>settings_spec<sp/>tuple</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/>Sphinx<sp/>reads<sp/>a<sp/>settings_spec<sp/>in<sp/>order<sp/>to<sp/>set<sp/>a<sp/>default<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/>in<sp/>writers/html.py:59</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/>https://github.com/sphinx-doc/sphinx/blob/4.x/sphinx/writers/html.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/>This<sp/>should<sp/>be<sp/>changed<sp/>(before<sp/>retiring<sp/>the<sp/>old<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/>to<sp/>use<sp/>`settings_default_overrides`<sp/>instead.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>settings_spec<sp/>=<sp/>()</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Runtime<sp/>settings<sp/>specification.<sp/><sp/>Override<sp/>in<sp/>subclasses.</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Defines<sp/>runtime<sp/>settings<sp/>and<sp/>associated<sp/>command-line<sp/>options,<sp/>as<sp/>used<sp/>by</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`docutils.frontend.OptionParser`.<sp/><sp/>This<sp/>is<sp/>a<sp/>tuple<sp/>of:</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>Option<sp/>group<sp/>title<sp/>(string<sp/>or<sp/>`None`<sp/>which<sp/>implies<sp/>no<sp/>group,<sp/>just<sp/>a<sp/>list</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>of<sp/>single<sp/>options).</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>Description<sp/>(string<sp/>or<sp/>`None`).</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>A<sp/>sequence<sp/>of<sp/>option<sp/>tuples.<sp/><sp/>Each<sp/>consists<sp/>of:</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Help<sp/>text<sp/>(string)</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>List<sp/>of<sp/>option<sp/>strings<sp/>(e.g.<sp/>``[&apos;-Q&apos;,<sp/>&apos;--quux&apos;]``).</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Dictionary<sp/>of<sp/>keyword<sp/>arguments<sp/>sent<sp/>to<sp/>the<sp/>OptionParser/OptionGroup</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``add_option``<sp/>method.</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Runtime<sp/>setting<sp/>names<sp/>are<sp/>derived<sp/>implicitly<sp/>from<sp/>long<sp/>option<sp/>names</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(&apos;--a-setting&apos;<sp/>becomes<sp/>``settings.a_setting``)<sp/>or<sp/>explicitly<sp/>from<sp/>the</highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;dest&apos;<sp/>keyword<sp/>argument.</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Most<sp/>settings<sp/>will<sp/>also<sp/>have<sp/>a<sp/>&apos;validator&apos;<sp/>keyword<sp/>&amp;<sp/>function.<sp/><sp/>The</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator<sp/>function<sp/>validates<sp/>setting<sp/>values<sp/>(from<sp/>configuration<sp/>files</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>command-line<sp/>option<sp/>arguments)<sp/>and<sp/>converts<sp/>them<sp/>to<sp/>appropriate</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>types.<sp/><sp/>For<sp/>example,<sp/>the<sp/>``docutils.frontend.validate_boolean``</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>function,<sp/>**required<sp/>by<sp/>all<sp/>boolean<sp/>settings**,<sp/>converts<sp/>true<sp/>values</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(&apos;1&apos;,<sp/>&apos;on&apos;,<sp/>&apos;yes&apos;,<sp/>and<sp/>&apos;true&apos;)<sp/>to<sp/>1<sp/>and<sp/>false<sp/>values<sp/>(&apos;0&apos;,<sp/>&apos;off&apos;,</highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;no&apos;,<sp/>&apos;false&apos;,<sp/>and<sp/>&apos;&apos;)<sp/>to<sp/>0.<sp/><sp/>Validators<sp/>need<sp/>only<sp/>be<sp/>set<sp/>once<sp/>per</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setting.<sp/><sp/>See<sp/>the<sp/>`docutils.frontend.validate_*`<sp/>functions.</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>See<sp/>the<sp/>optparse<sp/>docs<sp/>for<sp/>more<sp/>details.</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>More<sp/>triples<sp/>of<sp/>group<sp/>title,<sp/>description,<sp/>options,<sp/>as<sp/>many<sp/>times<sp/>as</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>needed.<sp/><sp/>Thus,<sp/>`settings_spec`<sp/>tuples<sp/>can<sp/>be<sp/>simply<sp/>concatenated.</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>settings_defaults<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>dictionary<sp/>of<sp/>defaults<sp/>for<sp/>settings<sp/>not<sp/>in<sp/>`settings_spec`<sp/>(internal</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>settings,<sp/>intended<sp/>to<sp/>be<sp/>inaccessible<sp/>by<sp/>command-line<sp/>and<sp/>config<sp/>file).</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Override<sp/>in<sp/>subclasses.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>settings_default_overrides<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>dictionary<sp/>of<sp/>auxiliary<sp/>defaults,<sp/>to<sp/>override<sp/>defaults<sp/>for<sp/>settings</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>defined<sp/>in<sp/>other<sp/>components&apos;<sp/>`setting_specs`.<sp/><sp/>Override<sp/>in<sp/>subclasses.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>relative_path_settings<sp/>=<sp/>()</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Settings<sp/>containing<sp/>filesystem<sp/>paths.<sp/><sp/>Override<sp/>in<sp/>subclasses.</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Settings<sp/>listed<sp/>here<sp/>are<sp/>to<sp/>be<sp/>interpreted<sp/>relative<sp/>to<sp/>the<sp/>current<sp/>working</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>directory.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>name<sp/>of<sp/>the<sp/>config<sp/>file<sp/>section<sp/>specific<sp/>to<sp/>this<sp/>component</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(lowercase,<sp/>no<sp/>brackets).<sp/><sp/>Override<sp/>in<sp/>subclasses.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section_dependencies<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>list<sp/>of<sp/>names<sp/>of<sp/>config<sp/>file<sp/>sections<sp/>that<sp/>are<sp/>to<sp/>be<sp/>applied<sp/>before</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`config_section`,<sp/>in<sp/>order<sp/>(from<sp/>general<sp/>to<sp/>specific).<sp/><sp/>In<sp/>other<sp/>words,</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>settings<sp/>in<sp/>`config_section`<sp/>are<sp/>to<sp/>be<sp/>overlaid<sp/>on<sp/>top<sp/>of<sp/>the<sp/>settings</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>from<sp/>these<sp/>sections.<sp/><sp/>The<sp/>&quot;general&quot;<sp/>section<sp/>is<sp/>assumed<sp/>implicitly.</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Override<sp/>in<sp/>subclasses.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="classdocutils_1_1TransformSpec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1TransformSpec" kindref="compound">TransformSpec</ref>:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Runtime<sp/>transform<sp/>specification<sp/>base<sp/>class.</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Provides<sp/>the<sp/>interface<sp/>to<sp/>register<sp/>&quot;transforms&quot;<sp/>and<sp/>helper<sp/>functions</highlight></codeline>
+<codeline lineno="224"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>to<sp/>resolve<sp/>references<sp/>with<sp/>a<sp/>`docutils.transforms.Transformer`.</highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>https://docutils.sourceforge.io/docs/ref/transforms.html</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1TransformSpec_1a9d4adc413dafad1c9466af08a303c1d2" kindref="member">get_transforms</ref>(self):</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Transforms<sp/>required<sp/>by<sp/>this<sp/>class.<sp/><sp/>Override<sp/>in<sp/>subclasses.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classdocutils_1_1TransformSpec_1ac4a74caa4769cd1a5c97750b124d37f2" kindref="member">default_transforms</ref><ref refid="classdocutils_1_1TransformSpec_1a6284800f16dad6c8cf5a66b8c75d650f" kindref="member">default_transforms</ref><sp/>!=<sp/>():</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>warnings</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>warnings.warn(</highlight><highlight class="stringliteral">&apos;TransformSpec:<sp/>the<sp/>&quot;default_transforms&quot;<sp/>attribute<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;will<sp/>be<sp/>removed<sp/>in<sp/>Docutils<sp/>2.0.\n&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Use<sp/>get_transforms()<sp/>method<sp/>instead.&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DeprecationWarning)</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>list(self.<ref refid="classdocutils_1_1TransformSpec_1ac4a74caa4769cd1a5c97750b124d37f2" kindref="member">default_transforms</ref><ref refid="classdocutils_1_1TransformSpec_1a6284800f16dad6c8cf5a66b8c75d650f" kindref="member">default_transforms</ref>)</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[]</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Deprecated;<sp/>for<sp/>compatibility.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>default_transforms<sp/>=<sp/>()</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>unknown_reference_resolvers<sp/>=<sp/>()</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;List<sp/>of<sp/>functions<sp/>to<sp/>try<sp/>to<sp/>resolve<sp/>unknown<sp/>references.</highlight></codeline>
+<codeline lineno="245"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="246"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Unknown<sp/>references<sp/>have<sp/>a<sp/>&apos;refname&apos;<sp/>attribute<sp/>which<sp/>doesn&apos;t<sp/>correspond</highlight></codeline>
+<codeline lineno="247"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>to<sp/>any<sp/>target<sp/>in<sp/>the<sp/>document.<sp/><sp/>Called<sp/>when<sp/>the<sp/>transforms<sp/>in</highlight></codeline>
+<codeline lineno="248"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`docutils.transforms.references`<sp/>are<sp/>unable<sp/>to<sp/>find<sp/>a<sp/>correct<sp/>target.</highlight></codeline>
+<codeline lineno="249"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="250"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>list<sp/>should<sp/>contain<sp/>functions<sp/>which<sp/>will<sp/>try<sp/>to<sp/>resolve<sp/>unknown</highlight></codeline>
+<codeline lineno="251"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>references,<sp/>with<sp/>the<sp/>following<sp/>signature::</highlight></codeline>
+<codeline lineno="252"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="253"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>def<sp/>reference_resolver(node):</highlight></codeline>
+<codeline lineno="254"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&apos;&apos;&apos;Returns<sp/>boolean:<sp/>true<sp/>if<sp/>resolved,<sp/>false<sp/>if<sp/>not.&apos;&apos;&apos;</highlight></codeline>
+<codeline lineno="255"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="256"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>the<sp/>function<sp/>is<sp/>able<sp/>to<sp/>resolve<sp/>the<sp/>reference,<sp/>it<sp/>should<sp/>also<sp/>remove</highlight></codeline>
+<codeline lineno="257"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>&apos;refname&apos;<sp/>attribute<sp/>and<sp/>mark<sp/>the<sp/>node<sp/>as<sp/>resolved::</highlight></codeline>
+<codeline lineno="258"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="259"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>node[&apos;refname&apos;]</highlight></codeline>
+<codeline lineno="260"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.resolved<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="261"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="262"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Each<sp/>function<sp/>must<sp/>have<sp/>a<sp/>&quot;priority&quot;<sp/>attribute<sp/>which<sp/>will<sp/>affect<sp/>the<sp/>order</highlight></codeline>
+<codeline lineno="263"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>unknown_reference_resolvers<sp/>are<sp/>run::</highlight></codeline>
+<codeline lineno="264"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="265"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reference_resolver.priority<sp/>=<sp/>100</highlight></codeline>
+<codeline lineno="266"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="267"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>hook<sp/>is<sp/>provided<sp/>for<sp/>3rd<sp/>party<sp/>extensions.</highlight></codeline>
+<codeline lineno="268"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Example<sp/>use<sp/>case:<sp/>the<sp/>`MoinMoin<sp/>-<sp/>ReStructured<sp/>Text<sp/>Parser`</highlight></codeline>
+<codeline lineno="269"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>in<sp/>``sandbox/mmgilbe/rst.py``.</highlight></codeline>
+<codeline lineno="270"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="classdocutils_1_1Component" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1Component" kindref="compound">Component</ref>(<ref refid="classdocutils_1_1SettingsSpec" kindref="compound">SettingsSpec</ref>,<sp/><ref refid="classdocutils_1_1TransformSpec" kindref="compound">TransformSpec</ref>):</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Base<sp/>class<sp/>for<sp/>Docutils<sp/>components.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>component_type<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Name<sp/>of<sp/>the<sp/>component<sp/>type<sp/>(&apos;reader&apos;,<sp/>&apos;parser&apos;,<sp/>&apos;writer&apos;).<sp/><sp/>Override<sp/>in</highlight></codeline>
+<codeline lineno="279"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>subclasses.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>supported<sp/>=<sp/>()</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Name<sp/>and<sp/>aliases<sp/>for<sp/>this<sp/>component.<sp/><sp/>Override<sp/>in<sp/>subclasses.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1Component_1a9d064162d25a9e9e0521218742b97191" kindref="member">supports</ref>(self,<sp/>format):</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="286"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Is<sp/>`format`<sp/>supported<sp/>by<sp/>this<sp/>component?</highlight></codeline>
+<codeline lineno="287"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="288"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>To<sp/>be<sp/>used<sp/>by<sp/>transforms<sp/>to<sp/>ask<sp/>the<sp/>dependent<sp/>component<sp/>if<sp/>it<sp/>supports</highlight></codeline>
+<codeline lineno="289"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a<sp/>certain<sp/>input<sp/>context<sp/>or<sp/>output<sp/>format.</highlight></codeline>
+<codeline lineno="290"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>format<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classdocutils_1_1Component_1a33c1f5f3814351f7c4c0cde83e247b47" kindref="member">supported</ref></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/__init__.py"/>
+  </compounddef>
+</doxygen>

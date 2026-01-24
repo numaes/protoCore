@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepygments_1_1filters" kind="namespace" language="Python">
+    <compoundname>pygments::filters</compoundname>
+    <innerclass refid="classpygments_1_1filters_1_1CodeTagFilter" prot="public">pygments::filters::CodeTagFilter</innerclass>
+    <innerclass refid="classpygments_1_1filters_1_1ErrorToken" prot="public">pygments::filters::ErrorToken</innerclass>
+    <innerclass refid="classpygments_1_1filters_1_1GobbleFilter" prot="public">pygments::filters::GobbleFilter</innerclass>
+    <innerclass refid="classpygments_1_1filters_1_1KeywordCaseFilter" prot="public">pygments::filters::KeywordCaseFilter</innerclass>
+    <innerclass refid="classpygments_1_1filters_1_1NameHighlightFilter" prot="public">pygments::filters::NameHighlightFilter</innerclass>
+    <innerclass refid="classpygments_1_1filters_1_1RaiseOnErrorTokenFilter" prot="public">pygments::filters::RaiseOnErrorTokenFilter</innerclass>
+    <innerclass refid="classpygments_1_1filters_1_1SymbolFilter" prot="public">pygments::filters::SymbolFilter</innerclass>
+    <innerclass refid="classpygments_1_1filters_1_1TokenMergeFilter" prot="public">pygments::filters::TokenMergeFilter</innerclass>
+    <innerclass refid="classpygments_1_1filters_1_1VisibleWhitespaceFilter" prot="public">pygments::filters::VisibleWhitespaceFilter</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepygments_1_1filters_1a836cde2b65df4824277e12647131b4b4" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments::filters.FILTERS</definition>
+        <argsstring></argsstring>
+        <name>FILTERS</name>
+        <qualifiedname>pygments.filters.FILTERS</qualifiedname>
+        <initializer>=  {
+    &apos;codetagify&apos;:     <ref refid="classpygments_1_1filters_1_1CodeTagFilter" kindref="compound">CodeTagFilter</ref>,
+    &apos;keywordcase&apos;:    <ref refid="classpygments_1_1filters_1_1KeywordCaseFilter" kindref="compound">KeywordCaseFilter</ref>,
+    &apos;<ref refid="namespacepygments_1a9b56057c6a9cfcfc3c8bf0d75a3df3d2" kindref="member">highlight</ref>&apos;:      <ref refid="classpygments_1_1filters_1_1NameHighlightFilter" kindref="compound">NameHighlightFilter</ref>,
+    &apos;raiseonerror&apos;:   <ref refid="classpygments_1_1filters_1_1RaiseOnErrorTokenFilter" kindref="compound">RaiseOnErrorTokenFilter</ref>,
+    &apos;whitespace&apos;:     <ref refid="classpygments_1_1filters_1_1VisibleWhitespaceFilter" kindref="compound">VisibleWhitespaceFilter</ref>,
+    &apos;gobble&apos;:         <ref refid="classpygments_1_1filters_1_1GobbleFilter" kindref="compound">GobbleFilter</ref>,
+    &apos;tokenmerge&apos;:     <ref refid="classpygments_1_1filters_1_1TokenMergeFilter" kindref="compound">TokenMergeFilter</ref>,
+    &apos;symbols&apos;:        <ref refid="classpygments_1_1filters_1_1SymbolFilter" kindref="compound">SymbolFilter</ref>,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="931" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="931" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepygments_1_1filters_1abfa845e7d5cfcbf1e724cbf04728328d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters.find_filter_class</definition>
+        <argsstring>(filtername)</argsstring>
+        <name>find_filter_class</name>
+        <qualifiedname>pygments.filters.find_filter_class</qualifiedname>
+        <param>
+          <type>filtername</type>
+          <defname>filtername</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Lookup a filter by name. Return None if not found.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="22" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepygments_1_1filters_1ad93efbce5a42369f7d0c9a154070907f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters.get_filter_by_name</definition>
+        <argsstring>(filtername, **options)</argsstring>
+        <name>get_filter_by_name</name>
+        <qualifiedname>pygments.filters.get_filter_by_name</qualifiedname>
+        <param>
+          <type>filtername</type>
+          <defname>filtername</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an instantiated filter.
+
+Options are passed to the filter initializer if wanted.
+Raise a ClassNotFound if not found.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="32" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepygments_1_1filters_1a663412321e7e1bcf3aa4a72e6aa9b2e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters.get_all_filters</definition>
+        <argsstring>()</argsstring>
+        <name>get_all_filters</name>
+        <qualifiedname>pygments.filters.get_all_filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a generator of all filter names.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepygments_1_1filters_1a3ee6b1280afd3ad03b7a74e3af69544c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filters._replace_special</definition>
+        <argsstring>(ttype, value, regex, specialttype, replacefunc=lambda x:x)</argsstring>
+        <name>_replace_special</name>
+        <qualifiedname>pygments.filters._replace_special</qualifiedname>
+        <param>
+          <type>ttype</type>
+          <defname>ttype</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>regex</type>
+          <defname>regex</defname>
+        </param>
+        <param>
+          <type>specialttype</type>
+          <defname>specialttype</defname>
+        </param>
+        <param>
+          <type>replacefunc</type>
+          <defname>replacefunc</defname>
+          <defval>lambda x:x</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" bodystart="53" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    pygments.filters
+    ~~~~~~~~~~~~~~~~
+
+    Module containing filter lookup functions and default
+    filters.
+
+    :copyright: Copyright 2006-2025 by the Pygments team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/filters/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

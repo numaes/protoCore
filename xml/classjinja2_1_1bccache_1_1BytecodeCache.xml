@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1bccache_1_1BytecodeCache" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::bccache::BytecodeCache</compoundname>
+    <derivedcompoundref refid="classjinja2_1_1bccache_1_1FileSystemBytecodeCache" prot="public" virt="non-virtual">jinja2.bccache.FileSystemBytecodeCache</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1bccache_1_1MemcachedBytecodeCache" prot="public" virt="non-virtual">jinja2.bccache.MemcachedBytecodeCache</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1bccache_1_1BytecodeCache_1ae145388705cf26b278492c73bbc388d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.bccache.BytecodeCache.load_bytecode</definition>
+        <argsstring>(self, Bucket bucket)</argsstring>
+        <name>load_bytecode</name>
+        <qualifiedname>jinja2.bccache.BytecodeCache.load_bytecode</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1bccache_1_1FileSystemBytecodeCache_1abdd8611d72101dd79b1e9d1c4e462357">load_bytecode</reimplementedby>
+        <reimplementedby refid="classjinja2_1_1bccache_1_1MemcachedBytecodeCache_1aa50e79c302f41dced335e043aad6d7f4">load_bytecode</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1bccache_1_1Bucket" kindref="compound">Bucket</ref></type>
+          <declname>bucket</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Subclasses have to override this method to load bytecode into a
+bucket.  If they are not able to find code in the cache for the
+bucket, it must not do anything.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="132" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="132" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1bccache_1_1BytecodeCache_1a9247d0d7453cf47dbd00cb43809479f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.bccache.BytecodeCache.dump_bytecode</definition>
+        <argsstring>(self, Bucket bucket)</argsstring>
+        <name>dump_bytecode</name>
+        <qualifiedname>jinja2.bccache.BytecodeCache.dump_bytecode</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1bccache_1_1FileSystemBytecodeCache_1a3d2a0bfb022dfb929c2964b730f2866b">dump_bytecode</reimplementedby>
+        <reimplementedby refid="classjinja2_1_1bccache_1_1MemcachedBytecodeCache_1abdcb2bf438e2e6ad580b215e236d8e4a">dump_bytecode</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1bccache_1_1Bucket" kindref="compound">Bucket</ref></type>
+          <declname>bucket</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Subclasses have to override this method to write the bytecode
+from a bucket back to the cache.  If it unable to do so it must not
+fail silently but raise an exception.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="139" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="139" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1bccache_1_1BytecodeCache_1adfccc9f4c141b0886859bb885bcf8e6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.bccache.BytecodeCache.clear</definition>
+        <argsstring>(self)</argsstring>
+        <name>clear</name>
+        <qualifiedname>jinja2.bccache.BytecodeCache.clear</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1bccache_1_1FileSystemBytecodeCache_1a93b8e4291d1cf7cfced445e6dbbf3007">clear</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Clears the cache.  This method is not used by Jinja but should be
+implemented to allow applications to clear the bytecode cache used
+by a particular environment.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="146" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="146" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1bccache_1_1BytecodeCache_1a1ce40bddff60f1a61df8b054fa5cd4b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.bccache.BytecodeCache.get_cache_key</definition>
+        <argsstring>(self, str name, t.Optional[t.Union[str]] filename=None)</argsstring>
+        <name>get_cache_key</name>
+        <qualifiedname>jinja2.bccache.BytecodeCache.get_cache_key</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>filename</declname>
+          <array>[t.Union[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the unique hash key for this template name.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="152" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="154" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1bccache_1_1BytecodeCache_1a3eabf30b7c8ef6b72ecafafea0d86c93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.bccache.BytecodeCache.get_source_checksum</definition>
+        <argsstring>(self, str source)</argsstring>
+        <name>get_source_checksum</name>
+        <qualifiedname>jinja2.bccache.BytecodeCache.get_source_checksum</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a checksum for the source.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="163" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1bccache_1_1BytecodeCache_1a9f6f2505ffdb01644e0138709be1fffb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1bccache_1_1Bucket" kindref="compound">Bucket</ref></type>
+        <definition> Bucket jinja2.bccache.BytecodeCache.get_bucket</definition>
+        <argsstring>(self, &quot;Environment&quot; environment, str name, t.Optional[str] filename, str source)</argsstring>
+        <name>get_bucket</name>
+        <qualifiedname>jinja2.bccache.BytecodeCache.get_bucket</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a cache bucket for the given template.  All arguments are
+mandatory but filename may be `None`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="167" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="173" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1bccache_1_1BytecodeCache_1a61ce7c88076ceccc0409dc7e86a028ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.bccache.BytecodeCache.set_bucket</definition>
+        <argsstring>(self, Bucket bucket)</argsstring>
+        <name>set_bucket</name>
+        <qualifiedname>jinja2.bccache.BytecodeCache.set_bucket</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1bccache_1_1Bucket" kindref="compound">Bucket</ref></type>
+          <declname>bucket</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Put the bucket into the cache.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="183" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="183" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>To implement your own bytecode cache you have to subclass this class
+and override :meth:`load_bytecode` and :meth:`dump_bytecode`.  Both of
+these methods are passed a :class:`~jinja2.bccache.Bucket`.
+
+A very basic bytecode cache that saves the bytecode on the file system::
+
+    from os import path
+
+    class MyCache(BytecodeCache):
+
+        def __init__(self, directory):
+            self.directory = directory
+
+        def load_bytecode(self, bucket):
+            filename = path.join(self.directory, bucket.key)
+            if path.exists(filename):
+                with open(filename, &apos;rb&apos;) as f:
+                    bucket.load_bytecode(f)
+
+        def dump_bytecode(self, bucket):
+            filename = path.join(self.directory, bucket.key)
+            with open(filename, &apos;wb&apos;) as f:
+                bucket.write_bytecode(f)
+
+A more advanced version of a filesystem based bytecode cache is part of
+Jinja.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.bccache.BytecodeCache</label>
+        <link refid="classjinja2_1_1bccache_1_1BytecodeCache"/>
+      </node>
+      <node id="2">
+        <label>jinja2.bccache.FileSystemBytecodeCache</label>
+        <link refid="classjinja2_1_1bccache_1_1FileSystemBytecodeCache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.bccache.MemcachedBytecodeCache</label>
+        <link refid="classjinja2_1_1bccache_1_1MemcachedBytecodeCache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" line="103" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/bccache.py" bodystart="103" bodyend="187"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1bccache_1_1BytecodeCache_1adfccc9f4c141b0886859bb885bcf8e6a" prot="public" virt="non-virtual"><scope>jinja2::bccache::BytecodeCache</scope><name>clear</name></member>
+      <member refid="classjinja2_1_1bccache_1_1BytecodeCache_1a9247d0d7453cf47dbd00cb43809479f8" prot="public" virt="non-virtual"><scope>jinja2::bccache::BytecodeCache</scope><name>dump_bytecode</name></member>
+      <member refid="classjinja2_1_1bccache_1_1BytecodeCache_1a9f6f2505ffdb01644e0138709be1fffb" prot="public" virt="non-virtual"><scope>jinja2::bccache::BytecodeCache</scope><name>get_bucket</name></member>
+      <member refid="classjinja2_1_1bccache_1_1BytecodeCache_1a1ce40bddff60f1a61df8b054fa5cd4b3" prot="public" virt="non-virtual"><scope>jinja2::bccache::BytecodeCache</scope><name>get_cache_key</name></member>
+      <member refid="classjinja2_1_1bccache_1_1BytecodeCache_1a3eabf30b7c8ef6b72ecafafea0d86c93" prot="public" virt="non-virtual"><scope>jinja2::bccache::BytecodeCache</scope><name>get_source_checksum</name></member>
+      <member refid="classjinja2_1_1bccache_1_1BytecodeCache_1ae145388705cf26b278492c73bbc388d9" prot="public" virt="non-virtual"><scope>jinja2::bccache::BytecodeCache</scope><name>load_bytecode</name></member>
+      <member refid="classjinja2_1_1bccache_1_1BytecodeCache_1a61ce7c88076ceccc0409dc7e86a028ac" prot="public" virt="non-virtual"><scope>jinja2::bccache::BytecodeCache</scope><name>set_bucket</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

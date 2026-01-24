@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepackaging_1_1version" kind="namespace" language="Python">
+    <compoundname>packaging::version</compoundname>
+    <innerclass refid="classpackaging_1_1version_1_1__BaseVersion" prot="protected">packaging::version::_BaseVersion</innerclass>
+    <innerclass refid="classpackaging_1_1version_1_1__TrimmedRelease" prot="protected">packaging::version::_TrimmedRelease</innerclass>
+    <innerclass refid="classpackaging_1_1version_1_1__Version" prot="protected">packaging::version::_Version</innerclass>
+    <innerclass refid="classpackaging_1_1version_1_1InvalidVersion" prot="public">packaging::version::InvalidVersion</innerclass>
+    <innerclass refid="classpackaging_1_1version_1_1Version" prot="public">packaging::version::Version</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1a457773d650228546fcc04204ca07d7f6" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list packaging::version.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>packaging.version.__all__</qualifiedname>
+        <initializer>=  [&quot;VERSION_PATTERN&quot;, &quot;InvalidVersion&quot;, &quot;Version&quot;, &quot;parse&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1ae1b80d82b89c1615b5f05dff62310044" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::version.LocalType</definition>
+        <argsstring></argsstring>
+        <name>LocalType</name>
+        <qualifiedname>packaging.version.LocalType</qualifiedname>
+        <initializer>=  Tuple[Union[int, str], ...]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1a1c2d3dff14f0bb209b72919ef253b6de" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::version.CmpPrePostDevType</definition>
+        <argsstring></argsstring>
+        <name>CmpPrePostDevType</name>
+        <qualifiedname>packaging.version.CmpPrePostDevType</qualifiedname>
+        <initializer>=  Union[<ref refid="classpackaging_1_1__structures_1_1InfinityType" kindref="compound">InfinityType</ref>, <ref refid="classpackaging_1_1__structures_1_1NegativeInfinityType" kindref="compound">NegativeInfinityType</ref>, Tuple[str, int]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1a4d92bd60742003ea74b6b2b0f476d1f0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::version.CmpLocalType</definition>
+        <argsstring></argsstring>
+        <name>CmpLocalType</name>
+        <qualifiedname>packaging.version.CmpLocalType</qualifiedname>
+        <initializer>=  Union[
+    <ref refid="classpackaging_1_1__structures_1_1NegativeInfinityType" kindref="compound">NegativeInfinityType</ref>,
+    Tuple[Union[Tuple[int, str], Tuple[<ref refid="classpackaging_1_1__structures_1_1NegativeInfinityType" kindref="compound">NegativeInfinityType</ref>, Union[int, str]]], ...],
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1a4abc1bc02fa33bee706e0447bc71dae8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::version.CmpKey</definition>
+        <argsstring></argsstring>
+        <name>CmpKey</name>
+        <qualifiedname>packaging.version.CmpKey</qualifiedname>
+        <initializer>=  Tuple[
+    int,
+    Tuple[int, ...],
+    <ref refid="namespacepackaging_1_1version_1a1c2d3dff14f0bb209b72919ef253b6de" kindref="member">CmpPrePostDevType</ref>,
+    <ref refid="namespacepackaging_1_1version_1a1c2d3dff14f0bb209b72919ef253b6de" kindref="member">CmpPrePostDevType</ref>,
+    <ref refid="namespacepackaging_1_1version_1a1c2d3dff14f0bb209b72919ef253b6de" kindref="member">CmpPrePostDevType</ref>,
+    <ref refid="namespacepackaging_1_1version_1a4d92bd60742003ea74b6b2b0f476d1f0" kindref="member">CmpLocalType</ref>,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1aff5e63c809528c0f25bbbe137bb12267" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::version.VersionComparisonMethod</definition>
+        <argsstring></argsstring>
+        <name>VersionComparisonMethod</name>
+        <qualifiedname>packaging.version.VersionComparisonMethod</qualifiedname>
+        <initializer>=  Callable[[<ref refid="namespacepackaging_1_1version_1a4abc1bc02fa33bee706e0447bc71dae8" kindref="member">CmpKey</ref>, <ref refid="namespacepackaging_1_1version_1a4abc1bc02fa33bee706e0447bc71dae8" kindref="member">CmpKey</ref>], bool]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1a21ac77014ad8280c91d97099b9954ccb" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str packaging::version._VERSION_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>_VERSION_PATTERN</name>
+        <qualifiedname>packaging.version._VERSION_PATTERN</qualifiedname>
+        <initializer>=  r&quot;&quot;&quot;
+    v?
+    (?:
+        (?:(?P&lt;epoch&gt;[0-9]+)!)?                           # epoch
+        (?P&lt;release&gt;[0-9]+(?:\.[0-9]+)*)                  # release segment
+        (?P&lt;pre&gt;                                          # pre-release
+            [-_\.]?
+            (?P&lt;pre_l&gt;alpha|a|beta|b|preview|pre|c|rc)
+            [-_\.]?
+            (?P&lt;pre_n&gt;[0-9]+)?
+        )?
+        (?P&lt;post&gt;                                         # post release
+            (?:-(?P&lt;post_n1&gt;[0-9]+))
+            |
+            (?:
+                [-_\.]?
+                (?P&lt;post_l&gt;post|rev|r)
+                [-_\.]?
+                (?P&lt;post_n2&gt;[0-9]+)?
+            )
+        )?
+        (?P&lt;dev&gt;                                          # dev release
+            [-_\.]?
+            (?P&lt;dev_l&gt;dev)
+            [-_\.]?
+            (?P&lt;dev_n&gt;[0-9]+)?
+        )?
+    )
+    (?:\+(?P&lt;local&gt;[a-z0-9]+(?:[-_\.][a-z0-9]+)*))?       # local version
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="117" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1ad9843e0578b91b45f5efd627a5dd0642" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str packaging::version.VERSION_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>VERSION_PATTERN</name>
+        <qualifiedname>packaging.version.VERSION_PATTERN</qualifiedname>
+        <initializer>=  <ref refid="namespacepackaging_1_1version_1a21ac77014ad8280c91d97099b9954ccb" kindref="member">_VERSION_PATTERN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="148" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1version_1a04e7bb6da9584ee57bd7e4e751202f73" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::version._local_version_separators</definition>
+        <argsstring></argsstring>
+        <name>_local_version_separators</name>
+        <qualifiedname>packaging.version._local_version_separators</qualifiedname>
+        <initializer>=  re.compile(r&quot;[\._-]&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="508" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="508" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepackaging_1_1version_1ae84a0a3582d26bec05c031c8bdc864a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1version_1_1Version" kindref="compound">Version</ref></type>
+        <definition> Version packaging.version.parse</definition>
+        <argsstring>(str version)</argsstring>
+        <name>parse</name>
+        <qualifiedname>packaging.version.parse</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the given version string.
+
+&gt;&gt;&gt; parse(&apos;1.0.dev1&apos;)
+&lt;Version(&apos;1.0.dev1&apos;)&gt;
+
+:param version: The version string to parse.
+:raises InvalidVersion: When the version string is not a valid version.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="47" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="47" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1version_1a1e3ea5803354de3846e74da0eabcba25" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, int]|None</type>
+        <definition> tuple[str, int] | None packaging.version._parse_letter_version</definition>
+        <argsstring>(str|None letter, str|bytes|SupportsInt|None number)</argsstring>
+        <name>_parse_letter_version</name>
+        <qualifiedname>packaging.version._parse_letter_version</qualifiedname>
+        <param>
+          <type>str|None</type>
+          <declname>letter</declname>
+        </param>
+        <param>
+          <type>str|bytes|SupportsInt|None</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="471" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="473" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1version_1adfb94135336c8c812caf49e06984ccbc" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1version_1ae1b80d82b89c1615b5f05dff62310044" kindref="member">LocalType</ref>|None</type>
+        <definition> LocalType | None packaging.version._parse_local_version</definition>
+        <argsstring>(str|None local)</argsstring>
+        <name>_parse_local_version</name>
+        <qualifiedname>packaging.version._parse_local_version</qualifiedname>
+        <param>
+          <type>str|None</type>
+          <declname>local</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Takes a string like abc.1.twelve and turns it into (&quot;abc&quot;, 1, &quot;twelve&quot;).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="511" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="511" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1version_1a3745de6b8684d216c3148e936eba25cd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1version_1a4abc1bc02fa33bee706e0447bc71dae8" kindref="member">CmpKey</ref></type>
+        <definition> CmpKey packaging.version._cmpkey</definition>
+        <argsstring>(int epoch, tuple[int,...] release, tuple[str, int]|None pre, tuple[str, int]|None post, tuple[str, int]|None dev, LocalType|None local)</argsstring>
+        <name>_cmpkey</name>
+        <qualifiedname>packaging.version._cmpkey</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>tuple</type>
+          <declname>release</declname>
+          <array>[int,...]</array>
+        </param>
+        <param>
+          <type>tuple|None</type>
+          <declname>pre</declname>
+          <array>[str, int]</array>
+        </param>
+        <param>
+          <type>tuple|None</type>
+          <declname>post</declname>
+          <array>[str, int]</array>
+        </param>
+        <param>
+          <type>tuple|None</type>
+          <declname>dev</declname>
+          <array>[str, int]</array>
+        </param>
+        <param>
+          <type><ref refid="namespacepackaging_1_1version_1ae1b80d82b89c1615b5f05dff62310044" kindref="member">LocalType</ref>|None</type>
+          <declname>local</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="523" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/version.py" bodystart="530" bodyend="583"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>.. testsetup::
+
+    from packaging.version import parse, Version
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/packaging/version.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

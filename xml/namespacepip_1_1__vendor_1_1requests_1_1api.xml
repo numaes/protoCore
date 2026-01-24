@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1requests_1_1api" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::requests::api</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1api_1ae86597160be7dcc9a78f8f91f8d45e6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.api.request</definition>
+        <argsstring>(method, url, **kwargs)</argsstring>
+        <name>request</name>
+        <qualifiedname>pip._vendor.requests.api.request</qualifiedname>
+        <param>
+          <type>method</type>
+          <defname>method</defname>
+        </param>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Constructs and sends a :class:`Request &lt;Request&gt;`.
+
+:param method: method for the new :class:`Request` object: ``GET``, ``OPTIONS``, ``HEAD``, ``POST``, ``PUT``, ``PATCH``, or ``DELETE``.
+:param url: URL for the new :class:`Request` object.
+:param params: (optional) Dictionary, list of tuples or bytes to send
+    in the query string for the :class:`Request`.
+:param data: (optional) Dictionary, list of tuples, bytes, or file-like
+    object to send in the body of the :class:`Request`.
+:param json: (optional) A JSON serializable Python object to send in the body of the :class:`Request`.
+:param headers: (optional) Dictionary of HTTP Headers to send with the :class:`Request`.
+:param cookies: (optional) Dict or CookieJar object to send with the :class:`Request`.
+:param files: (optional) Dictionary of ``&apos;name&apos;: file-like-objects`` (or ``{&apos;name&apos;: file-tuple}``) for multipart encoding upload.
+    ``file-tuple`` can be a 2-tuple ``(&apos;filename&apos;, fileobj)``, 3-tuple ``(&apos;filename&apos;, fileobj, &apos;content_type&apos;)``
+    or a 4-tuple ``(&apos;filename&apos;, fileobj, &apos;content_type&apos;, custom_headers)``, where ``&apos;content-type&apos;`` is a string
+    defining the content type of the given file and ``custom_headers`` a dict-like object containing additional headers
+    to add for the file.
+:param auth: (optional) Auth tuple to enable Basic/Digest/Custom HTTP Auth.
+:param timeout: (optional) How many seconds to wait for the server to send data
+    before giving up, as a float, or a :ref:`(connect timeout, read
+    timeout) &lt;timeouts&gt;` tuple.
+:type timeout: float or tuple
+:param allow_redirects: (optional) Boolean. Enable/disable GET/OPTIONS/POST/PUT/PATCH/DELETE/HEAD redirection. Defaults to ``True``.
+:type allow_redirects: bool
+:param proxies: (optional) Dictionary mapping protocol to the URL of the proxy.
+:param verify: (optional) Either a boolean, in which case it controls whether we verify
+        the server&apos;s TLS certificate, or a string, in which case it must be a path
+        to a CA bundle to use. Defaults to ``True``.
+:param stream: (optional) if ``False``, the response content will be immediately downloaded.
+:param cert: (optional) if String, path to ssl client cert file (.pem). If Tuple, (&apos;cert&apos;, &apos;key&apos;) pair.
+:return: :class:`Response &lt;Response&gt;` object
+:rtype: requests.Response
+
+Usage::
+
+  &gt;&gt;&gt; import requests
+  &gt;&gt;&gt; req = requests.request(&apos;GET&apos;, &apos;https://httpbin.org/get&apos;)
+  &gt;&gt;&gt; req
+  &lt;Response [200]&gt;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" bodystart="14" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1api_1aa9e46a3c64be13dae72ed5a2b3066750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.api.get</definition>
+        <argsstring>(url, params=None, **kwargs)</argsstring>
+        <name>get</name>
+        <qualifiedname>pip._vendor.requests.api.get</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>params</type>
+          <defname>params</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a GET request.
+
+:param url: URL for the new :class:`Request` object.
+:param params: (optional) Dictionary, list of tuples or bytes to send
+    in the query string for the :class:`Request`.
+:param \*\*kwargs: Optional arguments that ``request`` takes.
+:return: :class:`Response &lt;Response&gt;` object
+:rtype: requests.Response
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" bodystart="62" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1api_1ae0fae0ecb40f9bb0fb1a517a5de06bf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.api.options</definition>
+        <argsstring>(url, **kwargs)</argsstring>
+        <name>options</name>
+        <qualifiedname>pip._vendor.requests.api.options</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends an OPTIONS request.
+
+:param url: URL for the new :class:`Request` object.
+:param \*\*kwargs: Optional arguments that ``request`` takes.
+:return: :class:`Response &lt;Response&gt;` object
+:rtype: requests.Response
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" bodystart="76" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1api_1a7eccc8f3972de749f0d0da264d033676" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.api.head</definition>
+        <argsstring>(url, **kwargs)</argsstring>
+        <name>head</name>
+        <qualifiedname>pip._vendor.requests.api.head</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a HEAD request.
+
+:param url: URL for the new :class:`Request` object.
+:param \*\*kwargs: Optional arguments that ``request`` takes. If
+    `allow_redirects` is not provided, it will be set to `False` (as
+    opposed to the default :meth:`request` behavior).
+:return: :class:`Response &lt;Response&gt;` object
+:rtype: requests.Response
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="88" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" bodystart="88" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1api_1ae8fa50127d86a5156e693ee0df61357e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.api.post</definition>
+        <argsstring>(url, data=None, json=None, **kwargs)</argsstring>
+        <name>post</name>
+        <qualifiedname>pip._vendor.requests.api.post</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>json</type>
+          <defname>json</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a POST request.
+
+:param url: URL for the new :class:`Request` object.
+:param data: (optional) Dictionary, list of tuples, bytes, or file-like
+    object to send in the body of the :class:`Request`.
+:param json: (optional) A JSON serializable Python object to send in the body of the :class:`Request`.
+:param \*\*kwargs: Optional arguments that ``request`` takes.
+:return: :class:`Response &lt;Response&gt;` object
+:rtype: requests.Response
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="103" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" bodystart="103" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1api_1af4d6e18b8194e97cfcb09dca70669b70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.api.put</definition>
+        <argsstring>(url, data=None, **kwargs)</argsstring>
+        <name>put</name>
+        <qualifiedname>pip._vendor.requests.api.put</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a PUT request.
+
+:param url: URL for the new :class:`Request` object.
+:param data: (optional) Dictionary, list of tuples, bytes, or file-like
+    object to send in the body of the :class:`Request`.
+:param json: (optional) A JSON serializable Python object to send in the body of the :class:`Request`.
+:param \*\*kwargs: Optional arguments that ``request`` takes.
+:return: :class:`Response &lt;Response&gt;` object
+:rtype: requests.Response
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="118" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" bodystart="118" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1api_1afe92e0def5a4c611e8aebca729c33e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.api.patch</definition>
+        <argsstring>(url, data=None, **kwargs)</argsstring>
+        <name>patch</name>
+        <qualifiedname>pip._vendor.requests.api.patch</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a PATCH request.
+
+:param url: URL for the new :class:`Request` object.
+:param data: (optional) Dictionary, list of tuples, bytes, or file-like
+    object to send in the body of the :class:`Request`.
+:param json: (optional) A JSON serializable Python object to send in the body of the :class:`Request`.
+:param \*\*kwargs: Optional arguments that ``request`` takes.
+:return: :class:`Response &lt;Response&gt;` object
+:rtype: requests.Response
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="133" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" bodystart="133" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1api_1a05cfa73261fbd70afa60ea6b0accb3ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.api.delete</definition>
+        <argsstring>(url, **kwargs)</argsstring>
+        <name>delete</name>
+        <qualifiedname>pip._vendor.requests.api.delete</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a DELETE request.
+
+:param url: URL for the new :class:`Request` object.
+:param \*\*kwargs: Optional arguments that ``request`` takes.
+:return: :class:`Response &lt;Response&gt;` object
+:rtype: requests.Response
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="148" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" bodystart="148" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>requests.api
+~~~~~~~~~~~~
+
+This module implements the Requests API.
+
+:copyright: (c) 2012 by Kenneth Reitz.
+:license: Apache2, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/api.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

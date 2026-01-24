@@ -1,0 +1,1510 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions" kind="namespace" language="Python">
+    <compoundname>pip::_internal::cli::cmdoptions</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1cli_1_1cmdoptions_1_1PipOption" prot="public">pip::_internal::cli::cmdoptions::PipOption</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1acd75014dc6846c454c2a85c5b732a8dd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::cli::cmdoptions.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a40d28501e8249564c21c502fe816674e" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.cert</definition>
+        <argsstring></argsstring>
+        <name>cert</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.cert</qualifiedname>
+        <initializer>=  partial(
+    <ref refid="classpip_1_1__internal_1_1cli_1_1cmdoptions_1_1PipOption" kindref="compound">PipOption</ref>,
+    &quot;--cert&quot;,
+    dest=&quot;cert&quot;,
+    type=&quot;path&quot;,
+    metavar=&quot;path&quot;,
+    help=(
+        &quot;Path to PEM-encoded CA certificate bundle. &quot;
+        &quot;If provided, overrides the default. &quot;
+        &quot;See &apos;SSL Certificate Verification&apos; in pip documentation &quot;
+        &quot;for more information.&quot;
+    ),
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="314" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a3157f9f5b41cda6dac2675862df9a20f" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.client_cert</definition>
+        <argsstring></argsstring>
+        <name>client_cert</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.client_cert</qualifiedname>
+        <initializer>=  partial(
+    <ref refid="classpip_1_1__internal_1_1cli_1_1cmdoptions_1_1PipOption" kindref="compound">PipOption</ref>,
+    &quot;--client-cert&quot;,
+    dest=&quot;client_cert&quot;,
+    type=&quot;path&quot;,
+    default=None,
+    metavar=&quot;path&quot;,
+    help=&quot;Path to SSL client certificate, a single file containing the &quot;
+    &quot;private key and the certificate in PEM format.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="328" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a9b8cb78a567d0a7b399c50540806683c" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.index_url</definition>
+        <argsstring></argsstring>
+        <name>index_url</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.index_url</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;-i&quot;,
+    &quot;--index-url&quot;,
+    &quot;--pypi-url&quot;,
+    dest=&quot;index_url&quot;,
+    metavar=&quot;URL&quot;,
+    default=PyPI.simple_url,
+    help=&quot;Base URL of the Python Package Index (default %default). &quot;
+    &quot;This should point to a repository compliant with PEP 503 &quot;
+    &quot;(the simple repository API) or a local directory laid out &quot;
+    &quot;in the same format.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="339" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ae79cce829ac3782341ffdada9bba979a" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.no_index</definition>
+        <argsstring></argsstring>
+        <name>no_index</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.no_index</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--no-index&quot;,
+    dest=&quot;no_index&quot;,
+    action=&quot;store_true&quot;,
+    default=False,
+    help=&quot;Ignore package index (only looking at --find-links URLs instead).&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="367" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a917b08b93600d02c7b3cb39f8d277674" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.src</definition>
+        <argsstring></argsstring>
+        <name>src</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.src</qualifiedname>
+        <initializer>=  partial(
+    <ref refid="classpip_1_1__internal_1_1cli_1_1cmdoptions_1_1PipOption" kindref="compound">PipOption</ref>,
+    &quot;--src&quot;,
+    &quot;--source&quot;,
+    &quot;--source-dir&quot;,
+    &quot;--source-directory&quot;,
+    dest=&quot;src_dir&quot;,
+    type=&quot;path&quot;,
+    metavar=&quot;dir&quot;,
+    default=get_src_prefix(),
+    action=&quot;callback&quot;,
+    callback=<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1acc3a72260fcc622eaf0e534f4e561460" kindref="member">_handle_src</ref>,
+    help=&quot;Directory to check out <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a7dcfba06279e515de3aa18948dd66ef4" kindref="member">editable</ref> projects into. &quot;
+    &apos;The default in a virtualenv is &quot;&lt;venv path&gt;/src&quot;. &apos;
+    &apos;The default for global installs is &quot;&lt;current dir&gt;/src&quot;.&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="451" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1af9708cd5b871d4d6818a50a9b75f2734" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.platforms</definition>
+        <argsstring></argsstring>
+        <name>platforms</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.platforms</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--platform&quot;,
+    dest=&quot;platforms&quot;,
+    metavar=&quot;platform&quot;,
+    action=&quot;append&quot;,
+    default=None,
+    help=(
+        &quot;Only use wheels compatible with &lt;platform&gt;. Defaults to the &quot;
+        &quot;platform of the running system. Use this option multiple times to &quot;
+        &quot;specify multiple platforms supported by the target interpreter.&quot;
+    ),
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="532" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="532" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1af9a42d3fcf12db9a9f2d6115ee7f4162" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.python_version</definition>
+        <argsstring></argsstring>
+        <name>python_version</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.python_version</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--python-version&quot;,
+    dest=&quot;python_version&quot;,
+    metavar=&quot;python_version&quot;,
+    action=&quot;callback&quot;,
+    callback=<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aadfea899d02b0ab61d1d91fe05e37247" kindref="member">_handle_python_version</ref>,
+    type=&quot;str&quot;,
+    default=None,
+    help=dedent(
+        
+    ),
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="591" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="591" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a243244427b78ecced09603bbefe7cc22" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.implementation</definition>
+        <argsstring></argsstring>
+        <name>implementation</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.implementation</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--implementation&quot;,
+    dest=&quot;implementation&quot;,
+    metavar=&quot;implementation&quot;,
+    default=None,
+    help=(
+        &quot;Only use wheels compatible with Python &quot;
+        &quot;implementation &lt;implementation&gt;, e.g. &apos;pp&apos;, &apos;jy&apos;, &apos;cp&apos;, &quot;
+        &quot; or &apos;ip&apos;. If not specified, then the current &quot;
+        &quot;interpreter implementation is used.  Use &apos;py&apos; to force &quot;
+        &quot;implementation-agnostic wheels.&quot;
+    ),
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="612" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="612" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a0000a24c166fd0a7b49e30965b655447" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.abis</definition>
+        <argsstring></argsstring>
+        <name>abis</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.abis</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--abi&quot;,
+    dest=&quot;abis&quot;,
+    metavar=&quot;abi&quot;,
+    action=&quot;append&quot;,
+    default=None,
+    help=(
+        &quot;Only use wheels compatible with Python abi &lt;abi&gt;, e.g. &apos;pypy_41&apos;. &quot;
+        &quot;If not specified, then the current interpreter abi tag is used. &quot;
+        &quot;Use this option multiple times to specify multiple abis supported &quot;
+        &quot;by the target interpreter. Generally you will need to specify &quot;
+        &quot;--<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a243244427b78ecced09603bbefe7cc22" kindref="member">implementation</ref>, --platform, and --python-version when using this &quot;
+        &quot;option.&quot;
+    ),
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="628" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="628" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1acbad7395eab87073596e95776b00a33e" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.cache_dir</qualifiedname>
+        <initializer>=  partial(
+    <ref refid="classpip_1_1__internal_1_1cli_1_1cmdoptions_1_1PipOption" kindref="compound">PipOption</ref>,
+    &quot;--cache-dir&quot;,
+    dest=&quot;cache_dir&quot;,
+    default=USER_CACHE_DIR,
+    metavar=&quot;dir&quot;,
+    type=&quot;path&quot;,
+    help=&quot;Store the cache data in &lt;dir&gt;.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="677" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="677" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a9ca904b9a1d30459ca737daaed17b1ef" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.no_cache</definition>
+        <argsstring></argsstring>
+        <name>no_cache</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.no_cache</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--no-cache-dir&quot;,
+    dest=&quot;cache_dir&quot;,
+    action=&quot;callback&quot;,
+    callback=<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1abaee51ae284649211c62a2f7aecbf9e0" kindref="member">_handle_no_cache_dir</ref>,
+    help=&quot;Disable the cache.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="717" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="717" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a4c0b8dd210d6acaeae205b2c4c73828e" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.no_deps</definition>
+        <argsstring></argsstring>
+        <name>no_deps</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.no_deps</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--no-deps&quot;,
+    &quot;--no-dependencies&quot;,
+    dest=&quot;ignore_dependencies&quot;,
+    action=&quot;store_true&quot;,
+    default=False,
+    help=&quot;Don&apos;t install package dependencies.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="726" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="726" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a15498da3098ed39be9e3f0ba515e5f34" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.ignore_requires_python</definition>
+        <argsstring></argsstring>
+        <name>ignore_requires_python</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.ignore_requires_python</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--ignore-requires-python&quot;,
+    dest=&quot;ignore_requires_python&quot;,
+    action=&quot;store_true&quot;,
+    help=&quot;Ignore the Requires-Python information.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="736" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="736" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1af04584f228627748709ed55201cf4d40" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.no_build_isolation</definition>
+        <argsstring></argsstring>
+        <name>no_build_isolation</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.no_build_isolation</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--no-build-isolation&quot;,
+    dest=&quot;build_isolation&quot;,
+    action=&quot;store_false&quot;,
+    default=True,
+    help=&quot;Disable isolation when building a modern source distribution. &quot;
+    &quot;Build dependencies specified by PEP 518 must be already installed &quot;
+    &quot;if this option is used.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="744" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="744" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a9a1c0a5499f4def60aa87e9c0194b57c" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.check_build_deps</definition>
+        <argsstring></argsstring>
+        <name>check_build_deps</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.check_build_deps</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--check-build-dependencies&quot;,
+    dest=&quot;check_build_deps&quot;,
+    action=&quot;store_true&quot;,
+    default=False,
+    help=&quot;Check the build dependencies when PEP517 is used.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="755" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="755" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a3c9fa5a0029d091542ff6cf4f08c00ea" prot="public" static="no" mutable="no">
+        <type>Any</type>
+        <definition>Any pip::_internal::cli::cmdoptions.use_pep517</definition>
+        <argsstring></argsstring>
+        <name>use_pep517</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.use_pep517</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--use-pep517&quot;,
+    dest=&quot;use_pep517&quot;,
+    action=&quot;store_true&quot;,
+    default=None,
+    help=&quot;Use PEP 517 for building source distributions &quot;
+    &quot;(use --no-use-pep517 to force legacy behaviour).&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="800" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="800" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a25e901c72e0e54dcdf4968e7423b110a" prot="public" static="no" mutable="no">
+        <type>Any</type>
+        <definition>Any pip::_internal::cli::cmdoptions.no_use_pep517</definition>
+        <argsstring></argsstring>
+        <name>no_use_pep517</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.no_use_pep517</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--no-use-pep517&quot;,
+    dest=&quot;use_pep517&quot;,
+    action=&quot;callback&quot;,
+    callback=<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a2a1092a0de7ca5904710da2f45d97c27" kindref="member">_handle_no_use_pep517</ref>,
+    default=None,
+    help=SUPPRESS_HELP,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="810" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="810" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1af82cfb7dcaadcd284f64a57c650f3d4e" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.config_settings</definition>
+        <argsstring></argsstring>
+        <name>config_settings</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.config_settings</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;-C&quot;,
+    &quot;--config-settings&quot;,
+    dest=&quot;config_settings&quot;,
+    type=str,
+    action=&quot;callback&quot;,
+    callback=<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a8952df5567bf819adf387dc11cef81f0" kindref="member">_handle_config_settings</ref>,
+    metavar=&quot;settings&quot;,
+    help=&quot;Configuration settings to be passed to the PEP 517 build backend. &quot;
+    &quot;Settings take the form KEY=VALUE. Use multiple --config-settings options &quot;
+    &quot;to pass multiple keys to the backend.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="840" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="840" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a0d64b20aad9a1970f8b1c51aef63120e" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.build_options</definition>
+        <argsstring></argsstring>
+        <name>build_options</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.build_options</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--build-option&quot;,
+    dest=&quot;build_options&quot;,
+    metavar=&quot;options&quot;,
+    action=&quot;append&quot;,
+    help=&quot;Extra arguments to be supplied to &apos;setup.py bdist_wheel&apos;.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="854" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="854" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a2c95aa15013faa53d3c44f14240e964d" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.global_options</definition>
+        <argsstring></argsstring>
+        <name>global_options</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.global_options</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--global-option&quot;,
+    dest=&quot;global_options&quot;,
+    action=&quot;append&quot;,
+    metavar=&quot;options&quot;,
+    help=&quot;Extra global options to be supplied to the setup.py &quot;
+    &quot;call <ref refid="build_2__deps_2googletest-src_2googletest_2test_2gtest-typed-test__test_8cc_1aeebfd9871e2af1c35803e67cec4897cc" kindref="member">before</ref> the install or bdist_wheel command.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="863" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="863" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ab0b2c44417522cd2e75871cecb95364c" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.no_clean</definition>
+        <argsstring></argsstring>
+        <name>no_clean</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.no_clean</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--no-clean&quot;,
+    action=&quot;store_true&quot;,
+    default=False,
+    help=&quot;Don&apos;t clean up build directories.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="873" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="873" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aad1293122fefe2eaccc7638d8decd6a8" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.pre</definition>
+        <argsstring></argsstring>
+        <name>pre</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.pre</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--pre&quot;,
+    action=&quot;store_true&quot;,
+    default=False,
+    help=&quot;Include pre-release and development versions. By default, &quot;
+    &quot;pip only finds stable versions.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="881" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="881" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aebbbc590a239889539f41acf2b631276" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.disable_pip_version_check</definition>
+        <argsstring></argsstring>
+        <name>disable_pip_version_check</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.disable_pip_version_check</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--disable-pip-version-check&quot;,
+    dest=&quot;disable_pip_version_check&quot;,
+    action=&quot;store_true&quot;,
+    default=True,
+    help=&quot;Don&apos;t periodically check PyPI to determine whether a new version &quot;
+    &quot;of pip is available for download. Implied with --no-index.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="890" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="890" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a690a9186c1ec94827b10812db9475ebb" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.root_user_action</definition>
+        <argsstring></argsstring>
+        <name>root_user_action</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.root_user_action</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--root-user-action&quot;,
+    dest=&quot;root_user_action&quot;,
+    default=&quot;warn&quot;,
+    choices=[&quot;warn&quot;, &quot;ignore&quot;],
+    help=&quot;Action if pip is run as a root user. By default, a warning message is shown.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="900" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="900" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a57577686b2faa3133934df7e8b3d1a45" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.hash</definition>
+        <argsstring></argsstring>
+        <name>hash</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.hash</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--hash&quot;,
+    # Hash values eventually end up in InstallRequirement.hashes due to
+    # __dict__ copying in process_line().
+    dest=&quot;hashes&quot;,
+    action=&quot;callback&quot;,
+    callback=<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a685534ba8274dcef579608c4641798a1" kindref="member">_handle_merge_hash</ref>,
+    type=&quot;string&quot;,
+    help=&quot;Verify that the package&apos;s archive matches this &quot;
+    &quot;hash <ref refid="build_2__deps_2googletest-src_2googletest_2test_2gtest-typed-test__test_8cc_1aeebfd9871e2af1c35803e67cec4897cc" kindref="member">before</ref> installing. Example: --hash=sha256:abcdef...&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="934" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="934" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a4a2ac0ae8bfb3b794311843231898151" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.require_hashes</definition>
+        <argsstring></argsstring>
+        <name>require_hashes</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.require_hashes</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--require-hashes&quot;,
+    dest=&quot;require_hashes&quot;,
+    action=&quot;store_true&quot;,
+    default=False,
+    help=&quot;Require a <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a57577686b2faa3133934df7e8b3d1a45" kindref="member">hash</ref> to check each requirement against, for &quot;
+    &quot;repeatable installs. This option is implied when any package in a &quot;
+    &quot;<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ae13d34f69882a6c0ea72fc02592730a4" kindref="member">requirements</ref> file has a --<ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a57577686b2faa3133934df7e8b3d1a45" kindref="member">hash</ref> option.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="948" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="948" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a3bf80b639eb6637e41f3ac54ef063808" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.list_path</definition>
+        <argsstring></argsstring>
+        <name>list_path</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.list_path</qualifiedname>
+        <initializer>=  partial(
+    <ref refid="classpip_1_1__internal_1_1cli_1_1cmdoptions_1_1PipOption" kindref="compound">PipOption</ref>,
+    &quot;--path&quot;,
+    dest=&quot;path&quot;,
+    type=&quot;path&quot;,
+    action=&quot;append&quot;,
+    help=&quot;Restrict to the specified installation path for listing &quot;
+    &quot;packages (can be used multiple times).&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="960" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="960" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1af1b00057135adb70d0696e2a79efa4d1" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.list_exclude</definition>
+        <argsstring></argsstring>
+        <name>list_exclude</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.list_exclude</qualifiedname>
+        <initializer>=  partial(
+    <ref refid="classpip_1_1__internal_1_1cli_1_1cmdoptions_1_1PipOption" kindref="compound">PipOption</ref>,
+    &quot;--exclude&quot;,
+    dest=&quot;excludes&quot;,
+    action=&quot;append&quot;,
+    metavar=&quot;package&quot;,
+    type=&quot;package_name&quot;,
+    help=&quot;Exclude specified package from the output&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="976" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="976" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aa6ed7d98bcccc0e625c008dcf1677c15" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.no_python_version_warning</definition>
+        <argsstring></argsstring>
+        <name>no_python_version_warning</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.no_python_version_warning</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--no-python-version-warning&quot;,
+    dest=&quot;no_python_version_warning&quot;,
+    action=&quot;store_true&quot;,
+    default=False,
+    help=&quot;Silence deprecation warnings for upcoming unsupported Pythons.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="987" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="987" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a0ff6292feacfe5ccd4c350a6e469ce1c" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::cli::cmdoptions.ALWAYS_ENABLED_FEATURES</definition>
+        <argsstring></argsstring>
+        <name>ALWAYS_ENABLED_FEATURES</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.ALWAYS_ENABLED_FEATURES</qualifiedname>
+        <initializer>=  [
+    &quot;no-binary-enable-wheel-cache&quot;,  # always on since 23.1
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="998" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="998" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ac0c8ca4ec6949e2ac3ba82ea9ad6ddec" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.use_new_feature</definition>
+        <argsstring></argsstring>
+        <name>use_new_feature</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.use_new_feature</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--use-feature&quot;,
+    dest=&quot;features_enabled&quot;,
+    metavar=&quot;feature&quot;,
+    action=&quot;append&quot;,
+    default=[],
+    choices=[
+        &quot;fast-deps&quot;,
+        &quot;truststore&quot;,
+    ]
+    + <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a0ff6292feacfe5ccd4c350a6e469ce1c" kindref="member">ALWAYS_ENABLED_FEATURES</ref>,
+    help=&quot;Enable new functionality, that may be backward incompatible.&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="1002" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="1002" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a25dc0c99ead26ea9e8fdd0e5a47d4c77" prot="public" static="no" mutable="no">
+        <type>Callable</type>
+        <definition>Callable pip::_internal::cli::cmdoptions.use_deprecated_feature</definition>
+        <argsstring></argsstring>
+        <name>use_deprecated_feature</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.use_deprecated_feature</qualifiedname>
+        <initializer>=  partial(
+    Option,
+    &quot;--use-deprecated&quot;,
+    dest=&quot;deprecated_features_enabled&quot;,
+    metavar=&quot;feature&quot;,
+    action=&quot;append&quot;,
+    default=[],
+    choices=[
+        &quot;legacy-resolver&quot;,
+    ],
+    help=(&quot;Enable deprecated functionality, that will be removed in the future.&quot;),
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="1017" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="1017" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ad61b46f33f7bb43de54c7c34044a3df9" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_internal::cli::cmdoptions.general_group</definition>
+        <argsstring></argsstring>
+        <name>general_group</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.general_group</qualifiedname>
+        <initializer>=  {
+    &quot;name&quot;: &quot;General Options&quot;,
+    &quot;options&quot;: [
+        help_,
+        debug_mode,
+        isolated_mode,
+        require_virtualenv,
+        python,
+        verbose,
+        version,
+        quiet,
+        log,
+        no_input,
+        keyring_provider,
+        proxy,
+        retries,
+        timeout,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a3a51b882bfee2f976a32efbd3595d3e9" kindref="member">exists_action</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a128a54ca982f779ee39700bf20813170" kindref="member">trusted_host</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a40d28501e8249564c21c502fe816674e" kindref="member">cert</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a3157f9f5b41cda6dac2675862df9a20f" kindref="member">client_cert</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1acbad7395eab87073596e95776b00a33e" kindref="member">cache_dir</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a9ca904b9a1d30459ca737daaed17b1ef" kindref="member">no_cache</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aebbbc590a239889539f41acf2b631276" kindref="member">disable_pip_version_check</ref>,
+        no_color,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aa6ed7d98bcccc0e625c008dcf1677c15" kindref="member">no_python_version_warning</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ac0c8ca4ec6949e2ac3ba82ea9ad6ddec" kindref="member">use_new_feature</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a25dc0c99ead26ea9e8fdd0e5a47d4c77" kindref="member">use_deprecated_feature</ref>,
+    ],
+}</initializer>
+        <briefdescription>
+<para>groups # </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="1035" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="1035" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a7da9cf85baf105e54891f5ba1f4bc8ba" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_internal::cli::cmdoptions.index_group</definition>
+        <argsstring></argsstring>
+        <name>index_group</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.index_group</qualifiedname>
+        <initializer>=  {
+    &quot;name&quot;: &quot;Package Index Options&quot;,
+    &quot;options&quot;: [
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a9b8cb78a567d0a7b399c50540806683c" kindref="member">index_url</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a42b022c61127eb721a60498a80e6d125" kindref="member">extra_index_url</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ae79cce829ac3782341ffdada9bba979a" kindref="member">no_index</ref>,
+        <ref refid="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aa3d9bbafc13f4c10336d7a95bd2efd60" kindref="member">find_links</ref>,
+    ],
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="1066" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="1066" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aa8c3be8d8e9f47213a914d300e405a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions.raise_option_error</definition>
+        <argsstring>(OptionParser parser, Option option, str msg)</argsstring>
+        <name>raise_option_error</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.raise_option_error</qualifiedname>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Raise an option parsing error using parser.error().
+
+Args:
+  parser: an OptionParser instance.
+  option: an Option instance.
+  msg: the error text.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="36" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a6a58a2b8f9c1b23b4a1efaa0ded321a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>OptionGroup</type>
+        <definition> OptionGroup pip._internal.cli.cmdoptions.make_option_group</definition>
+        <argsstring>(Dict[str, Any] group, ConfigOptionParser parser)</argsstring>
+        <name>make_option_group</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.make_option_group</qualifiedname>
+        <param>
+          <type>Dict</type>
+          <declname>group</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1cli_1_1parser_1_1ConfigOptionParser" kindref="compound">ConfigOptionParser</ref></type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an OptionGroup object
+group  -- assumed to be dict with &apos;name&apos; and &apos;options&apos; keys
+parser -- an optparse Parser
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="50" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="50" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1afabdbee3d78f72d93f42b9b26acd5514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions.check_dist_restriction</definition>
+        <argsstring>(Values options, bool check_target=False)</argsstring>
+        <name>check_dist_restriction</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.check_dist_restriction</qualifiedname>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>check_target</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Function for determining if custom platform options are allowed.
+
+:param options: The OptionParser options.
+:param check_target: Whether or not to check if --target is being used.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="62" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a3a984a726ad8b3c4a98911a822c57dfe" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.cli.cmdoptions._path_option_check</definition>
+        <argsstring>(Option option, str opt, str value)</argsstring>
+        <name>_path_option_check</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._path_option_check</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="102" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="102" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ab5d87a67f57727c344f9cbdcc927906d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.cli.cmdoptions._package_name_option_check</definition>
+        <argsstring>(Option option, str opt, str value)</argsstring>
+        <name>_package_name_option_check</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._package_name_option_check</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="106" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a3a51b882bfee2f976a32efbd3595d3e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.exists_action</definition>
+        <argsstring>()</argsstring>
+        <name>exists_action</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.exists_action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="299" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="299" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a42b022c61127eb721a60498a80e6d125" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.extra_index_url</definition>
+        <argsstring>()</argsstring>
+        <name>extra_index_url</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.extra_index_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="354" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="354" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aa3d9bbafc13f4c10336d7a95bd2efd60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.find_links</definition>
+        <argsstring>()</argsstring>
+        <name>find_links</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.find_links</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="377" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="377" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a128a54ca982f779ee39700bf20813170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.trusted_host</definition>
+        <argsstring>()</argsstring>
+        <name>trusted_host</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.trusted_host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="393" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="393" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1abe8b2661b7438dca93282bb485e615bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.constraints</definition>
+        <argsstring>()</argsstring>
+        <name>constraints</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.constraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="405" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="405" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ae13d34f69882a6c0ea72fc02592730a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.requirements</definition>
+        <argsstring>()</argsstring>
+        <name>requirements</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.requirements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="418" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="418" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a7dcfba06279e515de3aa18948dd66ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.editable</definition>
+        <argsstring>()</argsstring>
+        <name>editable</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.editable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="431" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="431" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1acc3a72260fcc622eaf0e534f4e561460" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions._handle_src</definition>
+        <argsstring>(Option option, str opt_str, str value, OptionParser parser)</argsstring>
+        <name>_handle_src</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._handle_src</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt_str</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="446" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="446" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ab28d17b693c276242ccaefd3600ab4ee" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any pip._internal.cli.cmdoptions._get_format_control</definition>
+        <argsstring>(Values values, Option option)</argsstring>
+        <name>_get_format_control</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._get_format_control</qualifiedname>
+        <param>
+          <type>Values</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a format_control object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="469" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="469" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a8ac358b785408badeb03a6fe492bdfc7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions._handle_no_binary</definition>
+        <argsstring>(Option option, str opt_str, str value, OptionParser parser)</argsstring>
+        <name>_handle_no_binary</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._handle_no_binary</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt_str</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="474" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="476" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1af598bdee02927a219f15d6ed5b6189dd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions._handle_only_binary</definition>
+        <argsstring>(Option option, str opt_str, str value, OptionParser parser)</argsstring>
+        <name>_handle_only_binary</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._handle_only_binary</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt_str</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="485" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="487" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1ab9bdca583c633aa53d3fb3015e9bf969" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.no_binary</definition>
+        <argsstring>()</argsstring>
+        <name>no_binary</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.no_binary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="496" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="496" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1abdbf7ee809b6c4b35df5ebe3628459f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.only_binary</definition>
+        <argsstring>()</argsstring>
+        <name>only_binary</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.only_binary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="514" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="514" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1af9b5065939f7012ca9d53c031c96d403" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[Tuple[int,...], Optional[str]]</type>
+        <definition> Tuple[Tuple[int, ...], Optional[str]] pip._internal.cli.cmdoptions._convert_python_version</definition>
+        <argsstring>(str value)</argsstring>
+        <name>_convert_python_version</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._convert_python_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a version string like &quot;3&quot;, &quot;37&quot;, or &quot;3.7.3&quot; into a tuple of ints.
+
+:return: A 2-tuple (version_info, error_msg), where `error_msg` is
+    non-None if and only if there was a parsing error.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="548" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="548" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aadfea899d02b0ab61d1d91fe05e37247" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions._handle_python_version</definition>
+        <argsstring>(Option option, str opt_str, str value, OptionParser parser)</argsstring>
+        <name>_handle_python_version</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._handle_python_version</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt_str</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handle a provided --python-version value.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="577" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="579" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1af83c0740d3b66d2de88e037447b35a4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions.add_target_python_options</definition>
+        <argsstring>(OptionGroup cmd_opts)</argsstring>
+        <name>add_target_python_options</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.add_target_python_options</qualifiedname>
+        <param>
+          <type>OptionGroup</type>
+          <declname>cmd_opts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="646" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="646" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1aa795eaa836cf5970996a82f7f8e1160a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1models_1_1target__python_1_1TargetPython" kindref="compound">TargetPython</ref></type>
+        <definition> TargetPython pip._internal.cli.cmdoptions.make_target_python</definition>
+        <argsstring>(Values options)</argsstring>
+        <name>make_target_python</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.make_target_python</qualifiedname>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="653" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="653" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a7f3316fab90f2e4375c7180fd5027e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Option</type>
+        <definition> Option pip._internal.cli.cmdoptions.prefer_binary</definition>
+        <argsstring>()</argsstring>
+        <name>prefer_binary</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.prefer_binary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="664" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="664" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1abaee51ae284649211c62a2f7aecbf9e0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions._handle_no_cache_dir</definition>
+        <argsstring>(Option option, str opt, str value, OptionParser parser)</argsstring>
+        <name>_handle_no_cache_dir</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._handle_no_cache_dir</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Process a value provided for the --no-cache-dir option.
+
+This is an optparse.Option callback for the --no-cache-dir option.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="688" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="690" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a2a1092a0de7ca5904710da2f45d97c27" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions._handle_no_use_pep517</definition>
+        <argsstring>(Option option, str opt, str value, OptionParser parser)</argsstring>
+        <name>_handle_no_use_pep517</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._handle_no_use_pep517</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Process a value provided for the --no-use-pep517 option.
+
+This is an optparse.Option callback for the no_use_pep517 option.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="765" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="767" bodyend="799"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a8952df5567bf819adf387dc11cef81f0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions._handle_config_settings</definition>
+        <argsstring>(Option option, str opt_str, str value, OptionParser parser)</argsstring>
+        <name>_handle_config_settings</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._handle_config_settings</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt_str</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="821" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="823" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a685534ba8274dcef579608c4641798a1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions._handle_merge_hash</definition>
+        <argsstring>(Option option, str opt_str, str value, OptionParser parser)</argsstring>
+        <name>_handle_merge_hash</name>
+        <qualifiedname>pip._internal.cli.cmdoptions._handle_merge_hash</qualifiedname>
+        <param>
+          <type>Option</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>opt_str</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>OptionParser</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a value spelled &quot;algo:digest&quot;, append the digest to a list
+pointed to in a dict by the algo name.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="910" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="912" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1cmdoptions_1a08d43e1d37036463d4da1f40216108da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.cmdoptions.check_list_path_option</definition>
+        <argsstring>(Values options)</argsstring>
+        <name>check_list_path_option</name>
+        <qualifiedname>pip._internal.cli.cmdoptions.check_list_path_option</qualifiedname>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="971" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" bodystart="971" bodyend="975"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>shared options and groups
+
+The principle here is to define options once, but *not* instantiate them
+globally. One reason being that options with action=&apos;append&apos; can carry state
+between parses. pip parses general options twice internally, and shouldn&apos;t
+pass on state. To be consistent, all options will follow this design.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/cmdoptions.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

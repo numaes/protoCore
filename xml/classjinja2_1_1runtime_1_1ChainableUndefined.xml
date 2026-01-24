@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1runtime_1_1ChainableUndefined" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::runtime::ChainableUndefined</compoundname>
+    <basecompoundref refid="classjinja2_1_1runtime_1_1Undefined" prot="public" virt="non-virtual">jinja2.runtime.Undefined</basecompoundref>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1runtime_1_1ChainableUndefined_1af815c89e5c84976c827c5ccf7b828fc9" prot="private" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.runtime.ChainableUndefined::__slots__</definition>
+        <argsstring></argsstring>
+        <name>__slots__</name>
+        <qualifiedname>jinja2.runtime.ChainableUndefined.__slots__</qualifiedname>
+        <initializer>=  ()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="986" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="986" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1runtime_1_1ChainableUndefined_1ae42df24378f7407a45b1fd6514b6c9ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.runtime.ChainableUndefined.__html__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__html__</name>
+        <qualifiedname>jinja2.runtime.ChainableUndefined.__html__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="988" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="988" bodyend="990"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1runtime_1_1ChainableUndefined_1a56e6c972402f073fdc5d303e77571b12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;ChainableUndefined&quot;</type>
+        <definition> &quot;ChainableUndefined&quot; jinja2.runtime.ChainableUndefined.__getattr__</definition>
+        <argsstring>(self, str name)</argsstring>
+        <name>__getattr__</name>
+        <qualifiedname>jinja2.runtime.ChainableUndefined.__getattr__</qualifiedname>
+        <reimplements refid="classjinja2_1_1runtime_1_1Undefined_1a72b5c6477bf9448a483d62a30b9abcd8">__getattr__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="991" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="991" bodyend="1002"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1runtime_1_1ChainableUndefined_1a41aa5f2044c6d7faa90b6ad9800c92c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;ChainableUndefined&quot;</type>
+        <definition> &quot;ChainableUndefined&quot; jinja2.runtime.ChainableUndefined.__getitem__</definition>
+        <argsstring>(self, str _name)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>jinja2.runtime.ChainableUndefined.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="1003" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="1003" bodyend="1006"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>An undefined that is chainable, where both ``__getattr__`` and
+``__getitem__`` return itself rather than raising an
+:exc:`UndefinedError`.
+
+&gt;&gt;&gt; foo = ChainableUndefined(name=&apos;foo&apos;)
+&gt;&gt;&gt; str(foo.bar[&apos;baz&apos;])
+&apos;&apos;
+&gt;&gt;&gt; foo.bar[&apos;baz&apos;] + 42
+Traceback (most recent call last):
+  ...
+jinja2.exceptions.UndefinedError: &apos;foo&apos; is undefined
+
+.. versionadded:: 2.11.0
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.runtime.ChainableUndefined</label>
+        <link refid="classjinja2_1_1runtime_1_1ChainableUndefined"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.runtime.Undefined</label>
+        <link refid="classjinja2_1_1runtime_1_1Undefined"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.runtime.ChainableUndefined</label>
+        <link refid="classjinja2_1_1runtime_1_1ChainableUndefined"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.runtime.Undefined</label>
+        <link refid="classjinja2_1_1runtime_1_1Undefined"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" line="970" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/runtime.py" bodystart="970" bodyend="1006"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1runtime_1_1ChainableUndefined_1a56e6c972402f073fdc5d303e77571b12" prot="public" virt="non-virtual"><scope>jinja2::runtime::ChainableUndefined</scope><name>__getattr__</name></member>
+      <member refid="classjinja2_1_1runtime_1_1ChainableUndefined_1a41aa5f2044c6d7faa90b6ad9800c92c6" prot="public" virt="non-virtual"><scope>jinja2::runtime::ChainableUndefined</scope><name>__getitem__</name></member>
+      <member refid="classjinja2_1_1runtime_1_1ChainableUndefined_1ae42df24378f7407a45b1fd6514b6c9ee" prot="public" virt="non-virtual"><scope>jinja2::runtime::ChainableUndefined</scope><name>__html__</name></member>
+      <member refid="classjinja2_1_1runtime_1_1ChainableUndefined_1af815c89e5c84976c827c5ccf7b828fc9" prot="private" virt="non-virtual"><scope>jinja2::runtime::ChainableUndefined</scope><name>__slots__</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

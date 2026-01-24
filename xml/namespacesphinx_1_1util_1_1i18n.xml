@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1i18n" kind="namespace" language="Python">
+    <compoundname>sphinx::util::i18n</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1i18n_1_1CatalogInfo" prot="public">sphinx::util::i18n::CatalogInfo</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1i18n_1_1CatalogRepository" prot="public">sphinx::util::i18n::CatalogRepository</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1i18n_1_1DateFormatter" prot="public">sphinx::util::i18n::DateFormatter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1i18n_1_1DatetimeFormatter" prot="public">sphinx::util::i18n::DatetimeFormatter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1i18n_1_1TimeFormatter" prot="public">sphinx::util::i18n::TimeFormatter</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1i18n_1ab15aef27cef9789f4d597e9df6d7e3e4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::i18n.TypeAlias</definition>
+        <argsstring></argsstring>
+        <name>TypeAlias</name>
+        <qualifiedname>sphinx.util.i18n.TypeAlias</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1i18n_1a71021b1fa759397a1ec394ae4ca7b72d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::i18n.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.util.i18n.logger</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" kindref="member">logging.getLogger</ref>(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="60" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1i18n_1a98305523d0a21d014d98aaa1f5df6441" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::util::i18n.date_format_mappings</definition>
+        <argsstring></argsstring>
+        <name>date_format_mappings</name>
+        <qualifiedname>sphinx.util.i18n.date_format_mappings</qualifiedname>
+        <initializer>=  {
+    &apos;%a&apos;:  &apos;EEE&apos;,     # Weekday as locale&apos;s abbreviated name.    &apos;%A&apos;:  &apos;EEEE&apos;,    # Weekday as locale&apos;s full name.
+    &apos;%b&apos;:  &apos;MMM&apos;,     # Month as locale&apos;s abbreviated name.    &apos;%B&apos;:  &apos;MMMM&apos;,    # Month as locale&apos;s full name.
+    &apos;%c&apos;:  &apos;medium&apos;,  # <ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>&apos;s appropriate date and time representation.    &apos;%-d&apos;: &apos;d&apos;,       # Day of the month as a decimal number.    &apos;%d&apos;:  &apos;dd&apos;,      # Day of the month as a zero-padded decimal number.    &apos;%-H&apos;: &apos;H&apos;,       # Hour (24-hour clock) as a decimal number [0,23].    &apos;%H&apos;:  &apos;HH&apos;,      # Hour (24-hour clock) as a zero-padded decimal number [00,23].    &apos;%-I&apos;: &apos;h&apos;,       # Hour (12-hour clock) as a decimal number [1,12].    &apos;%I&apos;:  &apos;hh&apos;,      # Hour (12-hour clock) as a zero-padded decimal number [01,12].    &apos;%-j&apos;: &apos;D&apos;,       # Day of the year as a decimal number.    &apos;%j&apos;:  &apos;DDD&apos;,     # Day of the year as a zero-padded decimal number.    &apos;%-m&apos;: &apos;M&apos;,       # Month as a decimal number.    &apos;%m&apos;:  &apos;MM&apos;,      # Month as a zero-padded decimal number.    &apos;%-M&apos;: &apos;m&apos;,       # Minute as a decimal number [0,59].    &apos;%M&apos;:  &apos;mm&apos;,      # Minute as a zero-padded decimal number [00,59].    &apos;%<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref>&apos;:  &apos;a&apos;,       # <ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>&apos;s equivalent of either AM or PM.
+    &apos;%-S&apos;: &apos;s&apos;,       # Second as a decimal number.
+    &apos;%S&apos;:  &apos;ss&apos;,      # Second as a zero-padded decimal number.
+    &apos;%U&apos;:  &apos;WW&apos;,      # Week number of the year (Sunday as the first day of the week)
+                      # as a zero padded decimal number. All days in a new year preceding
+                      # the first Sunday are considered to be in week 0.
+    &apos;%w&apos;:  &apos;e&apos;,       # Weekday as a decimal number, where 0 is Sunday and 6 is Saturday.
+    &apos;%-W&apos;: &apos;W&apos;,       # Week number of the year (Monday as the first day of the week)
+                      # as a decimal number. All days in a new year preceding the first
+                      # Monday are considered to be in week 0.
+    &apos;%W&apos;:  &apos;WW&apos;,      # Week number of the year (Monday as the first day of the week)
+                      # as a zero-padded decimal number.
+    &apos;%<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>&apos;:  &apos;medium&apos;,  # <ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>&apos;s appropriate date representation.    &apos;%X&apos;:  &apos;medium&apos;,  # <ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>&apos;s appropriate time representation.
+    &apos;%<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>&apos;:  &apos;YY&apos;,      # Year without century as a zero-padded decimal number.
+    &apos;%Y&apos;:  &apos;yyyy&apos;,    # Year with century as a decimal number.
+    &apos;%Z&apos;:  &apos;zzz&apos;,     # Time zone name (no characters if no time zone exists).
+    &apos;%<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a196ff6a287f53f758b1506f21269fc77" kindref="member">z</ref>&apos;:  &apos;ZZZ&apos;,     # UTC offset in the form ±HHMM[SS[.ffffff]]
+                      # (empty string if the object is naive).
+    &apos;%%&apos;:  &apos;%&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="177" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1i18n_1a5db8ef2ae86573c0ef7ec4b3d4d6caac" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::i18n.date_format_re</definition>
+        <argsstring></argsstring>
+        <name>date_format_re</name>
+        <qualifiedname>sphinx.util.i18n.date_format_re</qualifiedname>
+        <initializer>=  re.compile(&apos;(%s)&apos; % &apos;|&apos;.join(<ref refid="namespacesphinx_1_1util_1_1i18n_1a98305523d0a21d014d98aaa1f5df6441" kindref="member">date_format_mappings</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="217" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1i18n_1a660c8f822e4349e01c18338f8981dab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.i18n.docname_to_domain</definition>
+        <argsstring>(str docname, bool|str compaction)</argsstring>
+        <name>docname_to_domain</name>
+        <qualifiedname>sphinx.util.i18n.docname_to_domain</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>bool|str</type>
+          <declname>compaction</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert docname to domain for catalogs.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="166" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="166" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1i18n_1aa00941e88af21fec4c3d7c1a47d90242" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.i18n.babel_format_date</definition>
+        <argsstring>(datetime date, str format, str locale, Formatter formatter=babel.dates.format_date)</argsstring>
+        <name>babel_format_date</name>
+        <qualifiedname>sphinx.util.i18n.babel_format_date</qualifiedname>
+        <param>
+          <type>datetime</type>
+          <declname>date</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>locale</declname>
+        </param>
+        <param>
+          <type>Formatter</type>
+          <declname>formatter</declname>
+          <defval><ref refid="namespacebabel_1_1dates_1a5fb2ecebf1bc9929236e0ff73d6823f3" kindref="member">babel.dates.format_date</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="220" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="225" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1i18n_1a2088af125801cb3ae6ca32a3e7124aa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.i18n.format_date</definition>
+        <argsstring>(str format, *datetime|None date=None, str language, bool local_time=False)</argsstring>
+        <name>format_date</name>
+        <qualifiedname>sphinx.util.i18n.format_date</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>*datetime|None</type>
+          <declname>date</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>language</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>local_time</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="255" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="261" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1i18n_1a0f1a286726ec69ef2cbb6e747fac0466" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.i18n.get_image_filename_for_language</definition>
+        <argsstring>(str|os.PathLike[str] filename, BuildEnvironment env)</argsstring>
+        <name>get_image_filename_for_language</name>
+        <qualifiedname>sphinx.util.i18n.get_image_filename_for_language</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="308" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="311" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1i18n_1a6b77a2ed30334e8e9c7f3485670d61ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.i18n.search_image_for_language</definition>
+        <argsstring>(str filename, BuildEnvironment env)</argsstring>
+        <name>search_image_for_language</name>
+        <qualifiedname>sphinx.util.i18n.search_image_for_language</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="329" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" bodystart="329" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Builder superclass for all builders.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/i18n.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

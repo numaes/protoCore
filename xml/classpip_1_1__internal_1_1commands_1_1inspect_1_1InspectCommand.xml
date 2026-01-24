@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::commands::inspect::InspectCommand</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command" prot="public" virt="non-virtual">pip._internal.cli.base_command.Command</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1a0b4a240055eb0d0fd17603ffd01924ee" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool pip._internal.commands.inspect.InspectCommand::ignore_require_venv</definition>
+        <argsstring></argsstring>
+        <name>ignore_require_venv</name>
+        <qualifiedname>pip._internal.commands.inspect.InspectCommand.ignore_require_venv</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1ab2471459324b5276f5476407436689d2" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.commands.inspect.InspectCommand::usage</definition>
+        <argsstring></argsstring>
+        <name>usage</name>
+        <qualifiedname>pip._internal.commands.inspect.InspectCommand.usage</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;
+      %prog [options]&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1ae302f96f9e3fc3ef20539da1d644fbaf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.inspect.InspectCommand::cmd_opts</definition>
+        <argsstring></argsstring>
+        <name>cmd_opts</name>
+        <qualifiedname>pip._internal.commands.inspect.InspectCommand.cmd_opts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1ad909c1f5e144f0c011a664029f3e84ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.inspect.InspectCommand.add_options</definition>
+        <argsstring>(self)</argsstring>
+        <name>add_options</name>
+        <qualifiedname>pip._internal.commands.inspect.InspectCommand.add_options</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1ad74cf63053e59d30953e9429750d41b3">add_options</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" bodystart="28" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1a617b099e7f8157ec3647001660811b78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.commands.inspect.InspectCommand.run</definition>
+        <argsstring>(self, Values options, List[str] args)</argsstring>
+        <name>run</name>
+        <qualifiedname>pip._internal.commands.inspect.InspectCommand.run</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1abfb817417c4522bde2e2eb6141126aba">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" bodystart="48" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1a6bddf48f9507960a24d79747b1f21067" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, Any]</type>
+        <definition> Dict[str, Any] pip._internal.commands.inspect.InspectCommand._dist_to_dict</definition>
+        <argsstring>(self, BaseDistribution dist)</argsstring>
+        <name>_dist_to_dict</name>
+        <qualifiedname>pip._internal.commands.inspect.InspectCommand._dist_to_dict</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+          <declname>dist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" line="65" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" bodystart="65" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Inspect the content of a Python environment and produce a report in JSON format.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.commands.inspect.InspectCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.commands.inspect.InspectCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/inspect.py" bodystart="19" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1a6bddf48f9507960a24d79747b1f21067" prot="protected" virt="non-virtual"><scope>pip::_internal::commands::inspect::InspectCommand</scope><name>_dist_to_dict</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1ad909c1f5e144f0c011a664029f3e84ef" prot="public" virt="non-virtual"><scope>pip::_internal::commands::inspect::InspectCommand</scope><name>add_options</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1ae302f96f9e3fc3ef20539da1d644fbaf" prot="public" virt="non-virtual"><scope>pip::_internal::commands::inspect::InspectCommand</scope><name>cmd_opts</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1a0b4a240055eb0d0fd17603ffd01924ee" prot="public" virt="non-virtual"><scope>pip::_internal::commands::inspect::InspectCommand</scope><name>ignore_require_venv</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1a617b099e7f8157ec3647001660811b78" prot="public" virt="non-virtual"><scope>pip::_internal::commands::inspect::InspectCommand</scope><name>run</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1inspect_1_1InspectCommand_1ab2471459324b5276f5476407436689d2" prot="public" virt="non-virtual"><scope>pip::_internal::commands::inspect::InspectCommand</scope><name>usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

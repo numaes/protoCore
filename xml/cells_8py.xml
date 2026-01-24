@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cells_8py" kind="file" language="Python">
+    <compoundname>cells.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich">pip::_vendor::rich</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich_1_1cells">pip::_vendor::rich::cells</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1rich_1_1cells" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>functools<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>lru_cache</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Callable,<sp/>List</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>._cell_widths<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>CELL_WIDTHS</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Regex<sp/>to<sp/>match<sp/>sequence<sp/>of<sp/>the<sp/>most<sp/>common<sp/>character<sp/>ranges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">_is_single_cell_widths<sp/>=<sp/>re.compile(</highlight><highlight class="stringliteral">&quot;^[\u0020-\u006f\u00a0\u02ff\u0370-\u0482]*$&quot;</highlight><highlight class="normal">).match</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">@lru_cache(4096)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">cached_cell_len(text:<sp/>str)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>number<sp/>of<sp/>cells<sp/>required<sp/>to<sp/>display<sp/>text.</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>method<sp/>always<sp/>caches,<sp/>which<sp/>may<sp/>use<sp/>up<sp/>a<sp/>lot<sp/>of<sp/>memory.<sp/>It<sp/>is<sp/>recommended<sp/>to<sp/>use</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`cell_len`<sp/>over<sp/>this<sp/>method.</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text<sp/>(str):<sp/>Text<sp/>to<sp/>display.</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int:<sp/>Get<sp/>the<sp/>number<sp/>of<sp/>cells<sp/>required<sp/>to<sp/>display<sp/>text.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>_get_size<sp/>=<sp/>get_character_cell_size</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>total_size<sp/>=<sp/>sum(_get_size(character)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>character<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>text)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_size</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">cell_len(text:<sp/>str,<sp/>_cell_len:<sp/>Callable[[str],<sp/>int]<sp/>=<sp/>cached_cell_len)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>number<sp/>of<sp/>cells<sp/>required<sp/>to<sp/>display<sp/>text.</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text<sp/>(str):<sp/>Text<sp/>to<sp/>display.</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int:<sp/>Get<sp/>the<sp/>number<sp/>of<sp/>cells<sp/>required<sp/>to<sp/>display<sp/>text.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>len(text)<sp/>&lt;<sp/>512:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_cell_len(text)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>_get_size<sp/>=<sp/>get_character_cell_size</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>total_size<sp/>=<sp/>sum(_get_size(character)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>character<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>text)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_size</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">@lru_cache(maxsize=4096)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_character_cell_size(character:<sp/>str)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>cell<sp/>size<sp/>of<sp/>a<sp/>character.</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>character<sp/>(str):<sp/>A<sp/>single<sp/>character.</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int:<sp/>Number<sp/>of<sp/>cells<sp/>(0,<sp/>1<sp/>or<sp/>2)<sp/>occupied<sp/>by<sp/>that<sp/>character.</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1cells_1a1631b035f0324598659b7464d9ebe1a1" kindref="member">_get_codepoint_cell_size</ref>(ord(character))</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">@lru_cache(maxsize=4096)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1rich_1_1cells_1a1631b035f0324598659b7464d9ebe1a1" kindref="member">_get_codepoint_cell_size</ref>(codepoint:<sp/>int)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>cell<sp/>size<sp/>of<sp/>a<sp/>character.</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>codepoint<sp/>(int):<sp/>Codepoint<sp/>of<sp/>a<sp/>character.</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int:<sp/>Number<sp/>of<sp/>cells<sp/>(0,<sp/>1<sp/>or<sp/>2)<sp/>occupied<sp/>by<sp/>that<sp/>character.</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>_table<sp/>=<sp/>CELL_WIDTHS</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>lower_bound<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>upper_bound<sp/>=<sp/>len(_table)<sp/>-<sp/>1</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>index<sp/>=<sp/>(lower_bound<sp/>+<sp/>upper_bound)<sp/>//<sp/>2</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start,<sp/>end,<sp/>width<sp/>=<sp/>_table[index]</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>codepoint<sp/>&lt;<sp/>start:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>upper_bound<sp/>=<sp/>index<sp/>-<sp/>1</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>codepoint<sp/>&gt;<sp/>end:</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lower_bound<sp/>=<sp/>index<sp/>+<sp/>1</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>width<sp/>==<sp/>-1<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>width</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>upper_bound<sp/>&lt;<sp/>lower_bound:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index<sp/>=<sp/>(lower_bound<sp/>+<sp/>upper_bound)<sp/>//<sp/>2</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">set_cell_size(text:<sp/>str,<sp/>total:<sp/>int)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Set<sp/>the<sp/>length<sp/>of<sp/>a<sp/>string<sp/>to<sp/>fit<sp/>within<sp/>given<sp/>number<sp/>of<sp/>cells.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1cells_1a34901767a0a98ece578c466ae292e033" kindref="member">_is_single_cell_widths</ref>(text):</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size<sp/>=<sp/>len(text)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>size<sp/>&lt;<sp/>total:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>text<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>*<sp/>(total<sp/>-<sp/>size)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>text[:total]</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>total<sp/>&lt;=<sp/>0:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>cell_size<sp/>=<sp/>cell_len(text)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>cell_size<sp/>==<sp/>total:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>text</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>cell_size<sp/>&lt;<sp/>total:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>text<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>*<sp/>(total<sp/>-<sp/>cell_size)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>start<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>end<sp/>=<sp/>len(text)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Binary<sp/>search<sp/>until<sp/>we<sp/>find<sp/>the<sp/>right<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pos<sp/>=<sp/>(start<sp/>+<sp/>end)<sp/>//<sp/>2</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>before<sp/>=<sp/>text[:<sp/>pos<sp/>+<sp/>1]</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>before_len<sp/>=<sp/>cell_len(before)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>before_len<sp/>==<sp/>total<sp/>+<sp/>1<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>cell_len(before[-1])<sp/>==<sp/>2:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>before[:-1]<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>before_len<sp/>==<sp/>total:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>before</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>before_len<sp/>&gt;<sp/>total:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>end<sp/>=<sp/>pos</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start<sp/>=<sp/>pos</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">#<sp/>TODO:<sp/>This<sp/>is<sp/>inefficient</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">#<sp/>TODO:<sp/>This<sp/>might<sp/>not<sp/>work<sp/>with<sp/>CWJ<sp/>type<sp/>characters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">chop_cells(text:<sp/>str,<sp/>max_size:<sp/>int,<sp/>position:<sp/>int<sp/>=<sp/>0)<sp/>-&gt;<sp/>List[str]:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Break<sp/>text<sp/>in<sp/>to<sp/>equal<sp/>(cell)<sp/>length<sp/>strings,<sp/>returning<sp/>the<sp/>characters<sp/>in<sp/>reverse</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>order&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>_get_character_cell_size<sp/>=<sp/>get_character_cell_size</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>characters<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(character,<sp/>_get_character_cell_size(character))<sp/>for<sp/>character<sp/>in<sp/>text</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>total_size<sp/>=<sp/>position</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>lines:<sp/>List[List[str]]<sp/>=<sp/>[[]]</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>append<sp/>=<sp/>lines[-1].append</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>for<sp/>character,<sp/>size<sp/>in<sp/>reversed(characters):</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>total_size<sp/>+<sp/>size<sp/>&gt;<sp/>max_size:</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lines.append([character])</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>append<sp/>=<sp/>lines[-1].append</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_size<sp/>=<sp/>size</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else:</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_size<sp/>+=<sp/>size</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>append(character)</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>return<sp/>[&quot;&quot;.join(line)<sp/>for<sp/>line<sp/>in<sp/>lines]</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral">if<sp/>__name__<sp/>==<sp/>&quot;__main__&quot;:<sp/><sp/>#<sp/>pragma:<sp/>no<sp/>cover</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>print(get_character_cell_size(&quot;😽&quot;))</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>for<sp/>line<sp/>in<sp/>chop_cells(&quot;&quot;&quot;</highlight><highlight class="normal">这是对亚洲语言支持的测试。面对模棱两可的想法，拒绝猜测的诱惑。&quot;&quot;&quot;,<sp/>8):</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(line)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>for<sp/>n<sp/>in<sp/>range(80,<sp/>1,<sp/>-1):</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(set_cell_size(&quot;&quot;&quot;这是对亚洲语言支持的测试。面对模棱两可的想法，拒绝猜测的诱惑。&quot;&quot;&quot;,<sp/>n)<sp/>+<sp/>&quot;|&quot;)</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(&quot;x&quot;<sp/>*<sp/>n)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py"/>
+  </compounddef>
+</doxygen>

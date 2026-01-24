@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::cache::SimpleWheelCache</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cache_1_1Cache" prot="public" virt="non-virtual">pip._internal.cache.Cache</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1cache_1_1EphemWheelCache" prot="public" virt="non-virtual">pip._internal.cache.EphemWheelCache</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache_1ac6794805ec0af25543d7cb736dd192c6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.cache.SimpleWheelCache::cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>pip._internal.cache.SimpleWheelCache.cache_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" line="126" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache_1abac0614b817f9f2025182a4b6ac5c1d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cache.SimpleWheelCache.__init__</definition>
+        <argsstring>(self, str cache_dir)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.cache.SimpleWheelCache.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cache_1_1Cache_1a8906ffb79e45d4dcaa552af86cbfbe00">__init__</reimplements>
+        <reimplementedby refid="classpip_1_1__internal_1_1cache_1_1EphemWheelCache_1aa9928c8f2f7c9f1d7eb0857ad623d08a">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>cache_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" line="105" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache_1aaeb909f9b73386178f5104b4bf499139" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.cache.SimpleWheelCache.get_path_for_link</definition>
+        <argsstring>(self, Link link)</argsstring>
+        <name>get_path_for_link</name>
+        <qualifiedname>pip._internal.cache.SimpleWheelCache.get_path_for_link</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cache_1_1Cache_1ac73e437eb86457c0296de42e228e4a0f">get_path_for_link</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a directory to store cached wheels for link
+
+Because there are M wheels for any one sdist, we provide a directory
+to cache them in, and then consult that directory when looking up
+cache hits.
+
+We only insert things into the cache if they have plausible version
+numbers, so that we don&apos;t contaminate the cache with things that were
+not unique. E.g. ./package might have dozens of installs done for it
+and build a version of 0.0...and if we built and cached a wheel, we&apos;d
+end up using the same wheel even if the source has been edited.
+
+:param link: The link of the sdist for which this will cache wheels.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" line="108" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" bodystart="108" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache_1ac01760c9d465f62ad08e91262ad3c906" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+        <definition> Link pip._internal.cache.SimpleWheelCache.get</definition>
+        <argsstring>(self, Link link, Optional[str] package_name, List[Tag] supported_tags)</argsstring>
+        <name>get</name>
+        <qualifiedname>pip._internal.cache.SimpleWheelCache.get</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cache_1_1Cache_1ad95f772f6ababe1fa35f7e17a4aba68d">get</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>package_name</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>supported_tags</declname>
+          <array>[Tag]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a link to a cached item if it exists, otherwise returns the
+passed link.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" line="128" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" bodystart="133" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A cache of wheels for future installs.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.cache.SimpleWheelCache</label>
+        <link refid="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cache.Cache</label>
+        <link refid="classpip_1_1__internal_1_1cache_1_1Cache"/>
+      </node>
+      <node id="3">
+        <label>pip._internal.cache.EphemWheelCache</label>
+        <link refid="classpip_1_1__internal_1_1cache_1_1EphemWheelCache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._internal.cache.SimpleWheelCache</label>
+        <link refid="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cache.Cache</label>
+        <link refid="classpip_1_1__internal_1_1cache_1_1Cache"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" line="102" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cache.py" bodystart="102" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache_1abac0614b817f9f2025182a4b6ac5c1d9" prot="public" virt="non-virtual"><scope>pip::_internal::cache::SimpleWheelCache</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache_1ac6794805ec0af25543d7cb736dd192c6" prot="public" virt="non-virtual"><scope>pip::_internal::cache::SimpleWheelCache</scope><name>cache_dir</name></member>
+      <member refid="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache_1ac01760c9d465f62ad08e91262ad3c906" prot="public" virt="non-virtual"><scope>pip::_internal::cache::SimpleWheelCache</scope><name>get</name></member>
+      <member refid="classpip_1_1__internal_1_1cache_1_1SimpleWheelCache_1aaeb909f9b73386178f5104b4bf499139" prot="public" virt="non-virtual"><scope>pip::_internal::cache::SimpleWheelCache</scope><name>get_path_for_link</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

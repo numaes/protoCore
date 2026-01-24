@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1extension" kind="namespace" language="Python">
+    <compoundname>sphinx::extension</compoundname>
+    <innerclass refid="classsphinx_1_1extension_1_1Extension" prot="public">sphinx::extension::Extension</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1extension_1a7f839d7c1a86d73d4c063cc4149580d7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::extension.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.extension.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/extension.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/extension.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1extension_1a4bf0a2cffdd13e8c8cb150b8db2d7fa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.extension.verify_needs_extensions</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>verify_needs_extensions</name>
+        <qualifiedname>sphinx.extension.verify_needs_extensions</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check that extensions mentioned in :confval:`needs_extensions` satisfy the version
+requirement, and warn if an extension is not loaded.
+
+Warns if an extension in :confval:`needs_extension` is not loaded.
+
+:raises VersionRequirementError: if the version of an extension in
+:confval:`needs_extension` is unknown or older than the required version.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/extension.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/extension.py" bodystart="41" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1extension_1acb14302f885d51d52178847c7f937ffe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.extension.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.extension.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/extension.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/extension.py" bodystart="87" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Utilities for Sphinx extensions.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/extension.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

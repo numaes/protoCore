@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pygments::filters::VisibleWhitespaceFilter</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pygments_1_1filter_1_1Filter" prot="public" virt="non-virtual">pip._vendor.pygments.filter.Filter</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter_1a639b7475efb14d2a90bd014b87d62b52" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pygments.filters.VisibleWhitespaceFilter::wstt</definition>
+        <argsstring></argsstring>
+        <name>wstt</name>
+        <qualifiedname>pip._vendor.pygments.filters.VisibleWhitespaceFilter.wstt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/filters/__init__.py" line="834" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/filters/__init__.py" bodystart="834" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter_1af8528511f53840188e6bfe596ca5bdab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pygments.filters.VisibleWhitespaceFilter.__init__</definition>
+        <argsstring>(self, **options)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pygments.filters.VisibleWhitespaceFilter.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pygments_1_1filter_1_1Filter_1adfed2d1dc227e2545e2fa44cee77998b">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/filters/__init__.py" line="819" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/filters/__init__.py" bodystart="819" bodyend="835"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter_1a9a7227d129dac7d41fe5b50d9fd97b77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pygments.filters.VisibleWhitespaceFilter.filter</definition>
+        <argsstring>(self, lexer, stream)</argsstring>
+        <name>filter</name>
+        <qualifiedname>pip._vendor.pygments.filters.VisibleWhitespaceFilter.filter</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pygments_1_1filter_1_1Filter_1a970c118f059ea361c8f184fd86c6873d">filter</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>lexer</type>
+          <defname>lexer</defname>
+        </param>
+        <param>
+          <type>stream</type>
+          <defname>stream</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/filters/__init__.py" line="836" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/filters/__init__.py" bodystart="836" bodyend="867"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Convert tabs, newlines and/or spaces to visible characters.
+
+Options accepted:
+
+`spaces` : string or bool
+  If this is a one-character string, spaces will be replaces by this string.
+  If it is another true value, spaces will be replaced by ``·`` (unicode
+  MIDDLE DOT).  If it is a false value, spaces will not be replaced.  The
+  default is ``False``.
+`tabs` : string or bool
+  The same as for `spaces`, but the default replacement character is ``»``
+  (unicode RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK).  The default value
+  is ``False``.  Note: this will not work if the `tabsize` option for the
+  lexer is nonzero, as tabs will already have been expanded then.
+`tabsize` : int
+  If tabs are to be replaced by this filter (see the `tabs` option), this
+  is the total number of characters that a tab should be expanded to.
+  The default is ``8``.
+`newlines` : string or bool
+  The same as for `spaces`, but the default replacement character is ``¶``
+  (unicode PILCROW SIGN).  The default value is ``False``.
+`wstokentype` : bool
+  If true, give whitespace the special `Whitespace` token type.  This allows
+  styling the visible whitespace differently (e.g. greyed out), but it can
+  disrupt background colors.  The default is ``True``.
+
+.. versionadded:: 0.8
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._vendor.pygments.filters.VisibleWhitespaceFilter</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pygments.filter.Filter</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1filter_1_1Filter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._vendor.pygments.filters.VisibleWhitespaceFilter</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pygments.filter.Filter</label>
+        <link refid="classpip_1_1__vendor_1_1pygments_1_1filter_1_1Filter"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/filters/__init__.py" line="789" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pygments/filters/__init__.py" bodystart="789" bodyend="867"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter_1af8528511f53840188e6bfe596ca5bdab" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::filters::VisibleWhitespaceFilter</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter_1a9a7227d129dac7d41fe5b50d9fd97b77" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::filters::VisibleWhitespaceFilter</scope><name>filter</name></member>
+      <member refid="classpip_1_1__vendor_1_1pygments_1_1filters_1_1VisibleWhitespaceFilter_1a639b7475efb14d2a90bd014b87d62b52" prot="public" virt="non-virtual"><scope>pip::_vendor::pygments::filters::VisibleWhitespaceFilter</scope><name>wstt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,540 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1c_1_1CDomain" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::domains::c::CDomain</compoundname>
+    <basecompoundref refid="classsphinx_1_1domains_1_1Domain" prot="public" virt="non-virtual">sphinx.domains.Domain</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1c_1_1CDomain_1af1c6f7fb21591e5eeb57941be7a0a9cb" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.domains.c.CDomain::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sphinx.domains.c.CDomain.name</qualifiedname>
+        <initializer>=  &apos;c&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="745" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="745" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1c_1_1CDomain_1aa65b0f45974ef98aa54eba12b03e8868" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.domains.c.CDomain::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>sphinx.domains.c.CDomain.label</qualifiedname>
+        <initializer>=  &apos;C&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="746" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="746" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1c_1_1CDomain_1aec7c2df324fb8a4fe89b8c5f7717fc35" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.domains.c.CDomain::object_types</definition>
+        <argsstring></argsstring>
+        <name>object_types</name>
+        <qualifiedname>sphinx.domains.c.CDomain.object_types</qualifiedname>
+        <initializer>=  {
+        # &apos;identifier&apos; is the one used for xrefs generated in signatures, not in <ref refid="classsphinx_1_1domains_1_1c_1_1CDomain_1ae6f1f888ec53a0faa84d4a2d1bbadce4" kindref="member">roles</ref>
+        &apos;member&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;member&apos;), &apos;var&apos;, &apos;member&apos;, &apos;<ref refid="classsphinx_1_1domains_1_1Domain_1a7d9c48730ecb94b0e9f3b06789efd400" kindref="member">data</ref>&apos;, &apos;identifier&apos;),
+        &apos;var&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;variable&apos;), &apos;var&apos;, &apos;member&apos;, &apos;<ref refid="classsphinx_1_1domains_1_1Domain_1a7d9c48730ecb94b0e9f3b06789efd400" kindref="member">data</ref>&apos;, &apos;identifier&apos;),
+        &apos;function&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;function&apos;), &apos;func&apos;, &apos;identifier&apos;, &apos;type&apos;),
+        &apos;macro&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;macro&apos;), &apos;macro&apos;, &apos;identifier&apos;),
+        &apos;struct&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;struct&apos;), &apos;struct&apos;, &apos;identifier&apos;, &apos;type&apos;),
+        &apos;union&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;union&apos;), &apos;union&apos;, &apos;identifier&apos;, &apos;type&apos;),
+        &apos;enum&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;enum&apos;), &apos;enum&apos;, &apos;identifier&apos;, &apos;type&apos;),
+        &apos;enumerator&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;enumerator&apos;), &apos;enumerator&apos;, &apos;identifier&apos;),
+        &apos;type&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(_(&apos;type&apos;), &apos;identifier&apos;, &apos;type&apos;),
+        # generated object types
+        &apos;functionParam&apos;: <ref refid="classsphinx_1_1domains_1_1ObjType" kindref="compound">ObjType</ref>(
+            _(&apos;function parameter&apos;), &apos;identifier&apos;, &apos;var&apos;, &apos;member&apos;, &apos;<ref refid="classsphinx_1_1domains_1_1Domain_1a7d9c48730ecb94b0e9f3b06789efd400" kindref="member">data</ref>&apos;
+        ),
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="747" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="747" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1c_1_1CDomain_1a6ff9c1f752f34ca7d697c52b789a5482" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.domains.c.CDomain::directives</definition>
+        <argsstring></argsstring>
+        <name>directives</name>
+        <qualifiedname>sphinx.domains.c.CDomain.directives</qualifiedname>
+        <initializer>=  {
+        &apos;member&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CMemberObject" kindref="compound">CMemberObject</ref>,
+        &apos;var&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CMemberObject" kindref="compound">CMemberObject</ref>,
+        &apos;function&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CFunctionObject" kindref="compound">CFunctionObject</ref>,
+        &apos;macro&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CMacroObject" kindref="compound">CMacroObject</ref>,
+        &apos;struct&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CStructObject" kindref="compound">CStructObject</ref>,
+        &apos;union&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CUnionObject" kindref="compound">CUnionObject</ref>,
+        &apos;enum&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CEnumObject" kindref="compound">CEnumObject</ref>,
+        &apos;enumerator&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CEnumeratorObject" kindref="compound">CEnumeratorObject</ref>,
+        &apos;type&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CTypeObject" kindref="compound">CTypeObject</ref>,
+        # scope control
+        &apos;namespace&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CNamespaceObject" kindref="compound">CNamespaceObject</ref>,
+        &apos;namespace-push&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CNamespacePushObject" kindref="compound">CNamespacePushObject</ref>,
+        &apos;namespace-pop&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CNamespacePopObject" kindref="compound">CNamespacePopObject</ref>,
+        # other
+        &apos;alias&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CAliasObject" kindref="compound">CAliasObject</ref>,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="764" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="764" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1c_1_1CDomain_1ae6f1f888ec53a0faa84d4a2d1bbadce4" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.domains.c.CDomain::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>sphinx.domains.c.CDomain.roles</qualifiedname>
+        <initializer>=  {
+        &apos;member&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;<ref refid="classsphinx_1_1domains_1_1Domain_1a7d9c48730ecb94b0e9f3b06789efd400" kindref="member">data</ref>&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;var&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;func&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(fix_parens=True),
+        &apos;macro&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;struct&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;union&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;enum&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;enumerator&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;type&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CXRefRole" kindref="compound">CXRefRole</ref>(),
+        &apos;expr&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CExprRole" kindref="compound">CExprRole</ref>(asCode=True),
+        &apos;texpr&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1CExprRole" kindref="compound">CExprRole</ref>(asCode=False),
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="781" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="781" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1c_1_1CDomain_1a1843fc0f910c37eba59c05d221119ada" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.domains.c.CDomain::initial_data</definition>
+        <argsstring></argsstring>
+        <name>initial_data</name>
+        <qualifiedname>sphinx.domains.c.CDomain.initial_data</qualifiedname>
+        <initializer>=  {
+        &apos;root_symbol&apos;: <ref refid="classsphinx_1_1domains_1_1c_1_1__symbol_1_1Symbol" kindref="compound">Symbol</ref>(None, None, None, None, None),
+        &apos;objects&apos;: {},  # fullname -&gt; docname, node_id, objtype
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="795" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="795" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1c_1_1CDomain_1add803c5239aea3f0865156fd192274c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.c.CDomain.clear_doc</definition>
+        <argsstring>(self, str docname)</argsstring>
+        <name>clear_doc</name>
+        <qualifiedname>sphinx.domains.c.CDomain.clear_doc</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1Domain_1adb932713bc61f08923e723da07316c59">clear_doc</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Remove traces of a document in the domain-specific inventories.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="800" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="800" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1c_1_1CDomain_1a2cfe08db819b624ce532edd431124860" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.c.CDomain.process_doc</definition>
+        <argsstring>(self, BuildEnvironment env, str docname, nodes.document document)</argsstring>
+        <name>process_doc</name>
+        <qualifiedname>sphinx.domains.c.CDomain.process_doc</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1Domain_1ae635aec991c0eb02d43fbf20c7cede1e">process_doc</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Process a document after it is read by the environment.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="816" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="818" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1c_1_1CDomain_1af6e9349146f4922515b061bb3060fbda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.c.CDomain.process_field_xref</definition>
+        <argsstring>(self, pending_xref pnode)</argsstring>
+        <name>process_field_xref</name>
+        <qualifiedname>sphinx.domains.c.CDomain.process_field_xref</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1Domain_1a8423cbdf773cdb844269a75d9c81afa2">process_field_xref</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>pnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Process a pending xref created in a doc field.
+For example, attach information about the current scope.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="824" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="824" bodyend="826"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1c_1_1CDomain_1aa0091f292a9bd3152b67d3c9830aa18f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.c.CDomain.merge_domaindata</definition>
+        <argsstring>(self, Set[str] docnames, dict[str, Any] otherdata)</argsstring>
+        <name>merge_domaindata</name>
+        <qualifiedname>sphinx.domains.c.CDomain.merge_domaindata</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1Domain_1a1988da8d57229a156b9d373184e9095e">merge_domaindata</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>otherdata</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Merge in data regarding *docnames* from a different domaindata
+inventory (coming from a subprocess in parallel builds).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="827" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="827" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1c_1_1CDomain_1a681a0fbc87b8fc594c73ba14ba0ee5b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.domains.c.CDomain.resolve_xref</definition>
+        <argsstring>(self, BuildEnvironment env, str fromdocname, Builder builder, str typ, str target, pending_xref node, Element contnode)</argsstring>
+        <name>resolve_xref</name>
+        <qualifiedname>sphinx.domains.c.CDomain.resolve_xref</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1Domain_1ad0ac5968cb378c7d9c428276fcd48098">resolve_xref</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fromdocname</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>typ</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Resolve the pending_xref *node* with the given *typ* and *target*.
+
+This method should return a new node, to replace the xref node,
+containing the *contnode* which is the markup content of the
+cross-reference.
+
+If no resolution can be found, None can be returned; the xref node will
+then given to the :event:`missing-reference` event, and if that yields no
+resolution, replaced by *contnode*.
+
+The method can also raise :exc:`sphinx.environment.NoUri` to suppress
+the :event:`missing-reference` event being emitted.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="899" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="908" bodyend="912"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1c_1_1CDomain_1a738df8867c3b1cba9da38483509ad4cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[tuple[str, nodes.reference]]</type>
+        <definition> list[tuple[str, nodes.reference]] sphinx.domains.c.CDomain.resolve_any_xref</definition>
+        <argsstring>(self, BuildEnvironment env, str fromdocname, Builder builder, str target, pending_xref node, Element contnode)</argsstring>
+        <name>resolve_any_xref</name>
+        <qualifiedname>sphinx.domains.c.CDomain.resolve_any_xref</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1Domain_1a6e624bd0bd638057f5003d15e04fbb90">resolve_any_xref</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fromdocname</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Resolve the pending_xref *node* with the given *target*.
+
+The reference comes from an &quot;any&quot; or similar role, which means that we
+don&apos;t know the type.  Otherwise, the arguments are the same as for
+:meth:`resolve_xref`.
+
+The method must return a list (potentially empty) of tuples
+``(&apos;domain:role&apos;, newnode)``, where ``&apos;domain:role&apos;`` is the name of a
+role that could have created the same reference, e.g. ``&apos;py:func&apos;``.
+``newnode`` is what :meth:`resolve_xref` would return.
+
+.. versionadded:: 1.3
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="913" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="921" bodyend="929"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1c_1_1CDomain_1a46af8a5cf3f798fc4ddd29c9281439ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[tuple[str, str, str, str, str, int]]</type>
+        <definition> Iterator[tuple[str, str, str, str, str, int]] sphinx.domains.c.CDomain.get_objects</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_objects</name>
+        <qualifiedname>sphinx.domains.c.CDomain.get_objects</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1Domain_1aa0da6ff6dec77ed82a86e4d39b1eaa10">get_objects</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an iterable of &quot;object descriptions&quot;.
+
+Object descriptions are tuples with six items:
+
+``name``
+  Fully qualified name.
+
+``dispname``
+  Name to display when searching/linking.
+
+``type``
+  Object type, a key in ``self.object_types``.
+
+``docname``
+  The document where it is to be found.
+
+``anchor``
+  The anchor name for the object.
+
+``priority``
+  How &quot;important&quot; the object is (determines placement in search
+  results). One of:
+
+  ``1``
+    Default priority (placed before full-text matches).
+  ``0``
+    Object is important (placed before default-priority objects).
+  ``2``
+    Object is unimportant (placed after full-text matches).
+  ``-1``
+    Object should not show up in search at all.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="930" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="930" bodyend="944"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1c_1_1CDomain_1add276dfc03be7a4e56ee262b1a816879" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[nodes.reference, str]|tuple[None, None]</type>
+        <definition> tuple[nodes.reference, str] | tuple[None, None] sphinx.domains.c.CDomain._resolve_xref_inner</definition>
+        <argsstring>(self, BuildEnvironment env, str fromdocname, Builder builder, str typ, str target, pending_xref node, Element contnode)</argsstring>
+        <name>_resolve_xref_inner</name>
+        <qualifiedname>sphinx.domains.c.CDomain._resolve_xref_inner</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fromdocname</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>typ</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="848" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="857" bodyend="898"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>C language domain.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.domains.c.CDomain</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CDomain"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.Domain</label>
+        <link refid="classsphinx_1_1domains_1_1Domain"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.c.CDomain</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CDomain"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>label</edgelabel>
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.Domain</label>
+        <link refid="classsphinx_1_1domains_1_1Domain"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>label</edgelabel>
+          <edgelabel>name</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>indices</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>list</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" line="742" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/c/__init__.py" bodystart="742" bodyend="944"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1add276dfc03be7a4e56ee262b1a816879" prot="protected" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>_resolve_xref_inner</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1add803c5239aea3f0865156fd192274c0" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>clear_doc</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1a6ff9c1f752f34ca7d697c52b789a5482" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>directives</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1a46af8a5cf3f798fc4ddd29c9281439ff" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>get_objects</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1a1843fc0f910c37eba59c05d221119ada" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>initial_data</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1aa65b0f45974ef98aa54eba12b03e8868" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>label</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1aa0091f292a9bd3152b67d3c9830aa18f" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>merge_domaindata</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1af1c6f7fb21591e5eeb57941be7a0a9cb" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>name</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1aec7c2df324fb8a4fe89b8c5f7717fc35" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>object_types</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1a2cfe08db819b624ce532edd431124860" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>process_doc</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1af6e9349146f4922515b061bb3060fbda" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>process_field_xref</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1a738df8867c3b1cba9da38483509ad4cf" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>resolve_any_xref</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1a681a0fbc87b8fc594c73ba14ba0ee5b5" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>resolve_xref</name></member>
+      <member refid="classsphinx_1_1domains_1_1c_1_1CDomain_1ae6f1f888ec53a0faa84d4a2d1bbadce4" prot="public" virt="non-virtual"><scope>sphinx::domains::c::CDomain</scope><name>roles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

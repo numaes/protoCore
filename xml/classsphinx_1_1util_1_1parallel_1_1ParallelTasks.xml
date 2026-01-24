@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::util::parallel::ParallelTasks</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a07f363216ef532889057e2dc64ddc8e6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.parallel.ParallelTasks::nproc</definition>
+        <argsstring></argsstring>
+        <name>nproc</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks.nproc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a523ae0fbe7252edcf3b3e474c06e403e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.parallel.ParallelTasks::_pworking</definition>
+        <argsstring></argsstring>
+        <name>_pworking</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks._pworking</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a89c5b3f7ef86ea27e23cc7942aae373a" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.parallel.ParallelTasks::_taskid</definition>
+        <argsstring></argsstring>
+        <name>_taskid</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks._taskid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1ab1891a1bd42b5fed388bfe7d9b03faf3" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.parallel.ParallelTasks::_precvs</definition>
+        <argsstring></argsstring>
+        <name>_precvs</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks._precvs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="124" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a88ac329b1480411a270fe1c6025d9215" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.parallel.ParallelTasks.__init__</definition>
+        <argsstring>(self, int nproc)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nproc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="57" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="57" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a616dfabca9dc947d84d86c52e7868888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.parallel.ParallelTasks.add_task</definition>
+        <argsstring>(self, Callable[[Any], Any]|Callable[[], Any] task_func, Any arg=None, Callable[[Any, Any], Any]|None result_func=None)</argsstring>
+        <name>add_task</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks.add_task</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>task_func</defname>
+          <array>[[Any]</array>
+        </param>
+        <param>
+          <type>Any]|</type>
+          <declname>Callable</declname>
+          <defname>arg</defname>
+          <array>[[]</array>
+        </param>
+        <param>
+          <type>Any]</type>
+          <declname>task_func</declname>
+          <defname>result_func</defname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>arg</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Callable</type>
+          <array>[[Any, Any]</array>
+        </param>
+        <param>
+          <type>Any]|None</type>
+          <declname>result_func</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="92" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="97" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a6578d1c506ce291140178730b3a63124" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.parallel.ParallelTasks.join</definition>
+        <argsstring>(self)</argsstring>
+        <name>join</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks.join</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="114" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="114" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a9e252fbf1c37c4045d9b014f2409e92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.parallel.ParallelTasks.terminate</definition>
+        <argsstring>(self)</argsstring>
+        <name>terminate</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks.terminate</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="123" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="123" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a32badbd0754a4718d424d92048f6da0c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.parallel.ParallelTasks._process</definition>
+        <argsstring>(self, Any pipe, Callable[[Any], Any]|Callable[[], Any] func, Any arg)</argsstring>
+        <name>_process</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks._process</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>pipe</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>func</defname>
+          <array>[[Any]</array>
+        </param>
+        <param>
+          <type>Any]|</type>
+          <declname>Callable</declname>
+          <defname>arg</defname>
+          <array>[[]</array>
+        </param>
+        <param>
+          <type>Any]</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="76" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1aa6a980f72b37b60deceb6cc6e93aea64" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.parallel.ParallelTasks._join_one</definition>
+        <argsstring>(self)</argsstring>
+        <name>_join_one</name>
+        <qualifiedname>sphinx.util.parallel.ParallelTasks._join_one</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="131" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="131" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Executes *nproc* tasks in parallel after forking.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" line="54" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parallel.py" bodystart="54" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a88ac329b1480411a270fe1c6025d9215" prot="public" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1aa6a980f72b37b60deceb6cc6e93aea64" prot="protected" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>_join_one</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1ab1891a1bd42b5fed388bfe7d9b03faf3" prot="protected" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>_precvs</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a32badbd0754a4718d424d92048f6da0c" prot="protected" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>_process</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a523ae0fbe7252edcf3b3e474c06e403e" prot="protected" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>_pworking</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a89c5b3f7ef86ea27e23cc7942aae373a" prot="protected" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>_taskid</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a616dfabca9dc947d84d86c52e7868888" prot="public" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>add_task</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a6578d1c506ce291140178730b3a63124" prot="public" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>join</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a07f363216ef532889057e2dc64ddc8e6" prot="public" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>nproc</name></member>
+      <member refid="classsphinx_1_1util_1_1parallel_1_1ParallelTasks_1a9e252fbf1c37c4045d9b014f2409e92c" prot="public" virt="non-virtual"><scope>sphinx::util::parallel::ParallelTasks</scope><name>terminate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

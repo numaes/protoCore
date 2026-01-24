@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1meta_1_1TrackingCodeGenerator" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::meta::TrackingCodeGenerator</compoundname>
+    <basecompoundref refid="classjinja2_1_1compiler_1_1CodeGenerator" prot="public" virt="non-virtual">jinja2.compiler.CodeGenerator</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1meta_1_1TrackingCodeGenerator_1aec3a9bdd44aaf9e543c057558db4b84b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.meta.TrackingCodeGenerator.__init__</definition>
+        <argsstring>(self, &quot;Environment&quot; environment)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.meta.TrackingCodeGenerator.__init__</qualifiedname>
+        <reimplements refid="classjinja2_1_1compiler_1_1CodeGenerator_1aa522b6f8eadc6853f18f07093af1407b">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" bodystart="18" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1meta_1_1TrackingCodeGenerator_1aa611938843b0db0cc427105820d0793b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.meta.TrackingCodeGenerator.write</definition>
+        <argsstring>(self, str x)</argsstring>
+        <name>write</name>
+        <qualifiedname>jinja2.meta.TrackingCodeGenerator.write</qualifiedname>
+        <reimplements refid="classjinja2_1_1compiler_1_1CodeGenerator_1a5cabefb033cd9cb17a8aeb8a85e397ce">write</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Don&apos;t write.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1meta_1_1TrackingCodeGenerator_1ab1681a22443287101975859849a0f708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.meta.TrackingCodeGenerator.enter_frame</definition>
+        <argsstring>(self, Frame frame)</argsstring>
+        <name>enter_frame</name>
+        <qualifiedname>jinja2.meta.TrackingCodeGenerator.enter_frame</qualifiedname>
+        <reimplements refid="classjinja2_1_1compiler_1_1CodeGenerator_1a9825bf96ff4dfa5a2c88daf0f3ec3d4e">enter_frame</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Remember all undeclared identifiers.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" bodystart="25" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>We abuse the code generator for introspection.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.meta.TrackingCodeGenerator</label>
+        <link refid="classjinja2_1_1meta_1_1TrackingCodeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.compiler.CodeGenerator</label>
+        <link refid="classjinja2_1_1compiler_1_1CodeGenerator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.meta.TrackingCodeGenerator</label>
+        <link refid="classjinja2_1_1meta_1_1TrackingCodeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.compiler.CodeGenerator</label>
+        <link refid="classjinja2_1_1compiler_1_1CodeGenerator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/meta.py" bodystart="15" bodyend="33"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1meta_1_1TrackingCodeGenerator_1aec3a9bdd44aaf9e543c057558db4b84b" prot="public" virt="non-virtual"><scope>jinja2::meta::TrackingCodeGenerator</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1meta_1_1TrackingCodeGenerator_1ab1681a22443287101975859849a0f708" prot="public" virt="non-virtual"><scope>jinja2::meta::TrackingCodeGenerator</scope><name>enter_frame</name></member>
+      <member refid="classjinja2_1_1meta_1_1TrackingCodeGenerator_1aa611938843b0db0cc427105820d0793b" prot="public" virt="non-virtual"><scope>jinja2::meta::TrackingCodeGenerator</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

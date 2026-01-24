@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::distlib::version::NormalizedVersion</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1Version" prot="public" virt="non-virtual">pip._vendor.distlib.version.Version</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion_1af6c27838327bce8c17783034d59e7f06" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedVersion::PREREL_TAGS</definition>
+        <argsstring></argsstring>
+        <name>PREREL_TAGS</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedVersion.PREREL_TAGS</qualifiedname>
+        <initializer>=  set([&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;rc&apos;, &apos;dev&apos;])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="285" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion_1a5e638d9d15f83a2c803b9bde48e41181" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedVersion::_release_clause</definition>
+        <argsstring></argsstring>
+        <name>_release_clause</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedVersion._release_clause</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="282" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion_1afea6ce3b0727370d2b0e93eee3bd839d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedVersion.parse</definition>
+        <argsstring>(self, s)</argsstring>
+        <name>parse</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedVersion.parse</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1Version_1a36cd1602ec9f2ba755e9838adc397cb9">parse</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>s</type>
+          <defname>s</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="274" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="274" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion_1ab5e000c394cf6460c39180ff51913715" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedVersion.is_prerelease</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_prerelease</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedVersion.is_prerelease</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1Version_1a2f2b16b90c9c1c3e18277d2e3b57cef2">is_prerelease</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="288" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="288" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A rational version.
+
+Good:
+    1.2         # equivalent to &quot;1.2.0&quot;
+    1.2.0
+    1.2a1
+    1.2.3a2
+    1.2.3b1
+    1.2.3c1
+    1.2.3.4
+    TODO: fill this out
+
+Bad:
+    1           # minimum two numbers
+    1.2a        # release level must have a release serial
+    1.2.3b
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.version.NormalizedVersion</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.version.Version</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1Version"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.version.NormalizedVersion</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.version.Version</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1Version"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="256" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="256" bodyend="291"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion_1a5e638d9d15f83a2c803b9bde48e41181" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedVersion</scope><name>_release_clause</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion_1ab5e000c394cf6460c39180ff51913715" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedVersion</scope><name>is_prerelease</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion_1afea6ce3b0727370d2b0e93eee3bd839d" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedVersion</scope><name>parse</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion_1af6c27838327bce8c17783034d59e7f06" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedVersion</scope><name>PREREL_TAGS</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

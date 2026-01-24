@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="02__mutability__model_8md" kind="file" language="Markdown">
+    <compoundname>02_mutability_model.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Architecture<sp/>Deep<sp/>Dive:<sp/>Lock-Free<sp/>Mutability</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Introduction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Managing<sp/>shared<sp/>mutable<sp/>state<sp/>is<sp/>one<sp/>of<sp/>the<sp/>most<sp/>difficult<sp/>challenges<sp/>in<sp/>concurrent<sp/>programming.<sp/>Traditional<sp/>approaches<sp/>rely<sp/>on<sp/>locks<sp/>(like<sp/>mutexes)<sp/>to<sp/>protect<sp/>data<sp/>from<sp/>being<sp/>corrupted<sp/>by<sp/>multiple<sp/>threads<sp/>accessing<sp/>it<sp/>simultaneously.<sp/>However,<sp/>locks<sp/>introduce<sp/>their<sp/>own<sp/>problems:<sp/>performance<sp/>bottlenecks,<sp/>reduced<sp/>scalability,<sp/>and<sp/>the<sp/>potential<sp/>for<sp/>deadlocks.<sp/>Proto<sp/>avoids<sp/>these<sp/>issues<sp/>by<sp/>adopting<sp/>a<sp/>lock-free<sp/>model<sp/>for<sp/>all<sp/>state<sp/>mutations.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Proto&apos;s<sp/>Solution:<sp/>Identity<sp/>vs.<sp/>State</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto&apos;s<sp/>model<sp/>is<sp/>built<sp/>on<sp/>a<sp/>fundamental<sp/>separation<sp/>between<sp/>an<sp/>object&apos;s<sp/>**identity**<sp/>and<sp/>its<sp/>**state**.<sp/>An<sp/>object&apos;s<sp/>identity<sp/>is<sp/>a<sp/>fixed,<sp/>immutable<sp/>reference.<sp/>Its<sp/>state,<sp/>however,<sp/>is<sp/>not<sp/>stored<sp/>within<sp/>the<sp/>object<sp/>itself<sp/>but<sp/>in<sp/>a<sp/>global,<sp/>concurrent<sp/>map<sp/>called<sp/>`mutableRoot`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>you<sp/>change<sp/>an<sp/>attribute<sp/>of<sp/>an<sp/>object,<sp/>you<sp/>are<sp/>not<sp/>modifying<sp/>the<sp/>object&apos;s<sp/>memory<sp/>directly.<sp/>Instead,<sp/>you<sp/>are<sp/>atomically<sp/>updating<sp/>the<sp/>`mutableRoot`<sp/>table<sp/>to<sp/>map<sp/>the<sp/>object&apos;s<sp/>identity<sp/>to<sp/>its<sp/>new<sp/>state.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>`mutableRoot`<sp/>Table</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`mutableRoot`<sp/>is<sp/>the<sp/>heart<sp/>of<sp/>Proto&apos;s<sp/>concurrency<sp/>model.<sp/>It<sp/>is<sp/>a<sp/>`ProtoSparseList`<sp/>(a<sp/>highly<sp/>efficient,<sp/>sparse<sp/>array)<sp/>wrapped<sp/>in<sp/>a<sp/>`std::atomic`.<sp/>This<sp/>atomic<sp/>wrapper<sp/>is<sp/>the<sp/>key<sp/>that<sp/>enables<sp/>lock-free<sp/>updates.<sp/>All<sp/>modifications<sp/>to<sp/>the<sp/>shared<sp/>state<sp/>of<sp/>the<sp/>entire<sp/>Proto<sp/>system<sp/>happen<sp/>by<sp/>atomically<sp/>swapping<sp/>the<sp/>pointer<sp/>to<sp/>this<sp/>table.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>The<sp/>Lock-Free<sp/>Update<sp/>Pattern</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>ensure<sp/>thread-safe<sp/>updates<sp/>without<sp/>locks,<sp/>Proto<sp/>uses<sp/>an<sp/>optimistic,<sp/>atomic<sp/>update<sp/>pattern<sp/>known<sp/>as<sp/>&quot;compare-and-swap&quot;<sp/>(CAS).<sp/>The<sp/>`setAttribute`<sp/>function<sp/>is<sp/>the<sp/>canonical<sp/>example<sp/>of<sp/>this<sp/>pattern.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>process<sp/>works<sp/>like<sp/>this:</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>Atomically<sp/>read<sp/>the<sp/>current<sp/>`mutableRoot`<sp/>pointer.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>Create<sp/>a<sp/>*copy*<sp/>of<sp/>the<sp/>table.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>Modify<sp/>the<sp/>copy<sp/>with<sp/>the<sp/>new<sp/>attribute<sp/>value.</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>Attempt<sp/>to<sp/>atomically<sp/>swap<sp/>the<sp/>original<sp/>`mutableRoot`<sp/>pointer<sp/>with<sp/>the<sp/>pointer<sp/>to<sp/>the<sp/>newly<sp/>modified<sp/>table.<sp/>This<sp/>operation<sp/>(`compare_exchange_strong`)<sp/>will<sp/>only<sp/>succeed<sp/>if<sp/>no<sp/>other<sp/>thread<sp/>has<sp/>modified<sp/>the<sp/>`mutableRoot`<sp/>in<sp/>the<sp/>meantime.</highlight></codeline>
+<codeline><highlight class="normal">5.<sp/><sp/>If<sp/>it<sp/>fails<sp/>(meaning<sp/>another<sp/>thread<sp/>&quot;won&quot;<sp/>the<sp/>race),<sp/>the<sp/>process<sp/>repeats<sp/>from<sp/>step<sp/>1<sp/>with<sp/>the<sp/>now-updated<sp/>table.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>`compare_exchange_strong`<sp/>loop<sp/>is<sp/>the<sp/>core<sp/>of<sp/>the<sp/>lock-free<sp/>pattern.<sp/>It<sp/>guarantees<sp/>that<sp/>updates<sp/>are<sp/>always<sp/>applied<sp/>correctly<sp/>and<sp/>atomically,<sp/>without<sp/>ever<sp/>needing<sp/>to<sp/>lock<sp/>the<sp/>data<sp/>structure.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Benefits</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**High<sp/>Concurrency:**<sp/>Readers<sp/>are<sp/>never<sp/>blocked.<sp/>Writers<sp/>only<sp/>briefly<sp/>retry<sp/>if<sp/>they<sp/>conflict.<sp/>This<sp/>leads<sp/>to<sp/>excellent<sp/>scalability<sp/>on<sp/>multi-core<sp/>systems.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**No<sp/>Deadlocks:**<sp/>Since<sp/>no<sp/>locks<sp/>are<sp/>ever<sp/>acquired,<sp/>deadlocks<sp/>are<sp/>impossible.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Simplified<sp/>Logic:**<sp/>Programmers<sp/>don&apos;t<sp/>need<sp/>to<sp/>reason<sp/>about<sp/>complex<sp/>lock<sp/>acquisition<sp/>orders.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Synergy<sp/>with<sp/>the<sp/>Garbage<sp/>Collector</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>mutability<sp/>model<sp/>is<sp/>the<sp/>single<sp/>most<sp/>important<sp/>enabler<sp/>for<sp/>Proto&apos;s<sp/>fast<sp/>garbage<sp/>collector.<sp/>Because<sp/>all<sp/>shared<sp/>mutable<sp/>state<sp/>is<sp/>centralized<sp/>in<sp/>the<sp/>`mutableRoot`<sp/>table,<sp/>the<sp/>GC&apos;s<sp/>root<sp/>scanning<sp/>phase<sp/>is<sp/>incredibly<sp/>fast.<sp/>Instead<sp/>of<sp/>needing<sp/>to<sp/>scan<sp/>the<sp/>entire<sp/>heap<sp/>for<sp/>pointers<sp/>or<sp/>track<sp/>mutations,<sp/>the<sp/>GC<sp/>only<sp/>needs<sp/>to<sp/>consider<sp/>the<sp/>`mutableRoot`<sp/>object<sp/>itself<sp/>as<sp/>a<sp/>single,<sp/>comprehensive<sp/>root.<sp/>This<sp/>is<sp/>a<sp/>primary<sp/>reason<sp/>why<sp/>the<sp/>&quot;stop-the-world&quot;<sp/>pause<sp/>is<sp/>so<sp/>short.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Code<sp/>Reference</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`setAttribute`<sp/>function<sp/>in<sp/>`Proto.cpp`<sp/>perfectly<sp/>illustrates<sp/>the<sp/>lock-free<sp/>update<sp/>pattern.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Illustrative<sp/>snippet<sp/>from<sp/>Proto.cpp</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>Proto::setAttribute(const<sp/>ProtoObject<sp/>target,<sp/>const<sp/>ProtoObject<sp/>key,<sp/>const<sp/>ProtoObject<sp/>value)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Loop<sp/>until<sp/>the<sp/>atomic<sp/>update<sp/>succeeds</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>while<sp/>(true)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>1.<sp/>Atomically<sp/>load<sp/>the<sp/>current<sp/>root</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>ProtoObject<sp/>oldRoot<sp/>=<sp/>this-&gt;space-&gt;mutableRoot.load();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>2.<sp/>Create<sp/>a<sp/>modified<sp/>copy</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>ProtoObject<sp/>newRoot<sp/>=<sp/>this-&gt;space-&gt;setAttribute(oldRoot,<sp/>key,<sp/>value);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>3.<sp/>Attempt<sp/>to<sp/>swap<sp/>the<sp/>root<sp/>pointer</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(this-&gt;space-&gt;mutableRoot.compare_exchange_strong(oldRoot,<sp/>newRoot))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Success!<sp/>The<sp/>change<sp/>is<sp/>committed.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>break;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>4.<sp/>If<sp/>it<sp/>failed,<sp/>another<sp/>thread<sp/>made<sp/>a<sp/>change.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>The<sp/>loop<sp/>will<sp/>repeat<sp/>with<sp/>the<sp/>new<sp/>state.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="docs/Structural description/architecture/02_mutability_model.md"/>
+  </compounddef>
+</doxygen>

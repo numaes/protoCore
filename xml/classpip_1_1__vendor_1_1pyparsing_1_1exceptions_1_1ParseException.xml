@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseException" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pyparsing::exceptions::ParseException</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseBaseException" prot="public" virt="non-virtual">pip._vendor.pyparsing.exceptions.ParseBaseException</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Exception thrown when a parse expression doesn&apos;t match the input string
+
+Example::
+
+    try:
+        Word(nums).set_name(&quot;integer&quot;).parse_string(&quot;ABC&quot;)
+    except ParseException as pe:
+        print(pe)
+        print(&quot;column: {}&quot;.format(pe.column))
+
+prints::
+
+   Expected integer (at char 0), (line:1, col:1)
+    column: 1</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.exceptions.ParseException</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseException"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.exceptions.ParseBaseException</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseBaseException"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Exception</label>
+      </node>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.exceptions.ParseException</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseException"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.exceptions.ParseBaseException</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1exceptions_1_1ParseBaseException"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>msg</edgelabel>
+          <edgelabel>pstr</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>args</edgelabel>
+          <edgelabel>parser_element</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>typing</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/exceptions.py" line="252" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/exceptions.py" bodystart="252" bodyend="271"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

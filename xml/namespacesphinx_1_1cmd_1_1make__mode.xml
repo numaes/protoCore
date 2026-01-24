@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1cmd_1_1make__mode" kind="namespace" language="Python">
+    <compoundname>sphinx::cmd::make_mode</compoundname>
+    <innerclass refid="classsphinx_1_1cmd_1_1make__mode_1_1Make" prot="public">sphinx::cmd::make_mode::Make</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1cmd_1_1make__mode_1a7fabb7282487e6b37644410c1cd710a0" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list sphinx::cmd::make_mode.BUILDERS</definition>
+        <argsstring></argsstring>
+        <name>BUILDERS</name>
+        <qualifiedname>sphinx.cmd.make_mode.BUILDERS</qualifiedname>
+        <initializer>=  [
+    (&apos;&apos;, &apos;html&apos;, &apos;to make standalone HTML files&apos;),
+    (&apos;&apos;, &apos;dirhtml&apos;, &apos;to make HTML files named index.html in directories&apos;),
+    (&apos;&apos;, &apos;singlehtml&apos;, &apos;to make a single large HTML file&apos;),
+    (&apos;&apos;, &apos;pickle&apos;, &apos;to make pickle files&apos;),
+    (&apos;&apos;, &apos;json&apos;, &apos;to make JSON files&apos;),
+    (&apos;&apos;, &apos;htmlhelp&apos;, &apos;to make HTML files and an HTML help project&apos;),
+    (&apos;&apos;, &apos;qthelp&apos;, &apos;to make HTML files and a qthelp project&apos;),
+    (&apos;&apos;, &apos;devhelp&apos;, &apos;to make HTML files and a Devhelp project&apos;),
+    (&apos;&apos;, &apos;epub&apos;, &apos;to make an epub&apos;),
+    (&apos;&apos;, &apos;latex&apos;, &apos;to make LaTeX files, you can set PAPER=a4 or PAPER=letter&apos;),
+    (&apos;posix&apos;, &apos;latexpdf&apos;, &apos;to make LaTeX and PDF files (default pdflatex)&apos;),
+    (&apos;posix&apos;, &apos;latexpdfja&apos;, &apos;to make LaTeX files and run them through platex/dvipdfmx&apos;),
+    (&apos;&apos;, &apos;text&apos;, &apos;to make text files&apos;),
+    (&apos;&apos;, &apos;man&apos;, &apos;to make manual pages&apos;),
+    (&apos;&apos;, &apos;texinfo&apos;, &apos;to make Texinfo files&apos;),
+    (&apos;posix&apos;, &apos;info&apos;, &apos;to make Texinfo files and run them through makeinfo&apos;),
+    (&apos;&apos;, &apos;gettext&apos;, &apos;to make PO message catalogs&apos;),
+    (&apos;&apos;, &apos;changes&apos;, &apos;to make an overview of all changed/added/deprecated items&apos;),
+    (&apos;&apos;, &apos;xml&apos;, &apos;to make Docutils-native XML files&apos;),
+    (&apos;&apos;, &apos;pseudoxml&apos;, &apos;to make pseudoxml-XML files for display purposes&apos;),
+    (&apos;&apos;, &apos;linkcheck&apos;, &apos;to <ref refid="namespacesphinx_1afcb8fe6962f0c51b51877e41b032bbbc" kindref="member">check</ref> all external links for integrity&apos;),
+    (
+        &apos;&apos;,
+        &apos;doctest&apos;,
+        &apos;to run all doctests embedded in the documentation (if enabled)&apos;,
+    ),
+    (&apos;&apos;, &apos;coverage&apos;, &apos;to run coverage <ref refid="namespacesphinx_1afcb8fe6962f0c51b51877e41b032bbbc" kindref="member">check</ref> of the documentation (if enabled)&apos;),
+    (&apos;&apos;, &apos;clean&apos;, &apos;to remove everything in the build directory&apos;),
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/make_mode.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/make_mode.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1make__mode_1ad2ee6bcdd3a06edc438a0d36d3cbc438" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.cmd.make_mode.run_make_mode</definition>
+        <argsstring>(Sequence[str] args)</argsstring>
+        <name>run_make_mode</name>
+        <qualifiedname>sphinx.cmd.make_mode.run_make_mode</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>args</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/make_mode.py" line="209" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/make_mode.py" bodystart="209" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>sphinx-build -M command-line handling.
+
+This replaces the old, platform-dependent and once-generated content
+of Makefile / make.bat.
+
+This is in its own module so that importing it is fast.  It should not
+import the main Sphinx modules (like sphinx.applications, sphinx.builders).
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/make_mode.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

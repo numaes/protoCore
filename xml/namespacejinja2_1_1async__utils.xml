@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1async__utils" kind="namespace" language="Python">
+    <compoundname>jinja2::async_utils</compoundname>
+    <innerclass refid="classjinja2_1_1async__utils_1_1__IteratorToAsyncIterator" prot="protected">jinja2::async_utils::_IteratorToAsyncIterator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1async__utils_1a0f6458a278b29763c2ac4bb5b4fd0bca" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::async_utils.V</definition>
+        <argsstring></argsstring>
+        <name>V</name>
+        <qualifiedname>jinja2.async_utils.V</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;V&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" line="12" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1async__utils_1a31f7884c81f0854018254665fb40e878" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2::async_utils._common_primitives</definition>
+        <argsstring></argsstring>
+        <name>_common_primitives</name>
+        <qualifiedname>jinja2.async_utils._common_primitives</qualifiedname>
+        <initializer>=  {int, float, bool, str, list, dict, tuple, type(None)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1async__utils_1a14063ba14dd352c11494c62f06d0a6c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>jinja2.async_utils.async_variant</definition>
+        <argsstring>(normal_func)</argsstring>
+        <name>async_variant</name>
+        <qualifiedname>jinja2.async_utils.async_variant</qualifiedname>
+        <param>
+          <type>normal_func</type>
+          <defname>normal_func</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" bodystart="15" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1async__utils_1ab3eea19c8afa92dc45ddf0afd0ba5343" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;V&quot;</type>
+        <definition> &quot;V&quot; jinja2.async_utils.auto_await</definition>
+        <argsstring>(t.Union[t.Awaitable[&quot;V&quot;], &quot;V&quot;] value)</argsstring>
+        <name>auto_await</name>
+        <qualifiedname>jinja2.async_utils.auto_await</qualifiedname>
+        <param>
+          <type>t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.Awaitable[&quot;V&quot;]</array>
+        </param>
+        <param>
+          <type>&quot;V&quot;]</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" bodystart="62" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1async__utils_1a6107ea4b4aca72e35a2dbc52bcb6435f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.AsyncIterator[<ref refid="namespacejinja2_1_1async__utils_1a0f6458a278b29763c2ac4bb5b4fd0bca" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.AsyncIterator[V]&quot; jinja2.async_utils.auto_aiter</definition>
+        <argsstring>(&quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; iterable)</argsstring>
+        <name>auto_aiter</name>
+        <qualifiedname>jinja2.async_utils.auto_aiter</qualifiedname>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>iterable</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>iterable</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" bodystart="89" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1async__utils_1a86a247f25ddb8e60ba55ea929f539eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.List[&quot;V&quot;]</type>
+        <definition> t.List[&quot;V&quot;] jinja2.async_utils.auto_to_list</definition>
+        <argsstring>(&quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value)</argsstring>
+        <name>auto_to_list</name>
+        <qualifiedname>jinja2.async_utils.auto_to_list</qualifiedname>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" line="96" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" bodystart="98" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/async_utils.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

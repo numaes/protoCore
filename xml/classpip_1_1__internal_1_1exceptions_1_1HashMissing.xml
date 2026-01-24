@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1exceptions_1_1HashMissing" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::exceptions::HashMissing</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1exceptions_1_1HashError" prot="public" virt="non-virtual">pip._internal.exceptions.HashError</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1a0772b222de5f0a40e324aaa1f929cb1f" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int pip._internal.exceptions.HashMissing::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>pip._internal.exceptions.HashMissing.order</qualifiedname>
+        <initializer>=  2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="515" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="515" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1a9e4da9b45e4cc7242bbcf6250e90d398" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._internal.exceptions.HashMissing::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>pip._internal.exceptions.HashMissing.head</qualifiedname>
+        <initializer>=  (
+        &quot;Hashes are required in --require-hashes mode, but they are &quot;
+        &quot;missing from some requirements. Here is a list of those &quot;
+        &quot;requirements along with the hashes their downloaded archives &quot;
+        &quot;actually had. Add lines like these to your requirements files to &quot;
+        &quot;prevent tampering. (If you did not enable --require-hashes &quot;
+        &quot;manually, note that it turns on automatically when any package &quot;
+        &quot;has a hash.)&quot;
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="516" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="516" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1ac0609ac6fee8ef5fc670a982f6a6eeaa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.exceptions.HashMissing::gotten_hash</definition>
+        <argsstring></argsstring>
+        <name>gotten_hash</name>
+        <qualifiedname>pip._internal.exceptions.HashMissing.gotten_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="531" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1a6dd3bb10cb3cbca85604b6fdde2cdb4b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.exceptions.HashMissing::req</definition>
+        <argsstring></argsstring>
+        <name>req</name>
+        <qualifiedname>pip._internal.exceptions.HashMissing.req</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="547" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="547" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1abe445b2414fd40af118661495d9b5a77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.exceptions.HashMissing.__init__</definition>
+        <argsstring>(self, str gotten_hash)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.exceptions.HashMissing.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>gotten_hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param gotten_hash: The hash of the (possibly malicious) archive we
+    just downloaded
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="526" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="526" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1afe037f000b99010da015d0209089d6dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.exceptions.HashMissing.body</definition>
+        <argsstring>(self)</argsstring>
+        <name>body</name>
+        <qualifiedname>pip._internal.exceptions.HashMissing.body</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1exceptions_1_1HashError_1a8b1a0890122218544dd1a3e23c416431">body</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a summary of me for display under the heading.
+
+This default implementation simply prints a description of the
+triggering requirement.
+
+:param req: The InstallRequirement that provoked this error, with
+    its link already populated by the resolver&apos;s _populate_link().</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="533" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="533" bodyend="553"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A hash was needed for a requirement but is absent.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.HashMissing</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashMissing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.HashMissing</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashMissing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>req</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>Optional</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="512" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="512" bodyend="553"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1abe445b2414fd40af118661495d9b5a77" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMissing</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1afe037f000b99010da015d0209089d6dd" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMissing</scope><name>body</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1ac0609ac6fee8ef5fc670a982f6a6eeaa" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMissing</scope><name>gotten_hash</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1a9e4da9b45e4cc7242bbcf6250e90d398" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMissing</scope><name>head</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1a0772b222de5f0a40e324aaa1f929cb1f" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMissing</scope><name>order</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMissing_1a6dd3bb10cb3cbca85604b6fdde2cdb4b" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMissing</scope><name>req</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

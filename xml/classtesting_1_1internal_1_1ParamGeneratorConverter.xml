@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classtesting_1_1internal_1_1ParamGeneratorConverter" kind="class" language="C++" prot="public">
+    <compoundname>testing::internal::ParamGeneratorConverter</compoundname>
+    <basecompoundref refid="classtesting_1_1internal_1_1ParamGeneratorInterface" prot="public" virt="non-virtual">testing::internal::ParamGeneratorInterface&lt; To &gt;</basecompoundref>
+    <basecompoundref refid="classtesting_1_1internal_1_1ParamGeneratorInterface" prot="public" virt="non-virtual">testing::internal::ParamGeneratorInterface&lt; To &gt;</basecompoundref>
+    <includes refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-param-util_8h" local="no">gtest-param-util.h</includes>
+    <innerclass refid="classtesting_1_1internal_1_1ParamGeneratorConverter_1_1Iterator" prot="private">testing::internal::ParamGeneratorConverter::Iterator</innerclass>
+    <templateparamlist>
+      <param>
+        <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">From</ref></type>
+      </param>
+      <param>
+        <type><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">typename</ref> <ref refid="classtesting_1_1internal_1_1To" kindref="compound">To</ref></type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtesting_1_1internal_1_1ParamGeneratorConverter_1ab33e6448ded5a2a32359f7e13d8d21a7" prot="private" static="no" mutable="no">
+        <type><ref refid="classtesting_1_1internal_1_1ParamGenerator" kindref="compound">ParamGenerator</ref>&lt; <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">From</ref> &gt;</type>
+        <definition>ParamGenerator&lt; From &gt; testing::internal::ParamGeneratorConverter&lt; From, To &gt;::generator_</definition>
+        <argsstring></argsstring>
+        <name>generator_</name>
+        <qualifiedname>testing::internal::ParamGeneratorConverter::generator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="1005" column="18" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="1005" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ParamGeneratorConverter_1acc45b0fe99c85d3afd4f07a730f0ac77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>testing::internal::ParamGeneratorConverter&lt; From, To &gt;::ParamGeneratorConverter</definition>
+        <argsstring>(ParamGenerator&lt; From &gt; gen)</argsstring>
+        <name>ParamGeneratorConverter</name>
+        <qualifiedname>testing::internal::ParamGeneratorConverter::ParamGeneratorConverter</qualifiedname>
+        <param>
+          <type><ref refid="classtesting_1_1internal_1_1ParamGenerator" kindref="compound">ParamGenerator</ref>&lt; <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">From</ref> &gt;</type>
+          <declname>gen</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="954" column="3" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="954" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ParamGeneratorConverter_1ae2d4a7e28220a3609efaec42b98b8541" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtesting_1_1internal_1_1ParamIteratorInterface" kindref="compound">ParamIteratorInterface</ref>&lt; <ref refid="classtesting_1_1internal_1_1To" kindref="compound">To</ref> &gt; *</type>
+        <definition>ParamIteratorInterface&lt; To &gt; * testing::internal::ParamGeneratorConverter&lt; From, To &gt;::Begin</definition>
+        <argsstring>() const override</argsstring>
+        <name>Begin</name>
+        <qualifiedname>testing::internal::ParamGeneratorConverter::Begin</qualifiedname>
+        <reimplements refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1adcb074da01e5fac94fcbbc3aee629978">Begin</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="957" column="26" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="957" bodyend="959"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ParamGeneratorConverter_1a043c5f76abbb597b21949f48523af124" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtesting_1_1internal_1_1ParamIteratorInterface" kindref="compound">ParamIteratorInterface</ref>&lt; <ref refid="classtesting_1_1internal_1_1To" kindref="compound">To</ref> &gt; *</type>
+        <definition>ParamIteratorInterface&lt; To &gt; * testing::internal::ParamGeneratorConverter&lt; From, To &gt;::End</definition>
+        <argsstring>() const override</argsstring>
+        <name>End</name>
+        <qualifiedname>testing::internal::ParamGeneratorConverter::End</qualifiedname>
+        <reimplements refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1a070e0a223d832886685522075d80304f">End</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="960" column="26" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="960" bodyend="962"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ParamGeneratorConverter_1acc45b0fe99c85d3afd4f07a730f0ac77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>testing::internal::ParamGeneratorConverter&lt; From, To &gt;::ParamGeneratorConverter</definition>
+        <argsstring>(ParamGenerator&lt; From &gt; gen)</argsstring>
+        <name>ParamGeneratorConverter</name>
+        <qualifiedname>testing::internal::ParamGeneratorConverter::ParamGeneratorConverter</qualifiedname>
+        <param>
+          <type><ref refid="classtesting_1_1internal_1_1ParamGenerator" kindref="compound">ParamGenerator</ref>&lt; <ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">From</ref> &gt;</type>
+          <declname>gen</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="954" column="3" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="954" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ParamGeneratorConverter_1ae2d4a7e28220a3609efaec42b98b8541" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtesting_1_1internal_1_1ParamIteratorInterface" kindref="compound">ParamIteratorInterface</ref>&lt; <ref refid="classtesting_1_1internal_1_1To" kindref="compound">To</ref> &gt; *</type>
+        <definition>ParamIteratorInterface&lt; To &gt; * testing::internal::ParamGeneratorConverter&lt; From, To &gt;::Begin</definition>
+        <argsstring>() const override</argsstring>
+        <name>Begin</name>
+        <qualifiedname>testing::internal::ParamGeneratorConverter::Begin</qualifiedname>
+        <reimplements refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1adcb074da01e5fac94fcbbc3aee629978">Begin</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="957" column="26" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="957" bodyend="959"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1internal_1_1ParamGeneratorConverter_1a043c5f76abbb597b21949f48523af124" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtesting_1_1internal_1_1ParamIteratorInterface" kindref="compound">ParamIteratorInterface</ref>&lt; <ref refid="classtesting_1_1internal_1_1To" kindref="compound">To</ref> &gt; *</type>
+        <definition>ParamIteratorInterface&lt; To &gt; * testing::internal::ParamGeneratorConverter&lt; From, To &gt;::End</definition>
+        <argsstring>() const override</argsstring>
+        <name>End</name>
+        <qualifiedname>testing::internal::ParamGeneratorConverter::End</qualifiedname>
+        <reimplements refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1a070e0a223d832886685522075d80304f">End</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="960" column="26" bodyfile="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="960" bodyend="962"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::internal::ParamGeneratorInterface&lt; To &gt;</label>
+        <link refid="classtesting_1_1internal_1_1ParamGeneratorInterface"/>
+      </node>
+      <node id="1">
+        <label>testing::internal::ParamGeneratorConverter&lt; From, To &gt;</label>
+        <link refid="classtesting_1_1internal_1_1ParamGeneratorConverter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::internal::ParamGeneratorInterface&lt; To &gt;</label>
+        <link refid="classtesting_1_1internal_1_1ParamGeneratorInterface"/>
+      </node>
+      <node id="1">
+        <label>testing::internal::ParamGeneratorConverter&lt; From, To &gt;</label>
+        <link refid="classtesting_1_1internal_1_1ParamGeneratorConverter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" line="952" column="1" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-param-util.h" bodystart="952" bodyend="1006"/>
+    <listofallmembers>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorConverter_1ae2d4a7e28220a3609efaec42b98b8541" prot="public" virt="virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>Begin</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorConverter_1ae2d4a7e28220a3609efaec42b98b8541" prot="public" virt="virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>Begin</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorConverter_1a043c5f76abbb597b21949f48523af124" prot="public" virt="virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>End</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorConverter_1a043c5f76abbb597b21949f48523af124" prot="public" virt="virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>End</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorConverter_1ab33e6448ded5a2a32359f7e13d8d21a7" prot="private" virt="non-virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>generator_</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorConverter_1acc45b0fe99c85d3afd4f07a730f0ac77" prot="public" virt="non-virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>ParamGeneratorConverter</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorConverter_1acc45b0fe99c85d3afd4f07a730f0ac77" prot="public" virt="non-virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>ParamGeneratorConverter</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1ab33d2ea424c50beaf503cb125b3cd003" prot="public" virt="non-virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>ParamType</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1ab33d2ea424c50beaf503cb125b3cd003" prot="public" virt="non-virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>ParamType</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1a2dc509407de12c9817e87187e7181a83" prot="public" virt="virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>~ParamGeneratorInterface</name></member>
+      <member refid="classtesting_1_1internal_1_1ParamGeneratorInterface_1a2dc509407de12c9817e87187e7181a83" prot="public" virt="virtual"><scope>testing::internal::ParamGeneratorConverter</scope><name>~ParamGeneratorInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

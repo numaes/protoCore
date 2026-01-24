@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__random__exponential" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::tenacity::wait::wait_random_exponential</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__exponential" prot="public" virt="non-virtual">pip._vendor.tenacity.wait.wait_exponential</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__random__exponential_1a05f8759cd48128024d97b18df512a23f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float pip._vendor.tenacity.wait.wait_random_exponential.__call__</definition>
+        <argsstring>(self, &quot;RetryCallState&quot; retry_state)</argsstring>
+        <name>__call__</name>
+        <qualifiedname>pip._vendor.tenacity.wait.wait_random_exponential.__call__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__exponential_1a07e7d7e159cb1df84b88f273864b5c4e">__call__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;RetryCallState&quot;</type>
+          <declname>retry_state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" line="192" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" bodystart="192" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Random wait with exponentially widening window.
+
+An exponential backoff strategy used to mediate contention between multiple
+uncoordinated processes for a shared resource in distributed systems. This
+is the sense in which &quot;exponential backoff&quot; is meant in e.g. Ethernet
+networking, and corresponds to the &quot;Full Jitter&quot; algorithm described in
+this blog post:
+
+https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/
+
+Each retry occurs at a random time in a geometrically expanding interval.
+It allows for a custom multiplier and an ability to restrict the upper
+limit of the random interval to some maximum value.
+
+Example::
+
+    wait_random_exponential(multiplier=0.5,  # initial window 0.5s
+                            max=60)          # max 60s timeout
+
+When waiting for an unavailable resource to become available again, as
+opposed to trying to resolve contention for a shared resource, the
+wait_exponential strategy (which uses a fixed interval) may be preferable.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>abc.ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.tenacity.wait.wait_random_exponential</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__random__exponential"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.tenacity.wait.wait_base</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__base"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.tenacity.wait.wait_exponential</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__exponential"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>abc.ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.tenacity.wait.wait_random_exponential</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__random__exponential"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.tenacity.wait.wait_base</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__base"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.tenacity.wait.wait_exponential</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__exponential"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" line="166" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" bodystart="166" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__random__exponential_1a05f8759cd48128024d97b18df512a23f" prot="public" virt="non-virtual"><scope>pip::_vendor::tenacity::wait::wait_random_exponential</scope><name>__call__</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

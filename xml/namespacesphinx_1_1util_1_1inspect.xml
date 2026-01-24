@@ -1,0 +1,1305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1inspect" kind="namespace" language="Python">
+    <compoundname>sphinx::util::inspect</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1inspect_1_1__AttrGetter" prot="protected">sphinx::util::inspect::_AttrGetter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1inspect_1_1__SupportsDelete" prot="protected">sphinx::util::inspect::_SupportsDelete</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1inspect_1_1__SupportsGet" prot="protected">sphinx::util::inspect::_SupportsGet</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1inspect_1_1__SupportsSet" prot="protected">sphinx::util::inspect::_SupportsSet</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1inspect_1_1DefaultValue" prot="public">sphinx::util::inspect::DefaultValue</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1inspect_1_1TypeAliasForwardRef" prot="public">sphinx::util::inspect::TypeAliasForwardRef</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1inspect_1_1TypeAliasModule" prot="public">sphinx::util::inspect::TypeAliasModule</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1inspect_1_1TypeAliasNamespace" prot="public">sphinx::util::inspect::TypeAliasNamespace</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1aa61084fdfba475d88dc3e4bf50946a27" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::inspect.TypeAlias</definition>
+        <argsstring></argsstring>
+        <name>TypeAlias</name>
+        <qualifiedname>sphinx.util.inspect.TypeAlias</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="50" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1a1342936211c10ed74dc67de1c47d8fe8" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::inspect._SignatureType</definition>
+        <argsstring></argsstring>
+        <name>_SignatureType</name>
+        <qualifiedname>sphinx.util.inspect._SignatureType</qualifiedname>
+        <initializer>=  (
+        Callable[..., Any] | staticmethod[Any, Any] | classmethod[Any, Any, Any]
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="60" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1aa52dc68de71953e6d04f0d5b0f3a2f02" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::inspect.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.util.inspect.logger</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" kindref="member">logging.getLogger</ref>(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="64" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1a06ff41ae35c4c43b40e5b7e5e8bb5321" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::inspect.memory_address_re</definition>
+        <argsstring></argsstring>
+        <name>memory_address_re</name>
+        <qualifiedname>sphinx.util.inspect.memory_address_re</qualifiedname>
+        <initializer>=  re.compile(r&apos; at 0x[0-9a-f]{8,16}(?=&gt;)&apos;, re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="66" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1ad977fa8a586d763e36a074a178d4c9d3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::inspect.isasyncgenfunction</definition>
+        <argsstring></argsstring>
+        <name>isasyncgenfunction</name>
+        <qualifiedname>sphinx.util.inspect.isasyncgenfunction</qualifiedname>
+        <initializer>=  inspect.isasyncgenfunction</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1ae81cb5be2ee90da48b8ec5a2dfddf5ef" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::inspect.ismethod</definition>
+        <argsstring></argsstring>
+        <name>ismethod</name>
+        <qualifiedname>sphinx.util.inspect.ismethod</qualifiedname>
+        <initializer>=  inspect.ismethod</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1ae3bdbff861e791aa6efd0b1755205a19" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::inspect.ismethoddescriptor</definition>
+        <argsstring></argsstring>
+        <name>ismethoddescriptor</name>
+        <qualifiedname>sphinx.util.inspect.ismethoddescriptor</qualifiedname>
+        <initializer>=  inspect.ismethoddescriptor</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="71" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1a1f46faa9b46764a8f3df17e70a8eaf3f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::inspect.isclass</definition>
+        <argsstring></argsstring>
+        <name>isclass</name>
+        <qualifiedname>sphinx.util.inspect.isclass</qualifiedname>
+        <initializer>=  inspect.isclass</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1a8a7cbab1f4674ec4bdbe3f6e411c9821" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::inspect.ismodule</definition>
+        <argsstring></argsstring>
+        <name>ismodule</name>
+        <qualifiedname>sphinx.util.inspect.ismodule</qualifiedname>
+        <initializer>=  inspect.ismodule</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1inspect_1a38396e8e97490cb2109d037a7f8308a2" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::inspect._DESCRIPTOR_LIKE</definition>
+        <argsstring></argsstring>
+        <name>_DESCRIPTOR_LIKE</name>
+        <qualifiedname>sphinx.util.inspect._DESCRIPTOR_LIKE</qualifiedname>
+        <initializer>=  (
+    ClassMethodDescriptorType,
+    MethodDescriptorType,
+    WrapperDescriptorType,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="350" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1ab0ac9bbe36c2a8b775386264cb0a3b13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.util.inspect.unwrap</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>unwrap</name>
+        <qualifiedname>sphinx.util.inspect.unwrap</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an original object from wrapped object (wrapped functions).
+
+Mocked objects are returned as is.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="76" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a3d26c790f31262b59fc139847101883b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.util.inspect.unwrap_all</definition>
+        <argsstring>(Any obj, *Callable[[Any], bool]|None stop=None)</argsstring>
+        <name>unwrap_all</name>
+        <qualifiedname>sphinx.util.inspect.unwrap_all</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>Callable</declname>
+          <defname>stop</defname>
+          <array>[[Any]</array>
+        </param>
+        <param>
+          <type>bool]|None</type>
+          <declname>stop</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an original object from wrapped object.
+
+Unlike :func:`unwrap`, this unwraps partial functions, wrapped functions,
+class methods and static methods.
+
+When specified, *stop* is a predicate indicating whether an object should
+be unwrapped or not.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="92" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="92" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a41be5bc56bfe6b2c41f8226ca5bec899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Sequence[str]|None</type>
+        <definition> Sequence[str] | None sphinx.util.inspect.getall</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>getall</name>
+        <qualifiedname>sphinx.util.inspect.getall</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the ``__all__`` attribute of an object as a sequence.
+
+This returns ``None`` if the given ``obj.__all__`` does not exist and
+raises :exc:`ValueError` if ``obj.__all__`` is not a list or tuple of
+strings.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="124" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="124" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1af4810fd0a3ce0f63941d5d8f62cad6dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Mapping[str, Any]</type>
+        <definition> Mapping[str, Any] sphinx.util.inspect.getannotations</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>getannotations</name>
+        <qualifiedname>sphinx.util.inspect.getannotations</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Safely get the ``__annotations__`` attribute of an object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="139" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="139" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a04bc642dce6bae41e20dc9e5cc06b2a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Mapping[str, Any]</type>
+        <definition> Mapping[str, Any] sphinx.util.inspect.getglobals</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>getglobals</name>
+        <qualifiedname>sphinx.util.inspect.getglobals</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Safely get :attr:`obj.__globals__ &lt;function.__globals__&gt;`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="147" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="147" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a535a1736d2eff91253ede8bb0514342f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[type,...]</type>
+        <definition> tuple[type, ...] sphinx.util.inspect.getmro</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>getmro</name>
+        <qualifiedname>sphinx.util.inspect.getmro</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Safely get :attr:`obj.__mro__ &lt;class.__mro__&gt;`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="155" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="155" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1acfcd1e7a817551d79dbea73cd6fda7fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Any,...]|None</type>
+        <definition> tuple[Any, ...] | None sphinx.util.inspect.getorigbases</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>getorigbases</name>
+        <qualifiedname>sphinx.util.inspect.getorigbases</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Safely get ``obj.__orig_bases__``.
+
+This returns ``None`` if the object is not a class or if ``__orig_bases__``
+is not well-defined (e.g., a non-tuple object or an empty sequence).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="163" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="163" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1afde86a4f3ae7203c58d6c418342ba109" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]|dict[str, None]|None</type>
+        <definition> dict[str, Any] | dict[str, None] | None sphinx.util.inspect.getslots</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>getslots</name>
+        <qualifiedname>sphinx.util.inspect.getslots</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Safely get :term:`obj.__slots__ &lt;__slots__&gt;` as a dictionary if any.
+
+- This returns ``None`` if ``obj.__slots__`` does not exist.
+- This raises a :exc:`TypeError` if *obj* is not a class.
+- This raises a :exc:`ValueError` if ``obj.__slots__`` is invalid.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="181" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="181" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a27012715bd0583c79127c995aaf09fa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[type[enum.Enum]]</type>
+        <definition> TypeIs[type[enum.Enum]] sphinx.util.inspect.isenumclass</definition>
+        <argsstring>(Any x)</argsstring>
+        <name>isenumclass</name>
+        <qualifiedname>sphinx.util.inspect.isenumclass</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is an :class:`enumeration class &lt;enum.Enum&gt;`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="204" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="204" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a4ed5f6e9268604c3f03c56a62836c4ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[enum.Enum]</type>
+        <definition> TypeIs[enum.Enum] sphinx.util.inspect.isenumattribute</definition>
+        <argsstring>(Any x)</argsstring>
+        <name>isenumattribute</name>
+        <qualifiedname>sphinx.util.inspect.isenumattribute</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is an enumeration attribute.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="209" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="209" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a30206688f011c9196179a2c92347f39c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.util.inspect.unpartial</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>unpartial</name>
+        <qualifiedname>sphinx.util.inspect.unpartial</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an original object from a partial-like object.
+
+If *obj* is not a partial object, it is returned as is.
+
+.. seealso:: :func:`ispartial`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="214" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="214" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a02251a54fe8bc913b24df5bc6f213ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[partial[Any]|partialmethod[Any]]</type>
+        <definition> TypeIs[partial[Any] | partialmethod[Any]] sphinx.util.inspect.ispartial</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>ispartial</name>
+        <qualifiedname>sphinx.util.inspect.ispartial</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a partial function or method.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="226" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="226" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1afb51a8b8895b40dcc5b5ae35d543cefa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[classmethod[Any, Any, Any]]</type>
+        <definition> TypeIs[classmethod[Any, Any, Any]] sphinx.util.inspect.isclassmethod</definition>
+        <argsstring>(Any obj, Any cls=None, str|None name=None)</argsstring>
+        <name>isclassmethod</name>
+        <qualifiedname>sphinx.util.inspect.isclassmethod</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>cls</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>name</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a :class:`classmethod`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="231" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="233" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a3395df6be076f7ffca07a19cb81e4bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[types.ClassMethodDescriptorType]</type>
+        <definition> TypeIs[types.ClassMethodDescriptorType] sphinx.util.inspect.is_classmethod_descriptor</definition>
+        <argsstring>(Any obj, Any cls=None, str|None name=None)</argsstring>
+        <name>is_classmethod_descriptor</name>
+        <qualifiedname>sphinx.util.inspect.is_classmethod_descriptor</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>cls</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>name</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a :class:`~types.ClassMethodDescriptorType`.
+
+This check is stricter than :func:`is_builtin_classmethod_like` as
+a classmethod descriptor does not have a ``__func__`` attribute.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="249" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="251" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a6bfd48e757780078b5a6701142765103" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect.is_builtin_classmethod_like</definition>
+        <argsstring>(Any obj, Any cls=None, str|None name=None)</argsstring>
+        <name>is_builtin_classmethod_like</name>
+        <qualifiedname>sphinx.util.inspect.is_builtin_classmethod_like</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>cls</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>name</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object looks like a class method implemented in C.
+
+This is equivalent to test that *obj* is a class method descriptor
+or is a built-in object with a ``__self__`` attribute that is a type,
+or that ``parent_class.__dict__[name]`` satisfies those properties
+for some parent class in *cls* MRO.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="269" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="271" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a9cff4fdfe8063ebcc956db906a164d55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect.is_classmethod_like</definition>
+        <argsstring>(Any obj, Any cls=None, str|None name=None)</argsstring>
+        <name>is_classmethod_like</name>
+        <qualifiedname>sphinx.util.inspect.is_classmethod_like</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>cls</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>name</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object looks like a class method.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="301" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="301" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1ada118b1324b8c4cc03ddf965076e51fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[staticmethod[Any, Any]]</type>
+        <definition> TypeIs[staticmethod[Any, Any]] sphinx.util.inspect.isstaticmethod</definition>
+        <argsstring>(Any obj, Any cls=None, str|None name=None)</argsstring>
+        <name>isstaticmethod</name>
+        <qualifiedname>sphinx.util.inspect.isstaticmethod</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>cls</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>name</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a :class:`staticmethod`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="306" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="308" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1af40911797241720cd64d29acd659cfc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[<ref refid="classsphinx_1_1util_1_1inspect_1_1__SupportsGet" kindref="compound">_SupportsGet</ref>|<ref refid="classsphinx_1_1util_1_1inspect_1_1__SupportsSet" kindref="compound">_SupportsSet</ref>|<ref refid="classsphinx_1_1util_1_1inspect_1_1__SupportsDelete" kindref="compound">_SupportsDelete</ref>]</type>
+        <definition> TypeIs[_SupportsGet | _SupportsSet | _SupportsDelete] sphinx.util.inspect.isdescriptor</definition>
+        <argsstring>(Any x)</argsstring>
+        <name>isdescriptor</name>
+        <qualifiedname>sphinx.util.inspect.isdescriptor</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a :external+python:term:`descriptor`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="324" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="324" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a31d3a34edee3ca96c570dca9a463c9c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect.isabstractmethod</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>isabstractmethod</name>
+        <qualifiedname>sphinx.util.inspect.isabstractmethod</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is an :func:`abstractmethod`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="332" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="332" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a53823c3436b28da6786c3cba2940efc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect.isboundmethod</definition>
+        <argsstring>(MethodType method)</argsstring>
+        <name>isboundmethod</name>
+        <qualifiedname>sphinx.util.inspect.isboundmethod</qualifiedname>
+        <param>
+          <type>MethodType</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the method is a bound method.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="337" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="337" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a1bb73368ee43ebd437a488e226ed9f89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect.is_cython_function_or_method</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>is_cython_function_or_method</name>
+        <qualifiedname>sphinx.util.inspect.is_cython_function_or_method</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a function or method in cython.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="342" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="342" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a2f02516a8ffb9892e24b189350736d39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect.isattributedescriptor</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>isattributedescriptor</name>
+        <qualifiedname>sphinx.util.inspect.isattributedescriptor</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is an attribute-like descriptor.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="357" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="357" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a79511c45558ddeb5f094e3bb36de6f27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect.is_singledispatch_function</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>is_singledispatch_function</name>
+        <qualifiedname>sphinx.util.inspect.is_singledispatch_function</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a :func:`~functools.singledispatch` function.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="382" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="382" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1af911c4983f1acfbf6e3f8b0ffc8c9091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[singledispatchmethod[Any]]</type>
+        <definition> TypeIs[singledispatchmethod[Any]] sphinx.util.inspect.is_singledispatch_method</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>is_singledispatch_method</name>
+        <qualifiedname>sphinx.util.inspect.is_singledispatch_method</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a :class:`~functools.singledispatchmethod`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="392" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="392" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a30b1001e4064b5d17dbfb4398296851b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[types.FunctionType]</type>
+        <definition> TypeIs[types.FunctionType] sphinx.util.inspect.isfunction</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>isfunction</name>
+        <qualifiedname>sphinx.util.inspect.isfunction</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a user-defined function.
+
+Partial objects are unwrapped before checking them.
+
+.. seealso:: :external+python:func:`inspect.isfunction`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="397" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="397" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1ab191ddaf31e98a74119ed9843fe2f52b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[types.BuiltinFunctionType]</type>
+        <definition> TypeIs[types.BuiltinFunctionType] sphinx.util.inspect.isbuiltin</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>isbuiltin</name>
+        <qualifiedname>sphinx.util.inspect.isbuiltin</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a built-in function or method.
+
+Partial objects are unwrapped before checking them.
+
+.. seealso:: :external+python:func:`inspect.isbuiltin`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="407" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="407" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a7483c7ed9342b57bc0a86a2d75f40a0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[_RoutineType]</type>
+        <definition> TypeIs[_RoutineType] sphinx.util.inspect.isroutine</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>isroutine</name>
+        <qualifiedname>sphinx.util.inspect.isroutine</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a kind of function or method.
+
+Partial objects are unwrapped before checking them.
+
+.. seealso:: :external+python:func:`inspect.isroutine`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="417" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="417" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a2afa787a60115965f4c7280176041454" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[Callable[..., types.CoroutineType[Any, Any, Any]]]</type>
+        <definition> TypeIs[Callable[..., types.CoroutineType[Any, Any, Any]]] sphinx.util.inspect.iscoroutinefunction</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>iscoroutinefunction</name>
+        <qualifiedname>sphinx.util.inspect.iscoroutinefunction</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a :external+python:term:`coroutine` function.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="427" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="429" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a4f508d48b1c14cf5cb6ed6206626a15b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect._is_wrapped_coroutine</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>_is_wrapped_coroutine</name>
+        <qualifiedname>sphinx.util.inspect._is_wrapped_coroutine</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is wrapped coroutine-function.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="435" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="435" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1abee5bb0c5ca475a55e4855b355e67603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[property|cached_property[Any]]</type>
+        <definition> TypeIs[property | cached_property[Any]] sphinx.util.inspect.isproperty</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>isproperty</name>
+        <qualifiedname>sphinx.util.inspect.isproperty</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is property (possibly cached).</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="444" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="444" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1acde90527c1a80939c8b612f75febc7b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[types.GenericAlias]</type>
+        <definition> TypeIs[types.GenericAlias] sphinx.util.inspect.isgenericalias</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>isgenericalias</name>
+        <qualifiedname>sphinx.util.inspect.isgenericalias</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a generic alias.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="449" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="449" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a25be24a0d3597b9d62b78ca660718c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.util.inspect.safe_getattr</definition>
+        <argsstring>(Any obj, str name, *Any defargs)</argsstring>
+        <name>safe_getattr</name>
+        <qualifiedname>sphinx.util.inspect.safe_getattr</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>defargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A getattr() that turns all exceptions into AttributeErrors.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="454" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="454" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a7209e45ac817aca598cc4e9ef038c74e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.inspect.object_description</definition>
+        <argsstring>(Any obj, *frozenset[int] _seen=frozenset())</argsstring>
+        <name>object_description</name>
+        <qualifiedname>sphinx.util.inspect.object_description</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>*frozenset</type>
+          <declname>_seen</declname>
+          <array>[int]</array>
+          <defval>frozenset()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A repr() implementation that returns text safe to use in reST context.
+
+Maintains a set of &apos;seen&apos; object IDs to detect and avoid infinite recursion.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="480" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="480" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1acba18c3b2557d8ecccd36ac9d838af1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect.is_builtin_class_method</definition>
+        <argsstring>(Any obj, str attr_name)</argsstring>
+        <name>is_builtin_class_method</name>
+        <qualifiedname>sphinx.util.inspect.is_builtin_class_method</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>attr_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether *attr_name* is implemented on a builtin class.
+
+    &gt;&gt;&gt; is_builtin_class_method(int, &apos;__init__&apos;)
+    True
+
+
+This function is needed since CPython implements ``int.__init__`` via
+descriptors, but PyPy implementation is written in pure Python code.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="556" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="556" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a0ca2f7caf6ff4b5a7ec2ed979168a87a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.inspect._should_unwrap</definition>
+        <argsstring>(_SignatureType subject)</argsstring>
+        <name>_should_unwrap</name>
+        <qualifiedname>sphinx.util.inspect._should_unwrap</qualifiedname>
+        <param>
+          <type><ref refid="namespacesphinx_1_1util_1_1inspect_1a1342936211c10ed74dc67de1c47d8fe8" kindref="member">_SignatureType</ref></type>
+          <declname>subject</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check the function should be unwrapped on getting signature.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="695" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="695" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a05d02e2ef5ba251ffde88144072fd03f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Signature</type>
+        <definition> Signature sphinx.util.inspect.signature</definition>
+        <argsstring>(_SignatureType subject, bool bound_method=False, Mapping[str, str]|None type_aliases=None)</argsstring>
+        <name>signature</name>
+        <qualifiedname>sphinx.util.inspect.signature</qualifiedname>
+        <param>
+          <type><ref refid="namespacesphinx_1_1util_1_1inspect_1a1342936211c10ed74dc67de1c47d8fe8" kindref="member">_SignatureType</ref></type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>bound_method</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Mapping|None</type>
+          <declname>type_aliases</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a Signature object for the given *subject*.
+
+:param bound_method: Specify *subject* is a bound method or not.
+
+When *subject* is a built-in callable, *bound_method* is ignored.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="705" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="709" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a85da7bfb5fe0ec8c5f118b4e681fae83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Signature</type>
+        <definition> Signature sphinx.util.inspect.evaluate_signature</definition>
+        <argsstring>(Signature sig, dict[str, Any]|None globalns=None, dict[str, Any]|None localns=None)</argsstring>
+        <name>evaluate_signature</name>
+        <qualifiedname>sphinx.util.inspect.evaluate_signature</qualifiedname>
+        <param>
+          <type>Signature</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>globalns</declname>
+          <array>[str, Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>localns</declname>
+          <array>[str, Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Evaluate unresolved type annotations in a signature object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="772" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="776" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a41f333e94a2995cd20ec0a87e2e8d4dc" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.util.inspect._evaluate_forwardref</definition>
+        <argsstring>(ForwardRef ref, dict[str, Any]|None globalns, dict[str, Any]|None localns)</argsstring>
+        <name>_evaluate_forwardref</name>
+        <qualifiedname>sphinx.util.inspect._evaluate_forwardref</qualifiedname>
+        <param>
+          <type>ForwardRef</type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>globalns</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>localns</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Evaluate a forward reference.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="796" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="800" bodyend="817"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a5f85fe4636435a549435e46a138e4a83" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.util.inspect._evaluate</definition>
+        <argsstring>(Any annotation, dict[str, Any] globalns, dict[str, Any] localns)</argsstring>
+        <name>_evaluate</name>
+        <qualifiedname>sphinx.util.inspect._evaluate</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>annotation</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>globalns</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>localns</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Evaluate unresolved type annotation.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="818" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="822" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a7c6a21fcdeceef8681f64344615f4fd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.inspect.stringify_signature</definition>
+        <argsstring>(Signature sig, bool show_annotation=True, bool show_return_annotation=True, bool unqualified_typehints=False, bool short_literals=False)</argsstring>
+        <name>stringify_signature</name>
+        <qualifiedname>sphinx.util.inspect.stringify_signature</qualifiedname>
+        <param>
+          <type>Signature</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>show_annotation</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>show_return_annotation</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>unqualified_typehints</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>short_literals</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stringify a :class:`~inspect.Signature` object.
+
+:param show_annotation: If enabled, show annotations on the signature
+:param show_return_annotation: If enabled, show annotation of the return value
+:param unqualified_typehints: If enabled, show annotations as unqualified
+                              (ex. io.StringIO -&gt; StringIO)
+:param short_literals: If enabled, use short literal types.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="842" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="848" bodyend="924"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a309984c636595c7f055ea96251b67edc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Signature</type>
+        <definition> Signature sphinx.util.inspect.signature_from_str</definition>
+        <argsstring>(str signature)</argsstring>
+        <name>signature_from_str</name>
+        <qualifiedname>sphinx.util.inspect.signature_from_str</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>signature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a :class:`~inspect.Signature` object from a string.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="925" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="925" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1aed5693ba0a7c75d13569c8dfc0375275" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Signature</type>
+        <definition> Signature sphinx.util.inspect.signature_from_ast</definition>
+        <argsstring>(ast.FunctionDef node, str code=&apos;&apos;)</argsstring>
+        <name>signature_from_ast</name>
+        <qualifiedname>sphinx.util.inspect.signature_from_ast</qualifiedname>
+        <param>
+          <type>ast.FunctionDef</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>code</declname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a :class:`~inspect.Signature` object from an AST node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="934" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="934" bodyend="984"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a79e980b90b42765acfec20089a90843e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Parameter</type>
+        <definition> Parameter sphinx.util.inspect._define</definition>
+        <argsstring>(_ParameterKind kind, ast.arg arg, str code, *ast.expr|None defexpr)</argsstring>
+        <name>_define</name>
+        <qualifiedname>sphinx.util.inspect._define</qualifiedname>
+        <param>
+          <type>_ParameterKind</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>ast.arg</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>*ast.expr|None</type>
+          <declname>defexpr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="985" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="991" bodyend="998"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a9398a7f9cce9cb545d52fda7a87353e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.util.inspect.getdoc</definition>
+        <argsstring>(Any obj, _AttrGetter attrgetter=safe_getattr, bool allow_inherited=False, Any cls=None, str|None name=None)</argsstring>
+        <name>getdoc</name>
+        <qualifiedname>sphinx.util.inspect.getdoc</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1inspect_1_1__AttrGetter" kindref="compound">_AttrGetter</ref></type>
+          <declname>attrgetter</declname>
+          <defval><ref refid="namespacesphinx_1_1util_1_1inspect_1a25be24a0d3597b9d62b78ca660718c77" kindref="member">safe_getattr</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_inherited</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>cls</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>name</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the docstring for the object.
+
+This tries to obtain the docstring for some kind of objects additionally:
+
+* partial functions
+* inherited docstring
+* inherited decorated methods
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="999" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="1005" bodyend="1053"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1inspect_1a39e4125de18270ebabaf71e40c50b825" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.util.inspect._getdoc_internal</definition>
+        <argsstring>(Any obj, Callable[[Any, str, Any], Any] attrgetter=safe_getattr)</argsstring>
+        <name>_getdoc_internal</name>
+        <qualifiedname>sphinx.util.inspect._getdoc_internal</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>attrgetter</defname>
+          <array>[[Any, str, Any]</array>
+        </param>
+        <param>
+          <type>Any]</type>
+          <declname>attrgetter</declname>
+          <defval><ref refid="namespacesphinx_1_1util_1_1inspect_1a25be24a0d3597b9d62b78ca660718c77" kindref="member">safe_getattr</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="1054" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" bodystart="1056" bodyend="1061"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Helpers for inspecting Python modules.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/inspect.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

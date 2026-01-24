@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2requests_2packages_8py" kind="file" language="Python">
+    <compoundname>packages.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1requests">pip::_vendor::requests</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1requests_1_1packages">pip::_vendor::requests::packages</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1requests_1_1packages" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>This<sp/>code<sp/>exists<sp/>for<sp/>backwards<sp/>compatibility<sp/>reasons.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#<sp/>I<sp/>don&apos;t<sp/>like<sp/>it<sp/>either.<sp/>Just<sp/>look<sp/>the<sp/>other<sp/>way.<sp/>:)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>package<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&apos;urllib3&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;idna&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;chardet&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>vendored_package<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;pip._vendor.&quot;</highlight><highlight class="normal"><sp/>+<sp/>package</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>locals()[package]<sp/>=<sp/>__import__(vendored_package)</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>This<sp/>traversal<sp/>is<sp/>apparently<sp/>necessary<sp/>such<sp/>that<sp/>the<sp/>identities<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>preserved<sp/>(requests.packages.urllib3.*<sp/>is<sp/>urllib3.*)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>mod<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>list(sys.modules):</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>mod<sp/>==<sp/>vendored_package<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>mod.startswith(vendored_package<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;.&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unprefixed_mod<sp/>=<sp/>mod[len(</highlight><highlight class="stringliteral">&quot;pip._vendor.&quot;</highlight><highlight class="normal">):]</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.modules[</highlight><highlight class="stringliteral">&apos;pip._vendor.requests.packages.&apos;</highlight><highlight class="normal"><sp/>+<sp/>unprefixed_mod]<sp/>=<sp/>sys.modules[mod]</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Kinda<sp/>cool,<sp/>though,<sp/>right?</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/requests/packages.py"/>
+  </compounddef>
+</doxygen>

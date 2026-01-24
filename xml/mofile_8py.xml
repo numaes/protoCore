@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="mofile_8py" kind="file" language="Python">
+    <compoundname>mofile.py</compoundname>
+    <innernamespace refid="namespacebabel">babel</innernamespace>
+    <innernamespace refid="namespacebabel_1_1messages">babel::messages</innernamespace>
+    <innernamespace refid="namespacebabel_1_1messages_1_1mofile">babel::messages::mofile</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacebabel_1_1messages_1_1mofile" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>babel.messages.mofile</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Writing<sp/>of<sp/>files<sp/>in<sp/>the<sp/>``gettext``<sp/>MO<sp/>(machine<sp/>object)<sp/>format.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>(c)<sp/>2013-2025<sp/>by<sp/>the<sp/>Babel<sp/>Team.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>more<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>array</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>struct</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacebabel_1_1messages_1_1catalog" kindref="compound">babel.messages.catalog</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Catalog,<sp/>Message</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>_typeshed<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SupportsRead,<sp/>SupportsWrite</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">LE_MAGIC:<sp/>int<sp/>=<sp/>0x950412de</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">BE_MAGIC:<sp/>int<sp/>=<sp/>0xde120495</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacebabel_1_1messages_1_1mofile_1a1f8acc57a7fd559297ce3d5c75a2ebfa" kindref="member">read_mo</ref>(fileobj:<sp/>SupportsRead[bytes])<sp/>-&gt;<sp/>Catalog:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Read<sp/>a<sp/>binary<sp/>MO<sp/>file<sp/>from<sp/>the<sp/>given<sp/>file-like<sp/>object<sp/>and<sp/>return<sp/>a</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>corresponding<sp/>`Catalog`<sp/>object.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>fileobj:<sp/>the<sp/>file-like<sp/>object<sp/>to<sp/>read<sp/>the<sp/>MO<sp/>file<sp/>from</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:note:<sp/>The<sp/>implementation<sp/>of<sp/>this<sp/>function<sp/>is<sp/>heavily<sp/>based<sp/>on<sp/>the</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``GNUTranslations._parse``<sp/>method<sp/>of<sp/>the<sp/>``gettext``<sp/>module<sp/>in<sp/>the</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>standard<sp/>library.</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>catalog<sp/>=<sp/><ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref>()</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>headers<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>filename<sp/>=<sp/>getattr(fileobj,<sp/></highlight><highlight class="stringliteral">&apos;name&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>buf<sp/>=<sp/>fileobj.read()</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>buflen<sp/>=<sp/>len(buf)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>unpack<sp/>=<sp/>struct.unpack</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Parse<sp/>the<sp/>.mo<sp/>file<sp/>header,<sp/>which<sp/>consists<sp/>of<sp/>5<sp/>little<sp/>endian<sp/>32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>bit<sp/>words.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>magic<sp/>=<sp/>unpack(</highlight><highlight class="stringliteral">&apos;&lt;I&apos;</highlight><highlight class="normal">,<sp/>buf[:4])[0]<sp/><sp/></highlight><highlight class="comment">#<sp/>Are<sp/>we<sp/>big<sp/>endian<sp/>or<sp/>little<sp/>endian?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>magic<sp/>==<sp/>LE_MAGIC:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version,<sp/>msgcount,<sp/>origidx,<sp/>transidx<sp/>=<sp/>unpack(</highlight><highlight class="stringliteral">&apos;&lt;4I&apos;</highlight><highlight class="normal">,<sp/>buf[4:20])</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ii<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&lt;II&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>magic<sp/>==<sp/>BE_MAGIC:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version,<sp/>msgcount,<sp/>origidx,<sp/>transidx<sp/>=<sp/>unpack(</highlight><highlight class="stringliteral">&apos;&gt;4I&apos;</highlight><highlight class="normal">,<sp/>buf[4:20])</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ii<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&gt;II&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>OSError(0,<sp/></highlight><highlight class="stringliteral">&apos;Bad<sp/>magic<sp/>number&apos;</highlight><highlight class="normal">,<sp/>filename)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Now<sp/>put<sp/>all<sp/>messages<sp/>from<sp/>the<sp/>.mo<sp/>file<sp/>buffer<sp/>into<sp/>the<sp/>catalog</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>dictionary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>_i<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>range(msgcount):</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mlen,<sp/>moff<sp/>=<sp/>unpack(ii,<sp/>buf[origidx:origidx<sp/>+<sp/>8])</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mend<sp/>=<sp/>moff<sp/>+<sp/>mlen</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tlen,<sp/>toff<sp/>=<sp/>unpack(ii,<sp/>buf[transidx:transidx<sp/>+<sp/>8])</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tend<sp/>=<sp/>toff<sp/>+<sp/>tlen</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>mend<sp/>&lt;<sp/>buflen<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>tend<sp/>&lt;<sp/>buflen:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>=<sp/>buf[moff:mend]</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmsg<sp/>=<sp/>buf[toff:tend]</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>OSError(0,<sp/></highlight><highlight class="stringliteral">&apos;File<sp/>is<sp/>corrupt&apos;</highlight><highlight class="normal">,<sp/>filename)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>See<sp/>if<sp/>we&apos;re<sp/>looking<sp/>at<sp/>GNU<sp/>.mo<sp/>conventions<sp/>for<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>mlen<sp/>==<sp/>0:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Catalog<sp/>description</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lastkey<sp/>=<sp/>key<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>item<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>tmsg.splitlines():</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>item<sp/>=<sp/>item.strip()</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>item:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>b</highlight><highlight class="stringliteral">&apos;:&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>item:</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key,<sp/>value<sp/>=<sp/>item.split(b</highlight><highlight class="stringliteral">&apos;:&apos;</highlight><highlight class="normal">,<sp/>1)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lastkey<sp/>=<sp/>key<sp/>=<sp/>key.strip().lower()</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[key]<sp/>=<sp/>value.strip()</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>lastkey:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[lastkey]<sp/>+=<sp/>b</highlight><highlight class="stringliteral">&apos;\n&apos;</highlight><highlight class="normal"><sp/>+<sp/>item</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>b</highlight><highlight class="stringliteral">&apos;\x04&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>msg:<sp/><sp/></highlight><highlight class="comment">#<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctxt,<sp/>msg<sp/>=<sp/>msg.split(b</highlight><highlight class="stringliteral">&apos;\x04&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctxt<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>b</highlight><highlight class="stringliteral">&apos;\x00&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>msg:<sp/><sp/></highlight><highlight class="comment">#<sp/>plural<sp/>forms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>=<sp/>msg.split(b</highlight><highlight class="stringliteral">&apos;\x00&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmsg<sp/>=<sp/>tmsg.split(b</highlight><highlight class="stringliteral">&apos;\x00&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>=<sp/>[x.decode(catalog.charset)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>x<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>msg]</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmsg<sp/>=<sp/>[x.decode(catalog.charset)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>x<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>tmsg]</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>=<sp/>msg.decode(catalog.charset)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmsg<sp/>=<sp/>tmsg.decode(catalog.charset)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>catalog[msg]<sp/>=<sp/><ref refid="classbabel_1_1messages_1_1catalog_1_1Message" kindref="compound">Message</ref>(msg,<sp/>tmsg,<sp/>context=ctxt)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>advance<sp/>to<sp/>next<sp/>entry<sp/>in<sp/>the<sp/>seek<sp/>tables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>origidx<sp/>+=<sp/>8</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transidx<sp/>+=<sp/>8</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>catalog.mime_headers<sp/>=<sp/>headers.items()</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>catalog</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">write_mo(fileobj:<sp/>SupportsWrite[bytes],<sp/>catalog:<sp/>Catalog,<sp/>use_fuzzy:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Write<sp/>a<sp/>catalog<sp/>to<sp/>the<sp/>specified<sp/>file-like<sp/>object<sp/>using<sp/>the<sp/>GNU<sp/>MO<sp/>file</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>format.</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>import<sp/>sys</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>from<sp/>babel.messages<sp/>import<sp/>Catalog</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>from<sp/>gettext<sp/>import<sp/>GNUTranslations</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>from<sp/>io<sp/>import<sp/>BytesIO</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>catalog<sp/>=<sp/>Catalog(locale=&apos;en_US&apos;)</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>catalog.add(&apos;foo&apos;,<sp/>&apos;Voh&apos;)</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Message<sp/>...&gt;</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>catalog.add((u&apos;bar&apos;,<sp/>u&apos;baz&apos;),<sp/>(u&apos;Bahr&apos;,<sp/>u&apos;Batz&apos;))</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Message<sp/>...&gt;</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>catalog.add(&apos;fuz&apos;,<sp/>&apos;Futz&apos;,<sp/>flags=[&apos;fuzzy&apos;])</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Message<sp/>...&gt;</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>catalog.add(&apos;Fizz&apos;,<sp/>&apos;&apos;)</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Message<sp/>...&gt;</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>catalog.add((&apos;Fuzz&apos;,<sp/>&apos;Fuzzes&apos;),<sp/>(&apos;&apos;,<sp/>&apos;&apos;))</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;Message<sp/>...&gt;</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>buf<sp/>=<sp/>BytesIO()</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>write_mo(buf,<sp/>catalog)</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>x<sp/>=<sp/>buf.seek(0)</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>translations<sp/>=<sp/>GNUTranslations(fp=buf)</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>if<sp/>sys.version_info[0]<sp/>&gt;=<sp/>3:</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>...<sp/><sp/><sp/><sp/><sp/>translations.ugettext<sp/>=<sp/>translations.gettext</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>...<sp/><sp/><sp/><sp/><sp/>translations.ungettext<sp/>=<sp/>translations.ngettext</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>translations.ugettext(&apos;foo&apos;)</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>u&apos;Voh&apos;</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>translations.ungettext(&apos;bar&apos;,<sp/>&apos;baz&apos;,<sp/>1)</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>u&apos;Bahr&apos;</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>translations.ungettext(&apos;bar&apos;,<sp/>&apos;baz&apos;,<sp/>2)</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>u&apos;Batz&apos;</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>translations.ugettext(&apos;fuz&apos;)</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>u&apos;fuz&apos;</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>translations.ugettext(&apos;Fizz&apos;)</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>u&apos;Fizz&apos;</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>translations.ugettext(&apos;Fuzz&apos;)</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>u&apos;Fuzz&apos;</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>translations.ugettext(&apos;Fuzzes&apos;)</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>u&apos;Fuzzes&apos;</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>fileobj:<sp/>the<sp/>file-like<sp/>object<sp/>to<sp/>write<sp/>to</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>catalog:<sp/>the<sp/>`Catalog`<sp/>instance</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>use_fuzzy:<sp/>whether<sp/>translations<sp/>marked<sp/>as<sp/>&quot;fuzzy&quot;<sp/>should<sp/>be<sp/>included</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in<sp/>the<sp/>output</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>messages<sp/>=<sp/>list(catalog)</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>messages[1:]<sp/>=<sp/>[m<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>m<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>messages[1:]</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>m.string<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>(use_fuzzy<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>m.fuzzy)]</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>messages.sort()</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ids<sp/>=<sp/>strs<sp/>=<sp/>b</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>offsets<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>message<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>messages:</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>For<sp/>each<sp/>string,<sp/>we<sp/>need<sp/>size<sp/>and<sp/>file<sp/>offset.<sp/><sp/>Each<sp/>string<sp/>is<sp/>NUL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>terminated;<sp/>the<sp/>NUL<sp/>does<sp/>not<sp/>count<sp/>into<sp/>the<sp/>size.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>message.pluralizable:</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgid<sp/>=<sp/>b</highlight><highlight class="stringliteral">&apos;\x00&apos;</highlight><highlight class="normal">.join([</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgid.encode(catalog.charset)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>msgid<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>message.id</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>])</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgstrs<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>idx,<sp/>string<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>enumerate(message.string):</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>string:</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgstrs.append(message.id[min(int(idx),<sp/>1)])</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgstrs.append(string)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgstr<sp/>=<sp/>b</highlight><highlight class="stringliteral">&apos;\x00&apos;</highlight><highlight class="normal">.join([</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgstr.encode(catalog.charset)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>msgstr<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>msgstrs</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>])</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgid<sp/>=<sp/>message.id.encode(catalog.charset)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgstr<sp/>=<sp/>message.string.encode(catalog.charset)</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>message.context:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgid<sp/>=<sp/>b</highlight><highlight class="stringliteral">&apos;\x04&apos;</highlight><highlight class="normal">.join([message.context.encode(catalog.charset),</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msgid])</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>offsets.append((len(ids),<sp/>len(msgid),<sp/>len(strs),<sp/>len(msgstr)))</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ids<sp/>+=<sp/>msgid<sp/>+<sp/>b</highlight><highlight class="stringliteral">&apos;\x00&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>strs<sp/>+=<sp/>msgstr<sp/>+<sp/>b</highlight><highlight class="stringliteral">&apos;\x00&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>The<sp/>header<sp/>is<sp/>7<sp/>32-bit<sp/>unsigned<sp/>integers.<sp/><sp/>We<sp/>don&apos;t<sp/>use<sp/>hash<sp/>tables,<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>the<sp/>keys<sp/>start<sp/>right<sp/>after<sp/>the<sp/>index<sp/>tables.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>keystart<sp/>=<sp/>7<sp/>*<sp/>4<sp/>+<sp/>16<sp/>*<sp/>len(messages)</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>valuestart<sp/>=<sp/>keystart<sp/>+<sp/>len(ids)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>The<sp/>string<sp/>table<sp/>first<sp/>has<sp/>the<sp/>list<sp/>of<sp/>keys,<sp/>then<sp/>the<sp/>list<sp/>of<sp/>values.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Each<sp/>entry<sp/>has<sp/>first<sp/>the<sp/>size<sp/>of<sp/>the<sp/>string,<sp/>then<sp/>the<sp/>file<sp/>offset.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>koffsets<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>voffsets<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>o1,<sp/>l1,<sp/>o2,<sp/>l2<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>offsets:</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>koffsets<sp/>+=<sp/>[l1,<sp/>o1<sp/>+<sp/>keystart]</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>voffsets<sp/>+=<sp/>[l2,<sp/>o2<sp/>+<sp/>valuestart]</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>offsets<sp/>=<sp/>koffsets<sp/>+<sp/>voffsets</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>fileobj.write(struct.pack(</highlight><highlight class="stringliteral">&apos;Iiiiiii&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LE_MAGIC,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>magic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>len(messages),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>number<sp/>of<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>7<sp/>*<sp/>4,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>start<sp/>of<sp/>key<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>7<sp/>*<sp/>4<sp/>+<sp/>len(messages)<sp/>*<sp/>8,<sp/><sp/></highlight><highlight class="comment">#<sp/>start<sp/>of<sp/>value<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>size<sp/>and<sp/>offset<sp/>of<sp/>hash<sp/>table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/>+<sp/>array.array.tobytes(array.array(</highlight><highlight class="stringliteral">&quot;i&quot;</highlight><highlight class="normal">,<sp/>offsets))<sp/>+<sp/>ids<sp/>+<sp/>strs)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2docs_2reference_2mocking_8md" kind="file" language="Markdown">
+    <compoundname>mocking.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Mocking<sp/>Reference</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>page<sp/>lists<sp/>the<sp/>facilities<sp/>provided<sp/>by<sp/>GoogleTest<sp/>for<sp/>creating<sp/>and<sp/>working</highlight></codeline>
+<codeline><highlight class="normal">with<sp/>mock<sp/>objects.<sp/>To<sp/>use<sp/>them,<sp/>include<sp/>the<sp/>header</highlight></codeline>
+<codeline><highlight class="normal">`gmock/gmock.h`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Macros<sp/>{#macros}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>defines<sp/>the<sp/>following<sp/>macros<sp/>for<sp/>working<sp/>with<sp/>mocks.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>MOCK_METHOD<sp/>{#MOCK_METHOD}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`MOCK_METHOD(`*`return_type`*`,`*`method_name`*`,<sp/>(`*`args...`*`));`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`MOCK_METHOD(`*`return_type`*`,`*`method_name`*`,<sp/>(`*`args...`*`),</highlight></codeline>
+<codeline><highlight class="normal">(`*`specs...`*`));`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>a<sp/>mock<sp/>method<sp/>*`method_name`*<sp/>with<sp/>arguments<sp/>`(`*`args...`*`)`<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">return<sp/>type<sp/>*`return_type`*<sp/>within<sp/>a<sp/>mock<sp/>class.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameters<sp/>of<sp/>`MOCK_METHOD`<sp/>mirror<sp/>the<sp/>method<sp/>declaration.<sp/>The<sp/>optional</highlight></codeline>
+<codeline><highlight class="normal">fourth<sp/>parameter<sp/>*`specs...`*<sp/>is<sp/>a<sp/>comma-separated<sp/>list<sp/>of<sp/>qualifiers.<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">following<sp/>qualifiers<sp/>are<sp/>accepted:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Qualifier<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Meaning<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>--------------------------<sp/>|<sp/>--------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`const`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Makes<sp/>the<sp/>mocked<sp/>method<sp/>a<sp/>`const`<sp/>method.<sp/>Required<sp/>if<sp/>overriding<sp/>a<sp/>`const`<sp/>method.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`override`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Marks<sp/>the<sp/>method<sp/>with<sp/>`override`.<sp/>Recommended<sp/>if<sp/>overriding<sp/>a<sp/>`virtual`<sp/>method.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`noexcept`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Marks<sp/>the<sp/>method<sp/>with<sp/>`noexcept`.<sp/>Required<sp/>if<sp/>overriding<sp/>a<sp/>`noexcept`<sp/>method.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Calltype(`*`calltype`*`)`<sp/>|<sp/>Sets<sp/>the<sp/>call<sp/>type<sp/>for<sp/>the<sp/>method,<sp/>for<sp/>example<sp/>`Calltype(STDMETHODCALLTYPE)`.<sp/>Useful<sp/>on<sp/>Windows.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`ref(`*`qualifier`*`)`<sp/><sp/><sp/><sp/><sp/>|<sp/>Marks<sp/>the<sp/>method<sp/>with<sp/>the<sp/>given<sp/>reference<sp/>qualifier,<sp/>for<sp/>example<sp/>`ref(&amp;)`<sp/>or<sp/>`ref(&amp;&amp;)`.<sp/>Required<sp/>if<sp/>overriding<sp/>a<sp/>method<sp/>that<sp/>has<sp/>a<sp/>reference<sp/>qualifier.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>commas<sp/>in<sp/>arguments<sp/>prevent<sp/>`MOCK_METHOD`<sp/>from<sp/>parsing<sp/>the<sp/>arguments</highlight></codeline>
+<codeline><highlight class="normal">correctly<sp/>if<sp/>they<sp/>are<sp/>not<sp/>appropriately<sp/>surrounded<sp/>by<sp/>parentheses.<sp/>See<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">following<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>MyMock<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>The<sp/>following<sp/>2<sp/>lines<sp/>will<sp/>not<sp/>compile<sp/>due<sp/>to<sp/>commas<sp/>in<sp/>the<sp/>arguments:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(std::pair&lt;bool,<sp/>int&gt;,<sp/>GetPair,<sp/>());<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Error!</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(bool,<sp/>CheckMap,<sp/>(std::map&lt;int,<sp/>double&gt;,<sp/>bool));<sp/><sp/>//<sp/>Error!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>One<sp/>solution<sp/>-<sp/>wrap<sp/>arguments<sp/>that<sp/>contain<sp/>commas<sp/>in<sp/>parentheses:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD((std::pair&lt;bool,<sp/>int&gt;),<sp/>GetPair,<sp/>());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(bool,<sp/>CheckMap,<sp/>((std::map&lt;int,<sp/>double&gt;),<sp/>bool));</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Another<sp/>solution<sp/>-<sp/>use<sp/>type<sp/>aliases:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>using<sp/>BoolAndInt<sp/>=<sp/>std::pair&lt;bool,<sp/>int&gt;;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(BoolAndInt,<sp/>GetPair,<sp/>());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>using<sp/>MapIntDouble<sp/>=<sp/>std::map&lt;int,<sp/>double&gt;;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(bool,<sp/>CheckMap,<sp/>(MapIntDouble,<sp/>bool));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`MOCK_METHOD`<sp/>must<sp/>be<sp/>used<sp/>in<sp/>the<sp/>`public:`<sp/>section<sp/>of<sp/>a<sp/>mock<sp/>class<sp/>definition,</highlight></codeline>
+<codeline><highlight class="normal">regardless<sp/>of<sp/>whether<sp/>the<sp/>method<sp/>being<sp/>mocked<sp/>is<sp/>`public`,<sp/>`protected`,<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">`private`<sp/>in<sp/>the<sp/>base<sp/>class.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_CALL<sp/>{#EXPECT_CALL}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_CALL(`*`mock_object`*`,`*`method_name`*`(`*`matchers...`*`))`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Creates<sp/>an<sp/>[expectation](../gmock_for_dummies.md#setting-expectations)<sp/>that<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">method<sp/>*`method_name`*<sp/>of<sp/>the<sp/>object<sp/>*`mock_object`*<sp/>is<sp/>called<sp/>with<sp/>arguments</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>match<sp/>the<sp/>given<sp/>matchers<sp/>*`matchers...`*.<sp/>`EXPECT_CALL`<sp/>must<sp/>precede<sp/>any</highlight></codeline>
+<codeline><highlight class="normal">code<sp/>that<sp/>exercises<sp/>the<sp/>mock<sp/>object.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`matchers...`*<sp/>is<sp/>a<sp/>comma-separated<sp/>list<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">[matchers](../gmock_for_dummies.md#matchers-what-arguments-do-we-expect)<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">correspond<sp/>to<sp/>each<sp/>argument<sp/>of<sp/>the<sp/>method<sp/>*`method_name`*.<sp/>The<sp/>expectation<sp/>will</highlight></codeline>
+<codeline><highlight class="normal">apply<sp/>only<sp/>to<sp/>calls<sp/>of<sp/>*`method_name`*<sp/>whose<sp/>arguments<sp/>match<sp/>all<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">matchers.<sp/>If<sp/>`(`*`matchers...`*`)`<sp/>is<sp/>omitted,<sp/>the<sp/>expectation<sp/>behaves<sp/>as<sp/>if</highlight></codeline>
+<codeline><highlight class="normal">each<sp/>argument&apos;s<sp/>matcher<sp/>were<sp/>a<sp/>[wildcard<sp/>matcher<sp/>(`_`)](matchers.md#wildcard).</highlight></codeline>
+<codeline><highlight class="normal">See<sp/>the<sp/>[Matchers<sp/>Reference](matchers.md)<sp/>for<sp/>a<sp/>list<sp/>of<sp/>all<sp/>built-in<sp/>matchers.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>chainable<sp/>clauses<sp/>can<sp/>be<sp/>used<sp/>to<sp/>modify<sp/>the<sp/>expectation,<sp/>and<sp/>they</highlight></codeline>
+<codeline><highlight class="normal">must<sp/>be<sp/>used<sp/>in<sp/>the<sp/>following<sp/>order:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(mock_object,<sp/>method_name(matchers...))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.With(multi_argument_matcher)<sp/><sp/>//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(cardinality)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.InSequence(sequences...)<sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.After(expectations...)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(action)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(action)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.RetiresOnSaturation();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>details<sp/>for<sp/>each<sp/>modifier<sp/>clause<sp/>below.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>With<sp/>{#EXPECT_CALL.With}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.With(`*`multi_argument_matcher`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Restricts<sp/>the<sp/>expectation<sp/>to<sp/>apply<sp/>only<sp/>to<sp/>mock<sp/>function<sp/>calls<sp/>whose<sp/>arguments</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>a<sp/>whole<sp/>match<sp/>the<sp/>multi-argument<sp/>matcher<sp/>*`multi_argument_matcher`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>passes<sp/>all<sp/>of<sp/>the<sp/>arguments<sp/>as<sp/>one<sp/>tuple<sp/>into<sp/>the<sp/>matcher.<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">parameter<sp/>*`multi_argument_matcher`*<sp/>must<sp/>thus<sp/>be<sp/>a<sp/>matcher<sp/>of<sp/>type</highlight></codeline>
+<codeline><highlight class="normal">`Matcher&lt;std::tuple&lt;A1,<sp/>...,<sp/>An&gt;&gt;`,<sp/>where<sp/>`A1,<sp/>...,<sp/>An`<sp/>are<sp/>the<sp/>types<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">function<sp/>arguments.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>sets<sp/>the<sp/>expectation<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">`my_mock.SetPosition()`<sp/>is<sp/>called<sp/>with<sp/>any<sp/>two<sp/>arguments,<sp/>the<sp/>first<sp/>argument</highlight></codeline>
+<codeline><highlight class="normal">being<sp/>less<sp/>than<sp/>the<sp/>second:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Lt;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>SetPosition(_,<sp/>_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.With(Lt());</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>provides<sp/>some<sp/>built-in<sp/>matchers<sp/>for<sp/>2-tuples,<sp/>including<sp/>the<sp/>`Lt()`</highlight></codeline>
+<codeline><highlight class="normal">matcher<sp/>above.<sp/>See<sp/>[Multi-argument<sp/>Matchers](matchers.md#MultiArgMatchers).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`With`<sp/>clause<sp/>can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once<sp/>on<sp/>an<sp/>expectation<sp/>and<sp/>must<sp/>be<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">first<sp/>clause.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Times<sp/>{#EXPECT_CALL.Times}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.Times(`*`cardinality`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Specifies<sp/>how<sp/>many<sp/>times<sp/>the<sp/>mock<sp/>function<sp/>call<sp/>is<sp/>expected.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`cardinality`*<sp/>represents<sp/>the<sp/>number<sp/>of<sp/>expected<sp/>calls<sp/>and<sp/>can<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">one<sp/>of<sp/>the<sp/>following,<sp/>all<sp/>defined<sp/>in<sp/>the<sp/>`::testing`<sp/>namespace:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Cardinality<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Meaning<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-------------------<sp/>|<sp/>---------------------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`AnyNumber()`<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>The<sp/>function<sp/>can<sp/>be<sp/>called<sp/>any<sp/>number<sp/>of<sp/>times.<sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`AtLeast(n)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>The<sp/>function<sp/>call<sp/>is<sp/>expected<sp/>at<sp/>least<sp/>*n*<sp/>times.<sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`AtMost(n)`<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>The<sp/>function<sp/>call<sp/>is<sp/>expected<sp/>at<sp/>most<sp/>*n*<sp/>times.<sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Between(m,<sp/>n)`<sp/><sp/><sp/><sp/><sp/>|<sp/>The<sp/>function<sp/>call<sp/>is<sp/>expected<sp/>between<sp/>*m*<sp/>and<sp/>*n*<sp/>times,<sp/>inclusive.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`Exactly(n)`<sp/>or<sp/>`n`<sp/>|<sp/>The<sp/>function<sp/>call<sp/>is<sp/>expected<sp/>exactly<sp/>*n*<sp/>times.<sp/>If<sp/>*n*<sp/>is<sp/>0,<sp/>the<sp/>call<sp/>should<sp/>never<sp/>happen.<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>the<sp/>`Times`<sp/>clause<sp/>is<sp/>omitted,<sp/>GoogleTest<sp/>infers<sp/>the<sp/>cardinality<sp/>as<sp/>follows:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>If<sp/>neither<sp/>[`WillOnce`](#EXPECT_CALL.WillOnce)<sp/>nor</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[`WillRepeatedly`](#EXPECT_CALL.WillRepeatedly)<sp/>are<sp/>specified,<sp/>the<sp/>inferred</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cardinality<sp/>is<sp/>`Times(1)`.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>If<sp/>there<sp/>are<sp/>*n*<sp/>`WillOnce`<sp/>clauses<sp/>and<sp/>no<sp/>`WillRepeatedly`<sp/>clause,<sp/>where</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*n*<sp/>&gt;=<sp/>1,<sp/>the<sp/>inferred<sp/>cardinality<sp/>is<sp/>`Times(n)`.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>If<sp/>there<sp/>are<sp/>*n*<sp/>`WillOnce`<sp/>clauses<sp/>and<sp/>one<sp/>`WillRepeatedly`<sp/>clause,<sp/>where</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*n*<sp/>&gt;=<sp/>0,<sp/>the<sp/>inferred<sp/>cardinality<sp/>is<sp/>`Times(AtLeast(n))`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`Times`<sp/>clause<sp/>can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once<sp/>on<sp/>an<sp/>expectation.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>InSequence<sp/>{#EXPECT_CALL.InSequence}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.InSequence(`*`sequences...`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Specifies<sp/>that<sp/>the<sp/>mock<sp/>function<sp/>call<sp/>is<sp/>expected<sp/>in<sp/>a<sp/>certain<sp/>sequence.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`sequences...`*<sp/>is<sp/>any<sp/>number<sp/>of<sp/>[`Sequence`](#Sequence)<sp/>objects.</highlight></codeline>
+<codeline><highlight class="normal">Expected<sp/>calls<sp/>assigned<sp/>to<sp/>the<sp/>same<sp/>sequence<sp/>are<sp/>expected<sp/>to<sp/>occur<sp/>in<sp/>the<sp/>order</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>expectations<sp/>are<sp/>declared.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>sets<sp/>the<sp/>expectation<sp/>that<sp/>the<sp/>`Reset()`<sp/>method</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>`my_mock`<sp/>is<sp/>called<sp/>before<sp/>both<sp/>`GetSize()`<sp/>and<sp/>`Describe()`,<sp/>and<sp/>`GetSize()`</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>`Describe()`<sp/>can<sp/>occur<sp/>in<sp/>any<sp/>order<sp/>relative<sp/>to<sp/>each<sp/>other:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Sequence;</highlight></codeline>
+<codeline><highlight class="normal">Sequence<sp/>s1,<sp/>s2;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>Reset())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.InSequence(s1,<sp/>s2);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>GetSize())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.InSequence(s1);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>Describe())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.InSequence(s2);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`InSequence`<sp/>clause<sp/>can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times<sp/>on<sp/>an<sp/>expectation.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>the<sp/>[`InSequence`<sp/>class](#InSequence).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>After<sp/>{#EXPECT_CALL.After}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.After(`*`expectations...`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Specifies<sp/>that<sp/>the<sp/>mock<sp/>function<sp/>call<sp/>is<sp/>expected<sp/>to<sp/>occur<sp/>after<sp/>one<sp/>or<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">other<sp/>calls.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`expectations...`*<sp/>can<sp/>be<sp/>up<sp/>to<sp/>five</highlight></codeline>
+<codeline><highlight class="normal">[`Expectation`](#Expectation)<sp/>or<sp/>[`ExpectationSet`](#ExpectationSet)<sp/>objects.</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>mock<sp/>function<sp/>call<sp/>is<sp/>expected<sp/>to<sp/>occur<sp/>after<sp/>all<sp/>of<sp/>the<sp/>given<sp/>expectations.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>sets<sp/>the<sp/>expectation<sp/>that<sp/>the<sp/>`Describe()`</highlight></codeline>
+<codeline><highlight class="normal">method<sp/>of<sp/>`my_mock`<sp/>is<sp/>called<sp/>only<sp/>after<sp/>both<sp/>`InitX()`<sp/>and<sp/>`InitY()`<sp/>have<sp/>been</highlight></codeline>
+<codeline><highlight class="normal">called.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Expectation;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">Expectation<sp/>init_x<sp/>=<sp/>EXPECT_CALL(my_mock,<sp/>InitX());</highlight></codeline>
+<codeline><highlight class="normal">Expectation<sp/>init_y<sp/>=<sp/>EXPECT_CALL(my_mock,<sp/>InitY());</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>Describe())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.After(init_x,<sp/>init_y);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`ExpectationSet`<sp/>object<sp/>is<sp/>helpful<sp/>when<sp/>the<sp/>number<sp/>of<sp/>prerequisites<sp/>for<sp/>an</highlight></codeline>
+<codeline><highlight class="normal">expectation<sp/>is<sp/>large<sp/>or<sp/>variable,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::ExpectationSet;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">ExpectationSet<sp/>all_inits;</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Collect<sp/>all<sp/>expectations<sp/>of<sp/>InitElement()<sp/>calls</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>(int<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>element_count;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>all_inits<sp/>+=<sp/>EXPECT_CALL(my_mock,<sp/>InitElement(i));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>Describe())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.After(all_inits);<sp/><sp/>//<sp/>Expect<sp/>Describe()<sp/>call<sp/>after<sp/>all<sp/>InitElement()<sp/>calls</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`After`<sp/>clause<sp/>can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times<sp/>on<sp/>an<sp/>expectation.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>WillOnce<sp/>{#EXPECT_CALL.WillOnce}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.WillOnce(`*`action`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Specifies<sp/>the<sp/>mock<sp/>function&apos;s<sp/>actual<sp/>behavior<sp/>when<sp/>invoked,<sp/>for<sp/>a<sp/>single</highlight></codeline>
+<codeline><highlight class="normal">matching<sp/>function<sp/>call.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`action`*<sp/>represents<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[action](../gmock_for_dummies.md#actions-what-should-it-do)<sp/>that<sp/>the<sp/>function</highlight></codeline>
+<codeline><highlight class="normal">call<sp/>will<sp/>perform.<sp/>See<sp/>the<sp/>[Actions<sp/>Reference](actions.md)<sp/>for<sp/>a<sp/>list<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">built-in<sp/>actions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>use<sp/>of<sp/>`WillOnce`<sp/>implicitly<sp/>sets<sp/>a<sp/>cardinality<sp/>on<sp/>the<sp/>expectation<sp/>when</highlight></codeline>
+<codeline><highlight class="normal">`Times`<sp/>is<sp/>not<sp/>specified.<sp/>See<sp/>[`Times`](#EXPECT_CALL.Times).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Each<sp/>matching<sp/>function<sp/>call<sp/>will<sp/>perform<sp/>the<sp/>next<sp/>action<sp/>in<sp/>the<sp/>order<sp/>declared.</highlight></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>specifies<sp/>that<sp/>`my_mock.GetNumber()`<sp/>is<sp/>expected</highlight></codeline>
+<codeline><highlight class="normal">to<sp/>be<sp/>called<sp/>exactly<sp/>3<sp/>times<sp/>and<sp/>will<sp/>return<sp/>`1`,<sp/>`2`,<sp/>and<sp/>`3`<sp/>respectively<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>first,<sp/>second,<sp/>and<sp/>third<sp/>calls:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>GetNumber())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(Return(1))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(Return(2))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(Return(3));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`WillOnce`<sp/>clause<sp/>can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times<sp/>on<sp/>an<sp/>expectation.<sp/>Unlike</highlight></codeline>
+<codeline><highlight class="normal">`WillRepeatedly`,<sp/>the<sp/>action<sp/>fed<sp/>to<sp/>each<sp/>`WillOnce`<sp/>call<sp/>will<sp/>be<sp/>called<sp/>at<sp/>most</highlight></codeline>
+<codeline><highlight class="normal">once,<sp/>so<sp/>may<sp/>be<sp/>a<sp/>move-only<sp/>type<sp/>and/or<sp/>have<sp/>an<sp/>`&amp;&amp;`-qualified<sp/>call<sp/>operator.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>WillRepeatedly<sp/>{#EXPECT_CALL.WillRepeatedly}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.WillRepeatedly(`*`action`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Specifies<sp/>the<sp/>mock<sp/>function&apos;s<sp/>actual<sp/>behavior<sp/>when<sp/>invoked,<sp/>for<sp/>all<sp/>subsequent</highlight></codeline>
+<codeline><highlight class="normal">matching<sp/>function<sp/>calls.<sp/>Takes<sp/>effect<sp/>after<sp/>the<sp/>actions<sp/>specified<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`WillOnce`](#EXPECT_CALL.WillOnce)<sp/>clauses,<sp/>if<sp/>any,<sp/>have<sp/>been<sp/>performed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`action`*<sp/>represents<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[action](../gmock_for_dummies.md#actions-what-should-it-do)<sp/>that<sp/>the<sp/>function</highlight></codeline>
+<codeline><highlight class="normal">call<sp/>will<sp/>perform.<sp/>See<sp/>the<sp/>[Actions<sp/>Reference](actions.md)<sp/>for<sp/>a<sp/>list<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">built-in<sp/>actions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>use<sp/>of<sp/>`WillRepeatedly`<sp/>implicitly<sp/>sets<sp/>a<sp/>cardinality<sp/>on<sp/>the<sp/>expectation</highlight></codeline>
+<codeline><highlight class="normal">when<sp/>`Times`<sp/>is<sp/>not<sp/>specified.<sp/>See<sp/>[`Times`](#EXPECT_CALL.Times).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>any<sp/>`WillOnce`<sp/>clauses<sp/>have<sp/>been<sp/>specified,<sp/>matching<sp/>function<sp/>calls<sp/>will</highlight></codeline>
+<codeline><highlight class="normal">perform<sp/>those<sp/>actions<sp/>before<sp/>the<sp/>action<sp/>specified<sp/>by<sp/>`WillRepeatedly`.<sp/>See<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">following<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>GetName())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(Return(&quot;John<sp/>Doe&quot;));<sp/><sp/>//<sp/>Return<sp/>&quot;John<sp/>Doe&quot;<sp/>on<sp/>all<sp/>calls</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>GetNumber())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(Return(42))<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Return<sp/>42<sp/>on<sp/>the<sp/>first<sp/>call</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(Return(7));<sp/><sp/>//<sp/>Return<sp/>7<sp/>on<sp/>all<sp/>subsequent<sp/>calls</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`WillRepeatedly`<sp/>clause<sp/>can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once<sp/>on<sp/>an<sp/>expectation.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>RetiresOnSaturation<sp/>{#EXPECT_CALL.RetiresOnSaturation}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.RetiresOnSaturation()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Indicates<sp/>that<sp/>the<sp/>expectation<sp/>will<sp/>no<sp/>longer<sp/>be<sp/>active<sp/>after<sp/>the<sp/>expected</highlight></codeline>
+<codeline><highlight class="normal">number<sp/>of<sp/>matching<sp/>function<sp/>calls<sp/>has<sp/>been<sp/>reached.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`RetiresOnSaturation`<sp/>clause<sp/>is<sp/>only<sp/>meaningful<sp/>for<sp/>expectations<sp/>with<sp/>an</highlight></codeline>
+<codeline><highlight class="normal">upper-bounded<sp/>cardinality.<sp/>The<sp/>expectation<sp/>will<sp/>*retire*<sp/>(no<sp/>longer<sp/>match<sp/>any</highlight></codeline>
+<codeline><highlight class="normal">function<sp/>calls)<sp/>after<sp/>it<sp/>has<sp/>been<sp/>*saturated*<sp/>(the<sp/>upper<sp/>bound<sp/>has<sp/>been</highlight></codeline>
+<codeline><highlight class="normal">reached).<sp/>See<sp/>the<sp/>following<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::AnyNumber;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>SetNumber(_))<sp/><sp/>//<sp/>Expectation<sp/>1</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(AnyNumber());</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>SetNumber(7))<sp/><sp/>//<sp/>Expectation<sp/>2</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(2)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>the<sp/>above<sp/>example,<sp/>the<sp/>first<sp/>two<sp/>calls<sp/>to<sp/>`my_mock.SetNumber(7)`<sp/>match</highlight></codeline>
+<codeline><highlight class="normal">expectation<sp/>2,<sp/>which<sp/>then<sp/>becomes<sp/>inactive<sp/>and<sp/>no<sp/>longer<sp/>matches<sp/>any<sp/>calls.<sp/>A</highlight></codeline>
+<codeline><highlight class="normal">third<sp/>call<sp/>to<sp/>`my_mock.SetNumber(7)`<sp/>would<sp/>then<sp/>match<sp/>expectation<sp/>1.<sp/>Without</highlight></codeline>
+<codeline><highlight class="normal">`RetiresOnSaturation()`<sp/>on<sp/>expectation<sp/>2,<sp/>a<sp/>third<sp/>call<sp/>to<sp/>`my_mock.SetNumber(7)`</highlight></codeline>
+<codeline><highlight class="normal">would<sp/>match<sp/>expectation<sp/>2<sp/>again,<sp/>producing<sp/>a<sp/>failure<sp/>since<sp/>the<sp/>limit<sp/>of<sp/>2<sp/>calls</highlight></codeline>
+<codeline><highlight class="normal">was<sp/>exceeded.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`RetiresOnSaturation`<sp/>clause<sp/>can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once<sp/>on<sp/>an<sp/>expectation<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">must<sp/>be<sp/>the<sp/>last<sp/>clause.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>ON_CALL<sp/>{#ON_CALL}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`ON_CALL(`*`mock_object`*`,`*`method_name`*`(`*`matchers...`*`))`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Defines<sp/>what<sp/>happens<sp/>when<sp/>the<sp/>method<sp/>*`method_name`*<sp/>of<sp/>the<sp/>object</highlight></codeline>
+<codeline><highlight class="normal">*`mock_object`*<sp/>is<sp/>called<sp/>with<sp/>arguments<sp/>that<sp/>match<sp/>the<sp/>given<sp/>matchers</highlight></codeline>
+<codeline><highlight class="normal">*`matchers...`*.<sp/>Requires<sp/>a<sp/>modifier<sp/>clause<sp/>to<sp/>specify<sp/>the<sp/>method&apos;s<sp/>behavior.</highlight></codeline>
+<codeline><highlight class="normal">*Does<sp/>not*<sp/>set<sp/>any<sp/>expectations<sp/>that<sp/>the<sp/>method<sp/>will<sp/>be<sp/>called.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`matchers...`*<sp/>is<sp/>a<sp/>comma-separated<sp/>list<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">[matchers](../gmock_for_dummies.md#matchers-what-arguments-do-we-expect)<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">correspond<sp/>to<sp/>each<sp/>argument<sp/>of<sp/>the<sp/>method<sp/>*`method_name`*.<sp/>The<sp/>`ON_CALL`</highlight></codeline>
+<codeline><highlight class="normal">specification<sp/>will<sp/>apply<sp/>only<sp/>to<sp/>calls<sp/>of<sp/>*`method_name`*<sp/>whose<sp/>arguments<sp/>match</highlight></codeline>
+<codeline><highlight class="normal">all<sp/>of<sp/>the<sp/>matchers.<sp/>If<sp/>`(`*`matchers...`*`)`<sp/>is<sp/>omitted,<sp/>the<sp/>behavior<sp/>is<sp/>as<sp/>if</highlight></codeline>
+<codeline><highlight class="normal">each<sp/>argument&apos;s<sp/>matcher<sp/>were<sp/>a<sp/>[wildcard<sp/>matcher<sp/>(`_`)](matchers.md#wildcard).</highlight></codeline>
+<codeline><highlight class="normal">See<sp/>the<sp/>[Matchers<sp/>Reference](matchers.md)<sp/>for<sp/>a<sp/>list<sp/>of<sp/>all<sp/>built-in<sp/>matchers.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>chainable<sp/>clauses<sp/>can<sp/>be<sp/>used<sp/>to<sp/>set<sp/>the<sp/>method&apos;s<sp/>behavior,<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">they<sp/>must<sp/>be<sp/>used<sp/>in<sp/>the<sp/>following<sp/>order:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ON_CALL(mock_object,<sp/>method_name(matchers...))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.With(multi_argument_matcher)<sp/><sp/>//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillByDefault(action);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>Required</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>details<sp/>for<sp/>each<sp/>modifier<sp/>clause<sp/>below.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>With<sp/>{#ON_CALL.With}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.With(`*`multi_argument_matcher`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Restricts<sp/>the<sp/>specification<sp/>to<sp/>only<sp/>mock<sp/>function<sp/>calls<sp/>whose<sp/>arguments<sp/>as<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">whole<sp/>match<sp/>the<sp/>multi-argument<sp/>matcher<sp/>*`multi_argument_matcher`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>passes<sp/>all<sp/>of<sp/>the<sp/>arguments<sp/>as<sp/>one<sp/>tuple<sp/>into<sp/>the<sp/>matcher.<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">parameter<sp/>*`multi_argument_matcher`*<sp/>must<sp/>thus<sp/>be<sp/>a<sp/>matcher<sp/>of<sp/>type</highlight></codeline>
+<codeline><highlight class="normal">`Matcher&lt;std::tuple&lt;A1,<sp/>...,<sp/>An&gt;&gt;`,<sp/>where<sp/>`A1,<sp/>...,<sp/>An`<sp/>are<sp/>the<sp/>types<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">function<sp/>arguments.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>sets<sp/>the<sp/>default<sp/>behavior<sp/>when</highlight></codeline>
+<codeline><highlight class="normal">`my_mock.SetPosition()`<sp/>is<sp/>called<sp/>with<sp/>any<sp/>two<sp/>arguments,<sp/>the<sp/>first<sp/>argument</highlight></codeline>
+<codeline><highlight class="normal">being<sp/>less<sp/>than<sp/>the<sp/>second:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Lt;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">ON_CALL(my_mock,<sp/>SetPosition(_,<sp/>_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.With(Lt())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillByDefault(Return(true));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>provides<sp/>some<sp/>built-in<sp/>matchers<sp/>for<sp/>2-tuples,<sp/>including<sp/>the<sp/>`Lt()`</highlight></codeline>
+<codeline><highlight class="normal">matcher<sp/>above.<sp/>See<sp/>[Multi-argument<sp/>Matchers](matchers.md#MultiArgMatchers).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`With`<sp/>clause<sp/>can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once<sp/>with<sp/>each<sp/>`ON_CALL`<sp/>statement.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>WillByDefault<sp/>{#ON_CALL.WillByDefault}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`.WillByDefault(`*`action`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Specifies<sp/>the<sp/>default<sp/>behavior<sp/>of<sp/>a<sp/>matching<sp/>mock<sp/>function<sp/>call.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`action`*<sp/>represents<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[action](../gmock_for_dummies.md#actions-what-should-it-do)<sp/>that<sp/>the<sp/>function</highlight></codeline>
+<codeline><highlight class="normal">call<sp/>will<sp/>perform.<sp/>See<sp/>the<sp/>[Actions<sp/>Reference](actions.md)<sp/>for<sp/>a<sp/>list<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">built-in<sp/>actions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>specifies<sp/>that<sp/>by<sp/>default,<sp/>a<sp/>call<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">`my_mock.Greet()`<sp/>will<sp/>return<sp/>`&quot;hello&quot;`:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">ON_CALL(my_mock,<sp/>Greet())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillByDefault(Return(&quot;hello&quot;));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>action<sp/>specified<sp/>by<sp/>`WillByDefault`<sp/>is<sp/>superseded<sp/>by<sp/>the<sp/>actions<sp/>specified</highlight></codeline>
+<codeline><highlight class="normal">on<sp/>a<sp/>matching<sp/>`EXPECT_CALL`<sp/>statement,<sp/>if<sp/>any.<sp/>See<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`WillOnce`](#EXPECT_CALL.WillOnce)<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">[`WillRepeatedly`](#EXPECT_CALL.WillRepeatedly)<sp/>clauses<sp/>of<sp/>`EXPECT_CALL`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`WillByDefault`<sp/>clause<sp/>must<sp/>be<sp/>used<sp/>exactly<sp/>once<sp/>with<sp/>each<sp/>`ON_CALL`</highlight></codeline>
+<codeline><highlight class="normal">statement.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Classes<sp/>{#classes}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>defines<sp/>the<sp/>following<sp/>classes<sp/>for<sp/>working<sp/>with<sp/>mocks.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>DefaultValue<sp/>{#DefaultValue}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`::testing::DefaultValue&lt;T&gt;`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Allows<sp/>a<sp/>user<sp/>to<sp/>specify<sp/>the<sp/>default<sp/>value<sp/>for<sp/>a<sp/>type<sp/>`T`<sp/>that<sp/>is<sp/>both<sp/>copyable</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>publicly<sp/>destructible<sp/>(i.e.<sp/>anything<sp/>that<sp/>can<sp/>be<sp/>used<sp/>as<sp/>a<sp/>function<sp/>return</highlight></codeline>
+<codeline><highlight class="normal">type).<sp/>For<sp/>mock<sp/>functions<sp/>with<sp/>a<sp/>return<sp/>type<sp/>of<sp/>`T`,<sp/>this<sp/>default<sp/>value<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">returned<sp/>from<sp/>function<sp/>calls<sp/>that<sp/>do<sp/>not<sp/>specify<sp/>an<sp/>action.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Provides<sp/>the<sp/>static<sp/>methods<sp/>`Set()`,<sp/>`SetFactory()`,<sp/>and<sp/>`Clear()`<sp/>to<sp/>manage<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">default<sp/>value:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Sets<sp/>the<sp/>default<sp/>value<sp/>to<sp/>be<sp/>returned.<sp/>T<sp/>must<sp/>be<sp/>copy<sp/>constructible.</highlight></codeline>
+<codeline><highlight class="normal">DefaultValue&lt;T&gt;::Set(value);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Sets<sp/>a<sp/>factory.<sp/>Will<sp/>be<sp/>invoked<sp/>on<sp/>demand.<sp/>T<sp/>must<sp/>be<sp/>move<sp/>constructible.</highlight></codeline>
+<codeline><highlight class="normal">T<sp/>MakeT();</highlight></codeline>
+<codeline><highlight class="normal">DefaultValue&lt;T&gt;::SetFactory(&amp;MakeT);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Unsets<sp/>the<sp/>default<sp/>value.</highlight></codeline>
+<codeline><highlight class="normal">DefaultValue&lt;T&gt;::Clear();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>NiceMock<sp/>{#NiceMock}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`::testing::NiceMock&lt;T&gt;`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>mock<sp/>object<sp/>that<sp/>suppresses<sp/>warnings<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">[uninteresting<sp/>calls](../gmock_cook_book.md#uninteresting-vs-unexpected).<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>parameter<sp/>`T`<sp/>is<sp/>any<sp/>mock<sp/>class,<sp/>except<sp/>for<sp/>another<sp/>`NiceMock`,</highlight></codeline>
+<codeline><highlight class="normal">`NaggyMock`,<sp/>or<sp/>`StrictMock`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Usage<sp/>of<sp/>`NiceMock&lt;T&gt;`<sp/>is<sp/>analogous<sp/>to<sp/>usage<sp/>of<sp/>`T`.<sp/>`NiceMock&lt;T&gt;`<sp/>is<sp/>a<sp/>subclass</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>`T`,<sp/>so<sp/>it<sp/>can<sp/>be<sp/>used<sp/>wherever<sp/>an<sp/>object<sp/>of<sp/>type<sp/>`T`<sp/>is<sp/>accepted.<sp/>In</highlight></codeline>
+<codeline><highlight class="normal">addition,<sp/>`NiceMock&lt;T&gt;`<sp/>can<sp/>be<sp/>constructed<sp/>with<sp/>any<sp/>arguments<sp/>that<sp/>a<sp/>constructor</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>`T`<sp/>accepts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>suppresses<sp/>warnings<sp/>on<sp/>the<sp/>mock<sp/>`my_mock`<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">type<sp/>`MockClass`<sp/>if<sp/>a<sp/>method<sp/>other<sp/>than<sp/>`DoSomething()`<sp/>is<sp/>called:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::NiceMock;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">NiceMock&lt;MockClass&gt;<sp/>my_mock(&quot;some&quot;,<sp/>&quot;args&quot;);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>DoSomething());</highlight></codeline>
+<codeline><highlight class="normal">...<sp/>code<sp/>that<sp/>uses<sp/>my_mock<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`NiceMock&lt;T&gt;`<sp/>only<sp/>works<sp/>for<sp/>mock<sp/>methods<sp/>defined<sp/>using<sp/>the<sp/>`MOCK_METHOD`<sp/>macro</highlight></codeline>
+<codeline><highlight class="normal">directly<sp/>in<sp/>the<sp/>definition<sp/>of<sp/>class<sp/>`T`.<sp/>If<sp/>a<sp/>mock<sp/>method<sp/>is<sp/>defined<sp/>in<sp/>a<sp/>base</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>of<sp/>`T`,<sp/>a<sp/>warning<sp/>might<sp/>still<sp/>be<sp/>generated.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`NiceMock&lt;T&gt;`<sp/>might<sp/>not<sp/>work<sp/>correctly<sp/>if<sp/>the<sp/>destructor<sp/>of<sp/>`T`<sp/>is<sp/>not<sp/>virtual.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>NaggyMock<sp/>{#NaggyMock}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`::testing::NaggyMock&lt;T&gt;`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>mock<sp/>object<sp/>that<sp/>generates<sp/>warnings<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">[uninteresting<sp/>calls](../gmock_cook_book.md#uninteresting-vs-unexpected).<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>parameter<sp/>`T`<sp/>is<sp/>any<sp/>mock<sp/>class,<sp/>except<sp/>for<sp/>another<sp/>`NiceMock`,</highlight></codeline>
+<codeline><highlight class="normal">`NaggyMock`,<sp/>or<sp/>`StrictMock`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Usage<sp/>of<sp/>`NaggyMock&lt;T&gt;`<sp/>is<sp/>analogous<sp/>to<sp/>usage<sp/>of<sp/>`T`.<sp/>`NaggyMock&lt;T&gt;`<sp/>is<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">subclass<sp/>of<sp/>`T`,<sp/>so<sp/>it<sp/>can<sp/>be<sp/>used<sp/>wherever<sp/>an<sp/>object<sp/>of<sp/>type<sp/>`T`<sp/>is<sp/>accepted.</highlight></codeline>
+<codeline><highlight class="normal">In<sp/>addition,<sp/>`NaggyMock&lt;T&gt;`<sp/>can<sp/>be<sp/>constructed<sp/>with<sp/>any<sp/>arguments<sp/>that<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">constructor<sp/>of<sp/>`T`<sp/>accepts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>generates<sp/>warnings<sp/>on<sp/>the<sp/>mock<sp/>`my_mock`<sp/>of<sp/>type</highlight></codeline>
+<codeline><highlight class="normal">`MockClass`<sp/>if<sp/>a<sp/>method<sp/>other<sp/>than<sp/>`DoSomething()`<sp/>is<sp/>called:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::NaggyMock;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">NaggyMock&lt;MockClass&gt;<sp/>my_mock(&quot;some&quot;,<sp/>&quot;args&quot;);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>DoSomething());</highlight></codeline>
+<codeline><highlight class="normal">...<sp/>code<sp/>that<sp/>uses<sp/>my_mock<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Mock<sp/>objects<sp/>of<sp/>type<sp/>`T`<sp/>by<sp/>default<sp/>behave<sp/>the<sp/>same<sp/>way<sp/>as<sp/>`NaggyMock&lt;T&gt;`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>StrictMock<sp/>{#StrictMock}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`::testing::StrictMock&lt;T&gt;`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>mock<sp/>object<sp/>that<sp/>generates<sp/>test<sp/>failures<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">[uninteresting<sp/>calls](../gmock_cook_book.md#uninteresting-vs-unexpected).<sp/>The</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>parameter<sp/>`T`<sp/>is<sp/>any<sp/>mock<sp/>class,<sp/>except<sp/>for<sp/>another<sp/>`NiceMock`,</highlight></codeline>
+<codeline><highlight class="normal">`NaggyMock`,<sp/>or<sp/>`StrictMock`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Usage<sp/>of<sp/>`StrictMock&lt;T&gt;`<sp/>is<sp/>analogous<sp/>to<sp/>usage<sp/>of<sp/>`T`.<sp/>`StrictMock&lt;T&gt;`<sp/>is<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">subclass<sp/>of<sp/>`T`,<sp/>so<sp/>it<sp/>can<sp/>be<sp/>used<sp/>wherever<sp/>an<sp/>object<sp/>of<sp/>type<sp/>`T`<sp/>is<sp/>accepted.</highlight></codeline>
+<codeline><highlight class="normal">In<sp/>addition,<sp/>`StrictMock&lt;T&gt;`<sp/>can<sp/>be<sp/>constructed<sp/>with<sp/>any<sp/>arguments<sp/>that<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">constructor<sp/>of<sp/>`T`<sp/>accepts.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>generates<sp/>a<sp/>test<sp/>failure<sp/>on<sp/>the<sp/>mock<sp/>`my_mock`</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>type<sp/>`MockClass`<sp/>if<sp/>a<sp/>method<sp/>other<sp/>than<sp/>`DoSomething()`<sp/>is<sp/>called:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::StrictMock;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">StrictMock&lt;MockClass&gt;<sp/>my_mock(&quot;some&quot;,<sp/>&quot;args&quot;);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>DoSomething());</highlight></codeline>
+<codeline><highlight class="normal">...<sp/>code<sp/>that<sp/>uses<sp/>my_mock<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`StrictMock&lt;T&gt;`<sp/>only<sp/>works<sp/>for<sp/>mock<sp/>methods<sp/>defined<sp/>using<sp/>the<sp/>`MOCK_METHOD`</highlight></codeline>
+<codeline><highlight class="normal">macro<sp/>directly<sp/>in<sp/>the<sp/>definition<sp/>of<sp/>class<sp/>`T`.<sp/>If<sp/>a<sp/>mock<sp/>method<sp/>is<sp/>defined<sp/>in<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">base<sp/>class<sp/>of<sp/>`T`,<sp/>a<sp/>failure<sp/>might<sp/>not<sp/>be<sp/>generated.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`StrictMock&lt;T&gt;`<sp/>might<sp/>not<sp/>work<sp/>correctly<sp/>if<sp/>the<sp/>destructor<sp/>of<sp/>`T`<sp/>is<sp/>not</highlight></codeline>
+<codeline><highlight class="normal">virtual.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Sequence<sp/>{#Sequence}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`::testing::Sequence`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>chronological<sp/>sequence<sp/>of<sp/>expectations.<sp/>See<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`InSequence`](#EXPECT_CALL.InSequence)<sp/>clause<sp/>of<sp/>`EXPECT_CALL`<sp/>for<sp/>usage.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>InSequence<sp/>{#InSequence}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`::testing::InSequence`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">An<sp/>object<sp/>of<sp/>this<sp/>type<sp/>causes<sp/>all<sp/>expectations<sp/>encountered<sp/>in<sp/>its<sp/>scope<sp/>to<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">put<sp/>in<sp/>an<sp/>anonymous<sp/>sequence.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>allows<sp/>more<sp/>convenient<sp/>expression<sp/>of<sp/>multiple<sp/>expectations<sp/>in<sp/>a<sp/>single</highlight></codeline>
+<codeline><highlight class="normal">sequence:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::InSequence;</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>InSequence<sp/>seq;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>The<sp/>following<sp/>are<sp/>expected<sp/>to<sp/>occur<sp/>in<sp/>the<sp/>order<sp/>declared.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(...);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(...);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(...);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>name<sp/>of<sp/>the<sp/>`InSequence`<sp/>object<sp/>does<sp/>not<sp/>matter.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Expectation<sp/>{#Expectation}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`::testing::Expectation`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>mock<sp/>function<sp/>call<sp/>expectation<sp/>as<sp/>created<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">[`EXPECT_CALL`](#EXPECT_CALL):</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Expectation;</highlight></codeline>
+<codeline><highlight class="normal">Expectation<sp/>my_expectation<sp/>=<sp/>EXPECT_CALL(...);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Useful<sp/>for<sp/>specifying<sp/>sequences<sp/>of<sp/>expectations;<sp/>see<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`After`](#EXPECT_CALL.After)<sp/>clause<sp/>of<sp/>`EXPECT_CALL`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>ExpectationSet<sp/>{#ExpectationSet}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`::testing::ExpectationSet`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Represents<sp/>a<sp/>set<sp/>of<sp/>mock<sp/>function<sp/>call<sp/>expectations.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Use<sp/>the<sp/>`+=`<sp/>operator<sp/>to<sp/>add<sp/>[`Expectation`](#Expectation)<sp/>objects<sp/>to<sp/>the<sp/>set:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::ExpectationSet;</highlight></codeline>
+<codeline><highlight class="normal">ExpectationSet<sp/>my_expectations;</highlight></codeline>
+<codeline><highlight class="normal">my_expectations<sp/>+=<sp/>EXPECT_CALL(...);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Useful<sp/>for<sp/>specifying<sp/>sequences<sp/>of<sp/>expectations;<sp/>see<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`After`](#EXPECT_CALL.After)<sp/>clause<sp/>of<sp/>`EXPECT_CALL`.</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/docs/reference/mocking.md"/>
+  </compounddef>
+</doxygen>

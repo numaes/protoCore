@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter" kind="class" language="Python" prot="public">
+    <compoundname>docutils::parsers::rst::languages::RstLanguageImporter</compoundname>
+    <basecompoundref refid="classdocutils_1_1languages_1_1LanguageImporter" prot="public" virt="non-virtual">docutils.languages.LanguageImporter</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter_1a1a832fa0d2a0d2dd64f682f4ac36428d" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.parsers.rst.languages.RstLanguageImporter::packages</definition>
+        <argsstring></argsstring>
+        <name>packages</name>
+        <qualifiedname>docutils.parsers.rst.languages.RstLanguageImporter.packages</qualifiedname>
+        <initializer>=  (&apos;docutils.parsers.rst.languages.&apos;, &apos;&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter_1a3732e3767bc97756ee6db6e01016e835" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.parsers.rst.languages.RstLanguageImporter::warn_msg</definition>
+        <argsstring></argsstring>
+        <name>warn_msg</name>
+        <qualifiedname>docutils.parsers.rst.languages.RstLanguageImporter.warn_msg</qualifiedname>
+        <initializer>=  &apos;rST localisation for language &quot;%s&quot; not found.&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter_1ada8c975e03c7422979d11ff2af0da545" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.languages.RstLanguageImporter::fallback</definition>
+        <argsstring></argsstring>
+        <name>fallback</name>
+        <qualifiedname>docutils.parsers.rst.languages.RstLanguageImporter.fallback</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter_1a6ea5f8920b16e618b0a4af21c1d8fe72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.languages.RstLanguageImporter.check_content</definition>
+        <argsstring>(self, module)</argsstring>
+        <name>check_content</name>
+        <qualifiedname>docutils.parsers.rst.languages.RstLanguageImporter.check_content</qualifiedname>
+        <reimplements refid="classdocutils_1_1languages_1_1LanguageImporter_1a374a7553226d9d402352baab32398ba0">check_content</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>module</type>
+          <defname>module</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if we got an rST language module.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" bodystart="33" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Import language modules.
+
+When called with a BCP 47 language tag, instances return a module
+with localisations for &quot;directive&quot; and &quot;role&quot; names for  from
+`docutils.parsers.rst.languages` or the PYTHONPATH.
+
+If there is no matching module, warn (if a `reporter` is passed)
+and return None.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.parsers.rst.languages.RstLanguageImporter</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.languages.LanguageImporter</label>
+        <link refid="classdocutils_1_1languages_1_1LanguageImporter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.parsers.rst.languages.RstLanguageImporter</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>packages</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>warn_msg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.languages.LanguageImporter</label>
+        <link refid="classdocutils_1_1languages_1_1LanguageImporter"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>packages</edgelabel>
+          <edgelabel>warn_msg</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>fallback</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/languages/__init__.py" bodystart="19" bodyend="39"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter_1a6ea5f8920b16e618b0a4af21c1d8fe72" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::languages::RstLanguageImporter</scope><name>check_content</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter_1ada8c975e03c7422979d11ff2af0da545" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::languages::RstLanguageImporter</scope><name>fallback</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter_1a1a832fa0d2a0d2dd64f682f4ac36428d" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::languages::RstLanguageImporter</scope><name>packages</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1languages_1_1RstLanguageImporter_1a3732e3767bc97756ee6db6e01016e835" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::languages::RstLanguageImporter</scope><name>warn_msg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

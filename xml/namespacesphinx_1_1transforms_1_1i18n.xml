@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1transforms_1_1i18n" kind="namespace" language="Python">
+    <compoundname>sphinx::transforms::i18n</compoundname>
+    <innerclass refid="classsphinx_1_1transforms_1_1i18n_1_1__NodeUpdater" prot="protected">sphinx::transforms::i18n::_NodeUpdater</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1i18n_1_1AddTranslationClasses" prot="public">sphinx::transforms::i18n::AddTranslationClasses</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1i18n_1_1Locale" prot="public">sphinx::transforms::i18n::Locale</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1i18n_1_1PreserveTranslatableMessages" prot="public">sphinx::transforms::i18n::PreserveTranslatableMessages</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1i18n_1_1RemoveTranslatableInline" prot="public">sphinx::transforms::i18n::RemoveTranslatableInline</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1i18n_1_1TranslationProgressTotaliser" prot="public">sphinx::transforms::i18n::TranslationProgressTotaliser</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1_1i18n_1ae114c304bb06e6975b41f77052c13a8b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::transforms::i18n.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.transforms.i18n.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1_1i18n_1a5985f180ee51a5b6ad3b8f26d7236daf" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::transforms::i18n.EXCLUDED_PENDING_XREF_ATTRIBUTES</definition>
+        <argsstring></argsstring>
+        <name>EXCLUDED_PENDING_XREF_ATTRIBUTES</name>
+        <qualifiedname>sphinx.transforms.i18n.EXCLUDED_PENDING_XREF_ATTRIBUTES</qualifiedname>
+        <initializer>=  (&apos;refexplicit&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1_1i18n_1a091be615af82e94ddec45fbd80bf3d50" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::transforms::i18n.N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <qualifiedname>sphinx.transforms.i18n.N</qualifiedname>
+        <initializer>=  TypeVar(&apos;N&apos;, bound=nodes.Node)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" line="47" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1_1i18n_1a6e205ba4d740429613fce6719d5b05b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.Element</type>
+        <definition> nodes.Element sphinx.transforms.i18n.publish_msgstr</definition>
+        <argsstring>(Sphinx app, str source, str source_path, int source_line, Config config, Any settings)</argsstring>
+        <name>publish_msgstr</name>
+        <qualifiedname>sphinx.transforms.i18n.publish_msgstr</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>source_line</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Publish msgstr (single line) into docutils document
+
+:param sphinx.application.Sphinx app: sphinx application
+:param str source: source text
+:param str source_path: source path for warning indication
+:param source_line: source line for warning indication
+:param sphinx.config.Config config: sphinx config
+:param docutils.frontend.Values settings: docutils settings
+:return: document
+:rtype: docutils.nodes.document
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" line="50" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" bodystart="57" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1_1i18n_1af1ea7a0c0ec20a887a08ca320f3c9c1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, bool]</type>
+        <definition> tuple[str, bool] sphinx.transforms.i18n.parse_noqa</definition>
+        <argsstring>(str source)</argsstring>
+        <name>parse_noqa</name>
+        <qualifiedname>sphinx.transforms.i18n.parse_noqa</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" line="94" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" bodystart="94" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1_1i18n_1a2c2cafd89b04a241a71eacf67a106b2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.transforms.i18n.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.transforms.i18n.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" line="685" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" bodystart="685" bodyend="697"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Docutils transforms used by Sphinx when reading documents.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/transforms/i18n.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

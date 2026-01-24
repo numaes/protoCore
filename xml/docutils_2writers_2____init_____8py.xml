@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="docutils_2writers_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innerclass refid="classdocutils_1_1writers_1_1Writer" prot="public">docutils::writers::Writer</innerclass>
+    <innerclass refid="classdocutils_1_1writers_1_1UnfilteredWriter" prot="public">docutils::writers::UnfilteredWriter</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1writers">docutils::writers</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1writers" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>__init__.py<sp/>9368<sp/>2023-04-28<sp/>21:26:36Z<sp/>milde<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>David<sp/>Goodger<sp/>&lt;goodger@python.org&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">This<sp/>package<sp/>contains<sp/>Docutils<sp/>Writer<sp/>modules.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">__docformat__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;reStructuredText&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>importlib<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>import_module</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>docutils</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>languages,<sp/>Component</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms" kindref="compound">docutils.transforms</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>universal</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="classdocutils_1_1writers_1_1Writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1writers_1_1Writer" kindref="compound">Writer</ref>(<ref refid="classdocutils_1_1Component" kindref="compound">Component</ref>):</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Abstract<sp/>base<sp/>class<sp/>for<sp/>docutils<sp/>Writers.</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Each<sp/>writer<sp/>module<sp/>or<sp/>package<sp/>must<sp/>export<sp/>a<sp/>subclass<sp/>also<sp/>called<sp/>&apos;Writer&apos;.</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Each<sp/>writer<sp/>must<sp/>support<sp/>all<sp/>standard<sp/>node<sp/>types<sp/>listed<sp/>in</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`docutils.nodes.node_class_names`.</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>`write()`<sp/>method<sp/>is<sp/>the<sp/>main<sp/>entry<sp/>point.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>component_type<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;writer&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;writers&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1writers_1_1Writer_1aa91c382eea21f649d5a1e2399bc06568" kindref="member">get_transforms</ref>(self):</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>super().<ref refid="classdocutils_1_1writers_1_1Writer_1aa91c382eea21f649d5a1e2399bc06568" kindref="member">get_transforms</ref>()<sp/>+<sp/>[universal.Messages,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>universal.FilterMessages,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>universal.StripClassesAndElements]</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>document<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>document<sp/>to<sp/>write<sp/>(Docutils<sp/>doctree);<sp/>set<sp/>by<sp/>`write()`.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>output<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Final<sp/>translated<sp/>form<sp/>of<sp/>`document`</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(`str`<sp/>for<sp/>text,<sp/>`bytes`<sp/>for<sp/>binary<sp/>formats);<sp/>set<sp/>by<sp/>`translate()`.</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>language<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Language<sp/>module<sp/>for<sp/>the<sp/>document;<sp/>set<sp/>by<sp/>`write()`.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>destination<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;`docutils.io`<sp/>Output<sp/>object;<sp/>where<sp/>to<sp/>write<sp/>the<sp/>document.</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Set<sp/>by<sp/>`write()`.</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1writers_1_1Writer_1ae362e6df277a5c57028e0fad4c94e6ea" kindref="member">__init__</ref>(self):</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a10ebbef3d2ca0913e4c1a40ea9567f86" kindref="member">parts</ref><sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Mapping<sp/>of<sp/>document<sp/>part<sp/>names<sp/>to<sp/>fragments<sp/>of<sp/>`self.output`.</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>See<sp/>`Writer.assemble_parts()`<sp/>below<sp/>and</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;https://docutils.sourceforge.io/docs/api/publisher.html&gt;.</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1writers_1_1Writer_1abbbb78560cb67d7ef53e5c5eb229d778" kindref="member">write</ref>(self,<sp/>document,<sp/>destination):</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Process<sp/>a<sp/>document<sp/>into<sp/>its<sp/>final<sp/>form.</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Translate<sp/>`document`<sp/>(a<sp/>Docutils<sp/>document<sp/>tree)<sp/>into<sp/>the<sp/>Writer&apos;s</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>native<sp/>format,<sp/>and<sp/>write<sp/>it<sp/>out<sp/>to<sp/>its<sp/>`destination`<sp/>(a</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>`docutils.io.Output`<sp/>subclass<sp/>object).</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Normally<sp/>not<sp/>overridden<sp/>or<sp/>extended<sp/>in<sp/>subclasses.</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a6defb13b9010911696f7800122277f23" kindref="member">document</ref><sp/>=<sp/>document</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a5f2b95d0b14cbb3b1995887393599f5c" kindref="member">language</ref><sp/>=<sp/>languages.get_language(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>document.settings.language_code,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>document.reporter)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1adc02d27b30423d436bd677af01c00865" kindref="member">destination</ref><sp/>=<sp/>destination</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a94b7282f8b16d235a1839a22d19c244b" kindref="member">translate</ref>()</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1adc02d27b30423d436bd677af01c00865" kindref="member">destination</ref>.<ref refid="classdocutils_1_1writers_1_1Writer_1abbbb78560cb67d7ef53e5c5eb229d778" kindref="member">write</ref>(self.<ref refid="classdocutils_1_1writers_1_1Writer_1a32b6cf60d1b5d54799c9edb0dac9808a" kindref="member">output</ref>)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1writers_1_1Writer_1a94b7282f8b16d235a1839a22d19c244b" kindref="member">translate</ref>(self):</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Do<sp/>final<sp/>translation<sp/>of<sp/>`self.document`<sp/>into<sp/>`self.output`.<sp/><sp/>Called</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>from<sp/>`write`.<sp/><sp/>Override<sp/>in<sp/>subclasses.</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Usually<sp/>done<sp/>with<sp/>a<sp/>`docutils.nodes.NodeVisitor`<sp/>subclass,<sp/>in</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>combination<sp/>with<sp/>a<sp/>call<sp/>to<sp/>`docutils.nodes.Node.walk()`<sp/>or</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>`docutils.nodes.Node.walkabout()`.<sp/><sp/>The<sp/>``NodeVisitor``<sp/>subclass<sp/>must</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>support<sp/>all<sp/>standard<sp/>elements<sp/>(listed<sp/>in</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>`docutils.nodes.node_class_names`)<sp/>and<sp/>possibly<sp/>non-standard<sp/>elements</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>used<sp/>by<sp/>the<sp/>current<sp/>Reader<sp/>as<sp/>well.</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError(</highlight><highlight class="stringliteral">&apos;subclass<sp/>must<sp/>override<sp/>this<sp/>method&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1writers_1_1Writer_1a50f6c38b37c2aa79132feb57d0b6c276" kindref="member">assemble_parts</ref>(self):</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Assemble<sp/>the<sp/>`self.parts`<sp/>dictionary.<sp/><sp/>Extend<sp/>in<sp/>subclasses.</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>See<sp/>&lt;https://docutils.sourceforge.io/docs/api/publisher.html&gt;.</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a10ebbef3d2ca0913e4c1a40ea9567f86" kindref="member">parts</ref>[</highlight><highlight class="stringliteral">&apos;whole&apos;</highlight><highlight class="normal">]<sp/>=<sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a32b6cf60d1b5d54799c9edb0dac9808a" kindref="member">output</ref></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a10ebbef3d2ca0913e4c1a40ea9567f86" kindref="member">parts</ref>[</highlight><highlight class="stringliteral">&apos;encoding&apos;</highlight><highlight class="normal">]<sp/>=<sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a6defb13b9010911696f7800122277f23" kindref="member">document</ref>.settings.output_encoding</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a10ebbef3d2ca0913e4c1a40ea9567f86" kindref="member">parts</ref>[</highlight><highlight class="stringliteral">&apos;errors&apos;</highlight><highlight class="normal">]<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a6defb13b9010911696f7800122277f23" kindref="member">document</ref>.settings.output_encoding_error_handler)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1writers_1_1Writer_1a10ebbef3d2ca0913e4c1a40ea9567f86" kindref="member">parts</ref>[</highlight><highlight class="stringliteral">&apos;version&apos;</highlight><highlight class="normal">]<sp/>=<sp/>docutils.__version__</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classdocutils_1_1writers_1_1UnfilteredWriter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1writers_1_1UnfilteredWriter" kindref="compound">UnfilteredWriter</ref>(<ref refid="classdocutils_1_1writers_1_1Writer" kindref="compound">Writer</ref>):</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>writer<sp/>that<sp/>passes<sp/>the<sp/>document<sp/>tree<sp/>on<sp/>unchanged<sp/>(e.g.<sp/>a</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>serializer.)</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Documents<sp/>written<sp/>by<sp/>UnfilteredWriters<sp/>are<sp/>typically<sp/>reused<sp/>at<sp/>a</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>later<sp/>date<sp/>using<sp/>a<sp/>subclass<sp/>of<sp/>`readers.ReReader`.</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1writers_1_1UnfilteredWriter_1abd35e847e708cc7b301131aa44860523" kindref="member">get_transforms</ref>(self):</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Do<sp/>not<sp/>add<sp/>any<sp/>transforms.<sp/><sp/>When<sp/>the<sp/>document<sp/>is<sp/>reused</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>later,<sp/>the<sp/>then-used<sp/>writer<sp/>will<sp/>add<sp/>the<sp/>appropriate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>transforms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Component.get_transforms(self)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">_writer_aliases<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;html&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;html4css1&apos;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">#<sp/>may<sp/>change<sp/>to<sp/>html5<sp/>some<sp/>day</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;html4&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;html4css1&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;xhtml10&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;html4css1&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;html5&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;html5_polyglot&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;xhtml&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;html5_polyglot&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;s5&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;s5_html&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;latex&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;latex2e&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;xelatex&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;xetex&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;luatex&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;xetex&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;lualatex&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;xetex&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;odf&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;odf_odt&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;odt&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;odf_odt&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;ooffice&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;odf_odt&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;openoffice&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;odf_odt&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;libreoffice&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;odf_odt&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;pprint&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;pseudoxml&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;pformat&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;pseudoxml&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;pdf&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;rlpdf&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;xml&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;docutils_xml&apos;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacedocutils_1_1writers_1a1029a74561b140546c48bfb23d02a576" kindref="member">get_writer_class</ref>(writer_name):</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>the<sp/>Writer<sp/>class<sp/>from<sp/>the<sp/>`writer_name`<sp/>module.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/>writer_name.lower()</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/>_writer_aliases.get(name,<sp/>name)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module<sp/>=<sp/>import_module(</highlight><highlight class="stringliteral">&apos;docutils.writers.&apos;</highlight><highlight class="normal">+name)</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module<sp/>=<sp/>import_module(name)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>err:</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ImportError(f</highlight><highlight class="stringliteral">&apos;Writer<sp/>&quot;{writer_name}&quot;<sp/>not<sp/>found.<sp/>{err}&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>module.Writer</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/__init__.py"/>
+  </compounddef>
+</doxygen>

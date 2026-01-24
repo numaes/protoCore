@@ -1,0 +1,5 @@
+if(EXISTS "/home/gamarino/Documentos/proyectos/protoCore/build/test/proto_tests[1]_tests.cmake")
+  include("/home/gamarino/Documentos/proyectos/protoCore/build/test/proto_tests[1]_tests.cmake")
+else()
+  add_test(proto_tests_NOT_BUILT proto_tests_NOT_BUILT)
+endif()

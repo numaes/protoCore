@@ -1,0 +1,427 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1config" kind="namespace" language="Python">
+    <compoundname>sphinx::config</compoundname>
+    <innerclass refid="classsphinx_1_1config_1_1__Opt" prot="protected">sphinx::config::_Opt</innerclass>
+    <innerclass refid="classsphinx_1_1config_1_1Config" prot="public">sphinx::config::Config</innerclass>
+    <innerclass refid="classsphinx_1_1config_1_1ConfigValue" prot="public">sphinx::config::ConfigValue</innerclass>
+    <innerclass refid="classsphinx_1_1config_1_1ENUM" prot="public">sphinx::config::ENUM</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1config_1a023c72df006d165aeb64820b61ccc39c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::config.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.config.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1config_1a4c82119573492276a4bf214709412ae3" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias sphinx::config._ConfigRebuild</definition>
+        <argsstring></argsstring>
+        <name>_ConfigRebuild</name>
+        <qualifiedname>sphinx.config._ConfigRebuild</qualifiedname>
+        <initializer>=  Literal[
+    &apos;&apos;,
+    &apos;env&apos;,
+    &apos;epub&apos;,
+    &apos;gettext&apos;,
+    &apos;html&apos;,
+    # sphinxcontrib-applehelp
+    &apos;applehelp&apos;,
+    # sphinxcontrib-devhelp
+    &apos;devhelp&apos;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1config_1a562202dd361dada9b1863ace2f8489e5" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::config.CONFIG_FILENAME</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_FILENAME</name>
+        <qualifiedname>sphinx.config.CONFIG_FILENAME</qualifiedname>
+        <initializer>=  &apos;conf.py&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1config_1a988c7b2886f7098f832ded2c565ee9e4" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::config.UNSERIALIZABLE_TYPES</definition>
+        <argsstring></argsstring>
+        <name>UNSERIALIZABLE_TYPES</name>
+        <qualifiedname>sphinx.config.UNSERIALIZABLE_TYPES</qualifiedname>
+        <initializer>=  (type, types.ModuleType, types.FunctionType)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a74254dc27e6d1ba4696dd7e1fc4b46d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.config.is_serializable</definition>
+        <argsstring>(object obj, *frozenset[int] _seen=frozenset())</argsstring>
+        <name>is_serializable</name>
+        <qualifiedname>sphinx.config.is_serializable</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>*frozenset</type>
+          <declname>_seen</declname>
+          <array>[int]</array>
+          <defval>frozenset()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if an object is serializable or not.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="53" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a65abd1c267d9d2ab40d1464875c7c5d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] sphinx.config.eval_config_file</definition>
+        <argsstring>(str|os.PathLike[str] filename, Tags|None tags)</argsstring>
+        <name>eval_config_file</name>
+        <qualifiedname>sphinx.config.eval_config_file</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1tags_1_1Tags" kindref="compound">Tags</ref>|None</type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Evaluate a config file.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="586" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="588" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1aa6abf920ffb83dcdcbf7c3e64aabdbf9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>frozenset[type]|<ref refid="classsphinx_1_1config_1_1ENUM" kindref="compound">ENUM</ref></type>
+        <definition> frozenset[type] | ENUM sphinx.config._validate_valid_types</definition>
+        <argsstring>(type|Collection[type]|ENUM valid_types)</argsstring>
+        <name>_validate_valid_types</name>
+        <qualifiedname>sphinx.config._validate_valid_types</qualifiedname>
+        <param>
+          <type>type|Collection|<ref refid="classsphinx_1_1config_1_1ENUM" kindref="compound">ENUM</ref></type>
+          <declname>valid_types</declname>
+          <array>[type]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="621" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="623" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1ad7b9162fa721cc1e489c33f4b42a4f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.config.convert_source_suffix</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>convert_source_suffix</name>
+        <qualifiedname>sphinx.config.convert_source_suffix</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert old styled source_suffix to new styled one.
+
+* old style: str or list
+* new style: a dict which maps from fileext to filetype
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="641" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="641" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a3d770509bf3c3a333e3eca5a2df7afd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.config.convert_highlight_options</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>convert_highlight_options</name>
+        <qualifiedname>sphinx.config.convert_highlight_options</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert old styled highlight_options to new styled one.
+
+* old style: options
+* new style: a dict which maps from language name to options
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="675" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="675" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a9637696f4ad3a5a349203210500d396c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.config.init_numfig_format</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>init_numfig_format</name>
+        <qualifiedname>sphinx.config.init_numfig_format</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize :confval:`numfig_format`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="687" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="687" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a03c739eaf49d18b6ee4522eb5b2f8ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.config.evaluate_copyright_placeholders</definition>
+        <argsstring>(Sphinx _app, Config config)</argsstring>
+        <name>evaluate_copyright_placeholders</name>
+        <qualifiedname>sphinx.config.evaluate_copyright_placeholders</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>_app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace copyright year placeholders (%Y) with the current year.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="701" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="701" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a542abcf7e1d8488a6a04a0fcd96505cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.config.correct_copyright_year</definition>
+        <argsstring>(Sphinx _app, Config config)</argsstring>
+        <name>correct_copyright_year</name>
+        <qualifiedname>sphinx.config.correct_copyright_year</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>_app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Correct values of copyright year that are not coherent with
+the SOURCE_DATE_EPOCH environment variable (if set)
+
+See https://reproducible-builds.org/specs/source-date-epoch/
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="716" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="716" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1aabc8ecbbbdd11146e4c40a34b779a476" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.config._substitute_copyright_year</definition>
+        <argsstring>(str copyright_line, str current_year, str replace_year)</argsstring>
+        <name>_substitute_copyright_year</name>
+        <qualifiedname>sphinx.config._substitute_copyright_year</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>copyright_line</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>current_year</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>replace_year</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace the year in a single copyright line.
+
+Legal formats are:
+
+* ``YYYY``
+* ``YYYY,``
+* ``YYYY ``
+* ``YYYY-YYYY``
+* ``YYYY-YYYY,``
+* ``YYYY-YYYY ``
+
+The final year in the string is replaced with ``replace_year``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="747" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="749" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a48ba413c6ad8f34bf44af25ac9001240" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.config.check_confval_types</definition>
+        <argsstring>(Sphinx|None app, Config config)</argsstring>
+        <name>check_confval_types</name>
+        <qualifiedname>sphinx.config.check_confval_types</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref>|None</type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check all values for deviation from the default value&apos;s type, since
+that can result in TypeErrors all over the place NB.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="782" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="782" bodyend="858"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a7bef0c2164ef02afef8df9f8d430c012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.config.check_primary_domain</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>check_primary_domain</name>
+        <qualifiedname>sphinx.config.check_primary_domain</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="859" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="859" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1a30bea4c87f63b1b5afdeefc493a39273" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[str]</type>
+        <definition> Iterable[str] sphinx.config.check_master_doc</definition>
+        <argsstring>(Sphinx app, BuildEnvironment env, Set[str] added, Set[str] changed, Set[str] removed)</argsstring>
+        <name>check_master_doc</name>
+        <qualifiedname>sphinx.config.check_master_doc</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>added</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>changed</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>removed</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sphinx 2.0 changed the default from &apos;contents&apos; to &apos;index&apos;.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="866" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="872" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1config_1ab17da4c14904af82b9630256cde7b40d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.config.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.config.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="891" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="891" bodyend="906"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Build configuration file handling.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/config.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

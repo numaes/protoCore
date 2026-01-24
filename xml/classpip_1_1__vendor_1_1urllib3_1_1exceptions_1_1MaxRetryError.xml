@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1MaxRetryError" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::urllib3::exceptions::MaxRetryError</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1RequestError" prot="public" virt="non-virtual">pip._vendor.urllib3.exceptions.RequestError</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1MaxRetryError_1af676670dcc2882a217bf57e09640a708" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.urllib3.exceptions.MaxRetryError::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>pip._vendor.urllib3.exceptions.MaxRetryError.reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/exceptions.py" line="88" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/exceptions.py" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1MaxRetryError_1a87ed9e9138a47e37105daff87baf3278" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.exceptions.MaxRetryError.__init__</definition>
+        <argsstring>(self, pool, url, reason=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.urllib3.exceptions.MaxRetryError.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1RequestError_1add2b81d53ba28a13bc5c017026036a35">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1PoolError_1a2953f9b92fd5cbcd2155a2aac9ef57c9" kindref="member">pool</ref></type>
+          <defname>pool</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1RequestError_1af4b69f97562d9547e8ee7af0d5485e1d" kindref="member">url</ref></type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1MaxRetryError_1af676670dcc2882a217bf57e09640a708" kindref="member">reason</ref></type>
+          <defname>reason</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/exceptions.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/exceptions.py" bodystart="87" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Raised when the maximum number of retries is exceeded.
+
+:param pool: The connection pool
+:type pool: :class:`~urllib3.connectionpool.HTTPConnectionPool`
+:param string url: The requested Url
+:param exceptions.Exception reason: The underlying error</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.urllib3.exceptions.MaxRetryError</label>
+        <link refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1MaxRetryError"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.urllib3.exceptions.HTTPError</label>
+        <link refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1HTTPError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.urllib3.exceptions.PoolError</label>
+        <link refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1PoolError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.urllib3.exceptions.RequestError</label>
+        <link refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1RequestError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.urllib3.exceptions.MaxRetryError</label>
+        <link refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1MaxRetryError"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.urllib3.exceptions.HTTPError</label>
+        <link refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1HTTPError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.urllib3.exceptions.PoolError</label>
+        <link refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1PoolError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.urllib3.exceptions.RequestError</label>
+        <link refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1RequestError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/exceptions.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/exceptions.py" bodystart="77" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1MaxRetryError_1a87ed9e9138a47e37105daff87baf3278" prot="public" virt="non-virtual"><scope>pip::_vendor::urllib3::exceptions::MaxRetryError</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1urllib3_1_1exceptions_1_1MaxRetryError_1af676670dcc2882a217bf57e09640a708" prot="public" virt="non-virtual"><scope>pip::_vendor::urllib3::exceptions::MaxRetryError</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

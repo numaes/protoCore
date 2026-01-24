@@ -1,0 +1,475 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::singlehtml::SingleFileHTMLBuilder</compoundname>
+    <basecompoundref refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder" prot="public" virt="non-virtual">sphinx.builders.html.StandaloneHTMLBuilder</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a701e2e96152a8e5a17f2666ca432cafc" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders.singlehtml.SingleFileHTMLBuilder::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.name</qualifiedname>
+        <initializer>=  &apos;singlehtml&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ae30f39e3b13164c83a884fa2edfea3ce" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.singlehtml.SingleFileHTMLBuilder::epilog</definition>
+        <argsstring></argsstring>
+        <name>epilog</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.epilog</qualifiedname>
+        <initializer>=  __(&apos;The HTML page is in %(<ref refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a257b620d348b9a3c70e4a23341d22aeb" kindref="member">outdir</ref>)s.&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a90fac5fef20eccaf44cbac5862faab87" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders.singlehtml.SingleFileHTMLBuilder::copysource</definition>
+        <argsstring></argsstring>
+        <name>copysource</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.copysource</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="37" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a0e5f29fb5975fdcfaec1b4b9683f31b0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.singlehtml.SingleFileHTMLBuilder::env</definition>
+        <argsstring></argsstring>
+        <name>env</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.env</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a4d2342f83d73ad70f908f267a15786e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|list[str]</type>
+        <definition> str | list[str] sphinx.builders.singlehtml.SingleFileHTMLBuilder.get_outdated_docs</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_outdated_docs</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.get_outdated_docs</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a3a0c5dce042743e472f1dc424dceba3f">get_outdated_docs</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an iterable of output files that are outdated, or a string
+describing what an update build will build.
+
+If the builder does not output individual files corresponding to
+source files, return a string here.  If it does, return an iterable
+of those files that need to be written.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="39" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ae6ce4ef593a7e4ff7bb29f8ab7eb2741" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.singlehtml.SingleFileHTMLBuilder.get_target_uri</definition>
+        <argsstring>(self, str docname, str|None typ=None)</argsstring>
+        <name>get_target_uri</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.get_target_uri</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ac01426ceb573be4f02a23667917d734a">get_target_uri</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>typ</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the target URI for a document name.
+
+*typ* can be used to qualify the link characteristic for individual
+builders.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="42" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a1104ad1e1f0827c925a9ab4ad278df59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.singlehtml.SingleFileHTMLBuilder.get_relative_uri</definition>
+        <argsstring>(self, str from_, str to, str|None typ=None)</argsstring>
+        <name>get_relative_uri</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.get_relative_uri</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1aba1e325ab3ab6521cdfa194286240798">get_relative_uri</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>from_</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>typ</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a relative URI between two source filenames.
+
+:raises: :exc:`!NoUri` if there&apos;s no way to return a sensible URI.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="50" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a0ea2eb0b4c49357c47633746362d5fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.singlehtml.SingleFileHTMLBuilder.fix_refuris</definition>
+        <argsstring>(self, Node tree)</argsstring>
+        <name>fix_refuris</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.fix_refuris</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>tree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="54" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="54" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ade4cdaf1199f6c9d3044c4fd9f6bbe2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.document</type>
+        <definition> nodes.document sphinx.builders.singlehtml.SingleFileHTMLBuilder.assemble_doctree</definition>
+        <argsstring>(self)</argsstring>
+        <name>assemble_doctree</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.assemble_doctree</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="91" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="91" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ae5a23be0d94b38645fc15317415ccc9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, dict[str, tuple[int,...]]]</type>
+        <definition> dict[str, dict[str, tuple[int, ...]]] sphinx.builders.singlehtml.SingleFileHTMLBuilder.assemble_toc_secnumbers</definition>
+        <argsstring>(self)</argsstring>
+        <name>assemble_toc_secnumbers</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.assemble_toc_secnumbers</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="100" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="100" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1aaf4cd37d363219c8fcb74d32bb99782f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, dict[str, dict[str, tuple[int,...]]]]</type>
+        <definition> dict[str, dict[str, dict[str, tuple[int, ...]]]] sphinx.builders.singlehtml.SingleFileHTMLBuilder.assemble_toc_fignumbers</definition>
+        <argsstring>(self)</argsstring>
+        <name>assemble_toc_fignumbers</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.assemble_toc_fignumbers</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="118" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="120" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a9772f78ef22a49d3d73112f8de36bd12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] sphinx.builders.singlehtml.SingleFileHTMLBuilder.get_doc_context</definition>
+        <argsstring>(self, str docname, str body, str metatags)</argsstring>
+        <name>get_doc_context</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.get_doc_context</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ad7743ca33f159b044dffdfd24ba58793">get_doc_context</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>metatags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Collect items for the template context of a page.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="141" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="141" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ab0ef430b7b70b49f81ac0f3adad05013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.singlehtml.SingleFileHTMLBuilder.write_documents</definition>
+        <argsstring>(self, Set[str] _docnames)</argsstring>
+        <name>write_documents</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.write_documents</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1aeb476e0ce33dcb388010dd93ffb7780c">write_documents</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write all documents in *docnames*.
+
+This method can be overridden if a builder does not create
+output files for each document.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="168" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="168" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a2b5d3b2c0caf8b48d68de56344c8548b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.singlehtml.SingleFileHTMLBuilder.finish</definition>
+        <argsstring>(self)</argsstring>
+        <name>finish</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.finish</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a56bfa5b539fa2308e8bf9076ff0945ef">finish</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Finish the building process.
+
+The default implementation does nothing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="180" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="180" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ad446bd0e56e59628f8f5a536be41aec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.singlehtml.SingleFileHTMLBuilder.write_additional_files</definition>
+        <argsstring>(self)</argsstring>
+        <name>write_additional_files</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder.write_additional_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="190" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="190" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a954a2606d7b85274b5ab36171799eb42" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.singlehtml.SingleFileHTMLBuilder._get_local_toctree</definition>
+        <argsstring>(self, str docname, bool collapse=True, **Any kwargs)</argsstring>
+        <name>_get_local_toctree</name>
+        <qualifiedname>sphinx.builders.singlehtml.SingleFileHTMLBuilder._get_local_toctree</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ac64219048c355952cbb7e7afdcab35ea">_get_local_toctree</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>collapse</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="78" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Builds the whole document tree as a single HTML page.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.builders.singlehtml.SingleFileHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.html.StandaloneHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.singlehtml.SingleFileHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>epilog</edgelabel>
+          <edgelabel>format</edgelabel>
+          <edgelabel>name</edgelabel>
+          <edgelabel>versioning_method</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>supported_image_types</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.html.StandaloneHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>format</edgelabel>
+          <edgelabel>imgpath</edgelabel>
+          <edgelabel>link_suffix</edgelabel>
+          <edgelabel>name</edgelabel>
+          <edgelabel>out_suffix</edgelabel>
+          <edgelabel>searchindex_filename</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>indexer_format</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>domain_indices</edgelabel>
+          <edgelabel>supported_image_types</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>Any</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/builders/singlehtml.py" bodystart="31" bodyend="207"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a954a2606d7b85274b5ab36171799eb42" prot="protected" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>_get_local_toctree</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ade4cdaf1199f6c9d3044c4fd9f6bbe2c" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>assemble_doctree</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1aaf4cd37d363219c8fcb74d32bb99782f" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>assemble_toc_fignumbers</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ae5a23be0d94b38645fc15317415ccc9e" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>assemble_toc_secnumbers</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a90fac5fef20eccaf44cbac5862faab87" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>copysource</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a0e5f29fb5975fdcfaec1b4b9683f31b0" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>env</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ae30f39e3b13164c83a884fa2edfea3ce" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>epilog</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a2b5d3b2c0caf8b48d68de56344c8548b" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>finish</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a0ea2eb0b4c49357c47633746362d5fb8" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>fix_refuris</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a9772f78ef22a49d3d73112f8de36bd12" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>get_doc_context</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a4d2342f83d73ad70f908f267a15786e1" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>get_outdated_docs</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a1104ad1e1f0827c925a9ab4ad278df59" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>get_relative_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ae6ce4ef593a7e4ff7bb29f8ab7eb2741" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>get_target_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1a701e2e96152a8e5a17f2666ca432cafc" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>name</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ad446bd0e56e59628f8f5a536be41aec2" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>write_additional_files</name></member>
+      <member refid="classsphinx_1_1builders_1_1singlehtml_1_1SingleFileHTMLBuilder_1ab0ef430b7b70b49f81ac0f3adad05013" prot="public" virt="non-virtual"><scope>sphinx::builders::singlehtml::SingleFileHTMLBuilder</scope><name>write_documents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

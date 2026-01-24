@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1references_1_1PropagateTargets" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::references::PropagateTargets</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1references_1_1PropagateTargets_1a6b8518be14c6dea26d378d5cac05f06d" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.references.PropagateTargets::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.references.PropagateTargets.default_priority</qualifiedname>
+        <initializer>=  260</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1references_1_1PropagateTargets_1ac050d0704fff32ff512703dcc153194a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.references.PropagateTargets.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.references.PropagateTargets.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="40" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Propagate empty internal targets to the next element.
+
+Given the following nodes::
+
+    &lt;target ids=&quot;internal1&quot; names=&quot;internal1&quot;&gt;
+    &lt;target anonymous=&quot;1&quot; ids=&quot;id1&quot;&gt;
+    &lt;target ids=&quot;internal2&quot; names=&quot;internal2&quot;&gt;
+    &lt;paragraph&gt;
+        This is a test.
+
+`PropagateTargets` propagates the ids and names of the internal
+targets preceding the paragraph to the paragraph itself::
+
+    &lt;target refid=&quot;internal1&quot;&gt;
+    &lt;target anonymous=&quot;1&quot; refid=&quot;id1&quot;&gt;
+    &lt;target refid=&quot;internal2&quot;&gt;
+    &lt;paragraph ids=&quot;internal2 id1 internal1&quot; names=&quot;internal2 internal1&quot;&gt;
+        This is a test.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.references.PropagateTargets</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1PropagateTargets"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.references.PropagateTargets</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1PropagateTargets"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="15" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1PropagateTargets_1ac050d0704fff32ff512703dcc153194a" prot="public" virt="non-virtual"><scope>docutils::transforms::references::PropagateTargets</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1PropagateTargets_1a6b8518be14c6dea26d378d5cac05f06d" prot="public" virt="non-virtual"><scope>docutils::transforms::references::PropagateTargets</scope><name>default_priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

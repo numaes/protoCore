@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1network_1_1download" kind="namespace" language="Python">
+    <compoundname>pip::_internal::network::download</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1network_1_1download_1_1BatchDownloader" prot="public">pip::_internal::network::download::BatchDownloader</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1network_1_1download_1_1Downloader" prot="public">pip::_internal::network::download::Downloader</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1network_1_1download_1a502f6c96b5e357b7f9e35d56085ea942" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::network::download.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.network.download.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1network_1_1download_1aecfd8e82b2a684155bc588801633c8b7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[int]</type>
+        <definition> Optional[int] pip._internal.network.download._get_http_response_size</definition>
+        <argsstring>(Response resp)</argsstring>
+        <name>_get_http_response_size</name>
+        <qualifiedname>pip._internal.network.download._get_http_response_size</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1Response" kindref="compound">Response</ref></type>
+          <declname>resp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1network_1_1download_1ae6555d522d1fcd851a2ee0b858fc7fd9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[bytes]</type>
+        <definition> Iterable[bytes] pip._internal.network.download._prepare_download</definition>
+        <argsstring>(Response resp, Link link, str progress_bar)</argsstring>
+        <name>_prepare_download</name>
+        <qualifiedname>pip._internal.network.download._prepare_download</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1Response" kindref="compound">Response</ref></type>
+          <declname>resp</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>progress_bar</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" bodystart="34" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1network_1_1download_1a2cea24bcd49c1a167e8c467d04d40d86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.network.download.sanitize_content_filename</definition>
+        <argsstring>(str filename)</argsstring>
+        <name>sanitize_content_filename</name>
+        <qualifiedname>pip._internal.network.download.sanitize_content_filename</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sanitize the &quot;filename&quot; value from a Content-Disposition header.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1network_1_1download_1a86fd58558cc366a62a60fd8368675c6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.network.download.parse_content_disposition</definition>
+        <argsstring>(str content_disposition, str default_filename)</argsstring>
+        <name>parse_content_disposition</name>
+        <qualifiedname>pip._internal.network.download.parse_content_disposition</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>content_disposition</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>default_filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the &quot;filename&quot; value from a Content-Disposition header, and
+return the default filename if the result is empty.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" line="79" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" bodystart="79" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1network_1_1download_1ab698493861abf8f5e6e30ff4fd729615" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.network.download._get_http_response_filename</definition>
+        <argsstring>(Response resp, Link link)</argsstring>
+        <name>_get_http_response_filename</name>
+        <qualifiedname>pip._internal.network.download._get_http_response_filename</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1Response" kindref="compound">Response</ref></type>
+          <declname>resp</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an ideal filename from the given HTTP response, falling back to
+the link filename if not provided.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" line="94" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" bodystart="94" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1network_1_1download_1acc6e96b0a636f31713d5590c56727636" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1requests_1_1models_1_1Response" kindref="compound">Response</ref></type>
+        <definition> Response pip._internal.network.download._http_get_download</definition>
+        <argsstring>(PipSession session, Link link)</argsstring>
+        <name>_http_get_download</name>
+        <qualifiedname>pip._internal.network.download._http_get_download</qualifiedname>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" line="115" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" bodystart="115" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Download files with progress indicators.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/network/download.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

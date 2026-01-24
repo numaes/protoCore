@@ -1,0 +1,484 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2googletest_2test_2gtest__xml__output__unittest_8py" kind="file" language="Python">
+    <compoundname>gtest_xml_output_unittest.py</compoundname>
+    <innerclass refid="classgtest__xml__output__unittest_1_1GTestXMLOutputUnitTest" prot="public">gtest_xml_output_unittest::GTestXMLOutputUnitTest</innerclass>
+    <innernamespace refid="namespacegtest__xml__output__unittest">gtest_xml_output_unittest</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">#!/usr/bin/env<sp/>python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright<sp/>2006,<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">#<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">#<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">#<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">#<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">#<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">#<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">#<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">#<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unit<sp/>test<sp/>for<sp/>the<sp/>gtest_xml_output<sp/>module&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>datetime</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>errno</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>xml.dom<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>minidom,<sp/>Node</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>googletest.test<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>gtest_test_utils</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>googletest.test<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>gtest_xml_test_utils</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">GTEST_FILTER_FLAG<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;--gtest_filter&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">GTEST_LIST_TESTS_FLAG<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;--gtest_list_tests&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">GTEST_OUTPUT_FLAG<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;--gtest_output&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">GTEST_DEFAULT_OUTPUT_FILE<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;test_detail.xml&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">GTEST_PROGRAM_NAME<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;gtest_xml_output_unittest_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">#<sp/>The<sp/>flag<sp/>indicating<sp/>stacktraces<sp/>are<sp/>not<sp/>supported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">NO_STACKTRACE_SUPPORT_FLAG<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;--no_stacktrace_support&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">#<sp/>The<sp/>environment<sp/>variables<sp/>for<sp/>test<sp/>sharding.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">TOTAL_SHARDS_ENV_VAR<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;GTEST_TOTAL_SHARDS&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">SHARD_INDEX_ENV_VAR<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;GTEST_SHARD_INDEX&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">SHARD_STATUS_FILE_ENV_VAR<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;GTEST_SHARD_STATUS_FILE&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">SUPPORTS_STACK_TRACES<sp/>=<sp/>NO_STACKTRACE_SUPPORT_FLAG<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sys.argv</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>SUPPORTS_STACK_TRACES:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>STACK_TRACE_TEMPLATE<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;\nStack<sp/>trace:\n*&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/>STACK_TRACE_ENTITY_TEMPLATE<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>STACK_TRACE_TEMPLATE<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;\n&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>STACK_TRACE_ENTITY_TEMPLATE<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&amp;#x0A;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">#<sp/>unittest.main()<sp/>can&apos;t<sp/>handle<sp/>unknown<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>sys.argv.remove(NO_STACKTRACE_SUPPORT_FLAG)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">EXPECTED_NON_EMPTY_XML<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral">&lt;testsuites<sp/>tests=&quot;26&quot;<sp/>failures=&quot;5&quot;<sp/>disabled=&quot;2&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>name=&quot;AllTests&quot;<sp/>ad_hoc_property=&quot;42&quot;&gt;</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;SuccessfulTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Succeeds&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;53&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;SuccessfulTest&quot;/&gt;</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;FailedTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;1&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Fails&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;61&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;FailedTest&quot;&gt;</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;failure<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;Expected<sp/>equality<sp/>of<sp/>these<sp/>values:&amp;#x0A;<sp/><sp/>1&amp;#x0A;<sp/><sp/>2%(stack_entity)s&quot;<sp/>type=&quot;&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral">Expected<sp/>equality<sp/>of<sp/>these<sp/>values:</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"><sp/><sp/>1</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/>2%(stack)s]]&gt;&lt;/failure&gt;</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;MixedResultTest&quot;<sp/>tests=&quot;3&quot;<sp/>failures=&quot;1&quot;<sp/>disabled=&quot;1&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Succeeds&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;88&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;MixedResultTest&quot;/&gt;</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Fails&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;93&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;MixedResultTest&quot;&gt;</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;failure<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;Expected<sp/>equality<sp/>of<sp/>these<sp/>values:&amp;#x0A;<sp/><sp/>1&amp;#x0A;<sp/><sp/>2%(stack_entity)s&quot;<sp/>type=&quot;&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral">Expected<sp/>equality<sp/>of<sp/>these<sp/>values:</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/>1</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/>2%(stack)s]]&gt;&lt;/failure&gt;</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;failure<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;Expected<sp/>equality<sp/>of<sp/>these<sp/>values:&amp;#x0A;<sp/><sp/>2&amp;#x0A;<sp/><sp/>3%(stack_entity)s&quot;<sp/>type=&quot;&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral">Expected<sp/>equality<sp/>of<sp/>these<sp/>values:</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/>2</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/>3%(stack)s]]&gt;&lt;/failure&gt;</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;DISABLED_test&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;98&quot;<sp/>status=&quot;notrun&quot;<sp/>result=&quot;suppressed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;MixedResultTest&quot;/&gt;</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;XmlQuotingTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;1&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;OutputsCData&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;102&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;XmlQuotingTest&quot;&gt;</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;failure<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;Failed&amp;#x0A;XML<sp/>output:<sp/>&amp;lt;?xml<sp/>encoding=&amp;quot;utf-8&amp;quot;&amp;gt;&amp;lt;top&amp;gt;&amp;lt;![CDATA[cdata<sp/>text]]&amp;gt;&amp;lt;/top&amp;gt;%(stack_entity)s&quot;<sp/>type=&quot;&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral">Failed</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral">XML<sp/>output:<sp/>&lt;?xml<sp/>encoding=&quot;utf-8&quot;&gt;&lt;top&gt;&lt;![CDATA[cdata<sp/>text]]&gt;]]&amp;gt;&lt;![CDATA[&lt;/top&gt;%(stack)s]]&gt;&lt;/failure&gt;</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;InvalidCharactersTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;1&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;InvalidCharactersInMessage&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;109&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;InvalidCharactersTest&quot;&gt;</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;failure<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;Failed&amp;#x0A;Invalid<sp/>characters<sp/>in<sp/>brackets<sp/>[]%(stack_entity)s&quot;<sp/>type=&quot;&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral">Failed</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral">Invalid<sp/>characters<sp/>in<sp/>brackets<sp/>[]%(stack)s]]&gt;&lt;/failure&gt;</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;DisabledTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;1&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;DISABLED_test_not_run&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;68&quot;<sp/>status=&quot;notrun&quot;<sp/>result=&quot;suppressed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;DisabledTest&quot;/&gt;</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;SkippedTest&quot;<sp/>tests=&quot;3&quot;<sp/>failures=&quot;1&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;2&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Skipped&quot;<sp/>status=&quot;run&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;75&quot;<sp/>result=&quot;skipped&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;SkippedTest&quot;&gt;</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;skipped<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;%(stack_entity)s&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral">%(stack)s]]&gt;&lt;/skipped&gt;</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;SkippedWithMessage&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;79&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;skipped&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;SkippedTest&quot;&gt;</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;skipped<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;It<sp/>is<sp/>good<sp/>practice<sp/>to<sp/>tell<sp/>why<sp/>you<sp/>skip<sp/>a<sp/>test.%(stack_entity)s&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral">It<sp/>is<sp/>good<sp/>practice<sp/>to<sp/>tell<sp/>why<sp/>you<sp/>skip<sp/>a<sp/>test.%(stack)s]]&gt;&lt;/skipped&gt;</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;SkippedAfterFailure&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;83&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;SkippedTest&quot;&gt;</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;failure<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;Expected<sp/>equality<sp/>of<sp/>these<sp/>values:&amp;#x0A;<sp/><sp/>1&amp;#x0A;<sp/><sp/>2%(stack_entity)s&quot;<sp/>type=&quot;&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral">Expected<sp/>equality<sp/>of<sp/>these<sp/>values:</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/>1</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/>2%(stack)s]]&gt;&lt;/failure&gt;</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;skipped<sp/>message=&quot;gtest_xml_output_unittest_.cc:*&amp;#x0A;It<sp/>is<sp/>good<sp/>practice<sp/>to<sp/>tell<sp/>why<sp/>you<sp/>skip<sp/>a<sp/>test.%(stack_entity)s&quot;&gt;&lt;![CDATA[gtest_xml_output_unittest_.cc:*</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral">It<sp/>is<sp/>good<sp/>practice<sp/>to<sp/>tell<sp/>why<sp/>you<sp/>skip<sp/>a<sp/>test.%(stack)s]]&gt;&lt;/skipped&gt;</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;PropertyRecordingTest&quot;<sp/>tests=&quot;4&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>SetUpTestSuite=&quot;yes&quot;<sp/>TearDownTestSuite=&quot;aye&quot;&gt;</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;OneProperty&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;121&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;PropertyRecordingTest&quot;&gt;</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;properties&gt;</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_1&quot;<sp/>value=&quot;1&quot;/&gt;</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/properties&gt;</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;IntValuedProperty&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;125&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;PropertyRecordingTest&quot;&gt;</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;properties&gt;</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_int&quot;<sp/>value=&quot;1&quot;/&gt;</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/properties&gt;</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;ThreeProperties&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;129&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;PropertyRecordingTest&quot;&gt;</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;properties&gt;</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_1&quot;<sp/>value=&quot;1&quot;/&gt;</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_2&quot;<sp/>value=&quot;2&quot;/&gt;</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_3&quot;<sp/>value=&quot;3&quot;/&gt;</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/properties&gt;</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;TwoValuesForOneKeyUsesLastValue&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;135&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;PropertyRecordingTest&quot;&gt;</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;properties&gt;</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_1&quot;<sp/>value=&quot;2&quot;/&gt;</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/properties&gt;</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;NoFixtureTest&quot;<sp/>tests=&quot;3&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;RecordProperty&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;140&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;NoFixtureTest&quot;&gt;</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;properties&gt;</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key&quot;<sp/>value=&quot;1&quot;/&gt;</highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/properties&gt;</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;ExternalUtilityThatCallsRecordIntValuedProperty&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;153&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;NoFixtureTest&quot;&gt;</highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;properties&gt;</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_for_utility_int&quot;<sp/>value=&quot;1&quot;/&gt;</highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/properties&gt;</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;ExternalUtilityThatCallsRecordStringValuedProperty&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;157&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;NoFixtureTest&quot;&gt;</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;properties&gt;</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_for_utility_string&quot;<sp/>value=&quot;1&quot;/&gt;</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/properties&gt;</highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;Single/ValueParamTest&quot;<sp/>tests=&quot;4&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;HasValueParamAttribute/0&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;164&quot;<sp/>value_param=&quot;33&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;Single/ValueParamTest&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;HasValueParamAttribute/1&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;164&quot;<sp/>value_param=&quot;42&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;Single/ValueParamTest&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;AnotherTestThatHasValueParamAttribute/0&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;165&quot;<sp/>value_param=&quot;33&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;Single/ValueParamTest&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;AnotherTestThatHasValueParamAttribute/1&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;165&quot;<sp/>value_param=&quot;42&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;Single/ValueParamTest&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;TypedTest/0&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;HasTypeParamAttribute&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;173&quot;<sp/>type_param=&quot;*&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;TypedTest/0&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;TypedTest/1&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;HasTypeParamAttribute&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;173&quot;<sp/>type_param=&quot;*&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;TypedTest/1&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;Single/TypeParameterizedTestSuite/0&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;HasTypeParamAttribute&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;180&quot;<sp/>type_param=&quot;*&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;Single/TypeParameterizedTestSuite/0&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;Single/TypeParameterizedTestSuite/1&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;HasTypeParamAttribute&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;180&quot;<sp/>type_param=&quot;*&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;Single/TypeParameterizedTestSuite/1&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral">&lt;/testsuites&gt;&quot;&quot;&quot;</highlight><highlight class="normal"><sp/>%<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;stack&apos;</highlight><highlight class="normal">:<sp/>STACK_TRACE_TEMPLATE,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;stack_entity&apos;</highlight><highlight class="normal">:<sp/>STACK_TRACE_ENTITY_TEMPLATE,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">EXPECTED_FILTERED_TEST_XML<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral">&lt;testsuites<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timestamp=&quot;*&quot;<sp/>name=&quot;AllTests&quot;<sp/>ad_hoc_property=&quot;42&quot;&gt;</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;SuccessfulTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Succeeds&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;53&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;SuccessfulTest&quot;/&gt;</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral">&lt;/testsuites&gt;&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">EXPECTED_SHARDED_TEST_XML<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral">&lt;testsuites<sp/>tests=&quot;3&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>name=&quot;AllTests&quot;<sp/>ad_hoc_property=&quot;42&quot;&gt;</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;SuccessfulTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;Succeeds&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;53&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;SuccessfulTest&quot;/&gt;</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;PropertyRecordingTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>SetUpTestSuite=&quot;yes&quot;<sp/>TearDownTestSuite=&quot;aye&quot;&gt;</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;IntValuedProperty&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;125&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;PropertyRecordingTest&quot;&gt;</highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;properties&gt;</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;property<sp/>name=&quot;key_int&quot;<sp/>value=&quot;1&quot;/&gt;</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/properties&gt;</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;Single/ValueParamTest&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;HasValueParamAttribute/0&quot;<sp/>file=&quot;gtest_xml_output_unittest_.cc&quot;<sp/>line=&quot;164&quot;<sp/>value_param=&quot;33&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;Single/ValueParamTest&quot;<sp/>/&gt;</highlight></codeline>
+<codeline lineno="219"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral">&lt;/testsuites&gt;&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal">EXPECTED_NO_TEST_XML<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral">&lt;testsuites<sp/>tests=&quot;0&quot;<sp/>failures=&quot;0&quot;<sp/>disabled=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;</highlight></codeline>
+<codeline lineno="224"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timestamp=&quot;*&quot;<sp/>name=&quot;AllTests&quot;&gt;</highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/>&lt;testsuite<sp/>name=&quot;NonTestSuiteFailure&quot;<sp/>tests=&quot;1&quot;<sp/>failures=&quot;1&quot;<sp/>disabled=&quot;0&quot;<sp/>skipped=&quot;0&quot;<sp/>errors=&quot;0&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;&gt;</highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;testcase<sp/>name=&quot;&quot;<sp/>status=&quot;run&quot;<sp/>result=&quot;completed&quot;<sp/>time=&quot;*&quot;<sp/>timestamp=&quot;*&quot;<sp/>classname=&quot;&quot;&gt;</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;failure<sp/>message=&quot;gtest_no_test_unittest.cc:*&amp;#x0A;Expected<sp/>equality<sp/>of<sp/>these<sp/>values:&amp;#x0A;<sp/><sp/>1&amp;#x0A;<sp/><sp/>2%(stack_entity)s&quot;<sp/>type=&quot;&quot;&gt;&lt;![CDATA[gtest_no_test_unittest.cc:*</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral">Expected<sp/>equality<sp/>of<sp/>these<sp/>values:</highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/>1</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/>2%(stack)s]]&gt;&lt;/failure&gt;</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/testcase&gt;</highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/>&lt;/testsuite&gt;</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral">&lt;/testsuites&gt;&quot;&quot;&quot;</highlight><highlight class="normal"><sp/>%<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;stack&apos;</highlight><highlight class="normal">:<sp/>STACK_TRACE_TEMPLATE,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;stack_entity&apos;</highlight><highlight class="normal">:<sp/>STACK_TRACE_ENTITY_TEMPLATE,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal">GTEST_PROGRAM_PATH<sp/>=<sp/><ref refid="namespacegtest__test__utils_1ae7a8ef352b6b64ef8ec893f79874a1cd" kindref="member">gtest_test_utils.GetTestExecutablePath</ref>(GTEST_PROGRAM_NAME)</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">SUPPORTS_TYPED_TESTS<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;TypedTest&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[GTEST_PROGRAM_PATH,<sp/>GTEST_LIST_TESTS_FLAG],<sp/>capture_stderr=</highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>).output</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GTestXMLOutputUnitTest(<ref refid="classgtest__xml__test__utils_1_1GTestXMLTestCase" kindref="compound">gtest_xml_test_utils.GTestXMLTestCase</ref>):</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unit<sp/>test<sp/>for<sp/>Google<sp/>Test&apos;s<sp/>XML<sp/>output<sp/>functionality.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">#<sp/>This<sp/>test<sp/>currently<sp/>breaks<sp/>on<sp/>platforms<sp/>that<sp/>do<sp/>not<sp/>support<sp/>typed<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">#<sp/>type-parameterized<sp/>tests,<sp/>so<sp/>we<sp/>don&apos;t<sp/>run<sp/>it<sp/>under<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>SUPPORTS_TYPED_TESTS:</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testNonEmptyXmlOutput(self):</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Generates<sp/>non-empty<sp/>XML<sp/>and<sp/>verifies<sp/>it<sp/>matches<sp/>the<sp/>expected<sp/>output.</highlight></codeline>
+<codeline lineno="257"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="258"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>Runs<sp/>a<sp/>test<sp/>program<sp/>that<sp/>generates<sp/>a<sp/>non-empty<sp/>XML<sp/>output,<sp/>and</highlight></codeline>
+<codeline lineno="259"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>tests<sp/>that<sp/>the<sp/>XML<sp/>output<sp/>is<sp/>expected.</highlight></codeline>
+<codeline lineno="260"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self._TestXmlOutput(GTEST_PROGRAM_NAME,<sp/>EXPECTED_NON_EMPTY_XML,<sp/>1)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testNoTestXmlOutput(self):</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Verifies<sp/>XML<sp/>output<sp/>for<sp/>a<sp/>Google<sp/>Test<sp/>binary<sp/>without<sp/>actual<sp/>tests.</highlight></codeline>
+<codeline lineno="265"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="266"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Runs<sp/>a<sp/>test<sp/>program<sp/>that<sp/>generates<sp/>an<sp/>XML<sp/>output<sp/>for<sp/>a<sp/>binary<sp/>without<sp/>tests,</highlight></codeline>
+<codeline lineno="267"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>and<sp/>tests<sp/>that<sp/>the<sp/>XML<sp/>output<sp/>is<sp/>expected.</highlight></codeline>
+<codeline lineno="268"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>self._TestXmlOutput(</highlight><highlight class="stringliteral">&apos;gtest_no_test_unittest&apos;</highlight><highlight class="normal">,<sp/>EXPECTED_NO_TEST_XML,<sp/>0)</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testTimestampValue(self):</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Checks<sp/>whether<sp/>the<sp/>timestamp<sp/>attribute<sp/>in<sp/>the<sp/>XML<sp/>output<sp/>is<sp/>valid.</highlight></codeline>
+<codeline lineno="274"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="275"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Runs<sp/>a<sp/>test<sp/>program<sp/>that<sp/>generates<sp/>an<sp/>empty<sp/>XML<sp/>output,<sp/>and<sp/>checks<sp/>if</highlight></codeline>
+<codeline lineno="276"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>timestamp<sp/>attribute<sp/>in<sp/>the<sp/>testsuites<sp/>tag<sp/>is<sp/>valid.</highlight></codeline>
+<codeline lineno="277"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>actual<sp/>=<sp/>self._GetXmlOutput(</highlight><highlight class="stringliteral">&apos;gtest_no_test_unittest&apos;</highlight><highlight class="normal">,<sp/>[],<sp/>{},<sp/>0)</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>date_time_str<sp/>=<sp/>actual.documentElement.getAttributeNode(</highlight><highlight class="stringliteral">&apos;timestamp&apos;</highlight><highlight class="normal">).value</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>datetime.strptime()<sp/>is<sp/>only<sp/>available<sp/>in<sp/>Python<sp/>2.5+<sp/>so<sp/>we<sp/>have<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>parse<sp/>the<sp/>expected<sp/>datetime<sp/>manually.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>match<sp/>=<sp/>re.match(</highlight><highlight class="stringliteral">r&apos;(\d+)-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)&apos;</highlight><highlight class="normal">,<sp/>date_time_str)</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>re.match,<sp/></highlight><highlight class="stringliteral">&apos;XML<sp/>datettime<sp/>string<sp/>%s<sp/>has<sp/>incorrect<sp/>format&apos;</highlight><highlight class="normal"><sp/>%<sp/>date_time_str</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>date_time_from_xml<sp/>=<sp/>datetime.datetime(</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>year=int(match.group(1)),</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>month=int(match.group(2)),</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>day=int(match.group(3)),</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hour=int(match.group(4)),</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>minute=int(match.group(5)),</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>second=int(match.group(6)),</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>time_delta<sp/>=<sp/>abs(datetime.datetime.now()<sp/>-<sp/>date_time_from_xml)</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>timestamp<sp/>value<sp/>should<sp/>be<sp/>near<sp/>the<sp/>current<sp/>local<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertLess(time_delta,<sp/>datetime.timedelta(seconds=600))</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>actual.unlink()</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testDefaultOutputFile(self):</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Tests<sp/>XML<sp/>file<sp/>with<sp/>default<sp/>name<sp/>is<sp/>created<sp/>when<sp/>name<sp/>is<sp/>not<sp/>specified.</highlight></codeline>
+<codeline lineno="302"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="303"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Confirms<sp/>that<sp/>Google<sp/>Test<sp/>produces<sp/>an<sp/>XML<sp/>output<sp/>file<sp/>with<sp/>the<sp/>expected</highlight></codeline>
+<codeline lineno="304"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>default<sp/>name<sp/>if<sp/>no<sp/>name<sp/>is<sp/>explicitly<sp/>specified.</highlight></codeline>
+<codeline lineno="305"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>output_file<sp/>=<sp/>os.path.join(</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacegtest__test__utils_1a16869f96be9e04ac751ff558164a70ab" kindref="member">gtest_test_utils.GetTempDir</ref>(),<sp/>GTEST_DEFAULT_OUTPUT_FILE</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>gtest_prog_path<sp/>=<sp/><ref refid="namespacegtest__test__utils_1ae7a8ef352b6b64ef8ec893f79874a1cd" kindref="member">gtest_test_utils.GetTestExecutablePath</ref>(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;gtest_no_test_unittest&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>os.remove(output_file)</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>OSError:</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>e<sp/>=<sp/>sys.exc_info()[1]</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>e.errno<sp/>!=<sp/>errno.ENOENT:</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>p<sp/>=<sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[gtest_prog_path,<sp/></highlight><highlight class="stringliteral">&apos;%s=xml&apos;</highlight><highlight class="normal"><sp/>%<sp/>GTEST_OUTPUT_FLAG],</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>working_dir=<ref refid="namespacegtest__test__utils_1a16869f96be9e04ac751ff558164a70ab" kindref="member">gtest_test_utils.GetTempDir</ref>(),</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(p.exited)</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(0,<sp/>p.exit_code)</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(os.path.isfile(output_file))</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testSuppressedXmlOutput(self):</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Verifies<sp/>XML<sp/>output<sp/>is<sp/>suppressed<sp/>if<sp/>default<sp/>listener<sp/>is<sp/>shut<sp/>down.</highlight></codeline>
+<codeline lineno="329"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="330"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Tests<sp/>that<sp/>no<sp/>XML<sp/>file<sp/>is<sp/>generated<sp/>if<sp/>the<sp/>default<sp/>XML<sp/>listener<sp/>is</highlight></codeline>
+<codeline lineno="331"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>shut<sp/>down<sp/>before<sp/>RUN_ALL_TESTS<sp/>is<sp/>invoked.</highlight></codeline>
+<codeline lineno="332"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>xml_path<sp/>=<sp/>os.path.join(</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacegtest__test__utils_1a16869f96be9e04ac751ff558164a70ab" kindref="member">gtest_test_utils.GetTempDir</ref>(),<sp/>GTEST_PROGRAM_NAME<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;out.xml&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>os.path.isfile(xml_path):</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>os.remove(xml_path)</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>command<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_PROGRAM_PATH,</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s=xml:%s&apos;</highlight><highlight class="normal"><sp/>%<sp/>(GTEST_OUTPUT_FLAG,<sp/>xml_path),</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;--shut_down_xml&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>p<sp/>=<sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(command)</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>p.terminated_by_signal:</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>p.signal<sp/>is<sp/>available<sp/>only<sp/>if<sp/>p.terminated_by_signal<sp/>is<sp/>True.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertFalse(</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.terminated_by_signal,</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>was<sp/>killed<sp/>by<sp/>signal<sp/>%d&apos;</highlight><highlight class="normal"><sp/>%<sp/>(GTEST_PROGRAM_NAME,<sp/>p.signal),</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(p.exited)</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.exit_code,</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;%s&apos;<sp/>exited<sp/>with<sp/>code<sp/>%s,<sp/>which<sp/>doesn&apos;t<sp/>match<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;the<sp/>expected<sp/>exit<sp/>code<sp/>%s.&apos;</highlight><highlight class="normal"><sp/>%<sp/>(command,<sp/>p.exit_code,<sp/>1),</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertFalse(os.path.isfile(xml_path))</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testFilteredTestXmlOutput(self):</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Verifies<sp/>XML<sp/>output<sp/>when<sp/>a<sp/>filter<sp/>is<sp/>applied.</highlight></codeline>
+<codeline lineno="365"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="366"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Runs<sp/>a<sp/>test<sp/>program<sp/>that<sp/>executes<sp/>only<sp/>some<sp/>tests<sp/>and<sp/>verifies<sp/>that</highlight></codeline>
+<codeline lineno="367"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>non-selected<sp/>tests<sp/>do<sp/>not<sp/>show<sp/>up<sp/>in<sp/>the<sp/>XML<sp/>output.</highlight></codeline>
+<codeline lineno="368"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>self._TestXmlOutput(</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_PROGRAM_NAME,</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECTED_FILTERED_TEST_XML,</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_args=[</highlight><highlight class="stringliteral">&apos;%s=SuccessfulTest.*&apos;</highlight><highlight class="normal"><sp/>%<sp/>GTEST_FILTER_FLAG],</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShardedTestXmlOutput(self):</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Verifies<sp/>XML<sp/>output<sp/>when<sp/>run<sp/>using<sp/>multiple<sp/>shards.</highlight></codeline>
+<codeline lineno="379"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="380"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Runs<sp/>a<sp/>test<sp/>program<sp/>that<sp/>executes<sp/>only<sp/>one<sp/>shard<sp/>and<sp/>verifies<sp/>that<sp/>tests</highlight></codeline>
+<codeline lineno="381"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>from<sp/>other<sp/>shards<sp/>do<sp/>not<sp/>show<sp/>up<sp/>in<sp/>the<sp/>XML<sp/>output.</highlight></codeline>
+<codeline lineno="382"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>self._TestXmlOutput(</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_PROGRAM_NAME,</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECTED_SHARDED_TEST_XML,</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra_env={SHARD_INDEX_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/>TOTAL_SHARDS_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;10&apos;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">_GetXmlOutput(</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>gtest_prog_name,<sp/>extra_args,<sp/>extra_env,<sp/>expected_exit_code</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/>):</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Returns<sp/>the<sp/>XML<sp/>output<sp/>generated<sp/>by<sp/>running<sp/>the<sp/>program<sp/>gtest_prog_name.</highlight></codeline>
+<codeline lineno="395"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="396"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Furthermore,<sp/>the<sp/>program&apos;s<sp/>exit<sp/>code<sp/>must<sp/>be<sp/>expected_exit_code.</highlight></codeline>
+<codeline lineno="397"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="398"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="399"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>gtest_prog_name:<sp/>Program<sp/>to<sp/>run.</highlight></codeline>
+<codeline lineno="400"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>extra_args:<sp/>Optional<sp/>arguments<sp/>to<sp/>pass<sp/>to<sp/>program.</highlight></codeline>
+<codeline lineno="401"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>extra_env:<sp/>Optional<sp/>environment<sp/>variables<sp/>to<sp/>set.</highlight></codeline>
+<codeline lineno="402"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>expected_exit_code:<sp/>Expected<sp/>exit<sp/>code<sp/>from<sp/>running<sp/>gtest_prog_name.</highlight></codeline>
+<codeline lineno="403"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>xml_path<sp/>=<sp/>os.path.join(</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacegtest__test__utils_1a16869f96be9e04ac751ff558164a70ab" kindref="member">gtest_test_utils.GetTempDir</ref>(),<sp/>gtest_prog_name<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;out.xml&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>gtest_prog_path<sp/>=<sp/><ref refid="namespacegtest__test__utils_1ae7a8ef352b6b64ef8ec893f79874a1cd" kindref="member">gtest_test_utils.GetTestExecutablePath</ref>(gtest_prog_name)</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>command<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gtest_prog_path,</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s=xml:%s&apos;</highlight><highlight class="normal"><sp/>%<sp/>(GTEST_OUTPUT_FLAG,<sp/>xml_path),</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>]<sp/>+<sp/>extra_args</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>environ_copy<sp/>=<sp/>os.environ.copy()</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>extra_env:</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>environ_copy.update(extra_env)</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>p<sp/>=<sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(command,<sp/>env=environ_copy)</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>p.terminated_by_signal:</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>was<sp/>killed<sp/>by<sp/>signal<sp/>%d&apos;</highlight><highlight class="normal"><sp/>%<sp/>(gtest_prog_name,<sp/>p.signal)</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(p.exited)</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_exit_code,</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.exit_code,</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;%s&apos;<sp/>exited<sp/>with<sp/>code<sp/>%s,<sp/>which<sp/>doesn&apos;t<sp/>match<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;the<sp/>expected<sp/>exit<sp/>code<sp/>%s.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%<sp/>(command,<sp/>p.exit_code,<sp/>expected_exit_code),</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>actual<sp/>=<sp/>minidom.parse(xml_path)</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>actual</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">_TestXmlOutput(</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gtest_prog_name,</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>expected_xml,</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>expected_exit_code,</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>extra_args=None,</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>extra_env=None,</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/>):</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Asserts<sp/>that<sp/>the<sp/>XML<sp/>document<sp/>matches.</highlight></codeline>
+<codeline lineno="443"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="444"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Asserts<sp/>that<sp/>the<sp/>XML<sp/>document<sp/>generated<sp/>by<sp/>running<sp/>the<sp/>program</highlight></codeline>
+<codeline lineno="445"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>gtest_prog_name<sp/>matches<sp/>expected_xml,<sp/>a<sp/>string<sp/>containing<sp/>another</highlight></codeline>
+<codeline lineno="446"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>XML<sp/>document.<sp/><sp/>Furthermore,<sp/>the<sp/>program&apos;s<sp/>exit<sp/>code<sp/>must<sp/>be</highlight></codeline>
+<codeline lineno="447"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>expected_exit_code.</highlight></codeline>
+<codeline lineno="448"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="449"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="450"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>gtest_prog_name:<sp/>Program<sp/>to<sp/>run.</highlight></codeline>
+<codeline lineno="451"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>expected_xml:<sp/>Path<sp/>to<sp/>XML<sp/>document<sp/>to<sp/>match.</highlight></codeline>
+<codeline lineno="452"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>expected_exit_code:<sp/>Expected<sp/>exit<sp/>code<sp/>from<sp/>running<sp/>gtest_prog_name.</highlight></codeline>
+<codeline lineno="453"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>extra_args:<sp/>Optional<sp/>arguments<sp/>to<sp/>pass<sp/>to<sp/>program.</highlight></codeline>
+<codeline lineno="454"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>extra_env:<sp/>Optional<sp/>environment<sp/>variables<sp/>to<sp/>set.</highlight></codeline>
+<codeline lineno="455"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>actual<sp/>=<sp/>self._GetXmlOutput(</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gtest_prog_name,<sp/>extra_args<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>[],<sp/>extra_env<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>{},<sp/>expected_exit_code</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>expected<sp/>=<sp/>minidom.parseString(expected_xml)</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>self.NormalizeXml(actual.documentElement)</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>self.AssertEquivalentNodes(expected.documentElement,<sp/>actual.documentElement)</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>expected.unlink()</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>actual.unlink()</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/>os.environ[</highlight><highlight class="stringliteral">&apos;GTEST_STACK_TRACE_DEPTH&apos;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;1&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><ref refid="namespacegtest__test__utils_1a70db3f06a6df00628acf3436784db483" kindref="member">gtest_test_utils.Main</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_xml_output_unittest.py"/>
+  </compounddef>
+</doxygen>

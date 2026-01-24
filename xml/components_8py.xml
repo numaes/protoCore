@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="components_8py" kind="file" language="Python">
+    <compoundname>components.py</compoundname>
+    <innerclass refid="classdocutils_1_1transforms_1_1components_1_1Filter" prot="public">docutils::transforms::components::Filter</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1transforms">docutils::transforms</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1transforms_1_1components">docutils::transforms::components</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1transforms_1_1components" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>components.py<sp/>9037<sp/>2022-03-05<sp/>23:31:10Z<sp/>milde<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>David<sp/>Goodger<sp/>&lt;goodger@python.org&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">Docutils<sp/>component-related<sp/>transforms.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms" kindref="compound">docutils.transforms</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Transform</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal">__docformat__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;reStructuredText&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="classdocutils_1_1transforms_1_1components_1_1Filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1components_1_1Filter" kindref="compound">Filter</ref>(<ref refid="classdocutils_1_1transforms_1_1Transform" kindref="compound">Transform</ref>):</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Include<sp/>or<sp/>exclude<sp/>elements<sp/>which<sp/>depend<sp/>on<sp/>a<sp/>specific<sp/>Docutils<sp/>component.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>use<sp/>with<sp/>`nodes.pending`<sp/>elements.<sp/><sp/>A<sp/>&quot;pending&quot;<sp/>element&apos;s<sp/>dictionary</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>attribute<sp/>``details``<sp/>must<sp/>contain<sp/>the<sp/>keys<sp/>&quot;component&quot;<sp/>and<sp/>&quot;format&quot;.<sp/><sp/>The</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>value<sp/>of<sp/>``details[&apos;component&apos;]``<sp/>must<sp/>match<sp/>the<sp/>type<sp/>name<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>component<sp/>the<sp/>elements<sp/>depend<sp/>on<sp/>(e.g.<sp/>&quot;writer&quot;).<sp/><sp/>The<sp/>value<sp/>of</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``details[&apos;format&apos;]``<sp/>is<sp/>the<sp/>name<sp/>of<sp/>a<sp/>specific<sp/>format<sp/>or<sp/>context<sp/>of<sp/>that</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>component<sp/>(e.g.<sp/>&quot;html&quot;).<sp/><sp/>If<sp/>the<sp/>matching<sp/>Docutils<sp/>component<sp/>supports<sp/>that</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>format<sp/>or<sp/>context,<sp/>the<sp/>&quot;pending&quot;<sp/>element<sp/>is<sp/>replaced<sp/>by<sp/>the<sp/>contents<sp/>of</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``details[&apos;nodes&apos;]``<sp/>(a<sp/>list<sp/>of<sp/>nodes);<sp/>otherwise,<sp/>the<sp/>&quot;pending&quot;<sp/>element</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>is<sp/>removed.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>example,<sp/>up<sp/>to<sp/>version<sp/>0.17,<sp/>the<sp/>reStructuredText<sp/>&quot;meta&quot;</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>directive<sp/>created<sp/>a<sp/>&quot;pending&quot;<sp/>element<sp/>containing<sp/>a<sp/>&quot;meta&quot;<sp/>element</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(in<sp/>``pending.details[&apos;nodes&apos;]``).</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Only<sp/>writers<sp/>(``pending.details[&apos;component&apos;]<sp/>==<sp/>&apos;writer&apos;``)</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>supporting<sp/>the<sp/>&quot;html&quot;,<sp/>&quot;latex&quot;,<sp/>or<sp/>&quot;odf&quot;<sp/>formats</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(``pending.details[&apos;format&apos;]<sp/>==<sp/>&apos;html,latex,odf&apos;``)<sp/>included<sp/>the</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;meta&quot;<sp/>element;<sp/>it<sp/>was<sp/>deleted<sp/>from<sp/>the<sp/>output<sp/>of<sp/>all<sp/>other<sp/>writers.</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>transform<sp/>is<sp/>no<sp/>longer<sp/>used<sp/>by<sp/>Docutils,<sp/>it<sp/>may<sp/>be<sp/>removed<sp/>in<sp/>future.</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>TODO:<sp/>clean<sp/>up<sp/>or<sp/>keep<sp/>this<sp/>for<sp/>3rd<sp/>party<sp/>(or<sp/>possible<sp/>future)<sp/>use?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>(GM<sp/>2021-05-18)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>default_priority<sp/>=<sp/>780</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1transforms_1_1components_1_1Filter_1ab71cee811709095465232ab9b03f1262" kindref="member">apply</ref>(self):</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending<sp/>=<sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1aa3b293e3c50fc8701e4fcbb2c86b32dc" kindref="member">startnode</ref></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>component_type<sp/>=<sp/>pending.details[</highlight><highlight class="stringliteral">&apos;component&apos;</highlight><highlight class="normal">]<sp/><sp/></highlight><highlight class="comment">#<sp/>&apos;reader&apos;<sp/>or<sp/>&apos;writer&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>formats<sp/>=<sp/>(pending.details[</highlight><highlight class="stringliteral">&apos;format&apos;</highlight><highlight class="normal">]).split(</highlight><highlight class="stringliteral">&apos;,&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>component<sp/>=<sp/>self.<ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref>.transformer.components[component_type]</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>format<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>formats:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>component.supports(format):</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending.replace_self(pending.details[</highlight><highlight class="stringliteral">&apos;nodes&apos;</highlight><highlight class="normal">])</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pending.parent.remove(pending)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/components.py"/>
+  </compounddef>
+</doxygen>

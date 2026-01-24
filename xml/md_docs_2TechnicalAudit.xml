@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_docs_2TechnicalAudit" kind="page">
+    <compoundname>md_docs_2TechnicalAudit</compoundname>
+    <title>Technical Audit: coreProto General Model</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_docs_2TechnicalAudit_1autotoc_md951"/> This audit evaluates the architecture of <computeroutput>protoCore</computeroutput>, focusing on the object model, memory management, and concurrency.</para>
+<sect1 id="md_docs_2TechnicalAudit_1autotoc_md952">
+<title>Current Architecture Strengths</title>
+<para><itemizedlist>
+<listitem><para><bold>Flexible Object Model</bold>: The prototype-based approach provides high flexibility.</para>
+</listitem><listitem><para><bold>Efficient Primitives</bold>: Pointer tagging (54-bit payload) allows for zero-allocation small integers, booleans, and characters.</para>
+</listitem><listitem><para><bold>Modern GC Foundation</bold>: A concurrent Mark &amp; Sweep collector with a Stop-The-World (STW) phase for root collection is a solid start for a multi-threaded runtime.</para>
+</listitem><listitem><para><bold>Hybrid Immutability</bold>: The use of <computeroutput>mutable_ref</computeroutput> and a global <computeroutput>mutableRoot</computeroutput> allows for persistent data structures while maintaining &quot;stable handles&quot; for objects that need shared state.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_docs_2TechnicalAudit_1autotoc_md953">
+<title>Identified Weaknesses &amp; Potential Issues</title>
+<sect2 id="md_docs_2TechnicalAudit_1autotoc_md954">
+<title>1. Attribute Lookup Performance (Optimized)</title>
+<para><itemizedlist>
+<listitem><para><bold>Status</bold>: <bold>RESOLVED</bold> in Phase 1.</para>
+</listitem><listitem><para><bold>Solution</bold>: Implemented per-thread <bold>Inline Caching</bold> in <computeroutput>getAttribute</computeroutput>. Stale entries are invalidated in <computeroutput>setAttribute</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2TechnicalAudit_1autotoc_md955">
+<title>2. GC Marking Efficiency (Optimized)</title>
+<para><itemizedlist>
+<listitem><para><bold>Status</bold>: <bold>RESOLVED</bold> in Phase 1.</para>
+</listitem><listitem><para><bold>Solution</bold>: Replaced <computeroutput>std::unordered_set</computeroutput> with bit-marking in the <computeroutput>Cell::next</computeroutput> pointer. This eliminated hashing overhead and reduced memory pressure.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2TechnicalAudit_1autotoc_md956">
+<title>3. Thread-Safety of Reference Generation (Robust)</title>
+<para><itemizedlist>
+<listitem><para><bold>Status</bold>: <bold>RESOLVED</bold> in Phase 2.</para>
+</listitem><listitem><para><bold>Solution</bold>: Implemented an atomic 64-bit counter (<computeroutput>nextMutableRef</computeroutput>) in <computeroutput>ProtoSpace</computeroutput> to ensure unique and thread-safe IDs.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2TechnicalAudit_1autotoc_md957">
+<title>4. Limited Concurrency in GC</title>
+<para><itemizedlist>
+<listitem><para><bold>Issue</bold>: While the mark phase runs concurrently with the world resumed, the marking itself is not multi-threaded.</para>
+</listitem><listitem><para><bold>Limitation</bold>: Large heaps will result in long mark phases, potentially delaying the next STW cycle.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2TechnicalAudit_1autotoc_md958">
+<title>Proposed Improvements</title>
+<sect2 id="md_docs_2TechnicalAudit_1autotoc_md959">
+<title>Phase 1: Performance Optimizations</title>
+<para><itemizedlist>
+<listitem><para>[x] <bold>Implement Inline Caching</bold>: Integrated the <computeroutput>attributeCache</computeroutput> in <computeroutput>ProtoThreadExtension</computeroutput> into the <computeroutput>getAttribute</computeroutput> and <computeroutput>setAttribute</computeroutput> methods.</para>
+</listitem><listitem><para>[x] <bold>Optimize GC Visited Set</bold>: Replaced <computeroutput>std::unordered_set</computeroutput> with bit-marking in the <computeroutput>Cell</computeroutput> header (using lower bits of the 64-byte aligned pointer).</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2TechnicalAudit_1autotoc_md960">
+<title>Phase 2: Robustness &amp; Safety</title>
+<para><itemizedlist>
+<listitem><para>[x] <bold>Thread-Safe Mutable References</bold>: Replaced <computeroutput>std::rand()</computeroutput> with an atomic counter in <computeroutput>ProtoSpace</computeroutput> to ensure unique <computeroutput>mutable_ref</computeroutput> IDs.</para>
+</listitem><listitem><para>[x] <bold>Static Dispatch for Primitives</bold>: Optimized arithmetic paths in <computeroutput><ref refid="Integer_8cpp" kindref="compound">Integer.cpp</ref></computeroutput> using direct union access.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2TechnicalAudit_1autotoc_md961">
+<title>Phase 3: Advanced Optimization</title>
+<para><itemizedlist>
+<listitem><para>[ ] <bold>Static Dispatch for Primitives</bold>: Ensure that operations on tagged pointers (like arithmetic) are as fast as possible by avoiding <computeroutput>toImpl</computeroutput> overhead where not strictly necessary.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2TechnicalAudit_1autotoc_md962">
+<title>Architecture Roadmap</title>
+<para>The core model is robust for its intended purpose. The next major evolution should focus on JIT compilation or bytecode execution to complement the efficient object model, leveraging the inherent simplicity and safety of the current GC design. </para>
+</sect1>
+    </detaileddescription>
+    <location file="docs/TechnicalAudit.md"/>
+  </compounddef>
+</doxygen>

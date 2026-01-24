@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_build_2__deps_2googletest-src_2docs_2reference_2actions" kind="page">
+    <compoundname>md_build_2__deps_2googletest-src_2docs_2reference_2actions</compoundname>
+    <title>Actions Reference</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_build_2__deps_2googletest-src_2docs_2reference_2actions_1autotoc_md240"/> <ulink url="../gmock_for_dummies.md#actions-what-should-it-do"><bold>Actions</bold></ulink> specify what a mock function should do when invoked. This page lists the built-in actions provided by GoogleTest. All actions are defined in the <computeroutput><ref refid="namespacetesting" kindref="compound">testing</ref></computeroutput> namespace.</para>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2reference_2actions_1autotoc_md241">
+<title>Returning a Value</title>
+<para><table rows="10" cols="2"><row>
+<entry thead="yes" align='left'><para>Action   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Return()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Return from a <computeroutput>void</computeroutput> mock function.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Return(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Return <computeroutput>value</computeroutput>. If the type of <computeroutput>value</computeroutput> is different to the mock function&apos;s return type, <computeroutput>value</computeroutput> is converted to the latter type <emphasis>at the time the expectation is set</emphasis>, not when the action is executed.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ReturnArg&lt;N&gt;()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Return the <computeroutput>N</computeroutput>-th (0-based) argument.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ReturnNew&lt;T&gt;(a1, ..., ak)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Return <computeroutput>new T(a1, ..., ak)</computeroutput>; a different object is created each time.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ReturnNull()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Return a null pointer.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ReturnPointee(ptr)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Return the value pointed to by <computeroutput>ptr</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ReturnRef(variable)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Return a reference to <computeroutput>variable</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ReturnRefOfCopy(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Return a reference to a copy of <computeroutput>value</computeroutput>; the copy lives as long as the action.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ReturnRoundRobin({a1, ..., ak})</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Each call will return the next <computeroutput>ai</computeroutput> in the list, starting at the beginning when the end of the list is reached.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2reference_2actions_1autotoc_md242">
+<title>Side Effects</title>
+<para><table rows="11" cols="2"><row>
+<entry thead="yes" align='left'><para>Action   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Assign(&amp;variable, value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Assign <computeroutput>value</computeroutput> to variable.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>DeleteArg&lt;N&gt;()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Delete the <computeroutput>N</computeroutput>-th (0-based) argument, which must be a pointer.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SaveArg&lt;N&gt;(pointer)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Save the <computeroutput>N</computeroutput>-th (0-based) argument to <computeroutput>*pointer</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SaveArgPointee&lt;N&gt;(pointer)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Save the value pointed to by the <computeroutput>N</computeroutput>-th (0-based) argument to <computeroutput>*pointer</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SetArgReferee&lt;N&gt;(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Assign <computeroutput>value</computeroutput> to the variable referenced by the <computeroutput>N</computeroutput>-th (0-based) argument.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SetArgPointee&lt;N&gt;(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Assign <computeroutput>value</computeroutput> to the variable pointed by the <computeroutput>N</computeroutput>-th (0-based) argument.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SetArgumentPointee&lt;N&gt;(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Same as <computeroutput>SetArgPointee&lt;N&gt;(value)</computeroutput>. Deprecated. Will be removed in v1.7.0.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SetArrayArgument&lt;N&gt;(first, last)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Copies the elements in source range [<computeroutput>first</computeroutput>, <computeroutput>last</computeroutput>) to the array pointed to by the <computeroutput>N</computeroutput>-th (0-based) argument, which can be either a pointer or an iterator. The action does not take ownership of the elements in the source range.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SetErrnoAndReturn(error, value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Set <computeroutput>errno</computeroutput> to <computeroutput>error</computeroutput> and return <computeroutput>value</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Throw(exception)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Throws the given exception, which can be any copyable value. Available since v1.1.0.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2reference_2actions_1autotoc_md243">
+<title>Using a Function, Functor, or Lambda as an Action</title>
+<para>In the following, by &quot;callable&quot; we mean a free function, <computeroutput>std::function</computeroutput>, functor, or lambda.</para>
+<para><table rows="7" cols="2"><row>
+<entry thead="yes" align='left'><para>Action   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>f</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Invoke <computeroutput>f</computeroutput> with the arguments passed to the mock function, where <computeroutput>f</computeroutput> is a callable.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Invoke(f)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Invoke <computeroutput>f</computeroutput> with the arguments passed to the mock function, where <computeroutput>f</computeroutput> can be a global/static function or a functor.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Invoke(object_pointer, &amp;class::method)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Invoke the method on the object with the arguments passed to the mock function.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>InvokeWithoutArgs(f)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Invoke <computeroutput>f</computeroutput>, which can be a global/static function or a functor. <computeroutput>f</computeroutput> must take no arguments.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>InvokeWithoutArgs(object_pointer, &amp;class::method)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Invoke the method on the object, which takes no arguments.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>InvokeArgument&lt;N&gt;(arg1, arg2, ..., argk)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Invoke the mock function&apos;s <computeroutput>N</computeroutput>-th (0-based) argument, which must be a function or a functor, with the <computeroutput>k</computeroutput> arguments.   </para>
+</entry></row>
+</table>
+</para>
+<para>The return value of the invoked function is used as the return value of the action.</para>
+<para>When defining a callable to be used with <computeroutput>Invoke*()</computeroutput>, you can declare any unused parameters as <computeroutput>Unused</computeroutput>:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Invoke;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Distance(Unused,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sqrt(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>*<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref><sp/>+<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>*<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>);<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(mock,<sp/>Foo(</highlight><highlight class="stringliteral">&quot;Hi&quot;</highlight><highlight class="normal">,<sp/>_,<sp/>_)).WillOnce(<ref refid="namespacetesting_1af5cacf4475557b5a3e37af3836564235" kindref="member">Invoke</ref>(Distance));</highlight></codeline>
+</programlisting></para>
+<para><computeroutput>Invoke(callback)</computeroutput> and <computeroutput>InvokeWithoutArgs(callback)</computeroutput> take ownership of <computeroutput>callback</computeroutput>, which must be permanent. The type of <computeroutput>callback</computeroutput> must be a base callback type instead of a derived one, e.g.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">BlockingClosure*<sp/>done<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>BlockingClosure;</highlight></codeline>
+<codeline><highlight class="normal">...<sp/><ref refid="namespacetesting_1af5cacf4475557b5a3e37af3836564235" kindref="member">Invoke</ref>(done)<sp/>...;<sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>won&apos;t<sp/>compile!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Closure*<sp/>done2<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>BlockingClosure;</highlight></codeline>
+<codeline><highlight class="normal">...<sp/><ref refid="namespacetesting_1af5cacf4475557b5a3e37af3836564235" kindref="member">Invoke</ref>(done2)<sp/>...;<sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>works.</highlight></codeline>
+</programlisting></para>
+<para>In <computeroutput>InvokeArgument&lt;N&gt;(...)</computeroutput>, if an argument needs to be passed by reference, wrap it inside <computeroutput>std::ref()</computeroutput>. For example,</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::InvokeArgument;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">InvokeArgument&lt;2&gt;(5,<sp/>string(</highlight><highlight class="stringliteral">&quot;Hi&quot;</highlight><highlight class="normal">),<sp/>std::ref(<ref refid="namespacefoo" kindref="compound">foo</ref>))</highlight></codeline>
+</programlisting></para>
+<para>calls the mock function&apos;s #2 argument, passing to it <computeroutput>5</computeroutput> and <computeroutput>string(&quot;Hi&quot;)</computeroutput> by value, and <computeroutput>foo</computeroutput> by reference.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2reference_2actions_1autotoc_md244">
+<title>Default Action</title>
+<para><table rows="2" cols="2"><row>
+<entry thead="yes" align='left'><para>Action   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>DoDefault()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Do the default action (specified by <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL()</ref></computeroutput> or the built-in one).   </para>
+</entry></row>
+</table>
+</para>
+<para>{: .callout .note} <bold>Note:</bold> due to technical reasons, <computeroutput>DoDefault()</computeroutput> cannot be used inside a composite action - trying to do so will result in a run-time error.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2reference_2actions_1autotoc_md245">
+<title>Composite Actions</title>
+<para><table rows="6" cols="2"><row>
+<entry thead="yes" align='left'><para>Action   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>DoAll(a1, a2, ..., an)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Do all actions <computeroutput>a1</computeroutput> to <computeroutput>an</computeroutput> and return the result of <computeroutput>an</computeroutput> in each invocation. The first <computeroutput>n - 1</computeroutput> sub-actions must return void and will receive a readonly view of the arguments.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IgnoreResult(a)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Perform action <computeroutput>a</computeroutput> and ignore its result. <computeroutput>a</computeroutput> must not return void.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>WithArg&lt;N&gt;(a)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Pass the <computeroutput>N</computeroutput>-th (0-based) argument of the mock function to action <computeroutput>a</computeroutput> and perform it.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>WithArgs&lt;N1, N2, ..., Nk&gt;(a)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Pass the selected (0-based) arguments of the mock function to action <computeroutput>a</computeroutput> and perform it.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>WithoutArgs(a)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Perform action <computeroutput>a</computeroutput> without any arguments.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2reference_2actions_1autotoc_md246">
+<title>Defining Actions</title>
+<para><table rows="4" cols="2"><row>
+<entry thead="yes" align='left'><para>Macro   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-actions_8h_1a7af7137aa4871df4235881af377205fe" kindref="member">ACTION(Sum)</ref> { return arg0 + arg1; }</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Defines an action <computeroutput>Sum()</computeroutput> to return the sum of the mock function&apos;s argument #0 and #1.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-actions_8h_1af5f47e069acb517db9f743f029471aa7" kindref="member">ACTION_P(Plus, n)</ref> { return arg0 + n; }</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Defines an action <computeroutput>Plus(n)</computeroutput> to return the sum of the mock function&apos;s argument #0 and <computeroutput>n</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ACTION_Pk(Foo, p1, ..., pk) { statements; }</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Defines a parameterized action <computeroutput>Foo(p1, ..., pk)</computeroutput> to execute the given <computeroutput>statements</computeroutput>.   </para>
+</entry></row>
+</table>
+</para>
+<para>The <computeroutput>ACTION*</computeroutput> macros cannot be used inside a function or class. </para>
+</sect1>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/docs/reference/actions.md"/>
+  </compounddef>
+</doxygen>

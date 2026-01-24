@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer" kind="class" language="Python" prot="public">
+    <compoundname>snowballstemmer::russian_stemmer::RussianStemmer</compoundname>
+    <basecompoundref refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer" prot="public" virt="non-virtual">snowballstemmer.basestemmer.BaseStemmer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a410cf7dcca57ae5ca0c8d4cafaa84510" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.russian_stemmer.RussianStemmer::g_v</definition>
+        <argsstring></argsstring>
+        <name>g_v</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.g_v</qualifiedname>
+        <initializer>=  {u&quot;а&quot;, u&quot;е&quot;, u&quot;и&quot;, u&quot;о&quot;, u&quot;у&quot;, u&quot;ы&quot;, u&quot;э&quot;, u&quot;ю&quot;, u&quot;я&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1ad1111c1a7254fcb2f7ed8704b0fe9679" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.russian_stemmer.RussianStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.I_p2</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a35835ccd8bb7d00bc18529967dba4425" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.russian_stemmer.RussianStemmer::I_pV</definition>
+        <argsstring></argsstring>
+        <name>I_pV</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.I_pV</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aa6d730f54fc2209daad953920bd50dfa" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.russian_stemmer.RussianStemmer::a_0</definition>
+        <argsstring></argsstring>
+        <name>a_0</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.a_0</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;в&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ив&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ыв&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;вши&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ивши&quot;, 3, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ывши&quot;, 3, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;вшись&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ившись&quot;, 6, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ывшись&quot;, 6, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="300" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a24324f586072234398a1baf9601c8e64" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.russian_stemmer.RussianStemmer::a_1</definition>
+        <argsstring></argsstring>
+        <name>a_1</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.a_1</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ее&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ие&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ое&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ые&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ими&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ыми&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ей&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ий&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ой&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ый&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ем&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;им&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ом&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ым&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;его&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ого&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ему&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ому&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;их&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ых&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ею&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ою&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ую&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;юю&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ая&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;яя&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="312" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a765fcb3fd0e2118ce5288d76bb021c7a" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.russian_stemmer.RussianStemmer::a_2</definition>
+        <argsstring></argsstring>
+        <name>a_2</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.a_2</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ем&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;нн&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;вш&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ивш&quot;, 2, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ывш&quot;, 2, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;щ&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ющ&quot;, 5, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ующ&quot;, 6, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="341" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1af2cda01e61c1a0b0a0412202f03cefe7" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.russian_stemmer.RussianStemmer::a_3</definition>
+        <argsstring></argsstring>
+        <name>a_3</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.a_3</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;сь&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ся&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="352" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a32cd4b8409aa927b923b53443a5cfde7" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.russian_stemmer.RussianStemmer::a_4</definition>
+        <argsstring></argsstring>
+        <name>a_4</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.a_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="357" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a4c0289c3e00073361bf1389b3a272b80" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.russian_stemmer.RussianStemmer::a_5</definition>
+        <argsstring></argsstring>
+        <name>a_5</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.a_5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="406" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a0f15a55ba26ce955c6a5fb97dd72b114" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.russian_stemmer.RussianStemmer::a_6</definition>
+        <argsstring></argsstring>
+        <name>a_6</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.a_6</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ост&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ость&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="445" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a3dfe719b0f03f22a096885bc96a1df90" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.russian_stemmer.RussianStemmer::a_7</definition>
+        <argsstring></argsstring>
+        <name>a_7</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.a_7</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ейше&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;н&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ейш&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ь&quot;, -1, 3)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="450" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="450" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1add40234e646950bf6d0e175696efe4a8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer::I_pV</definition>
+        <argsstring></argsstring>
+        <name>I_pV</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.I_pV</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1ab8f837073e31b2166b951a9baac87889" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.I_p2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a13fd7d2b3e2f5a03ed457dd30e72c171" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="39" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a7958d39eb02711484c98e89e28c7d757" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer::ket</definition>
+        <argsstring></argsstring>
+        <name>ket</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.ket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aa88269b8679848af3bcb98dbd4a23360" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer::bra</definition>
+        <argsstring></argsstring>
+        <name>bra</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.bra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="50" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a32facee6a858995ab787778ce7520c16" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer::limit_backward</definition>
+        <argsstring></argsstring>
+        <name>limit_backward</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.limit_backward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="237" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a2a2c487dd403a00a96f05f5143fa3537" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_mark_regions</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_mark_regions</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_mark_regions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="19" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aa6a535f50cf4a74835761ebe4bef6a7b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_R2</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R2</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_R2</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a544e7846006c4fbbc5196cd9aecb456d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_perfective_gerund</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_perfective_gerund</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_perfective_gerund</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="45" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aed690a90372e0efb075c0d6b4ce3786c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_adjective</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_adjective</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_adjective</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a0b7c2532c9c7a758b3f6ad3a0a5bbdb5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_adjectival</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_adjectival</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_adjectival</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="82" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="82" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a932a7037f471bdba7f203fb31d28854d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_reflexive</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_reflexive</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_reflexive</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="116" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="116" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a70081080e7ef85775bec91d258dfa42b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_verb</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_verb</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_verb</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="126" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="126" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aa0c948f0674a5208cb91d8f2e190d874" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_noun</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_noun</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_noun</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="153" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="153" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a1a4287d4f3fe053c14924a41b91bb4fa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_derivational</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_derivational</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_derivational</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="163" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="163" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a17e73b0f29551b2ee42ca44fbda942f9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer.__r_tidy_up</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_tidy_up</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer.__r_tidy_up</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="175" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="175" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a1af69cab6f0329a5797a38b8bdc62a41" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.russian_stemmer.RussianStemmer._stem</definition>
+        <argsstring>(self)</argsstring>
+        <name>_stem</name>
+        <qualifiedname>snowballstemmer.russian_stemmer.RussianStemmer._stem</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="206" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="206" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class implements the stemming algorithm defined by a snowball script.
+Generated from russian.sbl by Snowball 3.0.1 - https://snowballstem.org/
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.russian_stemmer.RussianStemmer</label>
+        <link refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.russian_stemmer.RussianStemmer</label>
+        <link refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>a_0</edgelabel>
+          <edgelabel>a_1</edgelabel>
+          <edgelabel>a_2</edgelabel>
+          <edgelabel>a_3</edgelabel>
+          <edgelabel>a_4</edgelabel>
+          <edgelabel>a_5</edgelabel>
+          <edgelabel>a_6</edgelabel>
+          <edgelabel>a_7</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>list</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" line="8" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/russian_stemmer.py" bodystart="8" bodyend="457"/>
+    <listofallmembers>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a0b7c2532c9c7a758b3f6ad3a0a5bbdb5" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_adjectival</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aed690a90372e0efb075c0d6b4ce3786c" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_adjective</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a1a4287d4f3fe053c14924a41b91bb4fa" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_derivational</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a2a2c487dd403a00a96f05f5143fa3537" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_mark_regions</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aa0c948f0674a5208cb91d8f2e190d874" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_noun</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a544e7846006c4fbbc5196cd9aecb456d" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_perfective_gerund</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aa6a535f50cf4a74835761ebe4bef6a7b" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_R2</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a932a7037f471bdba7f203fb31d28854d" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_reflexive</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a17e73b0f29551b2ee42ca44fbda942f9" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_tidy_up</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a70081080e7ef85775bec91d258dfa42b" prot="private" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>__r_verb</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a1af69cab6f0329a5797a38b8bdc62a41" prot="protected" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>_stem</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aa6d730f54fc2209daad953920bd50dfa" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>a_0</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a24324f586072234398a1baf9601c8e64" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>a_1</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a765fcb3fd0e2118ce5288d76bb021c7a" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>a_2</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1af2cda01e61c1a0b0a0412202f03cefe7" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>a_3</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a32cd4b8409aa927b923b53443a5cfde7" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>a_4</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a4c0289c3e00073361bf1389b3a272b80" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>a_5</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a0f15a55ba26ce955c6a5fb97dd72b114" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>a_6</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a3dfe719b0f03f22a096885bc96a1df90" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>a_7</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1aa88269b8679848af3bcb98dbd4a23360" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>bra</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a13fd7d2b3e2f5a03ed457dd30e72c171" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>cursor</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a410cf7dcca57ae5ca0c8d4cafaa84510" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>g_v</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1ad1111c1a7254fcb2f7ed8704b0fe9679" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1ab8f837073e31b2166b951a9baac87889" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a35835ccd8bb7d00bc18529967dba4425" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>I_pV</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1add40234e646950bf6d0e175696efe4a8" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>I_pV</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a7958d39eb02711484c98e89e28c7d757" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>ket</name></member>
+      <member refid="classsnowballstemmer_1_1russian__stemmer_1_1RussianStemmer_1a32facee6a858995ab787778ce7520c16" prot="public" virt="non-virtual"><scope>snowballstemmer::russian_stemmer::RussianStemmer</scope><name>limit_backward</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

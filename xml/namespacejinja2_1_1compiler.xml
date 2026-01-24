@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1compiler" kind="namespace" language="Python">
+    <compoundname>jinja2::compiler</compoundname>
+    <innerclass refid="classjinja2_1_1compiler_1_1CodeGenerator" prot="public">jinja2::compiler::CodeGenerator</innerclass>
+    <innerclass refid="classjinja2_1_1compiler_1_1CompilerExit" prot="public">jinja2::compiler::CompilerExit</innerclass>
+    <innerclass refid="classjinja2_1_1compiler_1_1DependencyFinderVisitor" prot="public">jinja2::compiler::DependencyFinderVisitor</innerclass>
+    <innerclass refid="classjinja2_1_1compiler_1_1Frame" prot="public">jinja2::compiler::Frame</innerclass>
+    <innerclass refid="classjinja2_1_1compiler_1_1MacroRef" prot="public">jinja2::compiler::MacroRef</innerclass>
+    <innerclass refid="classjinja2_1_1compiler_1_1UndeclaredNameVisitor" prot="public">jinja2::compiler::UndeclaredNameVisitor</innerclass>
+    <innerclass refid="classjinja2_1_1compiler_1_1VisitorExit" prot="public">jinja2::compiler::VisitorExit</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1compiler_1a66458e9d8c2d61f43f39e0649df431c4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::compiler.F</definition>
+        <argsstring></argsstring>
+        <name>F</name>
+        <qualifiedname>jinja2.compiler.F</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;F&quot;, bound=t.Callable[..., t.Any])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1compiler_1a5dcabcfb2f88c878db8451e39c76d498" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2::compiler.operators</definition>
+        <argsstring></argsstring>
+        <name>operators</name>
+        <qualifiedname>jinja2.compiler.operators</qualifiedname>
+        <initializer>=  {
+    &quot;eq&quot;: &quot;==&quot;,
+    &quot;ne&quot;: &quot;!=&quot;,
+    &quot;gt&quot;: &quot;&gt;&quot;,
+    &quot;gteq&quot;: &quot;&gt;=&quot;,
+    &quot;lt&quot;: &quot;&lt;&quot;,
+    &quot;lteq&quot;: &quot;&lt;=&quot;,
+    &quot;in&quot;: &quot;in&quot;,
+    &quot;notin&quot;: &quot;not in&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1compiler_1ad116cfcd48191e2b32dc5018f3637bb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1compiler_1a66458e9d8c2d61f43f39e0649df431c4" kindref="member">F</ref></type>
+        <definition> F jinja2.compiler.optimizeconst</definition>
+        <argsstring>(F f)</argsstring>
+        <name>optimizeconst</name>
+        <qualifiedname>jinja2.compiler.optimizeconst</qualifiedname>
+        <param>
+          <type><ref refid="namespacejinja2_1_1compiler_1a66458e9d8c2d61f43f39e0649df431c4" kindref="member">F</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="45" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1compiler_1a259932027231967eed005611c0f8c815" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[[&quot;CodeGenerator&quot;, <ref refid="classjinja2_1_1nodes_1_1BinExpr" kindref="compound">nodes.BinExpr</ref>, &quot;Frame&quot;], None]</type>
+        <definition> t.Callable[[&quot;CodeGenerator&quot;, nodes.BinExpr, &quot;Frame&quot;], None] jinja2.compiler._make_binop</definition>
+        <argsstring>(str op)</argsstring>
+        <name>_make_binop</name>
+        <qualifiedname>jinja2.compiler._make_binop</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="61" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="61" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1compiler_1a97c666ac13afe53ee17ae58aa268b9c0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[[&quot;CodeGenerator&quot;, <ref refid="classjinja2_1_1nodes_1_1UnaryExpr" kindref="compound">nodes.UnaryExpr</ref>, &quot;Frame&quot;], None]</type>
+        <definition> t.Callable[[&quot;CodeGenerator&quot;, nodes.UnaryExpr, &quot;Frame&quot;], None] jinja2.compiler._make_unop</definition>
+        <argsstring>(str op)</argsstring>
+        <name>_make_unop</name>
+        <qualifiedname>jinja2.compiler._make_unop</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="82" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="84" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1compiler_1adf03ad2ba93311e62c4b9604a33b226c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Optional[str]</type>
+        <definition> t.Optional[str] jinja2.compiler.generate</definition>
+        <argsstring>(nodes.Template node, &quot;Environment&quot; environment, t.Optional[str] name, t.Optional[str] filename, t.Optional[t.TextIO] stream=None, bool defer_init=False, bool optimized=True)</argsstring>
+        <name>generate</name>
+        <qualifiedname>jinja2.compiler.generate</qualifiedname>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Template" kindref="compound">nodes.Template</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>stream</declname>
+          <array>[t.TextIO]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>defer_init</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>optimized</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate the python source for a node tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="109" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1compiler_1ab8519e49d1c4972f020acb6f85af4d2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool jinja2.compiler.has_safe_repr</definition>
+        <argsstring>(t.Any value)</argsstring>
+        <name>has_safe_repr</name>
+        <qualifiedname>jinja2.compiler.has_safe_repr</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Does the node have a safe representation?</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="125" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="125" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1compiler_1a9bef6fd54a70160d664d8d01f2f6a573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Set[str]</type>
+        <definition> t.Set[str] jinja2.compiler.find_undeclared</definition>
+        <argsstring>(t.Iterable[nodes.Node] nodes, t.Iterable[str] names)</argsstring>
+        <name>find_undeclared</name>
+        <qualifiedname>jinja2.compiler.find_undeclared</qualifiedname>
+        <param>
+          <type>t.Iterable</type>
+          <declname>nodes</declname>
+          <array>[nodes.Node]</array>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>names</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the names passed are accessed undeclared.  The return value
+is a set of all the undeclared names from the sequence of names found.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="142" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" bodystart="144" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Compiles nodes from the parser into Python code.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/compiler.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1domains_1_1rst" kind="namespace" language="Python">
+    <compoundname>sphinx::domains::rst</compoundname>
+    <innerclass refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirective" prot="public">sphinx::domains::rst::ReSTDirective</innerclass>
+    <innerclass refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirectiveOption" prot="public">sphinx::domains::rst::ReSTDirectiveOption</innerclass>
+    <innerclass refid="classsphinx_1_1domains_1_1rst_1_1ReSTDomain" prot="public">sphinx::domains::rst::ReSTDomain</innerclass>
+    <innerclass refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup" prot="public">sphinx::domains::rst::ReSTMarkup</innerclass>
+    <innerclass refid="classsphinx_1_1domains_1_1rst_1_1ReSTRole" prot="public">sphinx::domains::rst::ReSTRole</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1domains_1_1rst_1a5f0f5a1d3980db1f9acc8ca97570b935" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::domains::rst.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.domains.rst.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1domains_1_1rst_1ae6e37b33770a794fa0691e71c6624d33" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::domains::rst.dir_sig_re</definition>
+        <argsstring></argsstring>
+        <name>dir_sig_re</name>
+        <qualifiedname>sphinx.domains.rst.dir_sig_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\.\. (.+?)::(.*)$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1rst_1ab9e7c393f1adbed34b7215616070244a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str]</type>
+        <definition> tuple[str, str] sphinx.domains.rst.parse_directive</definition>
+        <argsstring>(str d)</argsstring>
+        <name>parse_directive</name>
+        <qualifiedname>sphinx.domains.rst.parse_directive</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a directive signature.
+
+Returns (directive, arguments) string tuple.  If no arguments are given,
+returns (directive, &apos;&apos;).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="98" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1rst_1a8dce943b46c5bc514a527dbdf618d26e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.domains.rst.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.domains.rst.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="341" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="341" bodyend="350"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The reStructuredText domain.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

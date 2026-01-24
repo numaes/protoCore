@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__internal_2vcs_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1vcs">pip::_internal::vcs</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1vcs" refkind="compound"><highlight class="comment">#<sp/>Expose<sp/>a<sp/>limited<sp/>set<sp/>of<sp/>classes<sp/>and<sp/>functions<sp/>so<sp/>callers<sp/>outside<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>the<sp/>vcs<sp/>package<sp/>don&apos;t<sp/>need<sp/>to<sp/>import<sp/>deeper<sp/>than<sp/>`pip._internal.vcs`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>(The<sp/>test<sp/>directory<sp/>may<sp/>still<sp/>need<sp/>to<sp/>import<sp/>from<sp/>a<sp/>vcs<sp/>sub-package.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Import<sp/>all<sp/>vcs<sp/>modules<sp/>to<sp/>register<sp/>each<sp/>VCS<sp/>in<sp/>the<sp/>VcsSupport<sp/>object.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1vcs_1_1bazaar" kindref="compound">pip._internal.vcs.bazaar</ref></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1vcs_1_1git" kindref="compound">pip._internal.vcs.git</ref></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1vcs_1_1mercurial" kindref="compound">pip._internal.vcs.mercurial</ref></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1vcs_1_1subversion" kindref="compound">pip._internal.vcs.subversion</ref><sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>F401</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1vcs_1_1versioncontrol" kindref="compound">pip._internal.vcs.versioncontrol</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>(<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>F401</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>RemoteNotFoundError,</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>RemoteNotValidError,</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>is_url,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>make_vcs_requirement_url,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>vcs,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/vcs/__init__.py"/>
+  </compounddef>
+</doxygen>

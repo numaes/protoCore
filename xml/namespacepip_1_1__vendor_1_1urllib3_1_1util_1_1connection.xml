@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1urllib3_1_1util_1_1connection" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::urllib3::util::connection</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1util_1_1connection_1a6373d0f057a94f482db77884d8310280" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::urllib3::util::connection.HAS_IPV6</definition>
+        <argsstring></argsstring>
+        <name>HAS_IPV6</name>
+        <qualifiedname>pip._vendor.urllib3.util.connection.HAS_IPV6</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1urllib3_1_1util_1_1connection_1a0674b33e5bde4c17fded68077a4feb95" kindref="member">_has_ipv6</ref>(&quot;::1&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" line="149" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1util_1_1connection_1a252e0fb636e57a6a49217a71048ed20e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.util.connection.is_connection_dropped</definition>
+        <argsstring>(conn)</argsstring>
+        <name>is_connection_dropped</name>
+        <qualifiedname>pip._vendor.urllib3.util.connection.is_connection_dropped</qualifiedname>
+        <param>
+          <type>conn</type>
+          <defname>conn</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns True if the connection is dropped and should be closed.
+
+:param conn:
+    :class:`http.client.HTTPConnection` object.
+
+Note: For platforms like AppEngine, this will always return ``False`` to
+let the platform handle connection recycling transparently for us.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" line="11" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" bodystart="11" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1util_1_1connection_1a204a895d65e55c076f7022b8db953f48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.util.connection.create_connection</definition>
+        <argsstring>(address, timeout=socket._GLOBAL_DEFAULT_TIMEOUT, source_address=None, socket_options=None)</argsstring>
+        <name>create_connection</name>
+        <qualifiedname>pip._vendor.urllib3.util.connection.create_connection</qualifiedname>
+        <param>
+          <type>address</type>
+          <defname>address</defname>
+        </param>
+        <param>
+          <type>timeout</type>
+          <defname>timeout</defname>
+          <defval>socket._GLOBAL_DEFAULT_TIMEOUT</defval>
+        </param>
+        <param>
+          <type>source_address</type>
+          <defname>source_address</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>socket_options</type>
+          <defname>socket_options</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Connect to *address* and return the socket object.
+
+Convenience function.  Connect to *address* (a 2-tuple ``(host,
+port)``) and return the socket object.  Passing the optional
+*timeout* parameter will set the timeout on the socket instance
+before attempting to connect.  If no *timeout* is supplied, the
+global default timeout setting returned by :func:`socket.getdefaulttimeout`
+is used.  If *source_address* is set it must be a tuple of (host, port)
+for the socket to bind as a source address before making the connection.
+An host of &apos;&apos; or port 0 tells the OS to use the default.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" line="37" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" bodystart="42" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1util_1_1connection_1abf0d64892a542a23111424d31acff961" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.util.connection._set_socket_options</definition>
+        <argsstring>(sock, options)</argsstring>
+        <name>_set_socket_options</name>
+        <qualifiedname>pip._vendor.urllib3.util.connection._set_socket_options</qualifiedname>
+        <param>
+          <type>sock</type>
+          <defname>sock</defname>
+        </param>
+        <param>
+          <type>options</type>
+          <defname>options</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" line="100" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" bodystart="100" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1util_1_1connection_1a5ba057f2765b9a7b3cb5e8167d7fd978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.util.connection.allowed_gai_family</definition>
+        <argsstring>()</argsstring>
+        <name>allowed_gai_family</name>
+        <qualifiedname>pip._vendor.urllib3.util.connection.allowed_gai_family</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function is designed to work in the context of
+getaddrinfo, where family=socket.AF_UNSPEC is the default and
+will perform a DNS search for both IPv6 and IPv4 records.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" line="108" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" bodystart="108" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1util_1_1connection_1a0674b33e5bde4c17fded68077a4feb95" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.util.connection._has_ipv6</definition>
+        <argsstring>(host)</argsstring>
+        <name>_has_ipv6</name>
+        <qualifiedname>pip._vendor.urllib3.util.connection._has_ipv6</qualifiedname>
+        <param>
+          <type>host</type>
+          <defname>host</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns True if the system can bind an IPv6 address.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" line="119" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" bodystart="119" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/util/connection.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

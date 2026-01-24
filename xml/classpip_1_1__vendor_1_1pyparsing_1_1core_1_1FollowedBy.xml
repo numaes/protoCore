@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pyparsing::core::FollowedBy</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance" prot="public" virt="non-virtual">pip._vendor.pyparsing.core.ParseElementEnhance</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy_1ad9360359605bbfcd5a8a182b5ff53b12" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.FollowedBy::mayReturnEmpty</definition>
+        <argsstring></argsstring>
+        <name>mayReturnEmpty</name>
+        <qualifiedname>pip._vendor.pyparsing.core.FollowedBy.mayReturnEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4767" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4767" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy_1aade6555a68cf85b36d3e57467b1a4e42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.FollowedBy.__init__</definition>
+        <argsstring>(self, Union[ParserElement, str] expr)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pyparsing.core.FollowedBy.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance_1a4aaae2afbb44e9358c82e8a3c19a7bcc">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>expr</declname>
+          <array>[ParserElement, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4765" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4765" bodyend="4768"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy_1ae75a84f88cf4316783286d2c904ae158" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.FollowedBy.parseImpl</definition>
+        <argsstring>(self, instring, loc, doActions=True)</argsstring>
+        <name>parseImpl</name>
+        <qualifiedname>pip._vendor.pyparsing.core.FollowedBy.parseImpl</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance_1ab5bbc1bfe74ed386dfd5ab31c1d85de8">parseImpl</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>instring</type>
+          <defname>instring</defname>
+        </param>
+        <param>
+          <type>loc</type>
+          <defname>loc</defname>
+        </param>
+        <param>
+          <type>doActions</type>
+          <defname>doActions</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4769" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4769" bodyend="4777"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Lookahead matching of the given parse expression.
+``FollowedBy`` does *not* advance the parsing position within
+the input string, it only verifies that the specified parse
+expression matches at the current position.  ``FollowedBy``
+always returns a null token list. If any results names are defined
+in the lookahead expression, those *will* be returned for access by
+name.
+
+Example::
+
+    # use FollowedBy to match a label only if it is followed by a &apos;:&apos;
+    data_word = Word(alphas)
+    label = data_word + FollowedBy(&apos;:&apos;)
+    attr_expr = Group(label + Suppress(&apos;:&apos;) + OneOrMore(data_word, stop_on=label).set_parse_action(&apos; &apos;.join))
+
+    attr_expr[1, ...].parse_string(&quot;shape: SQUARE color: BLACK posn: upper left&quot;).pprint()
+
+prints::
+
+    [[&apos;shape&apos;, &apos;SQUARE&apos;], [&apos;color&apos;, &apos;BLACK&apos;], [&apos;posn&apos;, &apos;upper left&apos;]]
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.FollowedBy</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>ABC</label>
+      </node>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.FollowedBy</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>DEFAULT_WHITE_CHARS</edgelabel>
+          <edgelabel>defaultName</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>packrat_cache</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>packrat_cache_stats</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>_parse</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>tuple</label>
+      </node>
+      <node id="8">
+        <label>Tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4742" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4742" bodyend="4777"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy_1aade6555a68cf85b36d3e57467b1a4e42" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::FollowedBy</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy_1ad9360359605bbfcd5a8a182b5ff53b12" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::FollowedBy</scope><name>mayReturnEmpty</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1FollowedBy_1ae75a84f88cf4316783286d2c904ae158" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::FollowedBy</scope><name>parseImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1languages" kind="namespace" language="Python">
+    <compoundname>babel::languages</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1languages_1aa800143dcb7f7a1af3939b7ab86e2bba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str,...]</type>
+        <definition> tuple[str, ...] babel.languages.get_official_languages</definition>
+        <argsstring>(str territory, bool regional=False, bool de_facto=False)</argsstring>
+        <name>get_official_languages</name>
+        <qualifiedname>babel.languages.get_official_languages</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>territory</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>regional</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>de_facto</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the official language(s) for the given territory.
+
+The language codes, if any are known, are returned in order of descending popularity.
+
+If the `regional` flag is set, then languages which are regionally official are also returned.
+
+If the `de_facto` flag is set, then languages which are &quot;de facto&quot; official are also returned.
+
+.. warning:: Note that the data is as up to date as the current version of the CLDR used
+             by Babel.  If you need scientifically accurate information, use another source!
+
+:param territory: Territory code
+:type territory: str
+:param regional: Whether to return regionally official languages too
+:type regional: bool
+:param de_facto: Whether to return de-facto official languages too
+:type de_facto: bool
+:return: Tuple of language codes
+:rtype: tuple[str]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/languages.py" line="6" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/languages.py" bodystart="6" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1languages_1a0f64cb17e0c177236e2a9d4f693d6c7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, dict[str, float|str|None]]</type>
+        <definition> dict[str, dict[str, float | str | None]] babel.languages.get_territory_language_info</definition>
+        <argsstring>(str territory)</argsstring>
+        <name>get_territory_language_info</name>
+        <qualifiedname>babel.languages.get_territory_language_info</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>territory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a dictionary of language information for a territory.
+
+The dictionary is keyed by language code; the values are dicts with more information.
+
+The following keys are currently known for the values:
+
+* `population_percent`: The percentage of the territory&apos;s population speaking the
+                        language.
+* `official_status`: An optional string describing the officiality status of the language.
+                     Known values are &quot;official&quot;, &quot;official_regional&quot; and &quot;de_facto_official&quot;.
+
+.. warning:: Note that the data is as up to date as the current version of the CLDR used
+             by Babel.  If you need scientifically accurate information, use another source!
+
+.. note:: Note that the format of the dict returned may change between Babel versions.
+
+See https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html
+
+:param territory: Territory code
+:type territory: str
+:return: Language information dictionary
+:rtype: dict[str, dict]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/languages.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/languages.py" bodystart="46" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/languages.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

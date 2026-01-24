@@ -26,6 +26,7 @@ namespace proto
     class TupleDictionary;
     class ProtoTuple;
     class ProtoString;
+    class ProtoExternalPointer;
     class ParentLink;
     class ProtoList;
     class ProtoListIterator;
@@ -125,6 +126,7 @@ namespace proto
         const ProtoMultiset* asMultiset(ProtoContext* context) const;
         const ProtoMultisetIterator* asMultisetIterator(ProtoContext* context) const;
         const ProtoThread* asThread(ProtoContext* context) const;
+        const ProtoExternalPointer* asExternalPointer(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
 
         //- Comparison
@@ -272,6 +274,20 @@ namespace proto
         const Cell* asCell(ProtoContext* context) const;
     };
 
+    //! ProtoExternalPointer - Represents a wrapper for external C++ pointers
+    class ProtoExternalPointer
+    {
+    public:
+        /**
+         * @brief Extracts the wrapped C++ pointer from this ProtoExternalPointer.
+         * @param context The current execution context.
+         * @return The wrapped void* pointer, or nullptr if invalid.
+         */
+        void* getPointer(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
+    };
+
     class ProtoSparseListIterator
     {
     public:
@@ -401,14 +417,6 @@ namespace proto
         char* getBuffer(ProtoContext* context) const;
         char getAt(ProtoContext* context, int index) const;
         void setAt(ProtoContext* context, int index, char value);
-        const ProtoObject* asObject(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
-    };
-
-    class ProtoExternalPointer
-    {
-    public:
-        void* getPointer(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
     };

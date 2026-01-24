@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>testing::OnceAction&lt; Result(Args...)&gt;</compoundname>
+    <includes refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-actions_8h" local="no">gmock-actions.h</includes>
+    <innerclass refid="structtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1_1IgnoreIncomingArguments" prot="private">testing::OnceAction&lt; Result(Args...)&gt;::IgnoreIncomingArguments</innerclass>
+    <innerclass refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1_1StdFunctionAdaptor" prot="private">testing::OnceAction&lt; Result(Args...)&gt;::StdFunctionAdaptor</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename Result</type>
+      </param>
+      <param>
+        <type>typename...</type>
+        <declname>Args</declname>
+        <defname>Args</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1ade838b4f6c6934894b0ba4d7018f25a5" prot="private" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename Callable</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">internal::conjunction</ref>&lt; std::is_constructible&lt; typename std::decay&lt; Callable &gt;::type, Callable &gt;, <ref refid="namespacetesting_1_1internal_1a5b056ae3be2de57fc675735808b27564" kindref="member">internal::is_callable_r</ref>&lt; Result, typename std::decay&lt; Callable &gt;::type, Args... &gt; &gt;</type>
+        <definition>using testing::OnceAction&lt; Result(Args...)&gt;::IsDirectlyCompatible =  internal::conjunction&lt; std::is_constructible&lt;typename std::decay&lt;Callable&gt;::type, Callable&gt;, internal::is_callable_r&lt;Result, typename std::decay&lt;Callable&gt;::type, Args...&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>IsDirectlyCompatible</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::IsDirectlyCompatible</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="422" column="3" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1ae41883781fc4d5c40055710fd2351023" prot="private" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename Callable</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">internal::conjunction</ref>&lt; std::is_constructible&lt; typename std::decay&lt; Callable &gt;::type, Callable &gt;, <ref refid="namespacetesting_1_1internal_1a5b056ae3be2de57fc675735808b27564" kindref="member">internal::is_callable_r</ref>&lt; Result, typename std::decay&lt; Callable &gt;::type &gt; &gt;</type>
+        <definition>using testing::OnceAction&lt; Result(Args...)&gt;::IsCompatibleAfterIgnoringArguments =  internal::conjunction&lt; std::is_constructible&lt;typename std::decay&lt;Callable&gt;::type, Callable&gt;, internal::is_callable_r&lt;Result, typename std::decay&lt;Callable&gt;::type&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>IsCompatibleAfterIgnoringArguments</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::IsCompatibleAfterIgnoringArguments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="432" column="3" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1ade838b4f6c6934894b0ba4d7018f25a5" prot="private" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename Callable</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">internal::conjunction</ref>&lt; std::is_constructible&lt; typename std::decay&lt; Callable &gt;::type, Callable &gt;, <ref refid="namespacetesting_1_1internal_1a5b056ae3be2de57fc675735808b27564" kindref="member">internal::is_callable_r</ref>&lt; Result, typename std::decay&lt; Callable &gt;::type, Args... &gt; &gt;</type>
+        <definition>using testing::OnceAction&lt; Result(Args...)&gt;::IsDirectlyCompatible =  internal::conjunction&lt; std::is_constructible&lt;typename std::decay&lt;Callable&gt;::type, Callable&gt;, internal::is_callable_r&lt;Result, typename std::decay&lt;Callable&gt;::type, Args...&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>IsDirectlyCompatible</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::IsDirectlyCompatible</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="422" column="3" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1ae41883781fc4d5c40055710fd2351023" prot="private" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename Callable</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">internal::conjunction</ref>&lt; std::is_constructible&lt; typename std::decay&lt; Callable &gt;::type, Callable &gt;, <ref refid="namespacetesting_1_1internal_1a5b056ae3be2de57fc675735808b27564" kindref="member">internal::is_callable_r</ref>&lt; Result, typename std::decay&lt; Callable &gt;::type &gt; &gt;</type>
+        <definition>using testing::OnceAction&lt; Result(Args...)&gt;::IsCompatibleAfterIgnoringArguments =  internal::conjunction&lt; std::is_constructible&lt;typename std::decay&lt;Callable&gt;::type, Callable&gt;, internal::is_callable_r&lt;Result, typename std::decay&lt;Callable&gt;::type&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>IsCompatibleAfterIgnoringArguments</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::IsCompatibleAfterIgnoringArguments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="432" column="3" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a7e9accd368f7ff5ec98dd5f3efcd0766" prot="private" static="no" mutable="no">
+        <type>std::function&lt; Result(Args...)&gt;</type>
+        <definition>std::function&lt; Result(Args...)&gt; testing::OnceAction&lt; Result(Args...)&gt;::function_</definition>
+        <argsstring></argsstring>
+        <name>function_</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::function_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="553" column="17" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="553" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a8fd4189468d622987a0158f8779c8284" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Callable</type>
+          </param>
+          <param>
+            <type>typename std::enable_if&lt; <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">internal::conjunction</ref>&lt; <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">internal::negation</ref>&lt; std::is_same&lt; <ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref>, typename std::decay&lt; Callable &gt;::type &gt; &gt;, <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">IsDirectlyCompatible</ref>&lt; Callable &gt; &gt; <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">::value</ref>, int &gt;::type</type>
+            <defval>0</defval>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</definition>
+        <argsstring>(Callable &amp;&amp;callable)</argsstring>
+        <name>OnceAction</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</qualifiedname>
+        <param>
+          <type>Callable &amp;&amp;</type>
+          <declname>callable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="455" column="3" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="455" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a8fd4189468d622987a0158f8779c8284" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Callable</type>
+          </param>
+          <param>
+            <type>typename std::enable_if&lt; <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">internal::conjunction</ref>&lt; <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">internal::negation</ref>&lt; std::is_same&lt; <ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref>, typename std::decay&lt; Callable &gt;::type &gt; &gt;, <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">internal::negation</ref>&lt; <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">IsDirectlyCompatible</ref>&lt; Callable &gt; &gt;, <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">IsCompatibleAfterIgnoringArguments</ref>&lt; Callable &gt; &gt;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">::value</ref>, int &gt;::type</type>
+            <defval>0</defval>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</definition>
+        <argsstring>(Callable &amp;&amp;callable)</argsstring>
+        <name>OnceAction</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</qualifiedname>
+        <param>
+          <type>Callable &amp;&amp;</type>
+          <declname>callable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="474" column="3" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="474" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a28dd0b46528370e44de35a9bbbfa64b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</definition>
+        <argsstring>(const OnceAction &amp;)=delete</argsstring>
+        <name>OnceAction</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</qualifiedname>
+        <param>
+          <type>const <ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="482" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a2f75721091b231f0341fb701e034a721" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref> &amp;</type>
+        <definition>OnceAction &amp; testing::OnceAction&lt; Result(Args...)&gt;::operator=</definition>
+        <argsstring>(const OnceAction &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="483" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a059ac54d55b016e53e62d4593454a8d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</definition>
+        <argsstring>(OnceAction &amp;&amp;)=default</argsstring>
+        <name>OnceAction</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</qualifiedname>
+        <param>
+          <type><ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="484" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a2879dbd872e4821a4688e32f23de458f" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <type>Result</type>
+        <definition>Result testing::OnceAction&lt; Result(Args...)&gt;::Call</definition>
+        <argsstring>(Args... args) &amp;&amp;</argsstring>
+        <name>Call</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::Call</qualifiedname>
+        <param>
+          <type>Args...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="488" column="10" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="488" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a8fd4189468d622987a0158f8779c8284" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Callable</type>
+          </param>
+          <param>
+            <type>typename std::enable_if&lt; <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">internal::conjunction</ref>&lt; <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">internal::negation</ref>&lt; std::is_same&lt; <ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref>, typename std::decay&lt; Callable &gt;::type &gt; &gt;, <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">IsDirectlyCompatible</ref>&lt; Callable &gt; &gt; <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">::value</ref>, int &gt;::type</type>
+            <defval>0</defval>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</definition>
+        <argsstring>(Callable &amp;&amp;callable)</argsstring>
+        <name>OnceAction</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</qualifiedname>
+        <param>
+          <type>Callable &amp;&amp;</type>
+          <declname>callable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="455" column="3" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="455" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a8fd4189468d622987a0158f8779c8284" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Callable</type>
+          </param>
+          <param>
+            <type>typename std::enable_if&lt; <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">internal::conjunction</ref>&lt; <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">internal::negation</ref>&lt; std::is_same&lt; <ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref>, typename std::decay&lt; Callable &gt;::type &gt; &gt;, <ref refid="structtesting_1_1internal_1_1negation" kindref="compound">internal::negation</ref>&lt; <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">IsDirectlyCompatible</ref>&lt; Callable &gt; &gt;, <ref refid="structtesting_1_1internal_1_1conjunction" kindref="compound">IsCompatibleAfterIgnoringArguments</ref>&lt; Callable &gt; &gt;<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">::value</ref>, int &gt;::type</type>
+            <defval>0</defval>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</definition>
+        <argsstring>(Callable &amp;&amp;callable)</argsstring>
+        <name>OnceAction</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</qualifiedname>
+        <param>
+          <type>Callable &amp;&amp;</type>
+          <declname>callable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="474" column="3" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="474" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a28dd0b46528370e44de35a9bbbfa64b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</definition>
+        <argsstring>(const OnceAction &amp;)=delete</argsstring>
+        <name>OnceAction</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</qualifiedname>
+        <param>
+          <type>const <ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="482" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a2f75721091b231f0341fb701e034a721" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref> &amp;</type>
+        <definition>OnceAction &amp; testing::OnceAction&lt; Result(Args...)&gt;::operator=</definition>
+        <argsstring>(const OnceAction &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="483" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a059ac54d55b016e53e62d4593454a8d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</definition>
+        <argsstring>(OnceAction &amp;&amp;)=default</argsstring>
+        <name>OnceAction</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::OnceAction</qualifiedname>
+        <param>
+          <type><ref refid="classtesting_1_1OnceAction" kindref="compound">OnceAction</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="484" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a2879dbd872e4821a4688e32f23de458f" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <type>Result</type>
+        <definition>Result testing::OnceAction&lt; Result(Args...)&gt;::Call</definition>
+        <argsstring>(Args... args) &amp;&amp;</argsstring>
+        <name>Call</name>
+        <qualifiedname>testing::OnceAction&lt; Result(Args...)&gt;::Call</qualifiedname>
+        <param>
+          <type>Args...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="488" column="10" bodyfile="cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="488" bodyend="490"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" line="417" column="1" bodyfile="build/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h" bodystart="417" bodyend="554"/>
+    <listofallmembers>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a2879dbd872e4821a4688e32f23de458f" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>Call</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a2879dbd872e4821a4688e32f23de458f" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>Call</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a7e9accd368f7ff5ec98dd5f3efcd0766" prot="private" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>function_</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1ae41883781fc4d5c40055710fd2351023" prot="private" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>IsCompatibleAfterIgnoringArguments</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1ae41883781fc4d5c40055710fd2351023" prot="private" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>IsCompatibleAfterIgnoringArguments</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1ade838b4f6c6934894b0ba4d7018f25a5" prot="private" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>IsDirectlyCompatible</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1ade838b4f6c6934894b0ba4d7018f25a5" prot="private" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>IsDirectlyCompatible</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a8fd4189468d622987a0158f8779c8284" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>OnceAction</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a8fd4189468d622987a0158f8779c8284" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>OnceAction</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a28dd0b46528370e44de35a9bbbfa64b3" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>OnceAction</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a059ac54d55b016e53e62d4593454a8d2" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>OnceAction</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a8fd4189468d622987a0158f8779c8284" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>OnceAction</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a8fd4189468d622987a0158f8779c8284" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>OnceAction</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a28dd0b46528370e44de35a9bbbfa64b3" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>OnceAction</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a059ac54d55b016e53e62d4593454a8d2" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>OnceAction</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a2f75721091b231f0341fb701e034a721" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>operator=</name></member>
+      <member refid="classtesting_1_1OnceAction_3_01Result_07Args_8_8_8_08_4_1a2f75721091b231f0341fb701e034a721" prot="public" virt="non-virtual"><scope>testing::OnceAction&lt; Result(Args...)&gt;</scope><name>operator=</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

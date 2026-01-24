@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1urllib3_1_1filepost" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::urllib3::filepost</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1filepost_1a2a5d5572fb732d51d8b96d026cfdfb87" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::urllib3::filepost.writer</definition>
+        <argsstring></argsstring>
+        <name>writer</name>
+        <qualifiedname>pip._vendor.urllib3.filepost.writer</qualifiedname>
+        <initializer>=  codecs.lookup(&quot;utf-8&quot;)[3]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" line="12" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1filepost_1af4dc619fdfe035b97f830c7a50381d0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.filepost.choose_boundary</definition>
+        <argsstring>()</argsstring>
+        <name>choose_boundary</name>
+        <qualifiedname>pip._vendor.urllib3.filepost.choose_boundary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Our embarrassingly-simple replacement for mimetools.choose_boundary.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" bodystart="15" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1filepost_1a94b6a6ac89c5a50538c2d8b2aa6a66ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.filepost.iter_field_objects</definition>
+        <argsstring>(fields)</argsstring>
+        <name>iter_field_objects</name>
+        <qualifiedname>pip._vendor.urllib3.filepost.iter_field_objects</qualifiedname>
+        <param>
+          <type>fields</type>
+          <defname>fields</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterate over fields.
+
+Supports list of (k, v) tuples and dicts, and lists of
+:class:`~urllib3.fields.RequestField`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" bodystart="25" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1filepost_1a8650623df40819163200840123a4fb98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.filepost.iter_fields</definition>
+        <argsstring>(fields)</argsstring>
+        <name>iter_fields</name>
+        <qualifiedname>pip._vendor.urllib3.filepost.iter_fields</qualifiedname>
+        <param>
+          <type>fields</type>
+          <defname>fields</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>.. deprecated:: 1.6
+
+Iterate over fields.
+
+The addition of :class:`~urllib3.fields.RequestField` makes this function
+obsolete. Instead, use :func:`iter_field_objects`, which returns
+:class:`~urllib3.fields.RequestField` objects.
+
+Supports list of (k, v) tuples and dicts.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" bodystart="45" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1filepost_1a9339f7797c46299b0970603bc8f61a4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.filepost.encode_multipart_formdata</definition>
+        <argsstring>(fields, boundary=None)</argsstring>
+        <name>encode_multipart_formdata</name>
+        <qualifiedname>pip._vendor.urllib3.filepost.encode_multipart_formdata</qualifiedname>
+        <param>
+          <type>fields</type>
+          <defname>fields</defname>
+        </param>
+        <param>
+          <type>boundary</type>
+          <defname>boundary</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Encode a dictionary of ``fields`` using the multipart/form-data MIME format.
+
+:param fields:
+    Dictionary of fields or list of (key, :class:`~urllib3.fields.RequestField`).
+
+:param boundary:
+    If not specified, then a random boundary will be generated using
+    :func:`urllib3.filepost.choose_boundary`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" line="63" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" bodystart="63" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/filepost.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

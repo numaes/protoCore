@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::tenacity::wait::wait_chain</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__base" prot="public" virt="non-virtual">pip._vendor.tenacity.wait.wait_base</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain_1a1d703803145b90258e78803f6fec89f2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.tenacity.wait.wait_chain::strategies</definition>
+        <argsstring></argsstring>
+        <name>strategies</name>
+        <qualifiedname>pip._vendor.tenacity.wait.wait_chain.strategies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" line="102" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain_1a5313860b05e9ef34458fe1e0aea4f429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.tenacity.wait.wait_chain.__init__</definition>
+        <argsstring>(self, *wait_base strategies)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.tenacity.wait.wait_chain.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*<ref refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__base" kindref="compound">wait_base</ref></type>
+          <declname>strategies</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain_1abdb002d2e97e152fb2576358c04fc38d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float pip._vendor.tenacity.wait.wait_chain.__call__</definition>
+        <argsstring>(self, &quot;RetryCallState&quot; retry_state)</argsstring>
+        <name>__call__</name>
+        <qualifiedname>pip._vendor.tenacity.wait.wait_chain.__call__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__base_1a9cbdfdd35e84486ae86bbd567f34acbe">__call__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;RetryCallState&quot;</type>
+          <declname>retry_state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" line="104" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" bodystart="104" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Chain two or more waiting strategies.
+
+If all strategies are exhausted, the very last strategy is used
+thereafter.
+
+For example::
+
+    @retry(wait=wait_chain(*[wait_fixed(1) for i in range(3)] +
+                           [wait_fixed(2) for j in range(5)] +
+                           [wait_fixed(5) for k in range(4)))
+    def wait_chained():
+        print(&quot;Wait 1s for 3 attempts, 2s for 5 attempts and 5s
+               thereafter.&quot;)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>abc.ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.tenacity.wait.wait_chain</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.tenacity.wait.wait_base</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>abc.ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.tenacity.wait.wait_chain</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.tenacity.wait.wait_base</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/tenacity/wait.py" bodystart="85" bodyend="109"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain_1abdb002d2e97e152fb2576358c04fc38d" prot="public" virt="non-virtual"><scope>pip::_vendor::tenacity::wait::wait_chain</scope><name>__call__</name></member>
+      <member refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain_1a5313860b05e9ef34458fe1e0aea4f429" prot="public" virt="non-virtual"><scope>pip::_vendor::tenacity::wait::wait_chain</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__chain_1a1d703803145b90258e78803f6fec89f2" prot="public" virt="non-virtual"><scope>pip::_vendor::tenacity::wait::wait_chain</scope><name>strategies</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,693 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1writers_1_1odf__odt_1_1Writer" kind="class" language="Python" prot="public">
+    <compoundname>docutils::writers::odf_odt::Writer</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1Writer" prot="public" virt="non-virtual">docutils.writers.Writer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a6fa102cae756d89a96ed59d377f85e53" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.odf_odt.Writer::MIME_TYPE</definition>
+        <argsstring></argsstring>
+        <name>MIME_TYPE</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.MIME_TYPE</qualifiedname>
+        <initializer>=  &apos;application/vnd.oasis.opendocument.text&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="363" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a3e16254514cf8a0aadc6bf3cc0afc722" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.odf_odt.Writer::EXTENSION</definition>
+        <argsstring></argsstring>
+        <name>EXTENSION</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.EXTENSION</qualifiedname>
+        <initializer>=  &apos;.odt&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="364" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a463bbf4f9c6358301f9a0e6dd70c298d" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.odf_odt.Writer::supported</definition>
+        <argsstring></argsstring>
+        <name>supported</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.supported</qualifiedname>
+        <initializer>=  (&apos;odt&apos;, )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="366" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a15f51b64cb0690d80ae8b235e65ea408" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.odf_odt.Writer::default_stylesheet</definition>
+        <argsstring></argsstring>
+        <name>default_stylesheet</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.default_stylesheet</qualifiedname>
+        <initializer>=  &apos;styles&apos; + <ref refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a3e16254514cf8a0aadc6bf3cc0afc722" kindref="member">EXTENSION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="369" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1af39a970442bea974c13d312f192ae8d1" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer::default_stylesheet_path</definition>
+        <argsstring></argsstring>
+        <name>default_stylesheet_path</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.default_stylesheet_path</qualifiedname>
+        <initializer>=  <ref refid="namespacedocutils_1_1utils_1a65498eec10c3a8dd12abc6bebd0f2ba0" kindref="member">utils.relative_path</ref>(
+        os.path.join(os.getcwd(), &apos;dummy&apos;),
+        os.path.join(os.path.dirname(__file__), <ref refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a15f51b64cb0690d80ae8b235e65ea408" kindref="member">default_stylesheet</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="371" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7fa0bd6959852c097c5edc686d66e20e" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.odf_odt.Writer::default_template</definition>
+        <argsstring></argsstring>
+        <name>default_template</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.default_template</qualifiedname>
+        <initializer>=  &apos;template.txt&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="375" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ae51f9be21a35d4f4d6218bc54982bc89" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer::default_template_path</definition>
+        <argsstring></argsstring>
+        <name>default_template_path</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.default_template_path</qualifiedname>
+        <initializer>=  <ref refid="namespacedocutils_1_1utils_1a65498eec10c3a8dd12abc6bebd0f2ba0" kindref="member">utils.relative_path</ref>(
+        os.path.join(os.getcwd(), &apos;dummy&apos;),
+        os.path.join(os.path.dirname(__file__), <ref refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7fa0bd6959852c097c5edc686d66e20e" kindref="member">default_template</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="377" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7a1366f6b0cb19798d0fad4a9fc66ef7" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.odf_odt.Writer::settings_spec</definition>
+        <argsstring></argsstring>
+        <name>settings_spec</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.settings_spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="381" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ab49bec647d53ab968204af9012b2cdae" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.writers.odf_odt.Writer::settings_defaults</definition>
+        <argsstring></argsstring>
+        <name>settings_defaults</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.settings_defaults</qualifiedname>
+        <initializer>=  {
+        &apos;output_encoding_error_handler&apos;: &apos;xmlcharrefreplace&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="494" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a8d9a91a0f4637f1b22268f621c41744a" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.odf_odt.Writer::relative_path_settings</definition>
+        <argsstring></argsstring>
+        <name>relative_path_settings</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.relative_path_settings</qualifiedname>
+        <initializer>=  (&apos;odf_config_file&apos;, &apos;stylesheet&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="498" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="498" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a9eba688cafe2e532c91bb94e02c040f7" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.odf_odt.Writer::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.config_section</qualifiedname>
+        <initializer>=  &apos;odf_odt writer&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="500" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="500" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ae0f7f184103423f3ea3687caf9b24abd" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.odf_odt.Writer::config_section_dependencies</definition>
+        <argsstring></argsstring>
+        <name>config_section_dependencies</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.config_section_dependencies</qualifiedname>
+        <initializer>=  (&apos;writers&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="501" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="501" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7748c940ed385062ecfd81ac5711cf24" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer::translator_class</definition>
+        <argsstring></argsstring>
+        <name>translator_class</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.translator_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="505" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a0766fae0442a80f8316bfbbef0a23634" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer::settings</definition>
+        <argsstring></argsstring>
+        <name>settings</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.settings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="508" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a02e3cba4d386c32d1212583dd6e2fa49" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer::visitor</definition>
+        <argsstring></argsstring>
+        <name>visitor</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.visitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="509" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="509" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1aab4c3d78f722e2db254a4169cd7ae9b3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer::EXTENSION</definition>
+        <argsstring></argsstring>
+        <name>EXTENSION</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.EXTENSION</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="510" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7bb30a4b3c4d2c4f25882fceb00249a6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="514" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ab2521cbd248c70c76bb017579ef0f17a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer::MIME_TYPE</definition>
+        <argsstring></argsstring>
+        <name>MIME_TYPE</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.MIME_TYPE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="523" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="523" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a6b8c9759ccff9f19af626f6da5842dbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1ae362e6df277a5c57028e0fad4c94e6ea">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="503" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="503" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a57ace01bf948a1bbaf5b211a21dc0c21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.translate</definition>
+        <argsstring>(self)</argsstring>
+        <name>translate</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.translate</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1a94b7282f8b16d235a1839a22d19c244b">translate</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Do final translation of `self.document` into `self.output`.  Called
+from `write`.  Override in subclasses.
+
+Usually done with a `docutils.nodes.NodeVisitor` subclass, in
+combination with a call to `docutils.nodes.Node.walk()` or
+`docutils.nodes.Node.walkabout()`.  The ``NodeVisitor`` subclass must
+support all standard elements (listed in
+`docutils.nodes.node_class_names`) and possibly non-standard elements
+used by the current Reader as well.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="507" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="507" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a4fe633b1f18c39859184fe01c517b68c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.assemble_my_parts</definition>
+        <argsstring>(self)</argsstring>
+        <name>assemble_my_parts</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.assemble_my_parts</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Assemble the `self.parts` dictionary.  Extend in subclasses.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="516" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="516" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a44b88b2d86503af18a60ac324122d3db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.update_stylesheet</definition>
+        <argsstring>(self, stylesheet_root, language_code, region_code)</argsstring>
+        <name>update_stylesheet</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.update_stylesheet</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>stylesheet_root</type>
+          <defname>stylesheet_root</defname>
+        </param>
+        <param>
+          <type>language_code</type>
+          <defname>language_code</defname>
+        </param>
+        <param>
+          <type>region_code</type>
+          <defname>region_code</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Update xml style sheet element with language and region/country.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="585" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="585" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a8208498fa847036ec30c7cb7a0383a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.write_zip_str</definition>
+        <argsstring>(self, zfile, name, bytes, compress_type=zipfile.ZIP_DEFLATED)</argsstring>
+        <name>write_zip_str</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.write_zip_str</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>zfile</type>
+          <defname>zfile</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <defname>bytes</defname>
+        </param>
+        <param>
+          <type>compress_type</type>
+          <defname>compress_type</defname>
+          <defval>zipfile.ZIP_DEFLATED</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="635" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="636" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a043ff6d70ff6fb31195fb662de54fc64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.store_embedded_files</definition>
+        <argsstring>(self, zfile)</argsstring>
+        <name>store_embedded_files</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.store_embedded_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>zfile</type>
+          <defname>zfile</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="644" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="644" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a3d9bb9f28cfe1af3fba90353b6791013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.get_settings</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_settings</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.get_settings</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>modeled after get_stylesheet
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="655" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="655" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a823f42f088743b6ef8bd41495054f727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.get_stylesheet</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_stylesheet</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.get_stylesheet</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the stylesheet from the visitor.
+Ask the visitor to setup the page.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="665" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="665" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a58833099f40cc31fec3e5ca6579ff48f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.copy_from_stylesheet</definition>
+        <argsstring>(self, outzipfile)</argsstring>
+        <name>copy_from_stylesheet</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.copy_from_stylesheet</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>outzipfile</type>
+          <defname>outzipfile</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy images, settings, etc from the stylesheet doc into target doc.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="671" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="671" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a37815faa31401bba39e4ab9752c44472" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.assemble_parts</definition>
+        <argsstring>(self)</argsstring>
+        <name>assemble_parts</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.assemble_parts</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1a50f6c38b37c2aa79132feb57d0b6c276">assemble_parts</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Assemble the `self.parts` dictionary.  Extend in subclasses.
+
+See &lt;https://docutils.sourceforge.io/docs/api/publisher.html&gt;.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="687" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="687" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a6ede706a058d9d060f6772d9e8b42d0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.create_manifest</definition>
+        <argsstring>(self)</argsstring>
+        <name>create_manifest</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.create_manifest</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="690" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="690" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ab69e1200b9749ad0b5126d114f931edc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Writer.create_meta</definition>
+        <argsstring>(self)</argsstring>
+        <name>create_meta</name>
+        <qualifiedname>docutils.writers.odf_odt.Writer.create_meta</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="721" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="721" bodyend="776"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.writers.odf_odt.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="5">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.writers.odf_odt.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>EXTENSION</edgelabel>
+          <edgelabel>MIME_TYPE</edgelabel>
+          <edgelabel>config_section</edgelabel>
+          <edgelabel>default_stylesheet</edgelabel>
+          <edgelabel>default_template</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>config_section_dependencies</edgelabel>
+          <edgelabel>relative_path_settings</edgelabel>
+          <edgelabel>settings_spec</edgelabel>
+          <edgelabel>supported</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>supported</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>relative_path_settings</edgelabel>
+          <edgelabel>settings_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>default_transforms</edgelabel>
+          <edgelabel>unknown_reference_resolvers</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="361" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="361" bodyend="776"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a6b8c9759ccff9f19af626f6da5842dbc" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a4fe633b1f18c39859184fe01c517b68c" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>assemble_my_parts</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a37815faa31401bba39e4ab9752c44472" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>assemble_parts</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a9eba688cafe2e532c91bb94e02c040f7" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ae0f7f184103423f3ea3687caf9b24abd" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>config_section_dependencies</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a58833099f40cc31fec3e5ca6579ff48f" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>copy_from_stylesheet</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a6ede706a058d9d060f6772d9e8b42d0e" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>create_manifest</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ab69e1200b9749ad0b5126d114f931edc" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>create_meta</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a15f51b64cb0690d80ae8b235e65ea408" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>default_stylesheet</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1af39a970442bea974c13d312f192ae8d1" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>default_stylesheet_path</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7fa0bd6959852c097c5edc686d66e20e" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>default_template</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ae51f9be21a35d4f4d6218bc54982bc89" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>default_template_path</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a3e16254514cf8a0aadc6bf3cc0afc722" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>EXTENSION</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1aab4c3d78f722e2db254a4169cd7ae9b3" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>EXTENSION</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a3d9bb9f28cfe1af3fba90353b6791013" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>get_settings</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a823f42f088743b6ef8bd41495054f727" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>get_stylesheet</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a6fa102cae756d89a96ed59d377f85e53" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>MIME_TYPE</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ab2521cbd248c70c76bb017579ef0f17a" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>MIME_TYPE</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7bb30a4b3c4d2c4f25882fceb00249a6" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>output</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a8d9a91a0f4637f1b22268f621c41744a" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>relative_path_settings</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a0766fae0442a80f8316bfbbef0a23634" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>settings</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1ab49bec647d53ab968204af9012b2cdae" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>settings_defaults</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7a1366f6b0cb19798d0fad4a9fc66ef7" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>settings_spec</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a043ff6d70ff6fb31195fb662de54fc64" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>store_embedded_files</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a463bbf4f9c6358301f9a0e6dd70c298d" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>supported</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a57ace01bf948a1bbaf5b211a21dc0c21" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>translate</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a7748c940ed385062ecfd81ac5711cf24" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>translator_class</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a44b88b2d86503af18a60ac324122d3db" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>update_stylesheet</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a02e3cba4d386c32d1212583dd6e2fa49" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>visitor</name></member>
+      <member refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer_1a8208498fa847036ec30c7cb7a0383a81" prot="public" virt="non-virtual"><scope>docutils::writers::odf_odt::Writer</scope><name>write_zip_str</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

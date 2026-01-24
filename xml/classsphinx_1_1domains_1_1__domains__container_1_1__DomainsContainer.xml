@@ -1,0 +1,997 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer" kind="class" language="Python" prot="protected">
+    <compoundname>sphinx::domains::_domains_container::_DomainsContainer</compoundname>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a0a9733840609b78fa8b26f423d9a040b" prot="private" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.domains._domains_container._DomainsContainer::__slots__</definition>
+        <argsstring></argsstring>
+        <name>__slots__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__slots__</qualifiedname>
+        <initializer>=  (
+        &apos;<ref refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1adce57b9ede06abc9b38213cdf38c2c4d" kindref="member">_domain_instances</ref>&apos;,
+        &apos;c_domain&apos;,
+        &apos;changeset_domain&apos;,
+        &apos;citation_domain&apos;,
+        &apos;cpp_domain&apos;,
+        &apos;index_domain&apos;,
+        &apos;javascript_domain&apos;,
+        &apos;math_domain&apos;,
+        &apos;python_domain&apos;,
+        &apos;restructuredtext_domain&apos;,
+        &apos;standard_domain&apos;,
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="44" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a74892514ab1113be65722037e74f992b" prot="protected" static="yes" mutable="no">
+        <type>Final</type>
+        <definition>Final sphinx.domains._domains_container._DomainsContainer::_core_domains</definition>
+        <argsstring></argsstring>
+        <name>_core_domains</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._core_domains</qualifiedname>
+        <initializer>=  frozenset({
+        &apos;std&apos;,
+        # Language-specific domains
+        &apos;c&apos;,
+        &apos;cpp&apos;,
+        &apos;js&apos;,
+        &apos;py&apos;,
+        &apos;rst&apos;,
+        # Other core domains
+        &apos;changeset&apos;,
+        &apos;citation&apos;,
+        &apos;index&apos;,
+        &apos;math&apos;,
+    })</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1adce57b9ede06abc9b38213cdf38c2c4d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.domains._domains_container._DomainsContainer::_domain_instances</definition>
+        <argsstring></argsstring>
+        <name>_domain_instances</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._domain_instances</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="191" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a9ba2d6fb698276c56470d6dc2e99b1bf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Self</type>
+        <definition> Self sphinx.domains._domains_container._DomainsContainer._from_environment</definition>
+        <argsstring>(cls, BuildEnvironment env, *SphinxComponentRegistry registry)</argsstring>
+        <name>_from_environment</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._from_environment</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>*<ref refid="classsphinx_1_1registry_1_1SphinxComponentRegistry" kindref="compound">SphinxComponentRegistry</ref></type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="77" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a476781c9b028c467d7698b5164055dab" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Self</type>
+        <definition> Self sphinx.domains._domains_container._DomainsContainer._from_environment_default</definition>
+        <argsstring>(cls, *BuildEnvironment env)</argsstring>
+        <name>_from_environment_default</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._from_environment_default</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>*<ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a default instance with every domain we require.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="86" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="86" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a69b3c03c78fc8d44cabde42c28c52153" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains._domains_container._DomainsContainer._setup</definition>
+        <argsstring>(self)</argsstring>
+        <name>_setup</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._setup</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="161" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1af1c7de9f3d41c8c47c24e1d75f573695" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains._domains_container._DomainsContainer._process_doc</definition>
+        <argsstring>(self, BuildEnvironment env, str docname, nodes.document document)</argsstring>
+        <name>_process_doc</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._process_doc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="165" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="167" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a116a4f65a529a030cc7be400323e5887" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains._domains_container._DomainsContainer._clear_doc</definition>
+        <argsstring>(self, str docname)</argsstring>
+        <name>_clear_doc</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._clear_doc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="171" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="171" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a5e5bde0e7efb58d1ed339985c35f3ced" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains._domains_container._DomainsContainer._merge_domain_data</definition>
+        <argsstring>(self, Set[str] docnames, dict[str, Any] domain_data)</argsstring>
+        <name>_merge_domain_data</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._merge_domain_data</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>domain_data</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="175" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="177" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1acaaf666265cb905b1856d0d5b8f91825" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains._domains_container._DomainsContainer._check_consistency</definition>
+        <argsstring>(self)</argsstring>
+        <name>_check_consistency</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer._check_consistency</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="181" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="181" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1ab33129d23f7d26a33205669a7a052a83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains._domains_container._DomainsContainer.__init__</definition>
+        <argsstring>(self, *CDomain c, CPPDomain cpp, JavaScriptDomain js, PythonDomain py, ReSTDomain rst, StandardDomain std, ChangeSetDomain changeset, CitationDomain citation, IndexDomain index, MathDomain math, **Domain domains)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*<ref refid="classsphinx_1_1domains_1_1c_1_1CDomain" kindref="compound">CDomain</ref></type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1cpp_1_1CPPDomain" kindref="compound">CPPDomain</ref></type>
+          <declname>cpp</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1javascript_1_1JavaScriptDomain" kindref="compound">JavaScriptDomain</ref></type>
+          <declname>js</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1python_1_1PythonDomain" kindref="compound">PythonDomain</ref></type>
+          <declname>py</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1rst_1_1ReSTDomain" kindref="compound">ReSTDomain</ref></type>
+          <declname>rst</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1std_1_1StandardDomain" kindref="compound">StandardDomain</ref></type>
+          <declname>std</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1changeset_1_1ChangeSetDomain" kindref="compound">ChangeSetDomain</ref></type>
+          <declname>changeset</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1citation_1_1CitationDomain" kindref="compound">CitationDomain</ref></type>
+          <declname>citation</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1index_1_1IndexDomain" kindref="compound">IndexDomain</ref></type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1math_1_1MathDomain" kindref="compound">MathDomain</ref></type>
+          <declname>math</declname>
+        </param>
+        <param>
+          <type>**<ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref></type>
+          <declname>domains</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="112" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="126" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1ae63e9fd7089e0c4c91ace3272ce5f68a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.domains._domains_container._DomainsContainer.__contains__</definition>
+        <argsstring>(self, str key)</argsstring>
+        <name>__contains__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__contains__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="185" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="185" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a92af31d7f6f9aa3562e2f4333a9c07c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.domains._domains_container._DomainsContainer.__eq__</definition>
+        <argsstring>(self, object other)</argsstring>
+        <name>__eq__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__eq__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>object</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="188" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="188" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a0df17510c4901b9849adca5151490f40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.domains._domains_container._DomainsContainer.__hash__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__hash__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__hash__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="193" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1abf886de3d95535ce14950a3621368498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains._domains_container._DomainsContainer.__setattr__</definition>
+        <argsstring>(self, str key, object value)</argsstring>
+        <name>__setattr__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__setattr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>object</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="196" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="196" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a4ee4facbb0aed1b7661d4d49947441fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains._domains_container._DomainsContainer.__delattr__</definition>
+        <argsstring>(self, str key)</argsstring>
+        <name>__delattr__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__delattr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="202" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="202" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a680b750768696d891abb1d3f0c0cf8c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1c_1_1CDomain" kindref="compound">CDomain</ref></type>
+        <definition> CDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;c&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;c&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="211" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="211" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1af83047619dd1516f7a6cd2c2c9e957e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1cpp_1_1CPPDomain" kindref="compound">CPPDomain</ref></type>
+        <definition> CPPDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;cpp&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;cpp&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="214" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="214" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a593a36851d627c510136feff67811999" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1changeset_1_1ChangeSetDomain" kindref="compound">ChangeSetDomain</ref></type>
+        <definition> ChangeSetDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;changeset&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;changeset&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="217" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="217" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a20900739d28e1c9a2d3f5052e3b0e910" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1citation_1_1CitationDomain" kindref="compound">CitationDomain</ref></type>
+        <definition> CitationDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;citation&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;citation&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="220" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="220" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a8204dd410af4ea3042b2dbbfcbe856de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1index_1_1IndexDomain" kindref="compound">IndexDomain</ref></type>
+        <definition> IndexDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;index&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;index&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="223" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="223" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a7dd961f9aa58a408d456917fef05c0df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1javascript_1_1JavaScriptDomain" kindref="compound">JavaScriptDomain</ref></type>
+        <definition> JavaScriptDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;js&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;js&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="226" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="226" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1af354c8b583877eb189147e95bf5496cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1math_1_1MathDomain" kindref="compound">MathDomain</ref></type>
+        <definition> MathDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;math&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;math&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="229" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="229" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1ab6695c68e7ff7be540f54f2312e915a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1python_1_1PythonDomain" kindref="compound">PythonDomain</ref></type>
+        <definition> PythonDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;py&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;py&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="232" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="232" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1aef13cf3f9aa3155f18e5ffbc4babc443" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1rst_1_1ReSTDomain" kindref="compound">ReSTDomain</ref></type>
+        <definition> ReSTDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;rst&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;rst&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="235" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="235" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a7cf2b5558022f5887c582e70cde1165d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1std_1_1StandardDomain" kindref="compound">StandardDomain</ref></type>
+        <definition> StandardDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;std&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;std&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="238" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="238" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a4f694dda8c3077dfafbe8308cc2061c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1ext_1_1duration_1_1DurationDomain" kindref="compound">DurationDomain</ref></type>
+        <definition> DurationDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;duration&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;duration&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="243" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="243" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1aec98d48d4d11286ed75229ab0777db27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1ext_1_1todo_1_1TodoDomain" kindref="compound">TodoDomain</ref></type>
+        <definition> TodoDomain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, Literal[&apos;todo&apos;] key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>key</declname>
+          <array>[ &apos;todo&apos;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="246" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="246" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a2c6c18b27f62c0fb3f7bd4f6ec299524" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref></type>
+        <definition> Domain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, str key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="251" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="251" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a2c6c18b27f62c0fb3f7bd4f6ec299524" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref></type>
+        <definition> Domain sphinx.domains._domains_container._DomainsContainer.__getitem__</definition>
+        <argsstring>(self, str key)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="253" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="253" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a8504906e7fe3cbd8c427162bce930327" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>NoReturn</type>
+        <definition> NoReturn sphinx.domains._domains_container._DomainsContainer.__setitem__</definition>
+        <argsstring>(self, str key, Domain value)</argsstring>
+        <name>__setitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__setitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="258" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="258" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a20ef8415a8ebc9d21e911baeb8ee213c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>NoReturn</type>
+        <definition> NoReturn sphinx.domains._domains_container._DomainsContainer.__delitem__</definition>
+        <argsstring>(self, str key)</argsstring>
+        <name>__delitem__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__delitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="262" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="262" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1ab201dddd9ce4062cbbd8a3a1fa18e542" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] sphinx.domains._domains_container._DomainsContainer.__iter__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__iter__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__iter__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="266" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="266" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1abff59c3c090f9e71e556f6967b6a46d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.domains._domains_container._DomainsContainer.__len__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__len__</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.__len__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="269" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="269" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a539b8472cbc3d40444568373b5160d0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref>|None</type>
+        <definition> Domain | None sphinx.domains._domains_container._DomainsContainer.get</definition>
+        <argsstring>(self, str key, Domain|None default=None)</argsstring>
+        <name>get</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.get</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref>|None</type>
+          <declname>default</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="272" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="272" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a3a48e01ea6ef841c69debe3f77933271" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[str]</type>
+        <definition> Iterable[str] sphinx.domains._domains_container._DomainsContainer.keys</definition>
+        <argsstring>(self)</argsstring>
+        <name>keys</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.keys</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="275" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="275" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a75c5b551a59b8f78e1d710e794a45dbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[tuple[str, <ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref>]]</type>
+        <definition> Iterable[tuple[str, Domain]] sphinx.domains._domains_container._DomainsContainer.items</definition>
+        <argsstring>(self)</argsstring>
+        <name>items</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.items</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="278" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="278" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a93bc426bd8b351986fbd2d90f58137ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[<ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref>]</type>
+        <definition> Iterable[Domain] sphinx.domains._domains_container._DomainsContainer.values</definition>
+        <argsstring>(self)</argsstring>
+        <name>values</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.values</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="281" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="281" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a50ec0a65dc59d1d4f5377dc556799778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[<ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref>]</type>
+        <definition> Iterable[Domain] sphinx.domains._domains_container._DomainsContainer.sorted</definition>
+        <argsstring>(self)</argsstring>
+        <name>sorted</name>
+        <qualifiedname>sphinx.domains._domains_container._DomainsContainer.sorted</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="284" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="284" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Container for domain instances.
+
+This class is private, including its name, constructor, and all methods.
+Any or all of these will change without notice or warning in any release.
+
+The public interface is restricted to:
+
+* the``domains.[&apos;&lt;domain-name&gt;&apos;]`` mapping interface
+* the ``domains.&lt;core-domain-name&gt;`` attributes for core domains.
+* the `.get()``, ``.keys()``, ``.items()``, and ``.values()`` methods.
+
+Additionally, this class supports ``iter`` and ``len``,
+and provides membership testing via the ``in`` operator.
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>sphinx.domains._domains_container._DomainsContainer</label>
+        <link refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>_core_domains</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Final</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/_domains_container.py" bodystart="28" bodyend="287"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1ae63e9fd7089e0c4c91ace3272ce5f68a" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__contains__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a4ee4facbb0aed1b7661d4d49947441fa" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__delattr__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a20ef8415a8ebc9d21e911baeb8ee213c" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__delitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a92af31d7f6f9aa3562e2f4333a9c07c6" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__eq__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a680b750768696d891abb1d3f0c0cf8c8" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1af83047619dd1516f7a6cd2c2c9e957e8" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a593a36851d627c510136feff67811999" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a20900739d28e1c9a2d3f5052e3b0e910" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a8204dd410af4ea3042b2dbbfcbe856de" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a7dd961f9aa58a408d456917fef05c0df" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1af354c8b583877eb189147e95bf5496cb" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1ab6695c68e7ff7be540f54f2312e915a7" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1aef13cf3f9aa3155f18e5ffbc4babc443" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a7cf2b5558022f5887c582e70cde1165d" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a4f694dda8c3077dfafbe8308cc2061c9" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1aec98d48d4d11286ed75229ab0777db27" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a2c6c18b27f62c0fb3f7bd4f6ec299524" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a2c6c18b27f62c0fb3f7bd4f6ec299524" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__getitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a0df17510c4901b9849adca5151490f40" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__hash__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1ab33129d23f7d26a33205669a7a052a83" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1ab201dddd9ce4062cbbd8a3a1fa18e542" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__iter__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1abff59c3c090f9e71e556f6967b6a46d0" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__len__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1abf886de3d95535ce14950a3621368498" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__setattr__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a8504906e7fe3cbd8c427162bce930327" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__setitem__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a0a9733840609b78fa8b26f423d9a040b" prot="private" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>__slots__</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1acaaf666265cb905b1856d0d5b8f91825" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_check_consistency</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a116a4f65a529a030cc7be400323e5887" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_clear_doc</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a74892514ab1113be65722037e74f992b" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_core_domains</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1adce57b9ede06abc9b38213cdf38c2c4d" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_domain_instances</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a9ba2d6fb698276c56470d6dc2e99b1bf" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_from_environment</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a476781c9b028c467d7698b5164055dab" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_from_environment_default</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a5e5bde0e7efb58d1ed339985c35f3ced" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_merge_domain_data</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1af1c7de9f3d41c8c47c24e1d75f573695" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_process_doc</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a69b3c03c78fc8d44cabde42c28c52153" prot="protected" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>_setup</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a539b8472cbc3d40444568373b5160d0b" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>get</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a75c5b551a59b8f78e1d710e794a45dbf" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>items</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a3a48e01ea6ef841c69debe3f77933271" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>keys</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a50ec0a65dc59d1d4f5377dc556799778" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>sorted</name></member>
+      <member refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer_1a93bc426bd8b351986fbd2d90f58137ab" prot="public" virt="non-virtual"><scope>sphinx::domains::_domains_container::_DomainsContainer</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

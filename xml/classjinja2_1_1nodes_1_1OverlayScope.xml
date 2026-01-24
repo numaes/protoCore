@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1OverlayScope" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::OverlayScope</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1Stmt" prot="public" virt="non-virtual">jinja2.nodes.Stmt</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1OverlayScope_1a5f7727de5738c294a6575b2898a87271" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.OverlayScope::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.OverlayScope.fields</qualifiedname>
+        <initializer>=  (&quot;context&quot;, &quot;body&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="1172" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="1172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1OverlayScope_1a37d679af444e837845149e0b8a3dfc3c" prot="public" static="yes" mutable="no">
+        <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">Expr</ref></type>
+        <definition>Expr jinja2.nodes.OverlayScope::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>jinja2.nodes.OverlayScope.context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="1173" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="1173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1OverlayScope_1aad85e1e70008ac05b069cd51d32197ba" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.nodes.OverlayScope::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>jinja2.nodes.OverlayScope.body</qualifiedname>
+        <initializer>.<ref refid="classjinja2_1_1nodes_1_1List" kindref="compound">List</ref>[<ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">Node</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="1174" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="1174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>An overlay scope for extensions.  This is a largely unoptimized scope
+that however can be used to introduce completely arbitrary variables into
+a sub scope from a dictionary or dictionary like object.  The `context`
+field has to evaluate to a dictionary object.
+
+Example usage::
+
+    OverlayScope(context=self.call_method(&apos;get_context&apos;),
+                 body=[...])
+
+.. versionadded:: 2.10
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.OverlayScope</label>
+        <link refid="classjinja2_1_1nodes_1_1OverlayScope"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Stmt</label>
+        <link refid="classjinja2_1_1nodes_1_1Stmt"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.nodes.OverlayScope</label>
+        <link refid="classjinja2_1_1nodes_1_1OverlayScope"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>fields</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>context</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>attributes</edgelabel>
+          <edgelabel>fields</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Stmt</label>
+        <link refid="classjinja2_1_1nodes_1_1Stmt"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="1158" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="1158" bodyend="1176"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1OverlayScope_1aad85e1e70008ac05b069cd51d32197ba" prot="public" virt="non-virtual"><scope>jinja2::nodes::OverlayScope</scope><name>body</name></member>
+      <member refid="classjinja2_1_1nodes_1_1OverlayScope_1a37d679af444e837845149e0b8a3dfc3c" prot="public" virt="non-virtual"><scope>jinja2::nodes::OverlayScope</scope><name>context</name></member>
+      <member refid="classjinja2_1_1nodes_1_1OverlayScope_1a5f7727de5738c294a6575b2898a87271" prot="public" virt="non-virtual"><scope>jinja2::nodes::OverlayScope</scope><name>fields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

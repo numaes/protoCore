@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig" kind="namespace" language="Python">
+    <compoundname>pip::_internal::locations::_sysconfig</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1ad330345993c7877cc5399a6d3edb733f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::locations::_sysconfig.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.locations._sysconfig.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="13" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a6f5d0e31b6fb8e28b13bb7e7cd95492d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::locations::_sysconfig._AVAILABLE_SCHEMES</definition>
+        <argsstring></argsstring>
+        <name>_AVAILABLE_SCHEMES</name>
+        <qualifiedname>pip._internal.locations._sysconfig._AVAILABLE_SCHEMES</qualifiedname>
+        <initializer>=  set(sysconfig.get_scheme_names())</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a8b607f306feedd60b0fd25a2e5ec76cb" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::locations::_sysconfig._PREFERRED_SCHEME_API</definition>
+        <argsstring></argsstring>
+        <name>_PREFERRED_SCHEME_API</name>
+        <qualifiedname>pip._internal.locations._sysconfig._PREFERRED_SCHEME_API</qualifiedname>
+        <initializer>=  getattr(sysconfig, &quot;get_preferred_scheme&quot;, None)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a26672c01c116f1fae23670151456a7e7" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::locations::_sysconfig._HOME_KEYS</definition>
+        <argsstring></argsstring>
+        <name>_HOME_KEYS</name>
+        <qualifiedname>pip._internal.locations._sysconfig._HOME_KEYS</qualifiedname>
+        <initializer>=  [
+    &quot;installed_base&quot;,
+    &quot;base&quot;,
+    &quot;installed_platbase&quot;,
+    &quot;platbase&quot;,
+    &quot;prefix&quot;,
+    &quot;exec_prefix&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="112" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a1bc0cc7f953cb3d4283e04b379070764" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.locations._sysconfig._should_use_osx_framework_prefix</definition>
+        <argsstring>()</argsstring>
+        <name>_should_use_osx_framework_prefix</name>
+        <qualifiedname>pip._internal.locations._sysconfig._should_use_osx_framework_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check for Apple&apos;s ``osx_framework_library`` scheme.
+
+Python distributed by Apple&apos;s Command Line Tools has this special scheme
+that&apos;s used when:
+
+* This is a framework build.
+* We are installing into the system prefix.
+
+This does not account for ``pip install --prefix`` (also means we&apos;re not
+installing to the system prefix), which should use ``posix_prefix``, but
+logic here means ``_infer_prefix()`` outputs ``osx_framework_library``. But
+since ``prefix`` is not available for ``sysconfig.get_default_scheme()``,
+which is the stdlib replacement for ``_infer_prefix()``, presumably Apple
+wouldn&apos;t be able to magically switch between ``osx_framework_library`` and
+``posix_prefix``. ``_infer_prefix()`` returning ``osx_framework_library``
+means its behavior is consistent whether we use the stdlib implementation
+or our own, and we deal with this special case in ``get_scheme()`` instead.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="29" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a25048f140d4d520fdab9e9b885478632" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._sysconfig._infer_prefix</definition>
+        <argsstring>()</argsstring>
+        <name>_infer_prefix</name>
+        <qualifiedname>pip._internal.locations._sysconfig._infer_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Try to find a prefix scheme for the current platform.
+
+This tries:
+
+* A special ``osx_framework_library`` for Python distributed by Apple&apos;s
+  Command Line Tools, when not running in a virtual environment.
+* Implementation + OS, used by PyPy on Windows (``pypy_nt``).
+* Implementation without OS, used by PyPy on POSIX (``pypy``).
+* OS + &quot;prefix&quot;, used by CPython on POSIX (``posix_prefix``).
+* Just the OS name, used by CPython on Windows (``nt``).
+
+If none of the above works, fall back to ``posix_prefix``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="55" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1ab2be4f5af368b7c8ae4a22f61641d024" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._sysconfig._infer_user</definition>
+        <argsstring>()</argsstring>
+        <name>_infer_user</name>
+        <qualifiedname>pip._internal.locations._sysconfig._infer_user</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Try to find a user scheme for the current platform.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="86" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="86" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a8b2abb7c67dc61486471bc266f6297d9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._sysconfig._infer_home</definition>
+        <argsstring>()</argsstring>
+        <name>_infer_home</name>
+        <qualifiedname>pip._internal.locations._sysconfig._infer_home</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Try to find a home for the current platform.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="101" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a324276c546e742ed9076808cc329cb2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1models_1_1scheme_1_1Scheme" kindref="compound">Scheme</ref></type>
+        <definition> Scheme pip._internal.locations._sysconfig.get_scheme</definition>
+        <argsstring>(str dist_name, bool user=False, typing.Optional[str] home=None, typing.Optional[str] root=None, bool isolated=False, typing.Optional[str] prefix=None)</argsstring>
+        <name>get_scheme</name>
+        <qualifiedname>pip._internal.locations._sysconfig.get_scheme</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>dist_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>home</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>root</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>prefix</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the &quot;scheme&quot; corresponding to the input parameters.
+
+:param dist_name: the name of the package to retrieve the scheme for, used
+    in the headers scheme path
+:param user: indicates to use the &quot;user&quot; scheme
+:param home: indicates to use the &quot;home&quot; scheme
+:param root: root under which other directories are re-based
+:param isolated: ignored, but kept for distutils compatibility (where
+    this controls whether the user-site pydistutils.cfg is honored)
+:param prefix: indicates to use the &quot;prefix&quot; scheme and provides the
+    base directory for the same
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="124" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="131" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a634331f0432e075b3daff3df23bb623c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._sysconfig.get_bin_prefix</definition>
+        <argsstring>()</argsstring>
+        <name>get_bin_prefix</name>
+        <qualifiedname>pip._internal.locations._sysconfig.get_bin_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="201" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="201" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1ae5699305cc2448af6120ad73e418f9a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._sysconfig.get_purelib</definition>
+        <argsstring>()</argsstring>
+        <name>get_purelib</name>
+        <qualifiedname>pip._internal.locations._sysconfig.get_purelib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="208" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="208" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__sysconfig_1a8b54c6a738a84379c8937385ed605336" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._sysconfig.get_platlib</definition>
+        <argsstring>()</argsstring>
+        <name>get_platlib</name>
+        <qualifiedname>pip._internal.locations._sysconfig.get_platlib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="212" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" bodystart="212" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/_sysconfig.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::rich::layout::Splitter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ABC</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1ColumnSplitter" prot="public" virt="non-virtual">pip._vendor.rich.layout.ColumnSplitter</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1RowSplitter" prot="public" virt="non-virtual">pip._vendor.rich.layout.RowSplitter</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter_1af649215f653a244a9cfc69bd4129720c" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.rich.layout.Splitter::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pip._vendor.rich.layout.Splitter.name</qualifiedname>
+        <initializer>=  &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/layout.py" line="83" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/layout.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter_1a35151123d6ea839114b461c292974810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich.layout.Splitter.get_tree_icon</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_tree_icon</name>
+        <qualifiedname>pip._vendor.rich.layout.Splitter.get_tree_icon</qualifiedname>
+        <reimplementedby refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1RowSplitter_1aa15a7d602234f3390f7e65c5a25bba33">get_tree_icon</reimplementedby>
+        <reimplementedby refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1ColumnSplitter_1a8c1e9e6992eb2c565ec376dda7feb06f">get_tree_icon</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the icon (emoji) used in layout.tree</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/layout.py" line="86" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/layout.py" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter_1a6f6ae58d73a289a7a9ee2191fd5949f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[Tuple[&quot;Layout&quot;, <ref refid="classpip_1_1__vendor_1_1rich_1_1region_1_1Region" kindref="compound">Region</ref>]]</type>
+        <definition> Iterable[Tuple[&quot;Layout&quot;, Region]] pip._vendor.rich.layout.Splitter.divide</definition>
+        <argsstring>(self, Sequence[&quot;Layout&quot;] children, Region region)</argsstring>
+        <name>divide</name>
+        <qualifiedname>pip._vendor.rich.layout.Splitter.divide</qualifiedname>
+        <reimplementedby refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1RowSplitter_1a9e23ca7960c4374999fd999c98ff1f8d">divide</reimplementedby>
+        <reimplementedby refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1ColumnSplitter_1a60cbc9fd3f64aef0ff9578b55785fd61">divide</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>children</declname>
+          <array>[&quot;Layout&quot;]</array>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1rich_1_1region_1_1Region" kindref="compound">Region</ref></type>
+          <declname>region</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Divide a region amongst several child layouts.
+
+Args:
+    children (Sequence(Layout)): A number of child layouts.
+    region (Region): A rectangular region to divide.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/layout.py" line="90" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/layout.py" bodystart="92" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base class for a splitter.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.rich.layout.Splitter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.rich.layout.ColumnSplitter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1ColumnSplitter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.rich.layout.RowSplitter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1RowSplitter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ABC</label>
+      </node>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.rich.layout.Splitter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/layout.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/layout.py" bodystart="80" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter_1a6f6ae58d73a289a7a9ee2191fd5949f2" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::layout::Splitter</scope><name>divide</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter_1a35151123d6ea839114b461c292974810" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::layout::Splitter</scope><name>get_tree_icon</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1layout_1_1Splitter_1af649215f653a244a9cfc69bd4129720c" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::layout::Splitter</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2googletest_2test_2googletest-shuffle-test_8py" kind="file" language="Python">
+    <compoundname>googletest-shuffle-test.py</compoundname>
+    <innerclass refid="classgoogletest-shuffle-test_1_1GTestShuffleUnitTest" prot="public">googletest-shuffle-test::GTestShuffleUnitTest</innerclass>
+    <innernamespace refid="namespacegoogletest-shuffle-test">googletest-shuffle-test</innernamespace>
+    <innernamespace refid="namespacegoogletest">googletest</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">#!/usr/bin/env<sp/>python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright<sp/>2009<sp/>Google<sp/>Inc.<sp/>All<sp/>Rights<sp/>Reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">#<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">#<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">#<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">#<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">#<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">#<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">#<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">#<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Verifies<sp/>that<sp/>test<sp/>shuffling<sp/>works.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>googletest.test<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>gtest_test_utils</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Command<sp/>to<sp/>run<sp/>the<sp/>googletest-shuffle-test_<sp/>program.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">COMMAND<sp/>=<sp/><ref refid="namespacegtest__test__utils_1ae7a8ef352b6b64ef8ec893f79874a1cd" kindref="member">gtest_test_utils.GetTestExecutablePath</ref>(</highlight><highlight class="stringliteral">&apos;googletest-shuffle-test_&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">#<sp/>The<sp/>environment<sp/>variables<sp/>for<sp/>test<sp/>sharding.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">TOTAL_SHARDS_ENV_VAR<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;GTEST_TOTAL_SHARDS&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">SHARD_INDEX_ENV_VAR<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;GTEST_SHARD_INDEX&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">TEST_FILTER<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;A*.A:A*.B:C*&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">ALL_TESTS<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">ACTIVE_TESTS<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">FILTERED_TESTS<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">SHARDED_TESTS<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">SHUFFLED_ALL_TESTS<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">SHUFFLED_ACTIVE_TESTS<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">SHUFFLED_FILTERED_TESTS<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">SHUFFLED_SHARDED_TESTS<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">AlsoRunDisabledTestsFlag():</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;--gtest_also_run_disabled_tests&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">FilterFlag(test_filter):</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;--gtest_filter=%s&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test_filter,)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">RepeatFlag(n):</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;--gtest_repeat=%s&apos;</highlight><highlight class="normal"><sp/>%<sp/>(n,)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">ShuffleFlag():</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;--gtest_shuffle&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">RandomSeedFlag(n):</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;--gtest_random_seed=%s&apos;</highlight><highlight class="normal"><sp/>%<sp/>(n,)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">RunAndReturnOutput(extra_env,<sp/>args):</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Runs<sp/>the<sp/>test<sp/>program<sp/>and<sp/>returns<sp/>its<sp/>output.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/>environ_copy<sp/>=<sp/>os.environ.copy()</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>environ_copy.update(extra_env)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>([COMMAND]<sp/>+<sp/>args,<sp/>env=environ_copy).output</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">GetTestsForAllIterations(extra_env,<sp/>args):</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Runs<sp/>the<sp/>test<sp/>program<sp/>and<sp/>returns<sp/>a<sp/>list<sp/>of<sp/>test<sp/>lists.</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>extra_env:<sp/>a<sp/>map<sp/>from<sp/>environment<sp/>variables<sp/>to<sp/>their<sp/>values</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>args:<sp/>command<sp/>line<sp/>flags<sp/>to<sp/>pass<sp/>to<sp/>googletest-shuffle-test_</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>list<sp/>where<sp/>the<sp/>i-th<sp/>element<sp/>is<sp/>the<sp/>list<sp/>of<sp/>tests<sp/>run<sp/>in<sp/>the<sp/>i-th</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>test<sp/>iteration.</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/>test_iterations<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>line<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>RunAndReturnOutput(extra_env,<sp/>args).split(</highlight><highlight class="stringliteral">&apos;\n&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>line.startswith(</highlight><highlight class="stringliteral">&apos;----&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>tests<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>test_iterations.append(tests)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>line.strip():</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>tests.append(line.strip())<sp/><sp/></highlight><highlight class="comment">#<sp/>&apos;TestCaseName.TestName&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>test_iterations</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">GetTestCases(tests):</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Returns<sp/>a<sp/>list<sp/>of<sp/>test<sp/>cases<sp/>in<sp/>the<sp/>given<sp/>full<sp/>test<sp/>names.</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>tests:<sp/>a<sp/>list<sp/>of<sp/>full<sp/>test<sp/>names</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>list<sp/>of<sp/>test<sp/>cases<sp/>from<sp/>&apos;tests&apos;,<sp/>in<sp/>their<sp/>original<sp/>order.</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Consecutive<sp/>duplicates<sp/>are<sp/>removed.</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/>test_cases<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>tests:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>test_case<sp/>=<sp/>test.split(</highlight><highlight class="stringliteral">&apos;.&apos;</highlight><highlight class="normal">)[0]</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>test_case<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>test_cases:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>test_cases.append(test_case)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>test_cases</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">CalculateTestLists():</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Calculates<sp/>the<sp/>list<sp/>of<sp/>tests<sp/>run<sp/>under<sp/>different<sp/>flags.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>ALL_TESTS:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ALL_TESTS.extend(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations({},<sp/>[AlsoRunDisabledTestsFlag()])[0]</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>ACTIVE_TESTS:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ACTIVE_TESTS.extend(GetTestsForAllIterations({},<sp/>[])[0])</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>FILTERED_TESTS:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>FILTERED_TESTS.extend(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations({},<sp/>[FilterFlag(TEST_FILTER)])[0]</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>SHARDED_TESTS:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>SHARDED_TESTS.extend(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{TOTAL_SHARDS_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;3&apos;</highlight><highlight class="normal">,<sp/>SHARD_INDEX_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;1&apos;</highlight><highlight class="normal">},<sp/>[]</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>SHUFFLED_ALL_TESTS:</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>SHUFFLED_ALL_TESTS.extend(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/>[AlsoRunDisabledTestsFlag(),<sp/>ShuffleFlag(),<sp/>RandomSeedFlag(1)]</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>SHUFFLED_ACTIVE_TESTS:</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>SHUFFLED_ACTIVE_TESTS.extend(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations({},<sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(1)])[0]</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>SHUFFLED_FILTERED_TESTS:</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>SHUFFLED_FILTERED_TESTS.extend(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(1),<sp/>FilterFlag(TEST_FILTER)]</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>SHUFFLED_SHARDED_TESTS:</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>SHUFFLED_SHARDED_TESTS.extend(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{TOTAL_SHARDS_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;3&apos;</highlight><highlight class="normal">,<sp/>SHARD_INDEX_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;1&apos;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(1)],</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GTestShuffleUnitTest(<ref refid="namespacegtest__test__utils_1acb97a85206c09d233db6c7f2362e5428" kindref="member">gtest_test_utils.TestCase</ref>):</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Tests<sp/>test<sp/>shuffling.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">setUp(self):</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>CalculateTestLists()</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShufflePreservesNumberOfTests(self):</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(len(ALL_TESTS),<sp/>len(SHUFFLED_ALL_TESTS))</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(len(ACTIVE_TESTS),<sp/>len(SHUFFLED_ACTIVE_TESTS))</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(len(FILTERED_TESTS),<sp/>len(SHUFFLED_FILTERED_TESTS))</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(len(SHARDED_TESTS),<sp/>len(SHUFFLED_SHARDED_TESTS))</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleChangesTestOrder(self):</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(SHUFFLED_ALL_TESTS<sp/>!=<sp/>ALL_TESTS,<sp/>SHUFFLED_ALL_TESTS)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHUFFLED_ACTIVE_TESTS<sp/>!=<sp/>ACTIVE_TESTS,<sp/>SHUFFLED_ACTIVE_TESTS</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHUFFLED_FILTERED_TESTS<sp/>!=<sp/>FILTERED_TESTS,<sp/>SHUFFLED_FILTERED_TESTS</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHUFFLED_SHARDED_TESTS<sp/>!=<sp/>SHARDED_TESTS,<sp/>SHUFFLED_SHARDED_TESTS</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleChangesTestCaseOrder(self):</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestCases(SHUFFLED_ALL_TESTS)<sp/>!=<sp/>GetTestCases(ALL_TESTS),</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestCases(SHUFFLED_ALL_TESTS),</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestCases(SHUFFLED_ACTIVE_TESTS)<sp/>!=<sp/>GetTestCases(ACTIVE_TESTS),</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestCases(SHUFFLED_ACTIVE_TESTS),</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestCases(SHUFFLED_FILTERED_TESTS)<sp/>!=<sp/>GetTestCases(FILTERED_TESTS),</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestCases(SHUFFLED_FILTERED_TESTS),</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestCases(SHUFFLED_SHARDED_TESTS)<sp/>!=<sp/>GetTestCases(SHARDED_TESTS),</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestCases(SHUFFLED_SHARDED_TESTS),</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleDoesNotRepeatTest(self):</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_ALL_TESTS:</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHUFFLED_ALL_TESTS.count(test),</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>appears<sp/>more<sp/>than<sp/>once&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,),</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_ACTIVE_TESTS:</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHUFFLED_ACTIVE_TESTS.count(test),</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>appears<sp/>more<sp/>than<sp/>once&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,),</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_FILTERED_TESTS:</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHUFFLED_FILTERED_TESTS.count(test),</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>appears<sp/>more<sp/>than<sp/>once&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,),</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_SHARDED_TESTS:</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHUFFLED_SHARDED_TESTS.count(test),</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>appears<sp/>more<sp/>than<sp/>once&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,),</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleDoesNotCreateNewTest(self):</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_ALL_TESTS:</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>ALL_TESTS,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>is<sp/>an<sp/>invalid<sp/>test&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,))</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_ACTIVE_TESTS:</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>ACTIVE_TESTS,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>is<sp/>an<sp/>invalid<sp/>test&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,))</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_FILTERED_TESTS:</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>FILTERED_TESTS,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>is<sp/>an<sp/>invalid<sp/>test&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,))</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_SHARDED_TESTS:</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHARDED_TESTS,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>is<sp/>an<sp/>invalid<sp/>test&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,))</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleIncludesAllTests(self):</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>ALL_TESTS:</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_ALL_TESTS,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>is<sp/>missing&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,))</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>ACTIVE_TESTS:</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_ACTIVE_TESTS,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>is<sp/>missing&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,))</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>FILTERED_TESTS:</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_FILTERED_TESTS,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>is<sp/>missing&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHARDED_TESTS:</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_SHARDED_TESTS,<sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>is<sp/>missing&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,))</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleLeavesDeathTestsAtFront(self):</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>non_death_test_found<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>SHUFFLED_ACTIVE_TESTS:</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;DeathTest.&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>test:</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>non_death_test_found,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%s<sp/>appears<sp/>after<sp/>a<sp/>non-death<sp/>test&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test,),</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>non_death_test_found<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">_VerifyTestCasesDoNotInterleave(self,<sp/>tests):</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>test_cases<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>test<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>tests:</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>[test_case,<sp/>_]<sp/>=<sp/>test.split(</highlight><highlight class="stringliteral">&apos;.&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>test_cases<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>test_cases[-1]<sp/>!=<sp/>test_case:</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_cases.append(test_case)</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.assertEqual(</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_cases.count(test_case),</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Test<sp/>case<sp/>%s<sp/>is<sp/>not<sp/>grouped<sp/>together<sp/>in<sp/>%s&apos;</highlight><highlight class="normal"><sp/>%<sp/>(test_case,<sp/>tests),</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleDoesNotInterleaveTestCases(self):</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>self._VerifyTestCasesDoNotInterleave(SHUFFLED_ALL_TESTS)</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>self._VerifyTestCasesDoNotInterleave(SHUFFLED_ACTIVE_TESTS)</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>self._VerifyTestCasesDoNotInterleave(SHUFFLED_FILTERED_TESTS)</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>self._VerifyTestCasesDoNotInterleave(SHUFFLED_SHARDED_TESTS)</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleRestoresOrderAfterEachIteration(self):</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Get<sp/>the<sp/>test<sp/>lists<sp/>in<sp/>all<sp/>3<sp/>iterations,<sp/>using<sp/>random<sp/>seed<sp/>1,<sp/>2,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>and<sp/>3<sp/>respectively.<sp/><sp/>Google<sp/>Test<sp/>picks<sp/>a<sp/>different<sp/>seed<sp/>in<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>iteration,<sp/>and<sp/>this<sp/>test<sp/>depends<sp/>on<sp/>the<sp/>current<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>picking<sp/>successive<sp/>numbers.<sp/><sp/>This<sp/>dependency<sp/>is<sp/>not<sp/>ideal,<sp/>but</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>makes<sp/>the<sp/>test<sp/>much<sp/>easier<sp/>to<sp/>write.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>pylint:<sp/>disable-next=unbalanced-tuple-unpacking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>[tests_in_iteration1,<sp/>tests_in_iteration2,<sp/>tests_in_iteration3]<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(1),<sp/>RepeatFlag(3)]</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Make<sp/>sure<sp/>running<sp/>the<sp/>tests<sp/>with<sp/>random<sp/>seed<sp/>1<sp/>gets<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>order<sp/>as<sp/>in<sp/>iteration<sp/>1<sp/>above.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>tests_with_seed1<sp/>=<sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(1)]</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(tests_in_iteration1,<sp/>tests_with_seed1)</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Make<sp/>sure<sp/>running<sp/>the<sp/>tests<sp/>with<sp/>random<sp/>seed<sp/>2<sp/>gets<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>order<sp/>as<sp/>in<sp/>iteration<sp/>2<sp/>above.<sp/><sp/>Success<sp/>means<sp/>that<sp/>Google<sp/>Test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>correctly<sp/>restores<sp/>the<sp/>test<sp/>order<sp/>before<sp/>re-shuffling<sp/>at<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>beginning<sp/>of<sp/>iteration<sp/>2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>tests_with_seed2<sp/>=<sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(2)]</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(tests_in_iteration2,<sp/>tests_with_seed2)</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Make<sp/>sure<sp/>running<sp/>the<sp/>tests<sp/>with<sp/>random<sp/>seed<sp/>3<sp/>gets<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>order<sp/>as<sp/>in<sp/>iteration<sp/>3<sp/>above.<sp/><sp/>Success<sp/>means<sp/>that<sp/>Google<sp/>Test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>correctly<sp/>restores<sp/>the<sp/>test<sp/>order<sp/>before<sp/>re-shuffling<sp/>at<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>beginning<sp/>of<sp/>iteration<sp/>3.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>tests_with_seed3<sp/>=<sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(3)]</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(tests_in_iteration3,<sp/>tests_with_seed3)</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleGeneratesNewOrderInEachIteration(self):</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>pylint:<sp/>disable-next=unbalanced-tuple-unpacking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>[tests_in_iteration1,<sp/>tests_in_iteration2,<sp/>tests_in_iteration3]<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{},<sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(1),<sp/>RepeatFlag(3)]</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tests_in_iteration1<sp/>!=<sp/>tests_in_iteration2,<sp/>tests_in_iteration1</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tests_in_iteration1<sp/>!=<sp/>tests_in_iteration3,<sp/>tests_in_iteration1</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tests_in_iteration2<sp/>!=<sp/>tests_in_iteration3,<sp/>tests_in_iteration2</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">testShuffleShardedTestsPreservesPartition(self):</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>If<sp/>we<sp/>run<sp/>M<sp/>tests<sp/>on<sp/>N<sp/>shards,<sp/>the<sp/>same<sp/>M<sp/>tests<sp/>should<sp/>be<sp/>run<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>total,<sp/>regardless<sp/>of<sp/>the<sp/>random<sp/>seeds<sp/>used<sp/>by<sp/>the<sp/>shards.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>tests1<sp/>=<sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{TOTAL_SHARDS_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;3&apos;</highlight><highlight class="normal">,<sp/>SHARD_INDEX_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;0&apos;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(1)],</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>tests2<sp/>=<sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{TOTAL_SHARDS_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;3&apos;</highlight><highlight class="normal">,<sp/>SHARD_INDEX_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;1&apos;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(20)],</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>tests3<sp/>=<sp/>GetTestsForAllIterations(</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{TOTAL_SHARDS_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;3&apos;</highlight><highlight class="normal">,<sp/>SHARD_INDEX_ENV_VAR:<sp/></highlight><highlight class="stringliteral">&apos;2&apos;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[ShuffleFlag(),<sp/>RandomSeedFlag(25)],</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>)[0]</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>sorted_sharded_tests<sp/>=<sp/>tests1<sp/>+<sp/>tests2<sp/>+<sp/>tests3</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>sorted_sharded_tests.sort()</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>sorted_active_tests<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>sorted_active_tests.extend(ACTIVE_TESTS)</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>sorted_active_tests.sort()</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertEqual(sorted_active_tests,<sp/>sorted_sharded_tests)</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><ref refid="namespacegtest__test__utils_1a70db3f06a6df00628acf3436784db483" kindref="member">gtest_test_utils.Main</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/test/googletest-shuffle-test.py"/>
+  </compounddef>
+</doxygen>

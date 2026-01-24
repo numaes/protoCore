@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1transforms_1_1peps" kind="namespace" language="Python">
+    <compoundname>docutils::transforms::peps</compoundname>
+    <innerclass refid="classdocutils_1_1transforms_1_1peps_1_1Contents" prot="public">docutils::transforms::peps::Contents</innerclass>
+    <innerclass refid="classdocutils_1_1transforms_1_1peps_1_1Headers" prot="public">docutils::transforms::peps::Headers</innerclass>
+    <innerclass refid="classdocutils_1_1transforms_1_1peps_1_1PEPZero" prot="public">docutils::transforms::peps::PEPZero</innerclass>
+    <innerclass refid="classdocutils_1_1transforms_1_1peps_1_1PEPZeroSpecial" prot="public">docutils::transforms::peps::PEPZeroSpecial</innerclass>
+    <innerclass refid="classdocutils_1_1transforms_1_1peps_1_1TargetNotes" prot="public">docutils::transforms::peps::TargetNotes</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1transforms_1_1peps_1a10266015b7c8d2521148d801a49b091c" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::transforms::peps.__docformat__</definition>
+        <argsstring></argsstring>
+        <name>__docformat__</name>
+        <qualifiedname>docutils.transforms.peps.__docformat__</qualifiedname>
+        <initializer>=  &apos;reStructuredText&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/peps.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/peps.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1transforms_1_1peps_1a21a254bb4a67e40fa0deb4d8e86dce19" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils::transforms::peps.non_masked_addresses</definition>
+        <argsstring></argsstring>
+        <name>non_masked_addresses</name>
+        <qualifiedname>docutils.transforms.peps.non_masked_addresses</qualifiedname>
+        <initializer>=  (&apos;peps@python.org&apos;,
+                        &apos;python-list@python.org&apos;,
+                        &apos;python-dev@python.org&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/peps.py" line="279" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/peps.py" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1transforms_1_1peps_1aab7547579da929ede1486691ad8440ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.peps.mask_email</definition>
+        <argsstring>(ref, pepno=None)</argsstring>
+        <name>mask_email</name>
+        <qualifiedname>docutils.transforms.peps.mask_email</qualifiedname>
+        <param>
+          <type>ref</type>
+          <defname>ref</defname>
+        </param>
+        <param>
+          <type>pepno</type>
+          <defname>pepno</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Mask the email address in `ref` and return a replacement node.
+
+`ref` is returned unchanged if it contains no email address.
+
+For email addresses such as &quot;user@host&quot;, mask the address as &quot;user at
+host&quot; (text) to thwart simple email address harvesters (except for those
+listed in `non_masked_addresses`).  If a PEP number (`pepno`) is given,
+return a reference including a default email subject.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/peps.py" line="284" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/peps.py" bodystart="284" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Transforms for PEP processing.
+
+- `Headers`: Used to transform a PEP&apos;s initial RFC-2822 header.  It remains a
+  field list, but some entries get processed.
+- `Contents`: Auto-inserts a table of contents.
+- `PEPZero`: Special processing for PEP 0.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/peps.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

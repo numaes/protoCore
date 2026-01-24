@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_docs_2GarbageCollector" kind="page">
+    <compoundname>md_docs_2GarbageCollector</compoundname>
+    <title>Garbage Collector Implementation in protoCore</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_docs_2GarbageCollector_1autotoc_md851"/> This document describes the design and implementation of the Garbage Collector (GC) in the <computeroutput>protoCore</computeroutput> project.</para>
+<sect1 id="md_docs_2GarbageCollector_1autotoc_md852">
+<title>Overview</title>
+<para>The <computeroutput>protoCore</computeroutput> GC is a concurrent Mark &amp; Sweep collector with a Stop-The-World (STW) phase for root collection. It is designed to work in a multi-threaded environment where each thread manages its own &quot;young generation&quot; of objects before submitting them to the global heap.</para>
+</sect1>
+<sect1 id="md_docs_2GarbageCollector_1autotoc_md853">
+<title>Key Components</title>
+<sect2 id="md_docs_2GarbageCollector_1autotoc_md854">
+<title>1. ProtoSpace</title>
+<para>The <computeroutput>ProtoSpace</computeroutput> manages the global heap, the free list, and the GC thread. It coordinates the Stop-The-World synchronization and the mark-and-sweep cycle.</para>
+</sect2>
+<sect2 id="md_docs_2GarbageCollector_1autotoc_md855">
+<title>2. ProtoContext</title>
+<para>Each <computeroutput>ProtoContext</computeroutput> (representing a call stack frame) tracks objects allocated within its execution scope. It maintains a linked list of &quot;young&quot; cells (<computeroutput>lastAllocatedCell</computeroutput>).</para>
+</sect2>
+<sect2 id="md_docs_2GarbageCollector_1autotoc_md856">
+<title>3. DirtySegment</title>
+<para>When a context is destroyed or upon request, its &quot;young generation&quot; chain is submitted to <computeroutput>ProtoSpace</computeroutput> as a <computeroutput>DirtySegment</computeroutput>. These segments form the pool of objects that the GC will examine.</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2GarbageCollector_1autotoc_md857">
+<title>The GC Cycle</title>
+<para>The GC runs in a dedicated background thread (<computeroutput>gcThreadLoop</computeroutput>) and follows these phases:</para>
+<sect2 id="md_docs_2GarbageCollector_1autotoc_md858">
+<title>Phase 1: Stop-The-World (STW)</title>
+<para><itemizedlist>
+<listitem><para>Sets the <computeroutput>stwFlag</computeroutput> to <computeroutput>true</computeroutput>.</para>
+</listitem><listitem><para>Waits for all application threads to reach a &quot;parked&quot; state (synchronization points).</para>
+</listitem><listitem><para>Application threads check this flag during memory allocation or explicit synchronization calls (<computeroutput>synchToGC</computeroutput>).</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2GarbageCollector_1autotoc_md859">
+<title>Phase 2: Root Collection</title>
+<para>While the world is stopped, the GC identifies all root objects:<itemizedlist>
+<listitem><para><bold>Global Roots</bold>: Key prototypes and global objects in <computeroutput>ProtoSpace</computeroutput>.</para>
+</listitem><listitem><para><bold>Thread Stacks</bold>: Automatic locals and closure locals in all active <computeroutput>ProtoContext</computeroutput> objects across all threads.</para>
+</listitem><listitem><para><bold>Young Generations</bold>: Any outstanding <computeroutput>lastAllocatedCell</computeroutput> chains in active contexts are flushed to <computeroutput>DirtySegments</computeroutput>.</para>
+</listitem><listitem><para><bold>Heap Snapshot</bold>: The list of <computeroutput>DirtySegments</computeroutput> to be analyzed is captured and cleared from the global pool. This ensures the GC works on a consistent snapshot of objects that existed at the start of the cycle.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2GarbageCollector_1autotoc_md860">
+<title>Phase 3: Resume The World</title>
+<para><itemizedlist>
+<listitem><para>Once roots are safely collected into a work-list, the <computeroutput>stwFlag</computeroutput> is cleared.</para>
+</listitem><listitem><para>Application threads are resumed and can continue execution and allocation while the GC proceeds to marking.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2GarbageCollector_1autotoc_md861">
+<title>Phase 4: Mark</title>
+<para><itemizedlist>
+<listitem><para>Performs a depth-first traversal starting from the roots.</para>
+</listitem><listitem><para>Uses the <computeroutput>processReferences</computeroutput> virtual method on <computeroutput>Cell</computeroutput> implementations to discover reachable objects.</para>
+</listitem><listitem><para>Reachable objects are marked using a bit-flag in the <computeroutput>Cell::next_and_flags</computeroutput> atomic member (bit 0). This is highly efficient as it avoids the allocation and hashing overhead of a separate set.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_docs_2GarbageCollector_1autotoc_md862">
+<title>Phase 5: Sweep</title>
+<para><itemizedlist>
+<listitem><para>Iterates through the <bold>captured snapshot</bold> of <computeroutput>DirtySegments</computeroutput>.</para>
+</listitem><listitem><para>For each cell in a segment:<itemizedlist>
+<listitem><para>If it was <bold>not</bold> marked, it is finalized (<computeroutput>finalize()</computeroutput>) and returned to the global <computeroutput>freeCells</computeroutput> list.</para>
+</listitem><listitem><para>If it was marked, the flag is cleared (<computeroutput>unmark()</computeroutput>), and it remains in the heap for the next cycle.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Cleans up processed <computeroutput>DirtySegments</computeroutput> from the snapshot. New segments added by threads during the Mark phase are ignored and will be processed in the next cycle.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2GarbageCollector_1autotoc_md863">
+<title>Optimization Features</title>
+<para><itemizedlist>
+<listitem><para><bold>Inline Caching</bold>: Per-thread attribute caches (<computeroutput>ProtoThreadExtension::attributeCache</computeroutput>) speed up prototype chain traversals.</para>
+</listitem><listitem><para><bold>Bit-Marking</bold>: Efficient marking using the lower bits of aligned pointers in the cell chain.</para>
+</listitem><listitem><para><bold>Atomic References</bold>: Thread-safe <computeroutput>mutable_ref</computeroutput> generation using an atomic counter in <computeroutput>ProtoSpace</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_docs_2GarbageCollector_1autotoc_md864">
+<title>Future Improvements</title>
+<para><itemizedlist>
+<listitem><para><bold>Multi-threaded Marking</bold>: Parallelize the mark phase to handle very large heaps.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_docs_2GarbageCollector_1autotoc_md865">
+<title>Synchronization Mechanisms</title>
+<para><itemizedlist>
+<listitem><para><computeroutput>globalMutex</computeroutput>: Protects access to shared memory structures like <computeroutput>freeCells</computeroutput>, <computeroutput>dirtySegments</computeroutput>, and the thread list.</para>
+</listitem><listitem><para><computeroutput>stwFlag</computeroutput> &amp; <computeroutput>parkedThreads</computeroutput>: Manage the Stop-The-World synchronization.</para>
+</listitem><listitem><para><computeroutput>gcCV</computeroutput>: Condition variable to trigger the GC thread and coordinate parked threads.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_docs_2GarbageCollector_1autotoc_md866">
+<title>Memory Allocation</title>
+<para><itemizedlist>
+<listitem><para>Threads request batches of cells from <computeroutput>ProtoSpace</computeroutput> (<computeroutput>getFreeCells</computeroutput>).</para>
+</listitem><listitem><para>If the free list is low, the GC is triggered.</para>
+</listitem><listitem><para>If no free cells are available even after a GC, <computeroutput>ProtoSpace</computeroutput> allocates a new chunk of memory from the OS using <computeroutput>posix_memalign</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_docs_2GarbageCollector_1autotoc_md867">
+<title>How to use</title>
+<para>The GC is mostly automatic. However, threads must be &quot;managed&quot; by <computeroutput>ProtoSpace</computeroutput> to participate in the STW protocol. Use <computeroutput>ProtoThread</computeroutput> and its synchronization methods to ensure proper GC behavior in custom threading scenarios.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Example<sp/>of<sp/>manual<sp/>synchronization<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">thread-&gt;synchToGC();</highlight></codeline>
+</programlisting> </para>
+</sect1>
+    </detaileddescription>
+    <location file="docs/GarbageCollector.md"/>
+  </compounddef>
+</doxygen>

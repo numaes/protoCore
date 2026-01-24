@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pygments_2plugin_8py" kind="file" language="Python">
+    <compoundname>plugin.py</compoundname>
+    <innernamespace refid="namespacepygments">pygments</innernamespace>
+    <innernamespace refid="namespacepygments_1_1plugin">pygments::plugin</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepygments_1_1plugin" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.plugin</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Pygments<sp/>plugin<sp/>interface.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>lexer<sp/>plugins::</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[pygments.lexers]</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>yourlexer<sp/>=<sp/>yourmodule:YourLexer</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>formatter<sp/>plugins::</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[pygments.formatters]</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>yourformatter<sp/>=<sp/>yourformatter:YourFormatter</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>/.ext<sp/>=<sp/>yourformatter:YourFormatter</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>As<sp/>you<sp/>can<sp/>see,<sp/>you<sp/>can<sp/>define<sp/>extensions<sp/>for<sp/>the<sp/>formatter</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>with<sp/>a<sp/>leading<sp/>slash.</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>syntax<sp/>plugins::</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[pygments.styles]</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>yourstyle<sp/>=<sp/>yourstyle:YourStyle</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>filter<sp/>plugin::</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[pygments.filter]</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>yourfilter<sp/>=<sp/>yourfilter:YourFilter</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2025<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespaceimportlib_1_1metadata" kindref="compound">importlib.metadata</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>entry_points</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">LEXER_ENTRY_POINT<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;pygments.lexers&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">FORMATTER_ENTRY_POINT<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;pygments.formatters&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">STYLE_ENTRY_POINT<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;pygments.styles&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">FILTER_ENTRY_POINT<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;pygments.filters&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1plugin_1ab8b875afdd5077fde9badc981d377f4b" kindref="member">iter_entry_points</ref>(group_name):</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>groups<sp/>=<sp/>entry_points()</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>hasattr(groups,<sp/></highlight><highlight class="stringliteral">&apos;select&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>New<sp/>interface<sp/>in<sp/>Python<sp/>3.10<sp/>and<sp/>newer<sp/>versions<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>importlib_metadata<sp/>backport.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>groups.select(group=group_name)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Older<sp/>interface,<sp/>deprecated<sp/>in<sp/>Python<sp/>3.10<sp/>and<sp/>recent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>importlib_metadata,<sp/>but<sp/>we<sp/>need<sp/>it<sp/>in<sp/>Python<sp/>3.8<sp/>and<sp/>3.9.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>groups.get(group_name,<sp/>[])</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1plugin_1ad01d4162a83ad6375325e3257d7a3911" kindref="member">find_plugin_lexers</ref>():</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>entrypoint<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1plugin_1ab8b875afdd5077fde9badc981d377f4b" kindref="member">iter_entry_points</ref>(LEXER_ENTRY_POINT):</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>entrypoint.load()</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1plugin_1a7ed84705e61589ab2cb5e0278733ac28" kindref="member">find_plugin_formatters</ref>():</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>entrypoint<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1plugin_1ab8b875afdd5077fde9badc981d377f4b" kindref="member">iter_entry_points</ref>(FORMATTER_ENTRY_POINT):</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>entrypoint.name,<sp/>entrypoint.load()</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1plugin_1ae7afbb05be90b0574b6b41f7a878a72f" kindref="member">find_plugin_styles</ref>():</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>entrypoint<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1plugin_1ab8b875afdd5077fde9badc981d377f4b" kindref="member">iter_entry_points</ref>(STYLE_ENTRY_POINT):</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>entrypoint.name,<sp/>entrypoint.load()</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1plugin_1a33f2805ebbc77e7f24781bb62d86167d" kindref="member">find_plugin_filters</ref>():</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>entrypoint<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1plugin_1ab8b875afdd5077fde9badc981d377f4b" kindref="member">iter_entry_points</ref>(FILTER_ENTRY_POINT):</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>entrypoint.name,<sp/>entrypoint.load()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/plugin.py"/>
+  </compounddef>
+</doxygen>

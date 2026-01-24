@@ -1,0 +1,756 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer" kind="class" language="Python" prot="public">
+    <compoundname>snowballstemmer::french_stemmer::FrenchStemmer</compoundname>
+    <basecompoundref refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer" prot="public" virt="non-virtual">snowballstemmer.basestemmer.BaseStemmer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a02a57650084cbe11343733dac395271b" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.french_stemmer.FrenchStemmer::g_v</definition>
+        <argsstring></argsstring>
+        <name>g_v</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.g_v</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;e&quot;, u&quot;i&quot;, u&quot;o&quot;, u&quot;u&quot;, u&quot;y&quot;, u&quot;â&quot;, u&quot;à&quot;, u&quot;ë&quot;, u&quot;é&quot;, u&quot;ê&quot;, u&quot;è&quot;, u&quot;ï&quot;, u&quot;î&quot;, u&quot;ô&quot;, u&quot;û&quot;, u&quot;ù&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a45f87d1a9cde9be2309f580f5833ad7f" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.french_stemmer.FrenchStemmer::g_oux_ending</definition>
+        <argsstring></argsstring>
+        <name>g_oux_ending</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.g_oux_ending</qualifiedname>
+        <initializer>=  {u&quot;b&quot;, u&quot;h&quot;, u&quot;j&quot;, u&quot;l&quot;, u&quot;n&quot;, u&quot;p&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a03ad40a165734b99b4d5e6f3bead6120" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.french_stemmer.FrenchStemmer::g_elision_char</definition>
+        <argsstring></argsstring>
+        <name>g_elision_char</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.g_elision_char</qualifiedname>
+        <initializer>=  {u&quot;c&quot;, u&quot;d&quot;, u&quot;j&quot;, u&quot;l&quot;, u&quot;m&quot;, u&quot;n&quot;, u&quot;s&quot;, u&quot;t&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a40b63ea37216e04c7f1727f82a8743d4" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.french_stemmer.FrenchStemmer::g_keep_with_s</definition>
+        <argsstring></argsstring>
+        <name>g_keep_with_s</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.g_keep_with_s</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;i&quot;, u&quot;o&quot;, u&quot;u&quot;, u&quot;è&quot;, u&quot;s&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a8f8906be1cae7e6419139e65b0bd4aab" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.french_stemmer.FrenchStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.I_p2</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1af7c552d67b383d36b61c953b8bf7d16b" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.french_stemmer.FrenchStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.I_p1</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ad4d822f57d537fb0ccaabca675c569b7" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.french_stemmer.FrenchStemmer::I_pV</definition>
+        <argsstring></argsstring>
+        <name>I_pV</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.I_pV</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ac42a30d09bdeed9e7ebaa420ea5e8952" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_0</definition>
+        <argsstring></argsstring>
+        <name>a_0</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_0</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;col&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ni&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;par&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tap&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="799" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="799" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1abff17f7542f9e5f933b2a2b1e21e35d4" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_1</definition>
+        <argsstring></argsstring>
+        <name>a_1</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_1</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;&quot;, -1, 7),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;H&quot;, 0, 6),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;He&quot;, 1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;Hi&quot;, 1, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;I&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;U&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;Y&quot;, 0, 3)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="806" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="806" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a8022531efd2165db6ca7903878ab4079" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_2</definition>
+        <argsstring></argsstring>
+        <name>a_2</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_2</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iqU&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;abl&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;Ièr&quot;, -1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ièr&quot;, -1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;eus&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iv&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="816" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="816" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a3eaeb227695ed45bfb8c7909814450b5" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_3</definition>
+        <argsstring></argsstring>
+        <name>a_3</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_3</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ic&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;abil&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iv&quot;, -1, 3)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="825" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="825" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a195184c5a291a66487cc38d4487c28a6" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_4</definition>
+        <argsstring></argsstring>
+        <name>a_4</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="831" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="831" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1abeb492151e3a0ebb04a45f498726d951" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_5</definition>
+        <argsstring></argsstring>
+        <name>a_5</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="878" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="878" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ade699a7cbce4a8809acd3f54f9822c4e" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_6</definition>
+        <argsstring></argsstring>
+        <name>a_6</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_6</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;al&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;épl&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;auv&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="916" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="916" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a7c514f7579086b0e2478ec069496d056" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_7</definition>
+        <argsstring></argsstring>
+        <name>a_7</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="922" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="922" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a250237bedb40ee4c270f7a008128ed59" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_8</definition>
+        <argsstring></argsstring>
+        <name>a_8</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_8</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;e&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;Ière&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ière&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ion&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;Ier&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ier&quot;, -1, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="966" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="966" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ace16312d59377eb6639ce3ae3d932f92" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.french_stemmer.FrenchStemmer::a_9</definition>
+        <argsstring></argsstring>
+        <name>a_9</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.a_9</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ell&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;eill&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;enn&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;onn&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ett&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="975" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="975" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1af34bffecaea570f7c0631bb9586e2d87" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer::bra</definition>
+        <argsstring></argsstring>
+        <name>bra</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.bra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a1d60987aa3eb7115e3a5337f25b57ce9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a336d1812187e95c77dbd42af2dee9d12" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer::ket</definition>
+        <argsstring></argsstring>
+        <name>ket</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.ket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a34e9727360c7ad7d0db92bfe17a1a95f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer::I_pV</definition>
+        <argsstring></argsstring>
+        <name>I_pV</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.I_pV</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="155" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a62ac282e683101f4d2179378a2453bad" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.I_p1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="156" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1acceb256e73b035d18be44e6253c21e41" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.I_p2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="157" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a376b41c278eae6d8a8d7b2978533f724" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer::limit_backward</definition>
+        <argsstring></argsstring>
+        <name>limit_backward</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.limit_backward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="535" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="535" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ad1e6317587627c4307e547dd926b44ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_elisions</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_elisions</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_elisions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="26" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a40973b8e08ceb23a00d09f90a52b66ff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_prelude</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_prelude</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_prelude</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="52" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a4093824832c83eb913b7d38e6674731c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_mark_regions</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_mark_regions</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_mark_regions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="154" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="154" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a6edb04c40a05fe1e5fad3aa32cfe326c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_postlude</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_postlude</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_postlude</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="213" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="213" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a1bd2078a376bde9ab22e42dfe5ab7c35" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_RV</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_RV</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_RV</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="249" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="249" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a75118b9637f5aedb94f0b1da6ba25bee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_R1</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R1</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_R1</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="252" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="252" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a91dce36412a8075ddc7fcdb291f1d143" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_R2</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R2</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_R2</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="255" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="255" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a8521afd744a8bf43ad2cae1d406a12ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_standard_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_standard_suffix</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_standard_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="258" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="258" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a5eded6cccf902fbaf9124ade7c3ef8cc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_i_verb_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_i_verb_suffix</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_i_verb_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="531" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="531" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1aaa4fd6b8534ad1f2ec51a59f60dca23b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_verb_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_verb_suffix</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_verb_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="558" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="558" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a6e48dd65d03dd5c41d7227f73010d480" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_residual_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_residual_suffix</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_residual_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="614" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="614" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1aec33455da09400145726d37679f91b59" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_un_double</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_un_double</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_un_double</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="679" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="679" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a4882524abd1119cf23d348f948b250fb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer.__r_un_accent</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_un_accent</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer.__r_un_accent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="694" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="694" bodyend="722"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ab8c06ca22836e7048df21656c5f8d60c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.french_stemmer.FrenchStemmer._stem</definition>
+        <argsstring>(self)</argsstring>
+        <name>_stem</name>
+        <qualifiedname>snowballstemmer.french_stemmer.FrenchStemmer._stem</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="723" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="723" bodyend="798"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class implements the stemming algorithm defined by a snowball script.
+Generated from french.sbl by Snowball 3.0.1 - https://snowballstem.org/
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.french_stemmer.FrenchStemmer</label>
+        <link refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.french_stemmer.FrenchStemmer</label>
+        <link refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>a_0</edgelabel>
+          <edgelabel>a_1</edgelabel>
+          <edgelabel>a_2</edgelabel>
+          <edgelabel>a_3</edgelabel>
+          <edgelabel>a_4</edgelabel>
+          <edgelabel>a_5</edgelabel>
+          <edgelabel>a_6</edgelabel>
+          <edgelabel>a_7</edgelabel>
+          <edgelabel>a_8</edgelabel>
+          <edgelabel>a_9</edgelabel>
+          <edgelabel>...</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>list</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" line="8" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/snowballstemmer/french_stemmer.py" bodystart="8" bodyend="983"/>
+    <listofallmembers>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ad1e6317587627c4307e547dd926b44ad" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_elisions</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a5eded6cccf902fbaf9124ade7c3ef8cc" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_i_verb_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a4093824832c83eb913b7d38e6674731c" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_mark_regions</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a6edb04c40a05fe1e5fad3aa32cfe326c" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_postlude</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a40973b8e08ceb23a00d09f90a52b66ff" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_prelude</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a75118b9637f5aedb94f0b1da6ba25bee" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_R1</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a91dce36412a8075ddc7fcdb291f1d143" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_R2</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a6e48dd65d03dd5c41d7227f73010d480" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_residual_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a1bd2078a376bde9ab22e42dfe5ab7c35" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_RV</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a8521afd744a8bf43ad2cae1d406a12ce" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_standard_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a4882524abd1119cf23d348f948b250fb" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_un_accent</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1aec33455da09400145726d37679f91b59" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_un_double</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1aaa4fd6b8534ad1f2ec51a59f60dca23b" prot="private" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>__r_verb_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ab8c06ca22836e7048df21656c5f8d60c" prot="protected" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>_stem</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ac42a30d09bdeed9e7ebaa420ea5e8952" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_0</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1abff17f7542f9e5f933b2a2b1e21e35d4" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_1</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a8022531efd2165db6ca7903878ab4079" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_2</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a3eaeb227695ed45bfb8c7909814450b5" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_3</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a195184c5a291a66487cc38d4487c28a6" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_4</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1abeb492151e3a0ebb04a45f498726d951" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_5</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ade699a7cbce4a8809acd3f54f9822c4e" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_6</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a7c514f7579086b0e2478ec069496d056" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_7</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a250237bedb40ee4c270f7a008128ed59" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_8</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ace16312d59377eb6639ce3ae3d932f92" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>a_9</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1af34bffecaea570f7c0631bb9586e2d87" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>bra</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a1d60987aa3eb7115e3a5337f25b57ce9" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>cursor</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a03ad40a165734b99b4d5e6f3bead6120" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>g_elision_char</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a40b63ea37216e04c7f1727f82a8743d4" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>g_keep_with_s</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a45f87d1a9cde9be2309f580f5833ad7f" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>g_oux_ending</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a02a57650084cbe11343733dac395271b" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>g_v</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1af7c552d67b383d36b61c953b8bf7d16b" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a62ac282e683101f4d2179378a2453bad" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a8f8906be1cae7e6419139e65b0bd4aab" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1acceb256e73b035d18be44e6253c21e41" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1ad4d822f57d537fb0ccaabca675c569b7" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>I_pV</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a34e9727360c7ad7d0db92bfe17a1a95f" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>I_pV</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a336d1812187e95c77dbd42af2dee9d12" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>ket</name></member>
+      <member refid="classsnowballstemmer_1_1french__stemmer_1_1FrenchStemmer_1a376b41c278eae6d8a8d7b2978533f724" prot="public" virt="non-virtual"><scope>snowballstemmer::french_stemmer::FrenchStemmer</scope><name>limit_backward</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

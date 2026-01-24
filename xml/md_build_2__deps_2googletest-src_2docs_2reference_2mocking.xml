@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking" kind="page">
+    <compoundname>md_build_2__deps_2googletest-src_2docs_2reference_2mocking</compoundname>
+    <title>Mocking Reference</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md259"/> This page lists the facilities provided by GoogleTest for creating and working with mock objects. To use them, include the header <computeroutput>gmock/gmock.h</computeroutput>.</para>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1macros">
+<title>Macros</title>
+<para>GoogleTest defines the following macros for working with mocks.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1MOCK_METHOD">
+<title>MOCK_METHOD</title>
+<para><computeroutput>MOCK_METHOD(</computeroutput>*<computeroutput>return_type</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>method_name</computeroutput>*<computeroutput>, (</computeroutput>*<computeroutput>args...</computeroutput>*<computeroutput>));</computeroutput> \ <computeroutput>MOCK_METHOD(</computeroutput>*<computeroutput>return_type</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>method_name</computeroutput>*<computeroutput>, (</computeroutput>*<computeroutput>args...</computeroutput>*<computeroutput>), (</computeroutput>*<computeroutput>specs...</computeroutput>*<computeroutput>));</computeroutput></para>
+<para>Defines a mock method *<computeroutput>method_name</computeroutput>* with arguments <computeroutput>(</computeroutput>*<computeroutput>args...</computeroutput>*<computeroutput>)</computeroutput> and return type *<computeroutput>return_type</computeroutput>* within a mock class.</para>
+<para>The parameters of <computeroutput>MOCK_METHOD</computeroutput> mirror the method declaration. The optional fourth parameter *<computeroutput>specs...</computeroutput>* is a comma-separated list of qualifiers. The following qualifiers are accepted:</para>
+<para><table rows="6" cols="2"><row>
+<entry thead="yes"><para>Qualifier   </para>
+</entry><entry thead="yes"><para>Meaning    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>const</computeroutput>   </para>
+</entry><entry thead="no"><para>Makes the mocked method a <computeroutput>const</computeroutput> method. Required if overriding a <computeroutput>const</computeroutput> method.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>override</computeroutput>   </para>
+</entry><entry thead="no"><para>Marks the method with <computeroutput>override</computeroutput>. Recommended if overriding a <computeroutput>virtual</computeroutput> method.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>noexcept</computeroutput>   </para>
+</entry><entry thead="no"><para>Marks the method with <computeroutput>noexcept</computeroutput>. Required if overriding a <computeroutput>noexcept</computeroutput> method.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>Calltype(</computeroutput>*<computeroutput>calltype</computeroutput>*<computeroutput>)</computeroutput>   </para>
+</entry><entry thead="no"><para>Sets the call type for the method, for example <computeroutput>Calltype(STDMETHODCALLTYPE)</computeroutput>. Useful on Windows.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>ref(</computeroutput>*<computeroutput>qualifier</computeroutput>*<computeroutput>)</computeroutput>   </para>
+</entry><entry thead="no"><para>Marks the method with the given reference qualifier, for example <computeroutput>ref(&amp;)</computeroutput> or <computeroutput>ref(&amp;&amp;)</computeroutput>. Required if overriding a method that has a reference qualifier.   </para>
+</entry></row>
+</table>
+</para>
+<para>Note that commas in arguments prevent <computeroutput>MOCK_METHOD</computeroutput> from parsing the arguments correctly if they are not appropriately surrounded by parentheses. See the following example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyMock<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>following<sp/>2<sp/>lines<sp/>will<sp/>not<sp/>compile<sp/>due<sp/>to<sp/>commas<sp/>in<sp/>the<sp/>arguments:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(std::pair&lt;bool,<sp/>int&gt;,<sp/>GetPair,<sp/>());<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/>CheckMap,<sp/>(std::map&lt;int,<sp/>double&gt;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>Error!</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>solution<sp/>-<sp/>wrap<sp/>arguments<sp/>that<sp/>contain<sp/>commas<sp/>in<sp/>parentheses:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>((std::pair&lt;bool,<sp/>int&gt;),<sp/>GetPair,<sp/>());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/>CheckMap,<sp/>((std::map&lt;int,<sp/>double&gt;),<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Another<sp/>solution<sp/>-<sp/>use<sp/>type<sp/>aliases:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">BoolAndInt<sp/>=<sp/>std::pair&lt;bool,<sp/>int&gt;;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(BoolAndInt,<sp/>GetPair,<sp/>());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">MapIntDouble<sp/>=<sp/>std::map&lt;int,<sp/>double&gt;;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/>CheckMap,<sp/>(MapIntDouble,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para><computeroutput>MOCK_METHOD</computeroutput> must be used in the <computeroutput>public:</computeroutput> section of a mock class definition, regardless of whether the method being mocked is <computeroutput>public</computeroutput>, <computeroutput>protected</computeroutput>, or <computeroutput>private</computeroutput> in the base class.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1EXPECT_CALL">
+<title>EXPECT_CALL</title>
+<para><computeroutput>EXPECT_CALL(</computeroutput>*<computeroutput>mock_object</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>method_name</computeroutput>*<computeroutput>(</computeroutput>*<computeroutput>matchers...</computeroutput>*<computeroutput>))</computeroutput></para>
+<para>Creates an <ulink url="../gmock_for_dummies.md#setting-expectations">expectation</ulink> that the method *<computeroutput>method_name</computeroutput>* of the object *<computeroutput>mock_object</computeroutput>* is called with arguments that match the given matchers *<computeroutput>matchers...</computeroutput>*. <computeroutput>EXPECT_CALL</computeroutput> must precede any code that exercises the mock object.</para>
+<para>The parameter *<computeroutput>matchers...</computeroutput>* is a comma-separated list of <ulink url="../gmock_for_dummies.md#matchers-what-arguments-do-we-expect">matchers</ulink> that correspond to each argument of the method *<computeroutput>method_name</computeroutput>*. The expectation will apply only to calls of *<computeroutput>method_name</computeroutput>* whose arguments match all of the matchers. If <computeroutput>(</computeroutput>*<computeroutput>matchers...</computeroutput>*<computeroutput>)</computeroutput> is omitted, the expectation behaves as if each argument&apos;s matcher were a <ulink url="matchers.md#wildcard">wildcard matcher (<computeroutput>_</computeroutput>)</ulink>. See the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">Matchers Reference</ref> for a list of all built-in matchers.</para>
+<para>The following chainable clauses can be used to modify the expectation, and they must be used in the following order:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(mock_object,<sp/>method_name(matchers...))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.With(multi_argument_matcher)<sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(cardinality)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.InSequence(sequences...)<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.After(expectations...)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(action)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>used<sp/>any<sp/>number<sp/>of<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(action)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.RetiresOnSaturation();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight></codeline>
+</programlisting></para>
+<para>See details for each modifier clause below.</para>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md260">
+<title>With {#EXPECT_CALL.With}</title>
+<para><computeroutput>.With(</computeroutput>*<computeroutput>multi_argument_matcher</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Restricts the expectation to apply only to mock function calls whose arguments as a whole match the multi-argument matcher *<computeroutput>multi_argument_matcher</computeroutput>*.</para>
+<para>GoogleTest passes all of the arguments as one tuple into the matcher. The parameter *<computeroutput>multi_argument_matcher</computeroutput>* must thus be a matcher of type <computeroutput>Matcher&lt;std::tuple&lt;A1, ..., An&gt;&gt;</computeroutput>, where <computeroutput>A1, ..., An</computeroutput> are the types of the function arguments.</para>
+<para>For example, the following code sets the expectation that <computeroutput>my_mock.SetPosition()</computeroutput> is called with any two arguments, the first argument being less than the second:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Lt;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>SetPosition(_,<sp/>_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.With(<ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1af47bf94cd307008a7d12802d206260c9" kindref="member">Lt</ref>());</highlight></codeline>
+</programlisting></para>
+<para>GoogleTest provides some built-in matchers for 2-tuples, including the <computeroutput>Lt()</computeroutput> matcher above. See <ulink url="matchers.md#MultiArgMatchers">Multi-argument Matchers</ulink>.</para>
+<para>The <computeroutput>With</computeroutput> clause can be used at most once on an expectation and must be the first clause.</para>
+</sect3>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md261">
+<title>Times {#EXPECT_CALL.Times}</title>
+<para><computeroutput>.Times(</computeroutput>*<computeroutput>cardinality</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Specifies how many times the mock function call is expected.</para>
+<para>The parameter *<computeroutput>cardinality</computeroutput>* represents the number of expected calls and can be one of the following, all defined in the <computeroutput><ref refid="namespacetesting" kindref="compound">testing</ref></computeroutput> namespace:</para>
+<para><table rows="6" cols="2"><row>
+<entry thead="yes"><para>Cardinality   </para>
+</entry><entry thead="yes"><para>Meaning    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>AnyNumber()</computeroutput>   </para>
+</entry><entry thead="no"><para>The function can be called any number of times.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>AtLeast(n)</computeroutput>   </para>
+</entry><entry thead="no"><para>The function call is expected at least <emphasis>n</emphasis> times.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>AtMost(n)</computeroutput>   </para>
+</entry><entry thead="no"><para>The function call is expected at most <emphasis>n</emphasis> times.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>Between(m, n)</computeroutput>   </para>
+</entry><entry thead="no"><para>The function call is expected between <emphasis>m</emphasis> and <emphasis>n</emphasis> times, inclusive.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>Exactly(n)</computeroutput> or <computeroutput>n</computeroutput>   </para>
+</entry><entry thead="no"><para>The function call is expected exactly <emphasis>n</emphasis> times. If <emphasis>n</emphasis> is 0, the call should never happen.   </para>
+</entry></row>
+</table>
+</para>
+<para>If the <computeroutput>Times</computeroutput> clause is omitted, GoogleTest infers the cardinality as follows:</para>
+<para><itemizedlist>
+<listitem><para>If neither `WillOnce` nor `WillRepeatedly` are specified, the inferred cardinality is <computeroutput>Times(1)</computeroutput>.</para>
+</listitem><listitem><para>If there are <emphasis>n</emphasis> <computeroutput>WillOnce</computeroutput> clauses and no <computeroutput>WillRepeatedly</computeroutput> clause, where <emphasis>n</emphasis> &gt;= 1, the inferred cardinality is <computeroutput>Times(n)</computeroutput>.</para>
+</listitem><listitem><para>If there are <emphasis>n</emphasis> <computeroutput>WillOnce</computeroutput> clauses and one <computeroutput>WillRepeatedly</computeroutput> clause, where <emphasis>n</emphasis> &gt;= 0, the inferred cardinality is <computeroutput>Times(AtLeast(n))</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<para>The <computeroutput>Times</computeroutput> clause can be used at most once on an expectation.</para>
+</sect3>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md262">
+<title>InSequence {#EXPECT_CALL.InSequence}</title>
+<para><computeroutput>.InSequence(</computeroutput>*<computeroutput>sequences...</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Specifies that the mock function call is expected in a certain sequence.</para>
+<para>The parameter *<computeroutput>sequences...</computeroutput>* is any number of <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1Sequence" kindref="member">`Sequence`</ref> objects. Expected calls assigned to the same sequence are expected to occur in the order the expectations are declared.</para>
+<para>For example, the following code sets the expectation that the <computeroutput>Reset()</computeroutput> method of <computeroutput>my_mock</computeroutput> is called before both <computeroutput>GetSize()</computeroutput> and <computeroutput>Describe()</computeroutput>, and <computeroutput>GetSize()</computeroutput> and <computeroutput>Describe()</computeroutput> can occur in any order relative to each other:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Sequence;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1typing__extensions_1ab883f984413b6bd2654af7d98bed94b2" kindref="member">Sequence</ref><sp/>s1,<sp/>s2;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>Reset())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.InSequence(s1,<sp/>s2);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>GetSize())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.InSequence(s1);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/><ref refid="namespacetesting_1_1gmock__matchers__test_1a738a538e1705ea49670aeb3ed25108e6" kindref="member">Describe</ref>())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.InSequence(s2);</highlight></codeline>
+</programlisting></para>
+<para>The <computeroutput>InSequence</computeroutput> clause can be used any number of times on an expectation.</para>
+<para>See also the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1InSequence" kindref="member">`InSequence` class</ref>.</para>
+</sect3>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md263">
+<title>After {#EXPECT_CALL.After}</title>
+<para><computeroutput>.After(</computeroutput>*<computeroutput>expectations...</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Specifies that the mock function call is expected to occur after one or more other calls.</para>
+<para>The parameter *<computeroutput>expectations...</computeroutput>* can be up to five <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1Expectation" kindref="member">`Expectation`</ref> or <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1ExpectationSet" kindref="member">`ExpectationSet`</ref> objects. The mock function call is expected to occur after all of the given expectations.</para>
+<para>For example, the following code sets the expectation that the <computeroutput>Describe()</computeroutput> method of <computeroutput>my_mock</computeroutput> is called only after both <computeroutput>InitX()</computeroutput> and <computeroutput>InitY()</computeroutput> have been called.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Expectation;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">Expectation<sp/>init_x<sp/>=<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>InitX());</highlight></codeline>
+<codeline><highlight class="normal">Expectation<sp/>init_y<sp/>=<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>InitY());</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/><ref refid="namespacetesting_1_1gmock__matchers__test_1a738a538e1705ea49670aeb3ed25108e6" kindref="member">Describe</ref>())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.After(init_x,<sp/>init_y);</highlight></codeline>
+</programlisting></para>
+<para>The <computeroutput>ExpectationSet</computeroutput> object is helpful when the number of prerequisites for an expectation is large or variable, for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::ExpectationSet;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">ExpectationSet<sp/>all_inits;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Collect<sp/>all<sp/>expectations<sp/>of<sp/>InitElement()<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>element_count;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>++)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>all_inits<sp/>+=<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>InitElement(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/><ref refid="namespacetesting_1_1gmock__matchers__test_1a738a538e1705ea49670aeb3ed25108e6" kindref="member">Describe</ref>())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.After(all_inits);<sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>Describe()<sp/>call<sp/>after<sp/>all<sp/>InitElement()<sp/>calls</highlight></codeline>
+</programlisting></para>
+<para>The <computeroutput>After</computeroutput> clause can be used any number of times on an expectation.</para>
+</sect3>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md264">
+<title>WillOnce {#EXPECT_CALL.WillOnce}</title>
+<para><computeroutput>.WillOnce(</computeroutput>*<computeroutput>action</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Specifies the mock function&apos;s actual behavior when invoked, for a single matching function call.</para>
+<para>The parameter *<computeroutput>action</computeroutput>* represents the <ulink url="../gmock_for_dummies.md#actions-what-should-it-do">action</ulink> that the function call will perform. See the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2actions" kindref="compound">Actions Reference</ref> for a list of built-in actions.</para>
+<para>The use of <computeroutput>WillOnce</computeroutput> implicitly sets a cardinality on the expectation when <computeroutput>Times</computeroutput> is not specified. See `Times`.</para>
+<para>Each matching function call will perform the next action in the order declared. For example, the following code specifies that <computeroutput>my_mock.GetNumber()</computeroutput> is expected to be called exactly 3 times and will return <computeroutput>1</computeroutput>, <computeroutput>2</computeroutput>, and <computeroutput>3</computeroutput> respectively on the first, second, and third calls:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>GetNumber())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(1))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(2))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(3));</highlight></codeline>
+</programlisting></para>
+<para>The <computeroutput>WillOnce</computeroutput> clause can be used any number of times on an expectation. Unlike <computeroutput>WillRepeatedly</computeroutput>, the action fed to each <computeroutput>WillOnce</computeroutput> call will be called at most once, so may be a move-only type and/or have an <computeroutput>&amp;&amp;</computeroutput>-qualified call operator.</para>
+</sect3>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md265">
+<title>WillRepeatedly {#EXPECT_CALL.WillRepeatedly}</title>
+<para><computeroutput>.WillRepeatedly(</computeroutput>*<computeroutput>action</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Specifies the mock function&apos;s actual behavior when invoked, for all subsequent matching function calls. Takes effect after the actions specified in the `WillOnce` clauses, if any, have been performed.</para>
+<para>The parameter *<computeroutput>action</computeroutput>* represents the <ulink url="../gmock_for_dummies.md#actions-what-should-it-do">action</ulink> that the function call will perform. See the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2actions" kindref="compound">Actions Reference</ref> for a list of built-in actions.</para>
+<para>The use of <computeroutput>WillRepeatedly</computeroutput> implicitly sets a cardinality on the expectation when <computeroutput>Times</computeroutput> is not specified. See `Times`.</para>
+<para>If any <computeroutput>WillOnce</computeroutput> clauses have been specified, matching function calls will perform those actions before the action specified by <computeroutput>WillRepeatedly</computeroutput>. See the following example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>GetName())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(</highlight><highlight class="stringliteral">&quot;John<sp/>Doe&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>&quot;John<sp/>Doe&quot;<sp/>on<sp/>all<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>GetNumber())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(42))<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>42<sp/>on<sp/>the<sp/>first<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(7));<sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>7<sp/>on<sp/>all<sp/>subsequent<sp/>calls</highlight></codeline>
+</programlisting></para>
+<para>The <computeroutput>WillRepeatedly</computeroutput> clause can be used at most once on an expectation.</para>
+</sect3>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md266">
+<title>RetiresOnSaturation {#EXPECT_CALL.RetiresOnSaturation}</title>
+<para><computeroutput>.RetiresOnSaturation()</computeroutput></para>
+<para>Indicates that the expectation will no longer be active after the expected number of matching function calls has been reached.</para>
+<para>The <computeroutput>RetiresOnSaturation</computeroutput> clause is only meaningful for expectations with an upper-bounded cardinality. The expectation will <emphasis>retire</emphasis> (no longer match any function calls) after it has been <emphasis>saturated</emphasis> (the upper bound has been reached). See the following example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::AnyNumber;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(my_mock,<sp/>SetNumber(_))<sp/><sp/></highlight><highlight class="comment">//<sp/>Expectation<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(<ref refid="namespacetesting_1aa1f8a6371097e1e9b8d6866020f35252" kindref="member">AnyNumber</ref>());</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>SetNumber(7))<sp/><sp/></highlight><highlight class="comment">//<sp/>Expectation<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(2)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+</programlisting></para>
+<para>In the above example, the first two calls to <computeroutput>my_mock.SetNumber(7)</computeroutput> match expectation 2, which then becomes inactive and no longer matches any calls. A third call to <computeroutput>my_mock.SetNumber(7)</computeroutput> would then match expectation 1. Without <computeroutput>RetiresOnSaturation()</computeroutput> on expectation 2, a third call to <computeroutput>my_mock.SetNumber(7)</computeroutput> would match expectation 2 again, producing a failure since the limit of 2 calls was exceeded.</para>
+<para>The <computeroutput>RetiresOnSaturation</computeroutput> clause can be used at most once on an expectation and must be the last clause.</para>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1ON_CALL">
+<title>ON_CALL</title>
+<para><computeroutput>ON_CALL(</computeroutput>*<computeroutput>mock_object</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>method_name</computeroutput>*<computeroutput>(</computeroutput>*<computeroutput>matchers...</computeroutput>*<computeroutput>))</computeroutput></para>
+<para>Defines what happens when the method *<computeroutput>method_name</computeroutput>* of the object *<computeroutput>mock_object</computeroutput>* is called with arguments that match the given matchers *<computeroutput>matchers...</computeroutput>*. Requires a modifier clause to specify the method&apos;s behavior. <emphasis>Does not</emphasis> set any expectations that the method will be called.</para>
+<para>The parameter *<computeroutput>matchers...</computeroutput>* is a comma-separated list of <ulink url="../gmock_for_dummies.md#matchers-what-arguments-do-we-expect">matchers</ulink> that correspond to each argument of the method *<computeroutput>method_name</computeroutput>*. The <computeroutput>ON_CALL</computeroutput> specification will apply only to calls of *<computeroutput>method_name</computeroutput>* whose arguments match all of the matchers. If <computeroutput>(</computeroutput>*<computeroutput>matchers...</computeroutput>*<computeroutput>)</computeroutput> is omitted, the behavior is as if each argument&apos;s matcher were a <ulink url="matchers.md#wildcard">wildcard matcher (<computeroutput>_</computeroutput>)</ulink>. See the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">Matchers Reference</ref> for a list of all built-in matchers.</para>
+<para>The following chainable clauses can be used to set the method&apos;s behavior, and they must be used in the following order:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL</ref>(mock_object,<sp/>method_name(matchers...))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.With(multi_argument_matcher)<sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>used<sp/>at<sp/>most<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillByDefault(action);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Required</highlight></codeline>
+</programlisting></para>
+<para>See details for each modifier clause below.</para>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md267">
+<title>With {#ON_CALL.With}</title>
+<para><computeroutput>.With(</computeroutput>*<computeroutput>multi_argument_matcher</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Restricts the specification to only mock function calls whose arguments as a whole match the multi-argument matcher *<computeroutput>multi_argument_matcher</computeroutput>*.</para>
+<para>GoogleTest passes all of the arguments as one tuple into the matcher. The parameter *<computeroutput>multi_argument_matcher</computeroutput>* must thus be a matcher of type <computeroutput>Matcher&lt;std::tuple&lt;A1, ..., An&gt;&gt;</computeroutput>, where <computeroutput>A1, ..., An</computeroutput> are the types of the function arguments.</para>
+<para>For example, the following code sets the default behavior when <computeroutput>my_mock.SetPosition()</computeroutput> is called with any two arguments, the first argument being less than the second:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Lt;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">ON_CALL(my_mock,<sp/>SetPosition(_,<sp/>_))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.With(<ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1af47bf94cd307008a7d12802d206260c9" kindref="member">Lt</ref>())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillByDefault(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+</programlisting></para>
+<para>GoogleTest provides some built-in matchers for 2-tuples, including the <computeroutput>Lt()</computeroutput> matcher above. See <ulink url="matchers.md#MultiArgMatchers">Multi-argument Matchers</ulink>.</para>
+<para>The <computeroutput>With</computeroutput> clause can be used at most once with each <computeroutput>ON_CALL</computeroutput> statement.</para>
+</sect3>
+<sect3 id="md_build_2__deps_2googletest-src_2docs_2reference_2mocking_1autotoc_md268">
+<title>WillByDefault {#ON_CALL.WillByDefault}</title>
+<para><computeroutput>.WillByDefault(</computeroutput>*<computeroutput>action</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Specifies the default behavior of a matching mock function call.</para>
+<para>The parameter *<computeroutput>action</computeroutput>* represents the <ulink url="../gmock_for_dummies.md#actions-what-should-it-do">action</ulink> that the function call will perform. See the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2actions" kindref="compound">Actions Reference</ref> for a list of built-in actions.</para>
+<para>For example, the following code specifies that by default, a call to <computeroutput>my_mock.Greet()</computeroutput> will return <computeroutput>&quot;hello&quot;</computeroutput>:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">ON_CALL(my_mock,<sp/>Greet())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillByDefault(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">));</highlight></codeline>
+</programlisting></para>
+<para>The action specified by <computeroutput>WillByDefault</computeroutput> is superseded by the actions specified on a matching <computeroutput>EXPECT_CALL</computeroutput> statement, if any. See the `WillOnce` and `WillRepeatedly` clauses of <computeroutput>EXPECT_CALL</computeroutput>.</para>
+<para>The <computeroutput>WillByDefault</computeroutput> clause must be used exactly once with each <computeroutput>ON_CALL</computeroutput> statement.</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1classes">
+<title>Classes</title>
+<para>GoogleTest defines the following classes for working with mocks.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1DefaultValue">
+<title>Setting the Default Value for a Return Type</title>
+<para><computeroutput><ref refid="classtesting_1_1DefaultValue" kindref="compound">testing::DefaultValue</ref>&lt;T&gt;</computeroutput></para>
+<para>Allows a user to specify the default value for a type <computeroutput>T</computeroutput> that is both copyable and publicly destructible (i.e. anything that can be used as a function return type). For mock functions with a return type of <computeroutput>T</computeroutput>, this default value is returned from function calls that do not specify an action.</para>
+<para>Provides the static methods <computeroutput>Set()</computeroutput>, <computeroutput>SetFactory()</computeroutput>, and <computeroutput>Clear()</computeroutput> to manage the default value:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Sets<sp/>the<sp/>default<sp/>value<sp/>to<sp/>be<sp/>returned.<sp/>T<sp/>must<sp/>be<sp/>copy<sp/>constructible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">DefaultValue&lt;T&gt;::Set(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sets<sp/>a<sp/>factory.<sp/>Will<sp/>be<sp/>invoked<sp/>on<sp/>demand.<sp/>T<sp/>must<sp/>be<sp/>move<sp/>constructible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacepackaging_1_1metadata_1a2bf6495e48092fff09448cd00be34730" kindref="member">T</ref><sp/>MakeT();</highlight></codeline>
+<codeline><highlight class="normal">DefaultValue&lt;T&gt;::SetFactory(&amp;MakeT);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Unsets<sp/>the<sp/>default<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">DefaultValue&lt;T&gt;::Clear();</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1NiceMock">
+<title>NiceMock</title>
+<para><computeroutput><ref refid="classtesting_1_1NiceMock" kindref="compound">testing::NiceMock</ref>&lt;T&gt;</computeroutput></para>
+<para>Represents a mock object that suppresses warnings on <ulink url="../gmock_cook_book.md#uninteresting-vs-unexpected">uninteresting calls</ulink>. The template parameter <computeroutput>T</computeroutput> is any mock class, except for another <computeroutput>NiceMock</computeroutput>, <computeroutput>NaggyMock</computeroutput>, or <computeroutput>StrictMock</computeroutput>.</para>
+<para>Usage of <computeroutput>NiceMock&lt;T&gt;</computeroutput> is analogous to usage of <computeroutput>T</computeroutput>. <computeroutput>NiceMock&lt;T&gt;</computeroutput> is a subclass of <computeroutput>T</computeroutput>, so it can be used wherever an object of type <computeroutput>T</computeroutput> is accepted. In addition, <computeroutput>NiceMock&lt;T&gt;</computeroutput> can be constructed with any arguments that a constructor of <computeroutput>T</computeroutput> accepts.</para>
+<para>For example, the following code suppresses warnings on the mock <computeroutput>my_mock</computeroutput> of type <computeroutput>MockClass</computeroutput> if a method other than <computeroutput>DoSomething()</computeroutput> is called:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::NiceMock;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">NiceMock&lt;MockClass&gt;<sp/>my_mock(</highlight><highlight class="stringliteral">&quot;some&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;args&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>DoSomething());</highlight></codeline>
+<codeline><highlight class="normal">...<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1segment_1aa9da38e462279c1b342e1ade4496a334" kindref="member">code</ref><sp/>that<sp/>uses<sp/>my_mock<sp/>...</highlight></codeline>
+</programlisting></para>
+<para><computeroutput>NiceMock&lt;T&gt;</computeroutput> only works for mock methods defined using the <computeroutput>MOCK_METHOD</computeroutput> macro directly in the definition of class <computeroutput>T</computeroutput>. If a mock method is defined in a base class of <computeroutput>T</computeroutput>, a warning might still be generated.</para>
+<para><computeroutput>NiceMock&lt;T&gt;</computeroutput> might not work correctly if the destructor of <computeroutput>T</computeroutput> is not virtual.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1NaggyMock">
+<title>NaggyMock</title>
+<para><computeroutput><ref refid="classtesting_1_1NaggyMock" kindref="compound">testing::NaggyMock</ref>&lt;T&gt;</computeroutput></para>
+<para>Represents a mock object that generates warnings on <ulink url="../gmock_cook_book.md#uninteresting-vs-unexpected">uninteresting calls</ulink>. The template parameter <computeroutput>T</computeroutput> is any mock class, except for another <computeroutput>NiceMock</computeroutput>, <computeroutput>NaggyMock</computeroutput>, or <computeroutput>StrictMock</computeroutput>.</para>
+<para>Usage of <computeroutput>NaggyMock&lt;T&gt;</computeroutput> is analogous to usage of <computeroutput>T</computeroutput>. <computeroutput>NaggyMock&lt;T&gt;</computeroutput> is a subclass of <computeroutput>T</computeroutput>, so it can be used wherever an object of type <computeroutput>T</computeroutput> is accepted. In addition, <computeroutput>NaggyMock&lt;T&gt;</computeroutput> can be constructed with any arguments that a constructor of <computeroutput>T</computeroutput> accepts.</para>
+<para>For example, the following code generates warnings on the mock <computeroutput>my_mock</computeroutput> of type <computeroutput>MockClass</computeroutput> if a method other than <computeroutput>DoSomething()</computeroutput> is called:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::NaggyMock;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">NaggyMock&lt;MockClass&gt;<sp/>my_mock(</highlight><highlight class="stringliteral">&quot;some&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;args&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>DoSomething());</highlight></codeline>
+<codeline><highlight class="normal">...<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1segment_1aa9da38e462279c1b342e1ade4496a334" kindref="member">code</ref><sp/>that<sp/>uses<sp/>my_mock<sp/>...</highlight></codeline>
+</programlisting></para>
+<para><ref refid="classMock" kindref="compound">Mock</ref> objects of type <computeroutput>T</computeroutput> by default behave the same way as <computeroutput>NaggyMock&lt;T&gt;</computeroutput>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1StrictMock">
+<title>StrictMock</title>
+<para><computeroutput><ref refid="classtesting_1_1StrictMock" kindref="compound">testing::StrictMock</ref>&lt;T&gt;</computeroutput></para>
+<para>Represents a mock object that generates test failures on <ulink url="../gmock_cook_book.md#uninteresting-vs-unexpected">uninteresting calls</ulink>. The template parameter <computeroutput>T</computeroutput> is any mock class, except for another <computeroutput>NiceMock</computeroutput>, <computeroutput>NaggyMock</computeroutput>, or <computeroutput>StrictMock</computeroutput>.</para>
+<para>Usage of <computeroutput>StrictMock&lt;T&gt;</computeroutput> is analogous to usage of <computeroutput>T</computeroutput>. <computeroutput>StrictMock&lt;T&gt;</computeroutput> is a subclass of <computeroutput>T</computeroutput>, so it can be used wherever an object of type <computeroutput>T</computeroutput> is accepted. In addition, <computeroutput>StrictMock&lt;T&gt;</computeroutput> can be constructed with any arguments that a constructor of <computeroutput>T</computeroutput> accepts.</para>
+<para>For example, the following code generates a test failure on the mock <computeroutput>my_mock</computeroutput> of type <computeroutput>MockClass</computeroutput> if a method other than <computeroutput>DoSomething()</computeroutput> is called:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::StrictMock;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">StrictMock&lt;MockClass&gt;<sp/>my_mock(</highlight><highlight class="stringliteral">&quot;some&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;args&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(my_mock,<sp/>DoSomething());</highlight></codeline>
+<codeline><highlight class="normal">...<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1segment_1aa9da38e462279c1b342e1ade4496a334" kindref="member">code</ref><sp/>that<sp/>uses<sp/>my_mock<sp/>...</highlight></codeline>
+</programlisting></para>
+<para><computeroutput>StrictMock&lt;T&gt;</computeroutput> only works for mock methods defined using the <computeroutput>MOCK_METHOD</computeroutput> macro directly in the definition of class <computeroutput>T</computeroutput>. If a mock method is defined in a base class of <computeroutput>T</computeroutput>, a failure might not be generated.</para>
+<para><computeroutput>StrictMock&lt;T&gt;</computeroutput> might not work correctly if the destructor of <computeroutput>T</computeroutput> is not virtual.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1Sequence">
+<title>Sequence</title>
+<para><computeroutput>::testing::Sequence</computeroutput></para>
+<para>Represents a chronological sequence of expectations. See the `InSequence` clause of <computeroutput>EXPECT_CALL</computeroutput> for usage.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1InSequence">
+<title>InSequence</title>
+<para><computeroutput>::testing::InSequence</computeroutput></para>
+<para>An object of this type causes all expectations encountered in its scope to be put in an anonymous sequence.</para>
+<para>This allows more convenient expression of multiple expectations in a single sequence:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::InSequence;</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>InSequence<sp/>seq;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>following<sp/>are<sp/>expected<sp/>to<sp/>occur<sp/>in<sp/>the<sp/>order<sp/>declared.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(...);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(...);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(...);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>The name of the <computeroutput>InSequence</computeroutput> object does not matter.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1Expectation">
+<title>Expectation</title>
+<para><computeroutput>::testing::Expectation</computeroutput></para>
+<para>Represents a mock function call expectation as created by <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1EXPECT_CALL" kindref="member">`EXPECT_CALL`</ref>:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Expectation;</highlight></codeline>
+<codeline><highlight class="normal">Expectation<sp/>my_expectation<sp/>=<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(...);</highlight></codeline>
+</programlisting></para>
+<para>Useful for specifying sequences of expectations; see the `After` clause of <computeroutput>EXPECT_CALL</computeroutput>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1ExpectationSet">
+<title>ExpectationSet</title>
+<para><computeroutput>::testing::ExpectationSet</computeroutput></para>
+<para>Represents a set of mock function call expectations.</para>
+<para>Use the <computeroutput>+=</computeroutput> operator to add <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2mocking_1Expectation" kindref="member">`Expectation`</ref> objects to the set:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::ExpectationSet;</highlight></codeline>
+<codeline><highlight class="normal">ExpectationSet<sp/>my_expectations;</highlight></codeline>
+<codeline><highlight class="normal">my_expectations<sp/>+=<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(...);</highlight></codeline>
+</programlisting></para>
+<para>Useful for specifying sequences of expectations; see the `After` clause of <computeroutput>EXPECT_CALL</computeroutput>. </para>
+</sect2>
+</sect1>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/docs/reference/mocking.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1debug" kind="namespace" language="Python">
+    <compoundname>jinja2::debug</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1debug_1a9224f875d3eaeebf46a3c708668aa2fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>BaseException</type>
+        <definition> BaseException jinja2.debug.rewrite_traceback_stack</definition>
+        <argsstring>(t.Optional[str] source=None)</argsstring>
+        <name>rewrite_traceback_stack</name>
+        <qualifiedname>jinja2.debug.rewrite_traceback_stack</qualifiedname>
+        <param>
+          <type>t.Optional</type>
+          <declname>source</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Rewrite the current exception to replace any tracebacks from
+within compiled template code with tracebacks that look like they
+came from the template source.
+
+This must be called within an ``except`` block.
+
+:param source: For ``TemplateSyntaxError``, the original source if
+    known.
+:return: The original exception with the rewritten traceback.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/debug.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/debug.py" bodystart="14" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1debug_1aee85e3536634249c08a9526e8ac5c383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TracebackType</type>
+        <definition> TracebackType jinja2.debug.fake_traceback</definition>
+        <argsstring>(BaseException exc_value, t.Optional[TracebackType] tb, str filename, int lineno)</argsstring>
+        <name>fake_traceback</name>
+        <qualifiedname>jinja2.debug.fake_traceback</qualifiedname>
+        <param>
+          <type>BaseException</type>
+          <declname>exc_value</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>tb</declname>
+          <array>[TracebackType]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Produce a new traceback object that looks like it came from the
+template source instead of the compiled code. The filename, line
+number, and location name will point to the template, and the local
+variables will be the current template context.
+
+:param exc_value: The original exception to be re-raised to create
+    the new traceback.
+:param tb: The original traceback to get the local variables and
+    code info from.
+:param filename: The template filename.
+:param lineno: The line number in the template source.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/debug.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/debug.py" bodystart="78" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1debug_1aa6397faa7422667ce6daef046eeb0ed5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Dict[str, t.Any]</type>
+        <definition> t.Dict[str, t.Any] jinja2.debug.get_template_locals</definition>
+        <argsstring>(t.Mapping[str, t.Any] real_locals)</argsstring>
+        <name>get_template_locals</name>
+        <qualifiedname>jinja2.debug.get_template_locals</qualifiedname>
+        <param>
+          <type>t.Mapping</type>
+          <declname>real_locals</declname>
+          <array>[str, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Based on the runtime locals, get the context that would be
+available at that point in the template.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/debug.py" line="150" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/debug.py" bodystart="150" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/debug.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1io_1_1StringOutput" kind="class" language="Python" prot="public">
+    <compoundname>docutils::io::StringOutput</compoundname>
+    <basecompoundref refid="classdocutils_1_1io_1_1Output" prot="public" virt="non-virtual">docutils.io.Output</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1StringOutput_1a87478c115e651c28c506b1a185accd1b" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.io.StringOutput::default_destination_path</definition>
+        <argsstring></argsstring>
+        <name>default_destination_path</name>
+        <qualifiedname>docutils.io.StringOutput.default_destination_path</qualifiedname>
+        <initializer>=  &apos;&lt;string&gt;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="582" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="582" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1StringOutput_1aea29f6acce35c98463a9dd5c2ceb2df7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.StringOutput::destination</definition>
+        <argsstring></argsstring>
+        <name>destination</name>
+        <qualifiedname>docutils.io.StringOutput.destination</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="599" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="599" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1io_1_1StringOutput_1afe8a02a1c22136329d31894a525f62f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.StringOutput.write</definition>
+        <argsstring>(self, data)</argsstring>
+        <name>write</name>
+        <qualifiedname>docutils.io.StringOutput.write</qualifiedname>
+        <reimplements refid="classdocutils_1_1io_1_1Output_1a3057354576e63595209de523c7672fa6">write</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Store `data` in `self.destination`, and return it.
+
+If `self.encoding` is set to the pseudo encoding name &quot;unicode&quot;,
+`data` must be a `str` instance and is stored/returned unchanged
+(cf. `Output.encode`).
+
+Otherwise, `data` can be a `bytes` or `str` instance and is
+stored/returned as a `bytes` instance
+(`str` data is encoded with `self.encode()`).
+
+Attention: the `output_encoding`_ setting may affect the content
+of the output (e.g. an encoding declaration in HTML or XML or the
+representation of characters as LaTeX macro vs. literal character).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="584" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="584" bodyend="602"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Output to a `bytes` or `str` instance.
+
+Provisional.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.io.StringOutput</label>
+        <link refid="classdocutils_1_1io_1_1StringOutput"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.io.Output</label>
+        <link refid="classdocutils_1_1io_1_1Output"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.io.StringOutput</label>
+        <link refid="classdocutils_1_1io_1_1StringOutput"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>default_destination_path</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>default_transforms</edgelabel>
+          <edgelabel>unknown_reference_resolvers</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.io.Output</label>
+        <link refid="classdocutils_1_1io_1_1Output"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>component_type</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="576" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="576" bodyend="602"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1io_1_1StringOutput_1a87478c115e651c28c506b1a185accd1b" prot="public" virt="non-virtual"><scope>docutils::io::StringOutput</scope><name>default_destination_path</name></member>
+      <member refid="classdocutils_1_1io_1_1StringOutput_1aea29f6acce35c98463a9dd5c2ceb2df7" prot="public" virt="non-virtual"><scope>docutils::io::StringOutput</scope><name>destination</name></member>
+      <member refid="classdocutils_1_1io_1_1StringOutput_1afe8a02a1c22136329d31894a525f62f1" prot="public" virt="non-virtual"><scope>docutils::io::StringOutput</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

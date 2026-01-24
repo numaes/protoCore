@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="DESIGN_8md" kind="file" language="Markdown">
+    <compoundname>DESIGN.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Proto:<sp/>Architectural<sp/>Design</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>document<sp/>outlines<sp/>the<sp/>core<sp/>architectural<sp/>principles<sp/>and<sp/>design<sp/>decisions<sp/>behind<sp/>the<sp/>Proto<sp/>library.<sp/>It<sp/>is<sp/>intended<sp/>for<sp/>developers<sp/>who<sp/>wish<sp/>to<sp/>understand<sp/>the<sp/>&quot;why&quot;<sp/>behind<sp/>the<sp/>code,<sp/>contribute<sp/>to<sp/>the<sp/>project,<sp/>or<sp/>learn<sp/>from<sp/>its<sp/>design.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Core<sp/>Philosophy</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto<sp/>is<sp/>built<sp/>on<sp/>a<sp/>set<sp/>of<sp/>synergistic<sp/>principles<sp/>designed<sp/>to<sp/>unify<sp/>performance,<sp/>flexibility,<sp/>and<sp/>concurrent<sp/>safety:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Immutability<sp/>by<sp/>Default**:<sp/>Core<sp/>data<sp/>structures<sp/>are<sp/>immutable<sp/>to<sp/>eliminate<sp/>entire<sp/>classes<sp/>of<sp/>concurrency<sp/>bugs.<sp/>Modifications<sp/>produce<sp/>new<sp/>versions<sp/>via<sp/>structural<sp/>sharing<sp/>(copy-on-write),<sp/>making<sp/>parallel<sp/>code<sp/>safer<sp/>and<sp/>easier<sp/>to<sp/>reason<sp/>about.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Performance<sp/>through<sp/>a<sp/>Hardware-Aware<sp/>Memory<sp/>Model**:<sp/>The<sp/>memory<sp/>model<sp/>is<sp/>designed<sp/>for<sp/>extreme<sp/>speed<sp/>and<sp/>low<sp/>latency,<sp/>using<sp/>techniques<sp/>like<sp/>tagged<sp/>pointers,<sp/>per-thread<sp/>allocation,<sp/>and<sp/>cache-line<sp/>alignment<sp/>to<sp/>work<sp/>*with*<sp/>the<sp/>hardware,<sp/>not<sp/>against<sp/>it.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**Flexible<sp/>Prototype-Based<sp/>Object<sp/>Model**:<sp/>Instead<sp/>of<sp/>rigid<sp/>class<sp/>hierarchies,<sp/>Proto<sp/>uses<sp/>a<sp/>powerful<sp/>object<sp/>model<sp/>based<sp/>on<sp/>Lieberman-style<sp/>prototypes,<sp/>allowing<sp/>for<sp/>dynamic<sp/>and<sp/>flexible<sp/>object<sp/>composition<sp/>and<sp/>inheritance.</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>**Concurrency<sp/>as<sp/>a<sp/>First-Class<sp/>Citizen**:<sp/>The<sp/>entire<sp/>system<sp/>is<sp/>architected<sp/>for<sp/>true,<sp/>GIL-free<sp/>parallelism.<sp/>Safety<sp/>is<sp/>derived<sp/>from<sp/>the<sp/>immutable<sp/>data<sp/>model,<sp/>not<sp/>from<sp/>complex<sp/>and<sp/>error-prone<sp/>locking.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Gemini<sp/>Implementation<sp/>Guidelines</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>ensure<sp/>consistent<sp/>and<sp/>correct<sp/>code<sp/>generation,<sp/>the<sp/>following<sp/>architectural<sp/>rules<sp/>must<sp/>be<sp/>strictly<sp/>followed<sp/>in<sp/>all<sp/>sessions:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Public<sp/>API<sp/>vs.<sp/>Internal<sp/>Implementation**:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>The<sp/>public-facing<sp/>API<sp/>is<sp/>defined<sp/>in<sp/>`headers/protoCore.h`.<sp/>These<sp/>classes<sp/>(e.g.,<sp/>`ProtoObject`,<sp/>`ProtoList`)<sp/>are<sp/>opaque<sp/>&quot;handles&quot;<sp/>for<sp/>users<sp/>of<sp/>the<sp/>library.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>The<sp/>internal<sp/>implementation<sp/>classes<sp/>are<sp/>defined<sp/>in<sp/>`headers/proto_internal.h`<sp/>and<sp/>always<sp/>have<sp/>the<sp/>`Implementation`<sp/>suffix<sp/>(e.g.,<sp/>`ProtoListImplementation`).<sp/>These<sp/>classes<sp/>inherit<sp/>from<sp/>`Cell`<sp/>and<sp/>contain<sp/>the<sp/>actual<sp/>data<sp/>and<sp/>logic.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>Public<sp/>API<sp/>methods<sp/>are<sp/>**never**<sp/>virtual<sp/>and<sp/>should<sp/>not<sp/>be<sp/>implemented<sp/>in<sp/>the<sp/>header.<sp/>They<sp/>are<sp/>&quot;trampoline&quot;<sp/>functions<sp/>that<sp/>delegate<sp/>the<sp/>call<sp/>to<sp/>the<sp/>corresponding<sp/>internal<sp/>implementation<sp/>class.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Casting<sp/>and<sp/>Type<sp/>Conversion**:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>To<sp/>get<sp/>from<sp/>a<sp/>public<sp/>API<sp/>object<sp/>to<sp/>its<sp/>internal<sp/>implementation,<sp/>always<sp/>use<sp/>the<sp/>`toImpl&lt;...&gt;()`<sp/>template<sp/>function.<sp/>For<sp/>example:<sp/>`toImpl&lt;const<sp/>ProtoListImplementation&gt;(myProtoList)`.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>To<sp/>get<sp/>from<sp/>an<sp/>internal<sp/>implementation<sp/>object<sp/>back<sp/>to<sp/>its<sp/>public<sp/>API<sp/>handle,<sp/>use<sp/>the<sp/>`as...()`<sp/>method<sp/>(e.g.,<sp/>`myProtoListImpl-&gt;asProtoList(context)`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**Method<sp/>Naming<sp/>Convention**:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>Public<sp/>API<sp/>methods<sp/>use<sp/>standard<sp/>camelCase<sp/>(e.g.,<sp/>`myList-&gt;getSize(context)`).</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>Internal<sp/>implementation<sp/>methods<sp/>that<sp/>are<sp/>part<sp/>of<sp/>the<sp/>public<sp/>API&apos;s<sp/>implementation<sp/>are<sp/>prefixed<sp/>with<sp/>`impl`<sp/>(e.g.,<sp/>`myListImpl-&gt;implGetSize(context)`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>**File<sp/>Structure**:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>The<sp/>implementation<sp/>for<sp/>a<sp/>public<sp/>class<sp/>`ProtoFoo`<sp/>and<sp/>its<sp/>internal<sp/>counterpart<sp/>`ProtoFooImplementation`<sp/>should<sp/>reside<sp/>in<sp/>`core/ProtoFoo.cpp`.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>All<sp/>internal<sp/>class<sp/>definitions<sp/>**must**<sp/>be<sp/>in<sp/>`headers/proto_internal.h`.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>All<sp/>public<sp/>API<sp/>class<sp/>declarations<sp/>**must**<sp/>be<sp/>in<sp/>`headers/protoCore.h`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>High-Level<sp/>Architecture</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">At<sp/>a<sp/>high<sp/>level,<sp/>the<sp/>system<sp/>is<sp/>composed<sp/>of<sp/>a<sp/>few<sp/>key<sp/>entities:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">+-------------------------------------------------+</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ProtoSpace<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>(The<sp/>Global<sp/>Runtime<sp/>Environment)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Manages<sp/>the<sp/>Heap<sp/>&amp;<sp/>Garbage<sp/>Collector<sp/>(GC)<sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Owns<sp/>the<sp/>Object<sp/>Prototypes<sp/>(List,<sp/>String...)<sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Manages<sp/>the<sp/>list<sp/>of<sp/>all<sp/>active<sp/>threads<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Holds<sp/>the<sp/>global<sp/>interned<sp/>tuple<sp/>dictionary<sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>+--------------------+<sp/><sp/><sp/>+--------------------+<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>|<sp/><sp/><sp/>ProtoThread<sp/>1<sp/><sp/><sp/><sp/>|<sp/><sp/><sp/>|<sp/><sp/><sp/>ProtoThread<sp/>2<sp/><sp/><sp/><sp/>|<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>|<sp/>(Native<sp/>OS<sp/>Thread)<sp/>|<sp/><sp/><sp/>|<sp/>(Native<sp/>OS<sp/>Thread)<sp/>|<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>|<sp/>-<sp/>Owns<sp/>a<sp/>Context<sp/><sp/><sp/>|<sp/><sp/><sp/>|<sp/>-<sp/>Owns<sp/>a<sp/>Context<sp/><sp/><sp/>|<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>+--------------------+<sp/><sp/><sp/>+--------------------+<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">+-------------------------------------------------+</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Owns</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v</highlight></codeline>
+<codeline><highlight class="normal">+-------------------------------------------------+</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ProtoContext<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>(A<sp/>Thread&apos;s<sp/>Call<sp/>Stack<sp/>&amp;<sp/>Execution<sp/>State)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Points<sp/>to<sp/>the<sp/>current<sp/>ProtoSpace<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Tracks<sp/>the<sp/>call<sp/>stack<sp/>(previous<sp/>context)<sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Holds<sp/>local<sp/>variables<sp/>for<sp/>the<sp/>current<sp/>scope<sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>-<sp/>Manages<sp/>a<sp/>per-thread<sp/>memory<sp/>arena<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">+-------------------------------------------------+</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>1.<sp/>The<sp/>Memory<sp/>Model:<sp/>Performance<sp/>and<sp/>Safety</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>memory<sp/>management<sp/>system<sp/>is<sp/>a<sp/>cornerstone<sp/>of<sp/>Proto&apos;s<sp/>performance.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>`ProtoObject*`<sp/>Handle:<sp/>Pointer<sp/>or<sp/>Immediate<sp/>Value?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>avoid<sp/>the<sp/>overhead<sp/>of<sp/>heap<sp/>allocation<sp/>for<sp/>simple<sp/>values,<sp/>Proto<sp/>uses<sp/>**tagged<sp/>pointers**.<sp/>A<sp/>64-bit<sp/>`ProtoObject*`<sp/>is<sp/>not<sp/>just<sp/>a<sp/>pointer;<sp/>it&apos;s<sp/>a<sp/>&quot;handle&quot;<sp/>that<sp/>can<sp/>represent<sp/>either<sp/>a<sp/>heap<sp/>object<sp/>or<sp/>an<sp/>immediate<sp/>value.<sp/>The<sp/>lowest<sp/>bits<sp/>of<sp/>the<sp/>address<sp/>are<sp/>used<sp/>as<sp/>a<sp/>tag:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**If<sp/>the<sp/>tag<sp/>indicates<sp/>a<sp/>pointer**,<sp/>the<sp/>remaining<sp/>bits<sp/>are<sp/>the<sp/>memory<sp/>address<sp/>of<sp/>a<sp/>`Cell`<sp/>on<sp/>the<sp/>heap.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**If<sp/>the<sp/>tag<sp/>indicates<sp/>an<sp/>embedded<sp/>value**,<sp/>the<sp/>remaining<sp/>bits<sp/>store<sp/>the<sp/>value<sp/>directly<sp/>(e.g.,<sp/>a<sp/>56-bit<sp/>integer,<sp/>a<sp/>boolean).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>the<sp/>single<sp/>most<sp/>important<sp/>optimization<sp/>for<sp/>scalar<sp/>operations,<sp/>as<sp/>it<sp/>makes<sp/>them<sp/>as<sp/>fast<sp/>as<sp/>primitive<sp/>C++<sp/>types<sp/>and<sp/>avoids<sp/>triggering<sp/>the<sp/>garbage<sp/>collector.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>Memory<sp/>Arena:<sp/>Lock-Free,<sp/>Per-Thread<sp/>Allocation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Fixed-Size<sp/>Cells**:<sp/>All<sp/>heap-allocated<sp/>objects<sp/>reside<sp/>in<sp/>64-byte<sp/>memory<sp/>blocks<sp/>called<sp/>`Cell`s.<sp/>This<sp/>strategy<sp/>eliminates<sp/>memory<sp/>fragmentation<sp/>and<sp/>simplifies<sp/>the<sp/>allocator.<sp/>The<sp/>64-byte<sp/>size<sp/>is<sp/>chosen<sp/>to<sp/>align<sp/>perfectly<sp/>with<sp/>the<sp/>cache<sp/>lines<sp/>of<sp/>modern<sp/>CPUs,<sp/>preventing<sp/>&quot;false<sp/>sharing&quot;<sp/>in<sp/>concurrent<sp/>applications.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Per-Thread<sp/>Arenas**:<sp/>Each<sp/>`ProtoThread`<sp/>maintains<sp/>its<sp/>own<sp/>local<sp/>pool<sp/>of<sp/>free<sp/>`Cell`s.<sp/>When<sp/>an<sp/>object<sp/>needs<sp/>to<sp/>be<sp/>allocated,<sp/>the<sp/>thread<sp/>takes<sp/>a<sp/>cell<sp/>from<sp/>its<sp/>local<sp/>pool.<sp/>This<sp/>operation<sp/>is<sp/>the<sp/>key<sp/>to<sp/>high-speed<sp/>allocation:<sp/>it<sp/>is<sp/>extremely<sp/>fast<sp/>and<sp/>**requires<sp/>no<sp/>global<sp/>lock**,<sp/>allowing<sp/>threads<sp/>to<sp/>allocate<sp/>memory<sp/>in<sp/>parallel<sp/>at<sp/>full<sp/>speed<sp/>with<sp/>zero<sp/>contention.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Global<sp/>Space**:<sp/>Only<sp/>when<sp/>a<sp/>thread&apos;s<sp/>local<sp/>pool<sp/>is<sp/>exhausted<sp/>does<sp/>it<sp/>request<sp/>a<sp/>new,<sp/>large<sp/>batch<sp/>of<sp/>cells<sp/>from<sp/>the<sp/>global<sp/>`ProtoSpace`.<sp/>This<sp/>amortization<sp/>strategy<sp/>minimizes<sp/>global<sp/>synchronization.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>Garbage<sp/>Collector<sp/>(GC):<sp/>Concurrent<sp/>and<sp/>Low-Latency</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>GC<sp/>is<sp/>designed<sp/>to<sp/>minimize<sp/>application<sp/>pauses.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Dedicated<sp/>GC<sp/>Thread**:<sp/>The<sp/>GC<sp/>runs<sp/>in<sp/>its<sp/>own<sp/>background<sp/>thread.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Brief<sp/>Stop-The-World<sp/>Phase**:<sp/>The<sp/>GC<sp/>only<sp/>requires<sp/>a<sp/>very<sp/>short<sp/>&quot;stop-the-world&quot;<sp/>pause.<sp/>During<sp/>this<sp/>phase,<sp/>all<sp/>application<sp/>threads<sp/>are<sp/>temporarily<sp/>halted<sp/>so<sp/>the<sp/>GC<sp/>can<sp/>safely<sp/>and<sp/>quickly<sp/>scan<sp/>the<sp/>root<sp/>set<sp/>(thread<sp/>stacks,<sp/>global<sp/>objects).<sp/>This<sp/>is<sp/>the<sp/>only<sp/>moment<sp/>of<sp/>significant<sp/>synchronization.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Concurrent<sp/>Mark<sp/>and<sp/>Sweep**:<sp/>Once<sp/>the<sp/>roots<sp/>are<sp/>identified,<sp/>the<sp/>marking<sp/>and<sp/>sweeping<sp/>phases<sp/>can<sp/>run<sp/>concurrently<sp/>while<sp/>the<sp/>application<sp/>threads<sp/>resume<sp/>execution.<sp/>The<sp/>immutable<sp/>nature<sp/>of<sp/>the<sp/>data<sp/>structures<sp/>is<sp/>critical<sp/>here,<sp/>as<sp/>it<sp/>guarantees<sp/>that<sp/>the<sp/>object<sp/>graph<sp/>will<sp/>not<sp/>be<sp/>modified<sp/>during<sp/>the<sp/>concurrent<sp/>marking<sp/>phase.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Implicit<sp/>Generational<sp/>Collection**:<sp/>The<sp/>`ProtoContext`<sp/>object,<sp/>which<sp/>represents<sp/>a<sp/>function&apos;s<sp/>scope,<sp/>tracks<sp/>all<sp/>new<sp/>cells<sp/>allocated<sp/>within<sp/>it.<sp/>When<sp/>a<sp/>context<sp/>is<sp/>destroyed<sp/>(i.e.,<sp/>a<sp/>function<sp/>returns),<sp/>it<sp/>provides<sp/>its<sp/>list<sp/>of<sp/>newly-allocated<sp/>cells<sp/>to<sp/>the<sp/>`ProtoSpace`.<sp/>This<sp/>acts<sp/>as<sp/>a<sp/>highly<sp/>efficient,<sp/>implicit<sp/>form<sp/>of<sp/>generational<sp/>GC,<sp/>as<sp/>most<sp/>objects<sp/>are<sp/>short-lived<sp/>and<sp/>can<sp/>be<sp/>identified<sp/>for<sp/>collection<sp/>very<sp/>quickly.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>2.<sp/>The<sp/>Data<sp/>Model:<sp/>Immutable<sp/>and<sp/>Efficient</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">All<sp/>core<sp/>collection<sp/>types<sp/>in<sp/>Proto<sp/>are<sp/>implemented<sp/>as<sp/>persistent,<sp/>immutable<sp/>data<sp/>structures,<sp/>backed<sp/>by<sp/>self-balancing<sp/>AVL<sp/>trees.<sp/>This<sp/>provides<sp/>efficient<sp/>structural<sp/>sharing<sp/>and<sp/>guarantees<sp/>O(log<sp/>n)<sp/>performance<sp/>for<sp/>most<sp/>operations.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**`ProtoTuple`<sp/>&amp;<sp/>`ProtoString`**:<sp/>These<sp/>are<sp/>implemented<sp/>as<sp/>**ropes**,<sp/>a<sp/>tree<sp/>structure<sp/>where<sp/>leaves<sp/>are<sp/>small,<sp/>fixed-size<sp/>arrays<sp/>of<sp/>data.<sp/>This<sp/>makes<sp/>operations<sp/>like<sp/>concatenation,<sp/>slicing,<sp/>and<sp/>insertion<sp/>extremely<sp/>efficient,<sp/>even<sp/>for<sp/>very<sp/>large<sp/>strings<sp/>and<sp/>tuples,<sp/>as<sp/>it<sp/>avoids<sp/>massive<sp/>data<sp/>copies<sp/>by<sp/>simply<sp/>creating<sp/>new<sp/>tree<sp/>nodes<sp/>that<sp/>point<sp/>to<sp/>existing,<sp/>shared<sp/>data.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**`ProtoList`<sp/>&amp;<sp/>`ProtoSparseList`**:<sp/>These<sp/>are<sp/>also<sp/>backed<sp/>by<sp/>balanced<sp/>trees,<sp/>ensuring<sp/>that<sp/>operations<sp/>at<sp/>any<sp/>point<sp/>in<sp/>the<sp/>collection<sp/>(beginning,<sp/>middle,<sp/>or<sp/>end)<sp/>have<sp/>consistent,<sp/>logarithmic<sp/>time<sp/>complexity.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Interning<sp/>for<sp/>Tuples<sp/>&amp;<sp/>Strings**:<sp/>To<sp/>conserve<sp/>memory<sp/>and<sp/>speed<sp/>up<sp/>equality<sp/>checks,<sp/>all<sp/>**Tuples**<sp/>and<sp/>**Strings**<sp/>are<sp/>interned.<sp/>This<sp/>means<sp/>distinct<sp/>objects<sp/>with<sp/>identical<sp/>content<sp/>share<sp/>the<sp/>same<sp/>memory<sp/>address.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**Tuples**:<sp/>Managed<sp/>by<sp/>a<sp/>global<sp/>`tupleRoot`<sp/>dictionary<sp/>(BST).</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**Strings**:<sp/>Managed<sp/>by<sp/>a<sp/>global<sp/>`stringInternMap`<sp/>(Hash<sp/>Set).<sp/>Since<sp/>Strings<sp/>are<sp/>implemented<sp/>as<sp/>wrappers<sp/>around<sp/>Tuples,<sp/>checking<sp/>string<sp/>equality<sp/>often<sp/>reduces<sp/>to<sp/>checking<sp/>pointer<sp/>equality<sp/>of<sp/>the<sp/>underlying<sp/>interned<sp/>tuple.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Sets<sp/>&amp;<sp/>Multisets**:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**`ProtoSet`**:<sp/>Implemented<sp/>using<sp/>a<sp/>`ProtoSparseList`<sp/>where<sp/>keys<sp/>are<sp/>the<sp/>hash<sp/>of<sp/>elements<sp/>and<sp/>values<sp/>are<sp/>the<sp/>elements<sp/>themselves.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>**`ProtoMultiset`**:<sp/>Implemented<sp/>as<sp/>a<sp/>&quot;Bag<sp/>of<sp/>Counts&quot;.<sp/>It<sp/>uses<sp/>a<sp/>`ProtoSparseList`<sp/>where<sp/>keys<sp/>are<sp/>element<sp/>hashes<sp/>and<sp/>values<sp/>are<sp/>`SmallInteger`<sp/>counts,<sp/>allowing<sp/>for<sp/>efficient<sp/>allocation-free<sp/>tracking<sp/>of<sp/>duplicates.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>3.<sp/>The<sp/>Object<sp/>Model:<sp/>Prototypes<sp/>and<sp/>Controlled<sp/>Mutability</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto<sp/>implements<sp/>a<sp/>flexible<sp/>and<sp/>dynamic<sp/>object<sp/>model<sp/>inspired<sp/>by<sp/>the<sp/>Self<sp/>programming<sp/>language<sp/>and<sp/>JavaScript.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**`ProtoObjectCell`**:<sp/>A<sp/>standard<sp/>object<sp/>is<sp/>represented<sp/>internally<sp/>by<sp/>a<sp/>`ProtoObjectCell`.<sp/>This<sp/>cell<sp/>contains:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>A<sp/>`ParentLink`<sp/>pointing<sp/>to<sp/>its<sp/>prototype(s).<sp/>The<sp/>`ParentLinkImplementation`<sp/>allows<sp/>for<sp/>a<sp/>linked<sp/>list<sp/>of<sp/>parents,<sp/>effectively<sp/>enabling<sp/>multiple<sp/>inheritance<sp/>through<sp/>delegation.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>A<sp/>`ProtoSparseList`<sp/>to<sp/>hold<sp/>its<sp/>own<sp/>local<sp/>attributes.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Prototype<sp/>Chains**:<sp/>Objects<sp/>inherit<sp/>behavior<sp/>and<sp/>data<sp/>from<sp/>their<sp/>prototypes.<sp/>The<sp/>`ParentLink`<sp/>forms<sp/>a<sp/>chain<sp/>(or<sp/>more<sp/>accurately,<sp/>a<sp/>directed<sp/>acyclic<sp/>graph),<sp/>allowing<sp/>for<sp/>multiple<sp/>inheritance.<sp/>Attribute<sp/>lookup<sp/>traverses<sp/>this<sp/>graph<sp/>depth-first<sp/>until<sp/>a<sp/>match<sp/>is<sp/>found<sp/>or<sp/>all<sp/>paths<sp/>end.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Methods<sp/>and<sp/>Bindings**:<sp/>When<sp/>a<sp/>function<sp/>is<sp/>retrieved<sp/>from<sp/>an<sp/>object,<sp/>it<sp/>is<sp/>often<sp/>wrapped<sp/>in<sp/>a<sp/>`ProtoMethodCell`.<sp/>This<sp/>cell<sp/>binds<sp/>the<sp/>function<sp/>to<sp/>the<sp/>`self`<sp/>object,<sp/>ensuring<sp/>that<sp/>when<sp/>the<sp/>method<sp/>is<sp/>invoked,<sp/>it<sp/>has<sp/>access<sp/>to<sp/>the<sp/>correct<sp/>receiver.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Controlled<sp/>Mutability**:<sp/>While<sp/>the<sp/>default<sp/>is<sp/>immutability,<sp/>Proto<sp/>provides<sp/>a<sp/>safe<sp/>mechanism<sp/>for<sp/>controlled<sp/>mutation.<sp/>A<sp/>mutable<sp/>object<sp/>holds<sp/>a<sp/>unique<sp/>ID<sp/>that<sp/>refers<sp/>to<sp/>an<sp/>entry<sp/>in<sp/>a<sp/>global,<sp/>thread-safe<sp/>sparse<sp/>list<sp/>(`mutableRoot`<sp/>in<sp/>`ProtoSpace`).<sp/>A<sp/>&quot;mutation&quot;<sp/>is<sp/>an<sp/>atomic<sp/>`compare-and-swap`<sp/>operation<sp/>that<sp/>replaces<sp/>the<sp/>immutable<sp/>value<sp/>associated<sp/>with<sp/>that<sp/>ID,<sp/>preserving<sp/>the<sp/>safety<sp/>of<sp/>the<sp/>overall<sp/>system<sp/>while<sp/>providing<sp/>the<sp/>convenience<sp/>of<sp/>mutable<sp/>state.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>4.<sp/>Execution<sp/>Model<sp/>and<sp/>Method<sp/>Invocation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>execution<sp/>in<sp/>Proto<sp/>is<sp/>centered<sp/>around<sp/>the<sp/>`ProtoContext`<sp/>and<sp/>the<sp/>concept<sp/>of<sp/>&quot;trampoline&quot;<sp/>calls.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Method<sp/>Invocation<sp/>Lifecycle</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Lookup**:<sp/>When<sp/>a<sp/>method<sp/>is<sp/>called<sp/>on<sp/>a<sp/>`ProtoObject`,<sp/>the<sp/>system<sp/>first<sp/>looks<sp/>for<sp/>the<sp/>attribute<sp/>in<sp/>the<sp/>object&apos;s<sp/>own<sp/>`ProtoSparseList`.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Delegation**:<sp/>If<sp/>not<sp/>found<sp/>locally,<sp/>it<sp/>recursively<sp/>searches<sp/>through<sp/>the<sp/>`ParentLink`<sp/>chain.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**Binding**:<sp/>If<sp/>the<sp/>found<sp/>value<sp/>is<sp/>a<sp/>function<sp/>(a<sp/>`ProtoMethod`),<sp/>it<sp/>is<sp/>wrapped<sp/>in<sp/>a<sp/>`ProtoMethodCell`<sp/>along<sp/>with<sp/>the<sp/>receiver<sp/>(`self`).</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>**Invocation**:<sp/>The<sp/>`ProtoMethodCell::implInvoke`<sp/>is<sp/>called.<sp/>This<sp/>sets<sp/>up<sp/>the<sp/>execution<sp/>environment<sp/>within<sp/>the<sp/>current<sp/>`ProtoContext`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>`ReturnReference`<sp/>Mechanism</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Internally,<sp/>Proto<sp/>uses<sp/>a<sp/>special<sp/>`ReturnReference`<sp/>cell.<sp/>This<sp/>is<sp/>not<sp/>exposed<sp/>to<sp/>the<sp/>user<sp/>but<sp/>serves<sp/>as<sp/>a<sp/>way<sp/>for<sp/>methods<sp/>to<sp/>return<sp/>values<sp/>through<sp/>the<sp/>`ProtoContext`<sp/>while<sp/>still<sp/>being<sp/>managed<sp/>by<sp/>the<sp/>garbage<sp/>collector.<sp/>It<sp/>ensures<sp/>that<sp/>the<sp/>return<sp/>value<sp/>is<sp/>tracked<sp/>as<sp/>a<sp/>root<sp/>if<sp/>a<sp/>GC<sp/>cycle<sp/>occurs<sp/>exactly<sp/>during<sp/>a<sp/>return<sp/>operation.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Conclusion:<sp/>A<sp/>Synergistic<sp/>Design</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">No<sp/>single<sp/>feature<sp/>of<sp/>Proto<sp/>stands<sp/>alone.<sp/>The<sp/>`const`-correct,<sp/>immutable<sp/>API<sp/>is<sp/>what<sp/>makes<sp/>the<sp/>concurrent<sp/>GC<sp/>safe.<sp/>The<sp/>tagged-pointer<sp/>system<sp/>is<sp/>what<sp/>makes<sp/>the<sp/>use<sp/>of<sp/>`ProtoObject*`<sp/>as<sp/>a<sp/>universal<sp/>handle<sp/>performant.<sp/>The<sp/>per-thread<sp/>memory<sp/>arenas<sp/>are<sp/>what<sp/>enable<sp/>true,<sp/>GIL-free<sp/>concurrency.<sp/>Together,<sp/>these<sp/>elements<sp/>create<sp/>a<sp/>runtime<sp/>that<sp/>is<sp/>uniquely<sp/>positioned<sp/>to<sp/>offer<sp/>both<sp/>the<sp/>flexibility<sp/>of<sp/>a<sp/>dynamic<sp/>language<sp/>and<sp/>the<sp/>raw<sp/>performance<sp/>of<sp/>modern<sp/>C++.</highlight></codeline>
+    </programlisting>
+    <location file="DESIGN.md"/>
+  </compounddef>
+</doxygen>

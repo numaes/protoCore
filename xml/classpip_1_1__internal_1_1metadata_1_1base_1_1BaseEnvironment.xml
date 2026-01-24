@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::metadata::base::BaseEnvironment</compoundname>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1Environment" prot="public" virt="non-virtual">pip._internal.metadata.importlib._envs.Environment</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Environment" prot="public" virt="non-virtual">pip._internal.metadata.pkg_resources.Environment</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1aeb459d4ba734c39de0a759ac6dc8ab1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;BaseEnvironment&quot;</type>
+        <definition> &quot;BaseEnvironment&quot; pip._internal.metadata.base.BaseEnvironment.default</definition>
+        <argsstring>(cls)</argsstring>
+        <name>default</name>
+        <qualifiedname>pip._internal.metadata.base.BaseEnvironment.default</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1Environment_1ab3cd2996ccb812c2b1b523dc5d7b621a">default</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Environment_1a9a8dc37ac2070a7534dc2db018f98e90">default</reimplementedby>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" line="600" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" bodystart="600" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1a3e5a5abe82dc3ef4185b7a27a395aa72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;BaseEnvironment&quot;</type>
+        <definition> &quot;BaseEnvironment&quot; pip._internal.metadata.base.BaseEnvironment.from_paths</definition>
+        <argsstring>(cls, Optional[List[str]] paths)</argsstring>
+        <name>from_paths</name>
+        <qualifiedname>pip._internal.metadata.base.BaseEnvironment.from_paths</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1Environment_1a80a2f4601452854ecad0ceea14be6d73">from_paths</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Environment_1a19ee541431bdb5a1edef05d06dc82973">from_paths</reimplementedby>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>paths</declname>
+          <array>[List[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" line="604" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" bodystart="604" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1ad20e9988a0bccbc0d4bd11c933d6fab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[&quot;BaseDistribution&quot;]</type>
+        <definition> Optional[&quot;BaseDistribution&quot;] pip._internal.metadata.base.BaseEnvironment.get_distribution</definition>
+        <argsstring>(self, str name)</argsstring>
+        <name>get_distribution</name>
+        <qualifiedname>pip._internal.metadata.base.BaseEnvironment.get_distribution</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1Environment_1ae910da2bda3f0d1d2fd34408ea7086ae">get_distribution</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Environment_1a704d225d004dabd71a4caa9d83a4c3fa">get_distribution</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a requirement name, return the installed distributions.
+
+The name may not be normalized. The implementation must canonicalize
+it for lookup.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" line="607" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" bodystart="607" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1af417a1eaffa41615c6292d8b4513c9d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref>]</type>
+        <definition> Iterator[BaseDistribution] pip._internal.metadata.base.BaseEnvironment.iter_all_distributions</definition>
+        <argsstring>(self)</argsstring>
+        <name>iter_all_distributions</name>
+        <qualifiedname>pip._internal.metadata.base.BaseEnvironment.iter_all_distributions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterate through all installed distributions without any filtering.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" line="624" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" bodystart="624" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1a5e0365fa38a0a083bd82fe9f4429fb41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref>]</type>
+        <definition> Iterator[BaseDistribution] pip._internal.metadata.base.BaseEnvironment.iter_installed_distributions</definition>
+        <argsstring>(self, bool local_only=True, Container[str] skip=stdlib_pkgs, bool include_editables=True, bool editables_only=False, bool user_only=False)</argsstring>
+        <name>iter_installed_distributions</name>
+        <qualifiedname>pip._internal.metadata.base.BaseEnvironment.iter_installed_distributions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>local_only</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Container</type>
+          <declname>skip</declname>
+          <array>[str]</array>
+          <defval>stdlib_pkgs</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>include_editables</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>editables_only</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user_only</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of installed distributions.
+
+This is based on ``iter_all_distributions()`` with additional filtering
+options. Note that ``iter_installed_distributions()`` without arguments
+is *not* equal to ``iter_all_distributions()``, since some of the
+configurations exclude packages by default.
+
+:param local_only: If True (default), only return installations
+local to the current virtualenv, if in a virtualenv.
+:param skip: An iterable of canonicalized project names to ignore;
+    defaults to ``stdlib_pkgs``.
+:param include_editables: If False, don&apos;t report editables.
+:param editables_only: If True, only report editables.
+:param user_only: If True, only report installations in the user
+site directory.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" line="645" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" bodystart="652" bodyend="680"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1a6c2eeff4dbfe5bbbd86c46e04ec9e6b5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[&quot;BaseDistribution&quot;]</type>
+        <definition> Iterator[&quot;BaseDistribution&quot;] pip._internal.metadata.base.BaseEnvironment._iter_distributions</definition>
+        <argsstring>(self)</argsstring>
+        <name>_iter_distributions</name>
+        <qualifiedname>pip._internal.metadata.base.BaseEnvironment._iter_distributions</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1Environment_1a22c3c8fa137b82802c6221309a2a7ffe">_iter_distributions</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Environment_1aaae06fd48cec37ee9f512c497687019e">_iter_distributions</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterate through installed distributions.
+
+This function should be implemented by subclass, but never called
+directly. Use the public ``iter_distribution()`` instead, which
+implements additional logic to make sure the distributions are valid.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" line="615" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" bodystart="615" bodyend="623"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>An environment containing distributions to introspect.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.metadata.base.BaseEnvironment</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment"/>
+      </node>
+      <node id="2">
+        <label>pip._internal.metadata.importlib._envs.Environment</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1Environment"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.metadata.pkg_resources.Environment</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Environment"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" line="596" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/base.py" bodystart="596" bodyend="680"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1a6c2eeff4dbfe5bbbd86c46e04ec9e6b5" prot="protected" virt="non-virtual"><scope>pip::_internal::metadata::base::BaseEnvironment</scope><name>_iter_distributions</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1aeb459d4ba734c39de0a759ac6dc8ab1c" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::base::BaseEnvironment</scope><name>default</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1a3e5a5abe82dc3ef4185b7a27a395aa72" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::base::BaseEnvironment</scope><name>from_paths</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1ad20e9988a0bccbc0d4bd11c933d6fab1" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::base::BaseEnvironment</scope><name>get_distribution</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1af417a1eaffa41615c6292d8b4513c9d1" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::base::BaseEnvironment</scope><name>iter_all_distributions</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment_1a5e0365fa38a0a083bd82fe9f4429fb41" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::base::BaseEnvironment</scope><name>iter_installed_distributions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

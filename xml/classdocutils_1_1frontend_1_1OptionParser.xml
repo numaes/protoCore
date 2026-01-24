@@ -1,0 +1,607 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1frontend_1_1OptionParser" kind="class" language="Python" prot="public">
+    <compoundname>docutils::frontend::OptionParser</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">optparse.OptionParser</basecompoundref>
+    <basecompoundref refid="classdocutils_1_1SettingsSpec" prot="public" virt="non-virtual">docutils.SettingsSpec</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a4bb58e7627e41976aff8ca4265df9dee" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list docutils.frontend.OptionParser::standard_config_files</definition>
+        <argsstring></argsstring>
+        <name>standard_config_files</name>
+        <qualifiedname>docutils.frontend.OptionParser.standard_config_files</qualifiedname>
+        <initializer>=  [
+        &apos;/etc/docutils.conf&apos;,           # system-wide
+        &apos;./docutils.conf&apos;,              # project-specific
+        &apos;~/.docutils&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="536" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="536" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1aaaae2e8e98d76fcd5fc4ec6a108f96b3" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.frontend.OptionParser::threshold_choices</definition>
+        <argsstring></argsstring>
+        <name>threshold_choices</name>
+        <qualifiedname>docutils.frontend.OptionParser.threshold_choices</qualifiedname>
+        <initializer>=  &apos;info 1 warning 2 error 3 severe 4 none 5&apos;.split()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="545" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1ab6fd6e862ca131269e993318c633a4af" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.frontend.OptionParser::thresholds</definition>
+        <argsstring></argsstring>
+        <name>thresholds</name>
+        <qualifiedname>docutils.frontend.OptionParser.thresholds</qualifiedname>
+        <initializer>=  {&apos;info&apos;: 1, &apos;warning&apos;: 2, &apos;error&apos;: 3, &apos;severe&apos;: 4, &apos;none&apos;: 5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="548" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="548" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a6a5425c5187889ae3e2b65362354aca0" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.frontend.OptionParser::booleans</definition>
+        <argsstring></argsstring>
+        <name>booleans</name>
+        <qualifiedname>docutils.frontend.OptionParser.booleans</qualifiedname>
+        <initializer>=  {&apos;1&apos;: True, &apos;on&apos;: True, &apos;yes&apos;: True, &apos;true&apos;: True, &apos;0&apos;: False,
+                &apos;off&apos;: False, &apos;no&apos;: False, &apos;false&apos;: False, &apos;&apos;: False}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="551" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a59a9e45c60ad30e99bdcdf6bd59b9285" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.frontend.OptionParser::default_error_encoding</definition>
+        <argsstring></argsstring>
+        <name>default_error_encoding</name>
+        <qualifiedname>docutils.frontend.OptionParser.default_error_encoding</qualifiedname>
+        <initializer>=  (getattr(sys.stderr, &apos;encoding&apos;, None)
+                              or <ref refid="namespacedocutils_1_1io_1ab7dfc45a873ba500722b327146faf0e3" kindref="member">io._locale_encoding</ref>  # noqa
+                              or &apos;ascii&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="555" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="555" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a0f2c7e26d2d768f249603e3a94a199fe" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.frontend.OptionParser::default_error_encoding_error_handler</definition>
+        <argsstring></argsstring>
+        <name>default_error_encoding_error_handler</name>
+        <qualifiedname>docutils.frontend.OptionParser.default_error_encoding_error_handler</qualifiedname>
+        <initializer>=  &apos;backslashreplace&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="559" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="559" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a2ce4aecb66a7562fab016890b4f5af59" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.frontend.OptionParser::settings_spec</definition>
+        <argsstring></argsstring>
+        <name>settings_spec</name>
+        <qualifiedname>docutils.frontend.OptionParser.settings_spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="561" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="561" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a60094d7006f535f8cb03b58e8ebc6b95" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.frontend.OptionParser::settings_defaults</definition>
+        <argsstring></argsstring>
+        <name>settings_defaults</name>
+        <qualifiedname>docutils.frontend.OptionParser.settings_defaults</qualifiedname>
+        <initializer>=  {&apos;_disable_config&apos;: None,
+                         &apos;_source&apos;: None,
+                         &apos;_destination&apos;: None,
+                         &apos;_config_files&apos;: None}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="738" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="738" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a3ba6f8e29dfd62724cbe84bcb664b8e8" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.frontend.OptionParser::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.frontend.OptionParser.config_section</qualifiedname>
+        <initializer>=  &apos;general&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="747" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="747" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a753edd479f91f5e8011f11daeec32581" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.frontend.OptionParser::version_template</definition>
+        <argsstring></argsstring>
+        <name>version_template</name>
+        <qualifiedname>docutils.frontend.OptionParser.version_template</qualifiedname>
+        <initializer>=  (&apos;%%prog (Docutils %s%s, Python %s, on %s)&apos;
+                        % (docutils.__version__,
+                           docutils.__version_details__
+                           and &apos; [%s]&apos;%docutils.__version_details__ or &apos;&apos;,
+                           sys.version.split()[0], sys.platform))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="749" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="749" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a3e06afadd711aaa76933d9bc2ad6ddf6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.frontend.OptionParser::lists</definition>
+        <argsstring></argsstring>
+        <name>lists</name>
+        <qualifiedname>docutils.frontend.OptionParser.lists</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="765" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="765" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1ae773a8b4a90cdafe3332c13d724e6dff" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.frontend.OptionParser::config_files</definition>
+        <argsstring></argsstring>
+        <name>config_files</name>
+        <qualifiedname>docutils.frontend.OptionParser.config_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="768" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="768" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1aeb17c51d429c0551d5f38e3041a8f701" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.frontend.OptionParser::relative_path_settings</definition>
+        <argsstring></argsstring>
+        <name>relative_path_settings</name>
+        <qualifiedname>docutils.frontend.OptionParser.relative_path_settings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="771" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="771" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a0e04965d36cefc2b0d223d152f27cc82" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.frontend.OptionParser::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>docutils.frontend.OptionParser.version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="781" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="781" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1frontend_1_1OptionParser_1a44809b895ab46d96f575b11d65a1f21a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.frontend.OptionParser::components</definition>
+        <argsstring></argsstring>
+        <name>components</name>
+        <qualifiedname>docutils.frontend.OptionParser.components</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="782" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="782" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1acde4276265fd70b4b7c6d88d43b310e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.__init__</definition>
+        <argsstring>(self, components=(), defaults=None, read_config_files=False, *args, **kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.frontend.OptionParser.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1frontend_1_1OptionParser_1a44809b895ab46d96f575b11d65a1f21a" kindref="member">components</ref></type>
+          <defname>components</defname>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>defaults</type>
+          <defname>defaults</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>read_config_files</type>
+          <defname>read_config_files</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up OptionParser instance.
+
+`components` is a list of Docutils components each containing a
+``.settings_spec`` attribute.
+`defaults` is a mapping of setting default overrides.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="756" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="757" bodyend="791"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1ae21dd468125bd36e89b6b0b18606d3b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.populate_from_components</definition>
+        <argsstring>(self, components)</argsstring>
+        <name>populate_from_components</name>
+        <qualifiedname>docutils.frontend.OptionParser.populate_from_components</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1frontend_1_1OptionParser_1a44809b895ab46d96f575b11d65a1f21a" kindref="member">components</ref></type>
+          <defname>components</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Collect settings specification from components.
+
+For each component, populate from the `SettingsSpec.settings_spec`
+structure, then from the `SettingsSpec.settings_defaults` dictionary.
+After all components have been processed, check for and populate from
+each component&apos;s `SettingsSpec.settings_default_overrides` dictionary.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="792" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="792" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1ac1811acf3bb1593cf6aae590fef31afd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.get_standard_config_files</definition>
+        <argsstring>(cls)</argsstring>
+        <name>get_standard_config_files</name>
+        <qualifiedname>docutils.frontend.OptionParser.get_standard_config_files</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return list of config files, from environment or standard.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="825" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="825" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1a076582830a047902e9e5d936a85621ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.get_standard_config_settings</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_standard_config_settings</name>
+        <qualifiedname>docutils.frontend.OptionParser.get_standard_config_settings</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="833" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="833" bodyend="840"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1a59a7249383b6b25a48e579cf24695ab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.get_config_file_settings</definition>
+        <argsstring>(self, config_file)</argsstring>
+        <name>get_config_file_settings</name>
+        <qualifiedname>docutils.frontend.OptionParser.get_config_file_settings</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>config_file</type>
+          <defname>config_file</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a dictionary containing appropriate config file settings.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="841" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="841" bodyend="864"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1a0c3ae5ecc2705c775c6bc0b499593e7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.check_values</definition>
+        <argsstring>(self, values, args)</argsstring>
+        <name>check_values</name>
+        <qualifiedname>docutils.frontend.OptionParser.check_values</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>values</type>
+          <defname>values</defname>
+        </param>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Store positional arguments as runtime settings.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="865" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="865" bodyend="871"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1a73cf309478a783e7ff0ae200a03b1f92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.check_args</definition>
+        <argsstring>(self, args)</argsstring>
+        <name>check_args</name>
+        <qualifiedname>docutils.frontend.OptionParser.check_args</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="872" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="872" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1a001d33af501ea40097f6c03505f966fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.set_defaults_from_dict</definition>
+        <argsstring>(self, defaults)</argsstring>
+        <name>set_defaults_from_dict</name>
+        <qualifiedname>docutils.frontend.OptionParser.set_defaults_from_dict</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>defaults</type>
+          <defname>defaults</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="889" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="889" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1a3f8bd317cacba521baded163d0c1a4bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.get_default_values</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_default_values</name>
+        <qualifiedname>docutils.frontend.OptionParser.get_default_values</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Needed to get custom `Values` instances.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="896" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="896" bodyend="903"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1frontend_1_1OptionParser_1a55f91a39226467f99064526433528bb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.OptionParser.get_option_by_dest</definition>
+        <argsstring>(self, dest)</argsstring>
+        <name>get_option_by_dest</name>
+        <qualifiedname>docutils.frontend.OptionParser.get_option_by_dest</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dest</type>
+          <defname>dest</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an option by its dest.
+
+If you&apos;re supplying a dest which is shared by several options,
+it is undefined which option of those is returned.
+
+A KeyError is raised if there is no option with the supplied
+dest.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="904" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="904" bodyend="920"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Settings parser for command-line and library use.
+
+The `settings_spec` specification here and in other Docutils components
+are merged to build the set of command-line options and runtime settings
+for this process.
+
+Common settings (defined below) and component-specific settings must not
+conflict.  Short options are reserved for common settings, and components
+are restricted to using long options.
+
+Deprecated.
+Will be replaced by a subclass of `argparse.ArgumentParser`.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.frontend.OptionParser</label>
+        <link refid="classdocutils_1_1frontend_1_1OptionParser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="2">
+        <label>optparse::OptionParser</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.frontend.OptionParser</label>
+        <link refid="classdocutils_1_1frontend_1_1OptionParser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>standard_config_files</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>config_section</edgelabel>
+          <edgelabel>default_error_encoding_error_handler</edgelabel>
+          <edgelabel>threshold_choices</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>default_error_encoding</edgelabel>
+          <edgelabel>settings_spec</edgelabel>
+          <edgelabel>version_template</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>relative_path_settings</edgelabel>
+          <edgelabel>settings_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>optparse::OptionParser</label>
+      </node>
+      <node id="5">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" line="520" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="520" bodyend="920"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1acde4276265fd70b4b7c6d88d43b310e1" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a6a5425c5187889ae3e2b65362354aca0" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>booleans</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a73cf309478a783e7ff0ae200a03b1f92" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>check_args</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a0c3ae5ecc2705c775c6bc0b499593e7a" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>check_values</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a44809b895ab46d96f575b11d65a1f21a" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>components</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1ae773a8b4a90cdafe3332c13d724e6dff" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>config_files</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a3ba6f8e29dfd62724cbe84bcb664b8e8" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a59a9e45c60ad30e99bdcdf6bd59b9285" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>default_error_encoding</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a0f2c7e26d2d768f249603e3a94a199fe" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>default_error_encoding_error_handler</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a59a7249383b6b25a48e579cf24695ab3" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>get_config_file_settings</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a3f8bd317cacba521baded163d0c1a4bd" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>get_default_values</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a55f91a39226467f99064526433528bb8" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>get_option_by_dest</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1ac1811acf3bb1593cf6aae590fef31afd" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>get_standard_config_files</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a076582830a047902e9e5d936a85621ee" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>get_standard_config_settings</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a3e06afadd711aaa76933d9bc2ad6ddf6" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>lists</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1ae21dd468125bd36e89b6b0b18606d3b0" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>populate_from_components</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1aeb17c51d429c0551d5f38e3041a8f701" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>relative_path_settings</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a001d33af501ea40097f6c03505f966fe" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>set_defaults_from_dict</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a60094d7006f535f8cb03b58e8ebc6b95" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>settings_defaults</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a2ce4aecb66a7562fab016890b4f5af59" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>settings_spec</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a4bb58e7627e41976aff8ca4265df9dee" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>standard_config_files</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1aaaae2e8e98d76fcd5fc4ec6a108f96b3" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>threshold_choices</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1ab6fd6e862ca131269e993318c633a4af" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>thresholds</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a0e04965d36cefc2b0d223d152f27cc82" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>version</name></member>
+      <member refid="classdocutils_1_1frontend_1_1OptionParser_1a753edd479f91f5e8011f11daeec32581" prot="public" virt="non-virtual"><scope>docutils::frontend::OptionParser</scope><name>version_template</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

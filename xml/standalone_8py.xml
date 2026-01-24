@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="standalone_8py" kind="file" language="Python">
+    <compoundname>standalone.py</compoundname>
+    <innerclass refid="classdocutils_1_1readers_1_1standalone_1_1Reader" prot="public">docutils::readers::standalone::Reader</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1readers">docutils::readers</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1readers_1_1standalone">docutils::readers::standalone</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1readers_1_1standalone" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>standalone.py<sp/>9539<sp/>2024-02-17<sp/>10:36:51Z<sp/>milde<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>David<sp/>Goodger<sp/>&lt;goodger@python.org&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">Standalone<sp/>file<sp/>Reader<sp/>for<sp/>the<sp/>reStructuredText<sp/>markup<sp/>syntax.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">__docformat__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;reStructuredText&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>frontend,<sp/>readers</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms" kindref="compound">docutils.transforms</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>frontmatter,<sp/>references,<sp/>misc</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="classdocutils_1_1readers_1_1standalone_1_1Reader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1readers_1_1standalone_1_1Reader" kindref="compound">Reader</ref>(<ref refid="classdocutils_1_1readers_1_1Reader" kindref="compound">readers.Reader</ref>):</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>supported<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;standalone&apos;</highlight><highlight class="normal">,)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Contexts<sp/>this<sp/>reader<sp/>supports.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>document<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>single<sp/>document<sp/>tree.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>settings_spec<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Standalone<sp/>Reader<sp/>Options&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((</highlight><highlight class="stringliteral">&apos;Disable<sp/>the<sp/>promotion<sp/>of<sp/>a<sp/>lone<sp/>top-level<sp/>section<sp/>title<sp/>to<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;document<sp/>title<sp/>(and<sp/>subsequent<sp/>section<sp/>title<sp/>to<sp/>document<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;subtitle<sp/>promotion;<sp/>enabled<sp/>by<sp/>default).&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="stringliteral">&apos;--no-doc-title&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&apos;dest&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;doctitle_xform&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;action&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;store_false&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;default&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;validator&apos;</highlight><highlight class="normal">:<sp/>frontend.validate_boolean}),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;Disable<sp/>the<sp/>bibliographic<sp/>field<sp/>list<sp/>transform<sp/>(enabled<sp/>by<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;default).&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="stringliteral">&apos;--no-doc-info&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&apos;dest&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;docinfo_xform&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;action&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;store_false&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;default&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;validator&apos;</highlight><highlight class="normal">:<sp/>frontend.validate_boolean}),</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;Activate<sp/>the<sp/>promotion<sp/>of<sp/>lone<sp/>subsection<sp/>titles<sp/>to<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;section<sp/>subtitles<sp/>(disabled<sp/>by<sp/>default).&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="stringliteral">&apos;--section-subtitles&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&apos;dest&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;sectsubtitle_xform&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;action&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;store_true&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;default&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;validator&apos;</highlight><highlight class="normal">:<sp/>frontend.validate_boolean}),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;Deactivate<sp/>the<sp/>promotion<sp/>of<sp/>lone<sp/>subsection<sp/>titles.&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="stringliteral">&apos;--no-section-subtitles&apos;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&apos;dest&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;sectsubtitle_xform&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;action&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;store_false&apos;</highlight><highlight class="normal">}),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>))</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;standalone<sp/>reader&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section_dependencies<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;readers&apos;</highlight><highlight class="normal">,)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1readers_1_1standalone_1_1Reader_1adbbf5e63f33bb36303837755d9ade48a" kindref="member">get_transforms</ref>(self):</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>super().<ref refid="classdocutils_1_1readers_1_1standalone_1_1Reader_1adbbf5e63f33bb36303837755d9ade48a" kindref="member">get_transforms</ref>()<sp/>+<sp/>[</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>references.Substitutions,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>references.PropagateTargets,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>frontmatter.DocTitle,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>frontmatter.SectionSubTitle,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>frontmatter.DocInfo,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>references.AnonymousHyperlinks,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>references.IndirectHyperlinks,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>references.Footnotes,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>references.ExternalTargets,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>references.InternalTargets,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>references.DanglingReferences,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>misc.Transitions,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/readers/standalone.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample8__unittest_8cc" kind="file" language="C++">
+    <compoundname>sample8_unittest.cc</compoundname>
+    <includes local="no">tuple</includes>
+    <includes refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2prime__tables_8h" local="yes">prime_tables.h</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>prime_tables.h</label>
+        <link refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2prime__tables_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>cmake-build-debug/_deps/googletest-src/googletest/samples/sample8_unittest.cc</label>
+        <link refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2sample8__unittest_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="2">
+        <label>tuple</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2008<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>Rights<sp/>Reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>sample<sp/>shows<sp/>how<sp/>to<sp/>test<sp/>code<sp/>relying<sp/>on<sp/>some<sp/>global<sp/>flag<sp/>variables.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Combine()<sp/>helps<sp/>with<sp/>generating<sp/>all<sp/>possible<sp/>combinations<sp/>of<sp/>such<sp/>flags,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>each<sp/>test<sp/>is<sp/>given<sp/>one<sp/>combination<sp/>as<sp/>a<sp/>parameter.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Use<sp/>class<sp/>definitions<sp/>to<sp/>test<sp/>from<sp/>this<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tuple&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2samples_2prime__tables_8h" kindref="compound">prime_tables.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Suppose<sp/>we<sp/>want<sp/>to<sp/>introduce<sp/>a<sp/>new,<sp/>improved<sp/>implementation<sp/>of<sp/>PrimeTable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>which<sp/>combines<sp/>speed<sp/>of<sp/>PrecalcPrimeTable<sp/>and<sp/>versatility<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OnTheFlyPrimeTable<sp/>(see<sp/>prime_tables.h).<sp/>Inside<sp/>it<sp/>instantiates<sp/>both</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PrecalcPrimeTable<sp/>and<sp/>OnTheFlyPrimeTable<sp/>and<sp/>uses<sp/>the<sp/>one<sp/>that<sp/>is<sp/>more</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>appropriate<sp/>under<sp/>the<sp/>circumstances.<sp/>But<sp/>in<sp/>low<sp/>memory<sp/>conditions,<sp/>it<sp/>can<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>told<sp/>to<sp/>instantiate<sp/>without<sp/>PrecalcPrimeTable<sp/>instance<sp/>at<sp/>all<sp/>and<sp/>use<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OnTheFlyPrimeTable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">HybridPrimeTable<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classPrimeTable" kindref="compound">PrimeTable</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>HybridPrimeTable(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force_on_the_fly,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_precalculated)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>on_the_fly_impl_(new<sp/><ref refid="classOnTheFlyPrimeTable" kindref="compound">OnTheFlyPrimeTable</ref>),</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>precalc_impl_(force_on_the_fly</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>nullptr</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>new<sp/><ref refid="classPreCalculatedPrimeTable" kindref="compound">PreCalculatedPrimeTable</ref>(max_precalculated)),</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_precalculated_(max_precalculated)<sp/>{}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/>~HybridPrimeTable()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>on_the_fly_impl_;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>precalc_impl_;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classPrimeTable_1a2ab9243364ded0c51541f641b2df362a" kindref="member">IsPrime</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(precalc_impl_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>n<sp/>&lt;<sp/>max_precalculated_)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>precalc_impl_-&gt;IsPrime(n);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>on_the_fly_impl_-&gt;IsPrime(n);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classPrimeTable_1ae537c939f56617d8937d57bbbae3ab30" kindref="member">GetNextPrime</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref>)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>next_prime<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(precalc_impl_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref><sp/>&lt;<sp/>max_precalculated_)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>next_prime<sp/>=<sp/>precalc_impl_-&gt;GetNextPrime(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>next_prime<sp/>!=<sp/>-1<sp/>?<sp/>next_prime<sp/>:<sp/>on_the_fly_impl_-&gt;GetNextPrime(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6bc6b007533335efe02bafff799ec64c" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><ref refid="classOnTheFlyPrimeTable" kindref="compound">OnTheFlyPrimeTable</ref>*<sp/>on_the_fly_impl_;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><ref refid="classPreCalculatedPrimeTable" kindref="compound">PreCalculatedPrimeTable</ref>*<sp/>precalc_impl_;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_precalculated_;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">using<sp/>::testing::Bool;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">using<sp/>::testing::Combine;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">using<sp/>::testing::TestWithParam;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">using<sp/>::testing::Values;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>To<sp/>test<sp/>all<sp/>code<sp/>paths<sp/>for<sp/>HybridPrimeTable<sp/>we<sp/>must<sp/>test<sp/>it<sp/>with<sp/>numbers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>both<sp/>within<sp/>and<sp/>outside<sp/>PreCalculatedPrimeTable&apos;s<sp/>capacity<sp/>and<sp/>also<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PreCalculatedPrimeTable<sp/>disabled.<sp/>We<sp/>do<sp/>this<sp/>by<sp/>defining<sp/>fixture<sp/>which<sp/>will</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>accept<sp/>different<sp/>combinations<sp/>of<sp/>parameters<sp/>for<sp/>instantiating<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HybridPrimeTable<sp/>instance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PrimeTableTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>TestWithParam&lt;<sp/>::std::tuple&lt;bool,<sp/>int&gt;<sp/>&gt;<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force_on_the_fly;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_precalculated;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::tie(force_on_the_fly,<sp/>max_precalculated)<sp/>=<sp/>GetParam();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>table_<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>HybridPrimeTable(force_on_the_fly,<sp/>max_precalculated);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TearDown()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>table_;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>table_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/>HybridPrimeTable*<sp/>table_;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a1adc861b311e3fbd97bcc72e0b0f5962" kindref="member">TEST_P</ref>(PrimeTableTest,<sp/>ReturnsFalseForNonPrimes)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Inside<sp/>the<sp/>test<sp/>body,<sp/>you<sp/>can<sp/>refer<sp/>to<sp/>the<sp/>test<sp/>parameter<sp/>by<sp/>GetParam().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>this<sp/>case,<sp/>the<sp/>test<sp/>parameter<sp/>is<sp/>a<sp/>PrimeTable<sp/>interface<sp/>pointer<sp/>which</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>we<sp/>can<sp/>use<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Please<sp/>note<sp/>that<sp/>you<sp/>can<sp/>also<sp/>save<sp/>it<sp/>in<sp/>the<sp/>fixture&apos;s<sp/>SetUp()<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>constructor<sp/>and<sp/>use<sp/>saved<sp/>copy<sp/>in<sp/>the<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(table_-&gt;IsPrime(-5));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(table_-&gt;IsPrime(0));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(table_-&gt;IsPrime(1));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(table_-&gt;IsPrime(4));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(table_-&gt;IsPrime(6));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1aeb6c7ae89f440c90c1a1815951c836da" kindref="member">EXPECT_FALSE</ref>(table_-&gt;IsPrime(100));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a1adc861b311e3fbd97bcc72e0b0f5962" kindref="member">TEST_P</ref>(PrimeTableTest,<sp/>ReturnsTrueForPrimes)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(table_-&gt;IsPrime(2));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(table_-&gt;IsPrime(3));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(table_-&gt;IsPrime(5));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(table_-&gt;IsPrime(7));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(table_-&gt;IsPrime(11));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(table_-&gt;IsPrime(131));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a1adc861b311e3fbd97bcc72e0b0f5962" kindref="member">TEST_P</ref>(PrimeTableTest,<sp/>CanGetNextPrime)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(2,<sp/>table_-&gt;GetNextPrime(0));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(3,<sp/>table_-&gt;GetNextPrime(2));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(5,<sp/>table_-&gt;GetNextPrime(3));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(7,<sp/>table_-&gt;GetNextPrime(5));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(11,<sp/>table_-&gt;GetNextPrime(7));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ</ref>(131,<sp/>table_-&gt;GetNextPrime(128));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>order<sp/>to<sp/>run<sp/>value-parameterized<sp/>tests,<sp/>you<sp/>need<sp/>to<sp/>instantiate<sp/>them,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>or<sp/>bind<sp/>them<sp/>to<sp/>a<sp/>list<sp/>of<sp/>values<sp/>which<sp/>will<sp/>be<sp/>used<sp/>as<sp/>test<sp/>parameters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>You<sp/>can<sp/>instantiate<sp/>them<sp/>in<sp/>a<sp/>different<sp/>translation<sp/>module,<sp/>or<sp/>even</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>instantiate<sp/>them<sp/>several<sp/>times.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Here,<sp/>we<sp/>instantiate<sp/>our<sp/>tests<sp/>with<sp/>a<sp/>list<sp/>of<sp/>parameters.<sp/>We<sp/>must<sp/>combine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>all<sp/>variations<sp/>of<sp/>the<sp/>boolean<sp/>flag<sp/>suppressing<sp/>PrecalcPrimeTable<sp/>and<sp/>some</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>meaningful<sp/>values<sp/>for<sp/>tests.<sp/>We<sp/>choose<sp/>a<sp/>small<sp/>value<sp/>(1),<sp/>and<sp/>a<sp/>value<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>will<sp/>put<sp/>some<sp/>of<sp/>the<sp/>tested<sp/>numbers<sp/>beyond<sp/>the<sp/>capability<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PrecalcPrimeTable<sp/>instance<sp/>and<sp/>some<sp/>inside<sp/>it<sp/>(10).<sp/>Combine<sp/>will<sp/>produce<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>possible<sp/>combinations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a6a5cb3ce0a0fe17f84f357a6f39a4ba5" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(MeaningfulTestParameters,<sp/>PrimeTableTest,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacetesting_1aa79138ff6a7f479fea4fed96a677f083" kindref="member">Combine</ref>(<ref refid="structBool" kindref="compound">Bool</ref>(),<sp/><ref refid="namespacetesting_1abd3c87b40c2a0663691c9b617ed5fcc2" kindref="member">Values</ref>(1,<sp/>10)));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/samples/sample8_unittest.cc"/>
+  </compounddef>
+</doxygen>

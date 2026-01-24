@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1resolution_1_1legacy_1_1resolver" kind="namespace" language="Python">
+    <compoundname>pip::_internal::resolution::legacy::resolver</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1legacy_1_1resolver_1_1Resolver" prot="public">pip::_internal::resolution::legacy::resolver::Resolver</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1legacy_1_1resolver_1a3eeecbcdbf305341501fe5d777fa7f1a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::legacy::resolver.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.resolution.legacy.resolver.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/legacy/resolver.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/legacy/resolver.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1legacy_1_1resolver_1a24fdb75b68fba6bc49a21f610ba02f30" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::legacy::resolver.DiscoveredDependencies</definition>
+        <argsstring></argsstring>
+        <name>DiscoveredDependencies</name>
+        <qualifiedname>pip._internal.resolution.legacy.resolver.DiscoveredDependencies</qualifiedname>
+        <initializer>=  DefaultDict[str, List[<ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref>]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/legacy/resolver.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/legacy/resolver.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1legacy_1_1resolver_1a04e9d8034c5030820dc4cfec73d08980" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.resolution.legacy.resolver._check_dist_requires_python</definition>
+        <argsstring>(BaseDistribution dist, Tuple[int, int, int] version_info, bool ignore_requires_python=False)</argsstring>
+        <name>_check_dist_requires_python</name>
+        <qualifiedname>pip._internal.resolution.legacy.resolver._check_dist_requires_python</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+          <declname>dist</declname>
+        </param>
+        <param>
+          <type>Tuple</type>
+          <declname>version_info</declname>
+          <array>[int, int, int]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_requires_python</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether the given Python version is compatible with a distribution&apos;s
+&quot;Requires-Python&quot; value.
+
+:param version_info: A 3-tuple of ints representing the Python
+    major-minor-micro version to check.
+:param ignore_requires_python: Whether to ignore the &quot;Requires-Python&quot;
+    value if the given Python version isn&apos;t compatible.
+
+:raises UnsupportedPythonVersion: When the given Python version isn&apos;t
+    compatible.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/legacy/resolver.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/legacy/resolver.py" bodystart="62" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Dependency Resolution
+
+The dependency resolution in pip is performed as follows:
+
+for top-level requirements:
+    a. only one spec allowed per project, regardless of conflicts or not.
+       otherwise a &quot;double requirement&quot; exception is raised
+    b. they override sub-dependency requirements.
+for sub-dependencies
+    a. &quot;first found, wins&quot; (where the order is breadth first)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/legacy/resolver.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

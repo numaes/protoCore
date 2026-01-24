@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2webencodings_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding" prot="public">pip::_vendor::webencodings::Encoding</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder" prot="public">pip::_vendor::webencodings::IncrementalDecoder</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalEncoder" prot="public">pip::_vendor::webencodings::IncrementalEncoder</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1webencodings">pip::_vendor::webencodings</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1webencodings" refkind="compound"><highlight class="comment">#<sp/>coding:<sp/>utf-8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>webencodings</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>is<sp/>a<sp/>Python<sp/>implementation<sp/>of<sp/>the<sp/>`WHATWG<sp/>Encoding<sp/>standard</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;http://encoding.spec.whatwg.org/&gt;`.<sp/>See<sp/>README<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2012<sp/>by<sp/>Simon<sp/>Sapin</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>unicode_literals</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>codecs</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.labels<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>LABELS</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal">VERSION<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;0.5.1&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Some<sp/>names<sp/>in<sp/>Encoding<sp/>are<sp/>not<sp/>valid<sp/>Python<sp/>aliases.<sp/>Remap<sp/>these.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">PYTHON_NAMES<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;iso-8859-8-i&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;iso-8859-8&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;x-mac-cyrillic&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;mac-cyrillic&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;macintosh&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;mac-roman&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;windows-874&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;cp874&apos;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">CACHE<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1webencodings_1a680615624c002835ce816035a40c6bef" kindref="member">ascii_lower</ref>(string):</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;Transform<sp/>(only)<sp/>ASCII<sp/>letters<sp/>to<sp/>lower<sp/>case:<sp/>A-Z<sp/>is<sp/>mapped<sp/>to<sp/>a-z.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>string:<sp/>An<sp/>Unicode<sp/>string.</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:returns:<sp/>A<sp/>new<sp/>Unicode<sp/>string.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>is<sp/>used<sp/>for<sp/>`ASCII<sp/>case-insensitive</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;http://encoding.spec.whatwg.org/#ascii-case-insensitive&gt;`_</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>matching<sp/>of<sp/>encoding<sp/>labels.</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>same<sp/>matching<sp/>is<sp/>also<sp/>used,<sp/>among<sp/>other<sp/>things,</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>for<sp/>`CSS<sp/>keywords<sp/>&lt;http://dev.w3.org/csswg/css-values/#keywords&gt;`_.</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>is<sp/>different<sp/>from<sp/>the<sp/>:meth:`~py:str.lower`<sp/>method<sp/>of<sp/>Unicode<sp/>strings</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>which<sp/>also<sp/>affect<sp/>non-ASCII<sp/>characters,</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>sometimes<sp/>mapping<sp/>them<sp/>into<sp/>the<sp/>ASCII<sp/>range:</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>keyword<sp/>=<sp/>u&apos;Bac\N{KELVIN<sp/>SIGN}ground&apos;</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>assert<sp/>keyword.lower()<sp/>==<sp/>u&apos;background&apos;</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>assert<sp/>ascii_lower(keyword)<sp/>!=<sp/>keyword.lower()</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>assert<sp/>ascii_lower(keyword)<sp/>==<sp/>u&apos;bac\N{KELVIN<sp/>SIGN}ground&apos;</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>This<sp/>turns<sp/>out<sp/>to<sp/>be<sp/>faster<sp/>than<sp/>unicode.translate()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>string.encode(</highlight><highlight class="stringliteral">&apos;utf8&apos;</highlight><highlight class="normal">).lower().decode(</highlight><highlight class="stringliteral">&apos;utf8&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">lookup(label):</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Look<sp/>for<sp/>an<sp/>encoding<sp/>by<sp/>its<sp/>label.</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>is<sp/>the<sp/>spec’s<sp/>`get<sp/>an<sp/>encoding</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;http://encoding.spec.whatwg.org/#concept-encoding-get&gt;`_<sp/>algorithm.</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Supported<sp/>labels<sp/>are<sp/>listed<sp/>there.</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>label:<sp/>A<sp/>string.</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:returns:</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>An<sp/>:class:`Encoding`<sp/>object,<sp/>or<sp/>:obj:`None`<sp/>for<sp/>an<sp/>unknown<sp/>label.</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Only<sp/>strip<sp/>ASCII<sp/>whitespace:<sp/>U+0009,<sp/>U+000A,<sp/>U+000C,<sp/>U+000D,<sp/>and<sp/>U+0020.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>label<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1a680615624c002835ce816035a40c6bef" kindref="member">ascii_lower</ref>(label.strip(</highlight><highlight class="stringliteral">&apos;\t\n\f\r<sp/>&apos;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/>LABELS.get(label)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>name<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>encoding<sp/>=<sp/>CACHE.get(name)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>encoding<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>name<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;x-user-defined&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.x_user_defined<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>codec_info</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>python_name<sp/>=<sp/>PYTHON_NAMES.get(name,<sp/>name)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Any<sp/>python_name<sp/>value<sp/>that<sp/>gets<sp/>to<sp/>here<sp/>should<sp/>be<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>codec_info<sp/>=<sp/>codecs.lookup(python_name)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encoding<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding" kindref="compound">Encoding</ref>(name,<sp/>codec_info)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CACHE[name]<sp/>=<sp/>encoding</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>encoding</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1webencodings_1a469a3a4feb15b6a8aaffe68c2660d581" kindref="member">_get_encoding</ref>(encoding_or_label):</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Accept<sp/>either<sp/>an<sp/>encoding<sp/>object<sp/>or<sp/>label.</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>encoding:<sp/>An<sp/>:class:`Encoding`<sp/>object<sp/>or<sp/>a<sp/>label<sp/>string.</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:returns:<sp/>An<sp/>:class:`Encoding`<sp/>object.</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises:<sp/>:exc:`~exceptions.LookupError`<sp/>for<sp/>an<sp/>unknown<sp/>label.</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>hasattr(encoding_or_label,<sp/></highlight><highlight class="stringliteral">&apos;codec_info&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>encoding_or_label</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>encoding<sp/>=<sp/>lookup(encoding_or_label)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>encoding<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>LookupError(</highlight><highlight class="stringliteral">&apos;Unknown<sp/>encoding<sp/>label:<sp/>%r&apos;</highlight><highlight class="normal"><sp/>%<sp/>encoding_or_label)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>encoding</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding" kindref="compound">Encoding</ref>(object):</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Reresents<sp/>a<sp/>character<sp/>encoding<sp/>such<sp/>as<sp/>UTF-8,</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>that<sp/>can<sp/>be<sp/>used<sp/>for<sp/>decoding<sp/>or<sp/>encoding.</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>attribute::<sp/>name</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Canonical<sp/>name<sp/>of<sp/>the<sp/>encoding</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>attribute::<sp/>codec_info</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>actual<sp/>implementation<sp/>of<sp/>the<sp/>encoding,</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a<sp/>stdlib<sp/>:class:`~codecs.CodecInfo`<sp/>object.</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>See<sp/>:func:`codecs.register`.</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding_1a088b644e499b2b6ea10f182123bfca04" kindref="member">__init__</ref>(self,<sp/>name,<sp/>codec_info):</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding_1a1fbc38c589878156cf9524fe640c1787" kindref="member">name</ref><sp/>=<sp/>name</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding_1afa918b975b8c3135ba74c8667fbbefac" kindref="member">codec_info</ref><sp/>=<sp/>codec_info</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding_1ab0c64eb48ac6e0bfcfda7aa046d84545" kindref="member">__repr__</ref>(self):</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;&lt;Encoding<sp/>%s&gt;&apos;</highlight><highlight class="normal"><sp/>%<sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1Encoding_1a1fbc38c589878156cf9524fe640c1787" kindref="member">name</ref></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>The<sp/>UTF-8<sp/>encoding.<sp/>Should<sp/>be<sp/>used<sp/>for<sp/>new<sp/>content<sp/>and<sp/>formats.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">UTF8<sp/>=<sp/>lookup(</highlight><highlight class="stringliteral">&apos;utf-8&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">_UTF16LE<sp/>=<sp/>lookup(</highlight><highlight class="stringliteral">&apos;utf-16le&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">_UTF16BE<sp/>=<sp/>lookup(</highlight><highlight class="stringliteral">&apos;utf-16be&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">decode(input,<sp/>fallback_encoding,<sp/>errors=&apos;replace&apos;):</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Decode<sp/>a<sp/>single<sp/>string.</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>input:<sp/>A<sp/>byte<sp/>string</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>fallback_encoding:</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>An<sp/>:class:`Encoding`<sp/>object<sp/>or<sp/>a<sp/>label<sp/>string.</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>encoding<sp/>to<sp/>use<sp/>if<sp/>:obj:`input`<sp/>does<sp/>note<sp/>have<sp/>a<sp/>BOM.</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>errors:<sp/>Type<sp/>of<sp/>error<sp/>handling.<sp/>See<sp/>:func:`codecs.register`.</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises:<sp/>:exc:`~exceptions.LookupError`<sp/>for<sp/>an<sp/>unknown<sp/>encoding<sp/>label.</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>A<sp/>``(output,<sp/>encoding)``<sp/>tuple<sp/>of<sp/>an<sp/>Unicode<sp/>string</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>an<sp/>:obj:`Encoding`.</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Fail<sp/>early<sp/>if<sp/>`encoding`<sp/>is<sp/>an<sp/>invalid<sp/>label.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>fallback_encoding<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1a469a3a4feb15b6a8aaffe68c2660d581" kindref="member">_get_encoding</ref>(fallback_encoding)</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>bom_encoding,<sp/>input<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1ae07e40c39d068fe206dfb91b9cfec510" kindref="member">_detect_bom</ref>(input)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>encoding<sp/>=<sp/>bom_encoding<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>fallback_encoding</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>encoding.codec_info.decode(input,<sp/>errors)[0],<sp/>encoding</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1webencodings_1ae07e40c39d068fe206dfb91b9cfec510" kindref="member">_detect_bom</ref>(input):</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>(bom_encoding,<sp/>input),<sp/>with<sp/>any<sp/>BOM<sp/>removed<sp/>from<sp/>the<sp/>input.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>input.startswith(b</highlight><highlight class="stringliteral">&apos;\xFF\xFE&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_UTF16LE,<sp/>input[2:]</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>input.startswith(b</highlight><highlight class="stringliteral">&apos;\xFE\xFF&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_UTF16BE,<sp/>input[2:]</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>input.startswith(b</highlight><highlight class="stringliteral">&apos;\xEF\xBB\xBF&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>UTF8,<sp/>input[3:]</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>input</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">encode(input,<sp/>encoding=UTF8,<sp/>errors=&apos;strict&apos;):</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Encode<sp/>a<sp/>single<sp/>string.</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>input:<sp/>An<sp/>Unicode<sp/>string.</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>encoding:<sp/>An<sp/>:class:`Encoding`<sp/>object<sp/>or<sp/>a<sp/>label<sp/>string.</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>errors:<sp/>Type<sp/>of<sp/>error<sp/>handling.<sp/>See<sp/>:func:`codecs.register`.</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises:<sp/>:exc:`~exceptions.LookupError`<sp/>for<sp/>an<sp/>unknown<sp/>encoding<sp/>label.</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>A<sp/>byte<sp/>string.</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1a469a3a4feb15b6a8aaffe68c2660d581" kindref="member">_get_encoding</ref>(encoding).codec_info.encode(input,<sp/>errors)[0]</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">iter_decode(input,<sp/>fallback_encoding,<sp/>errors=&apos;replace&apos;):</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;Pull&quot;-based<sp/>decoder.</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>input:</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>An<sp/>iterable<sp/>of<sp/>byte<sp/>strings.</highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>input<sp/>is<sp/>first<sp/>consumed<sp/>just<sp/>enough<sp/>to<sp/>determine<sp/>the<sp/>encoding</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>based<sp/>on<sp/>the<sp/>precense<sp/>of<sp/>a<sp/>BOM,</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>then<sp/>consumed<sp/>on<sp/>demand<sp/>when<sp/>the<sp/>return<sp/>value<sp/>is.</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>fallback_encoding:</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>An<sp/>:class:`Encoding`<sp/>object<sp/>or<sp/>a<sp/>label<sp/>string.</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>encoding<sp/>to<sp/>use<sp/>if<sp/>:obj:`input`<sp/>does<sp/>note<sp/>have<sp/>a<sp/>BOM.</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>errors:<sp/>Type<sp/>of<sp/>error<sp/>handling.<sp/>See<sp/>:func:`codecs.register`.</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises:<sp/>:exc:`~exceptions.LookupError`<sp/>for<sp/>an<sp/>unknown<sp/>encoding<sp/>label.</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:returns:</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>An<sp/>``(output,<sp/>encoding)``<sp/>tuple.</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:obj:`output`<sp/>is<sp/>an<sp/>iterable<sp/>of<sp/>Unicode<sp/>strings,</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:obj:`encoding`<sp/>is<sp/>the<sp/>:obj:`Encoding`<sp/>that<sp/>is<sp/>being<sp/>used.</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>decoder<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder" kindref="compound">IncrementalDecoder</ref>(fallback_encoding,<sp/>errors)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>generator<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1ab57f983ac95d7362f137a84443671c20" kindref="member">_iter_decode_generator</ref>(input,<sp/>decoder)</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>encoding<sp/>=<sp/>next(generator)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>generator,<sp/>encoding</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1webencodings_1ab57f983ac95d7362f137a84443671c20" kindref="member">_iter_decode_generator</ref>(input,<sp/>decoder):</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>a<sp/>generator<sp/>that<sp/>first<sp/>yields<sp/>the<sp/>:obj:`Encoding`,</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>then<sp/>yields<sp/>output<sp/>chukns<sp/>as<sp/>Unicode<sp/>strings.</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>decode<sp/>=<sp/>decoder.decode</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>input<sp/>=<sp/>iter(input)</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>chunck<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>input:</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output<sp/>=<sp/>decode(chunck)</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>output:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>decoder.encoding<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>decoder.encoding</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>output</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Input<sp/>exhausted<sp/>without<sp/>determining<sp/>the<sp/>encoding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output<sp/>=<sp/>decode(b</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">,<sp/>final=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>decoder.encoding<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>decoder.encoding</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>output:</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>output</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>chunck<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>input:</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output<sp/>=<sp/>decode(chunck)</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>output:</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>output</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>output<sp/>=<sp/>decode(b</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">,<sp/>final=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>output:</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>output</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">iter_encode(input,<sp/>encoding=UTF8,<sp/>errors=&apos;strict&apos;):</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="248"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>“Pull”-based<sp/>encoder.</highlight></codeline>
+<codeline lineno="249"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="250"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>input:<sp/>An<sp/>iterable<sp/>of<sp/>Unicode<sp/>strings.</highlight></codeline>
+<codeline lineno="251"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>encoding:<sp/>An<sp/>:class:`Encoding`<sp/>object<sp/>or<sp/>a<sp/>label<sp/>string.</highlight></codeline>
+<codeline lineno="252"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>errors:<sp/>Type<sp/>of<sp/>error<sp/>handling.<sp/>See<sp/>:func:`codecs.register`.</highlight></codeline>
+<codeline lineno="253"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises:<sp/>:exc:`~exceptions.LookupError`<sp/>for<sp/>an<sp/>unknown<sp/>encoding<sp/>label.</highlight></codeline>
+<codeline lineno="254"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:returns:<sp/>An<sp/>iterable<sp/>of<sp/>byte<sp/>strings.</highlight></codeline>
+<codeline lineno="255"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="256"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Fail<sp/>early<sp/>if<sp/>`encoding`<sp/>is<sp/>an<sp/>invalid<sp/>label.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>encode<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalEncoder" kindref="compound">IncrementalEncoder</ref>(encoding,<sp/>errors).encode</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1aae071e4528f6e3d5c8e0b126f1e97fb9" kindref="member">_iter_encode_generator</ref>(input,<sp/>encode)</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1webencodings_1aae071e4528f6e3d5c8e0b126f1e97fb9" kindref="member">_iter_encode_generator</ref>(input,<sp/>encode):</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>chunck<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>input:</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output<sp/>=<sp/>encode(chunck)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>output:</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>output</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>output<sp/>=<sp/>encode(</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">,<sp/>final=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>output:</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>output</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder" kindref="compound">IncrementalDecoder</ref>(object):</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="274"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>“Push”-based<sp/>decoder.</highlight></codeline>
+<codeline lineno="275"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="276"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>fallback_encoding:</highlight></codeline>
+<codeline lineno="277"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>An<sp/>:class:`Encoding`<sp/>object<sp/>or<sp/>a<sp/>label<sp/>string.</highlight></codeline>
+<codeline lineno="278"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>encoding<sp/>to<sp/>use<sp/>if<sp/>:obj:`input`<sp/>does<sp/>note<sp/>have<sp/>a<sp/>BOM.</highlight></codeline>
+<codeline lineno="279"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>errors:<sp/>Type<sp/>of<sp/>error<sp/>handling.<sp/>See<sp/>:func:`codecs.register`.</highlight></codeline>
+<codeline lineno="280"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises:<sp/>:exc:`~exceptions.LookupError`<sp/>for<sp/>an<sp/>unknown<sp/>encoding<sp/>label.</highlight></codeline>
+<codeline lineno="281"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="282"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1a7ef73989bffce9afe0c051769c1b1399" kindref="member">__init__</ref>(self,<sp/>fallback_encoding,<sp/>errors=&apos;replace&apos;):</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Fail<sp/>early<sp/>if<sp/>`encoding`<sp/>is<sp/>an<sp/>invalid<sp/>label.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1ad9ef3586eb26eb98f40277529e62001c" kindref="member">_fallback_encoding</ref><sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1a469a3a4feb15b6a8aaffe68c2660d581" kindref="member">_get_encoding</ref>(fallback_encoding)</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1a4bdb7771c257a75d0c7a8e6cb96d04ba" kindref="member">_errors</ref><sp/>=<sp/>errors</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1aa5f5d354aaaf7fde024bf19179653758" kindref="member">_buffer</ref><sp/>=<sp/>b</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1a34d6a98d92656dcd954444000c46a8a5" kindref="member">_decoder</ref><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>The<sp/>actual<sp/>:class:`Encoding`<sp/>that<sp/>is<sp/>being<sp/>used,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>or<sp/>:obj:`None`<sp/>if<sp/>that<sp/>is<sp/>not<sp/>determined<sp/>yet.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>(Ie.<sp/>if<sp/>there<sp/>is<sp/>not<sp/>enough<sp/>input<sp/>yet<sp/>to<sp/>determine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>if<sp/>there<sp/>is<sp/>a<sp/>BOM.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1a7251fe0361b0320f6579f7b8635609ee" kindref="member">encoding</ref><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">#<sp/>Not<sp/>known<sp/>yet.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">decode(self,<sp/>input,<sp/>final=False):</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Decode<sp/>one<sp/>chunk<sp/>of<sp/>the<sp/>input.</highlight></codeline>
+<codeline lineno="297"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="298"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>input:<sp/>A<sp/>byte<sp/>string.</highlight></codeline>
+<codeline lineno="299"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>final:</highlight></codeline>
+<codeline lineno="300"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Indicate<sp/>that<sp/>no<sp/>more<sp/>input<sp/>is<sp/>available.</highlight></codeline>
+<codeline lineno="301"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Must<sp/>be<sp/>:obj:`True`<sp/>if<sp/>this<sp/>is<sp/>the<sp/>last<sp/>call.</highlight></codeline>
+<codeline lineno="302"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:returns:<sp/>An<sp/>Unicode<sp/>string.</highlight></codeline>
+<codeline lineno="303"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="304"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decoder<sp/>=<sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1a34d6a98d92656dcd954444000c46a8a5" kindref="member">_decoder</ref></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>decoder<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>decoder(input,<sp/>final)</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input<sp/>=<sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1aa5f5d354aaaf7fde024bf19179653758" kindref="member">_buffer</ref><sp/>+<sp/>input</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encoding,<sp/>input<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1ae07e40c39d068fe206dfb91b9cfec510" kindref="member">_detect_bom</ref>(input)</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>encoding<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>len(input)<sp/>&lt;<sp/>3<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>final:<sp/><sp/></highlight><highlight class="comment">#<sp/>Not<sp/>enough<sp/>data<sp/>yet.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1aa5f5d354aaaf7fde024bf19179653758" kindref="member">_buffer</ref><sp/>=<sp/>input</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="comment">#<sp/>No<sp/>BOM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encoding<sp/>=<sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1ad9ef3586eb26eb98f40277529e62001c" kindref="member">_fallback_encoding</ref></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decoder<sp/>=<sp/>encoding.codec_info.incrementaldecoder(self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1a4bdb7771c257a75d0c7a8e6cb96d04ba" kindref="member">_errors</ref>).decode</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1a34d6a98d92656dcd954444000c46a8a5" kindref="member">_decoder</ref><sp/>=<sp/>decoder</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalDecoder_1a7251fe0361b0320f6579f7b8635609ee" kindref="member">encoding</ref><sp/>=<sp/>encoding</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>decoder(input,<sp/>final)</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323" refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalEncoder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalEncoder" kindref="compound">IncrementalEncoder</ref>(object):</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="325"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>“Push”-based<sp/>encoder.</highlight></codeline>
+<codeline lineno="326"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="327"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>encoding:<sp/>An<sp/>:class:`Encoding`<sp/>object<sp/>or<sp/>a<sp/>label<sp/>string.</highlight></codeline>
+<codeline lineno="328"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>errors:<sp/>Type<sp/>of<sp/>error<sp/>handling.<sp/>See<sp/>:func:`codecs.register`.</highlight></codeline>
+<codeline lineno="329"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises:<sp/>:exc:`~exceptions.LookupError`<sp/>for<sp/>an<sp/>unknown<sp/>encoding<sp/>label.</highlight></codeline>
+<codeline lineno="330"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="331"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>method::<sp/>encode(input,<sp/>final=False)</highlight></codeline>
+<codeline lineno="332"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="333"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>input:<sp/>An<sp/>Unicode<sp/>string.</highlight></codeline>
+<codeline lineno="334"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>final:</highlight></codeline>
+<codeline lineno="335"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Indicate<sp/>that<sp/>no<sp/>more<sp/>input<sp/>is<sp/>available.</highlight></codeline>
+<codeline lineno="336"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Must<sp/>be<sp/>:obj:`True`<sp/>if<sp/>this<sp/>is<sp/>the<sp/>last<sp/>call.</highlight></codeline>
+<codeline lineno="337"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:returns:<sp/>A<sp/>byte<sp/>string.</highlight></codeline>
+<codeline lineno="338"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="339"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalEncoder_1a6f264b3ad924488c73d5c82b00cdc2f8" kindref="member">__init__</ref>(self,<sp/>encoding=UTF8,<sp/>errors=&apos;strict&apos;):</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encoding<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1webencodings_1a469a3a4feb15b6a8aaffe68c2660d581" kindref="member">_get_encoding</ref>(encoding)</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1webencodings_1_1IncrementalEncoder_1a65e186cdfa8a858b97fc12072baba99e" kindref="member">encode</ref><sp/>=<sp/>encoding.codec_info.incrementalencoder(errors).encode</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/webencodings/__init__.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classproto_1_1ProtoThreadExtension" kind="class" language="C++" prot="public">
+    <compoundname>proto::ProtoThreadExtension</compoundname>
+    <basecompoundref refid="classproto_1_1Cell" prot="public" virt="non-virtual">proto::Cell</basecompoundref>
+    <includes refid="proto__internal_8h" local="no">proto_internal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classproto_1_1ProtoThreadExtension_1ac1251e1831d8aa6196cd447e881bd54f" prot="public" static="no" mutable="no">
+        <type>std::thread *</type>
+        <definition>std::thread* proto::ProtoThreadExtension::osThread</definition>
+        <argsstring></argsstring>
+        <name>osThread</name>
+        <qualifiedname>proto::ProtoThreadExtension::osThread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/proto_internal.h" line="585" column="21" bodyfile="headers/proto_internal.h" bodystart="585" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classproto_1_1ProtoThreadExtension_1a0a67d5f8b5525e50b990622689274a7a" prot="public" static="no" mutable="no">
+        <type><ref refid="classproto_1_1Cell" kindref="compound">Cell</ref> *</type>
+        <definition>Cell* proto::ProtoThreadExtension::freeCells</definition>
+        <argsstring></argsstring>
+        <name>freeCells</name>
+        <qualifiedname>proto::ProtoThreadExtension::freeCells</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/proto_internal.h" line="586" column="14" bodyfile="headers/proto_internal.h" bodystart="586" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classproto_1_1ProtoThreadExtension_1aac01558fe739a3c96d5591505ba595c1" prot="public" static="no" mutable="no">
+        <type><ref refid="structproto_1_1AttributeCacheEntry" kindref="compound">AttributeCacheEntry</ref> *</type>
+        <definition>AttributeCacheEntry* proto::ProtoThreadExtension::attributeCache</definition>
+        <argsstring></argsstring>
+        <name>attributeCache</name>
+        <qualifiedname>proto::ProtoThreadExtension::attributeCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/proto_internal.h" line="587" column="29" bodyfile="headers/proto_internal.h" bodystart="587" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classproto_1_1ProtoThreadExtension_1a396da671bd2efa9f13293d223d562b27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>proto::ProtoThreadExtension::ProtoThreadExtension</definition>
+        <argsstring>(ProtoContext *context)</argsstring>
+        <name>ProtoThreadExtension</name>
+        <qualifiedname>proto::ProtoThreadExtension::ProtoThreadExtension</qualifiedname>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/proto_internal.h" line="589" column="9" bodyfile="core/Thread.cpp" bodystart="40" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoThreadExtension_1a3597c3316435349b473e841b4cc3d2a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>proto::ProtoThreadExtension::~ProtoThreadExtension</definition>
+        <argsstring>() override</argsstring>
+        <name>~ProtoThreadExtension</name>
+        <qualifiedname>proto::ProtoThreadExtension::~ProtoThreadExtension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/proto_internal.h" line="590" column="9" bodyfile="core/Thread.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoThreadExtension_1a43a8541a65ac42abd26d647f1e10b859" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void proto::ProtoThreadExtension::finalize</definition>
+        <argsstring>(ProtoContext *context) const</argsstring>
+        <name>finalize</name>
+        <qualifiedname>proto::ProtoThreadExtension::finalize</qualifiedname>
+        <reimplements refid="classproto_1_1Cell_1acbabf91130cca69c696dd0814b7a41b7">finalize</reimplements>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/proto_internal.h" line="591" column="14" bodyfile="core/Thread.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoThreadExtension_1a8ef2962bc6976665ef83b646046db4a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void proto::ProtoThreadExtension::processReferences</definition>
+        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *, void *, const Cell *)) const override</argsstring>
+        <name>processReferences</name>
+        <qualifiedname>proto::ProtoThreadExtension::processReferences</qualifiedname>
+        <reimplements refid="classproto_1_1Cell_1a585260c7eae66872f93bea2603c8ca93">processReferences</reimplements>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>void(*)(<ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *, void *, const <ref refid="classproto_1_1Cell" kindref="compound">Cell</ref> *)</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Used by the GC to traverse the object graph. Each subclass must override this method to report all <computeroutput>Cell*</computeroutput> members it holds by calling the provided <computeroutput>method</computeroutput> callback for each one. The base <ref refid="classproto_1_1Cell" kindref="compound">Cell</ref> holds no references, so its implementation is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/proto_internal.h" line="592" column="14" bodyfile="core/Thread.cpp" bodystart="61" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classproto_1_1ProtoThreadExtension_1a76ce94c5bd98bdfd0abd038200039f77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+        <definition>const ProtoObject * proto::ProtoThreadExtension::implAsObject</definition>
+        <argsstring>(ProtoContext *context) const override</argsstring>
+        <name>implAsObject</name>
+        <qualifiedname>proto::ProtoThreadExtension::implAsObject</qualifiedname>
+        <reimplements refid="classproto_1_1Cell_1aff1c5888d6ec2236b8079a4986ac6a42">implAsObject</reimplements>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="headers/proto_internal.h" line="593" column="27" bodyfile="core/Thread.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>proto::Cell</label>
+        <link refid="classproto_1_1Cell"/>
+      </node>
+      <node id="1">
+        <label>proto::ProtoThreadExtension</label>
+        <link refid="classproto_1_1ProtoThreadExtension"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>proto::AttributeCacheEntry</label>
+        <link refid="structproto_1_1AttributeCacheEntry"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>object</edgelabel>
+          <edgelabel>result</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>proto::Cell</label>
+        <link refid="classproto_1_1Cell"/>
+      </node>
+      <node id="4">
+        <label>proto::ProtoObject</label>
+        <link refid="classproto_1_1ProtoObject"/>
+      </node>
+      <node id="5">
+        <label>proto::ProtoString</label>
+        <link refid="classproto_1_1ProtoString"/>
+      </node>
+      <node id="1">
+        <label>proto::ProtoThreadExtension</label>
+        <link refid="classproto_1_1ProtoThreadExtension"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>freeCells</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>attributeCache</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="headers/proto_internal.h" line="583" column="5" bodyfile="headers/proto_internal.h" bodystart="583" bodyend="594"/>
+    <listofallmembers>
+      <member refid="classproto_1_1ProtoThreadExtension_1aac01558fe739a3c96d5591505ba595c1" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>attributeCache</name></member>
+      <member refid="classproto_1_1Cell_1a175a86d253c5eeefa31d2e2bd8da285d" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>Cell</name></member>
+      <member refid="classproto_1_1ProtoThreadExtension_1a43a8541a65ac42abd26d647f1e10b859" prot="public" virt="virtual"><scope>proto::ProtoThreadExtension</scope><name>finalize</name></member>
+      <member refid="classproto_1_1ProtoThreadExtension_1a0a67d5f8b5525e50b990622689274a7a" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>freeCells</name></member>
+      <member refid="classproto_1_1Cell_1a1a3ccf8960698fab5548f41efdc74efd" prot="public" virt="virtual"><scope>proto::ProtoThreadExtension</scope><name>getHash</name></member>
+      <member refid="classproto_1_1Cell_1acc222b4a8c3ef9074e1c12e128055c52" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>getNext</name></member>
+      <member refid="classproto_1_1ProtoThreadExtension_1a76ce94c5bd98bdfd0abd038200039f77" prot="public" virt="virtual"><scope>proto::ProtoThreadExtension</scope><name>implAsObject</name></member>
+      <member refid="classproto_1_1Cell_1a8dac502c882c8cb1e73bd06866327d29" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>isMarked</name></member>
+      <member refid="classproto_1_1Cell_1a466f44e0534557e0f9c8ab8541a6989e" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>mark</name></member>
+      <member refid="classproto_1_1Cell_1af3d27ef0be1b06a840155aa3653a2293" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>next_and_flags</name></member>
+      <member refid="classproto_1_1Cell_1aca47e0409971125742da307737830156" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>operator new</name></member>
+      <member refid="classproto_1_1ProtoThreadExtension_1ac1251e1831d8aa6196cd447e881bd54f" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>osThread</name></member>
+      <member refid="classproto_1_1ProtoThreadExtension_1a8ef2962bc6976665ef83b646046db4a1" prot="public" virt="virtual"><scope>proto::ProtoThreadExtension</scope><name>processReferences</name></member>
+      <member refid="classproto_1_1ProtoThreadExtension_1a396da671bd2efa9f13293d223d562b27" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>ProtoThreadExtension</name></member>
+      <member refid="classproto_1_1Cell_1ab7cbb7a8e9102cf9822243a9ec87ee81" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>setNext</name></member>
+      <member refid="classproto_1_1Cell_1a8a7dfb5f04753edc1186cd98b364a425" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>unmark</name></member>
+      <member refid="classproto_1_1Cell_1ae7a5e331334c6213b8b3758e3c9d0b87" prot="public" virt="virtual"><scope>proto::ProtoThreadExtension</scope><name>~Cell</name></member>
+      <member refid="classproto_1_1ProtoThreadExtension_1a3597c3316435349b473e841b4cc3d2a5" prot="public" virt="non-virtual"><scope>proto::ProtoThreadExtension</scope><name>~ProtoThreadExtension</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

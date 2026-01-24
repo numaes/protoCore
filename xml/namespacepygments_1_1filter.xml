@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepygments_1_1filter" kind="namespace" language="Python">
+    <compoundname>pygments::filter</compoundname>
+    <innerclass refid="classpygments_1_1filter_1_1Filter" prot="public">pygments::filter::Filter</innerclass>
+    <innerclass refid="classpygments_1_1filter_1_1FunctionFilter" prot="public">pygments::filter::FunctionFilter</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepygments_1_1filter_1a63d911fc032e43fd29b42d96f02b87cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filter.apply_filters</definition>
+        <argsstring>(stream, filters, lexer=None)</argsstring>
+        <name>apply_filters</name>
+        <qualifiedname>pygments.filter.apply_filters</qualifiedname>
+        <param>
+          <type>stream</type>
+          <defname>stream</defname>
+        </param>
+        <param>
+          <type>filters</type>
+          <defname>filters</defname>
+        </param>
+        <param>
+          <type>lexer</type>
+          <defname>lexer</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Use this method to apply an iterable of filters to
+a stream. If lexer is given it&apos;s forwarded to the
+filter, otherwise the filter receives `None`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filter.py" line="12" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filter.py" bodystart="12" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepygments_1_1filter_1ab196f55460eb7510c2142fc213a709d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.filter.simplefilter</definition>
+        <argsstring>(f)</argsstring>
+        <name>simplefilter</name>
+        <qualifiedname>pygments.filter.simplefilter</qualifiedname>
+        <param>
+          <type>f</type>
+          <defname>f</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Decorator that converts a function into a filter::
+
+    @simplefilter
+    def lowercase(self, lexer, stream, options):
+        for ttype, value in stream:
+            yield ttype, value.lower()
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pygments/filter.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pygments/filter.py" bodystart="25" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    pygments.filter
+    ~~~~~~~~~~~~~~~
+
+    Module that implements the default filter.
+
+    :copyright: Copyright 2006-2025 by the Pygments team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/filter.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sparse__list__benchmark_8cpp" kind="file" language="C++">
+    <compoundname>sparse_list_benchmark.cpp</compoundname>
+    <includes local="no">iostream</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">random</includes>
+    <includes refid="protoCore_8h" local="yes">../headers/protoCore.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>../headers/protoCore.h</label>
+        <link refid="protoCore_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>performance/sparse_list_benchmark.cpp</label>
+        <link refid="sparse__list__benchmark_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>iostream</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>random</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="sparse__list__benchmark_8cpp_1a3bbde4e90a61df03b04a424ee9687e91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+        <definition>const ProtoObject * benchmarks</definition>
+        <argsstring>(ProtoContext *c, const ProtoObject *self, const ParentLink *parentLink, const ProtoList *args, const ProtoSparseList *kwargs)</argsstring>
+        <name>benchmarks</name>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>const ParentLink *</type>
+          <declname>parentLink</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/sparse_list_benchmark.cpp" line="17" column="19" bodyfile="performance/sparse_list_benchmark.cpp" bodystart="17" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="sparse__list__benchmark_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char *argv[])</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/sparse_list_benchmark.cpp" line="68" column="5" bodyfile="performance/sparse_list_benchmark.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>sparse_list_benchmark.cpp</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/><sp/>Created<sp/>on:<sp/>2024-01-15</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>Author:<sp/>gamarino</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../headers/protoCore.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceproto" kindref="compound">proto</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Corrected:<sp/>Function<sp/>signature<sp/>syntax</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref>*<sp/><ref refid="sparse__list__benchmark_8cpp_1a3bbde4e90a61df03b04a424ee9687e91" kindref="member">benchmarks</ref>(</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref>*<sp/>c,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref>*<sp/>self,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ParentLink*<sp/>parentLink,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref>*<sp/>args,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref>*<sp/>kwargs</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_iterations<sp/>=<sp/>100000;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>list_size<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;---<sp/>Sparse<sp/>List<sp/>Benchmark<sp/>---&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Iterations:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>num_iterations<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>List<sp/>size:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>list_size<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Setup<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned<sp/>long&gt;<sp/>keys(num_iterations);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;const<sp/>ProtoObject*&gt;<sp/>values(num_iterations);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::random_device<sp/>rd;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>gen(rd());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;unsigned<sp/>long&gt;<sp/>distrib(0,<sp/>list_size<sp/>*<sp/>10);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>num_iterations;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keys[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>]<sp/>=<sp/>distrib(gen);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>values[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>]<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref>-&gt;fromInteger(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Proto<sp/>Sparse<sp/>List<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start_proto<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref>*<sp/>proto_list<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref>-&gt;newSparseList();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>num_iterations;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>proto_list<sp/>=<sp/>proto_list-&gt;<ref refid="classproto_1_1ProtoSparseList_1a0b0f5cd3946d0755b2ac80ab5aa72c78" kindref="member">setAt</ref>(c,<sp/>keys[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>],<sp/>values[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>]);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end_proto<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double&gt;<sp/>diff_proto<sp/>=<sp/>end_proto<sp/>-<sp/>start_proto;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Proto<sp/>sparse<sp/>list<sp/>insertion<sp/>time:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>diff_proto.count()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>s&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Access<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start_access<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>checksum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>num_iterations;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref>*<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a917c4ca1aacd39b15e31e62540261d15" kindref="member">val</ref><sp/>=<sp/>proto_list-&gt;<ref refid="classproto_1_1ProtoSparseList_1a76a8d6411a667d6f6afb67dfeed84070" kindref="member">getAt</ref>(c,<sp/>keys[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>]);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val<sp/>!=<sp/><ref refid="protoCore_8h_1afdd64851a8dadecfaf7581c48d5db136" kindref="member">PROTO_NONE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checksum<sp/>+=<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a917c4ca1aacd39b15e31e62540261d15" kindref="member">val</ref>-&gt;asLong(c);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end_access<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double&gt;<sp/>diff_access<sp/>=<sp/>end_access<sp/>-<sp/>start_access;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Proto<sp/>sparse<sp/>list<sp/>access<sp/>time:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>diff_access.count()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>s&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;--------------------------&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="protoCore_8h_1afdd64851a8dadecfaf7581c48d5db136" kindref="member">PROTO_NONE</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2src_2gmock__main_8cc_1a7f83bdc516d2cb86e20235d94ddf055a" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[])<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>ProtoSpace<sp/>constructor<sp/>takes<sp/>no<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoSpace" kindref="compound">proto::ProtoSpace</ref><sp/>space;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="sparse__list__benchmark_8cpp_1a3bbde4e90a61df03b04a424ee9687e91" kindref="member">benchmarks</ref>(space.<ref refid="classproto_1_1ProtoSpace_1a1a5f636933d7178bc8e7def9efc2da1c" kindref="member">rootContext</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="performance/sparse_list_benchmark.cpp"/>
+  </compounddef>
+</doxygen>

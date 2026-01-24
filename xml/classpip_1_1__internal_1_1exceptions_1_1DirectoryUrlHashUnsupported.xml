@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1exceptions_1_1DirectoryUrlHashUnsupported" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::exceptions::DirectoryUrlHashUnsupported</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1exceptions_1_1HashError" prot="public" virt="non-virtual">pip._internal.exceptions.HashError</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1DirectoryUrlHashUnsupported_1a9d3246c286b916eb6bae0447ea2df590" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int pip._internal.exceptions.DirectoryUrlHashUnsupported::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>pip._internal.exceptions.DirectoryUrlHashUnsupported.order</qualifiedname>
+        <initializer>=  1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="505" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1DirectoryUrlHashUnsupported_1a61879e6ff3746afbd7803391cfcba209" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._internal.exceptions.DirectoryUrlHashUnsupported::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>pip._internal.exceptions.DirectoryUrlHashUnsupported.head</qualifiedname>
+        <initializer>=  (
+        &quot;Can&apos;t verify hashes for these file:// requirements because they &quot;
+        &quot;point to directories:&quot;
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="506" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="506" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A hash was provided for a version-control-system-based requirement, but
+we don&apos;t have a method for hashing those.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.DirectoryUrlHashUnsupported</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1DirectoryUrlHashUnsupported"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.DirectoryUrlHashUnsupported</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1DirectoryUrlHashUnsupported"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>req</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>Optional</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="501" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="501" bodyend="511"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1DirectoryUrlHashUnsupported_1a61879e6ff3746afbd7803391cfcba209" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::DirectoryUrlHashUnsupported</scope><name>head</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1DirectoryUrlHashUnsupported_1a9d3246c286b916eb6bae0447ea2df590" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::DirectoryUrlHashUnsupported</scope><name>order</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

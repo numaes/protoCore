@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1__cli_1_1util_1_1errors" kind="namespace" language="Python">
+    <compoundname>sphinx::_cli::util::errors</compoundname>
+    <innerclass refid="classsphinx_1_1__cli_1_1util_1_1errors_1_1SupportsWrite" prot="public">sphinx::_cli::util::errors::SupportsWrite</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1__cli_1_1util_1_1errors_1a301775ebb461d92b14149c00850034fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx._cli.util.errors.terminal_safe</definition>
+        <argsstring>(str s)</argsstring>
+        <name>terminal_safe</name>
+        <qualifiedname>sphinx._cli.util.errors.terminal_safe</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Safely encode a string for printing to the terminal.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1__cli_1_1util_1_1errors_1ac84ea796c6c87250bd83bf3aa429389e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx._cli.util.errors.strip_escape_sequences</definition>
+        <argsstring>(str text)</argsstring>
+        <name>strip_escape_sequences</name>
+        <qualifiedname>sphinx._cli.util.errors.strip_escape_sequences</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Remove the ANSI CSI colors and &quot;erase in line&quot; sequences.
+
+Other `escape sequences &lt;https://en.wikipedia.org/wiki/ANSI_escape_code&gt;`_
+(e.g., VT100-specific functions) are not supported. Only control sequences
+*natively* known to Sphinx (i.e., colour sequences used in Sphinx
+and &quot;erase entire line&quot; (``&apos;\x1b[2K&apos;``)) are stripped by this function.
+
+.. warning:: This function only for use within Sphinx..
+
+__ https://en.wikipedia.org/wiki/ANSI_escape_code
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" bodystart="41" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1__cli_1_1util_1_1errors_1a0e33219713db315947c760f188b4b74b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx._cli.util.errors.full_exception_context</definition>
+        <argsstring>(BaseException exception, *Collection[str] message_log=(), Collection[Extension] extensions=(), bool full_traceback=True)</argsstring>
+        <name>full_exception_context</name>
+        <qualifiedname>sphinx._cli.util.errors.full_exception_context</qualifiedname>
+        <param>
+          <type>BaseException</type>
+          <declname>exception</declname>
+        </param>
+        <param>
+          <type>*Collection</type>
+          <declname>message_log</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>extensions</declname>
+          <array>[Extension]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>full_traceback</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a formatted message containing useful debugging context.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" bodystart="62" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1__cli_1_1util_1_1errors_1ae3da128511ceed87d161955046aaf1ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx._cli.util.errors.format_traceback</definition>
+        <argsstring>(BaseException exception, *bool short_traceback=False)</argsstring>
+        <name>format_traceback</name>
+        <qualifiedname>sphinx._cli.util.errors.format_traceback</qualifiedname>
+        <param>
+          <type>BaseException</type>
+          <declname>exception</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>short_traceback</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format the given exception&apos;s traceback.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" bodystart="79" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1__cli_1_1util_1_1errors_1a8c82e885c5cb4af938a497bb455db92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx._cli.util.errors.error_info</definition>
+        <argsstring>(str messages, str extensions, str traceback)</argsstring>
+        <name>error_info</name>
+        <qualifiedname>sphinx._cli.util.errors.error_info</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>messages</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>extensions</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>traceback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format the traceback and extensions list with environment information.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="96" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" bodystart="96" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1__cli_1_1util_1_1errors_1aacfbf9b8770f37cabf1e03b327d87e26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx._cli.util.errors.save_traceback</definition>
+        <argsstring>(BaseException exception, *Collection[str] message_log=(), Collection[Extension] extensions=())</argsstring>
+        <name>save_traceback</name>
+        <qualifiedname>sphinx._cli.util.errors.save_traceback</qualifiedname>
+        <param>
+          <type>BaseException</type>
+          <declname>exception</declname>
+        </param>
+        <param>
+          <type>*Collection</type>
+          <declname>message_log</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>extensions</declname>
+          <array>[Extension]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Save the given exception&apos;s traceback in a temporary file.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="134" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" bodystart="139" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1__cli_1_1util_1_1errors_1aa149c9248172037038975dae9854dd46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx._cli.util.errors.write_temporary_file</definition>
+        <argsstring>(str content)</argsstring>
+        <name>write_temporary_file</name>
+        <qualifiedname>sphinx._cli.util.errors.write_temporary_file</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write content to a temporary file and return the filename.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="150" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" bodystart="150" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1__cli_1_1util_1_1errors_1ad1155c1fb10f516c4ccafc83423d8b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx._cli.util.errors.handle_exception</definition>
+        <argsstring>(BaseException exception, *SupportsWrite stderr=sys.stderr, bool use_pdb=False, bool print_traceback=False, Collection[str] message_log=(), Collection[Extension] extensions=())</argsstring>
+        <name>handle_exception</name>
+        <qualifiedname>sphinx._cli.util.errors.handle_exception</qualifiedname>
+        <param>
+          <type>BaseException</type>
+          <declname>exception</declname>
+        </param>
+        <param>
+          <type>*<ref refid="classsphinx_1_1__cli_1_1util_1_1errors_1_1SupportsWrite" kindref="compound">SupportsWrite</ref></type>
+          <declname>stderr</declname>
+          <defval>sys.stderr</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_pdb</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>print_traceback</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>message_log</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>extensions</declname>
+          <array>[Extension]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="162" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" bodystart="171" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/_cli/util/errors.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

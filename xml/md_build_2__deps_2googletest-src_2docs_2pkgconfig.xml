@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_build_2__deps_2googletest-src_2docs_2pkgconfig" kind="page">
+    <compoundname>md_build_2__deps_2googletest-src_2docs_2pkgconfig</compoundname>
+    <title>Using GoogleTest from various build systems</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_build_2__deps_2googletest-src_2docs_2pkgconfig_1autotoc_md216"/> GoogleTest comes with pkg-config files that can be used to determine all necessary flags for compiling and linking to GoogleTest (and GoogleMock). Pkg-config is a standardised plain-text format containing</para>
+<para><itemizedlist>
+<listitem><para>the includedir (-I) path</para>
+</listitem><listitem><para>necessary macro (-D) definitions</para>
+</listitem><listitem><para>further required flags (-pthread)</para>
+</listitem><listitem><para>the library (-L) path</para>
+</listitem><listitem><para>the library (-l) to link to</para>
+</listitem></itemizedlist>
+</para>
+<para>All current build systems support pkg-config in one way or another. For all examples here we assume you want to compile the sample <computeroutput>samples/sample3_unittest.cc</computeroutput>.</para>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2pkgconfig_1autotoc_md217">
+<title>CMake</title>
+<para>Using <computeroutput>pkg-config</computeroutput> in CMake is fairly easy:</para>
+<para><programlisting filename=".cmake"><codeline><highlight class="normal">find_package(PkgConfig)</highlight></codeline>
+<codeline><highlight class="normal">pkg_search_module(GTEST<sp/>REQUIRED<sp/>gtest_main)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">add_executable(testapp)</highlight></codeline>
+<codeline><highlight class="normal">target_sources(testapp<sp/>PRIVATE<sp/>samples/sample3_unittest.cc)</highlight></codeline>
+<codeline><highlight class="normal">target_link_libraries(testapp<sp/>PRIVATE<sp/>${GTEST_LDFLAGS})</highlight></codeline>
+<codeline><highlight class="normal">target_compile_options(testapp<sp/>PRIVATE<sp/>${GTEST_CFLAGS})</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">enable_testing()</highlight></codeline>
+<codeline><highlight class="normal">add_test(first_and_only_test<sp/>testapp)</highlight></codeline>
+</programlisting></para>
+<para>It is generally recommended that you use <computeroutput>target_compile_options</computeroutput> + <computeroutput>_CFLAGS</computeroutput> over <computeroutput>target_include_directories</computeroutput> + <computeroutput>_INCLUDE_DIRS</computeroutput> as the former includes not just -I flags (GoogleTest might require a macro indicating to internal headers that all libraries have been compiled with threading enabled. In addition, GoogleTest might also require <computeroutput>-pthread</computeroutput> in the compiling step, and as such splitting the pkg-config <computeroutput>Cflags</computeroutput> variable into include dirs and macros for <computeroutput>target_compile_definitions()</computeroutput> might still miss this). The same recommendation goes for using <computeroutput>_LDFLAGS</computeroutput> over the more commonplace <computeroutput>_LIBRARIES</computeroutput>, which happens to discard <computeroutput>-L</computeroutput> flags and <computeroutput>-pthread</computeroutput>.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2pkgconfig_1autotoc_md218">
+<title>Help! pkg-config can&apos;t find GoogleTest!</title>
+<para>Let&apos;s say you have a <computeroutput>CMakeLists.txt</computeroutput> along the lines of the one in this tutorial and you try to run <computeroutput>cmake</computeroutput>. It is very possible that you get a failure along the lines of:</para>
+<para><programlisting><codeline><highlight class="normal">--<sp/>Checking<sp/>for<sp/>one<sp/>of<sp/>the<sp/>modules<sp/>&apos;gtest_main&apos;</highlight></codeline>
+<codeline><highlight class="normal">CMake<sp/>Error<sp/>at<sp/>/usr/share/cmake/Modules/FindPkgConfig.cmake:640<sp/>(message):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>None<sp/>of<sp/>the<sp/>required<sp/>&apos;gtest_main&apos;<sp/>found</highlight></codeline>
+</programlisting></para>
+<para>These failures are common if you installed GoogleTest yourself and have not sourced it from a distro or other package manager. If so, you need to tell pkg-config where it can find the <computeroutput>.pc</computeroutput> files containing the information. Say you installed GoogleTest to <computeroutput>/usr/local</computeroutput>, then it might be that the <computeroutput>.pc</computeroutput> files are installed under <computeroutput>/usr/local/lib64/pkgconfig</computeroutput>. If you set</para>
+<para><programlisting><codeline><highlight class="normal">export<sp/>PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig</highlight></codeline>
+</programlisting></para>
+<para>pkg-config will also try to look in <computeroutput>PKG_CONFIG_PATH</computeroutput> to find <computeroutput>gtest_main.pc</computeroutput>.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2pkgconfig_1autotoc_md219">
+<title>Using pkg-config in a cross-compilation setting</title>
+<para>Pkg-config can be used in a cross-compilation setting too. To do this, let&apos;s assume the final prefix of the cross-compiled installation will be <computeroutput>/usr</computeroutput>, and your sysroot is <computeroutput>/home/MYUSER/sysroot</computeroutput>. Configure and install GTest using</para>
+<para><programlisting><codeline><highlight class="normal">mkdir<sp/>build<sp/>&amp;&amp;<sp/>cmake<sp/>-DCMAKE_INSTALL_PREFIX=/usr<sp/>..</highlight></codeline>
+</programlisting></para>
+<para>Install into the sysroot using <computeroutput>DESTDIR</computeroutput>:</para>
+<para><programlisting><codeline><highlight class="normal">make<sp/>-j<sp/>install<sp/>DESTDIR=/home/MYUSER/sysroot</highlight></codeline>
+</programlisting></para>
+<para>Before we continue, it is recommended to <bold>always</bold> define the following two variables for pkg-config in a cross-compilation setting:</para>
+<para><programlisting><codeline><highlight class="normal">export<sp/>PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=yes</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_ALLOW_SYSTEM_LIBS=yes</highlight></codeline>
+</programlisting></para>
+<para>otherwise <computeroutput>pkg-config</computeroutput> will filter <computeroutput>-I</computeroutput> and <computeroutput>-L</computeroutput> flags against standard prefixes such as <computeroutput>/usr</computeroutput> (see <ulink url="https://bugs.freedesktop.org/show_bug.cgi?id=28264#c3">https://bugs.freedesktop.org/show_bug.cgi?id=28264#c3</ulink> for reasons why this stripping needs to occur usually).</para>
+<para>If you look at the generated pkg-config file, it will look something like</para>
+<para><programlisting><codeline><highlight class="normal">libdir=/usr/lib64</highlight></codeline>
+<codeline><highlight class="normal">includedir=/usr/include</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Name:<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">Description:<sp/>GoogleTest<sp/>(without<sp/>main()<sp/>function)</highlight></codeline>
+<codeline><highlight class="normal">Version:<sp/>1.11.0</highlight></codeline>
+<codeline><highlight class="normal">URL:<sp/>https://github.com/google/googletest</highlight></codeline>
+<codeline><highlight class="normal">Libs:<sp/>-L${libdir}<sp/>-lgtest<sp/>-lpthread</highlight></codeline>
+<codeline><highlight class="normal">Cflags:<sp/>-I${includedir}<sp/>-DGTEST_HAS_PTHREAD=1<sp/>-lpthread</highlight></codeline>
+</programlisting></para>
+<para>Notice that the sysroot is not included in <computeroutput>libdir</computeroutput> and <computeroutput>includedir</computeroutput>! If you try to run <computeroutput>pkg-config</computeroutput> with the correct <computeroutput>PKG_CONFIG_LIBDIR=/home/MYUSER/sysroot/usr/lib64/pkgconfig</computeroutput> against this <computeroutput>.pc</computeroutput> file, you will get</para>
+<para><programlisting><codeline><highlight class="normal">$<sp/>pkg-config<sp/>--cflags<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_HAS_PTHREAD=1<sp/>-lpthread<sp/>-I/usr/include</highlight></codeline>
+<codeline><highlight class="normal">$<sp/>pkg-config<sp/>--libs<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">-L/usr/lib64<sp/>-lgtest<sp/>-lpthread</highlight></codeline>
+</programlisting></para>
+<para>which is obviously wrong and points to the <computeroutput>CBUILD</computeroutput> and not <computeroutput>CHOST</computeroutput> root. In order to use this in a cross-compilation setting, we need to tell pkg-config to inject the actual sysroot into <computeroutput>-I</computeroutput> and <computeroutput>-L</computeroutput> variables. Let us now tell pkg-config about the actual sysroot</para>
+<para><programlisting><codeline><highlight class="normal">export<sp/>PKG_CONFIG_DIR=</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_SYSROOT_DIR=/home/MYUSER/sysroot</highlight></codeline>
+<codeline><highlight class="normal">export<sp/>PKG_CONFIG_LIBDIR=${PKG_CONFIG_SYSROOT_DIR}/usr/lib64/pkgconfig</highlight></codeline>
+</programlisting></para>
+<para>and running <computeroutput>pkg-config</computeroutput> again we get</para>
+<para><programlisting><codeline><highlight class="normal">$<sp/>pkg-config<sp/>--cflags<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">-DGTEST_HAS_PTHREAD=1<sp/>-lpthread<sp/>-I/home/MYUSER/sysroot/usr/include</highlight></codeline>
+<codeline><highlight class="normal">$<sp/>pkg-config<sp/>--libs<sp/>gtest</highlight></codeline>
+<codeline><highlight class="normal">-L/home/MYUSER/sysroot/usr/lib64<sp/>-lgtest<sp/>-lpthread</highlight></codeline>
+</programlisting></para>
+<para>which contains the correct sysroot now. For a more comprehensive guide to also including <computeroutput>${CHOST}</computeroutput> in build system calls, see the excellent tutorial by Diego Elio Pettenò: <ulink url="https://autotools.io/pkgconfig/cross-compiling.html">https://autotools.io/pkgconfig/cross-compiling.html</ulink> </para>
+</sect2>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/docs/pkgconfig.md"/>
+  </compounddef>
+</doxygen>

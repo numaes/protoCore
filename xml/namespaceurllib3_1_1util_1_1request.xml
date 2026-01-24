@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1util_1_1request" kind="namespace" language="Python">
+    <compoundname>urllib3::util::request</compoundname>
+    <innerclass refid="classurllib3_1_1util_1_1request_1_1__TYPE__FAILEDTELL" prot="protected">urllib3::util::request::_TYPE_FAILEDTELL</innerclass>
+    <innerclass refid="classurllib3_1_1util_1_1request_1_1ChunksAndContentLength" prot="public">urllib3::util::request::ChunksAndContentLength</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1request_1adb5eab0640405dd8c3bfd8b9e6feba1e" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::request.SKIP_HEADER</definition>
+        <argsstring></argsstring>
+        <name>SKIP_HEADER</name>
+        <qualifiedname>urllib3.util.request.SKIP_HEADER</qualifiedname>
+        <initializer>=  &quot;@@@SKIP_HEADER@@@&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1request_1ad0054dc64ab2fdfbc0942c6a2683ca46" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::request.SKIPPABLE_HEADERS</definition>
+        <argsstring></argsstring>
+        <name>SKIPPABLE_HEADERS</name>
+        <qualifiedname>urllib3.util.request.SKIPPABLE_HEADERS</qualifiedname>
+        <initializer>=  frozenset([&quot;accept-encoding&quot;, &quot;host&quot;, &quot;user-agent&quot;])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1request_1a46cf2bec659ed426e135a2ab31b7fa9b" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::request.ACCEPT_ENCODING</definition>
+        <argsstring></argsstring>
+        <name>ACCEPT_ENCODING</name>
+        <qualifiedname>urllib3.util.request.ACCEPT_ENCODING</qualifiedname>
+        <initializer>=  &quot;gzip,deflate&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1request_1a8227ca49b9447c75124e712fa9ae133c" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::util::request._TYPE_BODY_POSITION</definition>
+        <argsstring></argsstring>
+        <name>_TYPE_BODY_POSITION</name>
+        <qualifiedname>urllib3.util.request._TYPE_BODY_POSITION</qualifiedname>
+        <initializer>=  typing.Union[int, <ref refid="classurllib3_1_1util_1_1request_1_1__TYPE__FAILEDTELL" kindref="compound">_TYPE_FAILEDTELL</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="53" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1request_1a4b4312fa25da83da2f98f2fa281c26d3" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::util::request._METHODS_NOT_EXPECTING_BODY</definition>
+        <argsstring></argsstring>
+        <name>_METHODS_NOT_EXPECTING_BODY</name>
+        <qualifiedname>urllib3.util.request._METHODS_NOT_EXPECTING_BODY</qualifiedname>
+        <initializer>=  {&quot;GET&quot;, &quot;HEAD&quot;, &quot;DELETE&quot;, &quot;TRACE&quot;, &quot;OPTIONS&quot;, &quot;CONNECT&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="60" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1request_1a0723c0d3f4fc9e5504ee6f89364700cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, str]</type>
+        <definition> dict[str, str] urllib3.util.request.make_headers</definition>
+        <argsstring>(bool|None keep_alive=None, bool|list[str]|str|None accept_encoding=None, str|None user_agent=None, str|None basic_auth=None, str|None proxy_basic_auth=None, bool|None disable_cache=None)</argsstring>
+        <name>make_headers</name>
+        <qualifiedname>urllib3.util.request.make_headers</qualifiedname>
+        <param>
+          <type>bool|None</type>
+          <declname>keep_alive</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool|list|str|None</type>
+          <declname>accept_encoding</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>user_agent</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>basic_auth</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>proxy_basic_auth</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>disable_cache</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Shortcuts for generating request headers.
+
+:param keep_alive:
+    If ``True``, adds &apos;connection: keep-alive&apos; header.
+
+:param accept_encoding:
+    Can be a boolean, list, or string.
+    ``True`` translates to &apos;gzip,deflate&apos;.  If the dependencies for
+    Brotli (either the ``brotli`` or ``brotlicffi`` package) and/or Zstandard
+    (the ``zstandard`` package) algorithms are installed, then their encodings are
+    included in the string (&apos;br&apos; and &apos;zstd&apos;, respectively).
+    List will get joined by comma.
+    String will be used as provided.
+
+:param user_agent:
+    String representing the user-agent you want, such as
+    &quot;python-urllib3/0.6&quot;
+
+:param basic_auth:
+    Colon-separated username:password string for &apos;authorization: basic ...&apos;
+    auth header.
+
+:param proxy_basic_auth:
+    Colon-separated username:password string for &apos;proxy-authorization: basic ...&apos;
+    auth header.
+
+:param disable_cache:
+    If ``True``, adds &apos;cache-control: no-cache&apos; header.
+
+Example:
+
+.. code-block:: python
+
+    import urllib3
+
+    print(urllib3.util.make_headers(keep_alive=True, user_agent=&quot;Batman/1.0&quot;))
+    # {&apos;connection&apos;: &apos;keep-alive&apos;, &apos;user-agent&apos;: &apos;Batman/1.0&apos;}
+    print(urllib3.util.make_headers(accept_encoding=True))
+    # {&apos;accept-encoding&apos;: &apos;gzip,deflate&apos;}
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="63" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="70" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1request_1a2ce7acb89df05b7fd946f005b392559b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceurllib3_1_1util_1_1request_1a8227ca49b9447c75124e712fa9ae133c" kindref="member">_TYPE_BODY_POSITION</ref>|None</type>
+        <definition> _TYPE_BODY_POSITION | None urllib3.util.request.set_file_position</definition>
+        <argsstring>(typing.Any body, _TYPE_BODY_POSITION|None pos)</argsstring>
+        <name>set_file_position</name>
+        <qualifiedname>urllib3.util.request.set_file_position</qualifiedname>
+        <param>
+          <type>typing.Any</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1util_1_1request_1a8227ca49b9447c75124e712fa9ae133c" kindref="member">_TYPE_BODY_POSITION</ref>|None</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>If a position is provided, move file to that point.
+Otherwise, we&apos;ll attempt to record a position for future use.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="144" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="146" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1request_1a281b31948f9bb596d18eef496dd4dcc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.request.rewind_body</definition>
+        <argsstring>(typing.IO[typing.AnyStr] body, _TYPE_BODY_POSITION body_pos)</argsstring>
+        <name>rewind_body</name>
+        <qualifiedname>urllib3.util.request.rewind_body</qualifiedname>
+        <param>
+          <type>typing.IO</type>
+          <declname>body</declname>
+          <array>[typing.AnyStr]</array>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1util_1_1request_1a8227ca49b9447c75124e712fa9ae133c" kindref="member">_TYPE_BODY_POSITION</ref></type>
+          <declname>body_pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Attempt to rewind body to a certain position.
+Primarily used for request redirects and retries.
+
+:param body:
+    File-like object that supports seek.
+
+:param int pos:
+    Position to seek to in file.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="164" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="164" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1request_1a68c700ce75f2e71e4c981b0cbd2d4776" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1util_1_1request_1_1ChunksAndContentLength" kindref="compound">ChunksAndContentLength</ref></type>
+        <definition> ChunksAndContentLength urllib3.util.request.body_to_chunks</definition>
+        <argsstring>(typing.Any|None body, str method, int blocksize)</argsstring>
+        <name>body_to_chunks</name>
+        <qualifiedname>urllib3.util.request.body_to_chunks</qualifiedname>
+        <param>
+          <type>typing.Any|None</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>blocksize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Takes the HTTP request method, body, and blocksize and
+transforms them into an iterable of chunks to pass to
+socket.sendall() and an optional &apos;Content-Length&apos; header.
+
+A &apos;Content-Length&apos; of &apos;None&apos; indicates the length of the body
+can&apos;t be determined so should use &apos;Transfer-Encoding: chunked&apos;
+for framing instead.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="199" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" bodystart="201" bodyend="267"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/request.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

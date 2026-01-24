@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacegmock__output__test" kind="namespace" language="Python">
+    <compoundname>gmock_output_test</compoundname>
+    <innerclass refid="classgmock__output__test_1_1GMockOutputTest" prot="public">gmock_output_test::GMockOutputTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacegmock__output__test_1a76f154b750838aa7b41532569c506e75" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str gmock_output_test::GENGOLDEN_FLAG</definition>
+        <argsstring></argsstring>
+        <name>GENGOLDEN_FLAG</name>
+        <qualifiedname>gmock_output_test.GENGOLDEN_FLAG</qualifiedname>
+        <initializer>=  &apos;--gengolden&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="50" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegmock__output__test_1a03aac0fac952a0b3648340f529af7f59" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>gmock_output_test.PROGRAM_PATH</definition>
+        <argsstring></argsstring>
+        <name>PROGRAM_PATH</name>
+        <qualifiedname>gmock_output_test.PROGRAM_PATH</qualifiedname>
+        <initializer>=  <ref refid="namespacegmock__test__utils_1a7cef788e502f48e04bccf07abfa3d246" kindref="member">gmock_test_utils.GetTestExecutablePath</ref>(&apos;gmock_output_test_&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="52" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegmock__output__test_1a9b5c0ca2f7848d469f8ea25ff1ce042d" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list gmock_output_test::COMMAND</definition>
+        <argsstring></argsstring>
+        <name>COMMAND</name>
+        <qualifiedname>gmock_output_test.COMMAND</qualifiedname>
+        <initializer>=  [<ref refid="namespacegmock__output__test_1a03aac0fac952a0b3648340f529af7f59" kindref="member">PROGRAM_PATH</ref>, &apos;--gtest_stack_trace_depth=0&apos;, &apos;--gtest_print_time=0&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="53" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegmock__output__test_1a51516f50f24f3076a93b699c04e7c482" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str gmock_output_test::GOLDEN_NAME</definition>
+        <argsstring></argsstring>
+        <name>GOLDEN_NAME</name>
+        <qualifiedname>gmock_output_test.GOLDEN_NAME</qualifiedname>
+        <initializer>=  &apos;gmock_output_test_golden.txt&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="54" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegmock__output__test_1a632c0fbf08500e4ed3c0e33f5e2ac771" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>gmock_output_test.GOLDEN_PATH</definition>
+        <argsstring></argsstring>
+        <name>GOLDEN_PATH</name>
+        <qualifiedname>gmock_output_test.GOLDEN_PATH</qualifiedname>
+        <initializer>=  os.path.join(<ref refid="namespacegmock__test__utils_1a02a2cf54e2808e29aaba6712a368432f" kindref="member">gmock_test_utils.GetSourceDir</ref>(), <ref refid="namespacegmock__output__test_1a51516f50f24f3076a93b699c04e7c482" kindref="member">GOLDEN_NAME</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="55" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegmock__output__test_1a4277f8598ba3835393fe82e82d09375d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>gmock_output_test.output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>gmock_output_test.output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="182" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegmock__output__test_1acd6befb6031f17f78a4425c90b1f5b19" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>gmock_output_test._</definition>
+        <argsstring></argsstring>
+        <name>_</name>
+        <qualifiedname>gmock_output_test._</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="182" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegmock__output__test_1aa592d26826a4dabf494fc2dd3c5c8b1e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>gmock_output_test.golden_file</definition>
+        <argsstring></argsstring>
+        <name>golden_file</name>
+        <qualifiedname>gmock_output_test.golden_file</qualifiedname>
+        <initializer>=  open(<ref refid="namespacegmock__output__test_1a632c0fbf08500e4ed3c0e33f5e2ac771" kindref="member">GOLDEN_PATH</ref>, &apos;wb&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="183" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacegmock__output__test_1a30dc933e35a9b535525fa29a3430239c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::ToUnixLineEnding</definition>
+        <argsstring>(s)</argsstring>
+        <name>ToUnixLineEnding</name>
+        <qualifiedname>gmock_output_test.ToUnixLineEnding</qualifiedname>
+        <param>
+          <type>s</type>
+          <defname>s</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Changes all Windows/Mac line endings in s to UNIX line endings.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="58" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1a88e661a87c5aec717fc29731d868a3a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::RemoveReportHeaderAndFooter</definition>
+        <argsstring>(output)</argsstring>
+        <name>RemoveReportHeaderAndFooter</name>
+        <qualifiedname>gmock_output_test.RemoveReportHeaderAndFooter</qualifiedname>
+        <param>
+          <type><ref refid="namespacegmock__output__test_1a4277f8598ba3835393fe82e82d09375d" kindref="member">output</ref></type>
+          <defname>output</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Removes Google Test result report&apos;s header and footer from the output.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="64" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="64" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1a3ce6cd10a0cb36eb5b09c69fcaed8b6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::RemoveLocations</definition>
+        <argsstring>(output)</argsstring>
+        <name>RemoveLocations</name>
+        <qualifiedname>gmock_output_test.RemoveLocations</qualifiedname>
+        <param>
+          <type><ref refid="namespacegmock__output__test_1a4277f8598ba3835393fe82e82d09375d" kindref="member">output</ref></type>
+          <defname>output</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Removes all file location info from a Google Test program&apos;s output.
+
+Args:
+     output:  the output of a Google Test program.
+
+Returns:
+     output with all file location info (in the form of
+     &apos;DIRECTORY/FILE_NAME:LINE_NUMBER: &apos;or
+     &apos;DIRECTORY\\FILE_NAME(LINE_NUMBER): &apos;) replaced by
+     &apos;FILE:#: &apos;.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="75" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="75" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1a07c862e8930ba8850b973414707dcac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::NormalizeErrorMarker</definition>
+        <argsstring>(output)</argsstring>
+        <name>NormalizeErrorMarker</name>
+        <qualifiedname>gmock_output_test.NormalizeErrorMarker</qualifiedname>
+        <param>
+          <type><ref refid="namespacegmock__output__test_1a4277f8598ba3835393fe82e82d09375d" kindref="member">output</ref></type>
+          <defname>output</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalizes the error marker, which is different on Windows vs on Linux.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="91" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="91" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1a1e0b0c80dcf9b45c3bd5d97ac0f34043" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::RemoveMemoryAddresses</definition>
+        <argsstring>(output)</argsstring>
+        <name>RemoveMemoryAddresses</name>
+        <qualifiedname>gmock_output_test.RemoveMemoryAddresses</qualifiedname>
+        <param>
+          <type><ref refid="namespacegmock__output__test_1a4277f8598ba3835393fe82e82d09375d" kindref="member">output</ref></type>
+          <defname>output</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Removes memory addresses from the test output.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="97" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="97" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1a3de12d11b3154a2bfe3c9daff626ce85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::RemoveTestNamesOfLeakedMocks</definition>
+        <argsstring>(output)</argsstring>
+        <name>RemoveTestNamesOfLeakedMocks</name>
+        <qualifiedname>gmock_output_test.RemoveTestNamesOfLeakedMocks</qualifiedname>
+        <param>
+          <type><ref refid="namespacegmock__output__test_1a4277f8598ba3835393fe82e82d09375d" kindref="member">output</ref></type>
+          <defname>output</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Removes the test names of leaked mock objects from the test output.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="103" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1a42d198b5237caec55b5ba56db8e34b6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::GetLeakyTests</definition>
+        <argsstring>(output)</argsstring>
+        <name>GetLeakyTests</name>
+        <qualifiedname>gmock_output_test.GetLeakyTests</qualifiedname>
+        <param>
+          <type><ref refid="namespacegmock__output__test_1a4277f8598ba3835393fe82e82d09375d" kindref="member">output</ref></type>
+          <defname>output</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a list of test names that leak mock objects.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="109" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="109" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1af02113abf5e9fce206b8f0660f66de02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::GetNormalizedOutputAndLeakyTests</definition>
+        <argsstring>(output)</argsstring>
+        <name>GetNormalizedOutputAndLeakyTests</name>
+        <qualifiedname>gmock_output_test.GetNormalizedOutputAndLeakyTests</qualifiedname>
+        <param>
+          <type><ref refid="namespacegmock__output__test_1a4277f8598ba3835393fe82e82d09375d" kindref="member">output</ref></type>
+          <defname>output</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalizes the output of gmock_output_test_.
+
+Args:
+  output: The test output.
+
+Returns:
+  A tuple (the normalized test output, the list of test names that have
+  leaked mocks).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="118" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="118" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1ab4760875789fe66c8c47b50b6e7b61a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::GetShellCommandOutput</definition>
+        <argsstring>(cmd)</argsstring>
+        <name>GetShellCommandOutput</name>
+        <qualifiedname>gmock_output_test.GetShellCommandOutput</qualifiedname>
+        <param>
+          <type>cmd</type>
+          <defname>cmd</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Runs a command in a sub-process, and returns its STDOUT in a string.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="137" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="137" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegmock__output__test_1afca364bf884ed29d7031f40f93e35acb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gmock_output_test::GetNormalizedCommandOutputAndLeakyTests</definition>
+        <argsstring>(cmd)</argsstring>
+        <name>GetNormalizedCommandOutputAndLeakyTests</name>
+        <qualifiedname>gmock_output_test.GetNormalizedCommandOutputAndLeakyTests</qualifiedname>
+        <param>
+          <type>cmd</type>
+          <defname>cmd</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Runs a command and returns its normalized output and a list of leaky tests.
+
+Args:
+  cmd:  the shell command.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="143" column="1" bodyfile="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" bodystart="143" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Tests the text output of Google C++ Mocking Framework.
+
+To update the golden file:
+gmock_output_test.py --build_dir=BUILD/DIR --gengolden
+where BUILD/DIR contains the built gmock_output_test_ file.
+gmock_output_test.py --gengolden
+gmock_output_test.py</verbatim> </para>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/googlemock/test/gmock_output_test.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

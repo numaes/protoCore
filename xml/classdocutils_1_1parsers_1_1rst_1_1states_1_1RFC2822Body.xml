@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body" kind="class" language="Python" prot="public">
+    <compoundname>docutils::parsers::rst::states::RFC2822Body</compoundname>
+    <basecompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body" prot="public" virt="non-virtual">docutils.parsers.rst.states.Body</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822List" prot="public" virt="non-virtual">docutils.parsers.rst.states.RFC2822List</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body_1a8eac0ca2203722b8defb90a96bd5b59d" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RFC2822Body::patterns</definition>
+        <argsstring></argsstring>
+        <name>patterns</name>
+        <qualifiedname>docutils.parsers.rst.states.RFC2822Body.patterns</qualifiedname>
+        <initializer>=  Body.patterns.copy()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2445" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body_1aeed431dbe8141abf4d7415c8af925c4f" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list docutils.parsers.rst.states.RFC2822Body::initial_transitions</definition>
+        <argsstring></argsstring>
+        <name>initial_transitions</name>
+        <qualifiedname>docutils.parsers.rst.states.RFC2822Body.initial_transitions</qualifiedname>
+        <initializer>=  [(<ref refid="namespacedocutils_1_1parsers_1_1rst_1a55a9422a08fef02a7efdff45b7321ebb" kindref="member">name</ref>, &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body" kindref="compound">Body</ref>&apos;)
+                           for <ref refid="namespacedocutils_1_1parsers_1_1rst_1a55a9422a08fef02a7efdff45b7321ebb" kindref="member">name</ref> in Body.initial_transitions]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2447" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2447" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body_1a220f596048b73109d7c00f71877bb431" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RFC2822Body.rfc2822</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>rfc2822</name>
+        <qualifiedname>docutils.parsers.rst.states.RFC2822Body.rfc2822</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822List_1a795296ca55fdbb4bac683c053d9f0482">rfc2822</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>RFC2822-style field list item.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2451" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2451" bodyend="2468"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body_1a9a4ea62bdfa2d79acb7314e31b9dae8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RFC2822Body.rfc2822_field</definition>
+        <argsstring>(self, match)</argsstring>
+        <name>rfc2822_field</name>
+        <qualifiedname>docutils.parsers.rst.states.RFC2822Body.rfc2822_field</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2469" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2469" bodyend="2483"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>RFC2822 headers are only valid as the first constructs in documents.  As
+soon as anything else appears, the `Body` state should take over.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.parsers.rst.states.RFC2822Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.states.Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.states.RFC2822List</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822List"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="4">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.parsers.rst.states.RFC2822Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>initial_transitions</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.states.Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>initial_transitions</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>nested_sm_cache</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="4">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>ws_initial_transitions</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2438" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2438" bodyend="2483"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body_1aeed431dbe8141abf4d7415c8af925c4f" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RFC2822Body</scope><name>initial_transitions</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body_1a8eac0ca2203722b8defb90a96bd5b59d" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RFC2822Body</scope><name>patterns</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body_1a220f596048b73109d7c00f71877bb431" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RFC2822Body</scope><name>rfc2822</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body_1a9a4ea62bdfa2d79acb7314e31b9dae8e" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RFC2822Body</scope><name>rfc2822_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

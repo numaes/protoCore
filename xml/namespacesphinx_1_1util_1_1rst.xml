@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1rst" kind="namespace" language="Python">
+    <compoundname>sphinx::util::rst</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1rst_1a292c304bebb07a4ca49f5b4f0fa7f13c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::rst.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.util.rst.logger</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" kindref="member">logging.getLogger</ref>(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1rst_1a3ceb7f2c0cc0c8d9ac5da66ca4e69776" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::rst.FIELD_NAME_RE</definition>
+        <argsstring></argsstring>
+        <name>FIELD_NAME_RE</name>
+        <qualifiedname>sphinx.util.rst.FIELD_NAME_RE</qualifiedname>
+        <initializer>=  re.compile(<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body_1ae328f36dba41528999500b029e98ca6c" kindref="member">Body.patterns</ref>[&apos;field_marker&apos;])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1rst_1a4003f97157f380dfb3ae97776558fb1d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::rst.symbols_re</definition>
+        <argsstring></argsstring>
+        <name>symbols_re</name>
+        <qualifiedname>sphinx.util.rst.symbols_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;([!-\-/:-@\[-`{-~])&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1rst_1a5ec51b2ce686b30acba15244dcbad1e1" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list sphinx::util::rst.SECTIONING_CHARS</definition>
+        <argsstring></argsstring>
+        <name>SECTIONING_CHARS</name>
+        <qualifiedname>sphinx.util.rst.SECTIONING_CHARS</qualifiedname>
+        <initializer>=  [&apos;=&apos;, &apos;-&apos;, &apos;~&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1rst_1ae33a380eadb40aef12a7c4404493e01f" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::util::rst.WIDECHARS</definition>
+        <argsstring></argsstring>
+        <name>WIDECHARS</name>
+        <qualifiedname>sphinx.util.rst.WIDECHARS</qualifiedname>
+        <initializer>=  defaultdict(lambda: &apos;WF&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1rst_1a18ec00f9e7e153faae1981017d4469e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.rst.escape</definition>
+        <argsstring>(str text)</argsstring>
+        <name>escape</name>
+        <qualifiedname>sphinx.util.rst.escape</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="37" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="37" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1rst_1a23978e1e7229c64cc57529085ef5d8e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.util.rst.textwidth</definition>
+        <argsstring>(str text, str widechars=&apos;WF&apos;)</argsstring>
+        <name>textwidth</name>
+        <qualifiedname>sphinx.util.rst.textwidth</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>widechars</declname>
+          <defval>&apos;WF&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get width of text.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="43" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1rst_1a8759721e1c59e9d2a0fc4731cd7e78ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.rst.heading</definition>
+        <argsstring>(Environment env, str text, int level=1)</argsstring>
+        <name>heading</name>
+        <qualifiedname>sphinx.util.rst.heading</qualifiedname>
+        <param>
+          <type><ref refid="classjinja2_1_1environment_1_1Environment" kindref="compound">Environment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a heading for *level*.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="56" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1rst_1a4794693500af790d80c6f6e01b1714e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.rst.default_role</definition>
+        <argsstring>(str docname, str name)</argsstring>
+        <name>default_role</name>
+        <qualifiedname>sphinx.util.rst.default_role</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="66" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="66" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1rst_1a4c8d5341cd971cf8d5451d7aa4c4f5a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.rst.prepend_prolog</definition>
+        <argsstring>(StringList content, str prolog)</argsstring>
+        <name>prepend_prolog</name>
+        <qualifiedname>sphinx.util.rst.prepend_prolog</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref></type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>prolog</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Prepend a string to content body as prolog.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="80" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1rst_1a63db73a425fded1ce227114e13f6c997" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.rst.append_epilog</definition>
+        <argsstring>(StringList content, str epilog)</argsstring>
+        <name>append_epilog</name>
+        <qualifiedname>sphinx.util.rst.append_epilog</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref></type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>epilog</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Append a string to content body as epilog.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="103" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" bodystart="103" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>reST helper functions.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/rst.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

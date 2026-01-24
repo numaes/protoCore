@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1autodoc_1_1mock" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::autodoc::mock</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1autodoc_1_1mock_1_1__MockModule" prot="protected">sphinx::ext::autodoc::mock::_MockModule</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autodoc_1_1mock_1_1__MockObject" prot="protected">sphinx::ext::autodoc::mock::_MockObject</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autodoc_1_1mock_1_1MockFinder" prot="public">sphinx::ext::autodoc::mock::MockFinder</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autodoc_1_1mock_1_1MockLoader" prot="public">sphinx::ext::autodoc::mock::MockLoader</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1autodoc_1_1mock_1a312ba55747e6985e8212def41dd836ce" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::autodoc::mock.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.autodoc.mock.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1mock_1ac65b7383995a43b3028d68d651bbb399" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.ext.autodoc.mock._make_subclass</definition>
+        <argsstring>(str name, str module, Any superclass=_MockObject, Any attributes=None, tuple[Any,...] decorator_args=())</argsstring>
+        <name>_make_subclass</name>
+        <qualifiedname>sphinx.ext.autodoc.mock._make_subclass</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>module</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>superclass</declname>
+          <defval><ref refid="classsphinx_1_1ext_1_1autodoc_1_1mock_1_1__MockObject" kindref="compound">_MockObject</ref></defval>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>attributes</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>tuple</type>
+          <declname>decorator_args</declname>
+          <array>[Any,...]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" bodystart="83" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1mock_1a2803c7051c654882a8c67d6d0272e00e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.ext.autodoc.mock.mock</definition>
+        <argsstring>(list[str] modnames)</argsstring>
+        <name>mock</name>
+        <qualifiedname>sphinx.ext.autodoc.mock.mock</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>modnames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Insert mock modules during context::
+
+with mock([&apos;target.module.name&apos;]):
+    # mock modules are enabled here
+    ...
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" line="158" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" bodystart="158" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1mock_1acbf40f70fbbcf87d8fa5f6d44e9e6e2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TypeIs[<ref refid="classsphinx_1_1ext_1_1autodoc_1_1mock_1_1__MockModule" kindref="compound">_MockModule</ref>]</type>
+        <definition> TypeIs[_MockModule] sphinx.ext.autodoc.mock.ismockmodule</definition>
+        <argsstring>(Any subject)</argsstring>
+        <name>ismockmodule</name>
+        <qualifiedname>sphinx.ext.autodoc.mock.ismockmodule</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>subject</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is a mocked module.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" line="174" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" bodystart="174" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1mock_1a2a3ecd8753fc15d48c0927295f883690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.autodoc.mock.ismock</definition>
+        <argsstring>(Any subject)</argsstring>
+        <name>ismock</name>
+        <qualifiedname>sphinx.ext.autodoc.mock.ismock</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>subject</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if the object is mocked.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" line="179" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" bodystart="179" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1mock_1a401751585f69d4ef7081c1f26caaf6d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.ext.autodoc.mock.undecorate</definition>
+        <argsstring>(_MockObject subject)</argsstring>
+        <name>undecorate</name>
+        <qualifiedname>sphinx.ext.autodoc.mock.undecorate</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1autodoc_1_1mock_1_1__MockObject" kindref="compound">_MockObject</ref></type>
+          <declname>subject</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unwrap mock if *subject* is decorated by mocked object.
+
+If not decorated, returns given *subject* itself.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" line="210" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" bodystart="210" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>mock for autodoc</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/mock.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

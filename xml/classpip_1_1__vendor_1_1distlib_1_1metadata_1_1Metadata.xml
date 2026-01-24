@@ -1,0 +1,981 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::distlib::metadata::Metadata</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aea1f900a68695db926bb5d013d911edd" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::METADATA_VERSION_MATCHER</definition>
+        <argsstring></argsstring>
+        <name>METADATA_VERSION_MATCHER</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.METADATA_VERSION_MATCHER</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\d+(\.\d+)*$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="617" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a6284812143d9ece9100f8095b32073b3" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::NAME_MATCHER</definition>
+        <argsstring></argsstring>
+        <name>NAME_MATCHER</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.NAME_MATCHER</qualifiedname>
+        <initializer>=  re.compile(&apos;^[0-9A-Z]([0-9A-Z_.-]*[0-9A-Z])?$&apos;, re.I)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="619" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="619" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a9048ac334f900c6a9ab7efc28322c3d1" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::FIELDNAME_MATCHER</definition>
+        <argsstring></argsstring>
+        <name>FIELDNAME_MATCHER</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.FIELDNAME_MATCHER</qualifiedname>
+        <initializer>=  re.compile(&apos;^[A-Z]([0-9A-Z-]*[0-9A-Z])?$&apos;, re.I)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="621" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="621" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a5e39884a418be2d8684ebf2b8ec1ba0e" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::VERSION_MATCHER</definition>
+        <argsstring></argsstring>
+        <name>VERSION_MATCHER</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.VERSION_MATCHER</qualifiedname>
+        <initializer>=  PEP440_VERSION_RE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="623" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="623" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a41293cb0ee2878b67956a9c0966a62e8" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::SUMMARY_MATCHER</definition>
+        <argsstring></argsstring>
+        <name>SUMMARY_MATCHER</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.SUMMARY_MATCHER</qualifiedname>
+        <initializer>=  re.compile(&apos;.{1,2047}&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="625" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="625" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7587deb2821f77b6d4c9a8ce2652614c" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.distlib.metadata.Metadata::METADATA_VERSION</definition>
+        <argsstring></argsstring>
+        <name>METADATA_VERSION</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.METADATA_VERSION</qualifiedname>
+        <initializer>=  &apos;2.0&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="627" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="627" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a9232dd1108252565e7d6e489bee294a0" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.distlib.metadata.Metadata::GENERATOR</definition>
+        <argsstring></argsstring>
+        <name>GENERATOR</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.GENERATOR</qualifiedname>
+        <initializer>=  &apos;distlib (%s)&apos; % __version__</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="629" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="629" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1afffbcc2ca26ba5c0ba91d6c129420e64" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.distlib.metadata.Metadata::MANDATORY_KEYS</definition>
+        <argsstring></argsstring>
+        <name>MANDATORY_KEYS</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.MANDATORY_KEYS</qualifiedname>
+        <initializer>=  {
+        &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acd68ae4f44152a738702d99582fdc613" kindref="member">name</ref>&apos;: (),
+        &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa7d5766ad7a99d5001d3fe7f7d265581" kindref="member">version</ref>&apos;: (),
+        &apos;summary&apos;: (&apos;legacy&apos;,),
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="631" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="631" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a13bd206c7d21bcd2135ba3e41b719092" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._vendor.distlib.metadata.Metadata::INDEX_KEYS</definition>
+        <argsstring></argsstring>
+        <name>INDEX_KEYS</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.INDEX_KEYS</qualifiedname>
+        <initializer>=  (&apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acd68ae4f44152a738702d99582fdc613" kindref="member">name</ref> <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa7d5766ad7a99d5001d3fe7f7d265581" kindref="member">version</ref> license summary description author &apos;
+                  &apos;author_email keywords platform home_page classifiers &apos;
+                  &apos;download_url&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="637" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="637" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aed6ef134508de0998c46f98b522fa638" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._vendor.distlib.metadata.Metadata::DEPENDENCY_KEYS</definition>
+        <argsstring></argsstring>
+        <name>DEPENDENCY_KEYS</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.DEPENDENCY_KEYS</qualifiedname>
+        <initializer>=  (&apos;extras run_requires test_requires build_requires &apos;
+                       &apos;dev_requires <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ae53753d7d2db182469e417659e3d3d2f" kindref="member">provides</ref> meta_requires obsoleted_by &apos;
+                       &apos;supports_environments&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="641" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="641" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a6d6495659ee4c13ae34a1ce1e3a41345" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.distlib.metadata.Metadata::SYNTAX_VALIDATORS</definition>
+        <argsstring></argsstring>
+        <name>SYNTAX_VALIDATORS</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.SYNTAX_VALIDATORS</qualifiedname>
+        <initializer>=  {
+        &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7ddf593b5931a0fd244794058cae0141" kindref="member">metadata_version</ref>&apos;: (<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aea1f900a68695db926bb5d013d911edd" kindref="member">METADATA_VERSION_MATCHER</ref>, ()),
+        &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acd68ae4f44152a738702d99582fdc613" kindref="member">name</ref>&apos;: (<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a6284812143d9ece9100f8095b32073b3" kindref="member">NAME_MATCHER</ref>, (&apos;legacy&apos;,)),
+        &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa7d5766ad7a99d5001d3fe7f7d265581" kindref="member">version</ref>&apos;: (<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a5e39884a418be2d8684ebf2b8ec1ba0e" kindref="member">VERSION_MATCHER</ref>, (&apos;legacy&apos;,)),
+        &apos;summary&apos;: (<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a41293cb0ee2878b67956a9c0966a62e8" kindref="member">SUMMARY_MATCHER</ref>, (&apos;legacy&apos;,)),
+        &apos;dynamic&apos;: (<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a9048ac334f900c6a9ab7efc28322c3d1" kindref="member">FIELDNAME_MATCHER</ref>, (&apos;legacy&apos;,)),
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="645" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="645" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a53d86411c3e1982eda8fb61bf648f235" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::common_keys</definition>
+        <argsstring></argsstring>
+        <name>common_keys</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.common_keys</qualifiedname>
+        <initializer>=  set((&apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acd68ae4f44152a738702d99582fdc613" kindref="member">name</ref>&apos;, &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa7d5766ad7a99d5001d3fe7f7d265581" kindref="member">version</ref>&apos;, &apos;license&apos;, &apos;keywords&apos;, &apos;summary&apos;))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="700" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="700" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abb1788df9c391f1e83b2810fa0ce3b60" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._vendor.distlib.metadata.Metadata::none_list</definition>
+        <argsstring></argsstring>
+        <name>none_list</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.none_list</qualifiedname>
+        <initializer>=  (None, list)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="702" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="702" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7b17d7cf1e12984dc13b39e22e8c80ea" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._vendor.distlib.metadata.Metadata::none_dict</definition>
+        <argsstring></argsstring>
+        <name>none_dict</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.none_dict</qualifiedname>
+        <initializer>=  (None, dict)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="703" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="703" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa1f0e011ebf427be74a063699cf90068" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.distlib.metadata.Metadata::mapped_keys</definition>
+        <argsstring></argsstring>
+        <name>mapped_keys</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.mapped_keys</qualifiedname>
+        <initializer>=  {
+        &apos;run_requires&apos;: (&apos;Requires-Dist&apos;, list),
+        &apos;build_requires&apos;: (&apos;Setup-Requires-Dist&apos;, list),
+        &apos;dev_requires&apos;: <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abb1788df9c391f1e83b2810fa0ce3b60" kindref="member">none_list</ref>,
+        &apos;test_requires&apos;: <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abb1788df9c391f1e83b2810fa0ce3b60" kindref="member">none_list</ref>,
+        &apos;meta_requires&apos;: <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abb1788df9c391f1e83b2810fa0ce3b60" kindref="member">none_list</ref>,
+        &apos;extras&apos;: (&apos;Provides-Extra&apos;, list),
+        &apos;modules&apos;: <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abb1788df9c391f1e83b2810fa0ce3b60" kindref="member">none_list</ref>,
+        &apos;namespaces&apos;: <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abb1788df9c391f1e83b2810fa0ce3b60" kindref="member">none_list</ref>,
+        &apos;exports&apos;: <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7b17d7cf1e12984dc13b39e22e8c80ea" kindref="member">none_dict</ref>,
+        &apos;commands&apos;: <ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7b17d7cf1e12984dc13b39e22e8c80ea" kindref="member">none_dict</ref>,
+        &apos;classifiers&apos;: (&apos;Classifier&apos;, list),
+        &apos;source_url&apos;: (&apos;Download-URL&apos;, None),
+        &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7ddf593b5931a0fd244794058cae0141" kindref="member">metadata_version</ref>&apos;: (&apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata" kindref="compound">Metadata</ref>-Version&apos;, None),
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="705" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="705" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a1c8938de1d8381515ae5aa0fa4a266d3" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.distlib.metadata.Metadata::LEGACY_MAPPING</definition>
+        <argsstring></argsstring>
+        <name>LEGACY_MAPPING</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.LEGACY_MAPPING</qualifiedname>
+        <initializer>=  {
+        &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acd68ae4f44152a738702d99582fdc613" kindref="member">name</ref>&apos;: &apos;Name&apos;,
+        &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa7d5766ad7a99d5001d3fe7f7d265581" kindref="member">version</ref>&apos;: &apos;Version&apos;,
+        (&apos;extensions&apos;, &apos;python.details&apos;, &apos;license&apos;): &apos;License&apos;,
+        &apos;summary&apos;: &apos;Summary&apos;,
+        &apos;description&apos;: &apos;Description&apos;,
+        (&apos;extensions&apos;, &apos;python.project&apos;, &apos;project_urls&apos;, &apos;Home&apos;): &apos;Home-page&apos;,
+        (&apos;extensions&apos;, &apos;python.project&apos;, &apos;contacts&apos;, 0, &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acd68ae4f44152a738702d99582fdc613" kindref="member">name</ref>&apos;): &apos;Author&apos;,
+        (&apos;extensions&apos;, &apos;python.project&apos;, &apos;contacts&apos;, 0, &apos;email&apos;): &apos;Author-email&apos;,
+        &apos;source_url&apos;: &apos;Download-URL&apos;,
+        (&apos;extensions&apos;, &apos;python.details&apos;, &apos;classifiers&apos;): &apos;Classifier&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="958" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="958" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ad8c42bb13e8552c48c97f68c2a4dc0b7" prot="private" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._vendor.distlib.metadata.Metadata::__slots__</definition>
+        <argsstring></argsstring>
+        <name>__slots__</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.__slots__</qualifiedname>
+        <initializer>=  (&apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acffafd52b5d5386fcb98c5f9cb8ee8f6" kindref="member">_legacy</ref>&apos;, &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a1f404ee2d3649d6c8c7f230dc713ab93" kindref="member">_data</ref>&apos;, &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ad7c506d0aff98490bb2f43d675be68af" kindref="member">scheme</ref>&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="653" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="653" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acffafd52b5d5386fcb98c5f9cb8ee8f6" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::_legacy</definition>
+        <argsstring></argsstring>
+        <name>_legacy</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata._legacy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="659" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="659" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a1f404ee2d3649d6c8c7f230dc713ab93" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::_data</definition>
+        <argsstring></argsstring>
+        <name>_data</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata._data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="660" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="660" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ad7c506d0aff98490bb2f43d675be68af" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::scheme</definition>
+        <argsstring></argsstring>
+        <name>scheme</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.scheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="661" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="661" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ac918cef5aff12d3c72c79f40f1c248fd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::METADATA_VERSION</definition>
+        <argsstring></argsstring>
+        <name>METADATA_VERSION</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.METADATA_VERSION</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="680" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="680" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a8f71000d5a93b0d2b6ec778972a00a5d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::GENERATOR</definition>
+        <argsstring></argsstring>
+        <name>GENERATOR</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.GENERATOR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="681" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="681" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acd68ae4f44152a738702d99582fdc613" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="817" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="817" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa7d5766ad7a99d5001d3fe7f7d265581" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="817" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="817" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ada3464c8bfcd96470d33dc85db0b91cc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::DEPENDENCY_KEYS</definition>
+        <argsstring></argsstring>
+        <name>DEPENDENCY_KEYS</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.DEPENDENCY_KEYS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="890" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="890" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7ddf593b5931a0fd244794058cae0141" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata::metadata_version</definition>
+        <argsstring></argsstring>
+        <name>metadata_version</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.metadata_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="1068" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="1068" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a03d6a6aa3c7d0a6641ebc974279c199c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.__init__</definition>
+        <argsstring>(self, path=None, fileobj=None, mapping=None, scheme=&apos;default&apos;)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>fileobj</type>
+          <defname>fileobj</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>mapping</type>
+          <defname>mapping</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ad7c506d0aff98490bb2f43d675be68af" kindref="member">scheme</ref></type>
+          <defname>scheme</defname>
+          <defval>&apos;default&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="655" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="656" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ac94707e7e2b957b2d2211ef1b8720af0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.__getattribute__</definition>
+        <argsstring>(self, key)</argsstring>
+        <name>__getattribute__</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.__getattribute__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>key</type>
+          <defname>key</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="723" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="723" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a53177bcd76ae4e2d8b49953d07056cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.__setattr__</definition>
+        <argsstring>(self, key, value)</argsstring>
+        <name>__setattr__</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.__setattr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>key</type>
+          <defname>key</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="776" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="776" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a6dfef26b297ccac151b1cfa2502c5b4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.name_and_version</definition>
+        <argsstring>(self)</argsstring>
+        <name>name_and_version</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.name_and_version</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="816" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="816" bodyend="818"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ae53753d7d2db182469e417659e3d3d2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.provides</definition>
+        <argsstring>(self)</argsstring>
+        <name>provides</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.provides</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="820" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="820" bodyend="829"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ac7faa425d0663b6e592ff83de0be94db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.provides</definition>
+        <argsstring>(self, value)</argsstring>
+        <name>provides</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.provides</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="831" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="831" bodyend="836"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a01c2edf694d4c064835e750d0b6a209e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.get_requirements</definition>
+        <argsstring>(self, reqts, extras=None, env=None)</argsstring>
+        <name>get_requirements</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.get_requirements</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>reqts</type>
+          <defname>reqts</defname>
+        </param>
+        <param>
+          <type>extras</type>
+          <defname>extras</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>env</type>
+          <defname>env</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Base method to get dependencies, given a set of extras
+to satisfy and an optional environment context.
+:param reqts: A list of sometimes-wanted dependencies,
+              perhaps dependent on extras and environment.
+:param extras: A list of optional components being requested.
+:param env: An optional environment for marker evaluation.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="837" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="837" bodyend="878"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7e77a825ed0ec17721f8ce998b4e677a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.dictionary</definition>
+        <argsstring>(self)</argsstring>
+        <name>dictionary</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.dictionary</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="880" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="880" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abf6cbb244fad75feddef718a94bcc2da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.dependencies</definition>
+        <argsstring>(self)</argsstring>
+        <name>dependencies</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.dependencies</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="886" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="886" bodyend="891"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a19a426eacc32d3e13ed1e68885735047" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.dependencies</definition>
+        <argsstring>(self, value)</argsstring>
+        <name>dependencies</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.dependencies</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="893" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="893" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a3f2e0ed13ab9032dc1edf405e0d3775f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.validate</definition>
+        <argsstring>(self)</argsstring>
+        <name>validate</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.validate</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="913" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="913" bodyend="921"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a45b1bbf2cd17fe42b4a978fd6fd78228" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.todict</definition>
+        <argsstring>(self)</argsstring>
+        <name>todict</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.todict</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="922" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="922" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a1a2c54572ca133a21190923864249820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.write</definition>
+        <argsstring>(self, path=None, fileobj=None, legacy=False, skip_unknown=True)</argsstring>
+        <name>write</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.write</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>fileobj</type>
+          <defname>fileobj</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>legacy</type>
+          <defname>legacy</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>skip_unknown</type>
+          <defname>skip_unknown</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="1021" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="1021" bodyend="1046"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a71e65b4813689ee26c8ac1b98d2ce4ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.add_requirements</definition>
+        <argsstring>(self, requirements)</argsstring>
+        <name>add_requirements</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.add_requirements</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>requirements</type>
+          <defname>requirements</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="1047" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="1047" bodyend="1063"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a74bb36abb79e822c290a5b685c928143" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="1064" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="1064" bodyend="1069"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a567487dc639ad260d978b71af27b1cc2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata._validate_value</definition>
+        <argsstring>(self, key, value, scheme=None)</argsstring>
+        <name>_validate_value</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata._validate_value</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>key</type>
+          <defname>key</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ad7c506d0aff98490bb2f43d675be68af" kindref="member">scheme</ref></type>
+          <defname>scheme</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="766" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="766" bodyend="775"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ac1b06dbbdfb800bfbfa0ea5bf703f9d9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata._validate_mapping</definition>
+        <argsstring>(self, mapping, scheme)</argsstring>
+        <name>_validate_mapping</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata._validate_mapping</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>mapping</type>
+          <defname>mapping</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ad7c506d0aff98490bb2f43d675be68af" kindref="member">scheme</ref></type>
+          <defname>scheme</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="899" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="899" bodyend="912"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a3b57a91825edd9635364660b49124ebb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata._from_legacy</definition>
+        <argsstring>(self)</argsstring>
+        <name>_from_legacy</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata._from_legacy</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="929" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="929" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1adb237cbf6705fe926b4136a46e7c8723" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.metadata.Metadata._to_legacy</definition>
+        <argsstring>(self)</argsstring>
+        <name>_to_legacy</name>
+        <qualifiedname>pip._vendor.distlib.metadata.Metadata._to_legacy</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="971" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="971" bodyend="1020"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The metadata of a release. This implementation uses 2.1
+metadata where possible. If not possible, it wraps a LegacyMetadata
+instance which handles the key-value metadata format.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.metadata.Metadata</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.metadata.Metadata</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>GENERATOR</edgelabel>
+          <edgelabel>METADATA_VERSION</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>DEPENDENCY_KEYS</edgelabel>
+          <edgelabel>INDEX_KEYS</edgelabel>
+          <edgelabel>none_dict</edgelabel>
+          <edgelabel>none_list</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" line="610" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/metadata.py" bodystart="610" bodyend="1069"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ac94707e7e2b957b2d2211ef1b8720af0" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>__getattribute__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a03d6a6aa3c7d0a6641ebc974279c199c" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a74bb36abb79e822c290a5b685c928143" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>__repr__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a53177bcd76ae4e2d8b49953d07056cda" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>__setattr__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ad8c42bb13e8552c48c97f68c2a4dc0b7" prot="private" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>__slots__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a1f404ee2d3649d6c8c7f230dc713ab93" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>_data</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a3b57a91825edd9635364660b49124ebb" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>_from_legacy</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acffafd52b5d5386fcb98c5f9cb8ee8f6" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>_legacy</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1adb237cbf6705fe926b4136a46e7c8723" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>_to_legacy</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ac1b06dbbdfb800bfbfa0ea5bf703f9d9" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>_validate_mapping</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a567487dc639ad260d978b71af27b1cc2" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>_validate_value</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a71e65b4813689ee26c8ac1b98d2ce4ab" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>add_requirements</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a53d86411c3e1982eda8fb61bf648f235" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>common_keys</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abf6cbb244fad75feddef718a94bcc2da" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>dependencies</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a19a426eacc32d3e13ed1e68885735047" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>dependencies</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aed6ef134508de0998c46f98b522fa638" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>DEPENDENCY_KEYS</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ada3464c8bfcd96470d33dc85db0b91cc" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>DEPENDENCY_KEYS</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7e77a825ed0ec17721f8ce998b4e677a" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>dictionary</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a9048ac334f900c6a9ab7efc28322c3d1" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>FIELDNAME_MATCHER</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a9232dd1108252565e7d6e489bee294a0" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>GENERATOR</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a8f71000d5a93b0d2b6ec778972a00a5d" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>GENERATOR</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a01c2edf694d4c064835e750d0b6a209e" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>get_requirements</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a13bd206c7d21bcd2135ba3e41b719092" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>INDEX_KEYS</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a1c8938de1d8381515ae5aa0fa4a266d3" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>LEGACY_MAPPING</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1afffbcc2ca26ba5c0ba91d6c129420e64" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>MANDATORY_KEYS</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa1f0e011ebf427be74a063699cf90068" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>mapped_keys</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7587deb2821f77b6d4c9a8ce2652614c" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>METADATA_VERSION</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ac918cef5aff12d3c72c79f40f1c248fd" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>METADATA_VERSION</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7ddf593b5931a0fd244794058cae0141" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>metadata_version</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aea1f900a68695db926bb5d013d911edd" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>METADATA_VERSION_MATCHER</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1acd68ae4f44152a738702d99582fdc613" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>name</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a6dfef26b297ccac151b1cfa2502c5b4f" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>name_and_version</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a6284812143d9ece9100f8095b32073b3" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>NAME_MATCHER</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a7b17d7cf1e12984dc13b39e22e8c80ea" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>none_dict</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1abb1788df9c391f1e83b2810fa0ce3b60" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>none_list</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ae53753d7d2db182469e417659e3d3d2f" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>provides</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ac7faa425d0663b6e592ff83de0be94db" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>provides</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1ad7c506d0aff98490bb2f43d675be68af" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>scheme</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a41293cb0ee2878b67956a9c0966a62e8" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>SUMMARY_MATCHER</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a6d6495659ee4c13ae34a1ce1e3a41345" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>SYNTAX_VALIDATORS</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a45b1bbf2cd17fe42b4a978fd6fd78228" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>todict</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a3f2e0ed13ab9032dc1edf405e0d3775f" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>validate</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1aa7d5766ad7a99d5001d3fe7f7d265581" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>version</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a5e39884a418be2d8684ebf2b8ec1ba0e" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>VERSION_MATCHER</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1metadata_1_1Metadata_1a1a2c54572ca133a21190923864249820" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::metadata::Metadata</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

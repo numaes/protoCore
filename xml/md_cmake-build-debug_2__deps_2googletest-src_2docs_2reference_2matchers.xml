@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers" kind="page">
+    <compoundname>md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers</compoundname>
+    <title>Matchers Reference</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md663"/> A <bold>matcher</bold> matches a <emphasis>single</emphasis> argument. You can use it inside <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a5b12ae6cf84f0a544ca811b380c37334" kindref="member">ON_CALL()</ref></computeroutput> or <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput>, or use it to validate a value directly using two macros:</para>
+<para><table rows="3" cols="2"><row>
+<entry thead="yes" align='left'><para>Macro   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-matchers_8h_1ac31e206123aa702e1152bb2735b31409" kindref="member">EXPECT_THAT(actual_value, matcher)</ref></computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Asserts that <computeroutput>actual_value</computeroutput> matches <computeroutput>matcher</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-matchers_8h_1a41d888579850c16583baea33ee8d057e" kindref="member">ASSERT_THAT(actual_value, matcher)</ref></computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-matchers_8h_1ac31e206123aa702e1152bb2735b31409" kindref="member">EXPECT_THAT(actual_value, matcher)</ref></computeroutput>, except that it generates a <bold>fatal</bold> failure.   </para>
+</entry></row>
+</table>
+</para>
+<para>{: .callout .warning} <bold>WARNING:</bold> Equality matching via <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-matchers_8h_1ac31e206123aa702e1152bb2735b31409" kindref="member">EXPECT_THAT(actual_value, expected_value)</ref></computeroutput> is supported, however note that implicit conversions can cause surprising results. For example, <computeroutput>EXPECT_THAT(some_bool, &quot;some string&quot;)</computeroutput> will compile and may pass unintentionally.</para>
+<para><bold>BEST PRACTICE:</bold> Prefer to make the comparison explicit via <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-matchers_8h_1ac31e206123aa702e1152bb2735b31409" kindref="member">EXPECT_THAT(actual_value, Eq(expected_value))</ref></computeroutput> or <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a4159019abda84f5366acdb7604ff220a" kindref="member">EXPECT_EQ(actual_value,
+expected_value)</ref></computeroutput>.</para>
+<para>Built-in matchers (where <computeroutput>argument</computeroutput> is the function argument, e.g. <computeroutput>actual_value</computeroutput> in the example above, or when used in the context of <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL(mock_object, method(matchers))</ref></computeroutput>, the arguments of <computeroutput>method</computeroutput>) are divided into several categories. All matchers are defined in the <computeroutput><ref refid="namespacetesting" kindref="compound">testing</ref></computeroutput> namespace unless otherwise noted.</para>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md664">
+<title>Wildcard</title>
+<para><table rows="3" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>_</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> can be any value of the correct type.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>A&lt;type&gt;()</computeroutput> or <computeroutput>An&lt;type&gt;()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> can be any value of type <computeroutput>type</computeroutput>.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md665">
+<title>Generic Comparison</title>
+<para><table rows="15" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Eq(value)</computeroutput> or <computeroutput>value</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument == value</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Ge(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument &gt;= value</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Gt(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument &gt; value</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Le(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument &lt;= value</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Lt(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument &lt; value</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Ne(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument != value</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IsFalse()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> evaluates to <computeroutput>false</computeroutput> in a Boolean context.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IsTrue()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> evaluates to <computeroutput>true</computeroutput> in a Boolean context.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IsNull()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>NULL</computeroutput> pointer (raw or smart).    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>NotNull()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a non-null pointer (raw or smart).    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Optional(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is <computeroutput>optional&lt;&gt;</computeroutput> that contains a value matching <computeroutput>m</computeroutput>. (For testing whether an <computeroutput>optional&lt;&gt;</computeroutput> is set, check for equality with <computeroutput>nullopt</computeroutput>. You may need to use <computeroutput>Eq(nullopt)</computeroutput> if the inner type doesn&apos;t have <computeroutput>==</computeroutput>.)    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>VariantWith&lt;T&gt;(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is <computeroutput>variant&lt;&gt;</computeroutput> that holds the alternative of type T with a value matching <computeroutput>m</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Ref(variable)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a reference to <computeroutput>variable</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>TypedEq&lt;type&gt;(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> has type <computeroutput>type</computeroutput> and is equal to <computeroutput>value</computeroutput>. You may need to use this instead of <computeroutput>Eq(value)</computeroutput> when the mock function is overloaded.   </para>
+</entry></row>
+</table>
+</para>
+<para>Except <computeroutput>Ref()</computeroutput>, these matchers make a <emphasis>copy</emphasis> of <computeroutput>value</computeroutput> in case it&apos;s modified or destructed later. If the compiler complains that <computeroutput>value</computeroutput> doesn&apos;t have a public copy constructor, try wrap it in <computeroutput>std::ref()</computeroutput>, e.g. <computeroutput>Eq(std::ref(non_copyable_value))</computeroutput>. If you do that, make sure <computeroutput>non_copyable_value</computeroutput> is not changed afterwards, or the meaning of your matcher will be changed.</para>
+<para><computeroutput>IsTrue</computeroutput> and <computeroutput>IsFalse</computeroutput> are useful when you need to use a matcher, or for types that can be explicitly converted to Boolean, but are not implicitly converted to Boolean. In other cases, you can use the basic <ulink url="assertions.md#boolean"><computeroutput>EXPECT_TRUE</computeroutput> and <computeroutput>EXPECT_FALSE</computeroutput></ulink> assertions.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1FpMatchers">
+<title>Floating-Point Matchers</title>
+<para><table rows="6" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>DoubleEq(a_double)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>double</computeroutput> value approximately equal to <computeroutput>a_double</computeroutput>, treating two NaNs as unequal.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>FloatEq(a_float)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>float</computeroutput> value approximately equal to <computeroutput>a_float</computeroutput>, treating two NaNs as unequal.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>NanSensitiveDoubleEq(a_double)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>double</computeroutput> value approximately equal to <computeroutput>a_double</computeroutput>, treating two NaNs as equal.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>NanSensitiveFloatEq(a_float)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>float</computeroutput> value approximately equal to <computeroutput>a_float</computeroutput>, treating two NaNs as equal.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IsNan()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is any floating-point type with a NaN value.   </para>
+</entry></row>
+</table>
+</para>
+<para>The above matchers use ULP-based comparison (the same as used in googletest). They automatically pick a reasonable error bound based on the absolute value of the expected value. <computeroutput>DoubleEq()</computeroutput> and <computeroutput>FloatEq()</computeroutput> conform to the IEEE standard, which requires comparing two NaNs for equality to return false. The <computeroutput>NanSensitive*</computeroutput> version instead treats two NaNs as equal, which is often what a user wants.</para>
+<para><table rows="5" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>DoubleNear(a_double, max_abs_error)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>double</computeroutput> value close to <computeroutput>a_double</computeroutput> (absolute error &lt;= <computeroutput>max_abs_error</computeroutput>), treating two NaNs as unequal.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>FloatNear(a_float, max_abs_error)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>float</computeroutput> value close to <computeroutput>a_float</computeroutput> (absolute error &lt;= <computeroutput>max_abs_error</computeroutput>), treating two NaNs as unequal.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>NanSensitiveDoubleNear(a_double, max_abs_error)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>double</computeroutput> value close to <computeroutput>a_double</computeroutput> (absolute error &lt;= <computeroutput>max_abs_error</computeroutput>), treating two NaNs as equal.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>NanSensitiveFloatNear(a_float, max_abs_error)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a <computeroutput>float</computeroutput> value close to <computeroutput>a_float</computeroutput> (absolute error &lt;= <computeroutput>max_abs_error</computeroutput>), treating two NaNs as equal.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md666">
+<title>String Matchers</title>
+<para>The <computeroutput>argument</computeroutput> can be either a C string or a C++ string object:</para>
+<para><table rows="12" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ContainsRegex(string)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> matches the given regular expression.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>EndsWith(suffix)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> ends with string <computeroutput>suffix</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>HasSubstr(string)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> contains <computeroutput>string</computeroutput> as a sub-string.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IsEmpty()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is an empty string.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>MatchesRegex(string)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> matches the given regular expression with the match starting at the first character and ending at the last character.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>StartsWith(prefix)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> starts with string <computeroutput>prefix</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>StrCaseEq(string)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is equal to <computeroutput>string</computeroutput>, ignoring case.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>StrCaseNe(string)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is not equal to <computeroutput>string</computeroutput>, ignoring case.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>StrEq(string)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is equal to <computeroutput>string</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>StrNe(string)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is not equal to <computeroutput>string</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>WhenBase64Unescaped(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a base-64 escaped string whose unescaped string matches <computeroutput>m</computeroutput>. The web-safe format from <ulink url="https://www.rfc-editor.org/rfc/rfc4648#section-5">RFC 4648</ulink> is supported.   </para>
+</entry></row>
+</table>
+</para>
+<para><computeroutput>ContainsRegex()</computeroutput> and <computeroutput>MatchesRegex()</computeroutput> take ownership of the <computeroutput>RE</computeroutput> object. They use the regular expression syntax defined <ulink url="../advanced.md#regular-expression-syntax">here</ulink>. All of these matchers, except <computeroutput>ContainsRegex()</computeroutput> and <computeroutput>MatchesRegex()</computeroutput> work for wide strings as well.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md667">
+<title>Container Matchers</title>
+<para>Most STL-style containers support <computeroutput>==</computeroutput>, so you can use <computeroutput>Eq(expected_container)</computeroutput> or simply <computeroutput>expected_container</computeroutput> to match a container exactly. If you want to write the elements in-line, match them more flexibly, or get more informative messages, you can use:</para>
+<para><table rows="18" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>BeginEndDistanceIs(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a container whose <computeroutput>begin()</computeroutput> and <computeroutput>end()</computeroutput> iterators are separated by a number of increments matching <computeroutput>m</computeroutput>. E.g. <computeroutput>BeginEndDistanceIs(2)</computeroutput> or <computeroutput>BeginEndDistanceIs(Lt(2))</computeroutput>. For containers that define a <computeroutput>size()</computeroutput> method, <computeroutput>SizeIs(m)</computeroutput> may be more efficient.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ContainerEq(container)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as <computeroutput>Eq(container)</computeroutput> except that the failure message also includes which elements are in one container but not the other.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Contains(e)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> contains an element that matches <computeroutput>e</computeroutput>, which can be either a value or a matcher.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Contains(e).Times(n)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> contains elements that match <computeroutput>e</computeroutput>, which can be either a value or a matcher, and the number of matches is <computeroutput>n</computeroutput>, which can be either a value or a matcher. Unlike the plain <computeroutput>Contains</computeroutput> and <computeroutput>Each</computeroutput> this allows to check for arbitrary occurrences including testing for absence with <computeroutput>Contains(e).Times(0)</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Each(e)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a container where <emphasis>every</emphasis> element matches <computeroutput>e</computeroutput>, which can be either a value or a matcher.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ElementsAre(e0, e1, ..., en)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> has <computeroutput>n + 1</computeroutput> elements, where the <emphasis>i</emphasis>-th element matches <computeroutput>ei</computeroutput>, which can be a value or a matcher.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ElementsAreArray({e0, e1, ..., en})</computeroutput>, <computeroutput>ElementsAreArray(a_container)</computeroutput>, <computeroutput>ElementsAreArray(begin, end)</computeroutput>, <computeroutput>ElementsAreArray(array)</computeroutput>, or <computeroutput>ElementsAreArray(array, count)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as <computeroutput>ElementsAre()</computeroutput> except that the expected element values/matchers come from an initializer list, STL-style container, iterator range, or C-style array.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IsEmpty()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is an empty container (<computeroutput>container.empty()</computeroutput>).    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IsSubsetOf({e0, e1, ..., en})</computeroutput>, <computeroutput>IsSubsetOf(a_container)</computeroutput>, <computeroutput>IsSubsetOf(begin, end)</computeroutput>, <computeroutput>IsSubsetOf(array)</computeroutput>, or <computeroutput>IsSubsetOf(array, count)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> matches <computeroutput>UnorderedElementsAre(x0, x1, ..., xk)</computeroutput> for some subset <computeroutput>{x0, x1, ..., xk}</computeroutput> of the expected matchers.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>IsSupersetOf({e0, e1, ..., en})</computeroutput>, <computeroutput>IsSupersetOf(a_container)</computeroutput>, <computeroutput>IsSupersetOf(begin, end)</computeroutput>, <computeroutput>IsSupersetOf(array)</computeroutput>, or <computeroutput>IsSupersetOf(array, count)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Some subset of <computeroutput>argument</computeroutput> matches <computeroutput>UnorderedElementsAre(</computeroutput>expected matchers<computeroutput>)</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Pointwise(m, container)</computeroutput>, <computeroutput>Pointwise(m, {e0, e1, ..., en})</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> contains the same number of elements as in <computeroutput>container</computeroutput>, and for all i, (the i-th element in <computeroutput>argument</computeroutput>, the i-th element in <computeroutput>container</computeroutput>) match <computeroutput>m</computeroutput>, which is a matcher on 2-tuples. E.g. <computeroutput>Pointwise(Le(), upper_bounds)</computeroutput> verifies that each element in <computeroutput>argument</computeroutput> doesn&apos;t exceed the corresponding element in <computeroutput>upper_bounds</computeroutput>. See more detail below.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SizeIs(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a container whose size matches <computeroutput>m</computeroutput>. E.g. <computeroutput>SizeIs(2)</computeroutput> or <computeroutput>SizeIs(Lt(2))</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>UnorderedElementsAre(e0, e1, ..., en)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> has <computeroutput>n + 1</computeroutput> elements, and under <emphasis>some</emphasis> permutation of the elements, each element matches an <computeroutput>ei</computeroutput> (for a different <computeroutput>i</computeroutput>), which can be a value or a matcher.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>UnorderedElementsAreArray({e0, e1, ..., en})</computeroutput>, <computeroutput>UnorderedElementsAreArray(a_container)</computeroutput>, <computeroutput>UnorderedElementsAreArray(begin, end)</computeroutput>, <computeroutput>UnorderedElementsAreArray(array)</computeroutput>, or <computeroutput>UnorderedElementsAreArray(array, count)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as <computeroutput>UnorderedElementsAre()</computeroutput> except that the expected element values/matchers come from an initializer list, STL-style container, iterator range, or C-style array.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>UnorderedPointwise(m, container)</computeroutput>, <computeroutput>UnorderedPointwise(m, {e0, e1, ..., en})</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Like <computeroutput>Pointwise(m, container)</computeroutput>, but ignores the order of elements.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>WhenSorted(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>When <computeroutput>argument</computeroutput> is sorted using the <computeroutput>&lt;</computeroutput> operator, it matches container matcher <computeroutput>m</computeroutput>. E.g. <computeroutput>WhenSorted(ElementsAre(1, 2, 3))</computeroutput> verifies that <computeroutput>argument</computeroutput> contains elements 1, 2, and 3, ignoring order.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>WhenSortedBy(comparator, m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as <computeroutput>WhenSorted(m)</computeroutput>, except that the given comparator instead of <computeroutput>&lt;</computeroutput> is used to sort <computeroutput>argument</computeroutput>. E.g. <computeroutput>WhenSortedBy(std::greater(), ElementsAre(3, 2, 1))</computeroutput>.   </para>
+</entry></row>
+</table>
+</para>
+<para><bold>Notes:</bold></para>
+<para><itemizedlist>
+<listitem><para>These matchers can also match:<orderedlist>
+<listitem><para>a native array passed by reference (e.g. in <computeroutput>Foo(const int (&amp;a)[5])</computeroutput>), and</para>
+</listitem><listitem><para>an array passed as a pointer and a count (e.g. in <computeroutput>Bar(const T* buffer,
+        int len)</computeroutput> <ndash/> see <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1MultiArgMatchers" kindref="member">Multi-argument Matchers</ref>).</para>
+</listitem></orderedlist>
+</para>
+</listitem><listitem><para>The array being matched may be multi-dimensional (i.e. its elements can be arrays).</para>
+</listitem><listitem><para><computeroutput>m</computeroutput> in <computeroutput>Pointwise(m, ...)</computeroutput> and <computeroutput>UnorderedPointwise(m, ...)</computeroutput> should be a matcher for <computeroutput>::std::tuple&lt;T, U&gt;</computeroutput> where <computeroutput>T</computeroutput> and <computeroutput>U</computeroutput> are the element type of the actual container and the expected container, respectively. For example, to compare two <computeroutput>Foo</computeroutput> containers where <computeroutput>Foo</computeroutput> doesn&apos;t support <computeroutput>operator==</computeroutput>, one might write:</para>
+<para><computeroutput>cpp MATCHER(FooEq, &quot;&quot;) { return std::get&lt;0&gt;(arg).Equals(std::get&lt;1&gt;(arg)); } ... EXPECT_THAT(actual_foos, Pointwise(FooEq(), expected_foos)); </computeroutput></para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md668">
+<title>Member Matchers</title>
+<para><table rows="8" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Field(&amp;class::field, m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument.field</computeroutput> (or <computeroutput>argument-&gt;field</computeroutput> when <computeroutput>argument</computeroutput> is a plain pointer) matches matcher <computeroutput>m</computeroutput>, where <computeroutput>argument</computeroutput> is an object of type <emphasis>class</emphasis>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Field(field_name, &amp;class::field, m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as the two-parameter version, but provides a better error message.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Key(e)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument.first</computeroutput> matches <computeroutput>e</computeroutput>, which can be either a value or a matcher. E.g. <computeroutput>Contains(Key(Le(5)))</computeroutput> can verify that a <computeroutput>map</computeroutput> contains a key <computeroutput>&lt;= 5</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Pair(m1, m2)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is an <computeroutput>std::pair</computeroutput> whose <computeroutput>first</computeroutput> field matches <computeroutput>m1</computeroutput> and <computeroutput>second</computeroutput> field matches <computeroutput>m2</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>FieldsAre(m...)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> is a compatible object where each field matches piecewise with the matchers <computeroutput>m...</computeroutput>. A compatible object is any that supports the <computeroutput>std::tuple_size&lt;Obj&gt;</computeroutput>+<computeroutput>get&lt;I&gt;(obj)</computeroutput> protocol. In C++17 and up this also supports types compatible with structured bindings, like aggregates.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Property(&amp;class::property, m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument.property()</computeroutput> (or <computeroutput>argument-&gt;property()</computeroutput> when <computeroutput>argument</computeroutput> is a plain pointer) matches matcher <computeroutput>m</computeroutput>, where <computeroutput>argument</computeroutput> is an object of type <emphasis>class</emphasis>. The method <computeroutput>property()</computeroutput> must take no argument and be declared as <computeroutput>const</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Property(property_name, &amp;class::property, m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as the two-parameter version, but provides a better error message.   </para>
+</entry></row>
+</table>
+</para>
+<para><bold>Notes:</bold></para>
+<para><itemizedlist>
+<listitem><para>You can use <computeroutput>FieldsAre()</computeroutput> to match any type that supports structured bindings, such as <computeroutput>std::tuple</computeroutput>, <computeroutput>std::pair</computeroutput>, <computeroutput>std::array</computeroutput>, and aggregate types. For example:</para>
+<para>```cpp std::tuple&lt;int, std::string&gt; my_tuple{7, &quot;hello world&quot;}; EXPECT_THAT(my_tuple, FieldsAre(Ge(0), HasSubstr(&quot;hello&quot;)));</para>
+<para>struct MyStruct { int value = 42; std::string greeting = &quot;aloha&quot;; }; MyStruct s; EXPECT_THAT(s, FieldsAre(42, &quot;aloha&quot;)); ```</para>
+</listitem><listitem><para>Don&apos;t use <computeroutput>Property()</computeroutput> against member functions that you do not own, because taking addresses of functions is fragile and generally not part of the contract of the function.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md669">
+<title>Matching the Result of a Function, Functor, or Callback</title>
+<para><table rows="3" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ResultOf(f, m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>f(argument)</computeroutput> matches matcher <computeroutput>m</computeroutput>, where <computeroutput>f</computeroutput> is a function or functor.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ResultOf(result_description, f, m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as the two-parameter version, but provides a better error message.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md670">
+<title>Pointer Matchers</title>
+<para><table rows="5" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Address(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>the result of <computeroutput>std::addressof(argument)</computeroutput> matches <computeroutput>m</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Pointee(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> (either a smart pointer or a raw pointer) points to a value that matches matcher <computeroutput>m</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Pointer(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> (either a smart pointer or a raw pointer) contains a pointer that matches <computeroutput>m</computeroutput>. <computeroutput>m</computeroutput> will match against the raw pointer regardless of the type of <computeroutput>argument</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>WhenDynamicCastTo&lt;T&gt;(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>when <computeroutput>argument</computeroutput> is passed through <computeroutput>dynamic_cast&lt;T&gt;()</computeroutput>, it matches matcher <computeroutput>m</computeroutput>.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1MultiArgMatchers">
+<title>Multi-argument Matchers</title>
+<para>Technically, all matchers match a <emphasis>single</emphasis> value. A &quot;multi-argument&quot; matcher is just one that matches a <emphasis>tuple</emphasis>. The following matchers can be used to match a tuple <computeroutput>(x, y)</computeroutput>:</para>
+<para><table rows="7" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Eq()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>x == y</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Ge()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>x &gt;= y</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Gt()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>x &gt; y</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Le()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>x &lt;= y</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Lt()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>x &lt; y</computeroutput>    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Ne()</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>x != y</computeroutput>   </para>
+</entry></row>
+</table>
+</para>
+<para>You can use the following selectors to pick a subset of the arguments (or reorder them) to participate in the matching:</para>
+<para><table rows="3" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>AllArgs(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Equivalent to <computeroutput>m</computeroutput>. Useful as syntactic sugar in <computeroutput>.With(AllArgs(m))</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Args&lt;N1, N2, ..., Nk&gt;(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The tuple of the <computeroutput>k</computeroutput> selected (using 0-based indices) arguments matches <computeroutput>m</computeroutput>, e.g. <computeroutput>Args&lt;1, 2&gt;(Eq())</computeroutput>.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md671">
+<title>Composite Matchers</title>
+<para>You can make a matcher from one or more other matchers:</para>
+<para><table rows="7" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>AllOf(m1, m2, ..., mn)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> matches all of the matchers <computeroutput>m1</computeroutput> to <computeroutput>mn</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>AllOfArray({m0, m1, ..., mn})</computeroutput>, <computeroutput>AllOfArray(a_container)</computeroutput>, <computeroutput>AllOfArray(begin, end)</computeroutput>, <computeroutput>AllOfArray(array)</computeroutput>, or <computeroutput>AllOfArray(array, count)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as <computeroutput>AllOf()</computeroutput> except that the matchers come from an initializer list, STL-style container, iterator range, or C-style array.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>AnyOf(m1, m2, ..., mn)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> matches at least one of the matchers <computeroutput>m1</computeroutput> to <computeroutput>mn</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>AnyOfArray({m0, m1, ..., mn})</computeroutput>, <computeroutput>AnyOfArray(a_container)</computeroutput>, <computeroutput>AnyOfArray(begin, end)</computeroutput>, <computeroutput>AnyOfArray(array)</computeroutput>, or <computeroutput>AnyOfArray(array, count)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>The same as <computeroutput>AnyOf()</computeroutput> except that the matchers come from an initializer list, STL-style container, iterator range, or C-style array.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Not(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>argument</computeroutput> doesn&apos;t match matcher <computeroutput>m</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Conditional(cond, m1, m2)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Matches matcher <computeroutput>m1</computeroutput> if <computeroutput>cond</computeroutput> evaluates to true, else matches <computeroutput>m2</computeroutput>.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md672">
+<title>Adapters for Matchers</title>
+<para><table rows="4" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>MatcherCast&lt;T&gt;(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>casts matcher <computeroutput>m</computeroutput> to type <computeroutput>Matcher&lt;T&gt;</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>SafeMatcherCast&lt;T&gt;(m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><ulink url="../gmock_cook_book.md#SafeMatcherCast">safely casts</ulink> matcher <computeroutput>m</computeroutput> to type <computeroutput>Matcher&lt;T&gt;</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Truly(predicate)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para><computeroutput>predicate(argument)</computeroutput> returns something considered by C++ to be true, where <computeroutput>predicate</computeroutput> is a function or functor.   </para>
+</entry></row>
+</table>
+</para>
+<para><computeroutput>AddressSatisfies(callback)</computeroutput> and <computeroutput>Truly(callback)</computeroutput> take ownership of <computeroutput>callback</computeroutput>, which must be a permanent callback.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1MatchersAsPredicatesCheat">
+<title>Using Matchers as Predicates</title>
+<para><table rows="4" cols="2"><row>
+<entry thead="yes" align='left'><para>Matcher   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Matches(m)(value)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>evaluates to <computeroutput>true</computeroutput> if <computeroutput>value</computeroutput> matches <computeroutput>m</computeroutput>. You can use <computeroutput>Matches(m)</computeroutput> alone as a unary functor.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>ExplainMatchResult(m, value, result_listener)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>evaluates to <computeroutput>true</computeroutput> if <computeroutput>value</computeroutput> matches <computeroutput>m</computeroutput>, explaining the result to <computeroutput>result_listener</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>Value(value, m)</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>evaluates to <computeroutput>true</computeroutput> if <computeroutput>value</computeroutput> matches <computeroutput>m</computeroutput>.   </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2matchers_1autotoc_md673">
+<title>Defining Matchers</title>
+<para><table rows="4" cols="2"><row>
+<entry thead="yes" align='left'><para>Macro   </para>
+</entry><entry thead="yes" align='left'><para>Description    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>MATCHER(IsEven, &quot;&quot;) { return (arg % 2) == 0; }</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Defines a matcher <computeroutput>IsEven()</computeroutput> to match an even number.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>MATCHER_P(IsDivisibleBy, n, &quot;&quot;) { *result_listener &lt;&lt; &quot;where the remainder is &quot; &lt;&lt; (arg % n); return (arg % n) == 0; }</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Defines a matcher <computeroutput>IsDivisibleBy(n)</computeroutput> to match a number divisible by <computeroutput>n</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no" align='left'><para><computeroutput>MATCHER_P2(IsBetween, a, b, absl::StrCat(negation ? &quot;isn&apos;t&quot; : &quot;is&quot;, &quot; between &quot;, PrintToString(a), &quot; and &quot;, PrintToString(b))) { return a &lt;= arg &amp;&amp; arg &lt;= b; }</computeroutput>   </para>
+</entry><entry thead="no" align='left'><para>Defines a matcher <computeroutput>IsBetween(a, b)</computeroutput> to match a value in the range [<computeroutput>a</computeroutput>, <computeroutput>b</computeroutput>].   </para>
+</entry></row>
+</table>
+</para>
+<para><bold>Notes:</bold></para>
+<para><orderedlist>
+<listitem><para>The <computeroutput>MATCHER*</computeroutput> macros cannot be used inside a function or class.</para>
+</listitem><listitem><para>The matcher body must be <emphasis>purely functional</emphasis> (i.e. it cannot have any side effect, and the result must not depend on anything other than the value being matched and the matcher parameters).</para>
+</listitem><listitem><para>You can use <computeroutput>PrintToString(x)</computeroutput> to convert a value <computeroutput>x</computeroutput> of any type to a string.</para>
+</listitem><listitem><para>You can use <computeroutput>ExplainMatchResult()</computeroutput> in a custom matcher to wrap another matcher, for example:</para>
+<para><computeroutput>cpp MATCHER_P(NestedPropertyMatches, matcher, &quot;&quot;) { return ExplainMatchResult(matcher, arg.nested().property(), result_listener); } </computeroutput></para>
+</listitem><listitem><para>You can use <computeroutput>DescribeMatcher&lt;&gt;</computeroutput> to describe another matcher. For example:</para>
+<para><computeroutput>cpp MATCHER_P(XAndYThat, matcher, &quot;X that &quot; + DescribeMatcher&lt;int&gt;(matcher, negation) + (negation ? &quot; or&quot; : &quot; and&quot;) + &quot; Y that &quot; + DescribeMatcher&lt;double&gt;(matcher, negation)) { return ExplainMatchResult(matcher, arg.x(), result_listener) &amp;&amp; ExplainMatchResult(matcher, arg.y(), result_listener); } </computeroutput> </para>
+</listitem></orderedlist>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="cmake-build-debug/_deps/googletest-src/docs/reference/matchers.md"/>
+  </compounddef>
+</doxygen>

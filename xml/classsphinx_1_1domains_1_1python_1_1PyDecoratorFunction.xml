@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::domains::python::PyDecoratorFunction</compoundname>
+    <basecompoundref refid="classsphinx_1_1domains_1_1python_1_1PyFunction" prot="public" virt="non-virtual">sphinx.domains.python.PyFunction</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction_1a8e74bb1fe1386ea54a61a1c77604d52d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.domains.python.PyDecoratorFunction::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sphinx.domains.python.PyDecoratorFunction.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="129" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction_1a7b1bc699be1c7e19eda5176fdcc029b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]</type>
+        <definition> list[Node] sphinx.domains.python.PyDecoratorFunction.run</definition>
+        <argsstring>(self)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.domains.python.PyDecoratorFunction.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1a9da203b41d230c48639d1ed70ed33457">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main directive entry function, called by docutils upon encountering the
+directive.
+
+This directive is meant to be quite easily subclassable, so it delegates
+to several additional methods.  What it does:
+
+* find out if called as a domain-specific directive, set self.domain
+* create a `desc` node to fit all description inside
+* parse standard options, currently `no-index`
+* create an index node if needed as self.indexnode
+* parse all given signatures (as returned by self.get_signatures())
+  using self.handle_signature(), which should either return a name
+  or raise ValueError
+* add index entries using self.add_target_and_index()
+* parse the content and handle doc fields in it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="127" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="127" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction_1af2c854c7b6a19660d3dab81869425e4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str]</type>
+        <definition> tuple[str, str] sphinx.domains.python.PyDecoratorFunction.handle_signature</definition>
+        <argsstring>(self, str sig, desc_signature signode)</argsstring>
+        <name>handle_signature</name>
+        <qualifiedname>sphinx.domains.python.PyDecoratorFunction.handle_signature</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject_1aa1fc19eaf21256e13ca625545ec19e87">handle_signature</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>signode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Transform a Python signature into RST nodes.
+
+Return (fully qualified name of the thing, classname if any).
+
+If inside a class, the current class name is handled intelligently:
+* it is stripped from the displayed name if present
+* it is added to the full name (return value) if not present
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="132" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="132" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction_1a02e0d11c851dfa99e37e6ca829663373" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.domains.python.PyDecoratorFunction.needs_arglist</definition>
+        <argsstring>(self)</argsstring>
+        <name>needs_arglist</name>
+        <qualifiedname>sphinx.domains.python.PyDecoratorFunction.needs_arglist</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1python_1_1PyFunction_1a40eda9b763aec3734fbb8aa71be46abc">needs_arglist</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>May return true if an empty argument list is to be generated even if
+the document contains none.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="137" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Description of a decorator.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="8">
+        <label>ObjDescT</label>
+      </node>
+      <node id="10">
+        <label>str</label>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.python.PyDecoratorFunction</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.python.PyFunction</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyFunction"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.domains.python._object.PyObject</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>tuple</label>
+      </node>
+      <node id="7">
+        <label>Generic</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>ObjDescT</label>
+      </node>
+      <node id="10">
+        <label>str</label>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.python.PyDecoratorFunction</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>addnodes</label>
+      </node>
+      <node id="4">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>doc_field_types</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>domain</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>indexnode</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.python.PyFunction</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyFunction"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="13" relation="usage">
+          <edgelabel>option_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.domains.python._object.PyObject</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>doc_field_types</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>list</label>
+      </node>
+      <node id="12">
+        <label>tuple</label>
+      </node>
+      <node id="13">
+        <label>ClassVar</label>
+      </node>
+      <node id="7">
+        <label>Generic</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="124" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="124" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction_1af2c854c7b6a19660d3dab81869425e4c" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyDecoratorFunction</scope><name>handle_signature</name></member>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction_1a8e74bb1fe1386ea54a61a1c77604d52d" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyDecoratorFunction</scope><name>name</name></member>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction_1a02e0d11c851dfa99e37e6ca829663373" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyDecoratorFunction</scope><name>needs_arglist</name></member>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction_1a7b1bc699be1c7e19eda5176fdcc029b5" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyDecoratorFunction</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

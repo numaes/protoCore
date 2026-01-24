@@ -1,0 +1,668 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory" kind="class" language="Python" prot="public">
+    <compoundname>breathe::renderer::filter::FilterFactory</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1aae1da46778d6a9a7ab51eec0515ca569" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict breathe.renderer.filter.FilterFactory::public_kinds</definition>
+        <argsstring></argsstring>
+        <name>public_kinds</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.public_kinds</qualifiedname>
+        <initializer>=  {
+        &quot;public-type&quot;,
+        &quot;public-func&quot;,
+        &quot;public-attrib&quot;,
+        &quot;public-slot&quot;,
+        &quot;public-static-func&quot;,
+        &quot;public-static-attrib&quot;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="578" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="578" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1af9b4a2e23eae563d306006b0a638dc0b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>breathe.renderer.filter.FilterFactory::app</definition>
+        <argsstring></argsstring>
+        <name>app</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.app</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="588" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="588" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a14c29002ef26444a57b8da35cfb53e5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None breathe.renderer.filter.FilterFactory.__init__</definition>
+        <argsstring>(self, Sphinx app)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="587" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="587" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a3d1111cebf4bca898798b937b3b61553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_render_filter</definition>
+        <argsstring>(self, str kind, dict[str, Any] options)</argsstring>
+        <name>create_render_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_render_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Render filter for group &amp; namespace blocks</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="590" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="590" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ac33c9297672bac2c4fe53900ebb28e6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_class_filter</definition>
+        <argsstring>(self, str target, dict[str, Any] options)</argsstring>
+        <name>create_class_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_class_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Content filter for classes based on various directive options</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="629" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="629" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a4f35d3391009c56cd8f369bb05d49f66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_innerclass_filter</definition>
+        <argsstring>(self, dict[str, Any] options, str outerclass=&quot;&quot;)</argsstring>
+        <name>create_innerclass_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_innerclass_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>outerclass</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param outerclass: Should be the class/struct being target by the directive calling this
+                   code. If it is a group or namespace directive then it should be left
+                   blank. It is used when looking for names listed in the :members: option.
+
+                   The name should include any additional namespaces that the target class
+                   is in.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="645" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="645" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a10a5e7f9b6be08a2f0380edd40dd99cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_show_filter</definition>
+        <argsstring>(self, dict[str, Any] options)</argsstring>
+        <name>create_show_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_show_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Currently only handles the header-file entry</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="701" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="701" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a20d147556ef8bb5bd0b036a9f56223c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_class_member_filter</definition>
+        <argsstring>(self, dict[str, Any] options)</argsstring>
+        <name>create_class_member_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_class_member_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Content filter based on :members: and :private-members: classes</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="814" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="814" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ae7afa2de0232b9a136a0f833bfded4b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_outline_filter</definition>
+        <argsstring>(self, dict[str, Any] options)</argsstring>
+        <name>create_outline_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_outline_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="844" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="844" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1aea1a0b3776133b87f8b5a56cba302dfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_file_filter</definition>
+        <argsstring>(self, str filename, dict[str, Any] options)</argsstring>
+        <name>create_file_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_file_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="851" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="851" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a75fed6d32217b57d12083defbc1989b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_content_filter</definition>
+        <argsstring>(self, str kind, dict[str, Any] options)</argsstring>
+        <name>create_content_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_content_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a filter which matches the contents of the or namespace but not the group or
+namespace name or description.
+
+This allows the groups to be used to structure sections of the documentation rather than to
+structure and further document groups of documentation
+
+As a finder/content filter we only need to match exactly what we&apos;re interested in.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="935" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="935" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ab0b06e301125ba90be6dbed2bfb285da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_index_filter</definition>
+        <argsstring>(self, dict[str, Any] options)</argsstring>
+        <name>create_index_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_index_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="970" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="970" bodyend="990"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1abcc3d0988ea829e62515767cdb65a9a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_open_filter</definition>
+        <argsstring>(self)</argsstring>
+        <name>create_open_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_open_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a completely open filter which matches everything</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="991" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="991" bodyend="995"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ae15e6c2f72cd74d45cb773e924c0a2d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_id_filter</definition>
+        <argsstring>(self, str node_type, str refid)</argsstring>
+        <name>create_id_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_id_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>node_type</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>refid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="996" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="996" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ae21d27fa5e37f94dab6ec870f7aba184" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_file_finder_filter</definition>
+        <argsstring>(self, str filename)</argsstring>
+        <name>create_file_finder_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_file_finder_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="1000" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="1000" bodyend="1007"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a02554ea23115302f8b24daa6d4c50b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_member_finder_filter</definition>
+        <argsstring>(self, str namespace, str name, str kind)</argsstring>
+        <name>create_member_finder_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_member_finder_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>namespace</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>kind</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a filter which looks for a member with the specified name and kind.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="1008" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="1008" bodyend="1039"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a77e5dfb8696e359a7d237cef8fa1226c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_function_and_all_friend_finder_filter</definition>
+        <argsstring>(self, str namespace, str name)</argsstring>
+        <name>create_function_and_all_friend_finder_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_function_and_all_friend_finder_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>namespace</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="1040" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="1040" bodyend="1051"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1aa171d2568ab7bbab03332dfd3863b1f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_enumvalue_finder_filter</definition>
+        <argsstring>(self, str name)</argsstring>
+        <name>create_enumvalue_finder_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_enumvalue_finder_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a filter which looks for an enumvalue with the specified name.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="1052" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="1052" bodyend="1057"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a7d268f3ef387ce1c44559fba4f26a07d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_compound_finder_filter</definition>
+        <argsstring>(self, str name, str kind)</argsstring>
+        <name>create_compound_finder_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_compound_finder_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>kind</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a filter which looks for a compound with the specified name and kind.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="1058" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="1058" bodyend="1063"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ac768c8418e67113b70fc8f546959d7d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory.create_finder_filter</definition>
+        <argsstring>(self, str kind, str name)</argsstring>
+        <name>create_finder_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory.create_finder_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a filter which looks for the compound node from the index which is a group node
+(kind=group) and has the appropriate name
+
+The compound node should reference the group file which we can parse for the group
+contents.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="1064" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="1064" bodyend="1092"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a01f0246563e03768d4a72fae2da5d84c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory._create_description_filter</definition>
+        <argsstring>(self, bool allow, str level, dict[str, Any] options)</argsstring>
+        <name>_create_description_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory._create_description_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Whether or not we allow descriptions is determined by the calling function and we just do
+whatever the &apos;allow&apos; function parameter tells us.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="723" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="725" bodyend="743"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a13197cd2de0ebdaa11d62b65fab8ae2e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory._create_public_members_filter</definition>
+        <argsstring>(self, dict[str, Any] options)</argsstring>
+        <name>_create_public_members_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory._create_public_members_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="744" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="744" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1af6147bb15dd0e8e5f6822abb8f63d68c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory._create_non_public_members_filter</definition>
+        <argsstring>(self, str prot, str option_name, dict[str, Any] options)</argsstring>
+        <name>_create_non_public_members_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory._create_non_public_members_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>prot</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>option_name</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>&apos;prot&apos; is the doxygen xml term for &apos;public&apos;, &apos;protected&apos; and &apos;private&apos; categories.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="778" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="780" bodyend="798"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ac6f375971e5a89705f8642adac999955" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbreathe_1_1renderer_1_1filter_1_1Filter" kindref="compound">Filter</ref></type>
+        <definition> Filter breathe.renderer.filter.FilterFactory._create_undoc_members_filter</definition>
+        <argsstring>(self, dict[str, Any] options)</argsstring>
+        <name>_create_undoc_members_filter</name>
+        <qualifiedname>breathe.renderer.filter.FilterFactory._create_undoc_members_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="799" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="799" bodyend="813"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" line="576" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/breathe/renderer/filter.py" bodystart="576" bodyend="1092"/>
+    <listofallmembers>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a14c29002ef26444a57b8da35cfb53e5c" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>__init__</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a01f0246563e03768d4a72fae2da5d84c" prot="protected" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>_create_description_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1af6147bb15dd0e8e5f6822abb8f63d68c" prot="protected" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>_create_non_public_members_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a13197cd2de0ebdaa11d62b65fab8ae2e" prot="protected" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>_create_public_members_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ac6f375971e5a89705f8642adac999955" prot="protected" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>_create_undoc_members_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1af9b4a2e23eae563d306006b0a638dc0b" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>app</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ac33c9297672bac2c4fe53900ebb28e6b" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_class_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a20d147556ef8bb5bd0b036a9f56223c3" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_class_member_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a7d268f3ef387ce1c44559fba4f26a07d" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_compound_finder_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a75fed6d32217b57d12083defbc1989b8" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_content_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1aa171d2568ab7bbab03332dfd3863b1f7" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_enumvalue_finder_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1aea1a0b3776133b87f8b5a56cba302dfb" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_file_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ae21d27fa5e37f94dab6ec870f7aba184" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_file_finder_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ac768c8418e67113b70fc8f546959d7d6" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_finder_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a77e5dfb8696e359a7d237cef8fa1226c" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_function_and_all_friend_finder_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ae15e6c2f72cd74d45cb773e924c0a2d5" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_id_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ab0b06e301125ba90be6dbed2bfb285da" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_index_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a4f35d3391009c56cd8f369bb05d49f66" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_innerclass_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a02554ea23115302f8b24daa6d4c50b9c" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_member_finder_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1abcc3d0988ea829e62515767cdb65a9a1" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_open_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1ae7afa2de0232b9a136a0f833bfded4b0" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_outline_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a3d1111cebf4bca898798b937b3b61553" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_render_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1a10a5e7f9b6be08a2f0380edd40dd99cb" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>create_show_filter</name></member>
+      <member refid="classbreathe_1_1renderer_1_1filter_1_1FilterFactory_1aae1da46778d6a9a7ab51eec0515ca569" prot="public" virt="non-virtual"><scope>breathe::renderer::filter::FilterFactory</scope><name>public_kinds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

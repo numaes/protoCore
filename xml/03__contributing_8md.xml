@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="03__contributing_8md" kind="file" language="Markdown">
+    <compoundname>03_contributing.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Guide:<sp/>How<sp/>to<sp/>Contribute<sp/>to<sp/>Proto</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Introduction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Thank<sp/>you<sp/>for<sp/>your<sp/>interest<sp/>in<sp/>contributing<sp/>to<sp/>Proto!<sp/>We<sp/>welcome<sp/>contributions<sp/>from<sp/>everyone,<sp/>whether<sp/>you&apos;re<sp/>fixing<sp/>a<sp/>bug,<sp/>improving<sp/>documentation,<sp/>or<sp/>proposing<sp/>a<sp/>major<sp/>new<sp/>feature.<sp/>This<sp/>document<sp/>outlines<sp/>the<sp/>process<sp/>for<sp/>contributing<sp/>to<sp/>ensure<sp/>it&apos;s<sp/>as<sp/>smooth<sp/>as<sp/>possible<sp/>for<sp/>everyone<sp/>involved.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Getting<sp/>Started</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Before<sp/>you<sp/>start,<sp/>it&apos;s<sp/>a<sp/>good<sp/>idea<sp/>to<sp/>familiarize<sp/>yourself<sp/>with<sp/>the<sp/>project&apos;s<sp/>architecture.<sp/>The<sp/>**[Architecture<sp/>Deep<sp/>Dive<sp/>documents](../architecture/)**<sp/>are<sp/>the<sp/>best<sp/>place<sp/>to<sp/>start.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Make<sp/>sure<sp/>you<sp/>can<sp/>build<sp/>the<sp/>project<sp/>locally<sp/>by<sp/>following<sp/>the<sp/>**[Quick<sp/>Start<sp/>Guide](./01_quick_start.md)**.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>The<sp/>Contribution<sp/>Workflow</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">We<sp/>follow<sp/>a<sp/>standard<sp/>GitHub-based<sp/>workflow.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Fork<sp/>the<sp/>Repository:**<sp/>Start<sp/>by<sp/>forking<sp/>the<sp/>main<sp/>Proto<sp/>repository<sp/>to<sp/>your<sp/>own<sp/>GitHub<sp/>account.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Create<sp/>a<sp/>New<sp/>Branch:**<sp/>For<sp/>each<sp/>new<sp/>feature<sp/>or<sp/>bugfix,<sp/>create<sp/>a<sp/>descriptive<sp/>branch<sp/>in<sp/>your<sp/>fork.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```sh</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>#<sp/>Example<sp/>for<sp/>a<sp/>new<sp/>feature</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>git<sp/>checkout<sp/>-b<sp/>feature/add-new-widget</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>#<sp/>Example<sp/>for<sp/>a<sp/>bugfix</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>git<sp/>checkout<sp/>-b<sp/>fix/resolve-memory-leak</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**Make<sp/>Your<sp/>Changes:**<sp/>Write<sp/>your<sp/>code<sp/>or<sp/>documentation.<sp/>Please<sp/>adhere<sp/>to<sp/>the<sp/>following<sp/>guidelines.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>**Write<sp/>Tests:**<sp/>If<sp/>you<sp/>are<sp/>adding<sp/>a<sp/>new<sp/>feature<sp/>or<sp/>fixing<sp/>a<sp/>bug,<sp/>please<sp/>add<sp/>a<sp/>corresponding<sp/>test<sp/>case<sp/>to<sp/>the<sp/>test<sp/>suite<sp/>to<sp/>verify<sp/>its<sp/>correctness.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">5.<sp/><sp/>**Ensure<sp/>Tests<sp/>Pass:**<sp/>Run<sp/>the<sp/>full<sp/>test<sp/>suite<sp/>locally<sp/>to<sp/>ensure<sp/>your<sp/>changes<sp/>haven&apos;t<sp/>introduced<sp/>any<sp/>regressions.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```sh</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>#<sp/>From<sp/>the<sp/>build<sp/>directory</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>make<sp/>test</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">6.<sp/><sp/>**Commit<sp/>Your<sp/>Work:**<sp/>Write<sp/>clear<sp/>and<sp/>concise<sp/>commit<sp/>messages.<sp/>A<sp/>good<sp/>commit<sp/>message<sp/>explains<sp/>the<sp/>&quot;what&quot;<sp/>and<sp/>the<sp/>&quot;why&quot;<sp/>of<sp/>the<sp/>change.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">7.<sp/><sp/>**Push<sp/>to<sp/>Your<sp/>Fork:**<sp/>Push<sp/>your<sp/>branch<sp/>to<sp/>your<sp/>personal<sp/>fork<sp/>on<sp/>GitHub.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```sh</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>git<sp/>push<sp/>origin<sp/>feature/add-new-widget</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">8.<sp/><sp/>**Open<sp/>a<sp/>Pull<sp/>Request<sp/>(PR):**<sp/>Go<sp/>to<sp/>the<sp/>main<sp/>Proto<sp/>repository<sp/>and<sp/>open<sp/>a<sp/>new<sp/>Pull<sp/>Request.<sp/>The<sp/>PR<sp/>description<sp/>should<sp/>clearly<sp/>explain<sp/>the<sp/>changes<sp/>you&apos;ve<sp/>made.<sp/>If<sp/>it<sp/>resolves<sp/>an<sp/>existing<sp/>issue,<sp/>be<sp/>sure<sp/>to<sp/>reference<sp/>it<sp/>(e.g.,<sp/>`Closes<sp/>#123`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Coding<sp/>Style</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**C++:**<sp/>We<sp/>adhere<sp/>to<sp/>the<sp/>Google<sp/>C++<sp/>Style<sp/>Guide.<sp/>Please<sp/>try<sp/>to<sp/>match<sp/>the<sp/>style<sp/>of<sp/>the<sp/>existing<sp/>codebase.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Python<sp/>(`proto_python`):**<sp/>We<sp/>follow<sp/>the<sp/>PEP<sp/>8<sp/>style<sp/>guide.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Documentation:**<sp/>We<sp/>use<sp/>Markdown.<sp/>Please<sp/>keep<sp/>line<sp/>lengths<sp/>reasonable<sp/>(around<sp/>80-100<sp/>characters)<sp/>to<sp/>make<sp/>diffs<sp/>easier<sp/>to<sp/>read.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Proposing<sp/>Major<sp/>Changes</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>want<sp/>to<sp/>propose<sp/>a<sp/>significant<sp/>architectural<sp/>change,<sp/>please<sp/>**open<sp/>an<sp/>issue<sp/>or<sp/>start<sp/>a<sp/>discussion**<sp/>on<sp/>the<sp/>GitHub<sp/>Discussions<sp/>page<sp/>first.<sp/>This<sp/>allows<sp/>the<sp/>community<sp/>to<sp/>discuss<sp/>the<sp/>proposal<sp/>before<sp/>you<sp/>invest<sp/>a<sp/>lot<sp/>of<sp/>time<sp/>in<sp/>writing<sp/>code.<sp/>This<sp/>is<sp/>the<sp/>best<sp/>way<sp/>to<sp/>ensure<sp/>your<sp/>contribution<sp/>will<sp/>be<sp/>aligned<sp/>with<sp/>the<sp/>project&apos;s<sp/>direction<sp/>and<sp/>ultimately<sp/>accepted.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Code<sp/>of<sp/>Conduct</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">We<sp/>are<sp/>committed<sp/>to<sp/>providing<sp/>a<sp/>welcoming<sp/>and<sp/>inclusive<sp/>environment.<sp/>All<sp/>contributors<sp/>are<sp/>expected<sp/>to<sp/>abide<sp/>by<sp/>our<sp/>Code<sp/>of<sp/>Conduct.<sp/>(Note:<sp/>A<sp/>`CODE_OF_CONDUCT.md`<sp/>file<sp/>would<sp/>need<sp/>to<sp/>be<sp/>created<sp/>for<sp/>a<sp/>real<sp/>project).</highlight></codeline>
+    </programlisting>
+    <location file="docs/Structural description/guides/03_contributing.md"/>
+  </compounddef>
+</doxygen>

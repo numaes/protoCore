@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__cheat__sheet_8md" kind="file" language="Markdown">
+    <compoundname>gmock_cheat_sheet.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>gMock<sp/>Cheat<sp/>Sheet</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Defining<sp/>a<sp/>Mock<sp/>Class</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Mocking<sp/>a<sp/>Normal<sp/>Class<sp/>{#MockClass}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Given</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>~Foo();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>int<sp/>GetSize()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>string<sp/>Describe(const<sp/>char*<sp/>name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>string<sp/>Describe(int<sp/>type)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>bool<sp/>Process(Bar<sp/>elem,<sp/>int<sp/>count)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">(note<sp/>that<sp/>`~Foo()`<sp/>**must**<sp/>be<sp/>virtual)<sp/>we<sp/>can<sp/>define<sp/>its<sp/>mock<sp/>as</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;gmock/gmock.h&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">class<sp/>MockFoo<sp/>:<sp/>public<sp/>Foo<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(int,<sp/>GetSize,<sp/>(),<sp/>(const,<sp/>override));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(string,<sp/>Describe,<sp/>(const<sp/>char*<sp/>name),<sp/>(override));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(string,<sp/>Describe,<sp/>(int<sp/>type),<sp/>(override));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(bool,<sp/>Process,<sp/>(Bar<sp/>elem,<sp/>int<sp/>count),<sp/>(override));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>create<sp/>a<sp/>&quot;nice&quot;<sp/>mock,<sp/>which<sp/>ignores<sp/>all<sp/>uninteresting<sp/>calls,<sp/>a<sp/>&quot;naggy&quot;<sp/>mock,</highlight></codeline>
+<codeline><highlight class="normal">which<sp/>warns<sp/>on<sp/>all<sp/>uninteresting<sp/>calls,<sp/>or<sp/>a<sp/>&quot;strict&quot;<sp/>mock,<sp/>which<sp/>treats<sp/>them<sp/>as</highlight></codeline>
+<codeline><highlight class="normal">failures:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::NiceMock;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::NaggyMock;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::StrictMock;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">NiceMock&lt;MockFoo&gt;<sp/>nice_foo;<sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>The<sp/>type<sp/>is<sp/>a<sp/>subclass<sp/>of<sp/>MockFoo.</highlight></codeline>
+<codeline><highlight class="normal">NaggyMock&lt;MockFoo&gt;<sp/>naggy_foo;<sp/><sp/><sp/><sp/>//<sp/>The<sp/>type<sp/>is<sp/>a<sp/>subclass<sp/>of<sp/>MockFoo.</highlight></codeline>
+<codeline><highlight class="normal">StrictMock&lt;MockFoo&gt;<sp/>strict_foo;<sp/><sp/>//<sp/>The<sp/>type<sp/>is<sp/>a<sp/>subclass<sp/>of<sp/>MockFoo.</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">{:<sp/>.callout<sp/>.note}</highlight></codeline>
+<codeline><highlight class="normal">**Note:**<sp/>A<sp/>mock<sp/>object<sp/>is<sp/>currently<sp/>naggy<sp/>by<sp/>default.<sp/>We<sp/>may<sp/>make<sp/>it<sp/>nice<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">default<sp/>in<sp/>the<sp/>future.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Mocking<sp/>a<sp/>Class<sp/>Template<sp/>{#MockTemplate}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Class<sp/>templates<sp/>can<sp/>be<sp/>mocked<sp/>just<sp/>like<sp/>any<sp/>class.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>mock</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>&lt;typename<sp/>Elem&gt;</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>StackInterface<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>~StackInterface();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>int<sp/>GetSize()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>virtual<sp/>void<sp/>Push(const<sp/>Elem&amp;<sp/>x)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">(note<sp/>that<sp/>all<sp/>member<sp/>functions<sp/>that<sp/>are<sp/>mocked,<sp/>including<sp/>`~StackInterface()`</highlight></codeline>
+<codeline><highlight class="normal">**must**<sp/>be<sp/>virtual).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>&lt;typename<sp/>Elem&gt;</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>MockStack<sp/>:<sp/>public<sp/>StackInterface&lt;Elem&gt;<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(int,<sp/>GetSize,<sp/>(),<sp/>(const,<sp/>override));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(void,<sp/>Push,<sp/>(const<sp/>Elem&amp;<sp/>x),<sp/>(override));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Specifying<sp/>Calling<sp/>Conventions<sp/>for<sp/>Mock<sp/>Functions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>your<sp/>mock<sp/>function<sp/>doesn&apos;t<sp/>use<sp/>the<sp/>default<sp/>calling<sp/>convention,<sp/>you<sp/>can</highlight></codeline>
+<codeline><highlight class="normal">specify<sp/>it<sp/>by<sp/>adding<sp/>`Calltype(convention)`<sp/>to<sp/>`MOCK_METHOD`&apos;s<sp/>4th<sp/>parameter.</highlight></codeline>
+<codeline><highlight class="normal">For<sp/>example,</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(bool,<sp/>Foo,<sp/>(int<sp/>n),<sp/>(Calltype(STDMETHODCALLTYPE)));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(int,<sp/>Bar,<sp/>(double<sp/>x,<sp/>double<sp/>y),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(const,<sp/>Calltype(STDMETHODCALLTYPE)));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">where<sp/>`STDMETHODCALLTYPE`<sp/>is<sp/>defined<sp/>by<sp/>`&lt;objbase.h&gt;`<sp/>on<sp/>Windows.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Using<sp/>Mocks<sp/>in<sp/>Tests<sp/>{#UsingMocks}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>typical<sp/>work<sp/>flow<sp/>is:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>Import<sp/>the<sp/>gMock<sp/>names<sp/>you<sp/>need<sp/>to<sp/>use.<sp/>All<sp/>gMock<sp/>symbols<sp/>are<sp/>in<sp/>the</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>`testing`<sp/>namespace<sp/>unless<sp/>they<sp/>are<sp/>macros<sp/>or<sp/>otherwise<sp/>noted.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>Create<sp/>the<sp/>mock<sp/>objects.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>Optionally,<sp/>set<sp/>the<sp/>default<sp/>actions<sp/>of<sp/>the<sp/>mock<sp/>objects.</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>Set<sp/>your<sp/>expectations<sp/>on<sp/>the<sp/>mock<sp/>objects<sp/>(How<sp/>will<sp/>they<sp/>be<sp/>called?<sp/>What</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>will<sp/>they<sp/>do?).</highlight></codeline>
+<codeline><highlight class="normal">5.<sp/><sp/>Exercise<sp/>code<sp/>that<sp/>uses<sp/>the<sp/>mock<sp/>objects;<sp/>if<sp/>necessary,<sp/>check<sp/>the<sp/>result</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/>googletest<sp/>assertions.</highlight></codeline>
+<codeline><highlight class="normal">6.<sp/><sp/>When<sp/>a<sp/>mock<sp/>object<sp/>is<sp/>destructed,<sp/>gMock<sp/>automatically<sp/>verifies<sp/>that<sp/>all</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>expectations<sp/>on<sp/>it<sp/>have<sp/>been<sp/>satisfied.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Here&apos;s<sp/>an<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>#1</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">TEST(BarTest,<sp/>DoesThis)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MockFoo<sp/>foo;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>#2</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>ON_CALL(foo,<sp/>GetSize())<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>#3</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillByDefault(Return(1));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>...<sp/>other<sp/>default<sp/>actions<sp/>...</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(foo,<sp/>Describe(5))<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>#4</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.Times(3)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillRepeatedly(Return(&quot;Category<sp/>5&quot;));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>...<sp/>other<sp/>expectations<sp/>...</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_EQ(MyProductionFunction(&amp;foo),<sp/>&quot;good&quot;);<sp/><sp/>//<sp/>#5</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>#6</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Setting<sp/>Default<sp/>Actions<sp/>{#OnCall}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">gMock<sp/>has<sp/>a<sp/>**built-in<sp/>default<sp/>action**<sp/>for<sp/>any<sp/>function<sp/>that<sp/>returns<sp/>`void`,</highlight></codeline>
+<codeline><highlight class="normal">`bool`,<sp/>a<sp/>numeric<sp/>value,<sp/>or<sp/>a<sp/>pointer.<sp/>In<sp/>C++11,<sp/>it<sp/>will<sp/>additionally<sp/>returns</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>default-constructed<sp/>value,<sp/>if<sp/>one<sp/>exists<sp/>for<sp/>the<sp/>given<sp/>type.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>customize<sp/>the<sp/>default<sp/>action<sp/>for<sp/>functions<sp/>with<sp/>return<sp/>type<sp/>`T`,<sp/>use</highlight></codeline>
+<codeline><highlight class="normal">[`DefaultValue&lt;T&gt;`](reference/mocking.md#DefaultValue).<sp/>For<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Sets<sp/>the<sp/>default<sp/>action<sp/>for<sp/>return<sp/>type<sp/>std::unique_ptr&lt;Buzz&gt;<sp/>to</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>creating<sp/>a<sp/>new<sp/>Buzz<sp/>every<sp/>time.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DefaultValue&lt;std::unique_ptr&lt;Buzz&gt;&gt;::SetFactory(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>[]<sp/>{<sp/>return<sp/>std::make_unique&lt;Buzz&gt;(AccessLevel::kInternal);<sp/>});</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>When<sp/>this<sp/>fires,<sp/>the<sp/>default<sp/>action<sp/>of<sp/>MakeBuzz()<sp/>will<sp/>run,<sp/>which</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>will<sp/>return<sp/>a<sp/>new<sp/>Buzz<sp/>object.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_CALL(mock_buzzer_,<sp/>MakeBuzz(&quot;hello&quot;)).Times(AnyNumber());</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>auto<sp/>buzz1<sp/>=<sp/>mock_buzzer_.MakeBuzz(&quot;hello&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>auto<sp/>buzz2<sp/>=<sp/>mock_buzzer_.MakeBuzz(&quot;hello&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_NE(buzz1,<sp/>nullptr);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_NE(buzz2,<sp/>nullptr);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXPECT_NE(buzz1,<sp/>buzz2);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>Resets<sp/>the<sp/>default<sp/>action<sp/>for<sp/>return<sp/>type<sp/>std::unique_ptr&lt;Buzz&gt;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>//<sp/>to<sp/>avoid<sp/>interfere<sp/>with<sp/>other<sp/>tests.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DefaultValue&lt;std::unique_ptr&lt;Buzz&gt;&gt;::Clear();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>customize<sp/>the<sp/>default<sp/>action<sp/>for<sp/>a<sp/>particular<sp/>method<sp/>of<sp/>a<sp/>specific<sp/>mock</highlight></codeline>
+<codeline><highlight class="normal">object,<sp/>use<sp/>[`ON_CALL`](reference/mocking.md#ON_CALL).<sp/>`ON_CALL`<sp/>has<sp/>a<sp/>similar</highlight></codeline>
+<codeline><highlight class="normal">syntax<sp/>to<sp/>`EXPECT_CALL`,<sp/>but<sp/>it<sp/>is<sp/>used<sp/>for<sp/>setting<sp/>default<sp/>behaviors<sp/>when<sp/>you</highlight></codeline>
+<codeline><highlight class="normal">do<sp/>not<sp/>require<sp/>that<sp/>the<sp/>mock<sp/>method<sp/>is<sp/>called.<sp/>See</highlight></codeline>
+<codeline><highlight class="normal">[Knowing<sp/>When<sp/>to<sp/>Expect](gmock_cook_book.md#UseOnCall)<sp/>for<sp/>a<sp/>more<sp/>detailed</highlight></codeline>
+<codeline><highlight class="normal">discussion.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Setting<sp/>Expectations<sp/>{#ExpectCall}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>[`EXPECT_CALL`](reference/mocking.md#EXPECT_CALL)<sp/>in<sp/>the<sp/>Mocking<sp/>Reference.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Matchers<sp/>{#MatcherList}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>the<sp/>[Matchers<sp/>Reference](reference/matchers.md).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Actions<sp/>{#ActionList}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>the<sp/>[Actions<sp/>Reference](reference/actions.md).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Cardinalities<sp/>{#CardinalityList}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>the<sp/>[`Times`<sp/>clause](reference/mocking.md#EXPECT_CALL.Times)<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_CALL`<sp/>in<sp/>the<sp/>Mocking<sp/>Reference.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Expectation<sp/>Order</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">By<sp/>default,<sp/>expectations<sp/>can<sp/>be<sp/>matched<sp/>in<sp/>*any*<sp/>order.<sp/>If<sp/>some<sp/>or<sp/>all</highlight></codeline>
+<codeline><highlight class="normal">expectations<sp/>must<sp/>be<sp/>matched<sp/>in<sp/>a<sp/>given<sp/>order,<sp/>you<sp/>can<sp/>use<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[`After`<sp/>clause](reference/mocking.md#EXPECT_CALL.After)<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">[`InSequence`<sp/>clause](reference/mocking.md#EXPECT_CALL.InSequence)<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_CALL`,<sp/>or<sp/>use<sp/>an<sp/>[`InSequence`<sp/>object](reference/mocking.md#InSequence).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Verifying<sp/>and<sp/>Resetting<sp/>a<sp/>Mock</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">gMock<sp/>will<sp/>verify<sp/>the<sp/>expectations<sp/>on<sp/>a<sp/>mock<sp/>object<sp/>when<sp/>it<sp/>is<sp/>destructed,<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">you<sp/>can<sp/>do<sp/>it<sp/>earlier:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Mock;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Verifies<sp/>and<sp/>removes<sp/>the<sp/>expectations<sp/>on<sp/>mock_obj;</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>successful.</highlight></codeline>
+<codeline><highlight class="normal">Mock::VerifyAndClearExpectations(&amp;mock_obj);</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Verifies<sp/>and<sp/>removes<sp/>the<sp/>expectations<sp/>on<sp/>mock_obj;</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>also<sp/>removes<sp/>the<sp/>default<sp/>actions<sp/>set<sp/>by<sp/>ON_CALL();</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>returns<sp/>true<sp/>if<sp/>and<sp/>only<sp/>if<sp/>successful.</highlight></codeline>
+<codeline><highlight class="normal">Mock::VerifyAndClear(&amp;mock_obj);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Do<sp/>not<sp/>set<sp/>new<sp/>expectations<sp/>after<sp/>verifying<sp/>and<sp/>clearing<sp/>a<sp/>mock<sp/>after<sp/>its<sp/>use.</highlight></codeline>
+<codeline><highlight class="normal">Setting<sp/>expectations<sp/>after<sp/>code<sp/>that<sp/>exercises<sp/>the<sp/>mock<sp/>has<sp/>undefined<sp/>behavior.</highlight></codeline>
+<codeline><highlight class="normal">See<sp/>[Using<sp/>Mocks<sp/>in<sp/>Tests](gmock_for_dummies.md#using-mocks-in-tests)<sp/>for<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>also<sp/>tell<sp/>gMock<sp/>that<sp/>a<sp/>mock<sp/>object<sp/>can<sp/>be<sp/>leaked<sp/>and<sp/>doesn&apos;t<sp/>need<sp/>to<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">verified:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">Mock::AllowLeak(&amp;mock_obj);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Mock<sp/>Classes</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">gMock<sp/>defines<sp/>a<sp/>convenient<sp/>mock<sp/>class<sp/>template</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>MockFunction&lt;R(A1,<sp/>...,<sp/>An)&gt;<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/>public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MOCK_METHOD(R,<sp/>Call,<sp/>(A1,<sp/>...,<sp/>An));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>this<sp/>[recipe](gmock_cook_book.md#UsingCheckPoints)<sp/>for<sp/>one<sp/>application<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">it.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Flags</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Flag<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Description<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>:-----------------------------<sp/>|<sp/>:----------------------------------------<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`--gmock_catch_leaked_mocks=0`<sp/>|<sp/>Don&apos;t<sp/>report<sp/>leaked<sp/>mock<sp/>objects<sp/>as<sp/>failures.<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>`--gmock_verbose=LEVEL`<sp/>|<sp/>Sets<sp/>the<sp/>default<sp/>verbosity<sp/>level<sp/>(`info`,<sp/>`warning`,<sp/>or<sp/>`error`)<sp/>of<sp/>Google<sp/>Mock<sp/>messages.<sp/>|</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/docs/gmock_cheat_sheet.md"/>
+  </compounddef>
+</doxygen>

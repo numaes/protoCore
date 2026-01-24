@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1rich_1_1cells" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::rich::cells</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1cells_1a34901767a0a98ece578c466ae292e033" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::cells._is_single_cell_widths</definition>
+        <argsstring></argsstring>
+        <name>_is_single_cell_widths</name>
+        <qualifiedname>pip._vendor.rich.cells._is_single_cell_widths</qualifiedname>
+        <initializer>=  re.compile(&quot;^[\u0020-\u006f\u00a0\u02ff\u0370-\u0482]*$&quot;).match</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" line="8" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" bodystart="8" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1cells_1a0a7509ebce1015fe35b0f06a84395b13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._vendor.rich.cells.cached_cell_len</definition>
+        <argsstring>(str text)</argsstring>
+        <name>cached_cell_len</name>
+        <qualifiedname>pip._vendor.rich.cells.cached_cell_len</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the number of cells required to display text.
+
+This method always caches, which may use up a lot of memory. It is recommended to use
+`cell_len` over this method.
+
+Args:
+    text (str): Text to display.
+
+Returns:
+    int: Get the number of cells required to display text.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" line="12" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" bodystart="12" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1cells_1aa52a3891aeecb63556bd8932919f8d02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._vendor.rich.cells.cell_len</definition>
+        <argsstring>(str text, Callable[[str], int] _cell_len=cached_cell_len)</argsstring>
+        <name>cell_len</name>
+        <qualifiedname>pip._vendor.rich.cells.cell_len</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>_cell_len</defname>
+          <array>[[str]</array>
+        </param>
+        <param>
+          <type>int]</type>
+          <declname>_cell_len</declname>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1rich_1_1cells_1a0a7509ebce1015fe35b0f06a84395b13" kindref="member">cached_cell_len</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the number of cells required to display text.
+
+Args:
+    text (str): Text to display.
+
+Returns:
+    int: Get the number of cells required to display text.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" bodystart="29" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1cells_1aa00054391baec6530cb40dfc0ff6e2ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._vendor.rich.cells.get_character_cell_size</definition>
+        <argsstring>(str character)</argsstring>
+        <name>get_character_cell_size</name>
+        <qualifiedname>pip._vendor.rich.cells.get_character_cell_size</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>character</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the cell size of a character.
+
+Args:
+    character (str): A single character.
+
+Returns:
+    int: Number of cells (0, 1 or 2) occupied by that character.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" bodystart="46" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1cells_1a1631b035f0324598659b7464d9ebe1a1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._vendor.rich.cells._get_codepoint_cell_size</definition>
+        <argsstring>(int codepoint)</argsstring>
+        <name>_get_codepoint_cell_size</name>
+        <qualifiedname>pip._vendor.rich.cells._get_codepoint_cell_size</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>codepoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the cell size of a character.
+
+Args:
+    codepoint (int): Codepoint of a character.
+
+Returns:
+    int: Number of cells (0, 1 or 2) occupied by that character.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" bodystart="59" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1cells_1a26b7e839acf661bbfd6428bda1d7752a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich.cells.set_cell_size</definition>
+        <argsstring>(str text, int total)</argsstring>
+        <name>set_cell_size</name>
+        <qualifiedname>pip._vendor.rich.cells.set_cell_size</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set the length of a string to fit within given number of cells.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" bodystart="87" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1cells_1a1098970d25bfd4dc9e2be9f5a03ebff1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._vendor.rich.cells.chop_cells</definition>
+        <argsstring>(str text, int max_size, int position=0)</argsstring>
+        <name>chop_cells</name>
+        <qualifiedname>pip._vendor.rich.cells.chop_cells</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>position</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Break text in to equal (cell) length strings, returning the characters in reverse
+order</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" line="124" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" bodystart="124" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/cells.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

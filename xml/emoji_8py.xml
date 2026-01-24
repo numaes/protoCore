@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="emoji_8py" kind="file" language="Python">
+    <compoundname>emoji.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1NoEmoji" prot="public">pip::_vendor::rich::emoji::NoEmoji</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1Emoji" prot="public">pip::_vendor::rich::emoji::Emoji</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich">pip::_vendor::rich</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich_1_1emoji">pip::_vendor::rich::emoji</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1rich_1_1emoji" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING,<sp/>Optional,<sp/>Union</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.jupyter<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>JupyterMixin</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.segment<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Segment</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.style<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Style</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>._emoji_codes<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>EMOJI</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>._emoji_replace<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_emoji_replace</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.version_info<sp/>&gt;=<sp/>(3,<sp/>8):</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Literal</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1typing__extensions" kindref="compound">pip._vendor.typing_extensions</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Literal<sp/><sp/></highlight><highlight class="comment">#<sp/>pragma:<sp/>no<sp/>cover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.console<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Console,<sp/>ConsoleOptions,<sp/>RenderResult</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">EmojiVariant<sp/>=<sp/>Literal[</highlight><highlight class="stringliteral">&quot;emoji&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1NoEmoji" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1NoEmoji" kindref="compound">NoEmoji</ref>(Exception):</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;No<sp/>emoji<sp/>by<sp/>that<sp/>name.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1Emoji" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1Emoji" kindref="compound">Emoji</ref>(<ref refid="classpip_1_1__vendor_1_1rich_1_1jupyter_1_1JupyterMixin" kindref="compound">JupyterMixin</ref>):</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>__slots__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;style&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;_char&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;variant&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>VARIANTS<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;\uFE0E&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;emoji&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;\uFE0F&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1Emoji_1a801309bf7d5428ef075b232a5b0b5067" kindref="member">__init__</ref>(</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name:<sp/>str,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>style:<sp/>Union[str,<sp/>Style]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>variant:<sp/>Optional[EmojiVariant]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>single<sp/>emoji<sp/>character.</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>(str):<sp/>Name<sp/>of<sp/>emoji.</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>style<sp/>(Union[str,<sp/>Style],<sp/>optional):<sp/>Optional<sp/>style.<sp/>Defaults<sp/>to<sp/>None.</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Raises:</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NoEmoji:<sp/>If<sp/>the<sp/>emoji<sp/>doesn&apos;t<sp/>exist.</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.name<sp/>=<sp/>name</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.style<sp/>=<sp/>style</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.variant<sp/>=<sp/>variant</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._char<sp/>=<sp/>EMOJI[name]</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>KeyError:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1NoEmoji" kindref="compound">NoEmoji</ref>(f</highlight><highlight class="stringliteral">&quot;No<sp/>emoji<sp/>called<sp/>{name!r}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>variant<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._char<sp/>+=<sp/>self.VARIANTS.get(variant,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@classmethod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">replace(cls,<sp/>text:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Replace<sp/>emoji<sp/>markup<sp/>with<sp/>corresponding<sp/>unicode<sp/>characters.</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text<sp/>(str):<sp/>A<sp/>string<sp/>with<sp/>emojis<sp/>codes,<sp/>e.g.<sp/>&quot;Hello<sp/>:smiley:!&quot;</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>str:<sp/>A<sp/>string<sp/>with<sp/>emoji<sp/>codes<sp/>replaces<sp/>with<sp/>actual<sp/>emoji.</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_emoji_replace(text)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1Emoji_1a7829e3f7ac9092aee5c6ef856ac7e8c8" kindref="member">__repr__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&quot;&lt;emoji<sp/>{self.name!r}&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1Emoji_1aa7cd7a53355ff484593fe3546b050d17" kindref="member">__str__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self._char</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1emoji_1_1Emoji_1af544f31b3a4980df17684a7de6e60612" kindref="member">__rich_console__</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>console:<sp/></highlight><highlight class="stringliteral">&quot;Console&quot;</highlight><highlight class="normal">,<sp/>options:<sp/></highlight><highlight class="stringliteral">&quot;ConsoleOptions&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="stringliteral">&quot;RenderResult&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1segment_1_1Segment" kindref="compound">Segment</ref>(self._char,<sp/>console.get_style(self.style))</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="comment">#<sp/>pragma:<sp/>no<sp/>cover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1columns" kindref="compound">pip._vendor.rich.columns</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Columns</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1console" kindref="compound">pip._vendor.rich.console</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Console</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>console<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1console_1_1Console" kindref="compound">Console</ref>(record=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>columns<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1columns_1_1Columns" kindref="compound">Columns</ref>(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(f</highlight><highlight class="stringliteral">&quot;:{name}:<sp/>{name}&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sorted(EMOJI.keys())<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;\u200D&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>name),</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>column_first=</highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>console.print(columns)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>len(sys.argv)<sp/>&gt;<sp/>1:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>console.save_html(sys.argv[1])</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/emoji.py"/>
+  </compounddef>
+</doxygen>

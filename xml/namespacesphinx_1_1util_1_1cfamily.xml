@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1cfamily" kind="namespace" language="Python">
+    <compoundname>sphinx::util::cfamily</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTAttribute" prot="public">sphinx::util::cfamily::ASTAttribute</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTAttributeList" prot="public">sphinx::util::cfamily::ASTAttributeList</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTBaseBase" prot="public">sphinx::util::cfamily::ASTBaseBase</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTBaseParenExprList" prot="public">sphinx::util::cfamily::ASTBaseParenExprList</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTCPPAttribute" prot="public">sphinx::util::cfamily::ASTCPPAttribute</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTGnuAttribute" prot="public">sphinx::util::cfamily::ASTGnuAttribute</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTGnuAttributeList" prot="public">sphinx::util::cfamily::ASTGnuAttributeList</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTIdAttribute" prot="public">sphinx::util::cfamily::ASTIdAttribute</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1ASTParenAttribute" prot="public">sphinx::util::cfamily::ASTParenAttribute</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1BaseParser" prot="public">sphinx::util::cfamily::BaseParser</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1DefinitionError" prot="public">sphinx::util::cfamily::DefinitionError</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1NoOldIdError" prot="public">sphinx::util::cfamily::NoOldIdError</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1cfamily_1_1UnsupportedMultiCharacterCharLiteral" prot="public">sphinx::util::cfamily::UnsupportedMultiCharacterCharLiteral</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a76e10072cc4eda8b2bbbac49e53d176c" prot="public" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias sphinx::util::cfamily.StringifyTransform</definition>
+        <argsstring></argsstring>
+        <name>StringifyTransform</name>
+        <qualifiedname>sphinx.util.cfamily.StringifyTransform</qualifiedname>
+        <initializer>=  Callable[[Any], str]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a232133edaf39362b645583d7427c1590" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.util.cfamily.logger</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" kindref="member">logging.getLogger</ref>(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1ad5c32a3312056abead484440d0b9ab77" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily._whitespace_re</definition>
+        <argsstring></argsstring>
+        <name>_whitespace_re</name>
+        <qualifiedname>sphinx.util.cfamily._whitespace_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\s+&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a728cbe4e39c2471abd48699d5ed522ce" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.anon_identifier_re</definition>
+        <argsstring></argsstring>
+        <name>anon_identifier_re</name>
+        <qualifiedname>sphinx.util.cfamily.anon_identifier_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;(@[a-zA-Z0-9_])[a-zA-Z0-9_]*\b&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a9d198962c99f8b90c563a60d65f512d6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.identifier_re</definition>
+        <argsstring></argsstring>
+        <name>identifier_re</name>
+        <qualifiedname>sphinx.util.cfamily.identifier_re</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    flags=re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1ab3484c133d4f4435b20b17a590572174" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.integer_literal_re</definition>
+        <argsstring></argsstring>
+        <name>integer_literal_re</name>
+        <qualifiedname>sphinx.util.cfamily.integer_literal_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;[1-9][0-9]*(\&apos;[0-9]+)*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="39" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1acd64647a7061ecec8f9261dca7fb63a0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.octal_literal_re</definition>
+        <argsstring></argsstring>
+        <name>octal_literal_re</name>
+        <qualifiedname>sphinx.util.cfamily.octal_literal_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;0[0-7]*(\&apos;[0-7]+)*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a967861e715ce0a275feb527c6fd66a22" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.hex_literal_re</definition>
+        <argsstring></argsstring>
+        <name>hex_literal_re</name>
+        <qualifiedname>sphinx.util.cfamily.hex_literal_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;0[xX][0-9a-fA-F]+(\&apos;[0-9a-fA-F]+)*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a593ba9201af0c28836100dd29584bafd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.binary_literal_re</definition>
+        <argsstring></argsstring>
+        <name>binary_literal_re</name>
+        <qualifiedname>sphinx.util.cfamily.binary_literal_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;0[bB][01]+(\&apos;[01]+)*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a2ec2be85516c49e32e7493089a3147be" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.integers_literal_suffix_re</definition>
+        <argsstring></argsstring>
+        <name>integers_literal_suffix_re</name>
+        <qualifiedname>sphinx.util.cfamily.integers_literal_suffix_re</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    flags=re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a7f4709175fb21fd1503da93806c13e5e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.float_literal_re</definition>
+        <argsstring></argsstring>
+        <name>float_literal_re</name>
+        <qualifiedname>sphinx.util.cfamily.float_literal_re</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    flags=re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1aeb6c2c57b8266535151e972690c87563" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.float_literal_suffix_re</definition>
+        <argsstring></argsstring>
+        <name>float_literal_suffix_re</name>
+        <qualifiedname>sphinx.util.cfamily.float_literal_suffix_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;[fFlL]\b&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1cfamily_1a9caab9704f300134b75e0bb05a78993f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::cfamily.char_literal_re</definition>
+        <argsstring></argsstring>
+        <name>char_literal_re</name>
+        <qualifiedname>sphinx.util.cfamily.char_literal_re</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    flags=re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1cfamily_1a180f8c617a8558ccf584f31a189e45f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.cfamily.verify_description_mode</definition>
+        <argsstring>(str mode)</argsstring>
+        <name>verify_description_mode</name>
+        <qualifiedname>sphinx.util.cfamily.verify_description_mode</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="92" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" bodystart="92" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Utility functions common to the C and C++ domains.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/cfamily.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

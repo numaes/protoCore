@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="immutable__sharing__benchmark_8cpp" kind="file" language="C++">
+    <compoundname>immutable_sharing_benchmark.cpp</compoundname>
+    <includes local="no">iostream</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes refid="protoCore_8h" local="yes">../headers/protoCore.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>../headers/protoCore.h</label>
+        <link refid="protoCore_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>performance/immutable_sharing_benchmark.cpp</label>
+        <link refid="immutable__sharing__benchmark_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>iostream</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="immutable__sharing__benchmark_8cpp_1a40958a1382463445e451148e3a93e049" prot="public" static="no">
+        <name>INITIAL_SIZE</name>
+        <initializer>10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/immutable_sharing_benchmark.cpp" line="15" column="9" bodyfile="performance/immutable_sharing_benchmark.cpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="immutable__sharing__benchmark_8cpp_1af0a0bbd46f36fa0a646a4de0276f7703" prot="public" static="no">
+        <name>NUM_VERSIONS</name>
+        <initializer>1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/immutable_sharing_benchmark.cpp" line="16" column="9" bodyfile="performance/immutable_sharing_benchmark.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="immutable__sharing__benchmark_8cpp_1a60525c7e30d9ec5a3ab1bcefa7e4afdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>long long</type>
+        <definition>long long checksum_proto_list</definition>
+        <argsstring>(proto::ProtoContext *c, const proto::ProtoList *list)</argsstring>
+        <name>checksum_proto_list</name>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">proto::ProtoContext</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoList" kindref="compound">proto::ProtoList</ref> *</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/immutable_sharing_benchmark.cpp" line="19" column="11" bodyfile="performance/immutable_sharing_benchmark.cpp" bodystart="19" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="immutable__sharing__benchmark_8cpp_1ae5539ef647384efbba6a1c138a9477e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+        <definition>const ProtoObject * benchmarks</definition>
+        <argsstring>(ProtoContext *c, const ProtoObject *self, const ParentLink *parentLink, const ProtoList *positionalParameters, const ProtoSparseList *keywordParametersDict)</argsstring>
+        <name>benchmarks</name>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>const ParentLink *</type>
+          <declname>parentLink</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
+          <declname>positionalParameters</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
+          <declname>keywordParametersDict</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/immutable_sharing_benchmark.cpp" line="30" column="19" bodyfile="performance/immutable_sharing_benchmark.cpp" bodystart="30" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="immutable__sharing__benchmark_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char *argv[])</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/immutable_sharing_benchmark.cpp" line="81" column="5" bodyfile="performance/immutable_sharing_benchmark.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>immutable_sharing_benchmark.cpp</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/><sp/>Created<sp/>on:<sp/>2024-01-15</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>Author:<sp/>gamarino</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../headers/protoCore.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceproto" kindref="compound">proto</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INITIAL_SIZE<sp/>10000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NUM_VERSIONS<sp/>1000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Corrected:<sp/>Signature<sp/>now<sp/>uses<sp/>const<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="immutable__sharing__benchmark_8cpp_1a60525c7e30d9ec5a3ab1bcefa7e4afdc" kindref="member">checksum_proto_list</ref>(<ref refid="classproto_1_1ProtoContext" kindref="compound">proto::ProtoContext</ref>*<sp/>c,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoList" kindref="compound">proto::ProtoList</ref>*<sp/>list)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>checksum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>Iterator<sp/>is<sp/>a<sp/>const<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoListIterator" kindref="compound">proto::ProtoListIterator</ref>*<sp/>iter<sp/>=<sp/>list-&gt;<ref refid="classproto_1_1ProtoList_1a3de6a068a48c5f4d8d3486dbdd0b3877" kindref="member">getIterator</ref>(c);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(iter-&gt;<ref refid="classproto_1_1ProtoListIterator_1aa4771f8f1bfdac9dfa62d3f5eb96fa06" kindref="member">hasNext</ref>(c))<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checksum<sp/>+=<sp/>iter-&gt;<ref refid="classproto_1_1ProtoListIterator_1a588a79f31c72ddb06efc1ce45ffa19b1" kindref="member">next</ref>(c)-&gt;<ref refid="classproto_1_1ProtoObject_1a469741fe1715036e912a5cc0fe6cb01a" kindref="member">asLong</ref>(c);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iter<sp/>=<sp/>iter-&gt;<ref refid="classproto_1_1ProtoListIterator_1af63ed278eeb2bf88b60613faa2855b77" kindref="member">advance</ref>(c);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>checksum;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref>*<sp/><ref refid="immutable__sharing__benchmark_8cpp_1ae5539ef647384efbba6a1c138a9477e0" kindref="member">benchmarks</ref>(</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref>*<sp/>c,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref>*<sp/>self,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ParentLink*<sp/>parentLink,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref>*<sp/>positionalParameters,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref>*<sp/>keywordParametersDict</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;---<sp/>Immutable<sp/>Sharing<sp/>Benchmark<sp/>---&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Initial<sp/>size:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="immutable__sharing__benchmark_8cpp_1a40958a1382463445e451148e3a93e049" kindref="member">INITIAL_SIZE</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>Versions:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="immutable__sharing__benchmark_8cpp_1af0a0bbd46f36fa0a646a4de0276f7703" kindref="member">NUM_VERSIONS</ref><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Create<sp/>Base<sp/>List<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start_create<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>base_list<sp/>is<sp/>a<sp/>const<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoList" kindref="compound">proto::ProtoList</ref>*<sp/>base_list<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref>-&gt;newList();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/><ref refid="immutable__sharing__benchmark_8cpp_1a40958a1382463445e451148e3a93e049" kindref="member">INITIAL_SIZE</ref>;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>re-assign<sp/>to<sp/>the<sp/>const<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_list<sp/>=<sp/>base_list-&gt;<ref refid="classproto_1_1ProtoList_1a481e3bae1d1c1ab7a22ca78d03b622d8" kindref="member">appendLast</ref>(c,<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref>-&gt;fromInteger(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end_create<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double&gt;<sp/>diff_create<sp/>=<sp/>end_create<sp/>-<sp/>start_create;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Creation<sp/>time:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>diff_create.count()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>s&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Create<sp/>New<sp/>Versions<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start_versions<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>Vector<sp/>holds<sp/>const<sp/>pointers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;const<sp/>proto::ProtoList*&gt;<sp/>proto_versions(<ref refid="immutable__sharing__benchmark_8cpp_1af0a0bbd46f36fa0a646a4de0276f7703" kindref="member">NUM_VERSIONS</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/><ref refid="immutable__sharing__benchmark_8cpp_1af0a0bbd46f36fa0a646a4de0276f7703" kindref="member">NUM_VERSIONS</ref>;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>Assignment<sp/>is<sp/>to<sp/>a<sp/>vector<sp/>of<sp/>const<sp/>pointers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>proto_versions[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>]<sp/>=<sp/>base_list-&gt;<ref refid="classproto_1_1ProtoList_1a481e3bae1d1c1ab7a22ca78d03b622d8" kindref="member">appendLast</ref>(c,<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref>-&gt;fromInteger(<ref refid="immutable__sharing__benchmark_8cpp_1a40958a1382463445e451148e3a93e049" kindref="member">INITIAL_SIZE</ref><sp/>+<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end_versions<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double&gt;<sp/>diff_versions<sp/>=<sp/>end_versions<sp/>-<sp/>start_versions;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Versioning<sp/>time:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>diff_versions.count()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>s&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Verify<sp/>Checksums<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start_checksum<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>base_checksum<sp/>=<sp/><ref refid="immutable__sharing__benchmark_8cpp_1a60525c7e30d9ec5a3ab1bcefa7e4afdc" kindref="member">checksum_proto_list</ref>(c,<sp/>base_list);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/><ref refid="immutable__sharing__benchmark_8cpp_1af0a0bbd46f36fa0a646a4de0276f7703" kindref="member">NUM_VERSIONS</ref>;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>version_checksum<sp/>=<sp/><ref refid="immutable__sharing__benchmark_8cpp_1a60525c7e30d9ec5a3ab1bcefa7e4afdc" kindref="member">checksum_proto_list</ref>(c,<sp/>proto_versions[<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>]);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(version_checksum<sp/>!=<sp/>base_checksum<sp/>+<sp/><ref refid="immutable__sharing__benchmark_8cpp_1a40958a1382463445e451148e3a93e049" kindref="member">INITIAL_SIZE</ref><sp/>+<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Checksum<sp/>mismatch!&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end_checksum<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double&gt;<sp/>diff_checksum<sp/>=<sp/>end_checksum<sp/>-<sp/>start_checksum;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Checksum<sp/>time:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>diff_checksum.count()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>s&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;------------------------------------&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="protoCore_8h_1afdd64851a8dadecfaf7581c48d5db136" kindref="member">PROTO_NONE</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2src_2gmock__main_8cc_1a7f83bdc516d2cb86e20235d94ddf055a" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[])<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>ProtoSpace<sp/>constructor<sp/>takes<sp/>no<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoSpace" kindref="compound">proto::ProtoSpace</ref><sp/>space;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="immutable__sharing__benchmark_8cpp_1ae5539ef647384efbba6a1c138a9477e0" kindref="member">benchmarks</ref>(space.<ref refid="classproto_1_1ProtoSpace_1a1a5f636933d7178bc8e7def9efc2da1c" kindref="member">rootContext</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="performance/immutable_sharing_benchmark.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1parsing" kind="namespace" language="Python">
+    <compoundname>sphinx::util::parsing</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1parsing_1abf08a36ab2e49425baefaa41cc8840b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]</type>
+        <definition> list[Node] sphinx.util.parsing.nested_parse_to_nodes</definition>
+        <argsstring>(RSTState state, str|StringList text, *str source=&apos;&lt; generated text &gt;&apos;, int offset=0, bool allow_section_headings=True, bool keep_title_context=False)</argsstring>
+        <name>nested_parse_to_nodes</name>
+        <qualifiedname>sphinx.util.parsing.nested_parse_to_nodes</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState" kindref="compound">RSTState</ref></type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>str|<ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref></type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>*str</type>
+          <declname>source</declname>
+          <defval>&apos;&lt; generated text &gt;&apos;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_section_headings</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keep_title_context</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse *text* into nodes.
+
+:param state:
+    The state machine state. Must be a subclass of ``RSTState``.
+:param text:
+    Text, in string form. ``StringList`` is also accepted.
+:param source:
+    The text&apos;s source, used when creating a new ``StringList``.
+:param offset:
+    The offset of the content.
+:param allow_section_headings:
+    Are titles (sections) allowed in *text*?
+    Note that this option bypasses Docutils&apos; usual checks on
+    doctree structure, and misuse of this option can lead to
+    an incoherent doctree. In Docutils, section nodes should
+    only be children of ``Structural`` nodes, which includes
+    ``document``, ``section``, and ``sidebar`` nodes.
+:param keep_title_context:
+    If this is False (the default), then *content* is parsed as if it were
+    an independent document, meaning that title decorations (e.g. underlines)
+    do not need to match the surrounding document.
+    This is useful when the parsed content comes from
+    a completely different context, such as docstrings.
+    If this is True, then title underlines must match those in
+    the surrounding document, otherwise the behaviour is undefined.
+
+.. versionadded:: 7.4
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parsing.py" line="18" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parsing.py" bodystart="26" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1parsing_1a7a06d01bc318075bda046130990cda81" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.parsing._fresh_title_style_context</definition>
+        <argsstring>(RSTState state)</argsstring>
+        <name>_fresh_title_style_context</name>
+        <qualifiedname>sphinx.util.parsing._fresh_title_style_context</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState" kindref="compound">RSTState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parsing.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parsing.py" bodystart="73" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1parsing_1aadae61565a5c23bf811ac6831b38dff0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref></type>
+        <definition> StringList sphinx.util.parsing._text_to_string_list</definition>
+        <argsstring>(str|StringList text, *str source, int tab_width)</argsstring>
+        <name>_text_to_string_list</name>
+        <qualifiedname>sphinx.util.parsing._text_to_string_list</qualifiedname>
+        <param>
+          <type>str|<ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref></type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>*str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>tab_width</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parsing.py" line="89" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/parsing.py" bodystart="91" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Docutils utility functions for parsing text.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/parsing.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

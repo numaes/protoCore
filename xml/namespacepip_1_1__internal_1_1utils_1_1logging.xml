@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1logging" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::logging</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1logging_1_1BetterRotatingFileHandler" prot="public">pip::_internal::utils::logging::BetterRotatingFileHandler</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1logging_1_1BrokenStdoutLoggingError" prot="public">pip::_internal::utils::logging::BrokenStdoutLoggingError</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1logging_1_1ExcludeLoggerFilter" prot="public">pip::_internal::utils::logging::ExcludeLoggerFilter</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentedRenderable" prot="public">pip::_internal::utils::logging::IndentedRenderable</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter" prot="public">pip::_internal::utils::logging::IndentingFormatter</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1logging_1_1MaxLevelFilter" prot="public">pip::_internal::utils::logging::MaxLevelFilter</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1logging_1_1RichPipStreamHandler" prot="public">pip::_internal::utils::logging::RichPipStreamHandler</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1logging_1a2be00bac48d75f05fdcb18412fa4995d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::logging._log_state</definition>
+        <argsstring></argsstring>
+        <name>_log_state</name>
+        <qualifiedname>pip._internal.utils.logging._log_state</qualifiedname>
+        <initializer>=  threading.local()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1logging_1a32c1d5ed610a13fba36ef4a86f0d8b96" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::logging.subprocess_logger</definition>
+        <argsstring></argsstring>
+        <name>subprocess_logger</name>
+        <qualifiedname>pip._internal.utils.logging.subprocess_logger</qualifiedname>
+        <initializer>=  getLogger(&quot;pip.subprocessor&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1logging_1a50a973ea5b4b4c6757257879452d01ee" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.logging._is_broken_pipe_error</definition>
+        <argsstring>(Type[BaseException] exc_class, BaseException exc)</argsstring>
+        <name>_is_broken_pipe_error</name>
+        <qualifiedname>pip._internal.utils.logging._is_broken_pipe_error</qualifiedname>
+        <param>
+          <type>Type</type>
+          <declname>exc_class</declname>
+          <array>[BaseException]</array>
+        </param>
+        <param>
+          <type>BaseException</type>
+          <declname>exc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="41" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1logging_1a1c4ab3e442c9c3304cff92a8f20ada55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[None, None, None]</type>
+        <definition> Generator[None, None, None] pip._internal.utils.logging.indent_log</definition>
+        <argsstring>(int num=2)</argsstring>
+        <name>indent_log</name>
+        <qualifiedname>pip._internal.utils.logging.indent_log</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A context manager which will cause the log output to be indented for any
+log messages emitted inside it.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="55" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1logging_1a82e0bc2be0f52e3d1aa876f836c5363f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.utils.logging.get_indentation</definition>
+        <argsstring>()</argsstring>
+        <name>get_indentation</name>
+        <qualifiedname>pip._internal.utils.logging.get_indentation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1logging_1a074d40547f3e9b3df4cc67fed1555e14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.utils.logging.setup_logging</definition>
+        <argsstring>(int verbosity, bool no_color, Optional[str] user_log_file)</argsstring>
+        <name>setup_logging</name>
+        <qualifiedname>pip._internal.utils.logging.setup_logging</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>verbosity</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>no_color</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>user_log_file</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Configures and sets up all of the logging
+
+Returns the requested logging level, as its integer value.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="226" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="226" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

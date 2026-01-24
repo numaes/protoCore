@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING" kind="page">
+    <compoundname>md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING</compoundname>
+    <title>How to become a contributor and submit your own code</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md415"/> </para>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md416">
+<title>Contributor License Agreements</title>
+<para>We&apos;d love to accept your patches! Before we can take them, we have to jump a couple of legal hurdles.</para>
+<para>Please fill out either the individual or corporate Contributor License Agreement (CLA).</para>
+<para><itemizedlist>
+<listitem><para>If you are an individual writing original source code and you&apos;re sure you own the intellectual property, then you&apos;ll need to sign an <ulink url="https://developers.google.com/open-source/cla/individual">individual CLA</ulink>.</para>
+</listitem><listitem><para>If you work for a company that wants to allow you to contribute your work, then you&apos;ll need to sign a <ulink url="https://developers.google.com/open-source/cla/corporate">corporate CLA</ulink>.</para>
+</listitem></itemizedlist>
+</para>
+<para>Follow either of the two links above to access the appropriate CLA and instructions for how to sign and return it. Once we receive it, we&apos;ll be able to accept your pull requests.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md417">
+<title>Are you a Googler?</title>
+<para>If you are a Googler, please make an attempt to submit an internal contribution rather than a GitHub Pull Request. If you are not able to submit internally, a PR is acceptable as an alternative.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md418">
+<title>Contributing A Patch</title>
+<para><orderedlist>
+<listitem><para>Submit an issue describing your proposed change to the <ulink url="https://github.com/google/googletest/issues">issue tracker</ulink>.</para>
+</listitem><listitem><para>Please don&apos;t mix more than one logical change per submittal, because it makes the history hard to follow. If you want to make a change that doesn&apos;t have a corresponding issue in the issue tracker, please create one.</para>
+</listitem><listitem><para>Also, coordinate with team members that are listed on the issue in question. This ensures that work isn&apos;t being duplicated and communicating your plan early also generally leads to better patches.</para>
+</listitem><listitem><para>If your proposed change is accepted, and you haven&apos;t already done so, sign a Contributor License Agreement (see details above).</para>
+</listitem><listitem><para>Fork the desired repo, develop and test your code changes.</para>
+</listitem><listitem><para>Ensure that your code adheres to the existing style in the sample to which you are contributing.</para>
+</listitem><listitem><para>Ensure that your code has an appropriate set of unit tests which all pass.</para>
+</listitem><listitem><para>Submit a pull request.</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md419">
+<title>The Google Test and Google Mock Communities</title>
+<para>The Google Test community exists primarily through the <ulink url="http://groups.google.com/group/googletestframework">discussion group</ulink> and the GitHub repository. Likewise, the Google <ref refid="classMock" kindref="compound">Mock</ref> community exists primarily through their own <ulink url="http://groups.google.com/group/googlemock">discussion group</ulink>. You are definitely encouraged to contribute to the discussion and you can also help us to keep the effectiveness of the group high by following and promoting the guidelines listed here.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md420">
+<title>Please Be Friendly</title>
+<para>Showing courtesy and respect to others is a vital part of the Google culture, and we strongly encourage everyone participating in Google Test development to join us in accepting nothing less. Of course, being courteous is not the same as failing to constructively disagree with each other, but it does mean that we should be respectful of each other when enumerating the 42 technical reasons that a particular proposal may not be the best choice. There&apos;s never a reason to be antagonistic or dismissive toward anyone who is sincerely trying to contribute to a discussion.</para>
+<para>Sure, C++ testing is serious business and all that, but it&apos;s also a lot of fun. Let&apos;s keep it that way. Let&apos;s strive to be one of the friendliest communities in all of open source.</para>
+<para>As always, discuss Google Test in the official GoogleTest discussion group. You don&apos;t have to actually submit code in order to sign up. Your participation itself is a valuable contribution.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md421">
+<title>Style</title>
+<para>To keep the source consistent, readable, diffable and easy to merge, we use a fairly rigid coding style, as defined by the <ulink url="https://github.com/google/styleguide">google-styleguide</ulink> project. All patches will be expected to conform to the style outlined <ulink url="https://google.github.io/styleguide/cppguide.html">here</ulink>. Use <ulink url="https://github.com/google/googletest/blob/main/.clang-format">.clang-format</ulink> to check your formatting.</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md422">
+<title>Requirements for Contributors</title>
+<para>If you plan to contribute a patch, you need to build Google Test, Google <ref refid="classMock" kindref="compound">Mock</ref>, and their own tests from a git checkout, which has further requirements:</para>
+<para><itemizedlist>
+<listitem><para><ulink url="https://www.python.org/">Python</ulink> v3.6 or newer (for running some of the tests and re-generating certain source files from templates)</para>
+</listitem><listitem><para><ulink url="https://cmake.org/">CMake</ulink> v2.8.12 or newer</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md423">
+<title>Developing Google Test and Google Mock</title>
+<para>This section discusses how to make your own changes to the Google Test project.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2CONTRIBUTING_1autotoc_md424">
+<title>Testing Google Test and Google Mock Themselves</title>
+<para>To make sure your changes work as intended and don&apos;t break existing functionality, you&apos;ll want to compile and run Google Test and GoogleMock&apos;s own tests. For that you can use CMake:</para>
+<para><programlisting><codeline><highlight class="normal">mkdir<sp/>mybuild</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>mybuild</highlight></codeline>
+<codeline><highlight class="normal">cmake<sp/>-Dgtest_build_tests=ON<sp/>-Dgmock_build_tests=ON<sp/>${GTEST_REPO_DIR}</highlight></codeline>
+</programlisting></para>
+<para>To choose between building only Google Test or Google <ref refid="classMock" kindref="compound">Mock</ref>, you may modify your cmake command to be one of each</para>
+<para><programlisting><codeline><highlight class="normal">cmake<sp/>-Dgtest_build_tests=ON<sp/>${GTEST_DIR}<sp/>#<sp/>sets<sp/>up<sp/>Google<sp/>Test<sp/>tests</highlight></codeline>
+<codeline><highlight class="normal">cmake<sp/>-Dgmock_build_tests=ON<sp/>${GMOCK_DIR}<sp/>#<sp/>sets<sp/>up<sp/>Google<sp/>Mock<sp/>tests</highlight></codeline>
+</programlisting></para>
+<para>Make sure you have Python installed, as some of Google Test&apos;s tests are written in Python. If the cmake command complains about not being able to find Python (<computeroutput>Could NOT find PythonInterp (missing: PYTHON_EXECUTABLE)</computeroutput>), try telling it explicitly where your Python executable can be found:</para>
+<para><programlisting><codeline><highlight class="normal">cmake<sp/>-DPYTHON_EXECUTABLE=path/to/python<sp/>...</highlight></codeline>
+</programlisting></para>
+<para>Next, you can build Google Test and / or Google <ref refid="classMock" kindref="compound">Mock</ref> and all desired tests. On *nix, this is usually done by</para>
+<para><programlisting><codeline><highlight class="normal">make</highlight></codeline>
+</programlisting></para>
+<para>To run the tests, do</para>
+<para><programlisting><codeline><highlight class="normal">make<sp/>test</highlight></codeline>
+</programlisting></para>
+<para>All tests should pass. </para>
+</sect2>
+</sect1>
+    </detaileddescription>
+    <location file="cmake-build-debug/_deps/googletest-src/CONTRIBUTING.md"/>
+  </compounddef>
+</doxygen>

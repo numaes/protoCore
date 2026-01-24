@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1results_1_1ParseResults_1_1List" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pyparsing::results::ParseResults::List</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">list</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1results_1_1ParseResults_1_1List_1a5e47fbe8bed3d723f908cab31b4697c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.results.ParseResults.List.__new__</definition>
+        <argsstring>(cls, contained=None)</argsstring>
+        <name>__new__</name>
+        <qualifiedname>pip._vendor.pyparsing.results.ParseResults.List.__new__</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>contained</type>
+          <defname>contained</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/results.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/results.py" bodystart="137" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Simple wrapper class to distinguish parsed list results that should be preserved
+as actual Python lists, instead of being converted to :class:`ParseResults`::
+
+    LBRACK, RBRACK = map(pp.Suppress, &quot;[]&quot;)
+    element = pp.Forward()
+    item = ppc.integer
+    element_list = LBRACK + pp.DelimitedList(element) + RBRACK
+
+    # add parse actions to convert from ParseResults to actual Python collection types
+    def as_python_list(t):
+        return pp.ParseResults.List(t.as_list())
+    element_list.add_parse_action(as_python_list)
+
+    element &lt;&lt;= item | element_list
+
+    element.run_tests(&apos;&apos;&apos;
+        100
+        [2,3,4]
+        [[2, 1],3,4]
+        [(2, 1),3,4]
+        (2,3,4)
+        &apos;&apos;&apos;, post_parse=lambda s, r: (r[0], type(r[0])))
+
+prints::
+
+    100
+    (100, &lt;class &apos;int&apos;&gt;)
+
+    [2,3,4]
+    ([2, 3, 4], &lt;class &apos;list&apos;&gt;)
+
+    [[2, 1],3,4]
+    ([[2, 1], 3, 4], &lt;class &apos;list&apos;&gt;)
+
+(Used internally by :class:`Group` when `aslist=True`.)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._vendor.pyparsing.results.ParseResults.List</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1results_1_1ParseResults_1_1List"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>list</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._vendor.pyparsing.results.ParseResults.List</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1results_1_1ParseResults_1_1List"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>list</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/results.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/results.py" bodystart="98" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1results_1_1ParseResults_1_1List_1a5e47fbe8bed3d723f908cab31b4697c8" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::results::ParseResults::List</scope><name>__new__</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

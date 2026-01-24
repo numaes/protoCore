@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_TECHNICAL__ANALYSIS" kind="page">
+    <compoundname>md_TECHNICAL__ANALYSIS</compoundname>
+    <title>Technical Analysis: ProtoCore</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_TECHNICAL__ANALYSIS_1autotoc_md988"/> <bold>Date:</bold> 2026-01-22 <bold>Project:</bold> ProtoCore <bold>Type:</bold> Embeddable Dynamic Object System / Runtime <bold>Language:</bold> C++20</para>
+<sect1 id="md_TECHNICAL__ANALYSIS_1autotoc_md989">
+<title>1. Executive Summary</title>
+<para>ProtoCore is a high-performance, embeddable runtime library written in C++20. It bridges the gap between the flexibility of dynamic, prototype-based object systems (similar to JavaScript or Self) and the raw performance and concurrency of C++. Key features include a GIL-free architecture, true parallelism, immutable-by-default data structures, and a hybrid memory model designed for modern hardware cache locality.</para>
+</sect1>
+<sect1 id="md_TECHNICAL__ANALYSIS_1autotoc_md990">
+<title>2. Architecture &amp; Design Philosophy</title>
+<para>The project is built upon four pillars:<orderedlist>
+<listitem><para><bold>Immutability</bold>: Core data structures are persistent and immutable using structural sharing.</para>
+</listitem><listitem><para><bold>Hardware-Aware Memory</bold>: Tagged pointers, 64-byte aligned cells, and per-thread arenas.</para>
+</listitem><listitem><para><bold>Prototype Object Model</bold>: Dynamic inheritance via delegation (prototypes) rather than classes.</para>
+</listitem><listitem><para><bold>Concurrency</bold>: Designed for multi-core scaling without a Global Interpreter Lock (GIL).</para>
+</listitem></orderedlist>
+</para>
+<sect2 id="md_TECHNICAL__ANALYSIS_1autotoc_md991">
+<title>2.1 Memory Model</title>
+<para>ProtoCore employs a sophisticated memory management strategy:</para>
+<para><itemizedlist>
+<listitem><para>**Tagged Pointers (<computeroutput>ProtoObject*</computeroutput>)**: A 64-bit handle that can represent either an immediate value (SmallInteger, Boolean) or a pointer to a heap-allocated <computeroutput>Cell</computeroutput>. This avoids allocation for common scalar values.</para>
+</listitem><listitem><para><bold>Cell-Based Heap</bold>: All heap objects are stored in fixed-size 64-byte <computeroutput>Cell</computeroutput>s. This alignment matches standard CPU cache lines, eliminating false sharing between threads.</para>
+</listitem><listitem><para><bold>Per-Thread Arenas</bold>: Each thread allocates from a local pool, requiring no locks for the vast majority of allocations.</para>
+</listitem><listitem><para><bold>Garbage Collection</bold>: A concurrent Mark-and-Sweep collector with a dedicated GC thread. It uses a &quot;stop-the-world&quot; pause only for scanning roots, followed by concurrent marking/sweeping. It also employs an implicit generational approach by tracking new allocations per <computeroutput>ProtoContext</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_TECHNICAL__ANALYSIS_1autotoc_md992">
+<title>2.2 Object Model</title>
+<para><itemizedlist>
+<listitem><para><bold>Prototypes</bold>: Objects inherit behavior via a prototype chain.</para>
+</listitem><listitem><para><bold>ProtoObjectCell</bold>: The internal representation of an object, containing a <computeroutput>ParentLink</computeroutput> (prototype) and a <computeroutput>ProtoSparseList</computeroutput> (attributes).</para>
+</listitem><listitem><para><bold>Modifiability</bold>: While defaults are immutable, controlled mutation is possible via a thread-safe <computeroutput>mutableRoot</computeroutput> sparse list and atomic compare-and-swap operations.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_TECHNICAL__ANALYSIS_1autotoc_md993">
+<title>2.3 Data Structures</title>
+<para>The library implements persistent data structures to support efficient copy-on-write semantics:</para>
+<para><itemizedlist>
+<listitem><para><bold>Ropes</bold>: Used for <computeroutput>ProtoString</computeroutput> and <computeroutput>ProtoTuple</computeroutput> to enable efficient concatenation and slicing without massive copying.</para>
+</listitem><listitem><para><bold>Balanced Trees</bold>: Used for <computeroutput>ProtoList</computeroutput> and <computeroutput>ProtoSparseList</computeroutput> to guarantee O(log n) operations.</para>
+</listitem><listitem><para><bold>Interning</bold>: Tuples and Strings are interned explicitly to allow O(1) identity comparison for unique values.</para>
+</listitem><listitem><para><bold>Sets &amp; Multisets</bold>: Implemented efficiently over hash-mapped SparseLists (Multisets use value counts).</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_TECHNICAL__ANALYSIS_1autotoc_md994">
+<title>3. Codebase Structure</title>
+<para>The project follows a clean separation between public API and internal implementation.</para>
+<sect2 id="md_TECHNICAL__ANALYSIS_1autotoc_md995">
+<title>3.1 Directory Layout</title>
+<para><itemizedlist>
+<listitem><para><computeroutput>core/</computeroutput>: Contains the implementation files (<computeroutput>.cpp</computeroutput>) for all logic.</para>
+</listitem><listitem><para><computeroutput>headers/</computeroutput>:<itemizedlist>
+<listitem><para><computeroutput><ref refid="protoCore_8h" kindref="compound">protoCore.h</ref></computeroutput>: Public API. Defines opaque handles and trampoline methods.</para>
+</listitem><listitem><para><computeroutput><ref refid="proto__internal_8h" kindref="compound">proto_internal.h</ref></computeroutput>: Internal implementation details (<computeroutput>*Implementation</computeroutput> classes).</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><computeroutput>test/</computeroutput>: Unit tests using Google Test.</para>
+</listitem><listitem><para><computeroutput>performance/</computeroutput>: Benchmarks for threading and data structure performance.</para>
+</listitem><listitem><para><computeroutput>ext/</computeroutput> or <computeroutput>_deps/</computeroutput>: Dependencies managed via CMake.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_TECHNICAL__ANALYSIS_1autotoc_md996">
+<title>3.2 Key Classes</title>
+<para><itemizedlist>
+<listitem><para><bold>Runtime</bold>:<itemizedlist>
+<listitem><para><computeroutput>ProtoSpace</computeroutput>: The global runtime environment (GC, interning, thread list).</para>
+</listitem><listitem><para><computeroutput>ProtoContext</computeroutput>: Per-thread execution state (call stack, local memory arena).</para>
+</listitem><listitem><para><computeroutput>ProtoThread</computeroutput>: New OS thread wrapper.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>Types</bold>:<itemizedlist>
+<listitem><para><computeroutput>ProtoObject</computeroutput>: <ref refid="classBase" kindref="compound">Base</ref> handle.</para>
+</listitem><listitem><para><computeroutput>ProtoList</computeroutput>, <computeroutput>ProtoTuple</computeroutput>, <computeroutput>ProtoString</computeroutput>: Collection types.</para>
+</listitem><listitem><para><computeroutput>SmallInteger</computeroutput>, <computeroutput>LargeInteger</computeroutput>, <computeroutput>Double</computeroutput>: Numeric hierarchy.</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_TECHNICAL__ANALYSIS_1autotoc_md997">
+<title>4. Build System</title>
+<para><itemizedlist>
+<listitem><para><bold>System</bold>: CMake (&gt;= 3.16).</para>
+</listitem><listitem><para><bold>Compiler Config</bold>: strict C++20 requirement (<computeroutput>CMAKE_CXX_STANDARD 20</computeroutput>).</para>
+</listitem><listitem><para><bold>Targets</bold>:<itemizedlist>
+<listitem><para><computeroutput>proto</computeroutput> (Static Library): The core runtime.</para>
+</listitem><listitem><para><computeroutput>immutable_sharing_benchmark</computeroutput>: Performance validation.</para>
+</listitem><listitem><para><computeroutput>concurrent_append_benchmark</computeroutput>: Threading validation.</para>
+</listitem><listitem><para><computeroutput>tests</computeroutput>: Unit test suite (enabled via <computeroutput>enable_testing()</computeroutput>).</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_TECHNICAL__ANALYSIS_1autotoc_md998">
+<title>5. Technology Stack</title>
+<para><itemizedlist>
+<listitem><para><bold>Language</bold>: C++20 (Concepts, modules support readiness, modern stdlib).</para>
+</listitem><listitem><para><bold>Testing</bold>: Google Test (gtest/gmock).</para>
+</listitem><listitem><para><bold>Documentation</bold>: Doxygen, Sphinx, Breathe.</para>
+</listitem><listitem><para><bold>Build</bold>: CMake, Make.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_TECHNICAL__ANALYSIS_1autotoc_md999">
+<title>6. Conclusion and Recommendations</title>
+<para>ProtoCore is a robustly architected system suitable for embedding scripting capabilities into performance-critical applications. Its design decisions (tagged pointers, immutability) align with high-frequency trading or real-time simulation requirements where latency and safe concurrency are paramount.</para>
+<para><bold>Recommendations for Contributors:</bold><itemizedlist>
+<listitem><para>Adhere strictly to the <computeroutput><ref refid="protoCore_8h" kindref="compound">headers/protoCore.h</ref></computeroutput> vs <computeroutput><ref refid="proto__internal_8h" kindref="compound">headers/proto_internal.h</ref></computeroutput> separation.</para>
+</listitem><listitem><para>Use <computeroutput>toImpl</computeroutput> and <computeroutput>as...</computeroutput> helpers for safe type casting.</para>
+</listitem><listitem><para>Respect the immutable nature of core types; use the defined mutation APIs only when necessary. </para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="TECHNICAL_ANALYSIS.md"/>
+  </compounddef>
+</doxygen>

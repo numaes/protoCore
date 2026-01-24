@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1nodes_1_1TreeCopyVisitor" kind="class" language="Python" prot="public">
+    <compoundname>docutils::nodes::TreeCopyVisitor</compoundname>
+    <basecompoundref refid="classdocutils_1_1nodes_1_1GenericNodeVisitor" prot="public" virt="non-virtual">docutils.nodes.GenericNodeVisitor</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1parts_1_1ContentsFilter" prot="public" virt="non-virtual">docutils.transforms.parts.ContentsFilter</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a4dbf14aa675b8aed7c1377bfb96ee270" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.nodes.TreeCopyVisitor::parent_stack</definition>
+        <argsstring></argsstring>
+        <name>parent_stack</name>
+        <qualifiedname>docutils.nodes.TreeCopyVisitor.parent_stack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a391e36a40a9a8081fb2831887617e136" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.nodes.TreeCopyVisitor::parent</definition>
+        <argsstring></argsstring>
+        <name>parent</name>
+        <qualifiedname>docutils.nodes.TreeCopyVisitor.parent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2102" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a006799de5ef2103295e9345c3a6a2b5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.nodes.TreeCopyVisitor.__init__</definition>
+        <argsstring>(self, document)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.nodes.TreeCopyVisitor.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1nodes_1_1NodeVisitor_1a79dc86c6947a392e378c002c2b73304c">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1document" kindref="compound">document</ref></type>
+          <defname>document</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2099" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2099" bodyend="2103"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1nodes_1_1TreeCopyVisitor_1ab65bb62c293da08dac9d82aa279698ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.nodes.TreeCopyVisitor.get_tree_copy</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_tree_copy</name>
+        <qualifiedname>docutils.nodes.TreeCopyVisitor.get_tree_copy</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2104" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2104" bodyend="2106"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a26cec04ef7c3f224a07095706c63b229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.nodes.TreeCopyVisitor.default_visit</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>default_visit</name>
+        <qualifiedname>docutils.nodes.TreeCopyVisitor.default_visit</qualifiedname>
+        <reimplements refid="classdocutils_1_1nodes_1_1GenericNodeVisitor_1a8003a898de85f02e8856c4dbf3f622a3">default_visit</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy the current node, and make it the new acting parent.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2107" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2107" bodyend="2113"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a991826ce0dc6ec503883b3ff6a64b2de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.nodes.TreeCopyVisitor.default_departure</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>default_departure</name>
+        <qualifiedname>docutils.nodes.TreeCopyVisitor.default_departure</qualifiedname>
+        <reimplements refid="classdocutils_1_1nodes_1_1GenericNodeVisitor_1a9765bcf33cf6ba9a18de957d1311f2da">default_departure</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Restore the previous acting parent.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2114" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2114" bodyend="2118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Make a complete copy of a tree or branch, including element attributes.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.nodes.TreeCopyVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1TreeCopyVisitor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.nodes.GenericNodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1GenericNodeVisitor"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+      </node>
+      <node id="4">
+        <label>docutils.transforms.parts.ContentsFilter</label>
+        <link refid="classdocutils_1_1transforms_1_1parts_1_1ContentsFilter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.transforms.SphinxContentsFilter</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxContentsFilter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.nodes.TreeCopyVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1TreeCopyVisitor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.nodes.GenericNodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1GenericNodeVisitor"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>optional</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" line="2093" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2093" bodyend="2118"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a006799de5ef2103295e9345c3a6a2b5e" prot="public" virt="non-virtual"><scope>docutils::nodes::TreeCopyVisitor</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a991826ce0dc6ec503883b3ff6a64b2de" prot="public" virt="non-virtual"><scope>docutils::nodes::TreeCopyVisitor</scope><name>default_departure</name></member>
+      <member refid="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a26cec04ef7c3f224a07095706c63b229" prot="public" virt="non-virtual"><scope>docutils::nodes::TreeCopyVisitor</scope><name>default_visit</name></member>
+      <member refid="classdocutils_1_1nodes_1_1TreeCopyVisitor_1ab65bb62c293da08dac9d82aa279698ae" prot="public" virt="non-virtual"><scope>docutils::nodes::TreeCopyVisitor</scope><name>get_tree_copy</name></member>
+      <member refid="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a391e36a40a9a8081fb2831887617e136" prot="public" virt="non-virtual"><scope>docutils::nodes::TreeCopyVisitor</scope><name>parent</name></member>
+      <member refid="classdocutils_1_1nodes_1_1TreeCopyVisitor_1a4dbf14aa675b8aed7c1377bfb96ee270" prot="public" virt="non-virtual"><scope>docutils::nodes::TreeCopyVisitor</scope><name>parent_stack</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

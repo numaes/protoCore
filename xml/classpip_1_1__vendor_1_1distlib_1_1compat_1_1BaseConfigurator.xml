@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::distlib::compat::BaseConfigurator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Configurator" prot="public" virt="non-virtual">pip._vendor.distlib.util.Configurator</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a2cfcd861c003fc6270157f0ea30865b9" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator::CONVERT_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>CONVERT_PATTERN</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.CONVERT_PATTERN</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(?P&lt;prefix&gt;[a-<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a196ff6a287f53f758b1506f21269fc77" kindref="member">z</ref>]+)://(?P&lt;suffix&gt;.*)$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1010" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1010" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a8531abf5f0c847aee7235a8827ccb4bc" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator::WORD_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>WORD_PATTERN</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.WORD_PATTERN</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\s*(\w+)\s*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1012" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1012" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1acf7eb948c627fb1ec0fc035f8175a15a" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator::DOT_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>DOT_PATTERN</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.DOT_PATTERN</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\.\s*(\w+)\s*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1013" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1013" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1aaf951c11bfdc4d991a6539dcb6bb84ae" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator::INDEX_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>INDEX_PATTERN</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.INDEX_PATTERN</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\[\s*(\w+)\s*\]\s*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1014" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1014" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1aa8f29b8586c3cfbc6e3264d3f2862b4b" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator::DIGIT_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>DIGIT_PATTERN</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.DIGIT_PATTERN</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\d+$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1015" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1015" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a0f72e36fad4cf969def2c00c541d26d0" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.distlib.compat.BaseConfigurator::value_converters</definition>
+        <argsstring></argsstring>
+        <name>value_converters</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.value_converters</qualifiedname>
+        <initializer>=  {
+            &apos;ext&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1ad2396c99e842d8f5f96207d76d9491cd" kindref="member">ext_convert</ref>&apos;,
+            &apos;cfg&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a2586f5250cbdb35e4168325ed952acc1" kindref="member">cfg_convert</ref>&apos;,
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1017" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1017" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1ac30b4328024f6206d4691733dcfe0283" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator::importer</definition>
+        <argsstring></argsstring>
+        <name>importer</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.importer</qualifiedname>
+        <initializer>=  staticmethod(__import__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1023" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1023" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a6472e0443febc69e1e2771c1cd5a9c02" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1026" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1026" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a643b07dc01426f7155941a86473bc3f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator.__init__</definition>
+        <argsstring>(self, config)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.__init__</qualifiedname>
+        <reimplementedby refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Configurator_1abd02ef6cd0574da82eef235573549cf4">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a6472e0443febc69e1e2771c1cd5a9c02" kindref="member">config</ref></type>
+          <defname>config</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1025" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1025" bodyend="1028"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a10a8e2f59b951f4bb9147ce84c9662c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator.resolve</definition>
+        <argsstring>(self, s)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.resolve</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>s</type>
+          <defname>s</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Resolve strings to objects using standard import and attribute
+syntax.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1029" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1029" bodyend="1051"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1ad2396c99e842d8f5f96207d76d9491cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator.ext_convert</definition>
+        <argsstring>(self, value)</argsstring>
+        <name>ext_convert</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.ext_convert</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Default converter for the ext:// protocol.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1052" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1052" bodyend="1055"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a2586f5250cbdb35e4168325ed952acc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator.cfg_convert</definition>
+        <argsstring>(self, value)</argsstring>
+        <name>cfg_convert</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.cfg_convert</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Default converter for the cfg:// protocol.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1056" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1056" bodyend="1090"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1abcff9425eaf086d1b67b488aab87e5da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator.convert</definition>
+        <argsstring>(self, value)</argsstring>
+        <name>convert</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.convert</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert values to an appropriate type. dicts, lists and tuples are
+replaced by their converting alternatives. Strings are checked to
+see if they have a conversion format and are converted if they do.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1091" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1091" bodyend="1119"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1af4feb3037e756b7064576de15a803f21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator.configure_custom</definition>
+        <argsstring>(self, config)</argsstring>
+        <name>configure_custom</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.configure_custom</qualifiedname>
+        <reimplementedby refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Configurator_1a0f3793ec9d2c9c753b7600936e5346ef">configure_custom</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a6472e0443febc69e1e2771c1cd5a9c02" kindref="member">config</ref></type>
+          <defname>config</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Configure an object with a user-supplied factory.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1120" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1120" bodyend="1133"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a3a9dfd465b7669f803a4bdc522f95864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.compat.BaseConfigurator.as_tuple</definition>
+        <argsstring>(self, value)</argsstring>
+        <name>as_tuple</name>
+        <qualifiedname>pip._vendor.distlib.compat.BaseConfigurator.as_tuple</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Utility function which converts lists to tuples.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1134" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1134" bodyend="1139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The configurator base class which defines some useful defaults.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.compat.BaseConfigurator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.distlib.util.Configurator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Configurator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.compat.BaseConfigurator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" line="1005" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/compat.py" bodystart="1005" bodyend="1139"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a643b07dc01426f7155941a86473bc3f4" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a3a9dfd465b7669f803a4bdc522f95864" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>as_tuple</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a2586f5250cbdb35e4168325ed952acc1" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>cfg_convert</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a6472e0443febc69e1e2771c1cd5a9c02" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>config</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1af4feb3037e756b7064576de15a803f21" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>configure_custom</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1abcff9425eaf086d1b67b488aab87e5da" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>convert</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a2cfcd861c003fc6270157f0ea30865b9" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>CONVERT_PATTERN</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1aa8f29b8586c3cfbc6e3264d3f2862b4b" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>DIGIT_PATTERN</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1acf7eb948c627fb1ec0fc035f8175a15a" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>DOT_PATTERN</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1ad2396c99e842d8f5f96207d76d9491cd" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>ext_convert</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1ac30b4328024f6206d4691733dcfe0283" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>importer</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1aaf951c11bfdc4d991a6539dcb6bb84ae" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>INDEX_PATTERN</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a10a8e2f59b951f4bb9147ce84c9662c9" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>resolve</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a0f72e36fad4cf969def2c00c541d26d0" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>value_converters</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1compat_1_1BaseConfigurator_1a8531abf5f0c847aee7235a8827ccb4bc" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::compat::BaseConfigurator</scope><name>WORD_PATTERN</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

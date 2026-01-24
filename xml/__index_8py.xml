@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__index_8py" kind="file" language="Python">
+    <compoundname>_index.py</compoundname>
+    <innerclass refid="classsphinx_1_1domains_1_1__index_1_1IndexEntry" prot="public">sphinx::domains::_index::IndexEntry</innerclass>
+    <innerclass refid="classsphinx_1_1domains_1_1__index_1_1Index" prot="public">sphinx::domains::_index::Index</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1domains">sphinx::domains</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1domains_1_1__index">sphinx::domains::_index</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1domains_1_1__index" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Domain<sp/>indices.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>abc<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ABC,<sp/>abstractmethod</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING,<sp/>NamedTuple</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1errors" kindref="compound">sphinx.errors</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SphinxError</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections.abc<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Iterable</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1domains" kindref="compound">sphinx.domains</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Domain</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="classsphinx_1_1domains_1_1__index_1_1IndexEntry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1domains_1_1__index_1_1IndexEntry" kindref="compound">IndexEntry</ref>(NamedTuple):</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;An<sp/>index<sp/>entry.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>note::</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>*qualifier*<sp/>and<sp/>*description*<sp/>are<sp/>not<sp/>rendered<sp/>for<sp/>some<sp/>output<sp/>formats,</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>such<sp/>as<sp/>LaTeX.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>The<sp/>name<sp/>of<sp/>the<sp/>index<sp/>entry<sp/>to<sp/>be<sp/>displayed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>name:<sp/>str</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>The<sp/>sub-entry<sp/>related<sp/>type.<sp/>One<sp/>of:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>``0``</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/><sp/><sp/>A<sp/>normal<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>``1``</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/><sp/><sp/>An<sp/>entry<sp/>with<sp/>sub-entries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>``2``</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/><sp/><sp/>A<sp/>sub-entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>subtype:<sp/>int</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>*docname*<sp/>where<sp/>the<sp/>entry<sp/>is<sp/>located.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>docname:<sp/>str</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>Anchor<sp/>for<sp/>the<sp/>entry<sp/>within<sp/>`docname`</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>anchor:<sp/>str</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>Extra<sp/>info<sp/>for<sp/>the<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>extra:<sp/>str</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>Qualifier<sp/>for<sp/>the<sp/>description.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>qualifier:<sp/>str</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>Description<sp/>for<sp/>the<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>descr:<sp/>str</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classsphinx_1_1domains_1_1__index_1_1Index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1domains_1_1__index_1_1Index" kindref="compound">Index</ref>(ABC):</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;An<sp/>Index<sp/>is<sp/>the<sp/>description<sp/>for<sp/>a<sp/>domain-specific<sp/>index.<sp/><sp/>To<sp/>add<sp/>an<sp/>index<sp/>to</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>a<sp/>domain,<sp/>subclass<sp/>Index,<sp/>overriding<sp/>the<sp/>three<sp/>name<sp/>attributes:</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/>`name`<sp/>is<sp/>an<sp/>identifier<sp/>used<sp/>for<sp/>generating<sp/>file<sp/>names.</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>It<sp/>is<sp/>also<sp/>used<sp/>for<sp/>a<sp/>hyperlink<sp/>target<sp/>for<sp/>the<sp/>index.<sp/>Therefore,<sp/>users<sp/>can</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>refer<sp/>the<sp/>index<sp/>page<sp/>using<sp/>``ref``<sp/>role<sp/>and<sp/>a<sp/>string<sp/>which<sp/>is<sp/>combined</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>domain<sp/>name<sp/>and<sp/>``name``<sp/>attribute<sp/>(ex.<sp/>``:ref:`py-modindex```).</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/>`localname`<sp/>is<sp/>the<sp/>section<sp/>title<sp/>for<sp/>the<sp/>index.</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/>`shortname`<sp/>is<sp/>a<sp/>short<sp/>name<sp/>for<sp/>the<sp/>index,<sp/>for<sp/>use<sp/>in<sp/>the<sp/>relation<sp/>bar<sp/>in</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>HTML<sp/>output.<sp/><sp/>Can<sp/>be<sp/>empty<sp/>to<sp/>disable<sp/>entries<sp/>in<sp/>the<sp/>relation<sp/>bar.</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>and<sp/>providing<sp/>a<sp/>:meth:`generate`<sp/>method.<sp/><sp/>Then,<sp/>add<sp/>the<sp/>index<sp/>class<sp/>to</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>your<sp/>domain&apos;s<sp/>`indices`<sp/>list.<sp/><sp/>Extensions<sp/>can<sp/>add<sp/>indices<sp/>to<sp/>existing</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>domains<sp/>using<sp/>:meth:`~sphinx.application.Sphinx.add_index_to_domain`.</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>versionchanged::<sp/>3.0</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Index<sp/>pages<sp/>can<sp/>be<sp/>referred<sp/>by<sp/>domain<sp/>name<sp/>and<sp/>index<sp/>name<sp/>via</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:rst:role:`ref`<sp/>role.</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>name:<sp/>str</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>localname:<sp/>str</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>shortname:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1domains_1_1__index_1_1Index_1a7eeef4bb570766b23631526c3e1f56e9" kindref="member">__init__</ref>(self,<sp/>domain:<sp/>Domain)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1domains_1_1__index_1_1Index_1a305e8219991f7a9c1a2d9ab3898baf73" kindref="member">name</ref><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1domains_1_1__index_1_1Index_1a1aeab1272d8ad2fa4ec542191e9ade6f" kindref="member">localname</ref><sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>=<sp/>f</highlight><highlight class="stringliteral">&apos;Index<sp/>subclass<sp/>{self.__class__.__name__}<sp/>has<sp/>no<sp/>valid<sp/>name<sp/>or<sp/>localname&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>(msg)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1domains_1_1__index_1_1Index_1affa461c212a86aa23aef07809a8c0bae" kindref="member">domain</ref><sp/>=<sp/>domain</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@abstractmethod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">generate(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>docnames:<sp/>Iterable[str]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>tuple[list[tuple[str,<sp/>list[IndexEntry]]],<sp/>bool]:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>entries<sp/>for<sp/>the<sp/>index.</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>``docnames``<sp/>is<sp/>given,<sp/>restrict<sp/>to<sp/>entries<sp/>referring<sp/>to<sp/>these</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docnames.</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>return<sp/>value<sp/>is<sp/>a<sp/>tuple<sp/>of<sp/>``(content,<sp/>collapse)``:</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``collapse``</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>A<sp/>boolean<sp/>that<sp/>determines<sp/>if<sp/>sub-entries<sp/>should<sp/>start<sp/>collapsed<sp/>(for</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output<sp/>formats<sp/>that<sp/>support<sp/>collapsing<sp/>sub-entries).</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``content``:</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>A<sp/>sequence<sp/>of<sp/>``(letter,<sp/>entries)``<sp/>tuples,<sp/>where<sp/>``letter``<sp/>is<sp/>the</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;heading&quot;<sp/>for<sp/>the<sp/>given<sp/>``entries``,<sp/>usually<sp/>the<sp/>starting<sp/>letter,<sp/>and</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``entries``<sp/>is<sp/>a<sp/>sequence<sp/>of<sp/>single<sp/>entries.</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Each<sp/>entry<sp/>is<sp/>an<sp/>:py:class:`IndexEntry`.</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/_index.py"/>
+  </compounddef>
+</doxygen>

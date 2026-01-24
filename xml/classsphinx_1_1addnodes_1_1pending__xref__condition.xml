@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1addnodes_1_1pending__xref__condition" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::addnodes::pending_xref_condition</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">nodes.Inline</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">nodes.TextElement</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Node representing a potential way to create a cross-reference and the
+condition in which this way should be used.
+
+This node is only allowed to be placed under a :py:class:`pending_xref`
+node.  A **pending_xref** node must contain either no **pending_xref_condition**
+nodes or it must only contains **pending_xref_condition** nodes.
+
+The cross-reference resolver will replace a :py:class:`pending_xref` which
+contains **pending_xref_condition** nodes by the content of exactly one of
+those **pending_xref_condition** nodes&apos; content. It uses the **condition**
+attribute to decide which **pending_xref_condition** node&apos;s content to
+use. For example, let us consider how the cross-reference resolver acts on::
+
+    &lt;pending_xref refdomain=&quot;py&quot; reftarget=&quot;io.StringIO ...&gt;
+        &lt;pending_xref_condition condition=&quot;resolved&quot;&gt;
+            &lt;literal&gt;
+                StringIO
+        &lt;pending_xref_condition condition=&quot;*&quot;&gt;
+            &lt;literal&gt;
+                io.StringIO
+
+If the cross-reference resolver successfully resolves the cross-reference,
+then it rewrites the **pending_xref** as::
+
+    &lt;reference&gt;
+        &lt;literal&gt;
+            StringIO
+
+Otherwise, if the cross-reference resolution failed, it rewrites the
+**pending_xref** as::
+
+    &lt;reference&gt;
+        &lt;literal&gt;
+            io.StringIO
+
+The **pending_xref_condition** node should have **condition** attribute.
+Domains can be store their individual conditions into the attribute to
+filter contents on resolving phase.  As a reserved condition name,
+``condition=&quot;*&quot;`` is used for the fallback of resolution failure.
+Additionally, as a recommended condition name, ``condition=&quot;resolved&quot;``
+represents a resolution success in the intersphinx module.
+
+.. versionadded:: 4.0
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>nodes.Inline</label>
+      </node>
+      <node id="3">
+        <label>nodes.TextElement</label>
+      </node>
+      <node id="1">
+        <label>sphinx.addnodes.pending_xref_condition</label>
+        <link refid="classsphinx_1_1addnodes_1_1pending__xref__condition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>nodes.Inline</label>
+      </node>
+      <node id="3">
+        <label>nodes.TextElement</label>
+      </node>
+      <node id="1">
+        <label>sphinx.addnodes.pending_xref_condition</label>
+        <link refid="classsphinx_1_1addnodes_1_1pending__xref__condition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/addnodes.py" line="504" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/addnodes.py" bodystart="504" bodyend="550"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

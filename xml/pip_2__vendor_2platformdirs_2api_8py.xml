@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2platformdirs_2api_8py" kind="file" language="Python">
+    <compoundname>api.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC" prot="public">pip::_vendor::platformdirs::api::PlatformDirsABC</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1platformdirs">pip::_vendor::platformdirs</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1platformdirs_1_1api">pip::_vendor::platformdirs::api</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1platformdirs_1_1api" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Base<sp/>API.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>abc<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ABC,<sp/>abstractmethod</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>pathlib<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Path</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.version_info<sp/>&gt;=<sp/>(3,<sp/>8):<sp/><sp/></highlight><highlight class="comment">#<sp/>pragma:<sp/>no<sp/>cover<sp/>(py38+)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Literal</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="comment">#<sp/>pragma:<sp/>no<sp/>cover<sp/>(py38+)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1typing__extensions" kindref="compound">pip._vendor.typing_extensions</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Literal</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC" kindref="compound">PlatformDirsABC</ref>(ABC):</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Abstract<sp/>base<sp/>class<sp/>for<sp/>platform<sp/>directories.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a90d6a6594d25de71b2792d01cafd6802" kindref="member">__init__</ref>(<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>PLR0913</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>appname:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>appauthor:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>|<sp/>Literal[</highlight><highlight class="keyword">False</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>roaming:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>FBT001,<sp/>FBT002</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>multipath:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>FBT001,<sp/>FBT002</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opinion:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>FBT001,<sp/>FBT002</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ensure_exists:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>FBT001,<sp/>FBT002</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Create<sp/>a<sp/>new<sp/>platform<sp/>directory.</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>appname:<sp/>See<sp/>`appname`.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>appauthor:<sp/>See<sp/>`appauthor`.</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>version:<sp/>See<sp/>`version`.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>roaming:<sp/>See<sp/>`roaming`.</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>multipath:<sp/>See<sp/>`multipath`.</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>opinion:<sp/>See<sp/>`opinion`.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>ensure_exists:<sp/>See<sp/>`ensure_exists`.</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a8142aef3049831585b905b9278cde7d5" kindref="member">appname</ref><sp/>=<sp/>appname<sp/><sp/></highlight><highlight class="comment">#:<sp/>The<sp/>name<sp/>of<sp/>application.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a4b470727f66770e4af42235f91ed74db" kindref="member">appauthor</ref><sp/>=<sp/>appauthor</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>name<sp/>of<sp/>the<sp/>app<sp/>author<sp/>or<sp/>distributing<sp/>body<sp/>for<sp/>this<sp/>application.<sp/>Typically,<sp/>it<sp/>is<sp/>the<sp/>owning<sp/>company<sp/>name.</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Defaults<sp/>to<sp/>`appname`.<sp/>You<sp/>may<sp/>pass<sp/>``False``<sp/>to<sp/>disable<sp/>it.</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1ace55ccbc54d097e1467f81a79212c57a" kindref="member">version</ref><sp/>=<sp/>version</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>An<sp/>optional<sp/>version<sp/>path<sp/>element<sp/>to<sp/>append<sp/>to<sp/>the<sp/>path.<sp/>You<sp/>might<sp/>want<sp/>to<sp/>use<sp/>this<sp/>if<sp/>you<sp/>want<sp/>multiple<sp/>versions</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>of<sp/>your<sp/>app<sp/>to<sp/>be<sp/>able<sp/>to<sp/>run<sp/>independently.<sp/>If<sp/>used,<sp/>this<sp/>would<sp/>typically<sp/>be<sp/>``&lt;major&gt;.&lt;minor&gt;``.</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a07527c45b8ce24624a0e65bcb0190eae" kindref="member">roaming</ref><sp/>=<sp/>roaming</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Whether<sp/>to<sp/>use<sp/>the<sp/>roaming<sp/>appdata<sp/>directory<sp/>on<sp/>Windows.<sp/>That<sp/>means<sp/>that<sp/>for<sp/>users<sp/>on<sp/>a<sp/>Windows<sp/>network<sp/>setup</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>roaming<sp/>profiles,<sp/>this<sp/>user<sp/>data<sp/>will<sp/>be<sp/>synced<sp/>on<sp/>login<sp/>(see</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>`here<sp/>&lt;http://technet.microsoft.com/en-us/library/cc766489(WS.10).aspx&gt;`_).</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a0b9ad4f62f8e0f2d6942ffdfd3401d79" kindref="member">multipath</ref><sp/>=<sp/>multipath</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>An<sp/>optional<sp/>parameter<sp/>only<sp/>applicable<sp/>to<sp/>Unix/Linux<sp/>which<sp/>indicates<sp/>that<sp/>the<sp/>entire<sp/>list<sp/>of<sp/>data<sp/>dirs<sp/>should<sp/>be</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>returned.<sp/>By<sp/>default,<sp/>the<sp/>first<sp/>item<sp/>would<sp/>only<sp/>be<sp/>returned.</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1af05f71b4b9c18c9089c70e951582d6ec" kindref="member">opinion</ref><sp/>=<sp/>opinion<sp/><sp/></highlight><highlight class="comment">#:<sp/>A<sp/>flag<sp/>to<sp/>indicating<sp/>to<sp/>use<sp/>opinionated<sp/>values.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1aecb6bc91decd22126e513c9d447a1b23" kindref="member">ensure_exists</ref><sp/>=<sp/>ensure_exists</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Optionally<sp/>create<sp/>the<sp/>directory<sp/>(and<sp/>any<sp/>missing<sp/>parents)<sp/>upon<sp/>access<sp/>if<sp/>it<sp/>does<sp/>not<sp/>exist.</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>By<sp/>default,<sp/>no<sp/>directories<sp/>are<sp/>created.</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1ae786f3f45abba6f0a283b9ccbc98e626" kindref="member">_append_app_name_and_version</ref>(self,<sp/>*base:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>params<sp/>=<sp/>list(base[1:])</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a8142aef3049831585b905b9278cde7d5" kindref="member">appname</ref>:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>params.append(self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a8142aef3049831585b905b9278cde7d5" kindref="member">appname</ref>)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1ace55ccbc54d097e1467f81a79212c57a" kindref="member">version</ref>:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>params.append(self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1ace55ccbc54d097e1467f81a79212c57a" kindref="member">version</ref>)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path<sp/>=<sp/>os.path.join(base[0],<sp/>*params)<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>PTH118</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a29de7ba7c016ce3bbf3a4b686fc0c8d0" kindref="member">_optionally_create_directory</ref>(path)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1a29de7ba7c016ce3bbf3a4b686fc0c8d0" kindref="member">_optionally_create_directory</ref>(self,<sp/>path:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1aecb6bc91decd22126e513c9d447a1b23" kindref="member">ensure_exists</ref>:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Path(path).mkdir(parents=</highlight><highlight class="keyword">True</highlight><highlight class="normal">,<sp/>exist_ok=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@abstractmethod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1platformdirs_1_1api_1_1PlatformDirsABC_1aab34fc16ec29ad4ba6a12ba2232d430d" kindref="member">user_data_dir</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;:return:<sp/>data<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>user&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>site_data_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>data<sp/>directory<sp/>shared<sp/>by<sp/>users&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>user_config_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;:return:<sp/>config<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>site_config_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>config<sp/>directory<sp/>shared<sp/>by<sp/>the<sp/>users&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>user_cache_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;:return:<sp/>cache<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>site_cache_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>cache<sp/>directory<sp/>shared<sp/>by<sp/>users&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>user_state_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;:return:<sp/>state<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_log_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>log<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_documents_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>documents<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_downloads_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>downloads<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_pictures_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>pictures<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_videos_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>videos<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_music_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>music<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@abstractmethod</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_runtime_dir(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>runtime<sp/>directory<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_data_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>data<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_data_dir)</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>site_data_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>data<sp/>path<sp/>shared<sp/>by<sp/>users&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.site_data_dir)</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>user_config_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;:return:<sp/>config<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_config_dir)</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>site_config_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>config<sp/>path<sp/>shared<sp/>by<sp/>the<sp/>users&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.site_config_dir)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>user_cache_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;:return:<sp/>cache<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_cache_dir)</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>site_cache_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>cache<sp/>path<sp/>shared<sp/>by<sp/>users&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.site_cache_dir)</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>user_state_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;:return:<sp/>state<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_state_dir)</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_log_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>log<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_log_dir)</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_documents_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>documents<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_documents_dir)</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_downloads_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>downloads<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_downloads_dir)</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_pictures_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>pictures<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_pictures_dir)</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_videos_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>videos<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_videos_dir)</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_music_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>music<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_music_dir)</highlight></codeline>
+<codeline lineno="219"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>@property</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>def<sp/>user_runtime_path(self)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">:return:<sp/>runtime<sp/>path<sp/>tied<sp/>to<sp/>the<sp/>use</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>Path(self.user_runtime_dir)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/platformdirs/api.py"/>
+  </compounddef>
+</doxygen>

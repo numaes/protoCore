@@ -1,0 +1,432 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1io_1_1Input" kind="class" language="Python" prot="public">
+    <compoundname>docutils::io::Input</compoundname>
+    <basecompoundref refid="classdocutils_1_1TransformSpec" prot="public" virt="non-virtual">docutils.TransformSpec</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1io_1_1DocTreeInput" prot="public" virt="non-virtual">docutils.io.DocTreeInput</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1io_1_1FileInput" prot="public" virt="non-virtual">docutils.io.FileInput</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1io_1_1NullInput" prot="public" virt="non-virtual">docutils.io.NullInput</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1io_1_1StringInput" prot="public" virt="non-virtual">docutils.io.StringInput</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1a238a8928c2480c1ad6c1529db2d5734e" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.io.Input::component_type</definition>
+        <argsstring></argsstring>
+        <name>component_type</name>
+        <qualifiedname>docutils.io.Input.component_type</qualifiedname>
+        <initializer>=  &apos;input&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="81" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1a39143d77a26eb66935e8f14215e9dfb8" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.io.Input::default_source_path</definition>
+        <argsstring></argsstring>
+        <name>default_source_path</name>
+        <qualifiedname>docutils.io.Input.default_source_path</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="83" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1a5cec76d36c27cd4fd9c9c2dff23025e8" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.io.Input::coding_slug</definition>
+        <argsstring></argsstring>
+        <name>coding_slug</name>
+        <qualifiedname>docutils.io.Input.coding_slug</qualifiedname>
+        <initializer>=  re.compile(br&quot;coding[:=]\s*([-\w.]+)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="167" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1adebc4dfba0ee3197c8f7284a4e8acaef" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.io.Input::byte_order_marks</definition>
+        <argsstring></argsstring>
+        <name>byte_order_marks</name>
+        <qualifiedname>docutils.io.Input.byte_order_marks</qualifiedname>
+        <initializer>=  ((codecs.BOM_UTF32_BE, &apos;utf-32&apos;),
+                        (codecs.BOM_UTF32_LE, &apos;utf-32&apos;),
+                        (codecs.BOM_UTF8, &apos;utf-8-sig&apos;),
+                        (codecs.BOM_UTF16_BE, &apos;utf-16&apos;),
+                        (codecs.BOM_UTF16_LE, &apos;utf-16&apos;),
+                        )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="170" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1a389e5d324e883aaf7a38cec9fe9956af" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.Input::encoding</definition>
+        <argsstring></argsstring>
+        <name>encoding</name>
+        <qualifiedname>docutils.io.Input.encoding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1a388cac78deaa87a18ea52987a15b8bda" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.Input::error_handler</definition>
+        <argsstring></argsstring>
+        <name>error_handler</name>
+        <qualifiedname>docutils.io.Input.error_handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="90" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1ab8cda482a89be9866a56a2d9f27000c6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.Input::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>docutils.io.Input.source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="93" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1a130f4156a0d1e5f865853d8f8c2b9ea7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.Input::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>docutils.io.Input.source_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="96" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1a7ed55c0acaf26d43197064790f222504" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.Input::successful_encoding</definition>
+        <argsstring></argsstring>
+        <name>successful_encoding</name>
+        <qualifiedname>docutils.io.Input.successful_encoding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="102" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1Input_1a3b2fc6b18e266340d665fad30438b309" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.Input::__class__</definition>
+        <argsstring></argsstring>
+        <name>__class__</name>
+        <qualifiedname>docutils.io.Input.__class__</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="106" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1io_1_1Input_1a739e81310299b4b804ceb96aa6496caf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.Input.__init__</definition>
+        <argsstring>(self, source=None, source_path=None, encoding=None, error_handler=&apos;strict&apos;)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.io.Input.__init__</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1io_1_1SphinxFileInput_1aa75322f91896e9628b51270bd00f9863">__init__</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1io_1_1FileInput_1a2279dbde3f9d7f0f5f2f4a55630b6b79">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1io_1_1Input_1ab8cda482a89be9866a56a2d9f27000c6" kindref="member">source</ref></type>
+          <defname>source</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1io_1_1Input_1a130f4156a0d1e5f865853d8f8c2b9ea7" kindref="member">source_path</ref></type>
+          <defname>source_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1io_1_1Input_1a389e5d324e883aaf7a38cec9fe9956af" kindref="member">encoding</ref></type>
+          <defname>encoding</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1io_1_1Input_1a388cac78deaa87a18ea52987a15b8bda" kindref="member">error_handler</ref></type>
+          <defname>error_handler</defname>
+          <defval>&apos;strict&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="86" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1io_1_1Input_1a68592028d7ea04484ac72b2f29dfde13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.Input.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>docutils.io.Input.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="105" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1io_1_1Input_1aee005648928b240d73fbe951cdff1f14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.Input.read</definition>
+        <argsstring>(self)</argsstring>
+        <name>read</name>
+        <qualifiedname>docutils.io.Input.read</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1io_1_1FileInput_1a44d3220f12ce4f3a3f499e506e316fd8">read</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1io_1_1StringInput_1a4c2b349487692f3ce53bf1e09440d40f">read</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1io_1_1NullInput_1a61950d346c6facdb637597eba95c4eaa">read</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1io_1_1DocTreeInput_1a0476291a1b50bb01525de4628a24362b">read</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return input as `str`. Define in subclasses.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="109" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1io_1_1Input_1a77819f51c7c6f0936d53d5489d1e3c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.Input.decode</definition>
+        <argsstring>(self, data)</argsstring>
+        <name>decode</name>
+        <qualifiedname>docutils.io.Input.decode</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Decode `data` if required.
+
+Return Unicode `str` instances unchanged (nothing to decode).
+
+If `self.encoding` is None, determine encoding from data
+or try UTF-8 and the locale&apos;s preferred encoding.
+The client application should call ``locale.setlocale()`` at the
+beginning of processing::
+
+    locale.setlocale(locale.LC_ALL, &apos;&apos;)
+
+Raise UnicodeError if unsuccessful.
+
+Provisional: encoding detection will be removed in Docutils 1.0.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="113" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="113" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1io_1_1Input_1adce99ac4d1bfe4e86b1c575a23b34536" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.Input.determine_encoding_from_data</definition>
+        <argsstring>(self, data)</argsstring>
+        <name>determine_encoding_from_data</name>
+        <qualifiedname>docutils.io.Input.determine_encoding_from_data</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Try to determine the encoding of `data` by looking *in* `data`.
+Check for a byte order mark (BOM) or an encoding declaration.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="180" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="180" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1io_1_1Input_1a1a9d6ba945e8dc5ffccb959bd59111c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.Input.isatty</definition>
+        <argsstring>(self)</argsstring>
+        <name>isatty</name>
+        <qualifiedname>docutils.io.Input.isatty</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return True, if the input source is connected to a TTY device.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="196" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="196" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Abstract base class for input wrappers.
+
+Docutils input objects must provide a `read()` method that
+returns the source, typically as `str` instance.
+
+Inheriting `TransformSpec` allows input objects to add
+&quot;transforms&quot; and &quot;unknown_reference_resolvers&quot; to the &quot;Transformer&quot;.
+(Optional for custom input objects since Docutils 0.19.)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.io.Input</label>
+        <link refid="classdocutils_1_1io_1_1Input"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="3">
+        <label>docutils.io.DocTreeInput</label>
+        <link refid="classdocutils_1_1io_1_1DocTreeInput"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.io.FileInput</label>
+        <link refid="classdocutils_1_1io_1_1FileInput"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.io.NullInput</label>
+        <link refid="classdocutils_1_1io_1_1NullInput"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.io.StringInput</label>
+        <link refid="classdocutils_1_1io_1_1StringInput"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.io.SphinxFileInput</label>
+        <link refid="classsphinx_1_1io_1_1SphinxFileInput"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.io.Input</label>
+        <link refid="classdocutils_1_1io_1_1Input"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>component_type</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>byte_order_marks</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>default_transforms</edgelabel>
+          <edgelabel>unknown_reference_resolvers</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="69" bodyend="203"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1io_1_1Input_1a3b2fc6b18e266340d665fad30438b309" prot="private" virt="non-virtual"><scope>docutils::io::Input</scope><name>__class__</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a739e81310299b4b804ceb96aa6496caf" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a68592028d7ea04484ac72b2f29dfde13" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>__repr__</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1adebc4dfba0ee3197c8f7284a4e8acaef" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>byte_order_marks</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a5cec76d36c27cd4fd9c9c2dff23025e8" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>coding_slug</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a238a8928c2480c1ad6c1529db2d5734e" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>component_type</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a77819f51c7c6f0936d53d5489d1e3c14" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>decode</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a39143d77a26eb66935e8f14215e9dfb8" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>default_source_path</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1adce99ac4d1bfe4e86b1c575a23b34536" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>determine_encoding_from_data</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a389e5d324e883aaf7a38cec9fe9956af" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>encoding</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a388cac78deaa87a18ea52987a15b8bda" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>error_handler</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a1a9d6ba945e8dc5ffccb959bd59111c2" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>isatty</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1aee005648928b240d73fbe951cdff1f14" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>read</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1ab8cda482a89be9866a56a2d9f27000c6" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>source</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a130f4156a0d1e5f865853d8f8c2b9ea7" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>source_path</name></member>
+      <member refid="classdocutils_1_1io_1_1Input_1a7ed55c0acaf26d43197064790f222504" prot="public" virt="non-virtual"><scope>docutils::io::Input</scope><name>successful_encoding</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

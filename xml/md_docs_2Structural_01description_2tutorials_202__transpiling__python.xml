@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_docs_2Structural_01description_2tutorials_202__transpiling__python" kind="page">
+    <compoundname>md_docs_2Structural_01description_2tutorials_202__transpiling__python</compoundname>
+    <title>Tutorial: Transpiling Python with &lt;tt&gt;proto_python&lt;/tt&gt;</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_docs_2Structural_01description_2tutorials_202__transpiling__python_1autotoc_md943"/> </para>
+<sect1 id="md_docs_2Structural_01description_2tutorials_202__transpiling__python_1autotoc_md944">
+<title>Introduction</title>
+<para>The <computeroutput>proto_python</computeroutput> project is a powerful tool that acts as a bridge between the high-level, productive world of Python and the high-performance world of the Proto runtime. It is a <bold>transpiler</bold>, not a compiler. This means it reads Python source code and converts it into C++ source code that is specifically written to use the Proto library.</para>
+<para>This approach allows you to write application logic in a familiar Python syntax while achieving performance close to native C++. This tutorial will walk you through the process.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_202__transpiling__python_1autotoc_md945">
+<title>How it Works</title>
+<para>The process is a multi-stage pipeline:</para>
+<para><orderedlist>
+<listitem><para><bold>Python Parsing:</bold> <computeroutput>proto_python</computeroutput> first parses your <computeroutput>.py</computeroutput> files into a Python Abstract Syntax Tree (AST).</para>
+</listitem><listitem><para><bold>AST Transformation:</bold> It then walks this AST and converts Python concepts into their Proto equivalents.<itemizedlist>
+<listitem><para><computeroutput>print()</computeroutput> becomes a call to a Proto <computeroutput>stdout</computeroutput> object.</para>
+</listitem><listitem><para><computeroutput>x + y</computeroutput> becomes a call to <computeroutput>x.operator_add(y)</computeroutput>.</para>
+</listitem><listitem><para>Function definitions become C++ functions that operate on <computeroutput>const ProtoObject</computeroutput> pointers.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>C++ Code Generation:</bold> Finally, it generates a <computeroutput>.cpp</computeroutput> file containing the transformed logic.</para>
+</listitem><listitem><para><bold>Compilation:</bold> The <computeroutput>proto_python</computeroutput> tool then invokes your system&apos;s C++ compiler (like GCC or Clang) to compile the generated C++ code and link it against <computeroutput>libproto.a</computeroutput>, producing a final, standalone executable.</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_202__transpiling__python_1autotoc_md946">
+<title>A Practical Example</title>
+<para>Let&apos;s transpile a slightly more complex Python script than &quot;Hello, World!&quot;.</para>
+<para>**<computeroutput>fib.py</computeroutput>:** <programlisting filename=".py"><codeline><highlight class="keyword">def<sp/></highlight><highlight class="normal">fib(n):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>n<sp/>&lt;<sp/>2:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>n</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fib(n<sp/>-<sp/>1)<sp/>+<sp/>fib(n<sp/>-<sp/>2)</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">result<sp/>=<sp/>fib(10)</highlight></codeline>
+<codeline><highlight class="normal">print(result)</highlight></codeline>
+</programlisting></para>
+<sect2 id="md_docs_2Structural_01description_2tutorials_202__transpiling__python_1autotoc_md947">
+<title>The Transpilation Command</title>
+<para>To convert this Python script into a native executable, you use the <computeroutput>proto_python</computeroutput> command-line tool.</para>
+<para><programlisting filename=".sh"><codeline><highlight class="normal">#<sp/>-o<sp/>specifies<sp/>the<sp/>output<sp/>executable<sp/>name</highlight></codeline>
+<codeline><highlight class="normal">proto_python<sp/>fib.py<sp/>-o<sp/>fib_native</highlight></codeline>
+</programlisting></para>
+<para>This command will perform all the steps described above and, if successful, create a new executable file named <computeroutput>fib_native</computeroutput> in your current directory.</para>
+</sect2>
+<sect2 id="md_docs_2Structural_01description_2tutorials_202__transpiling__python_1autotoc_md948">
+<title>Running the Native Version</title>
+<para>You can now run this executable directly.</para>
+<para><programlisting filename=".sh"><codeline><highlight class="normal">./fib_native</highlight></codeline>
+</programlisting></para>
+<para>You will see the output <computeroutput>55</computeroutput>, but it will have been calculated by the highly optimized Proto runtime, not a Python interpreter.</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_202__transpiling__python_1autotoc_md949">
+<title>Supported Python Subset</title>
+<para><computeroutput>proto_python</computeroutput> does not support the <emphasis>entire</emphasis> Python language and its vast standard library. It focuses on a core subset of the language that is well-suited for high-performance, systems-level code. The supported features include:</para>
+<para><itemizedlist>
+<listitem><para>Basic data types: integers, strings, booleans, <computeroutput>None</computeroutput>.</para>
+</listitem><listitem><para>Function definitions and calls.</para>
+</listitem><listitem><para><computeroutput>if</computeroutput>/<computeroutput>else</computeroutput> control flow.</para>
+</listitem><listitem><para><computeroutput>while</computeroutput> loops.</para>
+</listitem><listitem><para>Basic arithmetic and boolean operators.</para>
+</listitem><listitem><para>A small, core set of built-in functions like <computeroutput>print()</computeroutput> and <computeroutput>len()</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<para>Features that are <bold>not</bold> supported typically involve highly dynamic aspects of Python that do not map well to a compiled, AOT (Ahead-Of-Time) model, such as <computeroutput>eval()</computeroutput>, <computeroutput>exec()</computeroutput>, or dynamic module importing.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_202__transpiling__python_1autotoc_md950">
+<title>Why Use the Transpiler?</title>
+<para><itemizedlist>
+<listitem><para><bold>Performance:</bold> It&apos;s the easiest way to get a massive performance boost for CPU-bound Python code.</para>
+</listitem><listitem><para><bold>Productivity:</bold> You can still benefit from Python&apos;s clean syntax and rapid development cycle for your application logic.</para>
+</listitem><listitem><para><bold>Deployment:</bold> It produces a single, standalone native executable with no dependency on a Python interpreter, simplifying deployment.</para>
+</listitem></itemizedlist>
+</para>
+<para>The <computeroutput>protoDB</computeroutput> project is the primary example of this workflow. It&apos;s a complex application written in Python that relies on <computeroutput>proto_python</computeroutput> to become a high-performance database engine. </para>
+</sect1>
+    </detaileddescription>
+    <location file="docs/Structural description/tutorials/02_transpiling_python.md"/>
+  </compounddef>
+</doxygen>

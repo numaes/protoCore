@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README" kind="page">
+    <compoundname>md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README</compoundname>
+    <title>Customization Points</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md796"/> The custom directory is an injection point for custom user configurations.</para>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md797">
+<title>Header &lt;tt&gt;gtest.h&lt;/tt&gt;</title>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md798">
+<title>The following macros can be defined:</title>
+<para><itemizedlist>
+<listitem><para><computeroutput>GTEST_OS_STACK_TRACE_GETTER_</computeroutput> - The name of an implementation of <computeroutput>OsStackTraceGetterInterface</computeroutput>.</para>
+</listitem><listitem><para><computeroutput>GTEST_CUSTOM_TEMPDIR_FUNCTION_</computeroutput> - An override for <computeroutput><ref refid="namespacetesting_1aae1bbe7c3cc99bf56263d51d3982a52e" kindref="member">testing::TempDir()</ref></computeroutput>. See <computeroutput><ref refid="namespacetesting_1aae1bbe7c3cc99bf56263d51d3982a52e" kindref="member">testing::TempDir</ref></computeroutput> for semantics and signature.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md799">
+<title>Header &lt;tt&gt;gtest-port.h&lt;/tt&gt;</title>
+<para>The following macros can be defined:</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md800">
+<title>Logging:</title>
+<para><itemizedlist>
+<listitem><para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a8ef4cb4c465db8c15464aecc6d9510ef" kindref="member">GTEST_LOG_(severity)</ref></computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1ab54343f0a36dc4cb0ce8a478dd7847b8" kindref="member">GTEST_CHECK_(condition)</ref></computeroutput></para>
+</listitem><listitem><para>Functions <computeroutput>LogToStderr()</computeroutput> and <computeroutput>FlushInfoLog()</computeroutput> have to be provided too.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md801">
+<title>Threading:</title>
+<para><itemizedlist>
+<listitem><para><computeroutput>GTEST_HAS_NOTIFICATION_</computeroutput> - Enabled if Notification is already provided.</para>
+</listitem><listitem><para><computeroutput>GTEST_HAS_MUTEX_AND_THREAD_LOCAL_</computeroutput> - Enabled if <computeroutput>Mutex</computeroutput> and <computeroutput>ThreadLocal</computeroutput> are already provided. Must also provide <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1af0970cdea09f16dbb1dbfccdaa693eeb" kindref="member">GTEST_DECLARE_STATIC_MUTEX_(mutex)</ref></computeroutput> and <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a85d5cd679fdbe87383e7dfd1c6651eaa" kindref="member">GTEST_DEFINE_STATIC_MUTEX_(mutex)</ref></computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a149f693bd59fa1bc937af54c0cdcb32f" kindref="member">GTEST_EXCLUSIVE_LOCK_REQUIRED_(locks)</ref></computeroutput></para>
+</listitem><listitem><para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a69abff5a4efdd07bd5faebe3dd318d06" kindref="member">GTEST_LOCK_EXCLUDED_(locks)</ref></computeroutput></para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md802">
+<title>Underlying library support features</title>
+<para><itemizedlist>
+<listitem><para><computeroutput>GTEST_HAS_CXXABI_H_</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md803">
+<title>Exporting API symbols:</title>
+<para><itemizedlist>
+<listitem><para><computeroutput>GTEST_API_</computeroutput> - Specifier for exported symbols.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2custom_2README_1autotoc_md804">
+<title>Header &lt;tt&gt;gtest-printers.h&lt;/tt&gt;</title>
+<para><itemizedlist>
+<listitem><para>See documentation at <computeroutput>gtest/gtest-printers.h</computeroutput> for details on how to define a custom printer. </para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/include/gtest/internal/custom/README.md"/>
+  </compounddef>
+</doxygen>

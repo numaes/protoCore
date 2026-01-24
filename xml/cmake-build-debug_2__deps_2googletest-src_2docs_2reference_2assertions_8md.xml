@@ -1,0 +1,646 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_8md" kind="file" language="Markdown">
+    <compoundname>assertions.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Assertions<sp/>Reference</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>page<sp/>lists<sp/>the<sp/>assertion<sp/>macros<sp/>provided<sp/>by<sp/>GoogleTest<sp/>for<sp/>verifying<sp/>code</highlight></codeline>
+<codeline><highlight class="normal">behavior.<sp/>To<sp/>use<sp/>them,<sp/>include<sp/>the<sp/>header<sp/>`gtest/gtest.h`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>majority<sp/>of<sp/>the<sp/>macros<sp/>listed<sp/>below<sp/>come<sp/>as<sp/>a<sp/>pair<sp/>with<sp/>an<sp/>`EXPECT_`<sp/>variant</highlight></codeline>
+<codeline><highlight class="normal">and<sp/>an<sp/>`ASSERT_`<sp/>variant.<sp/>Upon<sp/>failure,<sp/>`EXPECT_`<sp/>macros<sp/>generate<sp/>nonfatal</highlight></codeline>
+<codeline><highlight class="normal">failures<sp/>and<sp/>allow<sp/>the<sp/>current<sp/>function<sp/>to<sp/>continue<sp/>running,<sp/>while<sp/>`ASSERT_`</highlight></codeline>
+<codeline><highlight class="normal">macros<sp/>generate<sp/>fatal<sp/>failures<sp/>and<sp/>abort<sp/>the<sp/>current<sp/>function.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">All<sp/>assertion<sp/>macros<sp/>support<sp/>streaming<sp/>a<sp/>custom<sp/>failure<sp/>message<sp/>into<sp/>them<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>`&lt;&lt;`<sp/>operator,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_TRUE(my_condition)<sp/>&lt;&lt;<sp/>&quot;My<sp/>condition<sp/>is<sp/>not<sp/>true&quot;;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Anything<sp/>that<sp/>can<sp/>be<sp/>streamed<sp/>to<sp/>an<sp/>`ostream`<sp/>can<sp/>be<sp/>streamed<sp/>to<sp/>an<sp/>assertion</highlight></codeline>
+<codeline><highlight class="normal">macro—in<sp/>particular,<sp/>C<sp/>strings<sp/>and<sp/>string<sp/>objects.<sp/>If<sp/>a<sp/>wide<sp/>string<sp/>(`wchar_t*`,</highlight></codeline>
+<codeline><highlight class="normal">`TCHAR*`<sp/>in<sp/>`UNICODE`<sp/>mode<sp/>on<sp/>Windows,<sp/>or<sp/>`std::wstring`)<sp/>is<sp/>streamed<sp/>to<sp/>an</highlight></codeline>
+<codeline><highlight class="normal">assertion,<sp/>it<sp/>will<sp/>be<sp/>translated<sp/>to<sp/>UTF-8<sp/>when<sp/>printed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Explicit<sp/>Success<sp/>and<sp/>Failure<sp/>{#success-failure}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>assertions<sp/>in<sp/>this<sp/>section<sp/>generate<sp/>a<sp/>success<sp/>or<sp/>failure<sp/>directly<sp/>instead<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">testing<sp/>a<sp/>value<sp/>or<sp/>expression.<sp/>These<sp/>are<sp/>useful<sp/>when<sp/>control<sp/>flow,<sp/>rather<sp/>than<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">Boolean<sp/>expression,<sp/>determines<sp/>the<sp/>test&apos;s<sp/>success<sp/>or<sp/>failure,<sp/>as<sp/>shown<sp/>by<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">following<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```c++</highlight></codeline>
+<codeline><highlight class="normal">switch(expression)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>case<sp/>1:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...<sp/>some<sp/>checks<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>case<sp/>2:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...<sp/>some<sp/>other<sp/>checks<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>default:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/>&quot;We<sp/>shouldn&apos;t<sp/>get<sp/>here.&quot;;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>SUCCEED<sp/>{#SUCCEED}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`SUCCEED()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Generates<sp/>a<sp/>success.<sp/>This<sp/>*does<sp/>not*<sp/>make<sp/>the<sp/>overall<sp/>test<sp/>succeed.<sp/>A<sp/>test<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">considered<sp/>successful<sp/>only<sp/>if<sp/>none<sp/>of<sp/>its<sp/>assertions<sp/>fail<sp/>during<sp/>its<sp/>execution.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`SUCCEED`<sp/>assertion<sp/>is<sp/>purely<sp/>documentary<sp/>and<sp/>currently<sp/>doesn&apos;t<sp/>generate<sp/>any</highlight></codeline>
+<codeline><highlight class="normal">user-visible<sp/>output.<sp/>However,<sp/>we<sp/>may<sp/>add<sp/>`SUCCEED`<sp/>messages<sp/>to<sp/>GoogleTest<sp/>output</highlight></codeline>
+<codeline><highlight class="normal">in<sp/>the<sp/>future.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>FAIL<sp/>{#FAIL}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`FAIL()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Generates<sp/>a<sp/>fatal<sp/>failure,<sp/>which<sp/>returns<sp/>from<sp/>the<sp/>current<sp/>function.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Can<sp/>only<sp/>be<sp/>used<sp/>in<sp/>functions<sp/>that<sp/>return<sp/>`void`.<sp/>See</highlight></codeline>
+<codeline><highlight class="normal">[Assertion<sp/>Placement](../advanced.md#assertion-placement)<sp/>for<sp/>more<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>ADD_FAILURE<sp/>{#ADD_FAILURE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`ADD_FAILURE()`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Generates<sp/>a<sp/>nonfatal<sp/>failure,<sp/>which<sp/>allows<sp/>the<sp/>current<sp/>function<sp/>to<sp/>continue</highlight></codeline>
+<codeline><highlight class="normal">running.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>ADD_FAILURE_AT<sp/>{#ADD_FAILURE_AT}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`ADD_FAILURE_AT(`*`file_path`*`,`*`line_number`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Generates<sp/>a<sp/>nonfatal<sp/>failure<sp/>at<sp/>the<sp/>file<sp/>and<sp/>line<sp/>number<sp/>specified.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Generalized<sp/>Assertion<sp/>{#generalized}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertion<sp/>allows<sp/>[matchers](matchers.md)<sp/>to<sp/>be<sp/>used<sp/>to<sp/>verify</highlight></codeline>
+<codeline><highlight class="normal">values.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_THAT<sp/>{#EXPECT_THAT}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_THAT(`*`value`*`,`*`matcher`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_THAT(`*`value`*`,`*`matcher`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`value`*<sp/>matches<sp/>the<sp/>[matcher](matchers.md)<sp/>*`matcher`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>verifies<sp/>that<sp/>the<sp/>string<sp/>`value1`<sp/>starts<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">`&quot;Hello&quot;`,<sp/>`value2`<sp/>matches<sp/>a<sp/>regular<sp/>expression,<sp/>and<sp/>`value3`<sp/>is<sp/>between<sp/>5<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">10:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;gmock/gmock.h&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::AllOf;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Gt;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Lt;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::MatchesRegex;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::StartsWith;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_THAT(value1,<sp/>StartsWith(&quot;Hello&quot;));</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_THAT(value2,<sp/>MatchesRegex(&quot;Line<sp/>\\d+&quot;));</highlight></codeline>
+<codeline><highlight class="normal">ASSERT_THAT(value3,<sp/>AllOf(Gt(5),<sp/>Lt(10)));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Matchers<sp/>enable<sp/>assertions<sp/>of<sp/>this<sp/>form<sp/>to<sp/>read<sp/>like<sp/>English<sp/>and<sp/>generate</highlight></codeline>
+<codeline><highlight class="normal">informative<sp/>failure<sp/>messages.<sp/>For<sp/>example,<sp/>if<sp/>the<sp/>above<sp/>assertion<sp/>on<sp/>`value1`</highlight></codeline>
+<codeline><highlight class="normal">fails,<sp/>the<sp/>resulting<sp/>message<sp/>will<sp/>be<sp/>similar<sp/>to<sp/>the<sp/>following:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">Value<sp/>of:<sp/>value1</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>Actual:<sp/>&quot;Hi,<sp/>world!&quot;</highlight></codeline>
+<codeline><highlight class="normal">Expected:<sp/>starts<sp/>with<sp/>&quot;Hello&quot;</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>provides<sp/>a<sp/>built-in<sp/>library<sp/>of<sp/>matchers—see<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[Matchers<sp/>Reference](matchers.md).<sp/>It<sp/>is<sp/>also<sp/>possible<sp/>to<sp/>write<sp/>your<sp/>own</highlight></codeline>
+<codeline><highlight class="normal">matchers—see<sp/>[Writing<sp/>New<sp/>Matchers<sp/>Quickly](../gmock_cook_book.md#NewMatchers).</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>use<sp/>of<sp/>matchers<sp/>makes<sp/>`EXPECT_THAT`<sp/>a<sp/>powerful,<sp/>extensible<sp/>assertion.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*The<sp/>idea<sp/>for<sp/>this<sp/>assertion<sp/>was<sp/>borrowed<sp/>from<sp/>Joe<sp/>Walnes&apos;<sp/>Hamcrest<sp/>project,</highlight></codeline>
+<codeline><highlight class="normal">which<sp/>adds<sp/>`assertThat()`<sp/>to<sp/>JUnit.*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Boolean<sp/>Conditions<sp/>{#boolean}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertions<sp/>test<sp/>Boolean<sp/>conditions.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_TRUE<sp/>{#EXPECT_TRUE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_TRUE(`*`condition`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_TRUE(`*`condition`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`condition`*<sp/>is<sp/>true.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_FALSE<sp/>{#EXPECT_FALSE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_FALSE(`*`condition`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_FALSE(`*`condition`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`condition`*<sp/>is<sp/>false.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Binary<sp/>Comparison<sp/>{#binary-comparison}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertions<sp/>compare<sp/>two<sp/>values.<sp/>The<sp/>value<sp/>arguments<sp/>must<sp/>be</highlight></codeline>
+<codeline><highlight class="normal">comparable<sp/>by<sp/>the<sp/>assertion&apos;s<sp/>comparison<sp/>operator,<sp/>otherwise<sp/>a<sp/>compiler<sp/>error</highlight></codeline>
+<codeline><highlight class="normal">will<sp/>result.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>an<sp/>argument<sp/>supports<sp/>the<sp/>`&lt;&lt;`<sp/>operator,<sp/>it<sp/>will<sp/>be<sp/>called<sp/>to<sp/>print<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">argument<sp/>when<sp/>the<sp/>assertion<sp/>fails.<sp/>Otherwise,<sp/>GoogleTest<sp/>will<sp/>attempt<sp/>to<sp/>print</highlight></codeline>
+<codeline><highlight class="normal">them<sp/>in<sp/>the<sp/>best<sp/>way<sp/>it<sp/>can—see</highlight></codeline>
+<codeline><highlight class="normal">[Teaching<sp/>GoogleTest<sp/>How<sp/>to<sp/>Print<sp/>Your<sp/>Values](../advanced.md#teaching-googletest-how-to-print-your-values).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Arguments<sp/>are<sp/>always<sp/>evaluated<sp/>exactly<sp/>once,<sp/>so<sp/>it&apos;s<sp/>OK<sp/>for<sp/>the<sp/>arguments<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">have<sp/>side<sp/>effects.<sp/>However,<sp/>the<sp/>argument<sp/>evaluation<sp/>order<sp/>is<sp/>undefined<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">programs<sp/>should<sp/>not<sp/>depend<sp/>on<sp/>any<sp/>particular<sp/>argument<sp/>evaluation<sp/>order.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">These<sp/>assertions<sp/>work<sp/>with<sp/>both<sp/>narrow<sp/>and<sp/>wide<sp/>string<sp/>objects<sp/>(`string`<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">`wstring`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>also<sp/>the<sp/>[Floating-Point<sp/>Comparison](#floating-point)<sp/>assertions<sp/>to<sp/>compare</highlight></codeline>
+<codeline><highlight class="normal">floating-point<sp/>numbers<sp/>and<sp/>avoid<sp/>problems<sp/>caused<sp/>by<sp/>rounding.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_EQ<sp/>{#EXPECT_EQ}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_EQ(`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_EQ(`*`val1`*`,`*`val2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`val1`*`==`*`val2`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Does<sp/>pointer<sp/>equality<sp/>on<sp/>pointers.<sp/>If<sp/>used<sp/>on<sp/>two<sp/>C<sp/>strings,<sp/>it<sp/>tests<sp/>if<sp/>they</highlight></codeline>
+<codeline><highlight class="normal">are<sp/>in<sp/>the<sp/>same<sp/>memory<sp/>location,<sp/>not<sp/>if<sp/>they<sp/>have<sp/>the<sp/>same<sp/>value.<sp/>Use</highlight></codeline>
+<codeline><highlight class="normal">[`EXPECT_STREQ`](#EXPECT_STREQ)<sp/>to<sp/>compare<sp/>C<sp/>strings<sp/>(e.g.<sp/>`const<sp/>char*`)<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">value.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>comparing<sp/>a<sp/>pointer<sp/>to<sp/>`NULL`,<sp/>use<sp/>`EXPECT_EQ(`*`ptr`*`,<sp/>nullptr)`<sp/>instead</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>`EXPECT_EQ(`*`ptr`*`,<sp/>NULL)`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_NE<sp/>{#EXPECT_NE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_NE(`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_NE(`*`val1`*`,`*`val2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`val1`*`!=`*`val2`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Does<sp/>pointer<sp/>equality<sp/>on<sp/>pointers.<sp/>If<sp/>used<sp/>on<sp/>two<sp/>C<sp/>strings,<sp/>it<sp/>tests<sp/>if<sp/>they</highlight></codeline>
+<codeline><highlight class="normal">are<sp/>in<sp/>different<sp/>memory<sp/>locations,<sp/>not<sp/>if<sp/>they<sp/>have<sp/>different<sp/>values.<sp/>Use</highlight></codeline>
+<codeline><highlight class="normal">[`EXPECT_STRNE`](#EXPECT_STRNE)<sp/>to<sp/>compare<sp/>C<sp/>strings<sp/>(e.g.<sp/>`const<sp/>char*`)<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">value.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>comparing<sp/>a<sp/>pointer<sp/>to<sp/>`NULL`,<sp/>use<sp/>`EXPECT_NE(`*`ptr`*`,<sp/>nullptr)`<sp/>instead</highlight></codeline>
+<codeline><highlight class="normal">of<sp/>`EXPECT_NE(`*`ptr`*`,<sp/>NULL)`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_LT<sp/>{#EXPECT_LT}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_LT(`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_LT(`*`val1`*`,`*`val2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`val1`*`&lt;`*`val2`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_LE<sp/>{#EXPECT_LE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_LE(`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_LE(`*`val1`*`,`*`val2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`val1`*`&lt;=`*`val2`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_GT<sp/>{#EXPECT_GT}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_GT(`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_GT(`*`val1`*`,`*`val2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`val1`*`&gt;`*`val2`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_GE<sp/>{#EXPECT_GE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_GE(`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_GE(`*`val1`*`,`*`val2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`val1`*`&gt;=`*`val2`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>String<sp/>Comparison<sp/>{#c-strings}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertions<sp/>compare<sp/>two<sp/>**C<sp/>strings**.<sp/>To<sp/>compare<sp/>two<sp/>`string`</highlight></codeline>
+<codeline><highlight class="normal">objects,<sp/>use<sp/>[`EXPECT_EQ`](#EXPECT_EQ)<sp/>or<sp/>[`EXPECT_NE`](#EXPECT_NE)<sp/>instead.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">These<sp/>assertions<sp/>also<sp/>accept<sp/>wide<sp/>C<sp/>strings<sp/>(`wchar_t*`).<sp/>If<sp/>a<sp/>comparison<sp/>of<sp/>two</highlight></codeline>
+<codeline><highlight class="normal">wide<sp/>strings<sp/>fails,<sp/>their<sp/>values<sp/>will<sp/>be<sp/>printed<sp/>as<sp/>UTF-8<sp/>narrow<sp/>strings.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>compare<sp/>a<sp/>C<sp/>string<sp/>with<sp/>`NULL`,<sp/>use<sp/>`EXPECT_EQ(`*`c_string`*`,<sp/>nullptr)`<sp/>or</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_NE(`*`c_string`*`,<sp/>nullptr)`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_STREQ<sp/>{#EXPECT_STREQ}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_STREQ(`*`str1`*`,`*`str2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_STREQ(`*`str1`*`,`*`str2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>two<sp/>C<sp/>strings<sp/>*`str1`*<sp/>and<sp/>*`str2`*<sp/>have<sp/>the<sp/>same<sp/>contents.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_STRNE<sp/>{#EXPECT_STRNE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_STRNE(`*`str1`*`,`*`str2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_STRNE(`*`str1`*`,`*`str2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>two<sp/>C<sp/>strings<sp/>*`str1`*<sp/>and<sp/>*`str2`*<sp/>have<sp/>different<sp/>contents.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_STRCASEEQ<sp/>{#EXPECT_STRCASEEQ}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_STRCASEEQ(`*`str1`*`,`*`str2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_STRCASEEQ(`*`str1`*`,`*`str2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>two<sp/>C<sp/>strings<sp/>*`str1`*<sp/>and<sp/>*`str2`*<sp/>have<sp/>the<sp/>same<sp/>contents,</highlight></codeline>
+<codeline><highlight class="normal">ignoring<sp/>case.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_STRCASENE<sp/>{#EXPECT_STRCASENE}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_STRCASENE(`*`str1`*`,`*`str2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_STRCASENE(`*`str1`*`,`*`str2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>two<sp/>C<sp/>strings<sp/>*`str1`*<sp/>and<sp/>*`str2`*<sp/>have<sp/>different<sp/>contents,</highlight></codeline>
+<codeline><highlight class="normal">ignoring<sp/>case.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Floating-Point<sp/>Comparison<sp/>{#floating-point}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertions<sp/>compare<sp/>two<sp/>floating-point<sp/>values.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Due<sp/>to<sp/>rounding<sp/>errors,<sp/>it<sp/>is<sp/>very<sp/>unlikely<sp/>that<sp/>two<sp/>floating-point<sp/>values<sp/>will</highlight></codeline>
+<codeline><highlight class="normal">match<sp/>exactly,<sp/>so<sp/>`EXPECT_EQ`<sp/>is<sp/>not<sp/>suitable.<sp/>In<sp/>general,<sp/>for<sp/>floating-point</highlight></codeline>
+<codeline><highlight class="normal">comparison<sp/>to<sp/>make<sp/>sense,<sp/>the<sp/>user<sp/>needs<sp/>to<sp/>carefully<sp/>choose<sp/>the<sp/>error<sp/>bound.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>also<sp/>provides<sp/>assertions<sp/>that<sp/>use<sp/>a<sp/>default<sp/>error<sp/>bound<sp/>based<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">Units<sp/>in<sp/>the<sp/>Last<sp/>Place<sp/>(ULPs).<sp/>To<sp/>learn<sp/>more<sp/>about<sp/>ULPs,<sp/>see<sp/>the<sp/>article</highlight></codeline>
+<codeline><highlight class="normal">[Comparing<sp/>Floating<sp/>Point<sp/>Numbers](https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_FLOAT_EQ<sp/>{#EXPECT_FLOAT_EQ}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_FLOAT_EQ(`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_FLOAT_EQ(`*`val1`*`,`*`val2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>two<sp/>`float`<sp/>values<sp/>*`val1`*<sp/>and<sp/>*`val2`*<sp/>are<sp/>approximately</highlight></codeline>
+<codeline><highlight class="normal">equal,<sp/>to<sp/>within<sp/>4<sp/>ULPs<sp/>from<sp/>each<sp/>other.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_DOUBLE_EQ<sp/>{#EXPECT_DOUBLE_EQ}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_DOUBLE_EQ(`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_DOUBLE_EQ(`*`val1`*`,`*`val2`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>two<sp/>`double`<sp/>values<sp/>*`val1`*<sp/>and<sp/>*`val2`*<sp/>are<sp/>approximately</highlight></codeline>
+<codeline><highlight class="normal">equal,<sp/>to<sp/>within<sp/>4<sp/>ULPs<sp/>from<sp/>each<sp/>other.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_NEAR<sp/>{#EXPECT_NEAR}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_NEAR(`*`val1`*`,`*`val2`*`,`*`abs_error`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_NEAR(`*`val1`*`,`*`val2`*`,`*`abs_error`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>difference<sp/>between<sp/>*`val1`*<sp/>and<sp/>*`val2`*<sp/>does<sp/>not<sp/>exceed<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">absolute<sp/>error<sp/>bound<sp/>*`abs_error`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Exception<sp/>Assertions<sp/>{#exceptions}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertions<sp/>verify<sp/>that<sp/>a<sp/>piece<sp/>of<sp/>code<sp/>throws,<sp/>or<sp/>does<sp/>not<sp/>throw,</highlight></codeline>
+<codeline><highlight class="normal">an<sp/>exception.<sp/>Usage<sp/>requires<sp/>exceptions<sp/>to<sp/>be<sp/>enabled<sp/>in<sp/>the<sp/>build<sp/>environment.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>the<sp/>piece<sp/>of<sp/>code<sp/>under<sp/>test<sp/>can<sp/>be<sp/>a<sp/>compound<sp/>statement,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_NO_THROW({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>int<sp/>n<sp/>=<sp/>5;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DoSomething(&amp;n);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_THROW<sp/>{#EXPECT_THROW}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_THROW(`*`statement`*`,`*`exception_type`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_THROW(`*`statement`*`,`*`exception_type`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`statement`*<sp/>throws<sp/>an<sp/>exception<sp/>of<sp/>type<sp/>*`exception_type`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_ANY_THROW<sp/>{#EXPECT_ANY_THROW}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_ANY_THROW(`*`statement`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_ANY_THROW(`*`statement`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`statement`*<sp/>throws<sp/>an<sp/>exception<sp/>of<sp/>any<sp/>type.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_NO_THROW<sp/>{#EXPECT_NO_THROW}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_NO_THROW(`*`statement`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_NO_THROW(`*`statement`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`statement`*<sp/>does<sp/>not<sp/>throw<sp/>any<sp/>exception.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Predicate<sp/>Assertions<sp/>{#predicates}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertions<sp/>enable<sp/>more<sp/>complex<sp/>predicates<sp/>to<sp/>be<sp/>verified<sp/>while</highlight></codeline>
+<codeline><highlight class="normal">printing<sp/>a<sp/>more<sp/>clear<sp/>failure<sp/>message<sp/>than<sp/>if<sp/>`EXPECT_TRUE`<sp/>were<sp/>used<sp/>alone.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_PRED*<sp/>{#EXPECT_PRED}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED1(`*`pred`*`,`*`val1`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED2(`*`pred`*`,`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED3(`*`pred`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED4(`*`pred`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`,`*`val4`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED5(`*`pred`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`,`*`val4`*`,`*`val5`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED1(`*`pred`*`,`*`val1`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED2(`*`pred`*`,`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED3(`*`pred`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED4(`*`pred`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`,`*`val4`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED5(`*`pred`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`,`*`val4`*`,`*`val5`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>predicate<sp/>*`pred`*<sp/>returns<sp/>`true`<sp/>when<sp/>passed<sp/>the<sp/>given<sp/>values</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>arguments.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`pred`*<sp/>is<sp/>a<sp/>function<sp/>or<sp/>functor<sp/>that<sp/>accepts<sp/>as<sp/>many<sp/>arguments</highlight></codeline>
+<codeline><highlight class="normal">as<sp/>the<sp/>corresponding<sp/>macro<sp/>accepts<sp/>values.<sp/>If<sp/>*`pred`*<sp/>returns<sp/>`true`<sp/>for<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">given<sp/>arguments,<sp/>the<sp/>assertion<sp/>succeeds,<sp/>otherwise<sp/>the<sp/>assertion<sp/>fails.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>the<sp/>assertion<sp/>fails,<sp/>it<sp/>prints<sp/>the<sp/>value<sp/>of<sp/>each<sp/>argument.<sp/>Arguments<sp/>are</highlight></codeline>
+<codeline><highlight class="normal">always<sp/>evaluated<sp/>exactly<sp/>once.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">As<sp/>an<sp/>example,<sp/>see<sp/>the<sp/>following<sp/>code:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Returns<sp/>true<sp/>if<sp/>m<sp/>and<sp/>n<sp/>have<sp/>no<sp/>common<sp/>divisors<sp/>except<sp/>1.</highlight></codeline>
+<codeline><highlight class="normal">bool<sp/>MutuallyPrime(int<sp/>m,<sp/>int<sp/>n)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">const<sp/>int<sp/>a<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal">const<sp/>int<sp/>b<sp/>=<sp/>4;</highlight></codeline>
+<codeline><highlight class="normal">const<sp/>int<sp/>c<sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED2(MutuallyPrime,<sp/>a,<sp/>b);<sp/><sp/>//<sp/>Succeeds</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED2(MutuallyPrime,<sp/>b,<sp/>c);<sp/><sp/>//<sp/>Fails</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>the<sp/>above<sp/>example,<sp/>the<sp/>first<sp/>assertion<sp/>succeeds,<sp/>and<sp/>the<sp/>second<sp/>fails<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>following<sp/>message:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">MutuallyPrime(b,<sp/>c)<sp/>is<sp/>false,<sp/>where</highlight></codeline>
+<codeline><highlight class="normal">b<sp/>is<sp/>4</highlight></codeline>
+<codeline><highlight class="normal">c<sp/>is<sp/>10</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>if<sp/>the<sp/>given<sp/>predicate<sp/>is<sp/>an<sp/>overloaded<sp/>function<sp/>or<sp/>a<sp/>function</highlight></codeline>
+<codeline><highlight class="normal">template,<sp/>the<sp/>assertion<sp/>macro<sp/>might<sp/>not<sp/>be<sp/>able<sp/>to<sp/>determine<sp/>which<sp/>version<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">use,<sp/>and<sp/>it<sp/>might<sp/>be<sp/>necessary<sp/>to<sp/>explicitly<sp/>specify<sp/>the<sp/>type<sp/>of<sp/>the<sp/>function.</highlight></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>for<sp/>a<sp/>Boolean<sp/>function<sp/>`IsPositive()`<sp/>overloaded<sp/>to<sp/>take<sp/>either<sp/>a</highlight></codeline>
+<codeline><highlight class="normal">single<sp/>`int`<sp/>or<sp/>`double`<sp/>argument,<sp/>it<sp/>would<sp/>be<sp/>necessary<sp/>to<sp/>write<sp/>one<sp/>of<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">following:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED1(static_cast&lt;bool<sp/>(*)(int)&gt;(IsPositive),<sp/>5);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED1(static_cast&lt;bool<sp/>(*)(double)&gt;(IsPositive),<sp/>3.14);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Writing<sp/>simply<sp/>`EXPECT_PRED1(IsPositive,<sp/>5);`<sp/>would<sp/>result<sp/>in<sp/>a<sp/>compiler<sp/>error.</highlight></codeline>
+<codeline><highlight class="normal">Similarly,<sp/>to<sp/>use<sp/>a<sp/>template<sp/>function,<sp/>specify<sp/>the<sp/>template<sp/>arguments:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">template<sp/>&lt;typename<sp/>T&gt;</highlight></codeline>
+<codeline><highlight class="normal">bool<sp/>IsNegative(T<sp/>x)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>return<sp/>x<sp/>&lt;<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED1(IsNegative&lt;int&gt;,<sp/>-5);<sp/><sp/>//<sp/>Must<sp/>specify<sp/>type<sp/>for<sp/>IsNegative</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>a<sp/>template<sp/>has<sp/>multiple<sp/>parameters,<sp/>wrap<sp/>the<sp/>predicate<sp/>in<sp/>parentheses<sp/>so<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">macro<sp/>arguments<sp/>are<sp/>parsed<sp/>correctly:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">ASSERT_PRED2((MyPredicate&lt;int,<sp/>int&gt;),<sp/>5,<sp/>0);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_PRED_FORMAT*<sp/>{#EXPECT_PRED_FORMAT}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED_FORMAT1(`*`pred_formatter`*`,`*`val1`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED_FORMAT2(`*`pred_formatter`*`,`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED_FORMAT3(`*`pred_formatter`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED_FORMAT4(`*`pred_formatter`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`,`*`val4`*`)`</highlight></codeline>
+<codeline><highlight class="normal">\</highlight></codeline>
+<codeline><highlight class="normal">`EXPECT_PRED_FORMAT5(`*`pred_formatter`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`,`*`val4`*`,`*`val5`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED_FORMAT1(`*`pred_formatter`*`,`*`val1`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED_FORMAT2(`*`pred_formatter`*`,`*`val1`*`,`*`val2`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED_FORMAT3(`*`pred_formatter`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED_FORMAT4(`*`pred_formatter`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`,`*`val4`*`)`</highlight></codeline>
+<codeline><highlight class="normal">\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_PRED_FORMAT5(`*`pred_formatter`*`,`*`val1`*`,`*`val2`*`,`*`val3`*`,`*`val4`*`,`*`val5`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>the<sp/>predicate<sp/>*`pred_formatter`*<sp/>succeeds<sp/>when<sp/>passed<sp/>the<sp/>given</highlight></codeline>
+<codeline><highlight class="normal">values<sp/>as<sp/>arguments.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`pred_formatter`*<sp/>is<sp/>a<sp/>*predicate-formatter*,<sp/>which<sp/>is<sp/>a<sp/>function</highlight></codeline>
+<codeline><highlight class="normal">or<sp/>functor<sp/>with<sp/>the<sp/>signature:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">testing::AssertionResult<sp/>PredicateFormatter(const<sp/>char*<sp/>expr1,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char*<sp/>expr2,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char*<sp/>exprn,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>T1<sp/>val1,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>T2<sp/>val2,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Tn<sp/>valn);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">where<sp/>*`val1`*,<sp/>*`val2`*,<sp/>...,<sp/>*`valn`*<sp/>are<sp/>the<sp/>values<sp/>of<sp/>the<sp/>predicate</highlight></codeline>
+<codeline><highlight class="normal">arguments,<sp/>and<sp/>*`expr1`*,<sp/>*`expr2`*,<sp/>...,<sp/>*`exprn`*<sp/>are<sp/>the<sp/>corresponding</highlight></codeline>
+<codeline><highlight class="normal">expressions<sp/>as<sp/>they<sp/>appear<sp/>in<sp/>the<sp/>source<sp/>code.<sp/>The<sp/>types<sp/>`T1`,<sp/>`T2`,<sp/>...,<sp/>`Tn`</highlight></codeline>
+<codeline><highlight class="normal">can<sp/>be<sp/>either<sp/>value<sp/>types<sp/>or<sp/>reference<sp/>types;<sp/>if<sp/>an<sp/>argument<sp/>has<sp/>type<sp/>`T`,<sp/>it</highlight></codeline>
+<codeline><highlight class="normal">can<sp/>be<sp/>declared<sp/>as<sp/>either<sp/>`T`<sp/>or<sp/>`const<sp/>T&amp;`,<sp/>whichever<sp/>is<sp/>appropriate.<sp/>For<sp/>more</highlight></codeline>
+<codeline><highlight class="normal">about<sp/>the<sp/>return<sp/>type<sp/>`testing::AssertionResult`,<sp/>see</highlight></codeline>
+<codeline><highlight class="normal">[Using<sp/>a<sp/>Function<sp/>That<sp/>Returns<sp/>an<sp/>AssertionResult](../advanced.md#using-a-function-that-returns-an-assertionresult).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">As<sp/>an<sp/>example,<sp/>see<sp/>the<sp/>following<sp/>code:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Returns<sp/>the<sp/>smallest<sp/>prime<sp/>common<sp/>divisor<sp/>of<sp/>m<sp/>and<sp/>n,</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>or<sp/>1<sp/>when<sp/>m<sp/>and<sp/>n<sp/>are<sp/>mutually<sp/>prime.</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>SmallestPrimeCommonDivisor(int<sp/>m,<sp/>int<sp/>n)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Returns<sp/>true<sp/>if<sp/>m<sp/>and<sp/>n<sp/>have<sp/>no<sp/>common<sp/>divisors<sp/>except<sp/>1.</highlight></codeline>
+<codeline><highlight class="normal">bool<sp/>MutuallyPrime(int<sp/>m,<sp/>int<sp/>n)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>A<sp/>predicate-formatter<sp/>for<sp/>asserting<sp/>that<sp/>two<sp/>integers<sp/>are<sp/>mutually<sp/>prime.</highlight></codeline>
+<codeline><highlight class="normal">testing::AssertionResult<sp/>AssertMutuallyPrime(const<sp/>char*<sp/>m_expr,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char*<sp/>n_expr,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>m,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int<sp/>n)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>if<sp/>(MutuallyPrime(m,<sp/>n))<sp/>return<sp/>testing::AssertionSuccess();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>return<sp/>testing::AssertionFailure()<sp/>&lt;&lt;<sp/>m_expr<sp/>&lt;&lt;<sp/>&quot;<sp/>and<sp/>&quot;<sp/>&lt;&lt;<sp/>n_expr</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>&quot;<sp/>(&quot;<sp/>&lt;&lt;<sp/>m<sp/>&lt;&lt;<sp/>&quot;<sp/>and<sp/>&quot;<sp/>&lt;&lt;<sp/>n<sp/>&lt;&lt;<sp/>&quot;)<sp/>are<sp/>not<sp/>mutually<sp/>prime,<sp/>&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>&quot;as<sp/>they<sp/>have<sp/>a<sp/>common<sp/>divisor<sp/>&quot;<sp/>&lt;&lt;<sp/>SmallestPrimeCommonDivisor(m,<sp/>n);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">const<sp/>int<sp/>a<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal">const<sp/>int<sp/>b<sp/>=<sp/>4;</highlight></codeline>
+<codeline><highlight class="normal">const<sp/>int<sp/>c<sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED_FORMAT2(AssertMutuallyPrime,<sp/>a,<sp/>b);<sp/><sp/>//<sp/>Succeeds</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED_FORMAT2(AssertMutuallyPrime,<sp/>b,<sp/>c);<sp/><sp/>//<sp/>Fails</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>the<sp/>above<sp/>example,<sp/>the<sp/>final<sp/>assertion<sp/>fails<sp/>and<sp/>the<sp/>predicate-formatter</highlight></codeline>
+<codeline><highlight class="normal">produces<sp/>the<sp/>following<sp/>failure<sp/>message:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">b<sp/>and<sp/>c<sp/>(4<sp/>and<sp/>10)<sp/>are<sp/>not<sp/>mutually<sp/>prime,<sp/>as<sp/>they<sp/>have<sp/>a<sp/>common<sp/>divisor<sp/>2</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Windows<sp/>HRESULT<sp/>Assertions<sp/>{#HRESULT}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertions<sp/>test<sp/>for<sp/>`HRESULT`<sp/>success<sp/>or<sp/>failure.<sp/>For<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">CComPtr&lt;IShellDispatch2&gt;<sp/>shell;</highlight></codeline>
+<codeline><highlight class="normal">ASSERT_HRESULT_SUCCEEDED(shell.CoCreateInstance(L&quot;Shell.Application&quot;));</highlight></codeline>
+<codeline><highlight class="normal">CComVariant<sp/>empty;</highlight></codeline>
+<codeline><highlight class="normal">ASSERT_HRESULT_SUCCEEDED(shell-&gt;ShellExecute(CComBSTR(url),<sp/>empty,<sp/>empty,<sp/>empty,<sp/>empty));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>generated<sp/>output<sp/>contains<sp/>the<sp/>human-readable<sp/>error<sp/>message<sp/>associated<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>returned<sp/>`HRESULT`<sp/>code.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_HRESULT_SUCCEEDED<sp/>{#EXPECT_HRESULT_SUCCEEDED}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_HRESULT_SUCCEEDED(`*`expression`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_HRESULT_SUCCEEDED(`*`expression`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`expression`*<sp/>is<sp/>a<sp/>success<sp/>`HRESULT`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_HRESULT_FAILED<sp/>{#EXPECT_HRESULT_FAILED}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_HRESULT_FAILED(`*`expression`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_HRESULT_FAILED(`*`expression`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`expression`*<sp/>is<sp/>a<sp/>failure<sp/>`HRESULT`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Death<sp/>Assertions<sp/>{#death}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>following<sp/>assertions<sp/>verify<sp/>that<sp/>a<sp/>piece<sp/>of<sp/>code<sp/>causes<sp/>the<sp/>process<sp/>to</highlight></codeline>
+<codeline><highlight class="normal">terminate.<sp/>For<sp/>context,<sp/>see<sp/>[Death<sp/>Tests](../advanced.md#death-tests).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">These<sp/>assertions<sp/>spawn<sp/>a<sp/>new<sp/>process<sp/>and<sp/>execute<sp/>the<sp/>code<sp/>under<sp/>test<sp/>in<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">process.<sp/>How<sp/>that<sp/>happens<sp/>depends<sp/>on<sp/>the<sp/>platform<sp/>and<sp/>the<sp/>variable</highlight></codeline>
+<codeline><highlight class="normal">`::testing::GTEST_FLAG(death_test_style)`,<sp/>which<sp/>is<sp/>initialized<sp/>from<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">command-line<sp/>flag<sp/>`--gtest_death_test_style`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>On<sp/>POSIX<sp/>systems,<sp/>`fork()`<sp/>(or<sp/>`clone()`<sp/>on<sp/>Linux)<sp/>is<sp/>used<sp/>to<sp/>spawn<sp/>the</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>child,<sp/>after<sp/>which:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>If<sp/>the<sp/>variable&apos;s<sp/>value<sp/>is<sp/>`&quot;fast&quot;`,<sp/>the<sp/>death<sp/>test<sp/>statement<sp/>is</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>immediately<sp/>executed.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>If<sp/>the<sp/>variable&apos;s<sp/>value<sp/>is<sp/>`&quot;threadsafe&quot;`,<sp/>the<sp/>child<sp/>process<sp/>re-executes</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>unit<sp/>test<sp/>binary<sp/>just<sp/>as<sp/>it<sp/>was<sp/>originally<sp/>invoked,<sp/>but<sp/>with<sp/>some</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra<sp/>flags<sp/>to<sp/>cause<sp/>just<sp/>the<sp/>single<sp/>death<sp/>test<sp/>under<sp/>consideration<sp/>to</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>be<sp/>run.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>On<sp/>Windows,<sp/>the<sp/>child<sp/>is<sp/>spawned<sp/>using<sp/>the<sp/>`CreateProcess()`<sp/>API,<sp/>and</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>re-executes<sp/>the<sp/>binary<sp/>to<sp/>cause<sp/>just<sp/>the<sp/>single<sp/>death<sp/>test<sp/>under</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>consideration<sp/>to<sp/>be<sp/>run<sp/>-<sp/>much<sp/>like<sp/>the<sp/>`&quot;threadsafe&quot;`<sp/>mode<sp/>on<sp/>POSIX.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Other<sp/>values<sp/>for<sp/>the<sp/>variable<sp/>are<sp/>illegal<sp/>and<sp/>will<sp/>cause<sp/>the<sp/>death<sp/>test<sp/>to<sp/>fail.</highlight></codeline>
+<codeline><highlight class="normal">Currently,<sp/>the<sp/>flag&apos;s<sp/>default<sp/>value<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">**`&quot;fast&quot;`**.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>the<sp/>death<sp/>test<sp/>statement<sp/>runs<sp/>to<sp/>completion<sp/>without<sp/>dying,<sp/>the<sp/>child<sp/>process</highlight></codeline>
+<codeline><highlight class="normal">will<sp/>nonetheless<sp/>terminate,<sp/>and<sp/>the<sp/>assertion<sp/>fails.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Note<sp/>that<sp/>the<sp/>piece<sp/>of<sp/>code<sp/>under<sp/>test<sp/>can<sp/>be<sp/>a<sp/>compound<sp/>statement,<sp/>for<sp/>example:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_DEATH({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>int<sp/>n<sp/>=<sp/>5;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DoSomething(&amp;n);</highlight></codeline>
+<codeline><highlight class="normal">},<sp/>&quot;Error<sp/>on<sp/>line<sp/>.*<sp/>of<sp/>DoSomething()&quot;);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_DEATH<sp/>{#EXPECT_DEATH}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_DEATH(`*`statement`*`,`*`matcher`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_DEATH(`*`statement`*`,`*`matcher`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`statement`*<sp/>causes<sp/>the<sp/>process<sp/>to<sp/>terminate<sp/>with<sp/>a<sp/>nonzero<sp/>exit</highlight></codeline>
+<codeline><highlight class="normal">status<sp/>and<sp/>produces<sp/>`stderr`<sp/>output<sp/>that<sp/>matches<sp/>*`matcher`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`matcher`*<sp/>is<sp/>either<sp/>a<sp/>[matcher](matchers.md)<sp/>for<sp/>a<sp/>`const</highlight></codeline>
+<codeline><highlight class="normal">std::string&amp;`,<sp/>or<sp/>a<sp/>regular<sp/>expression<sp/>(see</highlight></codeline>
+<codeline><highlight class="normal">[Regular<sp/>Expression<sp/>Syntax](../advanced.md#regular-expression-syntax))—a<sp/>bare</highlight></codeline>
+<codeline><highlight class="normal">string<sp/>*`s`*<sp/>(with<sp/>no<sp/>matcher)<sp/>is<sp/>treated<sp/>as</highlight></codeline>
+<codeline><highlight class="normal">[`ContainsRegex(s)`](matchers.md#string-matchers),<sp/>**not**</highlight></codeline>
+<codeline><highlight class="normal">[`Eq(s)`](matchers.md#generic-comparison).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>verifies<sp/>that<sp/>calling<sp/>`DoSomething(42)`<sp/>causes</highlight></codeline>
+<codeline><highlight class="normal">the<sp/>process<sp/>to<sp/>die<sp/>with<sp/>an<sp/>error<sp/>message<sp/>that<sp/>contains<sp/>the<sp/>text<sp/>`My<sp/>error`:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_DEATH(DoSomething(42),<sp/>&quot;My<sp/>error&quot;);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_DEATH_IF_SUPPORTED<sp/>{#EXPECT_DEATH_IF_SUPPORTED}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_DEATH_IF_SUPPORTED(`*`statement`*`,`*`matcher`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_DEATH_IF_SUPPORTED(`*`statement`*`,`*`matcher`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>death<sp/>tests<sp/>are<sp/>supported,<sp/>behaves<sp/>the<sp/>same<sp/>as</highlight></codeline>
+<codeline><highlight class="normal">[`EXPECT_DEATH`](#EXPECT_DEATH).<sp/>Otherwise,<sp/>verifies<sp/>nothing.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_DEBUG_DEATH<sp/>{#EXPECT_DEBUG_DEATH}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_DEBUG_DEATH(`*`statement`*`,`*`matcher`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_DEBUG_DEATH(`*`statement`*`,`*`matcher`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>debug<sp/>mode,<sp/>behaves<sp/>the<sp/>same<sp/>as<sp/>[`EXPECT_DEATH`](#EXPECT_DEATH).<sp/>When<sp/>not<sp/>in</highlight></codeline>
+<codeline><highlight class="normal">debug<sp/>mode<sp/>(i.e.<sp/>`NDEBUG`<sp/>is<sp/>defined),<sp/>just<sp/>executes<sp/>*`statement`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>EXPECT_EXIT<sp/>{#EXPECT_EXIT}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`EXPECT_EXIT(`*`statement`*`,`*`predicate`*`,`*`matcher`*`)`<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">`ASSERT_EXIT(`*`statement`*`,`*`predicate`*`,`*`matcher`*`)`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Verifies<sp/>that<sp/>*`statement`*<sp/>causes<sp/>the<sp/>process<sp/>to<sp/>terminate<sp/>with<sp/>an<sp/>exit<sp/>status</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>satisfies<sp/>*`predicate`*,<sp/>and<sp/>produces<sp/>`stderr`<sp/>output<sp/>that<sp/>matches</highlight></codeline>
+<codeline><highlight class="normal">*`matcher`*.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`predicate`*<sp/>is<sp/>a<sp/>function<sp/>or<sp/>functor<sp/>that<sp/>accepts<sp/>an<sp/>`int`<sp/>exit</highlight></codeline>
+<codeline><highlight class="normal">status<sp/>and<sp/>returns<sp/>a<sp/>`bool`.<sp/>GoogleTest<sp/>provides<sp/>two<sp/>predicates<sp/>to<sp/>handle<sp/>common</highlight></codeline>
+<codeline><highlight class="normal">cases:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Returns<sp/>true<sp/>if<sp/>the<sp/>program<sp/>exited<sp/>normally<sp/>with<sp/>the<sp/>given<sp/>exit<sp/>status<sp/>code.</highlight></codeline>
+<codeline><highlight class="normal">::testing::ExitedWithCode(exit_code);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Returns<sp/>true<sp/>if<sp/>the<sp/>program<sp/>was<sp/>killed<sp/>by<sp/>the<sp/>given<sp/>signal.</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Not<sp/>available<sp/>on<sp/>Windows.</highlight></codeline>
+<codeline><highlight class="normal">::testing::KilledBySignal(signal_number);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>parameter<sp/>*`matcher`*<sp/>is<sp/>either<sp/>a<sp/>[matcher](matchers.md)<sp/>for<sp/>a<sp/>`const</highlight></codeline>
+<codeline><highlight class="normal">std::string&amp;`,<sp/>or<sp/>a<sp/>regular<sp/>expression<sp/>(see</highlight></codeline>
+<codeline><highlight class="normal">[Regular<sp/>Expression<sp/>Syntax](../advanced.md#regular-expression-syntax))—a<sp/>bare</highlight></codeline>
+<codeline><highlight class="normal">string<sp/>*`s`*<sp/>(with<sp/>no<sp/>matcher)<sp/>is<sp/>treated<sp/>as</highlight></codeline>
+<codeline><highlight class="normal">[`ContainsRegex(s)`](matchers.md#string-matchers),<sp/>**not**</highlight></codeline>
+<codeline><highlight class="normal">[`Eq(s)`](matchers.md#generic-comparison).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>the<sp/>following<sp/>code<sp/>verifies<sp/>that<sp/>calling<sp/>`NormalExit()`<sp/>causes<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">process<sp/>to<sp/>print<sp/>a<sp/>message<sp/>containing<sp/>the<sp/>text<sp/>`Success`<sp/>to<sp/>`stderr`<sp/>and<sp/>exit</highlight></codeline>
+<codeline><highlight class="normal">with<sp/>exit<sp/>status<sp/>code<sp/>0:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_EXIT(NormalExit(),<sp/>testing::ExitedWithCode(0),<sp/>&quot;Success&quot;);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/docs/reference/assertions.md"/>
+  </compounddef>
+</doxygen>

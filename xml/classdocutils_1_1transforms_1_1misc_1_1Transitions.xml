@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1misc_1_1Transitions" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::misc::Transitions</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1misc_1_1Transitions_1ac8c5dca5a6c9bef724111d797cb8009c" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.misc.Transitions::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.misc.Transitions.default_priority</qualifiedname>
+        <initializer>=  830</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py" line="94" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1misc_1_1Transitions_1abd0ff14a2e1adac29126ed654af3530d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.misc.Transitions.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.misc.Transitions.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py" line="96" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1misc_1_1Transitions_1ae6b7bce800ef8c8a90aa32ed0bbf259e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.misc.Transitions.visit_transition</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_transition</name>
+        <qualifiedname>docutils.transforms.misc.Transitions.visit_transition</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py" line="100" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py" bodystart="100" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Move transitions at the end of sections up the tree.  Complain
+on transitions after a title, at the beginning or end of the
+document, and after another transition.
+
+For example, transform this::
+
+    &lt;section&gt;
+        ...
+        &lt;transition&gt;
+    &lt;section&gt;
+        ...
+
+into this::
+
+    &lt;section&gt;
+        ...
+    &lt;transition&gt;
+    &lt;section&gt;
+        ...
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.misc.Transitions</label>
+        <link refid="classdocutils_1_1transforms_1_1misc_1_1Transitions"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.misc.Transitions</label>
+        <link refid="classdocutils_1_1transforms_1_1misc_1_1Transitions"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/transforms/misc.py" bodystart="70" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1misc_1_1Transitions_1abd0ff14a2e1adac29126ed654af3530d" prot="public" virt="non-virtual"><scope>docutils::transforms::misc::Transitions</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1misc_1_1Transitions_1ac8c5dca5a6c9bef724111d797cb8009c" prot="public" virt="non-virtual"><scope>docutils::transforms::misc::Transitions</scope><name>default_priority</name></member>
+      <member refid="classdocutils_1_1transforms_1_1misc_1_1Transitions_1ae6b7bce800ef8c8a90aa32ed0bbf259e" prot="public" virt="non-virtual"><scope>docutils::transforms::misc::Transitions</scope><name>visit_transition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

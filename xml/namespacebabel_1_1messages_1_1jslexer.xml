@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1messages_1_1jslexer" kind="namespace" language="Python">
+    <compoundname>babel::messages::jslexer</compoundname>
+    <innerclass refid="classbabel_1_1messages_1_1jslexer_1_1Token" prot="public">babel::messages::jslexer::Token</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1af40c01c43a12a9badedce44aa6ccda20" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list babel::messages::jslexer.operators</definition>
+        <argsstring></argsstring>
+        <name>operators</name>
+        <qualifiedname>babel.messages.jslexer.operators</qualifiedname>
+        <initializer>=  sorted([
+    &apos;+&apos;, &apos;-&apos;, &apos;*&apos;, &apos;%&apos;, &apos;!=&apos;, &apos;==&apos;, &apos;&lt;&apos;, &apos;&gt;&apos;, &apos;&lt;=&apos;, &apos;&gt;=&apos;, &apos;=&apos;,
+    &apos;+=&apos;, &apos;-=&apos;, &apos;*=&apos;, &apos;%=&apos;, &apos;&lt;&lt;&apos;, &apos;&gt;&gt;&apos;, &apos;&gt;&gt;&gt;&apos;, &apos;&lt;&lt;=&apos;, &apos;&gt;&gt;=&apos;,
+    &apos;&gt;&gt;&gt;=&apos;, &apos;&amp;&apos;, &apos;&amp;=&apos;, &apos;|&apos;, &apos;|=&apos;, &apos;&amp;&amp;&apos;, &apos;||&apos;, &apos;^&apos;, &apos;^=&apos;, &apos;(&apos;, &apos;)&apos;,
+    &apos;[&apos;, &apos;]&apos;, &apos;{&apos;, &apos;}&apos;, &apos;!&apos;, &apos;--&apos;, &apos;++&apos;, &apos;~&apos;, &apos;,&apos;, &apos;;&apos;, &apos;.&apos;, &apos;:&apos;,
+], key=len, reverse=True)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1a980a4c82a04effec553c81f863140ca3" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict babel::messages::jslexer.escapes</definition>
+        <argsstring></argsstring>
+        <name>escapes</name>
+        <qualifiedname>babel.messages.jslexer.escapes</qualifiedname>
+        <initializer>=  {&apos;b&apos;: &apos;\b&apos;, &apos;f&apos;: &apos;\f&apos;, &apos;n&apos;: &apos;\n&apos;, &apos;r&apos;: &apos;\r&apos;, &apos;t&apos;: &apos;\t&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1a94d2f1bf06a968b80b2af494384acf6e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::jslexer.name_re</definition>
+        <argsstring></argsstring>
+        <name>name_re</name>
+        <qualifiedname>babel.messages.jslexer.name_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;[\w$_][\w\d$_]*&apos;, re.UNICODE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1acbb5e757d1b0e1724452be68eac00700" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::jslexer.dotted_name_re</definition>
+        <argsstring></argsstring>
+        <name>dotted_name_re</name>
+        <qualifiedname>babel.messages.jslexer.dotted_name_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;[\w$_][\w\d$_.]*[\w\d$_.]&apos;, re.UNICODE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1a36b709a21cec4163764c8a9f2832ddf3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::jslexer.division_re</definition>
+        <argsstring></argsstring>
+        <name>division_re</name>
+        <qualifiedname>babel.messages.jslexer.division_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;/=?&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1a49a385a1e18bc853c37d5c258f88a7cb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::jslexer.regex_re</definition>
+        <argsstring></argsstring>
+        <name>regex_re</name>
+        <qualifiedname>babel.messages.jslexer.regex_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;/(?:[^/\\]*(?:\\.[^/\\]*)*)/[a-zA-Z]*&apos;, re.DOTALL)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1a42165c756de754ae83108404de8ea2fa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::jslexer.line_re</definition>
+        <argsstring></argsstring>
+        <name>line_re</name>
+        <qualifiedname>babel.messages.jslexer.line_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;(\r\n|\n|\r)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1a736cf092fc91985e73714b107348ca22" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::jslexer.line_join_re</definition>
+        <argsstring></argsstring>
+        <name>line_join_re</name>
+        <qualifiedname>babel.messages.jslexer.line_join_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\\&apos; + line_re.pattern)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1a2b73409bb844057c3adb7cf3daffcd94" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::jslexer.uni_escape_re</definition>
+        <argsstring></argsstring>
+        <name>uni_escape_re</name>
+        <qualifiedname>babel.messages.jslexer.uni_escape_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;[a-fA-F0-9]{1,4}&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1jslexer_1a6c80640b11c9d6a9725c3325c02b57aa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::jslexer.hex_escape_re</definition>
+        <argsstring></argsstring>
+        <name>hex_escape_re</name>
+        <qualifiedname>babel.messages.jslexer.hex_escape_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;[a-fA-F0-9]{1,2}&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1jslexer_1a3de255de7d5c04fd7dcff05e8ef613e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[tuple[str|None, re.Pattern[str]]]</type>
+        <definition> list[tuple[str | None, re.Pattern[str]]] babel.messages.jslexer.get_rules</definition>
+        <argsstring>(bool jsx, bool dotted, bool template_string)</argsstring>
+        <name>get_rules</name>
+        <qualifiedname>babel.messages.jslexer.get_rules</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>jsx</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>dotted</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>template_string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a tokenization rule list given the passed syntax options.
+
+Internal to this module.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="65" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="65" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1jslexer_1a2877e7c2084fd3193668271654c481a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool babel.messages.jslexer.indicates_division</definition>
+        <argsstring>(Token token)</argsstring>
+        <name>indicates_division</name>
+        <qualifiedname>babel.messages.jslexer.indicates_division</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1jslexer_1_1Token" kindref="compound">Token</ref></type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A helper function that helps the tokenizer to decide if the current
+token may be followed by a division operator.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="85" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1jslexer_1aaca51e1bef747e7db7fff953475dab94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.messages.jslexer.unquote_string</definition>
+        <argsstring>(str string)</argsstring>
+        <name>unquote_string</name>
+        <qualifiedname>babel.messages.jslexer.unquote_string</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unquote a string with JavaScript rules.  The string has to start with
+string delimiters (``&apos;``, ``&quot;`` or the back-tick/grave accent (for template strings).)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="94" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="94" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1jslexer_1a3ad0f9b7d8deb40cf6cc090125ecc897" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="classbabel_1_1messages_1_1jslexer_1_1Token" kindref="compound">Token</ref>, None, None]</type>
+        <definition> Generator[Token, None, None] babel.messages.jslexer.tokenize</definition>
+        <argsstring>(str source, bool jsx=True, bool dotted=True, bool template_string=True, int lineno=1)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>babel.messages.jslexer.tokenize</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>jsx</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>dotted</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>template_string</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Tokenize JavaScript/JSX source.  Returns a generator of tokens.
+
+:param source: The JavaScript source to tokenize.
+:param jsx: Enable (limited) JSX parsing.
+:param dotted: Read dotted names as single name token.
+:param template_string: Support ES6 template strings
+:param lineno: starting line number (optional)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="161" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="161" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.messages.jslexer
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+    A simple JavaScript 1.5 lexer which is used for the JavaScript
+    extractor.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="githubpages_8py" kind="file" language="Python">
+    <compoundname>githubpages.py</compoundname>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1ext">sphinx::ext</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1ext_1_1githubpages">sphinx::ext::githubpages</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1ext_1_1githubpages" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;To<sp/>publish<sp/>HTML<sp/>docs<sp/>at<sp/>GitHub<sp/>Pages,<sp/>create<sp/>.nojekyll<sp/>file.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>urllib.parse</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sphinx</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1application" kindref="compound">sphinx.application</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Sphinx</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1environment" kindref="compound">sphinx.environment</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BuildEnvironment</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1typing" kindref="compound">sphinx.util.typing</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ExtensionMetadata</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1ext_1_1githubpages_1a0896734a770028a429aca6e2a4097969" kindref="member">_get_domain_from_url</ref>(url:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>domain<sp/>from<sp/>a<sp/>URL.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>url<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>urllib.parse.urlparse(url).hostname<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1ext_1_1githubpages_1a4bf153028f3347fbd5eac8ace3d7e05c" kindref="member">create_nojekyll_and_cname</ref>(app:<sp/>Sphinx,<sp/>env:<sp/>BuildEnvironment)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Manage<sp/>the<sp/>``.nojekyll``<sp/>and<sp/>``CNAME``<sp/>files<sp/>for<sp/>GitHub<sp/>Pages.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>HTML-format<sp/>builders<sp/>(e.g.<sp/>&apos;html&apos;,<sp/>&apos;dirhtml&apos;)<sp/>we<sp/>unconditionally<sp/>create</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>``.nojekyll``<sp/>file<sp/>to<sp/>signal<sp/>that<sp/>GitHub<sp/>Pages<sp/>should<sp/>not<sp/>run<sp/>Jekyll</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>processing.</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>the<sp/>:confval:`html_baseurl`<sp/>option<sp/>is<sp/>set,<sp/>we<sp/>also<sp/>create<sp/>a<sp/>CNAME<sp/>file</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>with<sp/>the<sp/>domain<sp/>from<sp/>``html_baseurl``,<sp/>so<sp/>long<sp/>as<sp/>it<sp/>is<sp/>not<sp/>a<sp/>``github.io``</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>domain.</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>this<sp/>extension<sp/>is<sp/>loaded<sp/>and<sp/>the<sp/>domain<sp/>in<sp/>``html_baseurl``<sp/>no<sp/>longer</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>requires<sp/>a<sp/>CNAME<sp/>file,<sp/>we<sp/>remove<sp/>any<sp/>existing<sp/>``CNAME``<sp/>files<sp/>from<sp/>the</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>output<sp/>directory.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>app.builder.format<sp/>!=<sp/></highlight><highlight class="stringliteral">&apos;html&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>app.builder.outdir.joinpath(</highlight><highlight class="stringliteral">&apos;.nojekyll&apos;</highlight><highlight class="normal">).touch()</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>cname_path<sp/>=<sp/>app.builder.outdir<sp/>/<sp/></highlight><highlight class="stringliteral">&apos;CNAME&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>domain<sp/>=<sp/><ref refid="namespacesphinx_1_1ext_1_1githubpages_1a0896734a770028a429aca6e2a4097969" kindref="member">_get_domain_from_url</ref>(app.config.html_baseurl)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Filter<sp/>out<sp/>GitHub<sp/>Pages<sp/>domains,<sp/>as<sp/>they<sp/>do<sp/>not<sp/>require<sp/>CNAME<sp/>files.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>domain<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>domain.endswith(</highlight><highlight class="stringliteral">&apos;.github.io&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>open(cname_path,<sp/></highlight><highlight class="stringliteral">&apos;w&apos;</highlight><highlight class="normal">,<sp/>encoding=</highlight><highlight class="stringliteral">&apos;utf-8&apos;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>f:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>NOTE:<sp/>don&apos;t<sp/>write<sp/>a<sp/>trailing<sp/>newline.<sp/>The<sp/>`CNAME`<sp/>file<sp/>that&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>auto-generated<sp/>by<sp/>the<sp/>GitHub<sp/>UI<sp/>doesn&apos;t<sp/>have<sp/>one.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.write(domain)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cname_path.unlink(missing_ok=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">setup(app:<sp/>Sphinx)<sp/>-&gt;<sp/>ExtensionMetadata:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>app.connect(</highlight><highlight class="stringliteral">&apos;env-updated&apos;</highlight><highlight class="normal">,<sp/>create_nojekyll_and_cname)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;version&apos;</highlight><highlight class="normal">:<sp/>sphinx.__display_version__,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;parallel_read_safe&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/githubpages.py"/>
+  </compounddef>
+</doxygen>

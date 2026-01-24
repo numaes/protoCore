@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1setuptools__build" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::setuptools_build</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1setuptools__build_1a3a8e6d33ccae4646c29dcfd0f1499aaa" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::setuptools_build._SETUPTOOLS_SHIM</definition>
+        <argsstring></argsstring>
+        <name>_SETUPTOOLS_SHIM</name>
+        <qualifiedname>pip._internal.utils.setuptools_build._SETUPTOOLS_SHIM</qualifiedname>
+        <initializer>=  textwrap.dedent(
+    
+).rstrip()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" line="8" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" bodystart="8" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1setuptools__build_1aa4496c399d218015c5ecb218c10e1ad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.setuptools_build.make_setuptools_shim_args</definition>
+        <argsstring>(str setup_py_path, Optional[Sequence[str]] global_options=None, bool no_user_config=False, bool unbuffered_output=False)</argsstring>
+        <name>make_setuptools_shim_args</name>
+        <qualifiedname>pip._internal.utils.setuptools_build.make_setuptools_shim_args</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>setup_py_path</declname>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>global_options</declname>
+          <array>[Sequence[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>no_user_config</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>unbuffered_output</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get setuptools command arguments with shim wrapped setup file invocation.
+
+:param setup_py_path: The path to setup.py to be wrapped.
+:param global_options: Additional global options.
+:param no_user_config: If True, disables personal user configuration.
+:param unbuffered_output: If True, adds the unbuffered switch to the
+ argument list.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" line="49" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" bodystart="54" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1setuptools__build_1a590ffd863acd9b678c3bc4648df2b8b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.setuptools_build.make_setuptools_bdist_wheel_args</definition>
+        <argsstring>(str setup_py_path, Sequence[str] global_options, Sequence[str] build_options, str destination_dir)</argsstring>
+        <name>make_setuptools_bdist_wheel_args</name>
+        <qualifiedname>pip._internal.utils.setuptools_build.make_setuptools_bdist_wheel_args</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>setup_py_path</declname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>global_options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>build_options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>destination_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" bodystart="80" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1setuptools__build_1adb34f544ee328004db1ae82126317c42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.setuptools_build.make_setuptools_clean_args</definition>
+        <argsstring>(str setup_py_path, Sequence[str] global_options)</argsstring>
+        <name>make_setuptools_clean_args</name>
+        <qualifiedname>pip._internal.utils.setuptools_build.make_setuptools_clean_args</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>setup_py_path</declname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>global_options</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" line="93" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1setuptools__build_1aa2fe3b2cf73aa02ea760597522072f01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.setuptools_build.make_setuptools_develop_args</definition>
+        <argsstring>(str setup_py_path, *Sequence[str] global_options, bool no_user_config, Optional[str] prefix, Optional[str] home, bool use_user_site)</argsstring>
+        <name>make_setuptools_develop_args</name>
+        <qualifiedname>pip._internal.utils.setuptools_build.make_setuptools_develop_args</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>setup_py_path</declname>
+        </param>
+        <param>
+          <type>*Sequence</type>
+          <declname>global_options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>no_user_config</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>prefix</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>home</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_user_site</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" line="104" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" bodystart="112" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1setuptools__build_1a345f90deef75b898cfb85c2c6a22fe91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.setuptools_build.make_setuptools_egg_info_args</definition>
+        <argsstring>(str setup_py_path, Optional[str] egg_info_dir, bool no_user_config)</argsstring>
+        <name>make_setuptools_egg_info_args</name>
+        <qualifiedname>pip._internal.utils.setuptools_build.make_setuptools_egg_info_args</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>setup_py_path</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>egg_info_dir</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>no_user_config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" line="134" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" bodystart="138" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/setuptools_build.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

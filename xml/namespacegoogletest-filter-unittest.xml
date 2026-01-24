@@ -1,0 +1,539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacegoogletest-filter-unittest" kind="namespace" language="Python">
+    <compoundname>googletest-filter-unittest</compoundname>
+    <innerclass refid="classgoogletest-filter-unittest_1_1GTestFilterUnitTest" prot="public">googletest-filter-unittest::GTestFilterUnitTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a1b28fbc67058cbf13d3c0afcdc303e98" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool googletest-filter-unittest::CAN_PASS_EMPTY_ENV</definition>
+        <argsstring></argsstring>
+        <name>CAN_PASS_EMPTY_ENV</name>
+        <qualifiedname>googletest-filter-unittest.CAN_PASS_EMPTY_ENV</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="60" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a9eaaae3d0fe9a68dca2437c6866973e9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>googletest-filter-unittest.child</definition>
+        <argsstring></argsstring>
+        <name>child</name>
+        <qualifiedname>googletest-filter-unittest.child</qualifiedname>
+        <initializer>=  <ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(
+      [sys.executable, &apos;-c&apos;, &quot;import os; print(&apos;EMPTY_VAR&apos; in os.environ)&quot;]
+  )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="63" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a38279be5059ec6a4f00b9bed8e1329e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool googletest-filter-unittest::CAN_UNSET_ENV</definition>
+        <argsstring></argsstring>
+        <name>CAN_UNSET_ENV</name>
+        <qualifiedname>googletest-filter-unittest.CAN_UNSET_ENV</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="75" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a8fa715cbb23be5bd3a008905ef6e64da" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool googletest-filter-unittest::CAN_TEST_EMPTY_FILTER</definition>
+        <argsstring></argsstring>
+        <name>CAN_TEST_EMPTY_FILTER</name>
+        <qualifiedname>googletest-filter-unittest.CAN_TEST_EMPTY_FILTER</qualifiedname>
+        <initializer>=  <ref refid="namespacegoogletest-filter-unittest_1a1b28fbc67058cbf13d3c0afcdc303e98" kindref="member">CAN_PASS_EMPTY_ENV</ref> and <ref refid="namespacegoogletest-filter-unittest_1a38279be5059ec6a4f00b9bed8e1329e0" kindref="member">CAN_UNSET_ENV</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="89" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1ac04a91ecb7b13fb35d4dc8f1cca2ad77" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str googletest-filter-unittest::FILTER_ENV_VAR</definition>
+        <argsstring></argsstring>
+        <name>FILTER_ENV_VAR</name>
+        <qualifiedname>googletest-filter-unittest.FILTER_ENV_VAR</qualifiedname>
+        <initializer>=  &apos;GTEST_FILTER&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="93" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1af53644d1ae3cea036ecc4c0c54bea598" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str googletest-filter-unittest::TOTAL_SHARDS_ENV_VAR</definition>
+        <argsstring></argsstring>
+        <name>TOTAL_SHARDS_ENV_VAR</name>
+        <qualifiedname>googletest-filter-unittest.TOTAL_SHARDS_ENV_VAR</qualifiedname>
+        <initializer>=  &apos;GTEST_TOTAL_SHARDS&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="96" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1af01c1a4ee07c07d7a0e97844295d641e" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str googletest-filter-unittest::SHARD_INDEX_ENV_VAR</definition>
+        <argsstring></argsstring>
+        <name>SHARD_INDEX_ENV_VAR</name>
+        <qualifiedname>googletest-filter-unittest.SHARD_INDEX_ENV_VAR</qualifiedname>
+        <initializer>=  &apos;GTEST_SHARD_INDEX&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="97" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a8e5f7c3e33bc14881223aef379c33f7f" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str googletest-filter-unittest::SHARD_STATUS_FILE_ENV_VAR</definition>
+        <argsstring></argsstring>
+        <name>SHARD_STATUS_FILE_ENV_VAR</name>
+        <qualifiedname>googletest-filter-unittest.SHARD_STATUS_FILE_ENV_VAR</qualifiedname>
+        <initializer>=  &apos;GTEST_SHARD_STATUS_FILE&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="98" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1af93b6e89c58fcc23f6f17f6425c0373c" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str googletest-filter-unittest::FILTER_FLAG</definition>
+        <argsstring></argsstring>
+        <name>FILTER_FLAG</name>
+        <qualifiedname>googletest-filter-unittest.FILTER_FLAG</qualifiedname>
+        <initializer>=  &apos;gtest_filter&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="101" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a0e4a6a63965a9262d64c06b45168ac6e" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str googletest-filter-unittest::ALSO_RUN_DISABLED_TESTS_FLAG</definition>
+        <argsstring></argsstring>
+        <name>ALSO_RUN_DISABLED_TESTS_FLAG</name>
+        <qualifiedname>googletest-filter-unittest.ALSO_RUN_DISABLED_TESTS_FLAG</qualifiedname>
+        <initializer>=  &apos;gtest_also_run_disabled_tests&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="104" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a0d1ea907e2ca14e1335cbf270df41bac" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>googletest-filter-unittest.COMMAND</definition>
+        <argsstring></argsstring>
+        <name>COMMAND</name>
+        <qualifiedname>googletest-filter-unittest.COMMAND</qualifiedname>
+        <initializer>=  <ref refid="namespacegtest__test__utils_1ae7a8ef352b6b64ef8ec893f79874a1cd" kindref="member">gtest_test_utils.GetTestExecutablePath</ref>(&apos;googletest-filter-unittest_&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="107" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1af77bfd6536a2e3193efc40a697c0d973" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>googletest-filter-unittest.PARAM_TEST_REGEX</definition>
+        <argsstring></argsstring>
+        <name>PARAM_TEST_REGEX</name>
+        <qualifiedname>googletest-filter-unittest.PARAM_TEST_REGEX</qualifiedname>
+        <initializer>=  re.compile(r&apos;/<ref refid="classParamTest" kindref="compound">ParamTest</ref>&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="110" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a7a56afb8dd8204a811746ffe2ae508cb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>googletest-filter-unittest.TEST_CASE_REGEX</definition>
+        <argsstring></argsstring>
+        <name>TEST_CASE_REGEX</name>
+        <qualifiedname>googletest-filter-unittest.TEST_CASE_REGEX</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\[\-+\] \d+ tests? from (\w+(/\w+)?)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="113" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1aa92cd55f293bfe9c69a9cfcd12f2486d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>googletest-filter-unittest.TEST_REGEX</definition>
+        <argsstring></argsstring>
+        <name>TEST_REGEX</name>
+        <qualifiedname>googletest-filter-unittest.TEST_REGEX</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\[\s*RUN\s*\].*\.(\w+(/\w+)?)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="116" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1ae9c7d433fe17f38a1be856ea88705497" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>googletest-filter-unittest.DISABLED_BANNER_REGEX</definition>
+        <argsstring></argsstring>
+        <name>DISABLED_BANNER_REGEX</name>
+        <qualifiedname>googletest-filter-unittest.DISABLED_BANNER_REGEX</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\[\s*DISABLED\s*\] (.*)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="119" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1af6b4af52d143767a2ead990bda433527" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str googletest-filter-unittest::LIST_TESTS_FLAG</definition>
+        <argsstring></argsstring>
+        <name>LIST_TESTS_FLAG</name>
+        <qualifiedname>googletest-filter-unittest.LIST_TESTS_FLAG</qualifiedname>
+        <initializer>=  &apos;--gtest_list_tests&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="123" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a20f6f88c573b053ad182316eaf280246" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple googletest-filter-unittest::SUPPORTS_DEATH_TESTS</definition>
+        <argsstring></argsstring>
+        <name>SUPPORTS_DEATH_TESTS</name>
+        <qualifiedname>googletest-filter-unittest.SUPPORTS_DEATH_TESTS</qualifiedname>
+        <initializer>=  (
+    &apos;HasDeathTest&apos;
+    in <ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>([<ref refid="namespacegoogletest-filter-unittest_1a0d1ea907e2ca14e1335cbf270df41bac" kindref="member">COMMAND</ref>, <ref refid="namespacegoogletest-filter-unittest_1af6b4af52d143767a2ead990bda433527" kindref="member">LIST_TESTS_FLAG</ref>]).output
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="126" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1ae395ce6200e1a47d7c2c0e0b2d56f043" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list googletest-filter-unittest::PARAM_TESTS</definition>
+        <argsstring></argsstring>
+        <name>PARAM_TESTS</name>
+        <qualifiedname>googletest-filter-unittest.PARAM_TESTS</qualifiedname>
+        <initializer>=  [
+    &apos;SeqP/ParamTest.TestX/0&apos;,
+    &apos;SeqP/ParamTest.TestX/1&apos;,
+    &apos;SeqP/ParamTest.TestY/0&apos;,
+    &apos;SeqP/ParamTest.TestY/1&apos;,
+    &apos;SeqQ/ParamTest.TestX/0&apos;,
+    &apos;SeqQ/ParamTest.TestX/1&apos;,
+    &apos;SeqQ/ParamTest.TestY/0&apos;,
+    &apos;SeqQ/ParamTest.TestY/1&apos;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="132" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a2cadad0c4c6811a12f7efdf580a69a0c" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list googletest-filter-unittest::DISABLED_TESTS</definition>
+        <argsstring></argsstring>
+        <name>DISABLED_TESTS</name>
+        <qualifiedname>googletest-filter-unittest.DISABLED_TESTS</qualifiedname>
+        <initializer>=  [
+    &apos;BarTest.DISABLED_TestFour&apos;,
+    &apos;BarTest.DISABLED_TestFive&apos;,
+    &apos;BazTest.DISABLED_TestC&apos;,
+    &apos;DISABLED_FoobarTest.Test1&apos;,
+    &apos;DISABLED_FoobarTest.DISABLED_Test2&apos;,
+    &apos;DISABLED_FoobarbazTest.TestA&apos;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="143" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1aabdb029d6197857aa36347476f031449" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list googletest-filter-unittest::DEATH_TESTS</definition>
+        <argsstring></argsstring>
+        <name>DEATH_TESTS</name>
+        <qualifiedname>googletest-filter-unittest.DEATH_TESTS</qualifiedname>
+        <initializer>=  [
+      &apos;HasDeathTest.Test1&apos;,
+      &apos;HasDeathTest.Test2&apos;,
+  ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="153" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a9f90e20cea682412d1a2d819eb058dab" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple googletest-filter-unittest::ACTIVE_TESTS</definition>
+        <argsstring></argsstring>
+        <name>ACTIVE_TESTS</name>
+        <qualifiedname>googletest-filter-unittest.ACTIVE_TESTS</qualifiedname>
+        <initializer>=  (
+    [
+        &apos;FooTest.Abc&apos;,
+        &apos;FooTest.Xyz&apos;,
+        &apos;BarTest.TestOne&apos;,
+        &apos;BarTest.TestTwo&apos;,
+        &apos;BarTest.TestThree&apos;,
+        &apos;BazTest.TestOne&apos;,
+        &apos;BazTest.TestA&apos;,
+        &apos;BazTest.TestB&apos;,
+    ]
+    + <ref refid="namespacegoogletest-filter-unittest_1aabdb029d6197857aa36347476f031449" kindref="member">DEATH_TESTS</ref>
+    + <ref refid="namespacegoogletest-filter-unittest_1ae395ce6200e1a47d7c2c0e0b2d56f043" kindref="member">PARAM_TESTS</ref>
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="161" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1a2ce0274f4bc360e4067e20ed2bfc439b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>googletest-filter-unittest.param_tests_present</definition>
+        <argsstring></argsstring>
+        <name>param_tests_present</name>
+        <qualifiedname>googletest-filter-unittest.param_tests_present</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="176" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegoogletest-filter-unittest_1ad7660cddc4ddfdcae447d8edceddfd4e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>googletest-filter-unittest.environ</definition>
+        <argsstring></argsstring>
+        <name>environ</name>
+        <qualifiedname>googletest-filter-unittest.environ</qualifiedname>
+        <initializer>=  os.environ.copy()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="180" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacegoogletest-filter-unittest_1add17f083e6b2bfbf3e8adaae64b4b409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>googletest-filter-unittest::SetEnvVar</definition>
+        <argsstring>(env_var, value)</argsstring>
+        <name>SetEnvVar</name>
+        <qualifiedname>googletest-filter-unittest.SetEnvVar</qualifiedname>
+        <param>
+          <type>env_var</type>
+          <defname>env_var</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sets the env variable to &apos;value&apos;; unsets it when &apos;value&apos; is None.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="183" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="183" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegoogletest-filter-unittest_1a1e3d0e70b008b69922bd6de525cd3d82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>googletest-filter-unittest::RunAndReturnOutput</definition>
+        <argsstring>(args=None)</argsstring>
+        <name>RunAndReturnOutput</name>
+        <qualifiedname>googletest-filter-unittest.RunAndReturnOutput</qualifiedname>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Runs the test program and returns its output.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="192" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="192" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegoogletest-filter-unittest_1a1c4bdfcc9c92715452f085c7e197092d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>googletest-filter-unittest::RunAndExtractTestList</definition>
+        <argsstring>(args=None)</argsstring>
+        <name>RunAndExtractTestList</name>
+        <qualifiedname>googletest-filter-unittest.RunAndExtractTestList</qualifiedname>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Runs the test program and returns its exit code and a list of tests run.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="200" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="200" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegoogletest-filter-unittest_1a99236bccc71df2139c13ba27325801fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>googletest-filter-unittest::RunAndExtractDisabledBannerList</definition>
+        <argsstring>(args=None)</argsstring>
+        <name>RunAndExtractDisabledBannerList</name>
+        <qualifiedname>googletest-filter-unittest.RunAndExtractDisabledBannerList</qualifiedname>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Runs the test program and returns tests that printed a disabled banner.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="219" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="219" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegoogletest-filter-unittest_1a6016b944e686b59a7ff312a48c31c2ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>googletest-filter-unittest::InvokeWithModifiedEnv</definition>
+        <argsstring>(extra_env, function, *args, **kwargs)</argsstring>
+        <name>InvokeWithModifiedEnv</name>
+        <qualifiedname>googletest-filter-unittest.InvokeWithModifiedEnv</qualifiedname>
+        <param>
+          <type>extra_env</type>
+          <defname>extra_env</defname>
+        </param>
+        <param>
+          <type>function</type>
+          <defname>function</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Runs the given function and arguments in a modified environment.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="230" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="230" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacegoogletest-filter-unittest_1a8402555c78e1d7eedec0befe1dd5dc68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>googletest-filter-unittest::RunWithSharding</definition>
+        <argsstring>(total_shards, shard_index, command)</argsstring>
+        <name>RunWithSharding</name>
+        <qualifiedname>googletest-filter-unittest.RunWithSharding</qualifiedname>
+        <param>
+          <type>total_shards</type>
+          <defname>total_shards</defname>
+        </param>
+        <param>
+          <type>shard_index</type>
+          <defname>shard_index</defname>
+        </param>
+        <param>
+          <type>command</type>
+          <defname>command</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Runs a test program shard and returns exit code and a list of tests run.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="241" column="1" bodyfile="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" bodystart="241" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/googletest/test/googletest-filter-unittest.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

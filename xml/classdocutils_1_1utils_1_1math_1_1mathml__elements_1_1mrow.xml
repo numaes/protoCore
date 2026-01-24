@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mrow" kind="class" language="Python" prot="public">
+    <compoundname>docutils::utils::math::mathml_elements::mrow</compoundname>
+    <basecompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathRow" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.MathRow</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mrow_1a511a3b5aa1d26b2242694c7a9d80c3af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.mathml_elements.mrow.transfer_attributes</definition>
+        <argsstring>(self, other)</argsstring>
+        <name>transfer_attributes</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.mrow.transfer_attributes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>other</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Transfer attributes from self to other.
+
+&quot;List values&quot; (class, style) are appended to existing values,
+other values replace existing values.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="347" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="347" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mrow_1a7105a57e894a8b4eccbc7fc0160ecde6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.mathml_elements.mrow.close</definition>
+        <argsstring>(self)</argsstring>
+        <name>close</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.mrow.close</qualifiedname>
+        <reimplements refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement_1aad03839b116ef29b58c5594f07ecc38d">close</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Close element and return first non-full anchestor or None.
+
+Remove &lt;mrow&gt; if it has only one child element.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="361" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="361" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Generic element to group children as a horizontal row.
+
+Removed on closing if not required (see `mrow.close()`).
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>ET::Element</label>
+      </node>
+      <node id="1">
+        <label>docutils.utils.math.mathml_elements.mrow</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mrow"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.utils.math.mathml_elements.MathElement</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.utils.math.mathml_elements.MathRow</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathRow"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>ET::Element</label>
+      </node>
+      <node id="1">
+        <label>docutils.utils.math.mathml_elements.mrow</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mrow"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.utils.math.mathml_elements.MathElement</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.utils.math.mathml_elements.MathRow</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathRow"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="341" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="341" bodyend="378"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mrow_1a7105a57e894a8b4eccbc7fc0160ecde6" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::mrow</scope><name>close</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mrow_1a511a3b5aa1d26b2242694c7a9d80c3af" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::mrow</scope><name>transfer_attributes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

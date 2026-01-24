@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::distlib::locators::DistPathLocator</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator" prot="public" virt="non-virtual">pip._vendor.distlib.locators.Locator</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator_1adb796d43f555abed005db6c8e4b798ae" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.DistPathLocator::distpath</definition>
+        <argsstring></argsstring>
+        <name>distpath</name>
+        <qualifiedname>pip._vendor.distlib.locators.DistPathLocator.distpath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="954" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="954" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator_1a5841bb99d7108055078637c0d550da28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.DistPathLocator.__init__</definition>
+        <argsstring>(self, distpath, **kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.distlib.locators.DistPathLocator.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator_1a2dfb6c6cef7ff235c82ea3ea3d485de9">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator_1adb796d43f555abed005db6c8e4b798ae" kindref="member">distpath</ref></type>
+          <defname>distpath</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialise an instance.
+
+:param distpath: A :class:`DistributionPath` instance to search.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="946" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="946" bodyend="955"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator_1ad67855c697710f5be98b8726b6308554" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.DistPathLocator._get_project</definition>
+        <argsstring>(self, name)</argsstring>
+        <name>_get_project</name>
+        <qualifiedname>pip._vendor.distlib.locators.DistPathLocator._get_project</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator_1ad2635a6a42c128cf108492e9cd33fb89">_get_project</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>For a given project, get a dictionary mapping available versions to Distribution
+instances.
+
+This should be implemented in subclasses.
+
+If called from a locate() request, self.matcher will be set to a
+matcher for the requirement to satisfy, otherwise it will be None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="956" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="956" bodyend="968"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This locator finds installed distributions in a path. It can be useful for
+adding to an :class:`AggregatingLocator`.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.locators.DistPathLocator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.locators.Locator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.locators.DistPathLocator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.locators.Locator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>binary_extensions</edgelabel>
+          <edgelabel>downloadable_extensions</edgelabel>
+          <edgelabel>excluded_extensions</edgelabel>
+          <edgelabel>source_extensions</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="941" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="941" bodyend="968"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator_1a5841bb99d7108055078637c0d550da28" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::DistPathLocator</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator_1ad67855c697710f5be98b8726b6308554" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::DistPathLocator</scope><name>_get_project</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator_1adb796d43f555abed005db6c8e4b798ae" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::DistPathLocator</scope><name>distpath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

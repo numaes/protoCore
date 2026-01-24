@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::utils::logging::IndentingFormatter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">logging.Formatter</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1a9cc0b46fdbeb853890f649cf84ac7e16" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.utils.logging.IndentingFormatter::default_time_format</definition>
+        <argsstring></argsstring>
+        <name>default_time_format</name>
+        <qualifiedname>pip._internal.utils.logging.IndentingFormatter.default_time_format</qualifiedname>
+        <initializer>=  &quot;%Y-%m-%dT%H:%M:%S&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1aed8747c14da43b94d392434bf73c4228" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.utils.logging.IndentingFormatter::add_timestamp</definition>
+        <argsstring></argsstring>
+        <name>add_timestamp</name>
+        <qualifiedname>pip._internal.utils.logging.IndentingFormatter.add_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="88" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1a65e1dd6339914a038037a0ad4541d9b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.logging.IndentingFormatter.__init__</definition>
+        <argsstring>(self, *Any args, bool add_timestamp=False, **Any kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.utils.logging.IndentingFormatter.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>add_timestamp</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A logging.Formatter that obeys the indent_log() context manager.
+
+:param add_timestamp: A bool indicating output lines should be prefixed
+    with their record&apos;s timestamp.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="81" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1af4e804c5ebf6fdd402d5df0e107fa43c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.logging.IndentingFormatter.get_message_start</definition>
+        <argsstring>(self, str formatted, int levelno)</argsstring>
+        <name>get_message_start</name>
+        <qualifiedname>pip._internal.utils.logging.IndentingFormatter.get_message_start</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>formatted</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>levelno</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the start of the formatted log message (not counting the
+prefix to add to each line).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="91" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="91" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1a940113926ebf6558a27f2f54905d8d4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.logging.IndentingFormatter.format</definition>
+        <argsstring>(self, logging.LogRecord record)</argsstring>
+        <name>format</name>
+        <qualifiedname>pip._internal.utils.logging.IndentingFormatter.format</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>logging.LogRecord</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Calls the standard formatter, but will indent all of the log message
+lines by our current indentation level.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="107" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="107" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>logging::Formatter</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.utils.logging.IndentingFormatter</label>
+        <link refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="2">
+        <label>logging::Formatter</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.utils.logging.IndentingFormatter</label>
+        <link refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>default_time_format</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/logging.py" bodystart="73" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1a65e1dd6339914a038037a0ad4541d9b9" prot="public" virt="non-virtual"><scope>pip::_internal::utils::logging::IndentingFormatter</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1aed8747c14da43b94d392434bf73c4228" prot="public" virt="non-virtual"><scope>pip::_internal::utils::logging::IndentingFormatter</scope><name>add_timestamp</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1a9cc0b46fdbeb853890f649cf84ac7e16" prot="public" virt="non-virtual"><scope>pip::_internal::utils::logging::IndentingFormatter</scope><name>default_time_format</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1a940113926ebf6558a27f2f54905d8d4c" prot="public" virt="non-virtual"><scope>pip::_internal::utils::logging::IndentingFormatter</scope><name>format</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1logging_1_1IndentingFormatter_1af4e804c5ebf6fdd402d5df0e107fa43c" prot="public" virt="non-virtual"><scope>pip::_internal::utils::logging::IndentingFormatter</scope><name>get_message_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

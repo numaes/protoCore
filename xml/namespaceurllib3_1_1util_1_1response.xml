@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1util_1_1response" kind="namespace" language="Python">
+    <compoundname>urllib3::util::response</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1response_1acb101d0d64f2548a45acf9ff2160fdd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.response.is_fp_closed</definition>
+        <argsstring>(object obj)</argsstring>
+        <name>is_fp_closed</name>
+        <qualifiedname>urllib3.util.response.is_fp_closed</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks whether a given file-like object is closed.
+
+:param obj:
+    The file-like object to check.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/response.py" line="9" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/response.py" bodystart="9" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1response_1ad470bcb7ad18daa7698f5e097cb33939" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.response.assert_header_parsing</definition>
+        <argsstring>(httplib.HTTPMessage headers)</argsstring>
+        <name>assert_header_parsing</name>
+        <qualifiedname>urllib3.util.response.assert_header_parsing</qualifiedname>
+        <param>
+          <type>httplib.HTTPMessage</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Asserts whether all headers have been successfully parsed.
+Extracts encountered errors from the result of parsing headers.
+
+Only works on Python 3.
+
+:param http.client.HTTPMessage headers: Headers to verify.
+
+:raises urllib3.exceptions.HeaderParsingError:
+    If parsing errors are found.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/response.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/response.py" bodystart="40" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1response_1a2a33986ff853236cf518487b7269d981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.response.is_response_to_head</definition>
+        <argsstring>(httplib.HTTPResponse response)</argsstring>
+        <name>is_response_to_head</name>
+        <qualifiedname>urllib3.util.response.is_response_to_head</qualifiedname>
+        <param>
+          <type>httplib.HTTPResponse</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks whether the request of a response has been a HEAD-request.
+
+:param http.client.HTTPResponse response:
+    Response to check if the originating request
+    used &apos;HEAD&apos; as a method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/response.py" line="91" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/util/response.py" bodystart="91" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/util/response.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

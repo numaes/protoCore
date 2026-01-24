@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="ntlmpool_8py" kind="file" language="Python">
+    <compoundname>ntlmpool.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool" prot="public">pip::_vendor::urllib3::contrib::ntlmpool::NTLMConnectionPool</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1urllib3">pip::_vendor::urllib3</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1urllib3_1_1contrib">pip::_vendor::urllib3::contrib</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool">pip::_vendor::urllib3::contrib::ntlmpool</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">NTLM<sp/>authenticating<sp/>pool,<sp/>contributed<sp/>by<sp/>erikcederstran</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">Issue<sp/>#10,<sp/>see:<sp/>http://code.google.com/p/urllib3/issues/detail?id=10</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>absolute_import</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>warnings</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>logging<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>getLogger</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ntlm<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ntlm</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>HTTPSConnectionPool</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..packages.six.moves.http_client<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>HTTPSConnection</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">warnings.warn(</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>&apos;urllib3.contrib.ntlmpool&apos;<sp/>module<sp/>is<sp/>deprecated<sp/>and<sp/>will<sp/>be<sp/>removed<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in<sp/>urllib3<sp/>v2.0<sp/>release,<sp/>urllib3<sp/>is<sp/>not<sp/>able<sp/>to<sp/>support<sp/>it<sp/>properly<sp/>due<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;to<sp/>reasons<sp/>listed<sp/>in<sp/>issue:<sp/>https://github.com/urllib3/urllib3/issues/2282.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;If<sp/>you<sp/>are<sp/>a<sp/>user<sp/>of<sp/>this<sp/>module<sp/>please<sp/>comment<sp/>in<sp/>the<sp/>mentioned<sp/>issue.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>DeprecationWarning,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">log<sp/>=<sp/>getLogger(__name__)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool" kindref="compound">NTLMConnectionPool</ref>(HTTPSConnectionPool):</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Implements<sp/>an<sp/>NTLM<sp/>authentication<sp/>version<sp/>of<sp/>an<sp/>urllib3<sp/>connection<sp/>pool</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>scheme<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1abb4a77d672e35a63e0f7178862f3cf7d" kindref="member">__init__</ref>(self,<sp/>user,<sp/>pw,<sp/>authurl,<sp/>*args,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>authurl<sp/>is<sp/>a<sp/>random<sp/>URL<sp/>on<sp/>the<sp/>server<sp/>that<sp/>is<sp/>protected<sp/>by<sp/>NTLM.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user<sp/>is<sp/>the<sp/>Windows<sp/>user,<sp/>probably<sp/>in<sp/>the<sp/>DOMAIN\\username<sp/>format.</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pw<sp/>is<sp/>the<sp/>password<sp/>for<sp/>the<sp/>user.</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super(NTLMConnectionPool,<sp/>self).<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1abb4a77d672e35a63e0f7178862f3cf7d" kindref="member">__init__</ref>(*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a952bffabd8ee2bd4a9e62a0bd41f137f" kindref="member">authurl</ref><sp/>=<sp/>authurl</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a2228dfc9385864dcc54b389e7ad7eb97" kindref="member">rawuser</ref><sp/>=<sp/>user</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user_parts<sp/>=<sp/>user.split(</highlight><highlight class="stringliteral">&quot;\\&quot;</highlight><highlight class="normal">,<sp/>1)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1ab7ba116622276593074fcd979872d166" kindref="member">domain</ref><sp/>=<sp/>user_parts[0].upper()</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1aaa51ccd7ff0b8bd7a15bd36ecfca4822" kindref="member">user</ref><sp/>=<sp/>user_parts[1]</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a81b09c363fdf7f3f7ab54cd9228458db" kindref="member">pw</ref><sp/>=<sp/>pw</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1af188e32347dff664d569f8284cdd18c3" kindref="member">_new_conn</ref>(self):</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Performs<sp/>the<sp/>NTLM<sp/>handshake<sp/>that<sp/>secures<sp/>the<sp/>connection.<sp/>The<sp/>socket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>must<sp/>be<sp/>kept<sp/>open<sp/>while<sp/>requests<sp/>are<sp/>performed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a3b8f257a09b3555505655f1fdb12ff81" kindref="member">num_connections</ref><sp/>+=<sp/>1</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Starting<sp/>NTLM<sp/>HTTPS<sp/>connection<sp/>no.<sp/>%d:<sp/>https://%s%s&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a3b8f257a09b3555505655f1fdb12ff81" kindref="member">num_connections</ref>,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a1f05923042131106ca75a067af0de792" kindref="member">host</ref>,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a952bffabd8ee2bd4a9e62a0bd41f137f" kindref="member">authurl</ref>,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;Connection&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;Keep-Alive&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req_header<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Authorization&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp_header<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;www-authenticate&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn<sp/>=<sp/>HTTPSConnection(host=self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a1f05923042131106ca75a067af0de792" kindref="member">host</ref>,<sp/>port=self.port)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Send<sp/>negotiation<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[req_header]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;NTLM<sp/>%s&quot;</highlight><highlight class="normal"><sp/>%<sp/>ntlm.create_NTLM_NEGOTIATE_MESSAGE(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a2228dfc9385864dcc54b389e7ad7eb97" kindref="member">rawuser</ref></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Request<sp/>headers:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>headers)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn.request(</highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a952bffabd8ee2bd4a9e62a0bd41f137f" kindref="member">authurl</ref>,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>headers)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/>conn.getresponse()</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reshdr<sp/>=<sp/>dict(res.headers)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Response<sp/>status:<sp/>%s<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>res.status,<sp/>res.reason)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Response<sp/>headers:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>reshdr)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Response<sp/>data:<sp/>%s<sp/>[...]&quot;</highlight><highlight class="normal">,<sp/>res.read(100))</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Remove<sp/>the<sp/>reference<sp/>to<sp/>the<sp/>socket,<sp/>so<sp/>that<sp/>it<sp/>can<sp/>not<sp/>be<sp/>closed<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>the<sp/>response<sp/>object<sp/>(we<sp/>want<sp/>to<sp/>keep<sp/>the<sp/>socket<sp/>open)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.fp<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Server<sp/>should<sp/>respond<sp/>with<sp/>a<sp/>challenge<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth_header_values<sp/>=<sp/>reshdr[resp_header].split(</highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth_header_value<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>s<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>auth_header_values:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>s[:5]<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;NTLM<sp/>&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth_header_value<sp/>=<sp/>s[5:]</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>auth_header_value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>Exception(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Unexpected<sp/>%s<sp/>response<sp/>header:<sp/>%s&quot;</highlight><highlight class="normal"><sp/>%<sp/>(resp_header,<sp/>reshdr[resp_header])</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Send<sp/>authentication<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ServerChallenge,<sp/>NegotiateFlags<sp/>=<sp/>ntlm.parse_NTLM_CHALLENGE_MESSAGE(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth_header_value</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth_msg<sp/>=<sp/>ntlm.create_NTLM_AUTHENTICATE_MESSAGE(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ServerChallenge,<sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1aaa51ccd7ff0b8bd7a15bd36ecfca4822" kindref="member">user</ref>,<sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1ab7ba116622276593074fcd979872d166" kindref="member">domain</ref>,<sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a81b09c363fdf7f3f7ab54cd9228458db" kindref="member">pw</ref>,<sp/>NegotiateFlags</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[req_header]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;NTLM<sp/>%s&quot;</highlight><highlight class="normal"><sp/>%<sp/>auth_msg</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Request<sp/>headers:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>headers)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn.request(</highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/>self.<ref refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1ntlmpool_1_1NTLMConnectionPool_1a952bffabd8ee2bd4a9e62a0bd41f137f" kindref="member">authurl</ref>,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>headers)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/>conn.getresponse()</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Response<sp/>status:<sp/>%s<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>res.status,<sp/>res.reason)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Response<sp/>headers:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>dict(res.headers))</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Response<sp/>data:<sp/>%s<sp/>[...]&quot;</highlight><highlight class="normal">,<sp/>res.read()[:100])</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>res.status<sp/>!=<sp/>200:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>res.status<sp/>==<sp/>401:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>Exception(</highlight><highlight class="stringliteral">&quot;Server<sp/>rejected<sp/>request:<sp/>wrong<sp/>username<sp/>or<sp/>password&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>Exception(</highlight><highlight class="stringliteral">&quot;Wrong<sp/>server<sp/>response:<sp/>%s<sp/>%s&quot;</highlight><highlight class="normal"><sp/>%<sp/>(res.status,<sp/>res.reason))</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.fp<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.debug(</highlight><highlight class="stringliteral">&quot;Connection<sp/>established&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>conn</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">urlopen(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body=None,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers=None,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>retries=3,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>redirect=True,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>assert_same_host=True,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>headers<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;Connection&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Keep-Alive&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>super(NTLMConnectionPool,<sp/>self).urlopen(</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method,<sp/>url,<sp/>body,<sp/>headers,<sp/>retries,<sp/>redirect,<sp/>assert_same_host</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/contrib/ntlmpool.py"/>
+  </compounddef>
+</doxygen>

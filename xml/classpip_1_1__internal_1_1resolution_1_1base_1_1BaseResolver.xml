@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::resolution::base::BaseResolver</compoundname>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1legacy_1_1resolver_1_1Resolver" prot="public" virt="non-virtual">pip._internal.resolution.legacy.resolver.Resolver</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.resolver.Resolver</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver_1a6543e273c7e6dca0ae95a5c3f3792d64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__set_1_1RequirementSet" kindref="compound">RequirementSet</ref></type>
+        <definition> RequirementSet pip._internal.resolution.base.BaseResolver.resolve</definition>
+        <argsstring>(self, List[InstallRequirement] root_reqs, bool check_supported_wheels)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>pip._internal.resolution.base.BaseResolver.resolve</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1legacy_1_1resolver_1_1Resolver_1ab3d8e771687f08dc1861a9acdc60b9ee">resolve</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1adaeb803ba5f61621f03122bb37856c9a">resolve</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>root_reqs</declname>
+          <array>[InstallRequirement]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>check_supported_wheels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/base.py" line="12" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/base.py" bodystart="14" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver_1ac12947b2d893de0e4e64f73e4384c590" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[<ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref>]</type>
+        <definition> List[InstallRequirement] pip._internal.resolution.base.BaseResolver.get_installation_order</definition>
+        <argsstring>(self, RequirementSet req_set)</argsstring>
+        <name>get_installation_order</name>
+        <qualifiedname>pip._internal.resolution.base.BaseResolver.get_installation_order</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1legacy_1_1resolver_1_1Resolver_1ae46ca12ead0690a1f50200fa14f553eb">get_installation_order</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a904569a348939d53fdaed08c35cf39bf">get_installation_order</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__set_1_1RequirementSet" kindref="compound">RequirementSet</ref></type>
+          <declname>req_set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/base.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/base.py" bodystart="19" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.resolution.base.BaseResolver</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver"/>
+      </node>
+      <node id="2">
+        <label>pip._internal.resolution.legacy.resolver.Resolver</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1legacy_1_1resolver_1_1Resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.resolution.resolvelib.resolver.Resolver</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/base.py" line="11" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/base.py" bodystart="11" bodyend="21"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver_1ac12947b2d893de0e4e64f73e4384c590" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::base::BaseResolver</scope><name>get_installation_order</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver_1a6543e273c7e6dca0ae95a5c3f3792d64" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::base::BaseResolver</scope><name>resolve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

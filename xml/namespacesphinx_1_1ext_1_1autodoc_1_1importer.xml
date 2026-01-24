@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1autodoc_1_1importer" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::autodoc::importer</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1autodoc_1_1importer_1_1__AttrGetter" prot="protected">sphinx::ext::autodoc::importer::_AttrGetter</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autodoc_1_1importer_1_1__StubFileLoader" prot="protected">sphinx::ext::autodoc::importer::_StubFileLoader</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autodoc_1_1importer_1_1Attribute" prot="public">sphinx::ext::autodoc::importer::Attribute</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1af256a13be8fd273a5c14e5bb3b8c37ff" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::autodoc::importer.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.autodoc.importer.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1ade4cac0e59c46e264bc6ee81f4370f83" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[tuple[str, type, Any]]</type>
+        <definition> Iterator[tuple[str, type, Any]] sphinx.ext.autodoc.importer._filter_enum_dict</definition>
+        <argsstring>(type[Enum] enum_class, _AttrGetter attrgetter, Mapping[str, object] enum_class_dict)</argsstring>
+        <name>_filter_enum_dict</name>
+        <qualifiedname>sphinx.ext.autodoc.importer._filter_enum_dict</qualifiedname>
+        <param>
+          <type>type</type>
+          <declname>enum_class</declname>
+          <array>[Enum]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1autodoc_1_1importer_1_1__AttrGetter" kindref="compound">_AttrGetter</ref></type>
+          <declname>attrgetter</declname>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>enum_class_dict</declname>
+          <array>[str, object]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find the attributes to document of an enumeration class.
+
+The output consists of triplets ``(attribute name, defining class, value)``
+where the attribute name can appear more than once during the iteration
+but with different defining class. The order of occurrence is guided by
+the MRO of *enum_class*.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="52" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1a2a1aa503c96c5f0285ae6dd204a957c8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.autodoc.importer._is_native_enum_api</definition>
+        <argsstring>(object obj, str name)</argsstring>
+        <name>_is_native_enum_api</name>
+        <qualifiedname>sphinx.ext.autodoc.importer._is_native_enum_api</qualifiedname>
+        <param>
+          <type><ref refid="namespacesphinx_1_1ext_1_1autodoc_1a243754e369dff31b8d3683f93dea620e" kindref="member">object</ref></type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether *obj* is the same as ``Enum.__dict__[name]``.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="128" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="128" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1abba0ecbc59a7b0e11a435ec314d3547e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.autodoc.importer.mangle</definition>
+        <argsstring>(Any subject, str name)</argsstring>
+        <name>mangle</name>
+        <qualifiedname>sphinx.ext.autodoc.importer.mangle</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Mangle the given name.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="133" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="133" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1ae4b79059630ab61e98753a3427410619" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.ext.autodoc.importer.unmangle</definition>
+        <argsstring>(Any subject, str name)</argsstring>
+        <name>unmangle</name>
+        <qualifiedname>sphinx.ext.autodoc.importer.unmangle</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unmangle the given name.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="144" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="144" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1a094f2cfdccc40621254ff255a10ba4e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.ext.autodoc.importer.import_module</definition>
+        <argsstring>(str modname, bool try_reload=False)</argsstring>
+        <name>import_module</name>
+        <qualifiedname>sphinx.ext.autodoc.importer.import_module</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>modname</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>try_reload</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="163" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="163" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1aa0852042025556d73bf8638d98f962a9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[ModuleSpec, Path|None]</type>
+        <definition> tuple[ModuleSpec, Path | None] sphinx.ext.autodoc.importer._find_type_stub_spec</definition>
+        <argsstring>(ModuleSpec spec, str modname)</argsstring>
+        <name>_find_type_stub_spec</name>
+        <qualifiedname>sphinx.ext.autodoc.importer._find_type_stub_spec</qualifiedname>
+        <param>
+          <type>ModuleSpec</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>modname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Try finding a spec for a PEP 561 &apos;.pyi&apos; stub file for native modules.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="206" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="208" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1a586601cfd8b6123a611d0f30e24aff79" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.ext.autodoc.importer._reload_module</definition>
+        <argsstring>(ModuleType module)</argsstring>
+        <name>_reload_module</name>
+        <qualifiedname>sphinx.ext.autodoc.importer._reload_module</qualifiedname>
+        <param>
+          <type>ModuleType</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Call importlib.reload(module), convert exceptions to ImportError</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="242" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="242" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1a708d9320a7ec11067fd4283c13e25b19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.ext.autodoc.importer.import_object</definition>
+        <argsstring>(str modname, list[str] objpath, str objtype=&apos;&apos;, _AttrGetter attrgetter=safe_getattr)</argsstring>
+        <name>import_object</name>
+        <qualifiedname>sphinx.ext.autodoc.importer.import_object</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>modname</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>objpath</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>objtype</declname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1autodoc_1_1importer_1_1__AttrGetter" kindref="compound">_AttrGetter</ref></type>
+          <declname>attrgetter</declname>
+          <defval>safe_getattr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="252" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="257" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1aebb2ff062bfbb62e5220d0ab242d72cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, <ref refid="classsphinx_1_1ext_1_1autodoc_1_1importer_1_1Attribute" kindref="compound">Attribute</ref>]</type>
+        <definition> dict[str, Attribute] sphinx.ext.autodoc.importer.get_object_members</definition>
+        <argsstring>(Any subject, list[str] objpath, _AttrGetter attrgetter, ModuleAnalyzer|None analyzer=None)</argsstring>
+        <name>get_object_members</name>
+        <qualifiedname>sphinx.ext.autodoc.importer.get_object_members</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>objpath</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1autodoc_1_1importer_1_1__AttrGetter" kindref="compound">_AttrGetter</ref></type>
+          <declname>attrgetter</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1pycode_1_1ModuleAnalyzer" kindref="compound">ModuleAnalyzer</ref>|None</type>
+          <declname>analyzer</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get members and attributes of target object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="342" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="347" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1importer_1a3303570a428b8d0f5d908636f5e16c01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, <ref refid="classsphinx_1_1ext_1_1autodoc_1_1ObjectMember" kindref="compound">ObjectMember</ref>]</type>
+        <definition> dict[str, ObjectMember] sphinx.ext.autodoc.importer.get_class_members</definition>
+        <argsstring>(Any subject, Any objpath, _AttrGetter attrgetter, bool inherit_docstrings=True)</argsstring>
+        <name>get_class_members</name>
+        <qualifiedname>sphinx.ext.autodoc.importer.get_class_members</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>objpath</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1autodoc_1_1importer_1_1__AttrGetter" kindref="compound">_AttrGetter</ref></type>
+          <declname>attrgetter</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>inherit_docstrings</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get members and attributes of target class.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="417" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" bodystart="419" bodyend="524"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Importer utilities for autodoc</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/importer.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

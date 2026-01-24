@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1messages_1_1mofile" kind="namespace" language="Python">
+    <compoundname>babel::messages::mofile</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1mofile_1a9b7735eb2620b41bdb4413c5db88cb2d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int babel::messages::mofile.LE_MAGIC</definition>
+        <argsstring></argsstring>
+        <name>LE_MAGIC</name>
+        <qualifiedname>babel.messages.mofile.LE_MAGIC</qualifiedname>
+        <initializer>=  0x950412de</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1mofile_1a93f8afd7534fb0224bce73c48891f39c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int babel::messages::mofile.BE_MAGIC</definition>
+        <argsstring></argsstring>
+        <name>BE_MAGIC</name>
+        <qualifiedname>babel.messages.mofile.BE_MAGIC</qualifiedname>
+        <initializer>=  0xde120495</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1mofile_1a1f8acc57a7fd559297ce3d5c75a2ebfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref></type>
+        <definition> Catalog babel.messages.mofile.read_mo</definition>
+        <argsstring>(SupportsRead[bytes] fileobj)</argsstring>
+        <name>read_mo</name>
+        <qualifiedname>babel.messages.mofile.read_mo</qualifiedname>
+        <param>
+          <type>SupportsRead</type>
+          <declname>fileobj</declname>
+          <array>[bytes]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Read a binary MO file from the given file-like object and return a
+corresponding `Catalog` object.
+
+:param fileobj: the file-like object to read the MO file from
+
+:note: The implementation of this function is heavily based on the
+       ``GNUTranslations._parse`` method of the ``gettext`` module in the
+       standard library.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" bodystart="25" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1mofile_1a7dad09fc6c9c893256400034aec0e6d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None babel.messages.mofile.write_mo</definition>
+        <argsstring>(SupportsWrite[bytes] fileobj, Catalog catalog, bool use_fuzzy=False)</argsstring>
+        <name>write_mo</name>
+        <qualifiedname>babel.messages.mofile.write_mo</qualifiedname>
+        <param>
+          <type>SupportsWrite</type>
+          <declname>fileobj</declname>
+          <array>[bytes]</array>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref></type>
+          <declname>catalog</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_fuzzy</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write a catalog to the specified file-like object using the GNU MO file
+format.
+
+&gt;&gt;&gt; import sys
+&gt;&gt;&gt; from babel.messages import Catalog
+&gt;&gt;&gt; from gettext import GNUTranslations
+&gt;&gt;&gt; from io import BytesIO
+
+&gt;&gt;&gt; catalog = Catalog(locale=&apos;en_US&apos;)
+&gt;&gt;&gt; catalog.add(&apos;foo&apos;, &apos;Voh&apos;)
+&lt;Message ...&gt;
+&gt;&gt;&gt; catalog.add((u&apos;bar&apos;, u&apos;baz&apos;), (u&apos;Bahr&apos;, u&apos;Batz&apos;))
+&lt;Message ...&gt;
+&gt;&gt;&gt; catalog.add(&apos;fuz&apos;, &apos;Futz&apos;, flags=[&apos;fuzzy&apos;])
+&lt;Message ...&gt;
+&gt;&gt;&gt; catalog.add(&apos;Fizz&apos;, &apos;&apos;)
+&lt;Message ...&gt;
+&gt;&gt;&gt; catalog.add((&apos;Fuzz&apos;, &apos;Fuzzes&apos;), (&apos;&apos;, &apos;&apos;))
+&lt;Message ...&gt;
+&gt;&gt;&gt; buf = BytesIO()
+
+&gt;&gt;&gt; write_mo(buf, catalog)
+&gt;&gt;&gt; x = buf.seek(0)
+&gt;&gt;&gt; translations = GNUTranslations(fp=buf)
+&gt;&gt;&gt; if sys.version_info[0] &gt;= 3:
+...     translations.ugettext = translations.gettext
+...     translations.ungettext = translations.ngettext
+&gt;&gt;&gt; translations.ugettext(&apos;foo&apos;)
+u&apos;Voh&apos;
+&gt;&gt;&gt; translations.ungettext(&apos;bar&apos;, &apos;baz&apos;, 1)
+u&apos;Bahr&apos;
+&gt;&gt;&gt; translations.ungettext(&apos;bar&apos;, &apos;baz&apos;, 2)
+u&apos;Batz&apos;
+&gt;&gt;&gt; translations.ugettext(&apos;fuz&apos;)
+u&apos;fuz&apos;
+&gt;&gt;&gt; translations.ugettext(&apos;Fizz&apos;)
+u&apos;Fizz&apos;
+&gt;&gt;&gt; translations.ugettext(&apos;Fuzz&apos;)
+u&apos;Fuzz&apos;
+&gt;&gt;&gt; translations.ugettext(&apos;Fuzzes&apos;)
+u&apos;Fuzzes&apos;
+
+:param fileobj: the file-like object to write to
+:param catalog: the `Catalog` instance
+:param use_fuzzy: whether translations marked as &quot;fuzzy&quot; should be included
+                  in the output
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" line="107" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" bodystart="107" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.messages.mofile
+    ~~~~~~~~~~~~~~~~~~~~~
+
+    Writing of files in the ``gettext`` MO (machine object) format.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/messages/mofile.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

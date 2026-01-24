@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1cmd_1_1quickstart" kind="namespace" language="Python">
+    <compoundname>sphinx::cmd::quickstart</compoundname>
+    <innerclass refid="classsphinx_1_1cmd_1_1quickstart_1_1QuickstartRenderer" prot="public">sphinx::cmd::quickstart::QuickstartRenderer</innerclass>
+    <innerclass refid="classsphinx_1_1cmd_1_1quickstart_1_1ValidationError" prot="public">sphinx::cmd::quickstart::ValidationError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1cmd_1_1quickstart_1a0318e2014c5b7f9b5010bff84a4cabaa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx::cmd::quickstart::READLINE_AVAILABLE</definition>
+        <argsstring></argsstring>
+        <name>READLINE_AVAILABLE</name>
+        <qualifiedname>sphinx.cmd.quickstart.READLINE_AVAILABLE</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1cmd_1_1quickstart_1a7bbbfa9087f3606b8aff5909f7e069e5" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::cmd::quickstart.USE_LIBEDIT</definition>
+        <argsstring></argsstring>
+        <name>USE_LIBEDIT</name>
+        <qualifiedname>sphinx.cmd.quickstart.USE_LIBEDIT</qualifiedname>
+        <initializer>=  &apos;libedit&apos; in getattr(readline, &apos;__doc__&apos;, &apos;&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1cmd_1_1quickstart_1a34ea50917c7514b4b8379840da7eefb4" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::cmd::quickstart.EXTENSIONS</definition>
+        <argsstring></argsstring>
+        <name>EXTENSIONS</name>
+        <qualifiedname>sphinx.cmd.quickstart.EXTENSIONS</qualifiedname>
+        <initializer>=  {
+    &apos;autodoc&apos;: __(&apos;automatically insert docstrings from modules&apos;),
+    &apos;doctest&apos;: __(&apos;automatically test code snippets in doctest blocks&apos;),
+    &apos;intersphinx&apos;: __(&apos;link between Sphinx documentation of different projects&apos;),
+    &apos;todo&apos;: __(&apos;write &quot;todo&quot; entries that can be shown or hidden on build&apos;),
+    &apos;coverage&apos;: __(&apos;checks for documentation coverage&apos;),
+    &apos;imgmath&apos;: __(&apos;include math, rendered as PNG or SVG images&apos;),
+    &apos;mathjax&apos;: __(&apos;include math, rendered in the browser by MathJax&apos;),
+    &apos;ifconfig&apos;: __(&apos;conditional inclusion of content based on config values&apos;),
+    &apos;viewcode&apos;: __(&apos;include links to the source code of documented Python objects&apos;),
+    &apos;githubpages&apos;: __(&apos;create .nojekyll file to publish the document on GitHub pages&apos;),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="51" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1cmd_1_1quickstart_1a66bc15327aa611b1f9a927d4266960c0" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::cmd::quickstart.DEFAULTS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULTS</name>
+        <qualifiedname>sphinx.cmd.quickstart.DEFAULTS</qualifiedname>
+        <initializer>=  {
+    &apos;path&apos;: &apos;.&apos;,
+    &apos;sep&apos;: False,
+    &apos;dot&apos;: &apos;_&apos;,
+    &apos;language&apos;: None,
+    &apos;<ref refid="namespacesphinx_1_1cmd_1_1quickstart_1a4122d0300b71caedea68342a5413f3f0" kindref="member">suffix</ref>&apos;: &apos;.rst&apos;,
+    &apos;master&apos;: &apos;index&apos;,
+    &apos;makefile&apos;: True,
+    &apos;batchfile&apos;: True,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="64" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1cmd_1_1quickstart_1a424eebd010a121b44ec04b26c233f23f" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::cmd::quickstart.PROMPT_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>PROMPT_PREFIX</name>
+        <qualifiedname>sphinx.cmd.quickstart.PROMPT_PREFIX</qualifiedname>
+        <initializer>=  &apos;&gt; &apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1cmd_1_1quickstart_1ad919f0712f13c8961caf3c1aad608641" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::cmd::quickstart._question_colour</definition>
+        <argsstring></argsstring>
+        <name>_question_colour</name>
+        <qualifiedname>sphinx.cmd.quickstart._question_colour</qualifiedname>
+        <initializer>=  _create_input_mode_colour_func(escape_code)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1adeb1d989f583fc71ee16d83428b63bb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.cmd.quickstart.term_input</definition>
+        <argsstring>(str prompt)</argsstring>
+        <name>term_input</name>
+        <qualifiedname>sphinx.cmd.quickstart.term_input</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="92" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="92" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1ae28e34f87f0228bf7d99fb3738a3e7f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.cmd.quickstart.is_path</definition>
+        <argsstring>(str x)</argsstring>
+        <name>is_path</name>
+        <qualifiedname>sphinx.cmd.quickstart.is_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="107" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="107" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a9ac31a4dc8529a7903b2ee0060a87f34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.cmd.quickstart.is_path_or_empty</definition>
+        <argsstring>(str x)</argsstring>
+        <name>is_path_or_empty</name>
+        <qualifiedname>sphinx.cmd.quickstart.is_path_or_empty</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="114" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="114" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1aaa654cf381926d61b04367629c20d887" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.cmd.quickstart.allow_empty</definition>
+        <argsstring>(str x)</argsstring>
+        <name>allow_empty</name>
+        <qualifiedname>sphinx.cmd.quickstart.allow_empty</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="120" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="120" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a7ca439ea59f42a02738a82f81aa66a47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.cmd.quickstart.nonempty</definition>
+        <argsstring>(str x)</argsstring>
+        <name>nonempty</name>
+        <qualifiedname>sphinx.cmd.quickstart.nonempty</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="124" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a995dccbdd2e4064742c20c41deebd991" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Callable[[str], str]</type>
+        <definition> Callable[[str], str] sphinx.cmd.quickstart.choice</definition>
+        <argsstring>(*str l)</argsstring>
+        <name>choice</name>
+        <qualifiedname>sphinx.cmd.quickstart.choice</qualifiedname>
+        <param>
+          <type>*str</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="130" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="130" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a44bdccbadcc3d4c0eb55e5c21b3e9327" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.cmd.quickstart.boolean</definition>
+        <argsstring>(str x)</argsstring>
+        <name>boolean</name>
+        <qualifiedname>sphinx.cmd.quickstart.boolean</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="139" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="139" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a4122d0300b71caedea68342a5413f3f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.cmd.quickstart.suffix</definition>
+        <argsstring>(str x)</argsstring>
+        <name>suffix</name>
+        <qualifiedname>sphinx.cmd.quickstart.suffix</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="145" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1af9cbb2c8daad69c0bb8a8770bb9e6212" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.cmd.quickstart.ok</definition>
+        <argsstring>(str x)</argsstring>
+        <name>ok</name>
+        <qualifiedname>sphinx.cmd.quickstart.ok</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="151" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="151" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a24d7ec65ad6ba50f2319ad5da56cf861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|bool</type>
+        <definition> str | bool sphinx.cmd.quickstart.do_prompt</definition>
+        <argsstring>(str text, str|None default=None, Callable[[str], Any] validator=nonempty)</argsstring>
+        <name>do_prompt</name>
+        <qualifiedname>sphinx.cmd.quickstart.do_prompt</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>default</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>validator</defname>
+          <array>[[str]</array>
+        </param>
+        <param>
+          <type>Any]</type>
+          <declname>validator</declname>
+          <defval><ref refid="namespacesphinx_1_1cmd_1_1quickstart_1a7ca439ea59f42a02738a82f81aa66a47" kindref="member">nonempty</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="155" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="159" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a82f8ce4d3071dd928bd9eabf5bdc6262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.cmd.quickstart.ask_user</definition>
+        <argsstring>(dict[str, Any] d)</argsstring>
+        <name>ask_user</name>
+        <qualifiedname>sphinx.cmd.quickstart.ask_user</qualifiedname>
+        <param>
+          <type>dict</type>
+          <declname>d</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Ask the user for quickstart values missing from *d*.
+
+Values are:
+
+* path:      root path
+* sep:       separate source and build dirs (bool)
+* dot:       replacement for dot in _templates etc.
+* project:   project name
+* author:    author names
+* version:   version of project
+* release:   release of project
+* language:  document language
+* suffix:    source file suffix
+* master:    master document name
+* extensions:  extensions to use (list)
+* makefile:  make Makefile
+* batchfile: make command file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="209" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="209" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a3d5b5010f68766255d127b34c0909e52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.cmd.quickstart.generate</definition>
+        <argsstring>(dict[str, Any] d, bool overwrite=True, bool silent=False, str|None templatedir=None)</argsstring>
+        <name>generate</name>
+        <qualifiedname>sphinx.cmd.quickstart.generate</qualifiedname>
+        <param>
+          <type>dict</type>
+          <declname>d</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>overwrite</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>silent</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>templatedir</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate project based on values in *d*.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="420" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="425" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a9d218b98732f8e6021cf3d880d180760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.cmd.quickstart.valid_dir</definition>
+        <argsstring>(dict[str, Any] d)</argsstring>
+        <name>valid_dir</name>
+        <qualifiedname>sphinx.cmd.quickstart.valid_dir</qualifiedname>
+        <param>
+          <type>dict</type>
+          <declname>d</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="544" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="544" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1ada8621e59b9f6c0e9a1dacebb16081a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>argparse.ArgumentParser</type>
+        <definition> argparse.ArgumentParser sphinx.cmd.quickstart.get_parser</definition>
+        <argsstring>()</argsstring>
+        <name>get_parser</name>
+        <qualifiedname>sphinx.cmd.quickstart.get_parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="570" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="570" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1cmd_1_1quickstart_1a80dfbb1ae0523981ce86d58b3ebe25c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.cmd.quickstart.main</definition>
+        <argsstring>(Sequence[str] argv=())</argsstring>
+        <name>main</name>
+        <qualifiedname>sphinx.cmd.quickstart.main</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>argv</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="736" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" bodystart="736" bodyend="814"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Quickly setup documentation source to work with Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/cmd/quickstart.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

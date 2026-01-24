@@ -1,0 +1,736 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1truststore_1_1__macos" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::truststore::_macos</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1truststore_1_1__macos_1_1CFConst" prot="public">pip::_vendor::truststore::_macos::CFConst</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1adc1f603bfbc14bcd8b4f608ae11468e1" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos._mac_version</definition>
+        <argsstring></argsstring>
+        <name>_mac_version</name>
+        <qualifiedname>pip._vendor.truststore._macos._mac_version</qualifiedname>
+        <initializer>=  platform.mac_ver()[0]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1affdb4027efeba7cbf094df73d10301b4" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos._mac_version_info</definition>
+        <argsstring></argsstring>
+        <name>_mac_version_info</name>
+        <qualifiedname>pip._vendor.truststore._macos._mac_version_info</qualifiedname>
+        <initializer>=  tuple(map(int, _mac_version.split(&quot;.&quot;)))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a7118e5c055356cbe7af12474f2d1f48d" prot="public" static="no" mutable="no">
+        <type>CDLL</type>
+        <definition>CDLL pip::_vendor::truststore::_macos.Security</definition>
+        <argsstring></argsstring>
+        <name>Security</name>
+        <qualifiedname>pip._vendor.truststore._macos.Security</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a9c567794a84580047cb83e8db9e61ec4" kindref="member">_load_cdll</ref>(
+    &quot;Security&quot;, &quot;/System/Library/Frameworks/Security.framework/Security&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1aa7bb876b753dff53ffc6c8e242161e38" prot="public" static="no" mutable="no">
+        <type>CDLL</type>
+        <definition>CDLL pip::_vendor::truststore::_macos.CoreFoundation</definition>
+        <argsstring></argsstring>
+        <name>CoreFoundation</name>
+        <qualifiedname>pip._vendor.truststore._macos.CoreFoundation</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a9c567794a84580047cb83e8db9e61ec4" kindref="member">_load_cdll</ref>(
+    &quot;CoreFoundation&quot;,
+    &quot;/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="49" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a2d98b1a3a9ba5db5f66845054f7ce89b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.Boolean</definition>
+        <argsstring></argsstring>
+        <name>Boolean</name>
+        <qualifiedname>pip._vendor.truststore._macos.Boolean</qualifiedname>
+        <initializer>=  c_bool</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="54" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ac8a3660eca0bea8f10f9a767f74ce852" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFIndex</definition>
+        <argsstring></argsstring>
+        <name>CFIndex</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFIndex</qualifiedname>
+        <initializer>=  c_long</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1aa74b35b78c81d56e6d406e671b93af8e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFStringEncoding</definition>
+        <argsstring></argsstring>
+        <name>CFStringEncoding</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFStringEncoding</qualifiedname>
+        <initializer>=  c_uint32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ae9e676404479b784e73b9da949b65e66" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFData</definition>
+        <argsstring></argsstring>
+        <name>CFData</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFData</qualifiedname>
+        <initializer>=  c_void_p</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="57" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a419ff3d3c7a2e05badb6cd1a6d0d5683" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFString</definition>
+        <argsstring></argsstring>
+        <name>CFString</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFString</qualifiedname>
+        <initializer>=  c_void_p</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a9ae73de6023d2d975e4999c74eb7c6a1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFArray</definition>
+        <argsstring></argsstring>
+        <name>CFArray</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFArray</qualifiedname>
+        <initializer>=  c_void_p</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a0eab8fa69492645f77277780f4b2792c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFMutableArray</definition>
+        <argsstring></argsstring>
+        <name>CFMutableArray</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFMutableArray</qualifiedname>
+        <initializer>=  c_void_p</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="60" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a73ce7061dc5dfb072e555d875d46bdbc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFError</definition>
+        <argsstring></argsstring>
+        <name>CFError</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFError</qualifiedname>
+        <initializer>=  c_void_p</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="61" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a4f73cf6b70970df27309415c68ed8af9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFType</definition>
+        <argsstring></argsstring>
+        <name>CFType</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFType</qualifiedname>
+        <initializer>=  c_void_p</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a76ec15ffeb15c5e1e57c2ef8ad4b15f8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFTypeID</definition>
+        <argsstring></argsstring>
+        <name>CFTypeID</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFTypeID</qualifiedname>
+        <initializer>=  c_ulong</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="63" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1aac86e4b5b538d1c9f54ee2e3dedb7e02" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFTypeRef</definition>
+        <argsstring></argsstring>
+        <name>CFTypeRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFTypeRef</qualifiedname>
+        <initializer>=  POINTER(<ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a4f73cf6b70970df27309415c68ed8af9" kindref="member">CFType</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="64" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a64f04674c7c364be0590addd973967b4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFAllocatorRef</definition>
+        <argsstring></argsstring>
+        <name>CFAllocatorRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFAllocatorRef</qualifiedname>
+        <initializer>=  c_void_p</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="65" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1acc8d04a700e8cb91685172a02f5a6ab9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.OSStatus</definition>
+        <argsstring></argsstring>
+        <name>OSStatus</name>
+        <qualifiedname>pip._vendor.truststore._macos.OSStatus</qualifiedname>
+        <initializer>=  c_int32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="67" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a1a56238e461a4e6f05c8f0f5667e430a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFErrorRef</definition>
+        <argsstring></argsstring>
+        <name>CFErrorRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFErrorRef</qualifiedname>
+        <initializer>=  POINTER(<ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a73ce7061dc5dfb072e555d875d46bdbc" kindref="member">CFError</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a87980e34af5698d8c62e88a683f2ddf0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFDataRef</definition>
+        <argsstring></argsstring>
+        <name>CFDataRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFDataRef</qualifiedname>
+        <initializer>=  POINTER(<ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ae9e676404479b784e73b9da949b65e66" kindref="member">CFData</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a00b55f20462d400fd1c0cdda9009c2aa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFStringRef</definition>
+        <argsstring></argsstring>
+        <name>CFStringRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFStringRef</qualifiedname>
+        <initializer>=  POINTER(<ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a419ff3d3c7a2e05badb6cd1a6d0d5683" kindref="member">CFString</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="71" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a7691c8a9f3764b891805934d279b49ec" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFArrayRef</definition>
+        <argsstring></argsstring>
+        <name>CFArrayRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFArrayRef</qualifiedname>
+        <initializer>=  POINTER(<ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a9ae73de6023d2d975e4999c74eb7c6a1" kindref="member">CFArray</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a12d2423d5eb86d27df2744f213c9096f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFMutableArrayRef</definition>
+        <argsstring></argsstring>
+        <name>CFMutableArrayRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFMutableArrayRef</qualifiedname>
+        <initializer>=  POINTER(<ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a0eab8fa69492645f77277780f4b2792c" kindref="member">CFMutableArray</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a4f6443c8854426062add608838e3c94c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFArrayCallBacks</definition>
+        <argsstring></argsstring>
+        <name>CFArrayCallBacks</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFArrayCallBacks</qualifiedname>
+        <initializer>=  c_void_p</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ad90fc94be6489000ff59c02c90726888" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.CFOptionFlags</definition>
+        <argsstring></argsstring>
+        <name>CFOptionFlags</name>
+        <qualifiedname>pip._vendor.truststore._macos.CFOptionFlags</qualifiedname>
+        <initializer>=  c_uint32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ac95b141f80e8e45aef4d28a628fd2d1b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.SecCertificateRef</definition>
+        <argsstring></argsstring>
+        <name>SecCertificateRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.SecCertificateRef</qualifiedname>
+        <initializer>=  POINTER(c_void_p)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1aaf9c722c2a0a44217ad7de60111b90ef" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.SecPolicyRef</definition>
+        <argsstring></argsstring>
+        <name>SecPolicyRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.SecPolicyRef</qualifiedname>
+        <initializer>=  POINTER(c_void_p)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a8b88096e1a915ef8f6fff675d627724e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.SecTrustRef</definition>
+        <argsstring></argsstring>
+        <name>SecTrustRef</name>
+        <qualifiedname>pip._vendor.truststore._macos.SecTrustRef</qualifiedname>
+        <initializer>=  POINTER(c_void_p)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="79" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ac9de27994e3ee7f7f98811f0ead53e82" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.SecTrustResultType</definition>
+        <argsstring></argsstring>
+        <name>SecTrustResultType</name>
+        <qualifiedname>pip._vendor.truststore._macos.SecTrustResultType</qualifiedname>
+        <initializer>=  c_uint32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a12df9816fb55c3b9ce7a1f954f4fc903" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.SecTrustOptionFlags</definition>
+        <argsstring></argsstring>
+        <name>SecTrustOptionFlags</name>
+        <qualifiedname>pip._vendor.truststore._macos.SecTrustOptionFlags</qualifiedname>
+        <initializer>=  c_uint32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="81" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ab734b121fcad8e7fc28f2f47f38adf04" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.argtypes</definition>
+        <argsstring></argsstring>
+        <name>argtypes</name>
+        <qualifiedname>pip._vendor.truststore._macos.argtypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="84" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a4cc3962c15200ab5e53c280285ae1b20" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.restype</definition>
+        <argsstring></argsstring>
+        <name>restype</name>
+        <qualifiedname>pip._vendor.truststore._macos.restype</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a7aa4ebc73b9f8ba586155810f2ab01db" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int pip::_vendor::truststore::_macos.kSecRevocationUseAnyAvailableMethod</definition>
+        <argsstring></argsstring>
+        <name>kSecRevocationUseAnyAvailableMethod</name>
+        <qualifiedname>pip._vendor.truststore._macos.kSecRevocationUseAnyAvailableMethod</qualifiedname>
+        <initializer>=  3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="125" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a1a6c1cac35d2e343ee021fe55dae99ae" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int pip::_vendor::truststore::_macos.kSecRevocationRequirePositiveResponse</definition>
+        <argsstring></argsstring>
+        <name>kSecRevocationRequirePositiveResponse</name>
+        <qualifiedname>pip._vendor.truststore._macos.kSecRevocationRequirePositiveResponse</qualifiedname>
+        <initializer>=  8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="126" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1adeb7f148e7d39322f9fea2013db17453" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.kCFAllocatorDefault</definition>
+        <argsstring></argsstring>
+        <name>kCFAllocatorDefault</name>
+        <qualifiedname>pip._vendor.truststore._macos.kCFAllocatorDefault</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="191" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1aba6a6e27be3265c5e426d38a175127c8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.kCFTypeArrayCallBacks</definition>
+        <argsstring></argsstring>
+        <name>kCFTypeArrayCallBacks</name>
+        <qualifiedname>pip._vendor.truststore._macos.kCFTypeArrayCallBacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="194" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a8c4d23c4e84574e095a4c3c78243cb25" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::truststore::_macos.errcheck</definition>
+        <argsstring></argsstring>
+        <name>errcheck</name>
+        <qualifiedname>pip._vendor.truststore._macos.errcheck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="260" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a9c567794a84580047cb83e8db9e61ec4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>CDLL</type>
+        <definition> CDLL pip._vendor.truststore._macos._load_cdll</definition>
+        <argsstring>(str name, str macos10_16_path)</argsstring>
+        <name>_load_cdll</name>
+        <qualifiedname>pip._vendor.truststore._macos._load_cdll</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>macos10_16_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Loads a CDLL by name, falling back to known path on 10.16+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="29" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ae005f4f1974783b9831413685ce93402" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Any</type>
+        <definition> typing.Any pip._vendor.truststore._macos._handle_osstatus</definition>
+        <argsstring>(OSStatus result, typing.Any _, typing.Any args)</argsstring>
+        <name>_handle_osstatus</name>
+        <qualifiedname>pip._vendor.truststore._macos._handle_osstatus</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1acc8d04a700e8cb91685172a02f5a6ab9" kindref="member">OSStatus</ref></type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>typing.Any</type>
+          <declname>_</declname>
+        </param>
+        <param>
+          <type>typing.Any</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Raises an error if the OSStatus value is non-zero.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="207" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="207" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a99eb24f33179dd1e797d29506ca69f50" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a87980e34af5698d8c62e88a683f2ddf0" kindref="member">CFDataRef</ref></type>
+        <definition> CFDataRef pip._vendor.truststore._macos._bytes_to_cf_data_ref</definition>
+        <argsstring>(bytes value)</argsstring>
+        <name>_bytes_to_cf_data_ref</name>
+        <qualifiedname>pip._vendor.truststore._macos._bytes_to_cf_data_ref</qualifiedname>
+        <param>
+          <type>bytes</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="276" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="276" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1ab840440cb964de7634990fb7b4e527a1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a419ff3d3c7a2e05badb6cd1a6d0d5683" kindref="member">CFString</ref></type>
+        <definition> CFString pip._vendor.truststore._macos._bytes_to_cf_string</definition>
+        <argsstring>(bytes value)</argsstring>
+        <name>_bytes_to_cf_string</name>
+        <qualifiedname>pip._vendor.truststore._macos._bytes_to_cf_string</qualifiedname>
+        <param>
+          <type>bytes</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a Python binary data, create a CFString.
+The string must be CFReleased by the caller.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="282" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="282" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a20736490c065276c7ebf020a9c87f1ad" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None pip._vendor.truststore._macos._cf_string_ref_to_str</definition>
+        <argsstring>(CFStringRef cf_string_ref)</argsstring>
+        <name>_cf_string_ref_to_str</name>
+        <qualifiedname>pip._vendor.truststore._macos._cf_string_ref_to_str</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a00b55f20462d400fd1c0cdda9009c2aa" kindref="member">CFStringRef</ref></type>
+          <declname>cf_string_ref</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Creates a Unicode string from a CFString object. Used entirely for error
+reporting.
+Yes, it annoys me quite a lot that this function is this complex.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="296" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="296" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a178f4a7df2fb309bfaf4feee3f187687" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a12d2423d5eb86d27df2744f213c9096f" kindref="member">CFMutableArrayRef</ref></type>
+        <definition> CFMutableArrayRef pip._vendor.truststore._macos._der_certs_to_cf_cert_array</definition>
+        <argsstring>(list[bytes] certs)</argsstring>
+        <name>_der_certs_to_cf_cert_array</name>
+        <qualifiedname>pip._vendor.truststore._macos._der_certs_to_cf_cert_array</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>certs</declname>
+          <array>[bytes]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Builds a CFArray of SecCertificateRefs from a list of DER-encoded certificates.
+Responsibility of the caller to call CoreFoundation.CFRelease on the CFArray.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="319" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="319" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a875587db26c025d3e50458dc24937cde" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Iterator[None]</type>
+        <definition> typing.Iterator[None] pip._vendor.truststore._macos._configure_context</definition>
+        <argsstring>(ssl.SSLContext ctx)</argsstring>
+        <name>_configure_context</name>
+        <qualifiedname>pip._vendor.truststore._macos._configure_context</qualifiedname>
+        <param>
+          <type>ssl.SSLContext</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="350" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="350" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1truststore_1_1__macos_1a1b49efa650be3032023289ccf87c7aaf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.truststore._macos._verify_peercerts_impl</definition>
+        <argsstring>(ssl.SSLContext ssl_context, list[bytes] cert_chain, str|None server_hostname=None)</argsstring>
+        <name>_verify_peercerts_impl</name>
+        <qualifiedname>pip._vendor.truststore._macos._verify_peercerts_impl</qualifiedname>
+        <param>
+          <type>ssl.SSLContext</type>
+          <declname>ssl_context</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>cert_chain</declname>
+          <array>[bytes]</array>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>server_hostname</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="362" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" bodystart="366" bodyend="502"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/_macos.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

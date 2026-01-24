@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1python_1_1PyStaticMethod" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::domains::python::PyStaticMethod</compoundname>
+    <basecompoundref refid="classsphinx_1_1domains_1_1python_1_1PyMethod" prot="public" virt="non-virtual">sphinx.domains.python.PyMethod</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1python_1_1PyStaticMethod_1aa9ca4f5063913eb91d2837dd587c1ea1" prot="public" static="yes" mutable="no">
+        <type>ClassVar</type>
+        <definition>ClassVar sphinx.domains.python.PyStaticMethod::option_spec</definition>
+        <argsstring></argsstring>
+        <name>option_spec</name>
+        <qualifiedname>sphinx.domains.python.PyStaticMethod.option_spec</qualifiedname>
+        <initializer>=  PyObject.option_spec.copy()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="305" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1python_1_1PyStaticMethod_1ae74edcfc0964944ce26c911d6f2ca9af" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.domains.python.PyStaticMethod::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sphinx.domains.python.PyStaticMethod.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="308" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1python_1_1PyStaticMethod_1a434baaaa0e406e5a572bbccc3102d03e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]</type>
+        <definition> list[Node] sphinx.domains.python.PyStaticMethod.run</definition>
+        <argsstring>(self)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.domains.python.PyStaticMethod.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1a9da203b41d230c48639d1ed70ed33457">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main directive entry function, called by docutils upon encountering the
+directive.
+
+This directive is meant to be quite easily subclassable, so it delegates
+to several additional methods.  What it does:
+
+* find out if called as a domain-specific directive, set self.domain
+* create a `desc` node to fit all description inside
+* parse standard options, currently `no-index`
+* create an index node if needed as self.indexnode
+* parse all given signatures (as returned by self.get_signatures())
+  using self.handle_signature(), which should either return a name
+  or raise ValueError
+* add index entries using self.add_target_and_index()
+* parse the content and handle doc fields in it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="307" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="307" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Description of a staticmethod.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="8">
+        <label>ObjDescT</label>
+      </node>
+      <node id="10">
+        <label>str</label>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.python.PyStaticMethod</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyStaticMethod"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.python.PyMethod</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyMethod"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.domains.python._object.PyObject</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>tuple</label>
+      </node>
+      <node id="7">
+        <label>Generic</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>ObjDescT</label>
+      </node>
+      <node id="10">
+        <label>str</label>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.python.PyStaticMethod</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyStaticMethod"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="13" relation="usage">
+          <edgelabel>option_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="11">
+        <label>addnodes</label>
+      </node>
+      <node id="4">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>doc_field_types</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>domain</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>indexnode</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.python.PyMethod</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyMethod"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="13" relation="usage">
+          <edgelabel>option_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.domains.python._object.PyObject</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>doc_field_types</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>list</label>
+      </node>
+      <node id="12">
+        <label>tuple</label>
+      </node>
+      <node id="13">
+        <label>ClassVar</label>
+      </node>
+      <node id="7">
+        <label>Generic</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="302" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="302" bodyend="313"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyStaticMethod_1ae74edcfc0964944ce26c911d6f2ca9af" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyStaticMethod</scope><name>name</name></member>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyStaticMethod_1aa9ca4f5063913eb91d2837dd587c1ea1" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyStaticMethod</scope><name>option_spec</name></member>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyStaticMethod_1a434baaaa0e406e5a572bbccc3102d03e" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyStaticMethod</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

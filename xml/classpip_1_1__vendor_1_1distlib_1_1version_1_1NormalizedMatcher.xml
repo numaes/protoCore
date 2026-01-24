@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::distlib::version::NormalizedMatcher</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1Matcher" prot="public" virt="non-virtual">pip._vendor.distlib.version.Matcher</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1ac1112f941015eaec950abec4f174262f" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher::version_class</definition>
+        <argsstring></argsstring>
+        <name>version_class</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher.version_class</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedVersion" kindref="compound">NormalizedVersion</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="304" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="304" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1af12b83439ffe7c75398c09d3bd36a57d" prot="protected" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.distlib.version.NormalizedMatcher::_operators</definition>
+        <argsstring></argsstring>
+        <name>_operators</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._operators</qualifiedname>
+        <initializer>=  {
+        &apos;~=&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a5a38939162be35e1b663c0e875033de8" kindref="member">_match_compatible</ref>&apos;,
+        &apos;&lt;&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1ad68013f348b0e2fbebef9c4eb950ae2c" kindref="member">_match_lt</ref>&apos;,
+        &apos;&gt;&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a0d29cae019120368ca8e2056c64cd811" kindref="member">_match_gt</ref>&apos;,
+        &apos;&lt;=&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a2a4c81e2a74df98c06fd4e259a9840b1" kindref="member">_match_le</ref>&apos;,
+        &apos;&gt;=&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a5b805668b7c2c5b2a3cf943998f59d69" kindref="member">_match_ge</ref>&apos;,
+        &apos;==&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a9103765b798204360cd846a08e5aeb2c" kindref="member">_match_eq</ref>&apos;,
+        &apos;===&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a6bebfccb6720156d8ef20c4c4097ab4b" kindref="member">_match_arbitrary</ref>&apos;,
+        &apos;!=&apos;: &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a41e2ce34184c1e85eac4024cbc5e0c24" kindref="member">_match_ne</ref>&apos;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="307" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="307" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1abb389bff7f9ebd6781101c7a784fb300" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._adjust_local</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_adjust_local</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._adjust_local</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="318" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="318" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1ad68013f348b0e2fbebef9c4eb950ae2c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._match_lt</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_match_lt</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._match_lt</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="332" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="332" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a0d29cae019120368ca8e2056c64cd811" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._match_gt</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_match_gt</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._match_gt</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="340" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="340" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a2a4c81e2a74df98c06fd4e259a9840b1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._match_le</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_match_le</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._match_le</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="348" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="348" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a5b805668b7c2c5b2a3cf943998f59d69" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._match_ge</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_match_ge</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._match_ge</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="352" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="352" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a9103765b798204360cd846a08e5aeb2c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._match_eq</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_match_eq</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._match_eq</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="356" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="356" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a6bebfccb6720156d8ef20c4c4097ab4b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._match_arbitrary</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_match_arbitrary</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._match_arbitrary</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="364" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="364" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a41e2ce34184c1e85eac4024cbc5e0c24" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._match_ne</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_match_ne</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._match_ne</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="367" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="367" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a5a38939162be35e1b663c0e875033de8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.version.NormalizedMatcher._match_compatible</definition>
+        <argsstring>(self, version, constraint, prefix)</argsstring>
+        <name>_match_compatible</name>
+        <qualifiedname>pip._vendor.distlib.version.NormalizedMatcher._match_compatible</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>constraint</type>
+          <defname>constraint</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="375" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="375" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.version.NormalizedMatcher</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.version.Matcher</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1Matcher"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.version.NormalizedMatcher</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.version.Matcher</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1Matcher"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" line="303" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/version.py" bodystart="303" bodyend="389"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1abb389bff7f9ebd6781101c7a784fb300" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_adjust_local</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a6bebfccb6720156d8ef20c4c4097ab4b" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_match_arbitrary</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a5a38939162be35e1b663c0e875033de8" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_match_compatible</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a9103765b798204360cd846a08e5aeb2c" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_match_eq</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a5b805668b7c2c5b2a3cf943998f59d69" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_match_ge</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a0d29cae019120368ca8e2056c64cd811" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_match_gt</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a2a4c81e2a74df98c06fd4e259a9840b1" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_match_le</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1ad68013f348b0e2fbebef9c4eb950ae2c" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_match_lt</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1a41e2ce34184c1e85eac4024cbc5e0c24" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_match_ne</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1af12b83439ffe7c75398c09d3bd36a57d" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>_operators</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1version_1_1NormalizedMatcher_1ac1112f941015eaec950abec4f174262f" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::version::NormalizedMatcher</scope><name>version_class</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

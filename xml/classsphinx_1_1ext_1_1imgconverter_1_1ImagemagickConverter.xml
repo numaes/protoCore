@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::ext::imgconverter::ImagemagickConverter</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.images.ImageConverter</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter_1aaed538e2befc2964020e92655063f08a" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list sphinx.ext.imgconverter.ImagemagickConverter::conversion_rules</definition>
+        <argsstring></argsstring>
+        <name>conversion_rules</name>
+        <qualifiedname>sphinx.ext.imgconverter.ImagemagickConverter.conversion_rules</qualifiedname>
+        <initializer>=  [
+        (&apos;image/svg+xml&apos;, &apos;image/png&apos;),
+        (&apos;image/gif&apos;, &apos;image/png&apos;),
+        (&apos;application/pdf&apos;, &apos;image/png&apos;),
+        (&apos;application/illustrator&apos;, &apos;image/png&apos;),
+        (&apos;image/webp&apos;, &apos;image/png&apos;),
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/imgconverter.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/imgconverter.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter_1a01134ad3e933f01f91efdfbfaaf24072" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.imgconverter.ImagemagickConverter.is_available</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_available</name>
+        <qualifiedname>sphinx.ext.imgconverter.ImagemagickConverter.is_available</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter_1a1176642b276bf0051397c7fd724bd132">is_available</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Confirms the converter is available or not.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/imgconverter.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/imgconverter.py" bodystart="34" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter_1a67c80f30d39f2252958ce0e8c355bfb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.imgconverter.ImagemagickConverter.convert</definition>
+        <argsstring>(self, str|os.PathLike[str] _from, str|os.PathLike[str] _to)</argsstring>
+        <name>convert</name>
+        <qualifiedname>sphinx.ext.imgconverter.ImagemagickConverter.convert</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter_1a5ff84eed98fd6ed2d5f2f45e3a31b0b7">convert</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>_from</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>_to</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Converts the image to expected one.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/imgconverter.py" line="62" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/imgconverter.py" bodystart="64" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.ext.imgconverter.ImagemagickConverter</label>
+        <link refid="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.post_transforms.images.BaseImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.images.ImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.ext.imgconverter.ImagemagickConverter</label>
+        <link refid="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>conversion_rules</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.post_transforms.images.BaseImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.images.ImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>conversion_rules</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>list</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/imgconverter.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/imgconverter.py" bodystart="25" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter_1aaed538e2befc2964020e92655063f08a" prot="public" virt="non-virtual"><scope>sphinx::ext::imgconverter::ImagemagickConverter</scope><name>conversion_rules</name></member>
+      <member refid="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter_1a67c80f30d39f2252958ce0e8c355bfb4" prot="public" virt="non-virtual"><scope>sphinx::ext::imgconverter::ImagemagickConverter</scope><name>convert</name></member>
+      <member refid="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter_1a01134ad3e933f01f91efdfbfaaf24072" prot="public" virt="non-virtual"><scope>sphinx::ext::imgconverter::ImagemagickConverter</scope><name>is_available</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

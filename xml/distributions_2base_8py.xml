@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="distributions_2base_8py" kind="file" language="Python">
+    <compoundname>base.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution" prot="public">pip::_internal::distributions::base::AbstractDistribution</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1distributions">pip::_internal::distributions</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1distributions_1_1base">pip::_internal::distributions::base</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1distributions_1_1base" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>abc</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Optional</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1index_1_1package__finder" kindref="compound">pip._internal.index.package_finder</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>PackageFinder</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata_1_1base" kindref="compound">pip._internal.metadata.base</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BaseDistribution</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1req" kindref="compound">pip._internal.req</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>InstallRequirement</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution" kindref="compound">AbstractDistribution</ref>(metaclass=abc.ABCMeta):</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>base<sp/>class<sp/>for<sp/>handling<sp/>installable<sp/>artifacts.</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>requirements<sp/>for<sp/>anything<sp/>installable<sp/>are<sp/>as<sp/>follows:</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>-<sp/>we<sp/>must<sp/>be<sp/>able<sp/>to<sp/>determine<sp/>the<sp/>requirement<sp/>name</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(or<sp/>we<sp/>can&apos;t<sp/>correctly<sp/>handle<sp/>the<sp/>non-upgrade<sp/>case).</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>-<sp/>for<sp/>packages<sp/>with<sp/>setup<sp/>requirements,<sp/>we<sp/>must<sp/>also<sp/>be<sp/>able</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>determine<sp/>their<sp/>requirements<sp/>without<sp/>installing<sp/>additional</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>packages<sp/>(for<sp/>the<sp/>same<sp/>reason<sp/>as<sp/>run-time<sp/>dependencies)</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>-<sp/>we<sp/>must<sp/>be<sp/>able<sp/>to<sp/>create<sp/>a<sp/>Distribution<sp/>object<sp/>exposing<sp/>the</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>above<sp/>metadata.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/>-<sp/>if<sp/>we<sp/>need<sp/>to<sp/>do<sp/>work<sp/>in<sp/>the<sp/>build<sp/>tracker,<sp/>we<sp/>must<sp/>be<sp/>able<sp/>to<sp/>generate<sp/>a<sp/>unique</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>string<sp/>to<sp/>identify<sp/>the<sp/>requirement<sp/>in<sp/>the<sp/>build<sp/>tracker.</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a1cfd19328ee4967ab599632143fa62c2" kindref="member">__init__</ref>(self,<sp/>req:<sp/>InstallRequirement)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a1cfd19328ee4967ab599632143fa62c2" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a4e0f5834a91b4f3ab6be563959652df9" kindref="member">req</ref><sp/>=<sp/>req</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@abc.abstractproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a5b4ed500201f999a71d1704352c57fc4" kindref="member">build_tracker_id</ref>(self)<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>string<sp/>that<sp/>uniquely<sp/>identifies<sp/>this<sp/>requirement<sp/>to<sp/>the<sp/>build<sp/>tracker.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>None,<sp/>then<sp/>this<sp/>dist<sp/>has<sp/>no<sp/>work<sp/>to<sp/>do<sp/>in<sp/>the<sp/>build<sp/>tracker,<sp/>and</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``.prepare_distribution_metadata()``<sp/>will<sp/>not<sp/>be<sp/>called.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError()</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@abc.abstractmethod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_metadata_distribution(self)<sp/>-&gt;<sp/>BaseDistribution:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError()</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@abc.abstractmethod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1af650f387809c32d2196f05376bd6c187" kindref="member">prepare_distribution_metadata</ref>(</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finder:<sp/>PackageFinder,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>build_isolation:<sp/>bool,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>check_build_deps:<sp/>bool,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/base.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1writers_1_1texinfo" kind="namespace" language="Python">
+    <compoundname>sphinx::writers::texinfo</compoundname>
+    <innerclass refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoTranslator" prot="public">sphinx::writers::texinfo::TexinfoTranslator</innerclass>
+    <innerclass refid="classsphinx_1_1writers_1_1texinfo_1_1TexinfoWriter" prot="public">sphinx::writers::texinfo::TexinfoWriter</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1texinfo_1a9efb7c234101ae43ff58977c12a8df39" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::writers::texinfo.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.writers.texinfo.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1texinfo_1a1fe17f276b7adec859a396036f0c1d56" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::writers::texinfo.COPYING</definition>
+        <argsstring></argsstring>
+        <name>COPYING</name>
+        <qualifiedname>sphinx.writers.texinfo.COPYING</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;\
+@quotation
+%(project)s %(release)s, %(date)s
+
+%(author)s
+
+Copyright @copyright{} %(copyright)s
+@end quotation
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1texinfo_1a4f416a6544655c06e11e085abf1472c4" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::writers::texinfo.TEMPLATE</definition>
+        <argsstring></argsstring>
+        <name>TEMPLATE</name>
+        <qualifiedname>sphinx.writers.texinfo.TEMPLATE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1writers_1_1texinfo_1a62201cf6dbcde167287393d4da2ece26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[nodes.section]</type>
+        <definition> list[nodes.section] sphinx.writers.texinfo.find_subsections</definition>
+        <argsstring>(Element section)</argsstring>
+        <name>find_subsections</name>
+        <qualifiedname>sphinx.writers.texinfo.find_subsections</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>section</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of subsections for the given ``section``.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="85" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1writers_1_1texinfo_1aace11a790406fb14e972c1a9d90c69aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.writers.texinfo.smart_capwords</definition>
+        <argsstring>(str s, str|None sep=None)</argsstring>
+        <name>smart_capwords</name>
+        <qualifiedname>sphinx.writers.texinfo.smart_capwords</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>sep</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Like string.capwords() but does not capitalize words that already
+contain a capital letter.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="97" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" bodystart="97" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Custom docutils writer for Texinfo.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/texinfo.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

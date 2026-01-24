@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1rich_1_1control" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::rich::control</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1control_1_1Control" prot="public">pip::_vendor::rich::control::Control</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1control_1a81c86ee57c0f8326b46622cbb4735e30" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::rich::control.STRIP_CONTROL_CODES</definition>
+        <argsstring></argsstring>
+        <name>STRIP_CONTROL_CODES</name>
+        <qualifiedname>pip._vendor.rich.control.STRIP_CONTROL_CODES</qualifiedname>
+        <initializer>=  [
+    7,  # Bell
+    8,  # Backspace
+    11,  # Vertical tab
+    12,  # Form feed
+    13,  # Carriage return
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1control_1a218ea371f6d23c291523d7acdfc2d42f" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::rich::control._CONTROL_STRIP_TRANSLATE</definition>
+        <argsstring></argsstring>
+        <name>_CONTROL_STRIP_TRANSLATE</name>
+        <qualifiedname>pip._vendor.rich.control._CONTROL_STRIP_TRANSLATE</qualifiedname>
+        <initializer>=  {
+    _codepoint: None for _codepoint in <ref refid="namespacepip_1_1__vendor_1_1rich_1_1control_1a81c86ee57c0f8326b46622cbb4735e30" kindref="member">STRIP_CONTROL_CODES</ref>
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1control_1ac7bd3e159257ef183d85e6236b7a7f7c" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::rich::control.CONTROL_ESCAPE</definition>
+        <argsstring></argsstring>
+        <name>CONTROL_ESCAPE</name>
+        <qualifiedname>pip._vendor.rich.control.CONTROL_ESCAPE</qualifiedname>
+        <initializer>=  {
+    7: &quot;\\a&quot;,
+    8: &quot;\\b&quot;,
+    11: &quot;\\v&quot;,
+    12: &quot;\\f&quot;,
+    13: &quot;\\r&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1control_1adba35772baf13b67c8b881815597ab02" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::rich::control.CONTROL_CODES_FORMAT</definition>
+        <argsstring></argsstring>
+        <name>CONTROL_CODES_FORMAT</name>
+        <qualifiedname>pip._vendor.rich.control.CONTROL_CODES_FORMAT</qualifiedname>
+        <initializer>=  {
+    ControlType.BELL: lambda: &quot;\x07&quot;,
+    ControlType.CARRIAGE_RETURN: lambda: &quot;\r&quot;,
+    ControlType.HOME: lambda: &quot;\x1b[H&quot;,
+    ControlType.CLEAR: lambda: &quot;\x1b[2J&quot;,
+    ControlType.ENABLE_ALT_SCREEN: lambda: &quot;\x1b[?1049h&quot;,
+    ControlType.DISABLE_ALT_SCREEN: lambda: &quot;\x1b[?1049l&quot;,
+    ControlType.SHOW_CURSOR: lambda: &quot;\x1b[?25h&quot;,
+    ControlType.HIDE_CURSOR: lambda: &quot;\x1b[?25l&quot;,
+    ControlType.CURSOR_UP: lambda param: f&quot;\x1b[{param}A&quot;,
+    ControlType.CURSOR_DOWN: lambda param: f&quot;\x1b[{param}B&quot;,
+    ControlType.CURSOR_FORWARD: lambda param: f&quot;\x1b[{param}C&quot;,
+    ControlType.CURSOR_BACKWARD: lambda param: f&quot;\x1b[{param}D&quot;,
+    ControlType.CURSOR_MOVE_TO_COLUMN: lambda param: f&quot;\x1b[{param+1}G&quot;,
+    ControlType.ERASE_IN_LINE: lambda param: f&quot;\x1b[{param}K&quot;,
+    ControlType.CURSOR_MOVE_TO: lambda <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>, y: f&quot;\x1b[{<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>+1};{<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>+1}H&quot;,
+    ControlType.SET_WINDOW_TITLE: lambda title: f&quot;\x1b]0;{title}\x07&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1control_1a3acdc61f874f52505084e6710089b27d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::control.console</definition>
+        <argsstring></argsstring>
+        <name>console</name>
+        <qualifiedname>pip._vendor.rich.control.console</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1rich_1_1console_1_1Console" kindref="compound">Console</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" line="220" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1control_1a4d38f3a99af68e95d742ad0955f567b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich.control.strip_control_codes</definition>
+        <argsstring>(str text, Dict[int, None] _translate_table=_CONTROL_STRIP_TRANSLATE)</argsstring>
+        <name>strip_control_codes</name>
+        <qualifiedname>pip._vendor.rich.control.strip_control_codes</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>Dict</type>
+          <declname>_translate_table</declname>
+          <array>[int, None]</array>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1rich_1_1control_1a218ea371f6d23c291523d7acdfc2d42f" kindref="member">_CONTROL_STRIP_TRANSLATE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Remove control codes from text.
+
+Args:
+    text (str): A string possibly contain control codes.
+
+Returns:
+    str: String with control codes removed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" line="187" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" bodystart="189" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1control_1af6171120a510e9176da0dfb762b12e80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich.control.escape_control_codes</definition>
+        <argsstring>(str text, Dict[int, str] _translate_table=CONTROL_ESCAPE)</argsstring>
+        <name>escape_control_codes</name>
+        <qualifiedname>pip._vendor.rich.control.escape_control_codes</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>Dict</type>
+          <declname>_translate_table</declname>
+          <array>[int, str]</array>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1rich_1_1control_1ac7bd3e159257ef183d85e6236b7a7f7c" kindref="member">CONTROL_ESCAPE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace control codes with their &quot;escaped&quot; equivalent in the given text.
+(e.g. &quot;\b&quot; becomes &quot;\\b&quot;)
+
+Args:
+    text (str): A string possibly containing control codes.
+
+Returns:
+    str: String with control codes replaced with their escaped version.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" line="201" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" bodystart="204" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/control.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::cli::req_command::RequirementCommand</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand" prot="public" virt="non-virtual">pip._internal.cli.req_command.IndexGroupCommand</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand" prot="public" virt="non-virtual">pip._internal.commands.download.DownloadCommand</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand" prot="public" virt="non-virtual">pip._internal.commands.install.InstallCommand</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1commands_1_1wheel_1_1WheelCommand" prot="public" virt="non-virtual">pip._internal.commands.wheel.WheelCommand</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a089338b2d4b4c63ced3e4bb1cb94ce31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.req_command.RequirementCommand.__init__</definition>
+        <argsstring>(self, *Any args, **Any kw)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.cli.req_command.RequirementCommand.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1ad624d48456438789ebbf9a14ba4baffc">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="257" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="257" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a5e1aeec479592750ce6a0908f61a1189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1operations_1_1prepare_1_1RequirementPreparer" kindref="compound">RequirementPreparer</ref></type>
+        <definition> RequirementPreparer pip._internal.cli.req_command.RequirementCommand.make_requirement_preparer</definition>
+        <argsstring>(cls, TempDirectory temp_build_dir, Values options, BuildTracker build_tracker, PipSession session, PackageFinder finder, bool use_user_site, Optional[str] download_dir=None, int verbosity=0)</argsstring>
+        <name>make_requirement_preparer</name>
+        <qualifiedname>pip._internal.cli.req_command.RequirementCommand.make_requirement_preparer</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1utils_1_1temp__dir_1_1TempDirectory" kindref="compound">TempDirectory</ref></type>
+          <declname>temp_build_dir</declname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker" kindref="compound">BuildTracker</ref></type>
+          <declname>build_tracker</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+          <declname>finder</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_user_site</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>download_dir</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a RequirementPreparer instance for the given parameters.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="271" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="281" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a043f58f2d775d57b0feb70d0d5f8f601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver" kindref="compound">BaseResolver</ref></type>
+        <definition> BaseResolver pip._internal.cli.req_command.RequirementCommand.make_resolver</definition>
+        <argsstring>(cls, RequirementPreparer preparer, PackageFinder finder, Values options, Optional[WheelCache] wheel_cache=None, bool use_user_site=False, bool ignore_installed=True, bool ignore_requires_python=False, bool force_reinstall=False, str upgrade_strategy=&quot;to-satisfy-only&quot;, Optional[bool] use_pep517=None, Optional[Tuple[int,...]] py_version_info=None)</argsstring>
+        <name>make_resolver</name>
+        <qualifiedname>pip._internal.cli.req_command.RequirementCommand.make_resolver</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1operations_1_1prepare_1_1RequirementPreparer" kindref="compound">RequirementPreparer</ref></type>
+          <declname>preparer</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+          <declname>finder</declname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>wheel_cache</declname>
+          <array>[WheelCache]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_user_site</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_installed</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_requires_python</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force_reinstall</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>upgrade_strategy</declname>
+          <defval>&quot;to-satisfy-only&quot;</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>use_pep517</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>py_version_info</declname>
+          <array>[Tuple[int,...]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a Resolver instance for the given parameters.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="326" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="339" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1ae0b41e4b5db6d95efad7295f7ca5dadf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[<ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref>]</type>
+        <definition> List[InstallRequirement] pip._internal.cli.req_command.RequirementCommand.get_requirements</definition>
+        <argsstring>(self, List[str] args, Values options, PackageFinder finder, PipSession session)</argsstring>
+        <name>get_requirements</name>
+        <qualifiedname>pip._internal.cli.req_command.RequirementCommand.get_requirements</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+          <declname>finder</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse command-line arguments into the corresponding requirements.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="384" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="390" bodyend="467"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a75339aaf17acf8564c926f7484507a74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.cli.req_command.RequirementCommand.determine_resolver_variant</definition>
+        <argsstring>(Values options)</argsstring>
+        <name>determine_resolver_variant</name>
+        <qualifiedname>pip._internal.cli.req_command.RequirementCommand.determine_resolver_variant</qualifiedname>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determines which resolver should be used, based on the given options.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="263" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="263" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1af1f8c63d1fb9670a7594ce1d28d7f114" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.req_command.RequirementCommand.trace_basic_info</definition>
+        <argsstring>(PackageFinder finder)</argsstring>
+        <name>trace_basic_info</name>
+        <qualifiedname>pip._internal.cli.req_command.RequirementCommand.trace_basic_info</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+          <declname>finder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Trace basic information about the provided objects.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="469" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="469" bodyend="478"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a2ec93acc87556f6cd85c286fd296993e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+        <definition> PackageFinder pip._internal.cli.req_command.RequirementCommand._build_package_finder</definition>
+        <argsstring>(self, Values options, PipSession session, Optional[TargetPython] target_python=None, Optional[bool] ignore_requires_python=None)</argsstring>
+        <name>_build_package_finder</name>
+        <qualifiedname>pip._internal.cli.req_command.RequirementCommand._build_package_finder</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>target_python</declname>
+          <array>[TargetPython]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>ignore_requires_python</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a package finder appropriate to this requirement command.
+
+:param ignore_requires_python: Whether to ignore incompatible
+    &quot;Requires-Python&quot; values in links. Defaults to False.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="479" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="485" bodyend="506"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.cli.req_command.RequirementCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._internal.commands.download.DownloadCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pip._internal.commands.install.InstallCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pip._internal.commands.wheel.WheelCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1wheel_1_1WheelCommand"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.cli.req_command.RequirementCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="256" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="256" bodyend="506"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a089338b2d4b4c63ced3e4bb1cb94ce31" prot="public" virt="non-virtual"><scope>pip::_internal::cli::req_command::RequirementCommand</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a2ec93acc87556f6cd85c286fd296993e" prot="protected" virt="non-virtual"><scope>pip::_internal::cli::req_command::RequirementCommand</scope><name>_build_package_finder</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a75339aaf17acf8564c926f7484507a74" prot="public" virt="non-virtual"><scope>pip::_internal::cli::req_command::RequirementCommand</scope><name>determine_resolver_variant</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1ae0b41e4b5db6d95efad7295f7ca5dadf" prot="public" virt="non-virtual"><scope>pip::_internal::cli::req_command::RequirementCommand</scope><name>get_requirements</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a5e1aeec479592750ce6a0908f61a1189" prot="public" virt="non-virtual"><scope>pip::_internal::cli::req_command::RequirementCommand</scope><name>make_requirement_preparer</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1a043f58f2d775d57b0feb70d0d5f8f601" prot="public" virt="non-virtual"><scope>pip::_internal::cli::req_command::RequirementCommand</scope><name>make_resolver</name></member>
+      <member refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand_1af1f8c63d1fb9670a7594ce1d28d7f114" prot="public" virt="non-virtual"><scope>pip::_internal::cli::req_command::RequirementCommand</scope><name>trace_basic_info</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Located" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pyparsing::core::Located</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance" prot="public" virt="non-virtual">pip._vendor.pyparsing.core.ParseElementEnhance</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Located_1ad75957fa6790c36804407835b7289840" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.Located.parseImpl</definition>
+        <argsstring>(self, instring, loc, doActions=True)</argsstring>
+        <name>parseImpl</name>
+        <qualifiedname>pip._vendor.pyparsing.core.Located.parseImpl</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance_1ab5bbc1bfe74ed386dfd5ab31c1d85de8">parseImpl</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>instring</type>
+          <defname>instring</defname>
+        </param>
+        <param>
+          <type>loc</type>
+          <defname>loc</defname>
+        </param>
+        <param>
+          <type>doActions</type>
+          <defname>doActions</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4888" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4888" bodyend="4901"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Decorates a returned token with its starting and ending
+locations in the input string.
+
+This helper adds the following results names:
+
+- ``locn_start`` - location where matched expression begins
+- ``locn_end`` - location where matched expression ends
+- ``value`` - the actual parsed results
+
+Be careful if the input text contains ``&lt;TAB&gt;`` characters, you
+may want to call :class:`ParserElement.parse_with_tabs`
+
+Example::
+
+    wd = Word(alphas)
+    for match in Located(wd).search_string(&quot;ljsdf123lksdjjf123lkkjj1222&quot;):
+        print(match)
+
+prints::
+
+    [0, [&apos;ljsdf&apos;], 5]
+    [8, [&apos;lksdjjf&apos;], 15]
+    [18, [&apos;lkkjj&apos;], 23]</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.Located</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Located"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>ABC</label>
+      </node>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.Located</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Located"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>DEFAULT_WHITE_CHARS</edgelabel>
+          <edgelabel>defaultName</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>packrat_cache</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>packrat_cache_stats</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>_parse</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>tuple</label>
+      </node>
+      <node id="8">
+        <label>Tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4860" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4860" bodyend="4901"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Located_1ad75957fa6790c36804407835b7289840" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::Located</scope><name>parseImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_docs_2Structural_01description_2architecture_202__mutability__model" kind="page">
+    <compoundname>md_docs_2Structural_01description_2architecture_202__mutability__model</compoundname>
+    <title>Architecture Deep Dive: Lock-Free Mutability</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_docs_2Structural_01description_2architecture_202__mutability__model_1autotoc_md883"/> </para>
+<sect1 id="md_docs_2Structural_01description_2architecture_202__mutability__model_1autotoc_md884">
+<title>Introduction</title>
+<para>Managing shared mutable state is one of the most difficult challenges in concurrent programming. Traditional approaches rely on locks (like mutexes) to protect data from being corrupted by multiple threads accessing it simultaneously. However, locks introduce their own problems: performance bottlenecks, reduced scalability, and the potential for deadlocks. Proto avoids these issues by adopting a lock-free model for all state mutations.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_202__mutability__model_1autotoc_md885">
+<title>Proto&apos;s Solution: Identity vs. State</title>
+<para>Proto&apos;s model is built on a fundamental separation between an object&apos;s <bold>identity</bold> and its <bold>state</bold>. An object&apos;s identity is a fixed, immutable reference. Its state, however, is not stored within the object itself but in a global, concurrent map called <computeroutput>mutableRoot</computeroutput>.</para>
+<para>When you change an attribute of an object, you are not modifying the object&apos;s memory directly. Instead, you are atomically updating the <computeroutput>mutableRoot</computeroutput> table to map the object&apos;s identity to its new state.</para>
+<sect2 id="md_docs_2Structural_01description_2architecture_202__mutability__model_1autotoc_md886">
+<title>The &lt;tt&gt;mutableRoot&lt;/tt&gt; Table</title>
+<para>The <computeroutput>mutableRoot</computeroutput> is the heart of Proto&apos;s concurrency model. It is a <computeroutput>ProtoSparseList</computeroutput> (a highly efficient, sparse array) wrapped in a <computeroutput>std::atomic</computeroutput>. This atomic wrapper is the key that enables lock-free updates. All modifications to the shared state of the entire Proto system happen by atomically swapping the pointer to this table.</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_202__mutability__model_1autotoc_md887">
+<title>The Lock-Free Update Pattern</title>
+<para>To ensure thread-safe updates without locks, Proto uses an optimistic, atomic update pattern known as &quot;compare-and-swap&quot; (CAS). The <computeroutput>setAttribute</computeroutput> function is the canonical example of this pattern.</para>
+<para>The process works like this:<orderedlist>
+<listitem><para>Atomically read the current <computeroutput>mutableRoot</computeroutput> pointer.</para>
+</listitem><listitem><para>Create a <emphasis>copy</emphasis> of the table.</para>
+</listitem><listitem><para>Modify the copy with the new attribute value.</para>
+</listitem><listitem><para>Attempt to atomically swap the original <computeroutput>mutableRoot</computeroutput> pointer with the pointer to the newly modified table. This operation (<computeroutput>compare_exchange_strong</computeroutput>) will only succeed if no other thread has modified the <computeroutput>mutableRoot</computeroutput> in the meantime.</para>
+</listitem><listitem><para>If it fails (meaning another thread &quot;won&quot; the race), the process repeats from step 1 with the now-updated table.</para>
+</listitem></orderedlist>
+</para>
+<para>This <computeroutput>compare_exchange_strong</computeroutput> loop is the core of the lock-free pattern. It guarantees that updates are always applied correctly and atomically, without ever needing to lock the data structure.</para>
+<sect2 id="md_docs_2Structural_01description_2architecture_202__mutability__model_1autotoc_md888">
+<title>Benefits</title>
+<para><itemizedlist>
+<listitem><para><bold>High Concurrency:</bold> Readers are never blocked. Writers only briefly retry if they conflict. This leads to excellent scalability on multi-core systems.</para>
+</listitem><listitem><para><bold>No Deadlocks:</bold> Since no locks are ever acquired, deadlocks are impossible.</para>
+</listitem><listitem><para><bold>Simplified Logic:</bold> Programmers don&apos;t need to reason about complex lock acquisition orders.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_202__mutability__model_1autotoc_md889">
+<title>Synergy with the Garbage Collector</title>
+<para>This mutability model is the single most important enabler for Proto&apos;s fast garbage collector. Because all shared mutable state is centralized in the <computeroutput>mutableRoot</computeroutput> table, the GC&apos;s root scanning phase is incredibly fast. Instead of needing to scan the entire heap for pointers or track mutations, the GC only needs to consider the <computeroutput>mutableRoot</computeroutput> object itself as a single, comprehensive root. This is a primary reason why the &quot;stop-the-world&quot; pause is so short.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2architecture_202__mutability__model_1autotoc_md890">
+<title>Code Reference</title>
+<para>The <computeroutput>setAttribute</computeroutput> function in <computeroutput><ref refid="Proto_8cpp" kindref="compound">Proto.cpp</ref></computeroutput> perfectly illustrates the lock-free update pattern.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Illustrative<sp/>snippet<sp/>from<sp/>Proto.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Proto::setAttribute(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>target,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Loop<sp/>until<sp/>the<sp/>atomic<sp/>update<sp/>succeeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Atomically<sp/>load<sp/>the<sp/>current<sp/>root</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>oldRoot<sp/>=<sp/>this-&gt;space-&gt;mutableRoot.load();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Create<sp/>a<sp/>modified<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>newRoot<sp/>=<sp/>this-&gt;space-&gt;setAttribute(oldRoot,<sp/>key,<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Attempt<sp/>to<sp/>swap<sp/>the<sp/>root<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(this-&gt;space-&gt;mutableRoot.compare_exchange_strong(oldRoot,<sp/>newRoot))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Success!<sp/>The<sp/>change<sp/>is<sp/>committed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>If<sp/>it<sp/>failed,<sp/>another<sp/>thread<sp/>made<sp/>a<sp/>change.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>loop<sp/>will<sp/>repeat<sp/>with<sp/>the<sp/>new<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</sect1>
+    </detaileddescription>
+    <location file="docs/Structural description/architecture/02_mutability_model.md"/>
+  </compounddef>
+</doxygen>

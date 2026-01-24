@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>GoogleTest</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Announcements</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Live<sp/>at<sp/>Head</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>now<sp/>follows<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[Abseil<sp/>Live<sp/>at<sp/>Head<sp/>philosophy](https://abseil.io/about/philosophy#upgrade-support).</highlight></codeline>
+<codeline><highlight class="normal">We<sp/>recommend</highlight></codeline>
+<codeline><highlight class="normal">[updating<sp/>to<sp/>the<sp/>latest<sp/>commit<sp/>in<sp/>the<sp/>`main`<sp/>branch<sp/>as<sp/>often<sp/>as<sp/>possible](https://github.com/abseil/abseil-cpp/blob/master/FAQ.md#what-is-live-at-head-and-how-do-i-do-it).</highlight></codeline>
+<codeline><highlight class="normal">We<sp/>do<sp/>publish<sp/>occasional<sp/>semantic<sp/>versions,<sp/>tagged<sp/>with</highlight></codeline>
+<codeline><highlight class="normal">`v${major}.${minor}.${patch}`<sp/>(e.g.<sp/>`v1.13.0`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Documentation<sp/>Updates</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Our<sp/>documentation<sp/>is<sp/>now<sp/>live<sp/>on<sp/>GitHub<sp/>Pages<sp/>at</highlight></codeline>
+<codeline><highlight class="normal">https://google.github.io/googletest/.<sp/>We<sp/>recommend<sp/>browsing<sp/>the<sp/>documentation<sp/>on</highlight></codeline>
+<codeline><highlight class="normal">GitHub<sp/>Pages<sp/>rather<sp/>than<sp/>directly<sp/>in<sp/>the<sp/>repository.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Release<sp/>1.13.0</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[Release<sp/>1.13.0](https://github.com/google/googletest/releases/tag/v1.13.0)<sp/>is</highlight></codeline>
+<codeline><highlight class="normal">now<sp/>available.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>1.13.x<sp/>branch<sp/>requires<sp/>at<sp/>least<sp/>C++14.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Continuous<sp/>Integration</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">We<sp/>use<sp/>Google&apos;s<sp/>internal<sp/>systems<sp/>for<sp/>continuous<sp/>integration.<sp/>\</highlight></codeline>
+<codeline><highlight class="normal">GitHub<sp/>Actions<sp/>were<sp/>added<sp/>for<sp/>the<sp/>convenience<sp/>of<sp/>open-source<sp/>contributors.<sp/>They</highlight></codeline>
+<codeline><highlight class="normal">are<sp/>exclusively<sp/>maintained<sp/>by<sp/>the<sp/>open-source<sp/>community<sp/>and<sp/>not<sp/>used<sp/>by<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>team.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Coming<sp/>Soon</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>We<sp/>are<sp/>planning<sp/>to<sp/>take<sp/>a<sp/>dependency<sp/>on</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[Abseil](https://github.com/abseil/abseil-cpp).</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>More<sp/>documentation<sp/>improvements<sp/>are<sp/>planned.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Welcome<sp/>to<sp/>**GoogleTest**,<sp/>Google&apos;s<sp/>C++<sp/>test<sp/>framework!</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>repository<sp/>is<sp/>a<sp/>merger<sp/>of<sp/>the<sp/>formerly<sp/>separate<sp/>GoogleTest<sp/>and<sp/>GoogleMock</highlight></codeline>
+<codeline><highlight class="normal">projects.<sp/>These<sp/>were<sp/>so<sp/>closely<sp/>related<sp/>that<sp/>it<sp/>makes<sp/>sense<sp/>to<sp/>maintain<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">release<sp/>them<sp/>together.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Getting<sp/>Started</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">See<sp/>the<sp/>[GoogleTest<sp/>User&apos;s<sp/>Guide](https://google.github.io/googletest/)<sp/>for</highlight></codeline>
+<codeline><highlight class="normal">documentation.<sp/>We<sp/>recommend<sp/>starting<sp/>with<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[GoogleTest<sp/>Primer](https://google.github.io/googletest/primer.html).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">More<sp/>information<sp/>about<sp/>building<sp/>GoogleTest<sp/>can<sp/>be<sp/>found<sp/>at</highlight></codeline>
+<codeline><highlight class="normal">[googletest/README.md](googletest/README.md).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Features</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>xUnit<sp/>test<sp/>framework:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Googletest<sp/>is<sp/>based<sp/>on<sp/>the<sp/>[xUnit](https://en.wikipedia.org/wiki/XUnit)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>testing<sp/>framework,<sp/>a<sp/>popular<sp/>architecture<sp/>for<sp/>unit<sp/>testing</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Test<sp/>discovery:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Googletest<sp/>automatically<sp/>discovers<sp/>and<sp/>runs<sp/>your<sp/>tests,<sp/>eliminating<sp/>the<sp/>need</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>to<sp/>manually<sp/>register<sp/>your<sp/>tests</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Rich<sp/>set<sp/>of<sp/>assertions:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Googletest<sp/>provides<sp/>a<sp/>variety<sp/>of<sp/>assertions,<sp/>such<sp/>as<sp/>equality,<sp/>inequality,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>exceptions,<sp/>and<sp/>more,<sp/>making<sp/>it<sp/>easy<sp/>to<sp/>test<sp/>your<sp/>code</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>User-defined<sp/>assertions:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>You<sp/>can<sp/>define<sp/>your<sp/>own<sp/>assertions<sp/>with<sp/>Googletest,<sp/>making<sp/>it<sp/>simple<sp/>to</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>write<sp/>tests<sp/>that<sp/>are<sp/>specific<sp/>to<sp/>your<sp/>code</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Death<sp/>tests:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Googletest<sp/>supports<sp/>death<sp/>tests,<sp/>which<sp/>verify<sp/>that<sp/>your<sp/>code<sp/>exits<sp/>in<sp/>a</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>certain<sp/>way,<sp/>making<sp/>it<sp/>useful<sp/>for<sp/>testing<sp/>error-handling<sp/>code</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Fatal<sp/>and<sp/>non-fatal<sp/>failures:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>You<sp/>can<sp/>specify<sp/>whether<sp/>a<sp/>test<sp/>failure<sp/>should<sp/>be<sp/>treated<sp/>as<sp/>fatal<sp/>or</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>non-fatal<sp/>with<sp/>Googletest,<sp/>allowing<sp/>tests<sp/>to<sp/>continue<sp/>running<sp/>even<sp/>if<sp/>a</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>failure<sp/>occurs</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Value-parameterized<sp/>tests:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Googletest<sp/>supports<sp/>value-parameterized<sp/>tests,<sp/>which<sp/>run<sp/>multiple<sp/>times<sp/>with</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>different<sp/>input<sp/>values,<sp/>making<sp/>it<sp/>useful<sp/>for<sp/>testing<sp/>functions<sp/>that<sp/>take</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>different<sp/>inputs</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Type-parameterized<sp/>tests:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Googletest<sp/>also<sp/>supports<sp/>type-parameterized<sp/>tests,<sp/>which<sp/>run<sp/>with<sp/>different</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>data<sp/>types,<sp/>making<sp/>it<sp/>useful<sp/>for<sp/>testing<sp/>functions<sp/>that<sp/>work<sp/>with<sp/>different</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>data<sp/>types</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Various<sp/>options<sp/>for<sp/>running<sp/>tests:<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Googletest<sp/>provides<sp/>many<sp/>options<sp/>for<sp/>running<sp/>tests<sp/>including<sp/>running</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>individual<sp/>tests,<sp/>running<sp/>tests<sp/>in<sp/>a<sp/>specific<sp/>order<sp/>and<sp/>running<sp/>tests<sp/>in</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>parallel</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Supported<sp/>Platforms</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">GoogleTest<sp/>follows<sp/>Google&apos;s</highlight></codeline>
+<codeline><highlight class="normal">[Foundational<sp/>C++<sp/>Support<sp/>Policy](https://opensource.google/documentation/policies/cplusplus-support).</highlight></codeline>
+<codeline><highlight class="normal">See</highlight></codeline>
+<codeline><highlight class="normal">[this<sp/>table](https://github.com/google/oss-policies-info/blob/main/foundational-cxx-support-matrix.md)</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>a<sp/>list<sp/>of<sp/>currently<sp/>supported<sp/>versions<sp/>of<sp/>compilers,<sp/>platforms,<sp/>and<sp/>build</highlight></codeline>
+<codeline><highlight class="normal">tools.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Who<sp/>Is<sp/>Using<sp/>GoogleTest?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>addition<sp/>to<sp/>many<sp/>internal<sp/>projects<sp/>at<sp/>Google,<sp/>GoogleTest<sp/>is<sp/>also<sp/>used<sp/>by<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">following<sp/>notable<sp/>projects:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>The<sp/>[Chromium<sp/>projects](http://www.chromium.org/)<sp/>(behind<sp/>the<sp/>Chrome<sp/>browser</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>and<sp/>Chrome<sp/>OS).</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>The<sp/>[LLVM](http://llvm.org/)<sp/>compiler.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>[Protocol<sp/>Buffers](https://github.com/google/protobuf),<sp/>Google&apos;s<sp/>data</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>interchange<sp/>format.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>The<sp/>[OpenCV](http://opencv.org/)<sp/>computer<sp/>vision<sp/>library.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Related<sp/>Open<sp/>Source<sp/>Projects</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[GTest<sp/>Runner](https://github.com/nholthaus/gtest-runner)<sp/>is<sp/>a<sp/>Qt5<sp/>based</highlight></codeline>
+<codeline><highlight class="normal">automated<sp/>test-runner<sp/>and<sp/>Graphical<sp/>User<sp/>Interface<sp/>with<sp/>powerful<sp/>features<sp/>for</highlight></codeline>
+<codeline><highlight class="normal">Windows<sp/>and<sp/>Linux<sp/>platforms.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[GoogleTest<sp/>UI](https://github.com/ospector/gtest-gbar)<sp/>is<sp/>a<sp/>test<sp/>runner<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">runs<sp/>your<sp/>test<sp/>binary,<sp/>allows<sp/>you<sp/>to<sp/>track<sp/>its<sp/>progress<sp/>via<sp/>a<sp/>progress<sp/>bar,<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">displays<sp/>a<sp/>list<sp/>of<sp/>test<sp/>failures.<sp/>Clicking<sp/>on<sp/>one<sp/>shows<sp/>failure<sp/>text.<sp/>GoogleTest</highlight></codeline>
+<codeline><highlight class="normal">UI<sp/>is<sp/>written<sp/>in<sp/>C#.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[GTest<sp/>TAP<sp/>Listener](https://github.com/kinow/gtest-tap-listener)<sp/>is<sp/>an<sp/>event</highlight></codeline>
+<codeline><highlight class="normal">listener<sp/>for<sp/>GoogleTest<sp/>that<sp/>implements<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">[TAP<sp/>protocol](https://en.wikipedia.org/wiki/Test_Anything_Protocol)<sp/>for<sp/>test</highlight></codeline>
+<codeline><highlight class="normal">result<sp/>output.<sp/>If<sp/>your<sp/>test<sp/>runner<sp/>understands<sp/>TAP,<sp/>you<sp/>may<sp/>find<sp/>it<sp/>useful.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[gtest-parallel](https://github.com/google/gtest-parallel)<sp/>is<sp/>a<sp/>test<sp/>runner<sp/>that</highlight></codeline>
+<codeline><highlight class="normal">runs<sp/>tests<sp/>from<sp/>your<sp/>binary<sp/>in<sp/>parallel<sp/>to<sp/>provide<sp/>significant<sp/>speed-up.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[GoogleTest<sp/>Adapter](https://marketplace.visualstudio.com/items?itemName=DavidSchuldenfrei.gtest-adapter)</highlight></codeline>
+<codeline><highlight class="normal">is<sp/>a<sp/>VS<sp/>Code<sp/>extension<sp/>allowing<sp/>to<sp/>view<sp/>GoogleTest<sp/>in<sp/>a<sp/>tree<sp/>view<sp/>and<sp/>run/debug</highlight></codeline>
+<codeline><highlight class="normal">your<sp/>tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[C++<sp/>TestMate](https://github.com/matepek/vscode-catch2-test-adapter)<sp/>is<sp/>a<sp/>VS</highlight></codeline>
+<codeline><highlight class="normal">Code<sp/>extension<sp/>allowing<sp/>to<sp/>view<sp/>GoogleTest<sp/>in<sp/>a<sp/>tree<sp/>view<sp/>and<sp/>run/debug<sp/>your</highlight></codeline>
+<codeline><highlight class="normal">tests.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[Cornichon](https://pypi.org/project/cornichon/)<sp/>is<sp/>a<sp/>small<sp/>Gherkin<sp/>DSL<sp/>parser</highlight></codeline>
+<codeline><highlight class="normal">that<sp/>generates<sp/>stub<sp/>code<sp/>for<sp/>GoogleTest.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Contributing<sp/>Changes</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Please<sp/>read</highlight></codeline>
+<codeline><highlight class="normal">[`CONTRIBUTING.md`](https://github.com/google/googletest/blob/main/CONTRIBUTING.md)</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>details<sp/>on<sp/>how<sp/>to<sp/>contribute<sp/>to<sp/>this<sp/>project.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Happy<sp/>testing!</highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/README.md"/>
+  </compounddef>
+</doxygen>

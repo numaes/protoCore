@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceidna_1_1intranges" kind="namespace" language="Python">
+    <compoundname>idna::intranges</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceidna_1_1intranges_1ad41ae90f978d76a3578d4221456736cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int,...]</type>
+        <definition> Tuple[int, ...] idna.intranges.intranges_from_list</definition>
+        <argsstring>(List[int] list_)</argsstring>
+        <name>intranges_from_list</name>
+        <qualifiedname>idna.intranges.intranges_from_list</qualifiedname>
+        <param>
+          <type>List</type>
+          <declname>list_</declname>
+          <array>[int]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Represent a list of integers as a sequence of ranges:
+((start_0, end_0), (start_1, end_1), ...), such that the original
+integers are exactly those x such that start_i &lt;= x &lt; end_i for some i.
+
+Ranges are encoded as single integers (start &lt;&lt; 32 | end), not as tuples.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/idna/intranges.py" line="12" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/idna/intranges.py" bodystart="12" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1intranges_1ad27491b0b915e3262882e2ecaff36c66" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int idna.intranges._encode_range</definition>
+        <argsstring>(int start, int end)</argsstring>
+        <name>_encode_range</name>
+        <qualifiedname>idna.intranges._encode_range</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/idna/intranges.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/idna/intranges.py" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1intranges_1a4c3230ea95d31a52a8aa380e90e9c867" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int, int]</type>
+        <definition> Tuple[int, int] idna.intranges._decode_range</definition>
+        <argsstring>(int r)</argsstring>
+        <name>_decode_range</name>
+        <qualifiedname>idna.intranges._decode_range</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/idna/intranges.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/idna/intranges.py" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1intranges_1a8b5254692034caf70c1381636c744cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.intranges.intranges_contain</definition>
+        <argsstring>(int int_, Tuple[int,...] ranges)</argsstring>
+        <name>intranges_contain</name>
+        <qualifiedname>idna.intranges.intranges_contain</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>int_</declname>
+        </param>
+        <param>
+          <type>Tuple</type>
+          <declname>ranges</declname>
+          <array>[int,...]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine if `int_` falls into one of the ranges in `ranges`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/idna/intranges.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/idna/intranges.py" bodystart="42" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Given a list of integers, made up of (hopefully) a small number of long runs
+of consecutive integers, compute a representation of the form
+((start1, end1), (start2, end2) ...). Then answer the question &quot;was x present
+in the original list?&quot; in time O(log(# runs)).
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/idna/intranges.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

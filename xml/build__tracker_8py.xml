@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build__tracker_8py" kind="file" language="Python">
+    <compoundname>build_tracker.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1TrackerId" prot="public">pip::_internal::operations::build::build_tracker::TrackerId</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker" prot="public">pip::_internal::operations::build::build_tracker::BuildTracker</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1operations">pip::_internal::operations</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1operations_1_1build">pip::_internal::operations::build</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1operations_1_1build_1_1build__tracker">pip::_internal::operations::build::build_tracker</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1operations" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>contextlib</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>hashlib</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>types<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TracebackType</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Dict,<sp/>Generator,<sp/>Optional,<sp/>Set,<sp/>Type,<sp/>Union</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1models_1_1link" kindref="compound">pip._internal.models.link</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Link</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1req_1_1req__install" kindref="compound">pip._internal.req.req_install</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>InstallRequirement</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1temp__dir" kindref="compound">pip._internal.utils.temp_dir</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TempDirectory</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">logger<sp/>=<sp/>logging.getLogger(__name__)</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">@contextlib.contextmanager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">update_env_context_manager(**changes:<sp/>str)<sp/>-&gt;<sp/>Generator[</highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>target<sp/>=<sp/>os.environ</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Save<sp/>values<sp/>from<sp/>the<sp/>target<sp/>and<sp/>change<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>non_existent_marker<sp/>=<sp/>object()</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>saved_values:<sp/>Dict[str,<sp/>Union[object,<sp/>str]]<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name,<sp/>new_value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>changes.items():</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>saved_values[name]<sp/>=<sp/>target[name]</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>KeyError:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>saved_values[name]<sp/>=<sp/>non_existent_marker</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target[name]<sp/>=<sp/>new_value</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">finally</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Restore<sp/>original<sp/>values<sp/>in<sp/>the<sp/>target.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name,<sp/>original_value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>saved_values.items():</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>original_value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/>non_existent_marker:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>target[name]</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>isinstance(original_value,<sp/>str)<sp/><sp/></highlight><highlight class="comment">#<sp/>for<sp/>mypy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target[name]<sp/>=<sp/>original_value</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">@contextlib.contextmanager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_build_tracker()<sp/>-&gt;<sp/>Generator[&quot;BuildTracker&quot;,<sp/>None,<sp/>None]:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>root<sp/>=<sp/>os.environ.get(</highlight><highlight class="stringliteral">&quot;PIP_BUILD_TRACKER&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>contextlib.ExitStack()<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>ctx:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>root<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>root<sp/>=<sp/>ctx.enter_context(TempDirectory(kind=</highlight><highlight class="stringliteral">&quot;build-tracker&quot;</highlight><highlight class="normal">)).path</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.enter_context(update_env_context_manager(PIP_BUILD_TRACKER=root))</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.debug(</highlight><highlight class="stringliteral">&quot;Initialized<sp/>build<sp/>tracking<sp/>at<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>root)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>BuildTracker(root)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>tracker:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>tracker</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1TrackerId" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1TrackerId" kindref="compound">TrackerId</ref>(str):</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Uniquely<sp/>identifying<sp/>string<sp/>provided<sp/>to<sp/>the<sp/>build<sp/>tracker.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">BuildTracker:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Ensure<sp/>that<sp/>an<sp/>sdist<sp/>cannot<sp/>request<sp/>itself<sp/>as<sp/>a<sp/>setup<sp/>requirement.</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>When<sp/>an<sp/>sdist<sp/>is<sp/>prepared,<sp/>it<sp/>identifies<sp/>its<sp/>setup<sp/>requirements<sp/>in<sp/>the</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>context<sp/>of<sp/>``BuildTracker.track()``.<sp/>If<sp/>a<sp/>requirement<sp/>shows<sp/>up<sp/>recursively,<sp/>this</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>raises<sp/>an<sp/>exception.</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>stops<sp/>fork<sp/>bombs<sp/>embedded<sp/>in<sp/>malicious<sp/>packages.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker_1ae58f2696bd719f660dec38521d88aca1" kindref="member">__init__</ref>(self,<sp/>root:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._root<sp/>=<sp/>root</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._entries:<sp/>Dict[TrackerId,<sp/>InstallRequirement]<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.debug(</highlight><highlight class="stringliteral">&quot;Created<sp/>build<sp/>tracker:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>self._root)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker_1ac043fc289b09d79bbd8280f5b7532328" kindref="member">__enter__</ref>(self)<sp/>-&gt;<sp/>&quot;BuildTracker&quot;:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.debug(</highlight><highlight class="stringliteral">&quot;Entered<sp/>build<sp/>tracker:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>self._root)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker_1ae0b93170bd8afa052a9f0156e7a2a7d9" kindref="member">__exit__</ref>(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exc_type:<sp/>Optional[Type[BaseException]],</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exc_val:<sp/>Optional[BaseException],</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exc_tb:<sp/>Optional[TracebackType],</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.cleanup()</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker_1a49935eb591880e326d856d3336f71394" kindref="member">_entry_path</ref>(self,<sp/>key:<sp/>TrackerId)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hashed<sp/>=<sp/>hashlib.sha224(key.encode()).hexdigest()</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.path.join(self._root,<sp/>hashed)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker_1ab715bc8c19ab37450a739be4e72cecf9" kindref="member">add</ref>(self,<sp/>req:<sp/>InstallRequirement,<sp/>key:<sp/>TrackerId)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Add<sp/>an<sp/>InstallRequirement<sp/>to<sp/>build<sp/>tracking.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Get<sp/>the<sp/>file<sp/>to<sp/>write<sp/>information<sp/>about<sp/>this<sp/>requirement.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry_path<sp/>=<sp/>self._entry_path(key)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Try<sp/>reading<sp/>from<sp/>the<sp/>file.<sp/>If<sp/>it<sp/>exists<sp/>and<sp/>can<sp/>be<sp/>read<sp/>from,<sp/>a<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>is<sp/>already<sp/>in<sp/>progress,<sp/>so<sp/>a<sp/>LookupError<sp/>is<sp/>raised.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>open(entry_path)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>fp:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>contents<sp/>=<sp/>fp.read()</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>FileNotFoundError:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{}<sp/>is<sp/>already<sp/>being<sp/>built:<sp/>{}&quot;</highlight><highlight class="normal">.format(req.link,<sp/>contents)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>LookupError(message)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>If<sp/>we&apos;re<sp/>here,<sp/>req<sp/>should<sp/>really<sp/>not<sp/>be<sp/>building<sp/>already.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>key<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self._entries</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Start<sp/>tracking<sp/>this<sp/>requirement.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>open(entry_path,<sp/></highlight><highlight class="stringliteral">&quot;w&quot;</highlight><highlight class="normal">,<sp/>encoding=</highlight><highlight class="stringliteral">&quot;utf-8&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>fp:</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp.write(str(req))</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._entries[key]<sp/>=<sp/>req</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.debug(</highlight><highlight class="stringliteral">&quot;Added<sp/>%s<sp/>to<sp/>build<sp/>tracker<sp/>%r&quot;</highlight><highlight class="normal">,<sp/>req,<sp/>self._root)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker_1ab7fc92eefa4547345dade100ba40c87d" kindref="member">remove</ref>(self,<sp/>req:<sp/>InstallRequirement,<sp/>key:<sp/>TrackerId)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Remove<sp/>an<sp/>InstallRequirement<sp/>from<sp/>build<sp/>tracking.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Delete<sp/>the<sp/>created<sp/>file<sp/>and<sp/>the<sp/>corresponding<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>os.unlink(self._entry_path(key))</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>self._entries[key]</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.debug(</highlight><highlight class="stringliteral">&quot;Removed<sp/>%s<sp/>from<sp/>build<sp/>tracker<sp/>%r&quot;</highlight><highlight class="normal">,<sp/>req,<sp/>self._root)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker_1ac01ddd6917516ad5c3b069f0bf9904d4" kindref="member">cleanup</ref>(self)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>key,<sp/>req<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>list(self._entries.items()):</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.remove(req,<sp/>key)</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.debug(</highlight><highlight class="stringliteral">&quot;Removed<sp/>build<sp/>tracker:<sp/>%r&quot;</highlight><highlight class="normal">,<sp/>self._root)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@contextlib.contextmanager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker_1a394d42a69664a5949488bfdfa79a8a1d" kindref="member">track</ref>(self,<sp/>req:<sp/>InstallRequirement,<sp/>key:<sp/>str)<sp/>-&gt;<sp/>Generator[</highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Ensure<sp/>that<sp/>`key`<sp/>cannot<sp/>install<sp/>itself<sp/>as<sp/>a<sp/>setup<sp/>requirement.</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:raises<sp/>LookupError:<sp/>If<sp/>`key`<sp/>was<sp/>already<sp/>provided<sp/>in<sp/>a<sp/>parent<sp/>invocation<sp/>of</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>context<sp/>introduced<sp/>by<sp/>this<sp/>method.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tracker_id<sp/>=<sp/>TrackerId(key)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.add(req,<sp/>tracker_id)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.remove(req,<sp/>tracker_id)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/build/build_tracker.py"/>
+  </compounddef>
+</doxygen>

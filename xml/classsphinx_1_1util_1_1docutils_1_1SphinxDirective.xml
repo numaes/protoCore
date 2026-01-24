@@ -1,0 +1,989 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::util::docutils::SphinxDirective</compoundname>
+    <basecompoundref refid="classdocutils_1_1parsers_1_1rst_1_1Directive" prot="public" virt="non-virtual">docutils.parsers.rst.Directive</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1DefaultDomain" prot="public" virt="non-virtual">sphinx.directives.DefaultDomain</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1DefaultRole" prot="public" virt="non-virtual">sphinx.directives.DefaultRole</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1ObjectDescription" prot="public" virt="non-virtual">sphinx.directives.ObjectDescription</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition" prot="public" virt="non-virtual">sphinx.directives.admonitions.SphinxAdmonition</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1code_1_1CodeBlock" prot="public" virt="non-virtual">sphinx.directives.code.CodeBlock</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1code_1_1Highlight" prot="public" virt="non-virtual">sphinx.directives.code.Highlight</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1code_1_1LiteralInclude" prot="public" virt="non-virtual">sphinx.directives.code.LiteralInclude</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1other_1_1Acks" prot="public" virt="non-virtual">sphinx.directives.other.Acks</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1other_1_1Author" prot="public" virt="non-virtual">sphinx.directives.other.Author</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1other_1_1Centered" prot="public" virt="non-virtual">sphinx.directives.other.Centered</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1other_1_1HList" prot="public" virt="non-virtual">sphinx.directives.other.HList</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1other_1_1Include" prot="public" virt="non-virtual">sphinx.directives.other.Include</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1other_1_1Only" prot="public" virt="non-virtual">sphinx.directives.other.Only</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1other_1_1TabularColumns" prot="public" virt="non-virtual">sphinx.directives.other.TabularColumns</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1other_1_1TocTree" prot="public" virt="non-virtual">sphinx.directives.other.TocTree</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1patches_1_1Code" prot="public" virt="non-virtual">sphinx.directives.patches.Code</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1patches_1_1MathDirective" prot="public" virt="non-virtual">sphinx.directives.patches.MathDirective</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1directives_1_1patches_1_1Rubric" prot="public" virt="non-virtual">sphinx.directives.patches.Rubric</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1c_1_1CNamespaceObject" prot="public" virt="non-virtual">sphinx.domains.c.CNamespaceObject</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1c_1_1CNamespacePopObject" prot="public" virt="non-virtual">sphinx.domains.c.CNamespacePopObject</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1c_1_1CNamespacePushObject" prot="public" virt="non-virtual">sphinx.domains.c.CNamespacePushObject</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1changeset_1_1VersionChange" prot="public" virt="non-virtual">sphinx.domains.changeset.VersionChange</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1cpp_1_1CPPNamespaceObject" prot="public" virt="non-virtual">sphinx.domains.cpp.CPPNamespaceObject</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1cpp_1_1CPPNamespacePopObject" prot="public" virt="non-virtual">sphinx.domains.cpp.CPPNamespacePopObject</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1cpp_1_1CPPNamespacePushObject" prot="public" virt="non-virtual">sphinx.domains.cpp.CPPNamespacePushObject</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1index_1_1IndexDirective" prot="public" virt="non-virtual">sphinx.domains.index.IndexDirective</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1javascript_1_1JSModule" prot="public" virt="non-virtual">sphinx.domains.javascript.JSModule</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1python_1_1PyCurrentModule" prot="public" virt="non-virtual">sphinx.domains.python.PyCurrentModule</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1python_1_1PyModule" prot="public" virt="non-virtual">sphinx.domains.python.PyModule</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1std_1_1Glossary" prot="public" virt="non-virtual">sphinx.domains.std.Glossary</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1std_1_1ProductionList" prot="public" virt="non-virtual">sphinx.domains.std.ProductionList</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1std_1_1Program" prot="public" virt="non-virtual">sphinx.domains.std.Program</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1domains_1_1std_1_1Target" prot="public" virt="non-virtual">sphinx.domains.std.Target</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1autodoc_1_1directive_1_1AutodocDirective" prot="public" virt="non-virtual">sphinx.ext.autodoc.directive.AutodocDirective</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1autosummary_1_1Autosummary" prot="public" virt="non-virtual">sphinx.ext.autosummary.Autosummary</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1doctest_1_1TestDirective" prot="public" virt="non-virtual">sphinx.ext.doctest.TestDirective</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1graphviz_1_1Graphviz" prot="public" virt="non-virtual">sphinx.ext.graphviz.Graphviz</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1graphviz_1_1GraphvizSimple" prot="public" virt="non-virtual">sphinx.ext.graphviz.GraphvizSimple</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1ifconfig_1_1IfConfig" prot="public" virt="non-virtual">sphinx.ext.ifconfig.IfConfig</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1InheritanceDiagram" prot="public" virt="non-virtual">sphinx.ext.inheritance_diagram.InheritanceDiagram</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1todo_1_1TodoList" prot="public" virt="non-virtual">sphinx.ext.todo.TodoList</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a48cd1141b19bda95353ee077b080d24e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.docutils.SphinxDirective::lineno</definition>
+        <argsstring></argsstring>
+        <name>lineno</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.lineno</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="488" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1addaab02994438f9fec1ed4f555acb82b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.docutils.SphinxDirective::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="527" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="527" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a2777c9db847cbecfc8d7444ad6e37ca2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.docutils.SphinxDirective::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="528" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="528" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a6455c572f5be235013dd3addd887c9ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+        <definition> BuildEnvironment sphinx.util.docutils.SphinxDirective.env</definition>
+        <argsstring>(self)</argsstring>
+        <name>env</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.env</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reference to the :class:`.BuildEnvironment` object.
+
+.. versionadded:: 1.8
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="468" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="468" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a26571be07aa793d0d0fd6777e21b990c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+        <definition> Config sphinx.util.docutils.SphinxDirective.config</definition>
+        <argsstring>(self)</argsstring>
+        <name>config</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.config</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reference to the :class:`.Config` object.
+
+.. versionadded:: 1.8
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="476" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="476" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a4f04be0d91cb36e1b3f528c5385a9b9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, int]</type>
+        <definition> tuple[str, int] sphinx.util.docutils.SphinxDirective.get_source_info</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_source_info</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.get_source_info</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get source and line number.
+
+.. versionadded:: 3.0
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="483" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="483" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1aabeb4673c1c13648d79e15baf92eb36c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.docutils.SphinxDirective.set_source_info</definition>
+        <argsstring>(self, Node node)</argsstring>
+        <name>set_source_info</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.set_source_info</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set source and line number to the node.
+
+.. versionadded:: 2.1
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="490" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="490" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a30b14cb83581a76609389cd73c805f3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.docutils.SphinxDirective.get_location</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_location</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.get_location</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get current location info for logging.
+
+.. versionadded:: 4.2
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="497" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="497" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a2cca429776a6af1694139da20ff8278c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]</type>
+        <definition> list[Node] sphinx.util.docutils.SphinxDirective.parse_content_to_nodes</definition>
+        <argsstring>(self, bool allow_section_headings=False)</argsstring>
+        <name>parse_content_to_nodes</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.parse_content_to_nodes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_section_headings</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the directive&apos;s content into nodes.
+
+:param allow_section_headings:
+    Are titles (sections) allowed in the directive&apos;s content?
+    Note that this option bypasses Docutils&apos; usual checks on
+    doctree structure, and misuse of this option can lead to
+    an incoherent doctree. In Docutils, section nodes should
+    only be children of ``Structural`` nodes, which includes
+    ``document``, ``section``, and ``sidebar`` nodes.
+
+.. versionadded:: 7.4
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="511" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="513" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1afd69282687aaf09ad609fa111e8658a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]</type>
+        <definition> list[Node] sphinx.util.docutils.SphinxDirective.parse_text_to_nodes</definition>
+        <argsstring>(self, str text=&apos;&apos;, *int offset=-1, bool allow_section_headings=False)</argsstring>
+        <name>parse_text_to_nodes</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.parse_text_to_nodes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <param>
+          <type>*int</type>
+          <declname>offset</declname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_section_headings</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse *text* into nodes.
+
+:param text:
+    Text, in string form. ``StringList`` is also accepted.
+:param allow_section_headings:
+    Are titles (sections) allowed in *text*?
+    Note that this option bypasses Docutils&apos; usual checks on
+    doctree structure, and misuse of this option can lead to
+    an incoherent doctree. In Docutils, section nodes should
+    only be children of ``Structural`` nodes, which includes
+    ``document``, ``section``, and ``sidebar`` nodes.
+:param offset:
+    The offset of the content.
+
+.. versionadded:: 7.4
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="533" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="540" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a1e9eb0d267eb92f4c6c647303e3ca94b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>], list[<ref refid="classdocutils_1_1nodes_1_1system__message" kindref="compound">system_message</ref>]]</type>
+        <definition> tuple[list[Node], list[system_message]] sphinx.util.docutils.SphinxDirective.parse_inline</definition>
+        <argsstring>(self, str text, *int lineno=-1)</argsstring>
+        <name>parse_inline</name>
+        <qualifiedname>sphinx.util.docutils.SphinxDirective.parse_inline</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>*int</type>
+          <declname>lineno</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse *text* as inline elements.
+
+:param text:
+    The text to parse, which should be a single line or paragraph.
+    This cannot contain any structural elements (headings,
+    transitions, directives, etc).
+:param lineno:
+    The line number where the interpreted text begins.
+:returns:
+    A list of nodes (text and inline elements) and a list of system_messages.
+
+.. versionadded:: 7.4
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="566" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="568" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A base class for Sphinx directives.
+
+This class provides helper methods for Sphinx directives.
+
+.. versionadded:: 1.8
+
+.. note:: The subclasses of this class might not work with docutils.
+          This class is strongly coupled with Sphinx.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.directives.DefaultDomain</label>
+        <link refid="classsphinx_1_1directives_1_1DefaultDomain"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.directives.DefaultRole</label>
+        <link refid="classsphinx_1_1directives_1_1DefaultRole"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>sphinx.directives.admonitions.Admonition</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Admonition"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>sphinx.directives.admonitions.Attention</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Attention"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>sphinx.directives.admonitions.Caution</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Caution"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>sphinx.directives.admonitions.Danger</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Danger"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>sphinx.directives.admonitions.Error</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Error"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>sphinx.directives.admonitions.Hint</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Hint"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>sphinx.directives.admonitions.Important</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Important"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>sphinx.directives.admonitions.Note</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Note"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>sphinx.directives.admonitions.SeeAlso</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1SeeAlso"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>sphinx.directives.admonitions.SphinxAdmonition</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1SphinxAdmonition"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>sphinx.directives.admonitions.Tip</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Tip"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>sphinx.directives.admonitions.Warning</label>
+        <link refid="classsphinx_1_1directives_1_1admonitions_1_1Warning"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>sphinx.directives.code.CodeBlock</label>
+        <link refid="classsphinx_1_1directives_1_1code_1_1CodeBlock"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>sphinx.directives.code.Highlight</label>
+        <link refid="classsphinx_1_1directives_1_1code_1_1Highlight"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>sphinx.directives.code.LiteralInclude</label>
+        <link refid="classsphinx_1_1directives_1_1code_1_1LiteralInclude"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>sphinx.directives.other.Acks</label>
+        <link refid="classsphinx_1_1directives_1_1other_1_1Acks"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>sphinx.directives.other.Author</label>
+        <link refid="classsphinx_1_1directives_1_1other_1_1Author"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>sphinx.directives.other.Centered</label>
+        <link refid="classsphinx_1_1directives_1_1other_1_1Centered"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>sphinx.directives.other.HList</label>
+        <link refid="classsphinx_1_1directives_1_1other_1_1HList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>sphinx.directives.other.Include</label>
+        <link refid="classsphinx_1_1directives_1_1other_1_1Include"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="70">
+        <label>sphinx.directives.other.Only</label>
+        <link refid="classsphinx_1_1directives_1_1other_1_1Only"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>sphinx.directives.other.TabularColumns</label>
+        <link refid="classsphinx_1_1directives_1_1other_1_1TabularColumns"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="72">
+        <label>sphinx.directives.other.TocTree</label>
+        <link refid="classsphinx_1_1directives_1_1other_1_1TocTree"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>sphinx.directives.patches.Code</label>
+        <link refid="classsphinx_1_1directives_1_1patches_1_1Code"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>sphinx.directives.patches.MathDirective</label>
+        <link refid="classsphinx_1_1directives_1_1patches_1_1MathDirective"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>sphinx.directives.patches.Rubric</label>
+        <link refid="classsphinx_1_1directives_1_1patches_1_1Rubric"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>sphinx.domains.c.CAliasObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CAliasObject"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>sphinx.domains.c.CEnumObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CEnumObject"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>sphinx.domains.c.CEnumeratorObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CEnumeratorObject"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>sphinx.domains.c.CFunctionObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CFunctionObject"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>sphinx.domains.c.CMacroObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CMacroObject"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>sphinx.domains.c.CMemberObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CMemberObject"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>sphinx.domains.c.CNamespaceObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CNamespaceObject"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>sphinx.domains.c.CNamespacePopObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CNamespacePopObject"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>sphinx.domains.c.CNamespacePushObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CNamespacePushObject"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>sphinx.domains.c.CObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CObject"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>sphinx.domains.c.CStructObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CStructObject"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>sphinx.domains.c.CTypeObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CTypeObject"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sphinx.domains.c.CUnionObject</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1CUnionObject"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>sphinx.domains.changeset.VersionChange</label>
+        <link refid="classsphinx_1_1domains_1_1changeset_1_1VersionChange"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>sphinx.domains.cpp.CPPAliasObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPAliasObject"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>sphinx.domains.cpp.CPPClassObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPClassObject"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>sphinx.domains.cpp.CPPConceptObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPConceptObject"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>sphinx.domains.cpp.CPPEnumObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPEnumObject"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>sphinx.domains.cpp.CPPEnumeratorObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPEnumeratorObject"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>sphinx.domains.cpp.CPPFunctionObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPFunctionObject"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>sphinx.domains.cpp.CPPMemberObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPMemberObject"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="80">
+        <label>sphinx.domains.cpp.CPPNamespaceObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPNamespaceObject"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="81">
+        <label>sphinx.domains.cpp.CPPNamespacePopObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPNamespacePopObject"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>sphinx.domains.cpp.CPPNamespacePushObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPNamespacePushObject"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sphinx.domains.cpp.CPPObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPObject"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>sphinx.domains.cpp.CPPTypeObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPTypeObject"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>sphinx.domains.cpp.CPPUnionObject</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1CPPUnionObject"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>sphinx.domains.index.IndexDirective</label>
+        <link refid="classsphinx_1_1domains_1_1index_1_1IndexDirective"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>sphinx.domains.javascript.JSCallable</label>
+        <link refid="classsphinx_1_1domains_1_1javascript_1_1JSCallable"/>
+        <childnode refid="26" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>sphinx.domains.javascript.JSConstructor</label>
+        <link refid="classsphinx_1_1domains_1_1javascript_1_1JSConstructor"/>
+        <childnode refid="27" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="84">
+        <label>sphinx.domains.javascript.JSModule</label>
+        <link refid="classsphinx_1_1domains_1_1javascript_1_1JSModule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>sphinx.domains.javascript.JSObject</label>
+        <link refid="classsphinx_1_1domains_1_1javascript_1_1JSObject"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>sphinx.domains.python.PyAttribute</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyAttribute"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>sphinx.domains.python.PyClassMethod</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyClassMethod"/>
+        <childnode refid="34" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>sphinx.domains.python.PyClasslike</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyClasslike"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>sphinx.domains.python.PyCurrentModule</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyCurrentModule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>sphinx.domains.python.PyDecoratorFunction</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyDecoratorFunction"/>
+        <childnode refid="32" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>sphinx.domains.python.PyDecoratorMethod</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyDecoratorMethod"/>
+        <childnode refid="34" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>sphinx.domains.python.PyFunction</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyFunction"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>sphinx.domains.python.PyMethod</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyMethod"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>sphinx.domains.python.PyModule</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyModule"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>sphinx.domains.python.PyProperty</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyProperty"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>sphinx.domains.python.PyStaticMethod</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyStaticMethod"/>
+        <childnode refid="34" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>sphinx.domains.python.PyTypeAlias</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyTypeAlias"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>sphinx.domains.python.PyVariable</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyVariable"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>sphinx.domains.python._object.PyObject</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>sphinx.domains.rst.ReSTDirective</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirective"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>sphinx.domains.rst.ReSTDirectiveOption</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirectiveOption"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>sphinx.domains.rst.ReSTMarkup</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>sphinx.domains.rst.ReSTRole</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTRole"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>sphinx.domains.std.Cmdoption</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1Cmdoption"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>sphinx.domains.std.ConfigurationValue</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1ConfigurationValue"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>sphinx.domains.std.EnvVar</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1EnvVar"/>
+        <childnode refid="47" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>sphinx.domains.std.GenericObject</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1GenericObject"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="87">
+        <label>sphinx.domains.std.Glossary</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1Glossary"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="88">
+        <label>sphinx.domains.std.ProductionList</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1ProductionList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="89">
+        <label>sphinx.domains.std.Program</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1Program"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="90">
+        <label>sphinx.domains.std.Target</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1Target"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="91">
+        <label>sphinx.ext.autodoc.directive.AutodocDirective</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1directive_1_1AutodocDirective"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="92">
+        <label>sphinx.ext.autosummary.Autosummary</label>
+        <link refid="classsphinx_1_1ext_1_1autosummary_1_1Autosummary"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="94">
+        <label>sphinx.ext.doctest.DoctestDirective</label>
+        <link refid="classsphinx_1_1ext_1_1doctest_1_1DoctestDirective"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>sphinx.ext.doctest.TestDirective</label>
+        <link refid="classsphinx_1_1ext_1_1doctest_1_1TestDirective"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="95">
+        <label>sphinx.ext.doctest.TestcleanupDirective</label>
+        <link refid="classsphinx_1_1ext_1_1doctest_1_1TestcleanupDirective"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="96">
+        <label>sphinx.ext.doctest.TestcodeDirective</label>
+        <link refid="classsphinx_1_1ext_1_1doctest_1_1TestcodeDirective"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="97">
+        <label>sphinx.ext.doctest.TestoutputDirective</label>
+        <link refid="classsphinx_1_1ext_1_1doctest_1_1TestoutputDirective"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="98">
+        <label>sphinx.ext.doctest.TestsetupDirective</label>
+        <link refid="classsphinx_1_1ext_1_1doctest_1_1TestsetupDirective"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="99">
+        <label>sphinx.ext.graphviz.Graphviz</label>
+        <link refid="classsphinx_1_1ext_1_1graphviz_1_1Graphviz"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="100">
+        <label>sphinx.ext.graphviz.GraphvizSimple</label>
+        <link refid="classsphinx_1_1ext_1_1graphviz_1_1GraphvizSimple"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="101">
+        <label>sphinx.ext.ifconfig.IfConfig</label>
+        <link refid="classsphinx_1_1ext_1_1ifconfig_1_1IfConfig"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="102">
+        <label>sphinx.ext.inheritance_diagram.InheritanceDiagram</label>
+        <link refid="classsphinx_1_1ext_1_1inheritance__diagram_1_1InheritanceDiagram"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>sphinx.ext.todo.Todo</label>
+        <link refid="classsphinx_1_1ext_1_1todo_1_1Todo"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="103">
+        <label>sphinx.ext.todo.TodoList</label>
+        <link refid="classsphinx_1_1ext_1_1todo_1_1TodoList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="456" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="456" bodyend="586"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a26571be07aa793d0d0fd6777e21b990c" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>config</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a2777c9db847cbecfc8d7444ad6e37ca2" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>content</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a6455c572f5be235013dd3addd887c9ff" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>env</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a30b14cb83581a76609389cd73c805f3e" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>get_location</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a4f04be0d91cb36e1b3f528c5385a9b9e" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>get_source_info</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a48cd1141b19bda95353ee077b080d24e" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>lineno</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a2cca429776a6af1694139da20ff8278c" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>parse_content_to_nodes</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1a1e9eb0d267eb92f4c6c647303e3ca94b" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>parse_inline</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1afd69282687aaf09ad609fa111e8658a5" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>parse_text_to_nodes</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1aabeb4673c1c13648d79e15baf92eb36c" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>set_source_info</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective_1addaab02994438f9fec1ed4f555acb82b" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxDirective</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

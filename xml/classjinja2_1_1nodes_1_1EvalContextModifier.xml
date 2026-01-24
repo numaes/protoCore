@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1EvalContextModifier" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::EvalContextModifier</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1Stmt" prot="public" virt="non-virtual">jinja2.nodes.Stmt</basecompoundref>
+    <derivedcompoundref refid="classjinja2_1_1nodes_1_1ScopedEvalContextModifier" prot="public" virt="non-virtual">jinja2.nodes.ScopedEvalContextModifier</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1EvalContextModifier_1a72e48d017acca07d91e2bba659be7bd4" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.EvalContextModifier::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.EvalContextModifier.fields</qualifiedname>
+        <initializer>=  (&quot;options&quot;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="1186" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="1186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1EvalContextModifier_1a735b8e5d7c2eb509907ee5fd5cc4402b" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.nodes.EvalContextModifier::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>jinja2.nodes.EvalContextModifier.options</qualifiedname>
+        <initializer>.<ref refid="classjinja2_1_1nodes_1_1List" kindref="compound">List</ref>[<ref refid="classjinja2_1_1nodes_1_1Keyword" kindref="compound">Keyword</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="1187" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="1187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Modifies the eval context.  For each option that should be modified,
+a :class:`Keyword` has to be added to the :attr:`options` list.
+
+Example to change the `autoescape` setting::
+
+    EvalContextModifier(options=[Keyword(&apos;autoescape&apos;, Const(True))])
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.EvalContextModifier</label>
+        <link refid="classjinja2_1_1nodes_1_1EvalContextModifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>jinja2.nodes.ScopedEvalContextModifier</label>
+        <link refid="classjinja2_1_1nodes_1_1ScopedEvalContextModifier"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Stmt</label>
+        <link refid="classjinja2_1_1nodes_1_1Stmt"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.nodes.EvalContextModifier</label>
+        <link refid="classjinja2_1_1nodes_1_1EvalContextModifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>fields</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>attributes</edgelabel>
+          <edgelabel>fields</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Stmt</label>
+        <link refid="classjinja2_1_1nodes_1_1Stmt"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="1177" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="1177" bodyend="1189"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1EvalContextModifier_1a72e48d017acca07d91e2bba659be7bd4" prot="public" virt="non-virtual"><scope>jinja2::nodes::EvalContextModifier</scope><name>fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1EvalContextModifier_1a735b8e5d7c2eb509907ee5fd5cc4402b" prot="public" virt="non-virtual"><scope>jinja2::nodes::EvalContextModifier</scope><name>options</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

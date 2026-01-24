@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1logging" kind="namespace" language="Python">
+    <compoundname>sphinx::util::logging</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1__RaiseOnWarningFilter" prot="protected">sphinx::util::logging::_RaiseOnWarningFilter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1ColorizeFormatter" prot="public">sphinx::util::logging::ColorizeFormatter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1InfoFilter" prot="public">sphinx::util::logging::InfoFilter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1InfoLogRecordTranslator" prot="public">sphinx::util::logging::InfoLogRecordTranslator</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1LastMessagesWriter" prot="public">sphinx::util::logging::LastMessagesWriter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1LogCollector" prot="public">sphinx::util::logging::LogCollector</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1MemoryHandler" prot="public">sphinx::util::logging::MemoryHandler</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1MessagePrefixFilter" prot="public">sphinx::util::logging::MessagePrefixFilter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1NewLineStreamHandler" prot="public">sphinx::util::logging::NewLineStreamHandler</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1OnceFilter" prot="public">sphinx::util::logging::OnceFilter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1SafeEncodingWriter" prot="public">sphinx::util::logging::SafeEncodingWriter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1SphinxInfoLogRecord" prot="public">sphinx::util::logging::SphinxInfoLogRecord</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1SphinxLoggerAdapter" prot="public">sphinx::util::logging::SphinxLoggerAdapter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1SphinxLogRecord" prot="public">sphinx::util::logging::SphinxLogRecord</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator" prot="public">sphinx::util::logging::SphinxLogRecordTranslator</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1SphinxWarningLogRecord" prot="public">sphinx::util::logging::SphinxWarningLogRecord</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1WarningLogRecordTranslator" prot="public">sphinx::util::logging::WarningLogRecordTranslator</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1WarningStreamHandler" prot="public">sphinx::util::logging::WarningStreamHandler</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1logging_1_1WarningSuppressor" prot="public">sphinx::util::logging::WarningSuppressor</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1logging_1a495887b47ec7963d13763a985aeaefd2" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::util::logging.NAMESPACE</definition>
+        <argsstring></argsstring>
+        <name>NAMESPACE</name>
+        <qualifiedname>sphinx.util.logging.NAMESPACE</qualifiedname>
+        <initializer>=  &apos;sphinx&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1logging_1ab2550e53203f99cf7e195d2a6efaac6d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::util::logging.VERBOSE</definition>
+        <argsstring></argsstring>
+        <name>VERBOSE</name>
+        <qualifiedname>sphinx.util.logging.VERBOSE</qualifiedname>
+        <initializer>=  15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1logging_1a34f4abb7d267e0facfc8e493a615d2d6" prot="public" static="no" mutable="no">
+        <type>defaultdict</type>
+        <definition>defaultdict sphinx::util::logging.LEVEL_NAMES</definition>
+        <argsstring></argsstring>
+        <name>LEVEL_NAMES</name>
+        <qualifiedname>sphinx.util.logging.LEVEL_NAMES</qualifiedname>
+        <initializer>=  defaultdict(
+    lambda: logging.WARNING,
+    {
+        &apos;CRITICAL&apos;: logging.CRITICAL,
+        &apos;SEVERE&apos;: logging.CRITICAL,
+        &apos;ERROR&apos;: logging.ERROR,
+        &apos;WARNING&apos;: logging.WARNING,
+        &apos;INFO&apos;: logging.INFO,
+        &apos;<ref refid="namespacesphinx_1_1util_1_1logging_1ab2550e53203f99cf7e195d2a6efaac6d" kindref="member">VERBOSE</ref>&apos;: <ref refid="namespacesphinx_1_1util_1_1logging_1ab2550e53203f99cf7e195d2a6efaac6d" kindref="member">VERBOSE</ref>,
+        &apos;DEBUG&apos;: logging.DEBUG,
+    },
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="30" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1logging_1afb802377c763b1196830751aca791cbd" prot="public" static="no" mutable="no">
+        <type>defaultdict</type>
+        <definition>defaultdict sphinx::util::logging.VERBOSITY_MAP</definition>
+        <argsstring></argsstring>
+        <name>VERBOSITY_MAP</name>
+        <qualifiedname>sphinx.util.logging.VERBOSITY_MAP</qualifiedname>
+        <initializer>=  defaultdict(
+    lambda: logging.NOTSET,
+    {
+        0: logging.INFO,
+        1: <ref refid="namespacesphinx_1_1util_1_1logging_1ab2550e53203f99cf7e195d2a6efaac6d" kindref="member">VERBOSE</ref>,
+        2: logging.DEBUG,
+    },
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1logging_1a3ca4dfd10d78c16d947dc4c4e9405f57" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::util::logging.COLOR_MAP</definition>
+        <argsstring></argsstring>
+        <name>COLOR_MAP</name>
+        <qualifiedname>sphinx.util.logging.COLOR_MAP</qualifiedname>
+        <initializer>=  {
+    logging.ERROR: &apos;darkred&apos;,
+    logging.WARNING: &apos;red&apos;,
+    logging.DEBUG: &apos;darkgray&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1logging_1af16963124c606d855fd30a2e7833f12c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::logging.skip_warningiserror</definition>
+        <argsstring></argsstring>
+        <name>skip_warningiserror</name>
+        <qualifiedname>sphinx.util.logging.skip_warningiserror</qualifiedname>
+        <initializer>=  nullcontext</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="332" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="332" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1logging_1_1SphinxLoggerAdapter" kindref="compound">SphinxLoggerAdapter</ref></type>
+        <definition> SphinxLoggerAdapter sphinx.util.logging.getLogger</definition>
+        <argsstring>(str name)</argsstring>
+        <name>getLogger</name>
+        <qualifiedname>sphinx.util.logging.getLogger</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get logger wrapped by :class:`sphinx.util.logging.SphinxLoggerAdapter`.
+
+Sphinx logger always uses ``sphinx.*`` namespace to be independent from
+settings of root logger.  It ensures logging is consistent even if a
+third-party extension or imported application resets logger settings.
+
+Example usage::
+
+    &gt;&gt;&gt; from sphinx.util import logging
+    &gt;&gt;&gt; logger = logging.getLogger(__name__)
+    &gt;&gt;&gt; logger.info(&apos;Hello, this is an extension!&apos;)
+    Hello, this is an extension!
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="59" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1a9d18c6127197be35258a65e378c386be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.logging.convert_serializable</definition>
+        <argsstring>(list[logging.LogRecord] records)</argsstring>
+        <name>convert_serializable</name>
+        <qualifiedname>sphinx.util.logging.convert_serializable</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>records</declname>
+          <array>[logging.LogRecord]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert LogRecord serializable.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="81" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="81" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1aaf15c901d4547a6bf7b086a86f011752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[logging.Handler]</type>
+        <definition> Iterator[logging.Handler] sphinx.util.logging.pending_warnings</definition>
+        <argsstring>()</argsstring>
+        <name>pending_warnings</name>
+        <qualifiedname>sphinx.util.logging.pending_warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Context manager to postpone logging warnings temporarily.
+
+Similar to :func:`pending_logging`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="256" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="256" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1a4e66a053ca220f7fa22de70fffd1773f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classsphinx_1_1util_1_1logging_1_1MemoryHandler" kindref="compound">MemoryHandler</ref>]</type>
+        <definition> Iterator[MemoryHandler] sphinx.util.logging.suppress_logging</definition>
+        <argsstring>()</argsstring>
+        <name>suppress_logging</name>
+        <qualifiedname>sphinx.util.logging.suppress_logging</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Context manager to suppress logging all logs temporarily.
+
+For example::
+
+    &gt;&gt;&gt; with suppress_logging():
+    &gt;&gt;&gt;     logger.warning(&apos;Warning message!&apos;)  # suppressed
+    &gt;&gt;&gt;     some_long_process()
+    &gt;&gt;&gt;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="284" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="284" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1a281e112193261b93bc4a7b650da145a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classsphinx_1_1util_1_1logging_1_1MemoryHandler" kindref="compound">MemoryHandler</ref>]</type>
+        <definition> Iterator[MemoryHandler] sphinx.util.logging.pending_logging</definition>
+        <argsstring>()</argsstring>
+        <name>pending_logging</name>
+        <qualifiedname>sphinx.util.logging.pending_logging</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Context manager to postpone logging all logs temporarily.
+
+For example::
+
+    &gt;&gt;&gt; with pending_logging():
+    &gt;&gt;&gt;     logger.warning(&apos;Warning message!&apos;)  # not flushed yet
+    &gt;&gt;&gt;     some_long_process()
+    &gt;&gt;&gt;
+    Warning message!  # the warning is flushed here
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="313" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="313" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1ab08c8fa768404e6b0bd4b0777c4cd9e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.logging.prefixed_warnings</definition>
+        <argsstring>(str prefix)</argsstring>
+        <name>prefixed_warnings</name>
+        <qualifiedname>sphinx.util.logging.prefixed_warnings</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Context manager to prepend prefix to all warning log records temporarily.
+
+For example::
+
+    &gt;&gt;&gt; with prefixed_warnings(&quot;prefix:&quot;):
+    &gt;&gt;&gt;     logger.warning(&apos;Warning message!&apos;)  # =&gt; prefix: Warning message!
+
+.. versionadded:: 2.0
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="336" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="336" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1afa7890096a16f2c938db4e6d30021f39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.logging.is_suppressed_warning</definition>
+        <argsstring>(str warning_type, str sub_type, Set[str]|Sequence[str] suppress_warnings)</argsstring>
+        <name>is_suppressed_warning</name>
+        <qualifiedname>sphinx.util.logging.is_suppressed_warning</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>warning_type</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sub_type</declname>
+        </param>
+        <param>
+          <type>Set|Sequence</type>
+          <declname>suppress_warnings</declname>
+          <array>[str][str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether the warning is suppressed or not.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="415" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="417" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1a0dc70dc965da33db26adf91ab029b0e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.util.logging.get_node_location</definition>
+        <argsstring>(Node node)</argsstring>
+        <name>get_node_location</name>
+        <qualifiedname>sphinx.util.logging.get_node_location</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="554" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="554" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1logging_1ab61c48cf2e4ed7276eee1debb8612bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.logging.setup</definition>
+        <argsstring>(Sphinx app, IO[str] status, IO[str] warning)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.util.logging.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>IO</type>
+          <declname>status</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>IO</type>
+          <declname>warning</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Setup root logger for Sphinx</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="611" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="611" bodyend="643"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Logging utility functions for Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

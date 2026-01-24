@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepackaging_1_1utils" kind="namespace" language="Python">
+    <compoundname>packaging::utils</compoundname>
+    <innerclass refid="classpackaging_1_1utils_1_1InvalidName" prot="public">packaging::utils::InvalidName</innerclass>
+    <innerclass refid="classpackaging_1_1utils_1_1InvalidSdistFilename" prot="public">packaging::utils::InvalidSdistFilename</innerclass>
+    <innerclass refid="classpackaging_1_1utils_1_1InvalidWheelFilename" prot="public">packaging::utils::InvalidWheelFilename</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepackaging_1_1utils_1af17c6979ca2395aa312f64b475ce2195" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::utils.BuildTag</definition>
+        <argsstring></argsstring>
+        <name>BuildTag</name>
+        <qualifiedname>packaging.utils.BuildTag</qualifiedname>
+        <initializer>=  Union[Tuple[()], Tuple[int, str]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="14" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1utils_1a96dafe26178c5fc754160889d812fae4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::utils.NormalizedName</definition>
+        <argsstring></argsstring>
+        <name>NormalizedName</name>
+        <qualifiedname>packaging.utils.NormalizedName</qualifiedname>
+        <initializer>=  NewType(&quot;NormalizedName&quot;, str)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1utils_1a8b92a6cb51f5eafe01a165672cc57596" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::utils._validate_regex</definition>
+        <argsstring></argsstring>
+        <name>_validate_regex</name>
+        <qualifiedname>packaging.utils._validate_regex</qualifiedname>
+        <initializer>=  re.compile(
+    r&quot;^([A-Z0-9]|[A-Z0-9][A-Z0-9.<ref refid="namespacepackaging_1_1utils_1ad20bd9d9e9739aca3ad862e8c3d9797e" kindref="member">_</ref>-]*[A-Z0-9])$&quot;, re.IGNORECASE
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="37" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1utils_1a94ae1e81bd65a2a9265b4c69bc79de4c" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::utils._canonicalize_regex</definition>
+        <argsstring></argsstring>
+        <name>_canonicalize_regex</name>
+        <qualifiedname>packaging.utils._canonicalize_regex</qualifiedname>
+        <initializer>=  re.compile(r&quot;[-_.]+&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1utils_1a65b6ecdf3f0afd466472adead4b9b893" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::utils._normalized_regex</definition>
+        <argsstring></argsstring>
+        <name>_normalized_regex</name>
+        <qualifiedname>packaging.utils._normalized_regex</qualifiedname>
+        <initializer>=  re.compile(r&quot;^([a-z0-9]|[a-z0-9]([a-z0-9-](?!--))*[a-z0-9])$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1utils_1a6e764721f326d7716fb832a2d9fc0cc1" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::utils._build_tag_regex</definition>
+        <argsstring></argsstring>
+        <name>_build_tag_regex</name>
+        <qualifiedname>packaging.utils._build_tag_regex</qualifiedname>
+        <initializer>=  re.compile(r&quot;(\d+)(.*)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="43" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepackaging_1_1utils_1afdcf2433ed5cdca9894fa670972b826e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1utils_1a96dafe26178c5fc754160889d812fae4" kindref="member">NormalizedName</ref></type>
+        <definition> NormalizedName packaging.utils.canonicalize_name</definition>
+        <argsstring>(str name, *bool validate=False)</argsstring>
+        <name>canonicalize_name</name>
+        <qualifiedname>packaging.utils.canonicalize_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>validate</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="46" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1utils_1a58feaba6ded5768c130f14d012c634ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging.utils.is_normalized_name</definition>
+        <argsstring>(str name)</argsstring>
+        <name>is_normalized_name</name>
+        <qualifiedname>packaging.utils.is_normalized_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="54" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1utils_1a6aef9b6298c247951882d5f96efc1331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging.utils.canonicalize_version</definition>
+        <argsstring>(Version|str version, *bool strip_trailing_zero=True)</argsstring>
+        <name>canonicalize_version</name>
+        <qualifiedname>packaging.utils.canonicalize_version</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1version_1_1Version" kindref="compound">Version</ref>|str</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>strip_trailing_zero</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a canonical form of a version as a string.
+
+&gt;&gt;&gt; canonicalize_version(&apos;1.0.1&apos;)
+&apos;1.0.1&apos;
+
+Per PEP 625, versions may have multiple canonical forms, differing
+only by trailing zeros.
+
+&gt;&gt;&gt; canonicalize_version(&apos;1.0.0&apos;)
+&apos;1&apos;
+&gt;&gt;&gt; canonicalize_version(&apos;1.0.0&apos;, strip_trailing_zero=False)
+&apos;1.0.0&apos;
+
+Invalid versions are returned unaltered.
+
+&gt;&gt;&gt; canonicalize_version(&apos;foo bar baz&apos;)
+&apos;foo bar baz&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="61" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1utils_1ad20bd9d9e9739aca3ad862e8c3d9797e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging.utils._</definition>
+        <argsstring>(str version, *bool strip_trailing_zero=True)</argsstring>
+        <name>_</name>
+        <qualifiedname>packaging.utils._</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>strip_trailing_zero</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="85" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1utils_1af2f36f779e2937dd75384597670941c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[<ref refid="namespacepackaging_1_1utils_1a96dafe26178c5fc754160889d812fae4" kindref="member">NormalizedName</ref>, <ref refid="classpackaging_1_1version_1_1Version" kindref="compound">Version</ref>, <ref refid="namespacepackaging_1_1utils_1af17c6979ca2395aa312f64b475ce2195" kindref="member">BuildTag</ref>, frozenset[<ref refid="classpackaging_1_1tags_1_1Tag" kindref="compound">Tag</ref>]]</type>
+        <definition> tuple[NormalizedName, Version, BuildTag, frozenset[Tag]] packaging.utils.parse_wheel_filename</definition>
+        <argsstring>(str filename)</argsstring>
+        <name>parse_wheel_filename</name>
+        <qualifiedname>packaging.utils.parse_wheel_filename</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="94" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="96" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1utils_1a176592eb1526df45ed768f3fe7d44d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[<ref refid="namespacepackaging_1_1utils_1a96dafe26178c5fc754160889d812fae4" kindref="member">NormalizedName</ref>, <ref refid="classpackaging_1_1version_1_1Version" kindref="compound">Version</ref>]</type>
+        <definition> tuple[NormalizedName, Version] packaging.utils.parse_sdist_filename</definition>
+        <argsstring>(str filename)</argsstring>
+        <name>parse_sdist_filename</name>
+        <qualifiedname>packaging.utils.parse_sdist_filename</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/utils.py" bodystart="137" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/packaging/utils.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

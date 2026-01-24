@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1errors_1_1SphinxError" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::errors::SphinxError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Exception</basecompoundref>
+    <derivedcompoundref refid="classapplehelp_1_1AppleHelpCodeSigningFailed" prot="public" virt="non-virtual">applehelp.AppleHelpCodeSigningFailed</derivedcompoundref>
+    <derivedcompoundref refid="classapplehelp_1_1AppleHelpIndexerFailed" prot="public" virt="non-virtual">applehelp.AppleHelpIndexerFailed</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1ApplicationError" prot="public" virt="non-virtual">sphinx.errors.ApplicationError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1BuildEnvironmentError" prot="public" virt="non-virtual">sphinx.errors.BuildEnvironmentError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1ConfigError" prot="public" virt="non-virtual">sphinx.errors.ConfigError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1DocumentError" prot="public" virt="non-virtual">sphinx.errors.DocumentError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1ExtensionError" prot="public" virt="non-virtual">sphinx.errors.ExtensionError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1SphinxParallelError" prot="public" virt="non-virtual">sphinx.errors.SphinxParallelError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1SphinxWarning" prot="public" virt="non-virtual">sphinx.errors.SphinxWarning</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1ThemeError" prot="public" virt="non-virtual">sphinx.errors.ThemeError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1errors_1_1VersionRequirementError" prot="public" virt="non-virtual">sphinx.errors.VersionRequirementError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1graphviz_1_1GraphvizError" prot="public" virt="non-virtual">sphinx.ext.graphviz.GraphvizError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1imgmath_1_1InvokeError" prot="public" virt="non-virtual">sphinx.ext.imgmath.InvokeError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1imgmath_1_1MathExtError" prot="public" virt="non-virtual">sphinx.ext.imgmath.MathExtError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1linkcode_1_1LinkcodeError" prot="public" virt="non-virtual">sphinx.ext.linkcode.LinkcodeError</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1writers_1_1latex_1_1UnsupportedError" prot="public" virt="non-virtual">sphinx.writers.latex.UnsupportedError</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1errors_1_1SphinxError_1a50a7d7b83269378cfe6682cb67c3ee54" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.errors.SphinxError::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>sphinx.errors.SphinxError.category</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1errors_1_1ExtensionError_1a8a7b845701cba28d8198d9f128ca3695">category</reimplementedby>
+        <initializer>=  &apos;Sphinx error&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/errors.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/errors.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base class for Sphinx errors.
+
+This is the base class for &quot;nice&quot; exceptions.  When such an exception is
+raised, Sphinx will abort the build and present the exception category and
+message to the user.
+
+Extensions are encouraged to derive from this exception for their custom
+errors.
+
+Exceptions *not* derived from :exc:`SphinxError` are treated as unexpected
+and shown to the user with a part of the traceback (and the full traceback
+saved in a temporary file).
+
+.. attribute:: category
+
+   Description of the exception &quot;category&quot;, used in converting the
+   exception to a string (&quot;category: message&quot;).  Should be set accordingly
+   in subclasses.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Exception</label>
+      </node>
+      <node id="3">
+        <label>applehelp.AppleHelpCodeSigningFailed</label>
+        <link refid="classapplehelp_1_1AppleHelpCodeSigningFailed"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>applehelp.AppleHelpIndexerFailed</label>
+        <link refid="classapplehelp_1_1AppleHelpIndexerFailed"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.errors.SphinxError</label>
+        <link refid="classsphinx_1_1errors_1_1SphinxError"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.errors.ApplicationError</label>
+        <link refid="classsphinx_1_1errors_1_1ApplicationError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>sphinx.errors.BuildEnvironmentError</label>
+        <link refid="classsphinx_1_1errors_1_1BuildEnvironmentError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>sphinx.errors.ConfigError</label>
+        <link refid="classsphinx_1_1errors_1_1ConfigError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>sphinx.errors.DocumentError</label>
+        <link refid="classsphinx_1_1errors_1_1DocumentError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>sphinx.errors.ExtensionError</label>
+        <link refid="classsphinx_1_1errors_1_1ExtensionError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>sphinx.errors.SphinxParallelError</label>
+        <link refid="classsphinx_1_1errors_1_1SphinxParallelError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>sphinx.errors.SphinxWarning</label>
+        <link refid="classsphinx_1_1errors_1_1SphinxWarning"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>sphinx.errors.ThemeError</label>
+        <link refid="classsphinx_1_1errors_1_1ThemeError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>sphinx.errors.VersionRequirementError</label>
+        <link refid="classsphinx_1_1errors_1_1VersionRequirementError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>sphinx.ext.graphviz.GraphvizError</label>
+        <link refid="classsphinx_1_1ext_1_1graphviz_1_1GraphvizError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sphinx.ext.imgmath.InvokeError</label>
+        <link refid="classsphinx_1_1ext_1_1imgmath_1_1InvokeError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>sphinx.ext.imgmath.MathExtError</label>
+        <link refid="classsphinx_1_1ext_1_1imgmath_1_1MathExtError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sphinx.ext.linkcode.LinkcodeError</label>
+        <link refid="classsphinx_1_1ext_1_1linkcode_1_1LinkcodeError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>sphinx.writers.latex.UnsupportedError</label>
+        <link refid="classsphinx_1_1writers_1_1latex_1_1UnsupportedError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Exception</label>
+      </node>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.errors.SphinxError</label>
+        <link refid="classsphinx_1_1errors_1_1SphinxError"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>category</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/errors.py" line="6" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/errors.py" bodystart="6" bodyend="29"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1errors_1_1SphinxError_1a50a7d7b83269378cfe6682cb67c3ee54" prot="public" virt="non-virtual"><scope>sphinx::errors::SphinxError</scope><name>category</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

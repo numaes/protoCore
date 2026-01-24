@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="fixtures_8py" kind="file" language="Python">
+    <compoundname>fixtures.py</compoundname>
+    <innerclass refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult" prot="public">sphinx::testing::fixtures::SharedResult</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1testing">sphinx::testing</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1testing_1_1fixtures">sphinx::testing::fixtures</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1testing_1_1fixtures" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Sphinx<sp/>test<sp/>fixtures<sp/>for<sp/>pytest&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>shutil</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>subprocess</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>namedtuple</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>io<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>StringIO</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>pytest</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1testing_1_1util" kindref="compound">sphinx.testing.util</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SphinxTestApp,<sp/>SphinxTestAppWrapperForSkipBuilding</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections.abc<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Callable,<sp/>Iterator</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>pathlib<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Path</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Any</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">DEFAULT_ENABLED_MARKERS<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>The<sp/>marker<sp/>signature<sp/>differs<sp/>from<sp/>the<sp/>constructor<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>since<sp/>the<sp/>way<sp/>it<sp/>is<sp/>processed<sp/>assumes<sp/>keyword<sp/>arguments<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>the<sp/>&apos;testroot&apos;<sp/>and<sp/>&apos;srcdir&apos;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;sphinx(&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;buildername=&quot;html&quot;,<sp/>*,<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;testroot=&quot;root&quot;,<sp/>srcdir=None,<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;confoverrides=None,<sp/>freshenv=False,<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;warningiserror=False,<sp/>tags=None,<sp/>verbosity=0,<sp/>parallel=0,<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;builddir=None,<sp/>docutils_conf=None&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;):<sp/>arguments<sp/>to<sp/>initialize<sp/>the<sp/>sphinx<sp/>test<sp/>application.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;test_params(shared_result=...):<sp/>test<sp/>parameters.&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">]</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1testing_1_1fixtures_1a2b066410d069e7d4bfa0464da1880e97" kindref="member">pytest_configure</ref>(config:<sp/>pytest.Config)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Register<sp/>custom<sp/>markers&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>marker<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>DEFAULT_ENABLED_MARKERS:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.addinivalue_line(</highlight><highlight class="stringliteral">&apos;markers&apos;</highlight><highlight class="normal">,<sp/>marker)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">@pytest.fixture(scope=&apos;session&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1testing_1_1fixtures_1ade69af433819625879e69b5672b148f6" kindref="member">rootdir</ref>()<sp/>-&gt;<sp/>Path<sp/>|<sp/>None:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult" kindref="compound">SharedResult</ref>:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>cache:<sp/>dict[str,<sp/>dict[str,<sp/>str]]<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult_1a0aca716bfb067a17493eee90b5955a1d" kindref="member">store</ref>(self,<sp/>key:<sp/>str,<sp/>app_:<sp/>SphinxTestApp)<sp/>-&gt;<sp/>Any:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>key<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult_1a76a2a3a8632be79b14fc120bac775193" kindref="member">cache</ref>:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;status&apos;</highlight><highlight class="normal">:<sp/>app_.status.getvalue(),</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;warning&apos;</highlight><highlight class="normal">:<sp/>app_.warning.getvalue(),</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult_1a76a2a3a8632be79b14fc120bac775193" kindref="member">cache</ref>[key]<sp/>=<sp/>data</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult_1a31c51cb1cf962024394e1f2b1d8e6d04" kindref="member">restore</ref>(self,<sp/>key:<sp/>str)<sp/>-&gt;<sp/>dict[str,<sp/>StringIO]:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>key<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult_1a76a2a3a8632be79b14fc120bac775193" kindref="member">cache</ref>:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/>self.<ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult_1a76a2a3a8632be79b14fc120bac775193" kindref="member">cache</ref>[key]</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;status&apos;</highlight><highlight class="normal">:<sp/>StringIO(data[</highlight><highlight class="stringliteral">&apos;status&apos;</highlight><highlight class="normal">]),</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;warning&apos;</highlight><highlight class="normal">:<sp/>StringIO(data[</highlight><highlight class="stringliteral">&apos;warning&apos;</highlight><highlight class="normal">]),</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">@pytest.fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1testing_1_1fixtures_1a26794e1af912f0d49ae922ead080ae9c" kindref="member">app_params</ref>(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>request:<sp/>Any,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>test_params:<sp/>dict[str,<sp/>Any],</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>shared_result:<sp/>SharedResult,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>sphinx_test_tempdir:<sp/>Path,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>rootdir:<sp/>Path<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">)<sp/>-&gt;<sp/>_app_params:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Parameters<sp/>that<sp/>are<sp/>specified<sp/>by<sp/>&apos;pytest.mark.sphinx&apos;<sp/>for</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>sphinx.application.Sphinx<sp/>initialization</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>#####<sp/>process<sp/>pytest.mark.sphinx</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>pargs:<sp/>dict[int,<sp/>Any]<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>kwargs:<sp/>dict[str,<sp/>Any]<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>to<sp/>avoid<sp/>stacking<sp/>positional<sp/>args</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>info<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>reversed(list(request.node.iter_markers(</highlight><highlight class="stringliteral">&apos;sphinx&apos;</highlight><highlight class="normal">))):</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pargs<sp/>|=<sp/>dict(enumerate(info.args))</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kwargs.update(info.kwargs)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>args<sp/>=<sp/>[pargs[i]<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>i<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sorted(pargs.keys())]</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>#####<sp/>process<sp/>pytest.mark.test_params</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>test_params[</highlight><highlight class="stringliteral">&apos;shared_result&apos;</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;srcdir&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>kwargs:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;You<sp/>can<sp/>not<sp/>specify<sp/>shared_result<sp/>and<sp/>srcdir<sp/>in<sp/>same<sp/>time.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pytest.fail(msg)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kwargs[</highlight><highlight class="stringliteral">&apos;srcdir&apos;</highlight><highlight class="normal">]<sp/>=<sp/>test_params[</highlight><highlight class="stringliteral">&apos;shared_result&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>restore<sp/>=<sp/>shared_result.restore(test_params[</highlight><highlight class="stringliteral">&apos;shared_result&apos;</highlight><highlight class="normal">])</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kwargs.update(restore)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>#####<sp/>prepare<sp/>Application<sp/>params</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>test_root<sp/>=<sp/>kwargs.pop(</highlight><highlight class="stringliteral">&apos;testroot&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;root&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>kwargs[</highlight><highlight class="stringliteral">&apos;srcdir&apos;</highlight><highlight class="normal">]<sp/>=<sp/>srcdir<sp/>=<sp/>sphinx_test_tempdir<sp/>/<sp/>kwargs.get(</highlight><highlight class="stringliteral">&apos;srcdir&apos;</highlight><highlight class="normal">,<sp/>test_root)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>copy_test_root<sp/>=<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>{</highlight><highlight class="stringliteral">&apos;srcdir&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;copy_test_root&apos;</highlight><highlight class="normal">}.isdisjoint(kwargs)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>special<sp/>support<sp/>for<sp/>sphinx/tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>rootdir<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_root_path<sp/>=<sp/>rootdir<sp/>/<sp/>f</highlight><highlight class="stringliteral">&apos;test-{test_root}&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>copy_test_root:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>test_root_path.is_dir():</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shutil.copytree(test_root_path,<sp/>srcdir,<sp/>dirs_exist_ok=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kwargs[</highlight><highlight class="stringliteral">&apos;srcdir&apos;</highlight><highlight class="normal">]<sp/>=<sp/>test_root_path</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>always<sp/>write<sp/>to<sp/>the<sp/>temporary<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>kwargs.setdefault(</highlight><highlight class="stringliteral">&apos;builddir&apos;</highlight><highlight class="normal">,<sp/>srcdir<sp/>/<sp/></highlight><highlight class="stringliteral">&apos;_build&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1testing_1_1fixtures_1a90e13ab9a827dcb0b4b0bf87bdca98eb" kindref="member">_app_params</ref>(args,<sp/>kwargs)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">_app_params<sp/>=<sp/>namedtuple(</highlight><highlight class="stringliteral">&apos;_app_params&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;args,kwargs&apos;</highlight><highlight class="normal">)<sp/><sp/></highlight><highlight class="comment">#<sp/>NoQA:<sp/>PYI024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="preprocessor">@pytest.fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1testing_1_1fixtures_1adb12097721076be4cc26112b2855bd75" kindref="member">test_params</ref>(request:<sp/>Any)<sp/>-&gt;<sp/>dict[str,<sp/>Any]:</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Test<sp/>parameters<sp/>that<sp/>are<sp/>specified<sp/>by<sp/>&apos;pytest.mark.test_params&apos;</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>Union[str]<sp/>shared_result:</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>the<sp/>value<sp/>is<sp/>provided,<sp/>app._status<sp/>and<sp/>app._warning<sp/>objects<sp/>will<sp/>be</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shared<sp/>in<sp/>the<sp/>parametrized<sp/>test<sp/>functions<sp/>and/or<sp/>test<sp/>functions<sp/>that</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>have<sp/>same<sp/>&apos;shared_result&apos;<sp/>value.</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>**NOTE**:<sp/>You<sp/>can<sp/>not<sp/>specify<sp/>both<sp/>shared_result<sp/>and<sp/>srcdir.</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>env<sp/>=<sp/>request.node.get_closest_marker(</highlight><highlight class="stringliteral">&apos;test_params&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>kwargs<sp/>=<sp/>env.kwargs<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>env<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>result<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;shared_result&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>result.update(kwargs)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>result[</highlight><highlight class="stringliteral">&apos;shared_result&apos;</highlight><highlight class="normal">]<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(result[</highlight><highlight class="stringliteral">&apos;shared_result&apos;</highlight><highlight class="normal">],<sp/>str):</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;You<sp/>can<sp/>only<sp/>provide<sp/>a<sp/>string<sp/>type<sp/>of<sp/>value<sp/>for<sp/>&quot;shared_result&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>pytest.Exception(msg)</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">@pytest.fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1testing_1_1fixtures_1ac503badc627cd026d083729809341c7a" kindref="member">app</ref>(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>test_params:<sp/>dict[str,<sp/>Any],</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>app_params:<sp/>_app_params,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>make_app:<sp/>Callable[[],<sp/>SphinxTestApp],</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>shared_result:<sp/>SharedResult,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">)<sp/>-&gt;<sp/>Iterator[SphinxTestApp]:</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Provides<sp/>the<sp/>&apos;sphinx.application.Sphinx&apos;<sp/>object&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>args,<sp/>kwargs<sp/>=<sp/>app_params</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>app_<sp/>=<sp/><ref refid="namespacesphinx_1_1testing_1_1fixtures_1a6c8c2b775c053ece61c52474668a60b1" kindref="member">make_app</ref>(*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>app_</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&apos;#<sp/>testroot:&apos;</highlight><highlight class="normal">,<sp/>kwargs.get(</highlight><highlight class="stringliteral">&apos;testroot&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;root&apos;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&apos;#<sp/>builder:&apos;</highlight><highlight class="normal">,<sp/>app_.builder.name)</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&apos;#<sp/>srcdir:&apos;</highlight><highlight class="normal">,<sp/>app_.srcdir)</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&apos;#<sp/>outdir:&apos;</highlight><highlight class="normal">,<sp/>app_.outdir)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&apos;#<sp/>status:&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;\n&apos;</highlight><highlight class="normal"><sp/>+<sp/>app_.status.getvalue())</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&apos;#<sp/>warning:&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;\n&apos;</highlight><highlight class="normal"><sp/>+<sp/>app_.warning.getvalue())</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>test_params[</highlight><highlight class="stringliteral">&apos;shared_result&apos;</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shared_result.store(test_params[</highlight><highlight class="stringliteral">&apos;shared_result&apos;</highlight><highlight class="normal">],<sp/>app_)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="preprocessor">@pytest.fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1testing_1_1fixtures_1a3ed97b1b0c9c0d133745bd240ba1191f" kindref="member">status</ref>(app:<sp/>SphinxTestApp)<sp/>-&gt;<sp/>StringIO:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Back-compatibility<sp/>for<sp/>testing<sp/>with<sp/>previous<sp/>@with_app<sp/>decorator&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>return<sp/>app.status</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral">@pytest.fixture</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral">def<sp/>warning(app:<sp/>SphinxTestApp)<sp/>-&gt;<sp/>StringIO:</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">Back-compatibility<sp/>for<sp/>testing<sp/>with<sp/>previous<sp/>@with_app<sp/>decorato</highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>return<sp/>app.warning</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral">@pytest.fixture</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral">def<sp/>make_app(test_params:<sp/>dict[str,<sp/>Any])<sp/>-&gt;<sp/>Iterator[Callable[[],<sp/>SphinxTestApp]]:</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">Provides<sp/>make_app<sp/>function<sp/>to<sp/>initialize<sp/>SphinxTestApp<sp/>instance.</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>you<sp/>want<sp/>to<sp/>initialize<sp/>&apos;app&apos;<sp/>in<sp/>your<sp/>test<sp/>function.<sp/>please<sp/>use<sp/>this</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>instead<sp/>of<sp/>using<sp/>SphinxTestApp<sp/>class<sp/>directory.</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>apps<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>syspath<sp/>=<sp/>sys.path.copy()</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>make(*args:<sp/>Any,<sp/>**kwargs:<sp/>Any)<sp/>-&gt;<sp/>SphinxTestApp:</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>status,<sp/>warning<sp/>=<sp/>StringIO(),<sp/>StringIO()</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kwargs.setdefault(&apos;status&apos;,<sp/>status)</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kwargs.setdefault(&apos;warning&apos;,<sp/>warning)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app_:<sp/>SphinxTestApp</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>test_params[&apos;shared_result&apos;]:</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app_<sp/>=<sp/>SphinxTestAppWrapperForSkipBuilding(*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app_<sp/>=<sp/>SphinxTestApp(*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>apps.append(app_)</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>app_</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>yield<sp/>make</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>sys.path[:]<sp/>=<sp/>syspath</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>for<sp/>app_<sp/>in<sp/>reversed(apps):<sp/><sp/>#<sp/>clean<sp/>up<sp/>applications<sp/>from<sp/>the<sp/>new<sp/>ones</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app_.cleanup()</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal">@pytest.fixture</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">def<sp/>shared_result()<sp/>-&gt;<sp/>SharedResult:</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>SharedResult()</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">@pytest.fixture(scope=&apos;module&apos;,<sp/>autouse=True)</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">def<sp/>_shared_result_cache()<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>SharedResult.cache.clear()</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">@pytest.fixture</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">def<sp/>if_graphviz_found(app:<sp/>SphinxTestApp)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;The<sp/>test<sp/>will<sp/>be<sp/>skipped<sp/>when<sp/>using<sp/>&apos;if_graphviz_found&apos;<sp/>fixture<sp/>and<sp/>graphviz</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>dot<sp/>command<sp/>is<sp/>not<sp/>found.</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>graphviz_dot<sp/>=<sp/>getattr(app.config,<sp/>&apos;graphviz_dot&apos;,<sp/>&apos;&apos;)</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>try:</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>graphviz_dot:</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>print<sp/>the<sp/>graphviz_dot<sp/>version,<sp/>to<sp/>check<sp/>that<sp/>the<sp/>binary<sp/>is<sp/>available</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>subprocess.run([graphviz_dot,<sp/>&apos;-V&apos;],<sp/>capture_output=True,<sp/>check=False)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>except<sp/>OSError:<sp/><sp/>#<sp/>No<sp/>such<sp/>file<sp/>or<sp/>directory</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pass</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>pytest.skip(&apos;graphviz<sp/>&quot;dot&quot;<sp/>is<sp/>not<sp/>available&apos;)</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">@pytest.fixture(scope=&apos;session&apos;)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">def<sp/>sphinx_test_tempdir(tmp_path_factory:<sp/>pytest.TempPathFactory)<sp/>-&gt;<sp/>Path:</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;Temporary<sp/>directory.&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>tmp_path_factory.getbasetemp()</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">@pytest.fixture</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">def<sp/>rollback_sysmodules()<sp/>-&gt;<sp/>Iterator[None]:</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;Rollback<sp/>sys.modules<sp/>to<sp/>its<sp/>value<sp/>before<sp/>testing<sp/>to<sp/>unload<sp/>modules</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>during<sp/>tests.</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>For<sp/>example,<sp/>used<sp/>in<sp/>test_ext_autosummary.py<sp/>to<sp/>permit<sp/>unloading<sp/>the</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>target<sp/>module<sp/>to<sp/>clear<sp/>its<sp/>cache.</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>sysmodules<sp/>=<sp/>list(sys.modules)</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>try:</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>yield</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>finally:</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>modname<sp/>in<sp/>list(sys.modules):</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>modname<sp/>not<sp/>in<sp/>sysmodules:</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.modules.pop(modname)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py"/>
+  </compounddef>
+</doxygen>

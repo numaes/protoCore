@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="ifconfig_8py" kind="file" language="Python">
+    <compoundname>ifconfig.py</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1ifconfig_1_1ifconfig" prot="public">sphinx::ext::ifconfig::ifconfig</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1ifconfig_1_1IfConfig" prot="public">sphinx::ext::ifconfig::IfConfig</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1ext">sphinx::ext</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1ext_1_1ifconfig">sphinx::ext::ifconfig</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1ext_1_1ifconfig" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Provides<sp/>the<sp/>``ifconfig``<sp/>directive.</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">The<sp/>``ifconfig``<sp/>directive<sp/>enables<sp/>writing<sp/>documentation</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">that<sp/>is<sp/>included<sp/>depending<sp/>on<sp/>configuration<sp/>variables.</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">Usage::</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>ifconfig::<sp/>releaselevel<sp/>in<sp/>(&apos;alpha&apos;,<sp/>&apos;beta&apos;,<sp/>&apos;rc&apos;)</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>stuff<sp/>is<sp/>only<sp/>included<sp/>in<sp/>the<sp/>built<sp/>docs<sp/>for<sp/>unstable<sp/>versions.</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral">The<sp/>argument<sp/>for<sp/>``ifconfig``<sp/>is<sp/>a<sp/>plain<sp/>Python<sp/>expression,<sp/>evaluated<sp/>in<sp/>the</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">namespace<sp/>of<sp/>the<sp/>project<sp/>configuration<sp/>(that<sp/>is,<sp/>all<sp/>variables<sp/>from</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral">``conf.py``<sp/>are<sp/>available.)</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sphinx</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1docutils" kindref="compound">sphinx.util.docutils</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SphinxDirective</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ClassVar</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1nodes" kindref="compound">docutils.nodes</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Node</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1application" kindref="compound">sphinx.application</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Sphinx</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1typing" kindref="compound">sphinx.util.typing</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ExtensionMetadata,<sp/>OptionSpec</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classsphinx_1_1ext_1_1ifconfig_1_1ifconfig" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1ext_1_1ifconfig_1_1ifconfig" kindref="compound">ifconfig</ref>(nodes.Element):</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classsphinx_1_1ext_1_1ifconfig_1_1IfConfig" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1ext_1_1ifconfig_1_1IfConfig" kindref="compound">IfConfig</ref>(<ref refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective" kindref="compound">SphinxDirective</ref>):</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>has_content<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>required_arguments<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>optional_arguments<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>final_argument_whitespace<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>option_spec:<sp/>ClassVar[OptionSpec]<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1ext_1_1ifconfig_1_1IfConfig_1af98caf9649369c5e95ed5b2ea1054acd" kindref="member">run</ref>(self)<sp/>-&gt;<sp/>list[Node]:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>=<sp/><ref refid="classsphinx_1_1ext_1_1ifconfig_1_1ifconfig" kindref="compound">ifconfig</ref>()</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.document<sp/>=<sp/>self.state.document</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.set_source_info(node)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node[</highlight><highlight class="stringliteral">&apos;expr&apos;</highlight><highlight class="normal">]<sp/>=<sp/>self.arguments[0]</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>+=<sp/>self.parse_content_to_nodes(allow_section_headings=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[node]</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx_1_1ext_1_1ifconfig_1ad25bac7aa624880d508b582f0f05ac71" kindref="member">process_ifconfig_nodes</ref>(app:<sp/>Sphinx,<sp/>doctree:<sp/>nodes.document,<sp/>docname:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>ns<sp/>=<sp/>{confval.name:<sp/>confval.value<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>confval<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>app.config}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ns.update(app.config.__dict__.copy())</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>ns[</highlight><highlight class="stringliteral">&apos;builder&apos;</highlight><highlight class="normal">]<sp/>=<sp/>app.builder.name</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>node<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>list(doctree.findall(ifconfig)):</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/>eval(node[</highlight><highlight class="stringliteral">&apos;expr&apos;</highlight><highlight class="normal">],<sp/>ns)<sp/><sp/></highlight><highlight class="comment">#<sp/>NoQA:<sp/>S307</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>Exception<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>err:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>handle<sp/>exceptions<sp/>in<sp/>a<sp/>clean<sp/>fashion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>traceback<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>format_exception_only</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">.join(format_exception_only(err.__class__,<sp/>err))</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>newnode<sp/>=<sp/>doctree.reporter.error(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&apos;Exception<sp/>occurred<sp/>in<sp/>ifconfig<sp/>expression:<sp/>\n{msg}&apos;</highlight><highlight class="normal">,<sp/>base_node=node</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.replace_self(newnode)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>res:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.replace_self([])</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.replace_self(node.children)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">setup(app:<sp/>Sphinx)<sp/>-&gt;<sp/>ExtensionMetadata:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_node(ifconfig)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_directive(</highlight><highlight class="stringliteral">&apos;ifconfig&apos;</highlight><highlight class="normal">,<sp/>IfConfig)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>app.connect(</highlight><highlight class="stringliteral">&apos;doctree-resolved&apos;</highlight><highlight class="normal">,<sp/>process_ifconfig_nodes)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;version&apos;</highlight><highlight class="normal">:<sp/>sphinx.__display_version__,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;parallel_read_safe&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/ifconfig.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1exceptions_1_1HashUnpinned" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::exceptions::HashUnpinned</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1exceptions_1_1HashError" prot="public" virt="non-virtual">pip._internal.exceptions.HashError</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashUnpinned_1a6ed6975b3319e3e2f5fe3a0748c08c69" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int pip._internal.exceptions.HashUnpinned::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>pip._internal.exceptions.HashUnpinned.order</qualifiedname>
+        <initializer>=  3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="558" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="558" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashUnpinned_1a70cbc201b702a9e91b910ea17eb66b15" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._internal.exceptions.HashUnpinned::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>pip._internal.exceptions.HashUnpinned.head</qualifiedname>
+        <initializer>=  (
+        &quot;In --require-hashes mode, all requirements must have their &quot;
+        &quot;versions pinned with ==. These do not:&quot;
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="559" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="559" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A requirement had a hash specified but was not pinned to a specific
+version.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.HashUnpinned</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashUnpinned"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.HashUnpinned</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashUnpinned"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>req</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>Optional</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="554" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="554" bodyend="564"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashUnpinned_1a70cbc201b702a9e91b910ea17eb66b15" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashUnpinned</scope><name>head</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashUnpinned_1a6ed6975b3319e3e2f5fe3a0748c08c69" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashUnpinned</scope><name>order</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

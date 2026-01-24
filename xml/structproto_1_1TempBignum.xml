@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structproto_1_1TempBignum" kind="struct" language="C++" prot="public">
+    <compoundname>proto::TempBignum</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structproto_1_1TempBignum_1a1c57d38003bfd8fe4e88a9be1a3b16cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool proto::TempBignum::is_negative</definition>
+        <argsstring></argsstring>
+        <name>is_negative</name>
+        <qualifiedname>proto::TempBignum::is_negative</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="core/Integer.cpp" line="21" column="14" bodyfile="core/Integer.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structproto_1_1TempBignum_1a9161caa7a8bdc4080781f60287d44fc0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned long &gt;</type>
+        <definition>std::vector&lt; unsigned long &gt; proto::TempBignum::magnitude</definition>
+        <argsstring></argsstring>
+        <name>magnitude</name>
+        <qualifiedname>proto::TempBignum::magnitude</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="core/Integer.cpp" line="22" column="21" bodyfile="core/Integer.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structproto_1_1TempBignum_1a8681b18a38011fc5d4fdf1c4ded80a61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void proto::TempBignum::normalize</definition>
+        <argsstring>()</argsstring>
+        <name>normalize</name>
+        <qualifiedname>proto::TempBignum::normalize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="core/Integer.cpp" line="25" column="14" bodyfile="core/Integer.cpp" bodystart="25" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A temporary, mutable, sign-and-magnitude representation for integers. All Proto integer objects (SmallInteger, LargeInteger) are converted into this structure to perform calculations. The result is then converted back to the canonical Proto representation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="core/Integer.cpp" line="20" column="5" bodyfile="core/Integer.cpp" bodystart="20" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structproto_1_1TempBignum_1a1c57d38003bfd8fe4e88a9be1a3b16cf" prot="public" virt="non-virtual"><scope>proto::TempBignum</scope><name>is_negative</name></member>
+      <member refid="structproto_1_1TempBignum_1a9161caa7a8bdc4080781f60287d44fc0" prot="public" virt="non-virtual"><scope>proto::TempBignum</scope><name>magnitude</name></member>
+      <member refid="structproto_1_1TempBignum_1a8681b18a38011fc5d4fdf1c4ded80a61" prot="public" virt="non-virtual"><scope>proto::TempBignum</scope><name>normalize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

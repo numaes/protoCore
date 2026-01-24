@@ -1,0 +1,743 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classrequests_1_1cookies_1_1RequestsCookieJar" kind="class" language="Python" prot="public">
+    <compoundname>requests::cookies::RequestsCookieJar</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">cookielib.CookieJar</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">MutableMapping</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a9fd49b71a66425536f49af681af16987" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar::_cookies_lock</definition>
+        <argsstring></argsstring>
+        <name>_cookies_lock</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar._cookies_lock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="426" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="426" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a275d6aa10894e48aba0c7e8da83aad75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.get</definition>
+        <argsstring>(self, name, default=None, domain=None, path=None)</argsstring>
+        <name>get</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.get</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>default</type>
+          <defname>default</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>domain</type>
+          <defname>domain</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like get() that also supports optional domain and path args in
+order to resolve naming collisions from using one cookie jar over
+multiple domains.
+
+.. warning:: operation is O(n), not O(1).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="194" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="194" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a4b4fa351e921f06af6928fa7822745a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.set</definition>
+        <argsstring>(self, name, value, **kwargs)</argsstring>
+        <name>set</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.set</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like set() that also supports optional domain and path args in
+order to resolve naming collisions from using one cookie jar over
+multiple domains.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="206" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="206" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a1622618f1ab8ba24d77ab4d241fda632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.iterkeys</definition>
+        <argsstring>(self)</argsstring>
+        <name>iterkeys</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.iterkeys</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like iterkeys() that returns an iterator of names of cookies
+from the jar.
+
+.. seealso:: itervalues() and iteritems().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="225" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="225" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a2042f093dca57ab495927ba984521b85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.keys</definition>
+        <argsstring>(self)</argsstring>
+        <name>keys</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.keys</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like keys() that returns a list of names of cookies from the
+jar.
+
+.. seealso:: values() and items().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="234" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="234" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1acfbe01e763e9f5d89c2af442dc2e8f38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.itervalues</definition>
+        <argsstring>(self)</argsstring>
+        <name>itervalues</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.itervalues</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like itervalues() that returns an iterator of values of cookies
+from the jar.
+
+.. seealso:: iterkeys() and iteritems().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="242" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="242" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1aef9f4a8b9e231988af5d512b5609d56d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.values</definition>
+        <argsstring>(self)</argsstring>
+        <name>values</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.values</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like values() that returns a list of values of cookies from the
+jar.
+
+.. seealso:: keys() and items().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="251" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="251" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a051ffa4cc2a6605e4d9dc811a3b2dc9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.iteritems</definition>
+        <argsstring>(self)</argsstring>
+        <name>iteritems</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.iteritems</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like iteritems() that returns an iterator of name-value tuples
+from the jar.
+
+.. seealso:: iterkeys() and itervalues().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="259" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="259" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a35256d8e3a78b2403d97e9204effb835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.items</definition>
+        <argsstring>(self)</argsstring>
+        <name>items</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.items</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like items() that returns a list of name-value tuples from the
+jar. Allows client-code to call ``dict(RequestsCookieJar)`` and get a
+vanilla python dict of key value pairs.
+
+.. seealso:: keys() and values().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="268" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="268" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1acb85f5ec971a25b1eb53df0be86003e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.list_domains</definition>
+        <argsstring>(self)</argsstring>
+        <name>list_domains</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.list_domains</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Utility method to list all the domains in the jar.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="277" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="277" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a6172d44b09e022f3dcfc299a9f94fc9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.list_paths</definition>
+        <argsstring>(self)</argsstring>
+        <name>list_paths</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.list_paths</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Utility method to list all the paths in the jar.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="285" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="285" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1aa9962bfaecdf0bea5f0adecb45feaa47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.multiple_domains</definition>
+        <argsstring>(self)</argsstring>
+        <name>multiple_domains</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.multiple_domains</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns True if there are multiple domains in the jar.
+Returns False otherwise.
+
+:rtype: bool
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="293" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="293" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1abaadaf64c41e35d54da0219536db48ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.get_dict</definition>
+        <argsstring>(self, domain=None, path=None)</argsstring>
+        <name>get_dict</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.get_dict</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>domain</type>
+          <defname>domain</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Takes as an argument an optional domain and path and returns a plain
+old Python dict of name-value pairs of cookies that meet the
+requirements.
+
+:rtype: dict
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="306" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="306" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1ab418bfc2fe8bf4ca193742e445beda07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.__contains__</definition>
+        <argsstring>(self, name)</argsstring>
+        <name>__contains__</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.__contains__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="321" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="321" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a03387196785410b8996799719ccd79b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.__getitem__</definition>
+        <argsstring>(self, name)</argsstring>
+        <name>__getitem__</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.__getitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like __getitem__() for compatibility with client code. Throws
+exception if there are more than one cookie with name. In that case,
+use the more explicit get() method instead.
+
+.. warning:: operation is O(n), not O(1).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="327" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="327" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a5d8b14ee602a694445680199f9b2b221" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.__setitem__</definition>
+        <argsstring>(self, name, value)</argsstring>
+        <name>__setitem__</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.__setitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref></type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dict-like __setitem__ for compatibility with client code. Throws
+exception if there is already a cookie of that name in the jar. In that
+case, use the more explicit set() method instead.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="336" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="336" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a88524bbf74722352dd7f5a94c31bb27f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.__delitem__</definition>
+        <argsstring>(self, name)</argsstring>
+        <name>__delitem__</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.__delitem__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Deletes a cookie given a name. Wraps ``http.cookiejar.CookieJar``&apos;s
+``remove_cookie_by_name()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="343" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="343" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a01ec9a5111891996d06b32e3757682bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.set_cookie</definition>
+        <argsstring>(self, cookie, *args, **kwargs)</argsstring>
+        <name>set_cookie</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.set_cookie</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>cookie</type>
+          <defname>cookie</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="349" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="349" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a66dc92992c5a71402a84b3a6b85c7bb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.update</definition>
+        <argsstring>(self, other)</argsstring>
+        <name>update</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.update</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>other</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Updates this jar with cookies from another CookieJar or dict-like</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="358" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="358" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1aeb16d073301bc2c720392cee29cc71af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.__getstate__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__getstate__</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.__getstate__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unlike a normal CookieJar, this class is pickleable.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="415" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="415" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a98e68e1b839c4987e309238d93a5074a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.__setstate__</definition>
+        <argsstring>(self, state)</argsstring>
+        <name>__setstate__</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.__setstate__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>state</type>
+          <defname>state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unlike a normal CookieJar, this class is pickleable.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="422" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="422" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a1a42574b13da3b99366d6ed0f88ae7ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.copy</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.copy</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a copy of this RequestsCookieJar.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="428" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="428" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a5d8d4c9f779af0e1454b6442b60d4562" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar.get_policy</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_policy</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar.get_policy</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the CookiePolicy instance used.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="435" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="435" bodyend="439"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1a95a07cf0ce0148d2f013b79bc88bd4aa" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar._find</definition>
+        <argsstring>(self, name, domain=None, path=None)</argsstring>
+        <name>_find</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar._find</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>domain</type>
+          <defname>domain</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Requests uses this method internally to get cookie values.
+
+If there are conflicting cookies, _find arbitrarily chooses one.
+See _find_no_duplicates if you want an exception thrown if there are
+conflicting cookies.
+
+:param name: a string containing name of cookie
+:param domain: (optional) string containing domain of cookie
+:param path: (optional) string containing path of cookie
+:return: cookie.value
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="366" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="366" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1cookies_1_1RequestsCookieJar_1af4ab3227e6fec03b7ca0460a51239bfe" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.cookies.RequestsCookieJar._find_no_duplicates</definition>
+        <argsstring>(self, name, domain=None, path=None)</argsstring>
+        <name>_find_no_duplicates</name>
+        <qualifiedname>requests.cookies.RequestsCookieJar._find_no_duplicates</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>domain</type>
+          <defname>domain</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Both ``__get_item__`` and ``get`` call this function: it&apos;s never
+used elsewhere in Requests.
+
+:param name: a string containing name of cookie
+:param domain: (optional) string containing domain of cookie
+:param path: (optional) string containing path of cookie
+:raises KeyError: if cookie is not found
+:raises CookieConflictError: if there are multiple cookies
+    that match name and optionally domain and path
+:return: cookie.value
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="386" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="386" bodyend="414"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Compatibility class; is a http.cookiejar.CookieJar, but exposes a dict
+interface.
+
+This is the CookieJar we create by default for requests and sessions that
+don&apos;t specify one, since some clients may expect response.cookies and
+session.cookies to support dict operations.
+
+Requests does not use the dict interface internally; it&apos;s just for
+compatibility with external client code. All requests code should work
+out of the box with externally provided instances of ``CookieJar``, e.g.
+``LWPCookieJar`` and ``FileCookieJar``.
+
+Unlike a regular CookieJar, this class is pickleable.
+
+.. warning:: dictionary operations that are normally O(1) may be O(n).
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>MutableMapping</label>
+      </node>
+      <node id="2">
+        <label>cookielib.CookieJar</label>
+      </node>
+      <node id="1">
+        <label>requests.cookies.RequestsCookieJar</label>
+        <link refid="classrequests_1_1cookies_1_1RequestsCookieJar"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>MutableMapping</label>
+      </node>
+      <node id="2">
+        <label>cookielib.CookieJar</label>
+      </node>
+      <node id="1">
+        <label>requests.cookies.RequestsCookieJar</label>
+        <link refid="classrequests_1_1cookies_1_1RequestsCookieJar"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/requests/cookies.py" line="176" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/requests/cookies.py" bodystart="176" bodyend="439"/>
+    <listofallmembers>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1ab418bfc2fe8bf4ca193742e445beda07" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>__contains__</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a88524bbf74722352dd7f5a94c31bb27f" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>__delitem__</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a03387196785410b8996799719ccd79b3" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>__getitem__</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1aeb16d073301bc2c720392cee29cc71af" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>__getstate__</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a5d8b14ee602a694445680199f9b2b221" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>__setitem__</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a98e68e1b839c4987e309238d93a5074a" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>__setstate__</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a9fd49b71a66425536f49af681af16987" prot="protected" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>_cookies_lock</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a95a07cf0ce0148d2f013b79bc88bd4aa" prot="protected" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>_find</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1af4ab3227e6fec03b7ca0460a51239bfe" prot="protected" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>_find_no_duplicates</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a1a42574b13da3b99366d6ed0f88ae7ac" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>copy</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a275d6aa10894e48aba0c7e8da83aad75" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>get</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1abaadaf64c41e35d54da0219536db48ef" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>get_dict</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a5d8d4c9f779af0e1454b6442b60d4562" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>get_policy</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a35256d8e3a78b2403d97e9204effb835" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>items</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a051ffa4cc2a6605e4d9dc811a3b2dc9e" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>iteritems</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a1622618f1ab8ba24d77ab4d241fda632" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>iterkeys</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1acfbe01e763e9f5d89c2af442dc2e8f38" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>itervalues</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a2042f093dca57ab495927ba984521b85" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>keys</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1acb85f5ec971a25b1eb53df0be86003e4" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>list_domains</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a6172d44b09e022f3dcfc299a9f94fc9c" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>list_paths</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1aa9962bfaecdf0bea5f0adecb45feaa47" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>multiple_domains</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a4b4fa351e921f06af6928fa7822745a7" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>set</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a01ec9a5111891996d06b32e3757682bc" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>set_cookie</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1a66dc92992c5a71402a84b3a6b85c7bb6" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>update</name></member>
+      <member refid="classrequests_1_1cookies_1_1RequestsCookieJar_1aef9f4a8b9e231988af5d512b5609d56d" prot="public" virt="non-virtual"><scope>requests::cookies::RequestsCookieJar</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

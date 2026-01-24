@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1rich_1_1__ratio" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::rich::_ratio</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1E" prot="public">pip::_vendor::rich::_ratio::E</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1Edge" prot="public">pip::_vendor::rich::_ratio::Edge</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1__ratio_1a4bda782ab83f0e26f2cbc557f29d3879" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::_ratio.resolved</definition>
+        <argsstring></argsstring>
+        <name>resolved</name>
+        <qualifiedname>pip._vendor.rich._ratio.resolved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" line="159" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1__ratio_1aba560aef6a6ad6b29aeb86e771efba88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[int]</type>
+        <definition> List[int] pip._vendor.rich._ratio.ratio_resolve</definition>
+        <argsstring>(int total, Sequence[Edge] edges)</argsstring>
+        <name>ratio_resolve</name>
+        <qualifiedname>pip._vendor.rich._ratio.ratio_resolve</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>total</declname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>edges</declname>
+          <array>[Edge]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Divide total space to satisfy size, ratio, and minimum_size, constraints.
+
+The returned list of integers should add up to total in most cases, unless it is
+impossible to satisfy all the constraints. For instance, if there are two edges
+with a minimum size of 20 each and `total` is 30 then the returned list will be
+greater than total. In practice, this would mean that a Layout object would
+clip the rows that would overflow the screen height.
+
+Args:
+    total (int): Total number of characters.
+    edges (List[Edge]): Edges within total space.
+
+Returns:
+    List[int]: Number of characters for each edge.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" bodystart="20" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1__ratio_1a10bd41e1d5f38f0bc181c0a614ecd572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[int]</type>
+        <definition> List[int] pip._vendor.rich._ratio.ratio_reduce</definition>
+        <argsstring>(int total, List[int] ratios, List[int] maximums, List[int] values)</argsstring>
+        <name>ratio_reduce</name>
+        <qualifiedname>pip._vendor.rich._ratio.ratio_reduce</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>total</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>ratios</declname>
+          <array>[int]</array>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>maximums</declname>
+          <array>[int]</array>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>values</declname>
+          <array>[int]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Divide an integer total in to parts based on ratios.
+
+Args:
+    total (int): The total to divide.
+    ratios (List[int]): A list of integer ratios.
+    maximums (List[int]): List of maximums values for each slot.
+    values (List[int]): List of values
+
+Returns:
+    List[int]: A list of integers guaranteed to sum to total.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" line="81" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" bodystart="83" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1__ratio_1a5055b5ceee579da1c92004520096849e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[int]</type>
+        <definition> List[int] pip._vendor.rich._ratio.ratio_distribute</definition>
+        <argsstring>(int total, List[int] ratios, Optional[List[int]] minimums=None)</argsstring>
+        <name>ratio_distribute</name>
+        <qualifiedname>pip._vendor.rich._ratio.ratio_distribute</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>total</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>ratios</declname>
+          <array>[int]</array>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>minimums</declname>
+          <array>[List[int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Distribute an integer total in to parts based on ratios.
+
+Args:
+    total (int): The total to divide.
+    ratios (List[int]): A list of integer ratios.
+    minimums (List[int]): List of minimum values for each slot.
+
+Returns:
+    List[int]: A list of integers guaranteed to sum to total.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" line="113" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" bodystart="115" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

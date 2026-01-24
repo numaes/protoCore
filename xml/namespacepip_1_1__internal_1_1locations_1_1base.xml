@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1locations_1_1base" kind="namespace" language="Python">
+    <compoundname>pip::_internal::locations::base</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1locations_1_1base_1a9560ef3b9092e974dbb8246a86cd6ed3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::locations::base.USER_CACHE_DIR</definition>
+        <argsstring></argsstring>
+        <name>USER_CACHE_DIR</name>
+        <qualifiedname>pip._internal.locations.base.USER_CACHE_DIR</qualifiedname>
+        <initializer>=  appdirs.user_cache_dir(&quot;pip&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" line="13" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1locations_1_1base_1a37b07d04b21fa2ef10f8cdc32fbbaee5" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_internal::locations::base.site_packages</definition>
+        <argsstring></argsstring>
+        <name>site_packages</name>
+        <qualifiedname>pip._internal.locations.base.site_packages</qualifiedname>
+        <initializer>=  sysconfig.get_path(&quot;purelib&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" line="16" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1locations_1_1base_1a40dffd9a1453f8ce97cbd16e4a7ab1d8" prot="public" static="no" mutable="no">
+        <type>typing</type>
+        <definition>pip::_internal::locations::base.user_site</definition>
+        <argsstring></argsstring>
+        <name>user_site</name>
+        <qualifiedname>pip._internal.locations.base.user_site</qualifiedname>
+        <initializer>=  site.getusersitepackages()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1base_1aa6a0cb09f9b0d74683c251409f4ff456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations.base.get_major_minor_version</definition>
+        <argsstring>()</argsstring>
+        <name>get_major_minor_version</name>
+        <qualifiedname>pip._internal.locations.base.get_major_minor_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the major-minor version of the current Python as a string, e.g.
+&quot;3.7&quot; or &quot;3.10&quot;.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" bodystart="19" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1base_1a82393276635e5704a67332d7dac4deec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations.base.change_root</definition>
+        <argsstring>(str new_root, str pathname)</argsstring>
+        <name>change_root</name>
+        <qualifiedname>pip._internal.locations.base.change_root</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>new_root</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pathname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return &apos;pathname&apos; with &apos;new_root&apos; prepended.
+
+If &apos;pathname&apos; is relative, this is equivalent to os.path.join(new_root, pathname).
+Otherwise, it requires making &apos;pathname&apos; relative and then joining the
+two, which is tricky on DOS/Windows and Mac OS.
+
+This is borrowed from Python&apos;s standard library&apos;s distutils module.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" bodystart="27" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1base_1a0a7999ea17a16f9f0e7cf3fc625182a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations.base.get_src_prefix</definition>
+        <argsstring>()</argsstring>
+        <name>get_src_prefix</name>
+        <qualifiedname>pip._internal.locations.base.get_src_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" line="55" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" bodystart="55" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1base_1a4875831a8e84371a0ce768a879577cb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.locations.base.is_osx_framework</definition>
+        <argsstring>()</argsstring>
+        <name>is_osx_framework</name>
+        <qualifiedname>pip._internal.locations.base.is_osx_framework</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" bodystart="80" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/locations/base.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

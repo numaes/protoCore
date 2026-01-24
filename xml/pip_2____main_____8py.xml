@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2____main_____8py" kind="file" language="Python">
+    <compoundname>__main__.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1____main____">pip::__main__</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1____main____" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Remove<sp/>&apos;&apos;<sp/>and<sp/>current<sp/>working<sp/>directory<sp/>from<sp/>the<sp/>first<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#<sp/>of<sp/>sys.path,<sp/>if<sp/>present<sp/>to<sp/>avoid<sp/>using<sp/>current<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">#<sp/>in<sp/>pip<sp/>commands<sp/>check,<sp/>freeze,<sp/>install,<sp/>list<sp/>and<sp/>show,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#<sp/>when<sp/>invoked<sp/>as<sp/>python<sp/>-m<sp/>pip<sp/>&lt;command&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.path[0]<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>os.getcwd()):</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>sys.path.pop(0)</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/>If<sp/>we<sp/>are<sp/>running<sp/>from<sp/>a<sp/>wheel,<sp/>add<sp/>the<sp/>wheel<sp/>to<sp/>sys.path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/>This<sp/>allows<sp/>the<sp/>usage<sp/>python<sp/>pip-*.whl/pip<sp/>install<sp/>pip-*.whl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__package__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>__file__<sp/>is<sp/>pip-*.whl/pip/__main__.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>first<sp/>dirname<sp/>call<sp/>strips<sp/>of<sp/>&apos;/__main__.py&apos;,<sp/>second<sp/>strips<sp/>off<sp/>&apos;/pip&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Resulting<sp/>path<sp/>is<sp/>the<sp/>name<sp/>of<sp/>the<sp/>wheel<sp/>itself</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Add<sp/>that<sp/>to<sp/>sys.path<sp/>so<sp/>we<sp/>can<sp/>import<sp/>pip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>path<sp/>=<sp/>os.path.dirname(os.path.dirname(__file__))</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>sys.path.insert(0,<sp/>path)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1cli_1_1main" kindref="compound">pip._internal.cli.main</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>main<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_main</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>sys.exit(_main())</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/__main__.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-type-util_8h" kind="file" language="C++">
+    <compoundname>gtest-type-util.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">typeinfo</includes>
+    <includes local="yes">gtest/internal/gtest-port.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h</label>
+        <link refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-type-util_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>gtest/internal/gtest-port.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>type_traits</label>
+      </node>
+      <node id="4">
+        <label>typeinfo</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structtesting_1_1internal_1_1None" prot="public">testing::internal::None</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1TemplateSel" prot="public">testing::internal::TemplateSel</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1TemplateSel_1_1Bind" prot="public">testing::internal::TemplateSel::Bind</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1Templates" prot="public">testing::internal::Templates</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1Templates_3_01Head___01_4" prot="public">testing::internal::Templates&lt; Head_ &gt;</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1Types" prot="public">testing::internal::Types</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1Types_3_01Head___01_4" prot="public">testing::internal::Types&lt; Head_ &gt;</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1ProxyTypeList" prot="public">testing::internal::ProxyTypeList</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1is__proxy__type__list" prot="public">testing::internal::is_proxy_type_list</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1is__proxy__type__list_3_01ProxyTypeList_3_01Ts_8_8_8_01_4_01_4" prot="public">testing::internal::is_proxy_type_list&lt; ProxyTypeList&lt; Ts... &gt; &gt;</innerclass>
+    <innerclass refid="structtesting_1_1internal_1_1GenerateTypeList" prot="public">testing::internal::GenerateTypeList</innerclass>
+    <innernamespace refid="namespacetesting">testing</innernamespace>
+    <innernamespace refid="namespacetesting_1_1internal">testing::internal</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-type-util_8h_1a094923c2da478086c7b15378613e8af7" prot="public" static="no">
+        <name>GTEST_TEMPLATE_</name>
+        <initializer>  template &lt;typename T&gt; \
+  class</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h" line="140" column="9" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="define" id="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-type-util_8h_1af5c3f5f65da9d9c35399ee49d4632894" prot="public" static="no">
+        <name>GTEST_BIND_</name>
+        <param><defname>TmplSel</defname></param>
+        <param><defname>T</defname></param>
+        <initializer>TmplSel::template Bind&lt;T&gt;::type</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h" line="160" column="9" bodyfile="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2008<sp/>Google<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>Rights<sp/>Reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Type<sp/>utilities<sp/>needed<sp/>for<sp/>implementing<sp/>typed<sp/>and<sp/>type-parameterized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IWYU<sp/>pragma:<sp/>private,<sp/>include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IWYU<sp/>pragma:<sp/>friend<sp/>gtest/.*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IWYU<sp/>pragma:<sp/>friend<sp/>gmock/.*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;typeinfo&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/internal/gtest-port.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#ifdef<sp/>__GNUC__<sp/>is<sp/>too<sp/>general<sp/>here.<sp/><sp/>It<sp/>is<sp/>possible<sp/>to<sp/>use<sp/>gcc<sp/>without<sp/>using</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>libstdc++<sp/>(which<sp/>is<sp/>where<sp/>cxxabi.h<sp/>comes<sp/>from).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>GTEST_HAS_CXXABI_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cxxabi.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__HP_aCC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;acxx_demangle.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>GTEST_HASH_CXXABI_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetesting" kindref="compound">testing</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">internal<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonicalizes<sp/>a<sp/>given<sp/>name<sp/>with<sp/>respect<sp/>to<sp/>the<sp/>Standard<sp/>C++<sp/>Library.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>handles<sp/>removing<sp/>the<sp/>inline<sp/>namespace<sp/>within<sp/>`std`<sp/>that<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>used<sp/>by<sp/>various<sp/>standard<sp/>libraries<sp/>(e.g.,<sp/>`std::__1`).<sp/><sp/>Names<sp/>outside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>of<sp/>namespace<sp/>std<sp/>are<sp/>returned<sp/>unmodified.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacetesting_1_1internal_1a5342e843f087081705094beae07b557b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacetesting_1_1internal_1a5342e843f087081705094beae07b557b" kindref="member">CanonicalizeForStdLibVersioning</ref>(std::string<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>prefix[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;std::__&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.compare(0,<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">strlen</ref>(prefix),<sp/>prefix)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string::size_type<sp/>end<sp/>=<sp/>s.find(</highlight><highlight class="stringliteral">&quot;::&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">strlen</ref>(prefix));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(end<sp/>!=<sp/>s.npos)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Erase<sp/>everything<sp/>between<sp/>the<sp/>initial<sp/>`std`<sp/>and<sp/>the<sp/>second<sp/>`::`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>s.erase(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">strlen</ref>(</highlight><highlight class="stringliteral">&quot;std&quot;</highlight><highlight class="normal">),<sp/>end<sp/>-<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">strlen</ref>(</highlight><highlight class="stringliteral">&quot;std&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Strip<sp/>redundant<sp/>spaces<sp/>in<sp/>typename<sp/>to<sp/>match<sp/>MSVC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>example,<sp/>std::pair&lt;int,<sp/>bool&gt;<sp/>-&gt;<sp/>std::pair&lt;int,bool&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">to_search</ref>[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">replace_str</ref>[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>the<sp/>next<sp/>occurrence<sp/>from<sp/>the<sp/>current<sp/>position</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>pos<sp/>=<sp/>s.find(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">to_search</ref>,<sp/>pos);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pos<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replace<sp/>this<sp/>occurrence<sp/>of<sp/>substring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>s.replace(pos,<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">strlen</ref>(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">to_search</ref>),<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">replace_str</ref>);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>pos<sp/>+=<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">strlen</ref>(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">replace_str</ref>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>GTEST_HAS_RTTI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GetTypeName(const<sp/>std::type_info&amp;)<sp/>returns<sp/>a<sp/>human-readable<sp/>name<sp/>of<sp/>type<sp/>T.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacetesting_1_1internal_1a635606b4731f843c86ec8ca51cab83a1" kindref="member">GetTypeName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::type_info&amp;<sp/>type)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>name<sp/>=<sp/>type.name();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>GTEST_HAS_CXXABI_H_<sp/>||<sp/>defined(__HP_aCC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>gcc&apos;s<sp/>implementation<sp/>of<sp/>typeid(T).name()<sp/>mangles<sp/>the<sp/>type<sp/>name,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>we<sp/>have<sp/>to<sp/>demangle<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>GTEST_HAS_CXXABI_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">abi::__cxa_demangle;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>GTEST_HAS_CXXABI_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">readable_name</ref><sp/>=<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">__cxa_demangle</ref>(name,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>&amp;status);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">name_str</ref>(status<sp/>==<sp/>0<sp/>?<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">readable_name</ref><sp/>:<sp/>name);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">free</ref>(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">readable_name</ref>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1a5342e843f087081705094beae07b557b" kindref="member">CanonicalizeForStdLibVersioning</ref>(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">name_str</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(_MSC_VER)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Strip<sp/>struct<sp/>and<sp/>class<sp/>due<sp/>to<sp/>differences<sp/>between</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>MSVC<sp/>and<sp/>other<sp/>compilers.<sp/>std::pair&lt;int,bool&gt;<sp/>is<sp/>printed<sp/>as</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;struct<sp/>std::pair&lt;int,bool&gt;&quot;<sp/>when<sp/>using<sp/>MSVC<sp/>vs<sp/>&quot;std::pair&lt;int,<sp/>bool&gt;&quot;<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>other<sp/>compilers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>std::string<sp/>s<sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>strip<sp/>the<sp/>leading<sp/>&quot;struct<sp/>&quot;<sp/>and<sp/>&quot;class<sp/>&quot;,<sp/>so<sp/>uses<sp/>rfind<sp/>==<sp/>0<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>ensure<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.rfind(</highlight><highlight class="stringliteral">&quot;struct<sp/>&quot;</highlight><highlight class="normal">,<sp/>0)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>s<sp/>=<sp/>s.substr(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">strlen</ref>(</highlight><highlight class="stringliteral">&quot;struct<sp/>&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.rfind(</highlight><highlight class="stringliteral">&quot;class<sp/>&quot;</highlight><highlight class="normal">,<sp/>0)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>s<sp/>=<sp/>s.substr(<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">strlen</ref>(</highlight><highlight class="stringliteral">&quot;class<sp/>&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers_1_1rst_1a55a9422a08fef02a7efdff45b7321ebb" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>GTEST_HAS_CXXABI_H_<sp/>||<sp/>__HP_aCC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>GTEST_HAS_RTTI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GetTypeName&lt;T&gt;()<sp/>returns<sp/>a<sp/>human-readable<sp/>name<sp/>of<sp/>type<sp/>T<sp/>if<sp/>and<sp/>only<sp/>if</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTTI<sp/>is<sp/>enabled,<sp/>otherwise<sp/>it<sp/>returns<sp/>a<sp/>dummy<sp/>type<sp/>name.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NB:<sp/>This<sp/>function<sp/>is<sp/>also<sp/>used<sp/>in<sp/>Google<sp/>Mock,<sp/>so<sp/>don&apos;t<sp/>move<sp/>it<sp/>inside<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>typed-test-only<sp/>section<sp/>below.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="129" refid="namespacetesting_1_1internal_1a635606b4731f843c86ec8ca51cab83a1" refkind="member"><highlight class="normal">std::string<sp/><ref refid="namespacetesting_1_1internal_1a635606b4731f843c86ec8ca51cab83a1" kindref="member">GetTypeName</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>GTEST_HAS_RTTI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1a635606b4731f843c86ec8ca51cab83a1" kindref="member">GetTypeName</ref>(</highlight><highlight class="keyword">typeid</highlight><highlight class="normal">(T));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&lt;type&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>GTEST_HAS_RTTI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>unique<sp/>type<sp/>indicating<sp/>an<sp/>empty<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structtesting_1_1internal_1_1None" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1None" kindref="compound">None</ref><sp/>{};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-type-util_8h_1a094923c2da478086c7b15378613e8af7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GTEST_TEMPLATE_<sp/>\</highlight></codeline>
+<codeline lineno="141"><highlight class="preprocessor"><sp/><sp/>template<sp/>&lt;typename<sp/>T&gt;<sp/>\</highlight></codeline>
+<codeline lineno="142"><highlight class="preprocessor"><sp/><sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>template<sp/>&quot;selector&quot;<sp/>struct<sp/>TemplateSel&lt;Tmpl&gt;<sp/>is<sp/>used<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>represent<sp/>Tmpl,<sp/>which<sp/>must<sp/>be<sp/>a<sp/>class<sp/>template<sp/>with<sp/>one<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>parameter,<sp/>as<sp/>a<sp/>type.<sp/><sp/>TemplateSel&lt;Tmpl&gt;::Bind&lt;T&gt;::type<sp/>is<sp/>defined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>as<sp/>the<sp/>type<sp/>Tmpl&lt;T&gt;.<sp/><sp/>This<sp/>allows<sp/>us<sp/>to<sp/>actually<sp/>instantiate<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>template<sp/>&quot;selected&quot;<sp/>by<sp/>TemplateSel&lt;Tmpl&gt;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>trick<sp/>is<sp/>necessary<sp/>for<sp/>simulating<sp/>typedef<sp/>for<sp/>class<sp/>templates,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>which<sp/>C++<sp/>doesn&apos;t<sp/>support<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;GTEST_TEMPLATE_<sp/>Tmpl&gt;</highlight></codeline>
+<codeline lineno="153" refid="structtesting_1_1internal_1_1TemplateSel" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1TemplateSel" kindref="compound">TemplateSel</ref><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="155" refid="structtesting_1_1internal_1_1TemplateSel_1_1Bind" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1TemplateSel_1_1Bind" kindref="compound">Bind</ref><sp/>{</highlight></codeline>
+<codeline lineno="156" refid="structtesting_1_1internal_1_1TemplateSel_1_1Bind_1aa84b00f0c4cb97a60d7d8eb752d1956d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Tmpl&lt;T&gt;</ref><sp/><ref refid="structtesting_1_1internal_1_1TemplateSel_1_1Bind_1aa84b00f0c4cb97a60d7d8eb752d1956d" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-type-util_8h_1af5c3f5f65da9d9c35399ee49d4632894" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GTEST_BIND_(TmplSel,<sp/>T)<sp/>TmplSel::template<sp/>Bind&lt;T&gt;::type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;<ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-type-util_8h_1a094923c2da478086c7b15378613e8af7" kindref="member">GTEST_TEMPLATE_</ref><sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Head_</ref>,<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-type-util_8h_1a094923c2da478086c7b15378613e8af7" kindref="member">GTEST_TEMPLATE_</ref>...<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Tail_</ref>&gt;</highlight></codeline>
+<codeline lineno="163" refid="structtesting_1_1internal_1_1Templates" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Templates" kindref="compound">Templates</ref><sp/>{</highlight></codeline>
+<codeline lineno="164" refid="structtesting_1_1internal_1_1Templates_1afd2098f3ace72dca2bfb0b3657f7f937" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1TemplateSel" kindref="compound">Head</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1TemplateSel" kindref="compound">TemplateSel&lt;Head_&gt;</ref>;</highlight></codeline>
+<codeline lineno="165" refid="structtesting_1_1internal_1_1Templates_1a462d57c3c1fc0a1bef26659dbd0c3b3d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Templates" kindref="compound">Tail</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1Templates" kindref="compound">Templates</ref>&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Tail_</ref>...&gt;;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;GTEST_TEMPLATE_<sp/>Head_&gt;</highlight></codeline>
+<codeline lineno="169" refid="structtesting_1_1internal_1_1Templates_3_01Head___01_4" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Templates" kindref="compound">Templates</ref>&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Head_</ref>&gt;<sp/>{</highlight></codeline>
+<codeline lineno="170" refid="structtesting_1_1internal_1_1Templates_3_01Head___01_4_1ac6c76b1c4a4da401cc0e50c247cdd568" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1TemplateSel" kindref="compound">Head</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1TemplateSel" kindref="compound">TemplateSel&lt;Head_&gt;</ref>;</highlight></codeline>
+<codeline lineno="171" refid="structtesting_1_1internal_1_1Templates_3_01Head___01_4_1a545ead14971baac1b876f7651c3529b9" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1None" kindref="compound">Tail</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1None" kindref="compound">None</ref>;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tuple-like<sp/>type<sp/>lists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Head_</ref>,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Tail_</ref>&gt;</highlight></codeline>
+<codeline lineno="176" refid="structtesting_1_1internal_1_1Types" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Types" kindref="compound">Types</ref><sp/>{</highlight></codeline>
+<codeline lineno="177" refid="structtesting_1_1internal_1_1Types_1af25c9ea6cd38071ce5154f3869fc0cc0" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Types_1af25c9ea6cd38071ce5154f3869fc0cc0" kindref="member">Head</ref><sp/>=<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Head_</ref>;</highlight></codeline>
+<codeline lineno="178" refid="structtesting_1_1internal_1_1Types_1a95f833deba9a29970bb310b80f97239f" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Types" kindref="compound">Tail</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1Types" kindref="compound">Types</ref>&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Tail_</ref>...&gt;;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Head_&gt;</highlight></codeline>
+<codeline lineno="182" refid="structtesting_1_1internal_1_1Types_3_01Head___01_4" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Types" kindref="compound">Types</ref>&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Head_</ref>&gt;<sp/>{</highlight></codeline>
+<codeline lineno="183" refid="structtesting_1_1internal_1_1Types_3_01Head___01_4_1acc643a692020fe60c80cf77fb984c04d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Types_3_01Head___01_4_1acc643a692020fe60c80cf77fb984c04d" kindref="member">Head</ref><sp/>=<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Head_</ref>;</highlight></codeline>
+<codeline lineno="184" refid="structtesting_1_1internal_1_1Types_3_01Head___01_4_1a744a032ef03e4446a6943b68fd3f94ee" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1None" kindref="compound">Tail</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1None" kindref="compound">None</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>metafunctions<sp/>to<sp/>tell<sp/>apart<sp/>a<sp/>single<sp/>type<sp/>from<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>generated<sp/>by<sp/>::testing::Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Ts</ref>&gt;</highlight></codeline>
+<codeline lineno="190" refid="structtesting_1_1internal_1_1ProxyTypeList" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">ProxyTypeList</ref><sp/>{</highlight></codeline>
+<codeline lineno="191" refid="structtesting_1_1internal_1_1ProxyTypeList_1a7a70316d957e6c48becd3130490da997" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1Types" kindref="compound">type</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1Types" kindref="compound">Types</ref>&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Ts</ref>...&gt;;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal">&gt;</highlight></codeline>
+<codeline lineno="195" refid="structtesting_1_1internal_1_1is__proxy__type__list" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1is__proxy__type__list" kindref="compound">is_proxy_type_list</ref><sp/>:<sp/>std::false_type<sp/>{};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/><ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Ts</ref>&gt;</highlight></codeline>
+<codeline lineno="198" refid="structtesting_1_1internal_1_1is__proxy__type__list_3_01ProxyTypeList_3_01Ts_8_8_8_01_4_01_4" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1is__proxy__type__list" kindref="compound">is_proxy_type_list</ref>&lt;<ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">ProxyTypeList</ref>&lt;<ref refid="namespacetesting_1_1internal_1a3316c24e8a79f5def3e85d763ae50854" kindref="member">Ts</ref>...&gt;&gt;<sp/>:<sp/>std::true_type<sp/>{};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Generator<sp/>which<sp/>conditionally<sp/>creates<sp/>type<sp/>lists.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>It<sp/>recognizes<sp/>if<sp/>a<sp/>requested<sp/>type<sp/>list<sp/>should<sp/>be<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>prevents<sp/>creating<sp/>a<sp/>new<sp/>type<sp/>list<sp/>nested<sp/>within<sp/>another<sp/>one.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="204" refid="structtesting_1_1internal_1_1GenerateTypeList" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1GenerateTypeList" kindref="compound">GenerateTypeList</ref><sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">proxy<sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::conditional&lt;is_proxy_type_list&lt;T&gt;::value,<sp/>T,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">ProxyTypeList&lt;T&gt;</ref>&gt;<ref refid="structtesting_1_1internal_1_1GenerateTypeList_1a576a76a145c45be743f9689146cf3fc5" kindref="member">::type</ref>;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210" refid="structtesting_1_1internal_1_1GenerateTypeList_1a576a76a145c45be743f9689146cf3fc5" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1GenerateTypeList_1a576a76a145c45be743f9689146cf3fc5" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>proxy::type;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>internal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Ts&gt;</highlight></codeline>
+<codeline lineno="216" refid="namespacetesting_1a29eec4c1aba59e52881d8eb38cece83c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">Types</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">internal::ProxyTypeList</ref>&lt;Ts...&gt;;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H_</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/googletest/include/gtest/internal/gtest-type-util.h"/>
+  </compounddef>
+</doxygen>

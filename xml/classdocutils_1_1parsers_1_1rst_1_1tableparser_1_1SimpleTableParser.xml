@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser" kind="class" language="Python" prot="public">
+    <compoundname>docutils::parsers::rst::tableparser::SimpleTableParser</compoundname>
+    <basecompoundref refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1TableParser" prot="public" virt="non-virtual">docutils.parsers.rst.tableparser.TableParser</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1aed4b6274464cac21a8f7a4f7a3f350ca" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::head_body_separator_pat</definition>
+        <argsstring></argsstring>
+        <name>head_body_separator_pat</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.head_body_separator_pat</qualifiedname>
+        <initializer>=  re.compile(&apos;=[ =]*$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="372" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a5f58f11bfbf392a8780346e6033a55d6" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::span_pat</definition>
+        <argsstring></argsstring>
+        <name>span_pat</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.span_pat</qualifiedname>
+        <initializer>=  re.compile(&apos;-[ -]*$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="373" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="373" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1adb34ea68c91a9b8fc937b3014441daa9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::block</definition>
+        <argsstring></argsstring>
+        <name>block</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.block</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="376" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1aca928335d4c5670aaeb716591f452e0b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::head_body_sep</definition>
+        <argsstring></argsstring>
+        <name>head_body_sep</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.head_body_sep</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="381" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a7283ebc743d42ba043efa4d21425bc7d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="382" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1afd3968ab8ee3ee07bb3777d599d05dd5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::border_end</definition>
+        <argsstring></argsstring>
+        <name>border_end</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.border_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="383" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a9c83e50e24ccdc45815e6ad40cf7f59c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="384" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1ae39b12551ae4284cfb097108655bdbce" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::done</definition>
+        <argsstring></argsstring>
+        <name>done</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.done</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="385" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1afe5d6b218fe67174b463fe6b3d907ed1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::rowseps</definition>
+        <argsstring></argsstring>
+        <name>rowseps</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.rowseps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="386" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a29873133425c45c28e08045ffe3a2898" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::colseps</definition>
+        <argsstring></argsstring>
+        <name>colseps</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.colseps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="387" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a930086e76bdc21d854178945f2b6661b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser::double_width_pad_char</definition>
+        <argsstring></argsstring>
+        <name>double_width_pad_char</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.double_width_pad_char</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="484" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="484" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a6051da66c189705398824af8ba010758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser.setup</definition>
+        <argsstring>(self, block)</argsstring>
+        <name>setup</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.setup</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1adb34ea68c91a9b8fc937b3014441daa9" kindref="member">block</ref></type>
+          <defname>block</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="375" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="375" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a3742639ddb05bc56393ddded919b2f66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser.parse_table</definition>
+        <argsstring>(self)</argsstring>
+        <name>parse_table</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.parse_table</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>First determine the column boundaries from the top border, then
+process rows.  Each row may consist of multiple lines; accumulate
+lines until a row is complete.  Call `self.parse_row` to finish the
+job.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="389" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="389" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a146082d116c0b52d0f3e24d5e6ddc399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser.parse_columns</definition>
+        <argsstring>(self, line, offset)</argsstring>
+        <name>parse_columns</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.parse_columns</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>line</type>
+          <defname>line</defname>
+        </param>
+        <param>
+          <type>offset</type>
+          <defname>offset</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a column span underline, return a list of (begin, end) pairs.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="421" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="421" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a10ef7e1f2fd78917e19f12835a9e5c59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser.init_row</definition>
+        <argsstring>(self, colspec, offset)</argsstring>
+        <name>init_row</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.init_row</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>colspec</type>
+          <defname>colspec</defname>
+        </param>
+        <param>
+          <type>offset</type>
+          <defname>offset</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="444" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="444" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a6fa3eaa6c9028abe986d8d876bca2c4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser.parse_row</definition>
+        <argsstring>(self, lines, start, spanline=None)</argsstring>
+        <name>parse_row</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.parse_row</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>lines</type>
+          <defname>lines</defname>
+        </param>
+        <param>
+          <type>start</type>
+          <defname>start</defname>
+        </param>
+        <param>
+          <type>spanline</type>
+          <defname>spanline</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given the text `lines` of a row, parse it and append to `self.table`.
+
+The row is parsed according to the current column spec (either
+`spanline` if provided or `self.columns`).  For each column, extract
+text from each line, and check for text in column margins.  Finally,
+adjust for insignificant whitespace.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="462" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="462" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1afe474258f5a7add80294b556dd73b298" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser.check_columns</definition>
+        <argsstring>(self, lines, first_line, columns)</argsstring>
+        <name>check_columns</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.check_columns</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>lines</type>
+          <defname>lines</defname>
+        </param>
+        <param>
+          <type>first_line</type>
+          <defname>first_line</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a7283ebc743d42ba043efa4d21425bc7d" kindref="member">columns</ref></type>
+          <defname>columns</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check for text in column margins and text overflow in the last column.
+Raise TableMarkupError if anything but whitespace is in column margins.
+Adjust the end value for the last column if there is text overflow.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="488" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="488" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1aa39588db3908c2bcbfec0d79c49a7961" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.tableparser.SimpleTableParser.structure_from_cells</definition>
+        <argsstring>(self)</argsstring>
+        <name>structure_from_cells</name>
+        <qualifiedname>docutils.parsers.rst.tableparser.SimpleTableParser.structure_from_cells</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="520" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="520" bodyend="531"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Parse a simple table using `parse()`.
+
+Here&apos;s an example of a simple table::
+
+    =====  =====
+    col 1  col 2
+    =====  =====
+    1      Second column of row 1.
+    2      Second column of row 2.
+           Second line of paragraph.
+    3      - Second column of row 3.
+
+           - Second item in bullet
+             list (row 3, column 2).
+    4 is a span
+    ------------
+    5
+    =====  =====
+
+Top and bottom borders use &apos;=&apos;, column span underlines use &apos;-&apos;, column
+separation is indicated with spaces.
+
+Passing the above table to the `parse()` method will result in the
+following data structure, whose interpretation is the same as for
+`GridTableParser`::
+
+    ([5, 25],
+     [[(0, 0, 1, [&apos;col 1&apos;]),
+       (0, 0, 1, [&apos;col 2&apos;])]],
+     [[(0, 0, 3, [&apos;1&apos;]),
+       (0, 0, 3, [&apos;Second column of row 1.&apos;])],
+      [(0, 0, 4, [&apos;2&apos;]),
+       (0, 0, 4, [&apos;Second column of row 2.&apos;,
+                  &apos;Second line of paragraph.&apos;])],
+      [(0, 0, 6, [&apos;3&apos;]),
+       (0, 0, 6, [&apos;- Second column of row 3.&apos;,
+                  &apos;&apos;,
+                  &apos;- Second item in bullet&apos;,
+                  &apos;  list (row 3, column 2).&apos;])],
+      [(0, 1, 10, [&apos;4 is a span&apos;])],
+      [(0, 0, 12, [&apos;5&apos;]),
+       (0, 0, 12, [&apos;&apos;])]])
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.parsers.rst.tableparser.SimpleTableParser</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.tableparser.TableParser</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1TableParser"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.parsers.rst.tableparser.SimpleTableParser</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.tableparser.TableParser</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1TableParser"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>double_width_pad_char</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" line="325" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/parsers/rst/tableparser.py" bodystart="325" bodyend="531"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1adb34ea68c91a9b8fc937b3014441daa9" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>block</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1afd3968ab8ee3ee07bb3777d599d05dd5" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>border_end</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1afe474258f5a7add80294b556dd73b298" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>check_columns</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a29873133425c45c28e08045ffe3a2898" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>colseps</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a7283ebc743d42ba043efa4d21425bc7d" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>columns</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1ae39b12551ae4284cfb097108655bdbce" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>done</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a930086e76bdc21d854178945f2b6661b" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>double_width_pad_char</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1aca928335d4c5670aaeb716591f452e0b" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>head_body_sep</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1aed4b6274464cac21a8f7a4f7a3f350ca" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>head_body_separator_pat</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a10ef7e1f2fd78917e19f12835a9e5c59" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>init_row</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a146082d116c0b52d0f3e24d5e6ddc399" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>parse_columns</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a6fa3eaa6c9028abe986d8d876bca2c4f" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>parse_row</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a3742639ddb05bc56393ddded919b2f66" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>parse_table</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1afe5d6b218fe67174b463fe6b3d907ed1" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>rowseps</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a6051da66c189705398824af8ba010758" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>setup</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a5f58f11bfbf392a8780346e6033a55d6" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>span_pat</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1aa39588db3908c2bcbfec0d79c49a7961" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>structure_from_cells</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1tableparser_1_1SimpleTableParser_1a9c83e50e24ccdc45815e6ad40cf7f59c" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::tableparser::SimpleTableParser</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

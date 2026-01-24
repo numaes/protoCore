@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="01__garbage__collector_8md" kind="file" language="Markdown">
+    <compoundname>01_garbage_collector.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Architecture<sp/>Deep<sp/>Dive:<sp/>The<sp/>Low-Latency<sp/>Garbage<sp/>Collector</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Introduction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>many<sp/>high-level<sp/>languages,<sp/>garbage<sp/>collection<sp/>(GC)<sp/>is<sp/>a<sp/>source<sp/>of<sp/>unpredictable<sp/>pauses,<sp/>often<sp/>called<sp/>&quot;stop-the-world&quot;<sp/>(STW)<sp/>events.<sp/>For<sp/>latency-sensitive<sp/>applications<sp/>like<sp/>real-time<sp/>trading<sp/>systems,<sp/>game<sp/>engines,<sp/>or<sp/>interactive<sp/>tools,<sp/>these<sp/>pauses<sp/>can<sp/>be<sp/>unacceptable.<sp/>Proto&apos;s<sp/>garbage<sp/>collector<sp/>is<sp/>engineered<sp/>from<sp/>the<sp/>ground<sp/>up<sp/>to<sp/>minimize<sp/>this<sp/>disruption,<sp/>providing<sp/>a<sp/>foundation<sp/>for<sp/>systems<sp/>that<sp/>require<sp/>smooth,<sp/>predictable<sp/>performance.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Core<sp/>Principles</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Concurrent<sp/>Collection</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>core<sp/>of<sp/>Proto&apos;s<sp/>GC<sp/>design<sp/>is<sp/>concurrency.<sp/>The<sp/>majority<sp/>of<sp/>the<sp/>GC<sp/>work—specifically<sp/>the<sp/>marking<sp/>of<sp/>live<sp/>objects<sp/>and<sp/>the<sp/>sweeping<sp/>of<sp/>dead<sp/>ones—happens<sp/>in<sp/>a<sp/>background<sp/>thread,<sp/>running<sp/>in<sp/>parallel<sp/>with<sp/>the<sp/>application&apos;s<sp/>own<sp/>threads.<sp/>This<sp/>means<sp/>the<sp/>application<sp/>can<sp/>continue<sp/>to<sp/>execute<sp/>logic,<sp/>allocate<sp/>memory,<sp/>and<sp/>respond<sp/>to<sp/>events<sp/>while<sp/>the<sp/>GC<sp/>is<sp/>cleaning<sp/>up.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Minimal<sp/>Stop-The-World<sp/>(STW)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">While<sp/>most<sp/>of<sp/>the<sp/>GC<sp/>cycle<sp/>is<sp/>concurrent,<sp/>there<sp/>is<sp/>a<sp/>brief,<sp/>mandatory<sp/>STW<sp/>phase:<sp/>**root<sp/>scanning**.<sp/>This<sp/>is<sp/>the<sp/>only<sp/>moment<sp/>the<sp/>application<sp/>threads<sp/>are<sp/>paused.<sp/>Proto&apos;s<sp/>architecture<sp/>is<sp/>designed<sp/>to<sp/>make<sp/>this<sp/>phase<sp/>as<sp/>fast<sp/>as<sp/>possible.<sp/>By<sp/>carefully<sp/>managing<sp/>how<sp/>and<sp/>where<sp/>mutable<sp/>state<sp/>can<sp/>exist,<sp/>the<sp/>number<sp/>of<sp/>roots<sp/>the<sp/>GC<sp/>needs<sp/>to<sp/>scan<sp/>is<sp/>dramatically<sp/>reduced.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>No<sp/>Compaction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto&apos;s<sp/>GC<sp/>does<sp/>not<sp/>move<sp/>or<sp/>compact<sp/>objects<sp/>in<sp/>memory.<sp/>Once<sp/>an<sp/>object<sp/>is<sp/>allocated,<sp/>it<sp/>stays<sp/>at<sp/>that<sp/>memory<sp/>address<sp/>for<sp/>its<sp/>entire<sp/>lifetime.<sp/>This<sp/>design<sp/>choice<sp/>has<sp/>two<sp/>major<sp/>benefits:</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**FFI<sp/>Simplicity:**<sp/>C/C++<sp/>code<sp/>can<sp/>hold<sp/>direct<sp/>pointers<sp/>to<sp/>Proto<sp/>objects<sp/>without<sp/>fear<sp/>that<sp/>the<sp/>GC<sp/>will<sp/>invalidate<sp/>them<sp/>by<sp/>moving<sp/>the<sp/>underlying<sp/>memory.<sp/>This<sp/>makes<sp/>the<sp/>Foreign<sp/>Function<sp/>Interface<sp/>(FFI)<sp/>significantly<sp/>simpler<sp/>and<sp/>more<sp/>performant.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Predictable<sp/>Performance:**<sp/>Memory<sp/>compaction<sp/>is<sp/>a<sp/>costly<sp/>operation.<sp/>By<sp/>avoiding<sp/>it,<sp/>the<sp/>GC&apos;s<sp/>behavior<sp/>is<sp/>more<sp/>predictable<sp/>and<sp/>its<sp/>impact<sp/>on<sp/>application<sp/>performance<sp/>is<sp/>minimized.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>The<sp/>Collection<sp/>Cycle</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Triggering<sp/>a<sp/>GC</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>garbage<sp/>collection<sp/>cycle<sp/>is<sp/>typically<sp/>triggered<sp/>automatically<sp/>when<sp/>the<sp/>total<sp/>memory<sp/>allocated<sp/>by<sp/>the<sp/>runtime<sp/>exceeds<sp/>a<sp/>certain<sp/>threshold.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Root<sp/>Scanning<sp/>(The<sp/>STW<sp/>Phase)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>the<sp/>critical,<sp/>synchronous<sp/>part<sp/>of<sp/>the<sp/>cycle.<sp/>The<sp/>GC<sp/>pauses<sp/>all<sp/>application<sp/>threads<sp/>and<sp/>scans<sp/>for<sp/>&quot;roots&quot;—the<sp/>set<sp/>of<sp/>objects<sp/>that<sp/>are<sp/>directly<sp/>accessible<sp/>by<sp/>the<sp/>application.<sp/>In<sp/>Proto,<sp/>the<sp/>roots<sp/>are:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Thread<sp/>Stacks<sp/>&amp;<sp/>Contexts:**<sp/>The<sp/>local<sp/>variables<sp/>and<sp/>execution<sp/>state<sp/>of<sp/>each<sp/>running<sp/>thread.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**The<sp/>Global<sp/>`mutableRoot`:**<sp/>A<sp/>single,<sp/>global<sp/>table<sp/>that<sp/>holds<sp/>all<sp/>shared,<sp/>mutable<sp/>state.<sp/>This<sp/>is<sp/>a<sp/>key<sp/>architectural<sp/>feature<sp/>that<sp/>simplifies<sp/>root<sp/>scanning<sp/>immensely.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**The<sp/>Thread<sp/>`method_cache`:**<sp/>A<sp/>cache<sp/>used<sp/>to<sp/>speed<sp/>up<sp/>method<sp/>lookups.<sp/>It&apos;s<sp/>crucial<sp/>to<sp/>scan<sp/>this<sp/>cache,<sp/>as<sp/>it<sp/>may<sp/>contain<sp/>references<sp/>to<sp/>objects<sp/>that<sp/>would<sp/>otherwise<sp/>be<sp/>considered<sp/>dead,<sp/>preventing<sp/>potential<sp/>`use-after-free`<sp/>bugs.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Concurrent<sp/>Marking<sp/>&amp;<sp/>Sweeping</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Once<sp/>the<sp/>root<sp/>scan<sp/>is<sp/>complete,<sp/>the<sp/>application<sp/>threads<sp/>are<sp/>resumed.<sp/>The<sp/>GC&apos;s<sp/>background<sp/>thread<sp/>then<sp/>begins<sp/>the<sp/>concurrent<sp/>**mark<sp/>phase**,<sp/>traversing<sp/>the<sp/>object<sp/>graph<sp/>starting<sp/>from<sp/>the<sp/>roots<sp/>to<sp/>find<sp/>all<sp/>live<sp/>objects.<sp/>Following<sp/>that,<sp/>the<sp/>**sweep<sp/>phase**<sp/>reclaims<sp/>the<sp/>memory<sp/>of<sp/>any<sp/>unmarked,<sp/>unreachable<sp/>objects.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Code<sp/>Reference</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>see<sp/>how<sp/>this<sp/>is<sp/>implemented,<sp/>you<sp/>can<sp/>look<sp/>at<sp/>the<sp/>following<sp/>key<sp/>areas<sp/>in<sp/>the<sp/>source<sp/>code:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**`Thread.cpp`<sp/>-<sp/>Processing<sp/>Roots<sp/>on<sp/>the<sp/>Stack:**</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>`processReferences`<sp/>method<sp/>is<sp/>responsible<sp/>for<sp/>iterating<sp/>over<sp/>the<sp/>stack<sp/>of<sp/>a<sp/>single<sp/>thread<sp/>to<sp/>find<sp/>root<sp/>objects.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Illustrative<sp/>snippet<sp/>from<sp/>Thread.cpp</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>Thread::processReferences(std::function&lt;void(const<sp/>ProtoObject)&gt;<sp/>processor)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>...<sp/>logic<sp/>to<sp/>iterate<sp/>over<sp/>the<sp/>current<sp/>thread&apos;s<sp/>stack<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>for<sp/>(auto&amp;<sp/>frame<sp/>:<sp/>call_stack)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>(auto&amp;<sp/>local<sp/>:<sp/>frame.locals)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>processor(local);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>...<sp/>also<sp/>processes<sp/>the<sp/>method_cache<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**`ProtoSpace.cpp`<sp/>-<sp/>The<sp/>Main<sp/>GC<sp/>Scan<sp/>Logic:**</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>`gcScan`<sp/>method<sp/>orchestrates<sp/>the<sp/>STW<sp/>phase,<sp/>gathering<sp/>roots<sp/>from<sp/>all<sp/>threads<sp/>and<sp/>the<sp/>global<sp/>`mutableRoot`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Illustrative<sp/>snippet<sp/>from<sp/>ProtoSpace.cpp</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>ProtoSpace::gcScan()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>1.<sp/>Pause<sp/>all<sp/>threads<sp/>(The<sp/>STW<sp/>start)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>...</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>2.<sp/>Scan<sp/>global<sp/>roots</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>processor(this-&gt;mutableRoot);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>3.<sp/>Scan<sp/>roots<sp/>from<sp/>each<sp/>thread</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>for<sp/>(auto&amp;<sp/>thread<sp/>:<sp/>all_threads)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread-&gt;processReferences(processor);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>4.<sp/>Resume<sp/>all<sp/>threads<sp/>(The<sp/>STW<sp/>end)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="docs/Structural description/architecture/01_garbage_collector.md"/>
+  </compounddef>
+</doxygen>

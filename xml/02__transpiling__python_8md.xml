@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="02__transpiling__python_8md" kind="file" language="Markdown">
+    <compoundname>02_transpiling_python.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Tutorial:<sp/>Transpiling<sp/>Python<sp/>with<sp/>`proto_python`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Introduction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`proto_python`<sp/>project<sp/>is<sp/>a<sp/>powerful<sp/>tool<sp/>that<sp/>acts<sp/>as<sp/>a<sp/>bridge<sp/>between<sp/>the<sp/>high-level,<sp/>productive<sp/>world<sp/>of<sp/>Python<sp/>and<sp/>the<sp/>high-performance<sp/>world<sp/>of<sp/>the<sp/>Proto<sp/>runtime.<sp/>It<sp/>is<sp/>a<sp/>**transpiler**,<sp/>not<sp/>a<sp/>compiler.<sp/>This<sp/>means<sp/>it<sp/>reads<sp/>Python<sp/>source<sp/>code<sp/>and<sp/>converts<sp/>it<sp/>into<sp/>C++<sp/>source<sp/>code<sp/>that<sp/>is<sp/>specifically<sp/>written<sp/>to<sp/>use<sp/>the<sp/>Proto<sp/>library.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>approach<sp/>allows<sp/>you<sp/>to<sp/>write<sp/>application<sp/>logic<sp/>in<sp/>a<sp/>familiar<sp/>Python<sp/>syntax<sp/>while<sp/>achieving<sp/>performance<sp/>close<sp/>to<sp/>native<sp/>C++.<sp/>This<sp/>tutorial<sp/>will<sp/>walk<sp/>you<sp/>through<sp/>the<sp/>process.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>How<sp/>it<sp/>Works</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>process<sp/>is<sp/>a<sp/>multi-stage<sp/>pipeline:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Python<sp/>Parsing:**<sp/>`proto_python`<sp/>first<sp/>parses<sp/>your<sp/>`.py`<sp/>files<sp/>into<sp/>a<sp/>Python<sp/>Abstract<sp/>Syntax<sp/>Tree<sp/>(AST).</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**AST<sp/>Transformation:**<sp/>It<sp/>then<sp/>walks<sp/>this<sp/>AST<sp/>and<sp/>converts<sp/>Python<sp/>concepts<sp/>into<sp/>their<sp/>Proto<sp/>equivalents.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>`print()`<sp/>becomes<sp/>a<sp/>call<sp/>to<sp/>a<sp/>Proto<sp/>`stdout`<sp/>object.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>`x<sp/>+<sp/>y`<sp/>becomes<sp/>a<sp/>call<sp/>to<sp/>`x.operator_add(y)`.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/><sp/><sp/>Function<sp/>definitions<sp/>become<sp/>C++<sp/>functions<sp/>that<sp/>operate<sp/>on<sp/>`const<sp/>ProtoObject`<sp/>pointers.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**C++<sp/>Code<sp/>Generation:**<sp/>Finally,<sp/>it<sp/>generates<sp/>a<sp/>`.cpp`<sp/>file<sp/>containing<sp/>the<sp/>transformed<sp/>logic.</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/><sp/>**Compilation:**<sp/>The<sp/>`proto_python`<sp/>tool<sp/>then<sp/>invokes<sp/>your<sp/>system&apos;s<sp/>C++<sp/>compiler<sp/>(like<sp/>GCC<sp/>or<sp/>Clang)<sp/>to<sp/>compile<sp/>the<sp/>generated<sp/>C++<sp/>code<sp/>and<sp/>link<sp/>it<sp/>against<sp/>`libproto.a`,<sp/>producing<sp/>a<sp/>final,<sp/>standalone<sp/>executable.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>A<sp/>Practical<sp/>Example</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Let&apos;s<sp/>transpile<sp/>a<sp/>slightly<sp/>more<sp/>complex<sp/>Python<sp/>script<sp/>than<sp/>&quot;Hello,<sp/>World!&quot;.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**`fib.py`:**</highlight></codeline>
+<codeline><highlight class="normal">```python</highlight></codeline>
+<codeline><highlight class="normal">def<sp/>fib(n):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>n<sp/>&lt;<sp/>2:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>n</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>fib(n<sp/>-<sp/>1)<sp/>+<sp/>fib(n<sp/>-<sp/>2)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">result<sp/>=<sp/>fib(10)</highlight></codeline>
+<codeline><highlight class="normal">print(result)</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>Transpilation<sp/>Command</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>convert<sp/>this<sp/>Python<sp/>script<sp/>into<sp/>a<sp/>native<sp/>executable,<sp/>you<sp/>use<sp/>the<sp/>`proto_python`<sp/>command-line<sp/>tool.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```sh</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>-o<sp/>specifies<sp/>the<sp/>output<sp/>executable<sp/>name</highlight></codeline>
+<codeline><highlight class="normal">proto_python<sp/>fib.py<sp/>-o<sp/>fib_native</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>command<sp/>will<sp/>perform<sp/>all<sp/>the<sp/>steps<sp/>described<sp/>above<sp/>and,<sp/>if<sp/>successful,<sp/>create<sp/>a<sp/>new<sp/>executable<sp/>file<sp/>named<sp/>`fib_native`<sp/>in<sp/>your<sp/>current<sp/>directory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Running<sp/>the<sp/>Native<sp/>Version</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>now<sp/>run<sp/>this<sp/>executable<sp/>directly.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```sh</highlight></codeline>
+<codeline><highlight class="normal">./fib_native</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>will<sp/>see<sp/>the<sp/>output<sp/>`55`,<sp/>but<sp/>it<sp/>will<sp/>have<sp/>been<sp/>calculated<sp/>by<sp/>the<sp/>highly<sp/>optimized<sp/>Proto<sp/>runtime,<sp/>not<sp/>a<sp/>Python<sp/>interpreter.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Supported<sp/>Python<sp/>Subset</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`proto_python`<sp/>does<sp/>not<sp/>support<sp/>the<sp/>*entire*<sp/>Python<sp/>language<sp/>and<sp/>its<sp/>vast<sp/>standard<sp/>library.<sp/>It<sp/>focuses<sp/>on<sp/>a<sp/>core<sp/>subset<sp/>of<sp/>the<sp/>language<sp/>that<sp/>is<sp/>well-suited<sp/>for<sp/>high-performance,<sp/>systems-level<sp/>code.<sp/>The<sp/>supported<sp/>features<sp/>include:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Basic<sp/>data<sp/>types:<sp/>integers,<sp/>strings,<sp/>booleans,<sp/>`None`.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Function<sp/>definitions<sp/>and<sp/>calls.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>`if`/`else`<sp/>control<sp/>flow.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>`while`<sp/>loops.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Basic<sp/>arithmetic<sp/>and<sp/>boolean<sp/>operators.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>A<sp/>small,<sp/>core<sp/>set<sp/>of<sp/>built-in<sp/>functions<sp/>like<sp/>`print()`<sp/>and<sp/>`len()`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Features<sp/>that<sp/>are<sp/>**not**<sp/>supported<sp/>typically<sp/>involve<sp/>highly<sp/>dynamic<sp/>aspects<sp/>of<sp/>Python<sp/>that<sp/>do<sp/>not<sp/>map<sp/>well<sp/>to<sp/>a<sp/>compiled,<sp/>AOT<sp/>(Ahead-Of-Time)<sp/>model,<sp/>such<sp/>as<sp/>`eval()`,<sp/>`exec()`,<sp/>or<sp/>dynamic<sp/>module<sp/>importing.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Why<sp/>Use<sp/>the<sp/>Transpiler?</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Performance:**<sp/>It&apos;s<sp/>the<sp/>easiest<sp/>way<sp/>to<sp/>get<sp/>a<sp/>massive<sp/>performance<sp/>boost<sp/>for<sp/>CPU-bound<sp/>Python<sp/>code.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Productivity:**<sp/>You<sp/>can<sp/>still<sp/>benefit<sp/>from<sp/>Python&apos;s<sp/>clean<sp/>syntax<sp/>and<sp/>rapid<sp/>development<sp/>cycle<sp/>for<sp/>your<sp/>application<sp/>logic.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Deployment:**<sp/>It<sp/>produces<sp/>a<sp/>single,<sp/>standalone<sp/>native<sp/>executable<sp/>with<sp/>no<sp/>dependency<sp/>on<sp/>a<sp/>Python<sp/>interpreter,<sp/>simplifying<sp/>deployment.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`protoDB`<sp/>project<sp/>is<sp/>the<sp/>primary<sp/>example<sp/>of<sp/>this<sp/>workflow.<sp/>It&apos;s<sp/>a<sp/>complex<sp/>application<sp/>written<sp/>in<sp/>Python<sp/>that<sp/>relies<sp/>on<sp/>`proto_python`<sp/>to<sp/>become<sp/>a<sp/>high-performance<sp/>database<sp/>engine.</highlight></codeline>
+    </programlisting>
+    <location file="docs/Structural description/tutorials/02_transpiling_python.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__internal_2distributions_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1distributions">pip::_internal::distributions</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1distributions" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1distributions_1_1base" kindref="compound">pip._internal.distributions.base</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>AbstractDistribution</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1distributions_1_1sdist" kindref="compound">pip._internal.distributions.sdist</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SourceDistribution</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1distributions_1_1wheel" kindref="compound">pip._internal.distributions.wheel</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>WheelDistribution</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1req_1_1req__install" kindref="compound">pip._internal.req.req_install</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>InstallRequirement</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">make_distribution_for_install_requirement(</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>install_req:<sp/>InstallRequirement,</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">)<sp/>-&gt;<sp/>AbstractDistribution:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Returns<sp/>a<sp/>Distribution<sp/>for<sp/>the<sp/>given<sp/>InstallRequirement&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Editable<sp/>requirements<sp/>will<sp/>always<sp/>be<sp/>source<sp/>distributions.<sp/>They<sp/>use<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>legacy<sp/>logic<sp/>until<sp/>we<sp/>create<sp/>a<sp/>modern<sp/>standard<sp/>for<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>install_req.editable:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1distributions_1_1sdist_1_1SourceDistribution" kindref="compound">SourceDistribution</ref>(install_req)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>If<sp/>it&apos;s<sp/>a<sp/>wheel,<sp/>it&apos;s<sp/>a<sp/>WheelDistribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>install_req.is_wheel:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1distributions_1_1wheel_1_1WheelDistribution" kindref="compound">WheelDistribution</ref>(install_req)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Otherwise,<sp/>a<sp/>SourceDistribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1distributions_1_1sdist_1_1SourceDistribution" kindref="compound">SourceDistribution</ref>(install_req)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/distributions/__init__.py"/>
+  </compounddef>
+</doxygen>

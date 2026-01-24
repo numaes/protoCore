@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbabel_1_1support_1_1Translations" kind="class" language="Python" prot="public">
+    <compoundname>babel::support::Translations</compoundname>
+    <basecompoundref refid="classbabel_1_1support_1_1NullTranslations" prot="public" virt="non-virtual">babel.support.NullTranslations</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">gettext.GNUTranslations</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classbabel_1_1support_1_1Translations_1a2068ab0520be9cc30f109fd05cec229c" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str babel.support.Translations::DEFAULT_DOMAIN</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_DOMAIN</name>
+        <qualifiedname>babel.support.Translations.DEFAULT_DOMAIN</qualifiedname>
+        <initializer>=  &apos;messages&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="627" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="627" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbabel_1_1support_1_1Translations_1aee4fa4f810851b4db192e9cd6241c482" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>babel.support.Translations::ugettext</definition>
+        <argsstring></argsstring>
+        <name>ugettext</name>
+        <qualifiedname>babel.support.Translations.ugettext</qualifiedname>
+        <initializer>=  gettext.GNUTranslations.gettext</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="638" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="638" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbabel_1_1support_1_1Translations_1ac0d41c9d059490a0ce8c31c07a58b52b" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>babel.support.Translations::ungettext</definition>
+        <argsstring></argsstring>
+        <name>ungettext</name>
+        <qualifiedname>babel.support.Translations.ungettext</qualifiedname>
+        <initializer>=  gettext.GNUTranslations.ngettext</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="639" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="639" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classbabel_1_1support_1_1Translations_1aba3ad12d6011caf2a7d19f3b25f21dc8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel.support.Translations::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>babel.support.Translations.domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="636" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="636" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbabel_1_1support_1_1Translations_1a8a3e169398f2fe8ef8e039f8c582c287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.support.Translations.__init__</definition>
+        <argsstring>(self, gettext._TranslationsReader|None fp=None, str|None domain=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>babel.support.Translations.__init__</qualifiedname>
+        <reimplements refid="classbabel_1_1support_1_1NullTranslations_1ae2e9e513ec4610e580405e5fc6db4dda">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>gettext._TranslationsReader|None</type>
+          <declname>fp</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>domain</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize the translations catalog.
+
+:param fp: the file-like object the translation should be read from
+:param domain: the message domain (default: &apos;messages&apos;)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="629" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="629" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Translations_1a64641c90b0ac20ef15b86f064dec97ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1support_1_1NullTranslations" kindref="compound">NullTranslations</ref></type>
+        <definition> NullTranslations babel.support.Translations.load</definition>
+        <argsstring>(cls, str|os.PathLike[str]|None dirname=None, Iterable[str|Locale]|Locale|str|None locales=None, str|None domain=None)</argsstring>
+        <name>load</name>
+        <qualifiedname>babel.support.Translations.load</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>str|os.PathLike|None</type>
+          <declname>dirname</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Iterable|<ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locales</declname>
+          <array>[str|Locale]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>domain</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load translations from the given directory.
+
+:param dirname: the directory containing the ``MO`` files
+:param locales: the list of locales in order of preference (items in
+                this list can be either `Locale` objects or locale
+                strings)
+:param domain: the message domain (default: &apos;messages&apos;)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="642" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="647" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Translations_1a5f3812658e63a9be69b7e22db739f18a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Translations.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>babel.support.Translations.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="664" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="664" bodyend="667"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Translations_1a7f1c36a290f978a15e13267d4afaed54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.support.Translations.add</definition>
+        <argsstring>(self, Translations translations, bool merge=True)</argsstring>
+        <name>add</name>
+        <qualifiedname>babel.support.Translations.add</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1support_1_1Translations" kindref="compound">Translations</ref></type>
+          <declname>translations</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>merge</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add the given translations to the catalog.
+
+If the domain of the translations is different than that of the
+current catalog, they are added as a catalog that is only accessible
+by the various ``d*gettext`` functions.
+
+:param translations: the `Translations` instance with the messages to
+                     add
+:param merge: whether translations for message domains that have
+              already been added should be merged with the existing
+              translations
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="668" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="668" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Translations_1aff3972b510f719436148a1d24d760aa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.support.Translations.merge</definition>
+        <argsstring>(self, Translations translations)</argsstring>
+        <name>merge</name>
+        <qualifiedname>babel.support.Translations.merge</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1support_1_1Translations" kindref="compound">Translations</ref></type>
+          <declname>translations</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Merge the given translations into the catalog.
+
+Message translations in the specified catalog override any messages
+with the same identifier in the existing catalog.
+
+:param translations: the `Translations` instance with the messages to
+                     merge
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="694" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="694" bodyend="710"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>An extended translation catalog class.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>babel.support.Translations</label>
+        <link refid="classbabel_1_1support_1_1Translations"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>babel.support.NullTranslations</label>
+        <link refid="classbabel_1_1support_1_1NullTranslations"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>gettext::GNUTranslations</label>
+      </node>
+      <node id="3">
+        <label>gettext::NullTranslations</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>babel.support.Translations</label>
+        <link refid="classbabel_1_1support_1_1Translations"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>DEFAULT_DOMAIN</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>babel.support.NullTranslations</label>
+        <link refid="classbabel_1_1support_1_1NullTranslations"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>_fallback</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>CONTEXT_ENCODING</edgelabel>
+          <edgelabel>dugettext</edgelabel>
+          <edgelabel>dungettext</edgelabel>
+          <edgelabel>dunpgettext</edgelabel>
+          <edgelabel>dupgettext</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>gettext::GNUTranslations</label>
+      </node>
+      <node id="3">
+        <label>gettext::NullTranslations</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/babel/support.py" line="624" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/babel/support.py" bodystart="624" bodyend="710"/>
+    <listofallmembers>
+      <member refid="classbabel_1_1support_1_1Translations_1a8a3e169398f2fe8ef8e039f8c582c287" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>__init__</name></member>
+      <member refid="classbabel_1_1support_1_1Translations_1a5f3812658e63a9be69b7e22db739f18a" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>__repr__</name></member>
+      <member refid="classbabel_1_1support_1_1Translations_1a7f1c36a290f978a15e13267d4afaed54" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>add</name></member>
+      <member refid="classbabel_1_1support_1_1Translations_1a2068ab0520be9cc30f109fd05cec229c" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>DEFAULT_DOMAIN</name></member>
+      <member refid="classbabel_1_1support_1_1Translations_1aba3ad12d6011caf2a7d19f3b25f21dc8" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>domain</name></member>
+      <member refid="classbabel_1_1support_1_1Translations_1a64641c90b0ac20ef15b86f064dec97ad" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>load</name></member>
+      <member refid="classbabel_1_1support_1_1Translations_1aff3972b510f719436148a1d24d760aa3" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>merge</name></member>
+      <member refid="classbabel_1_1support_1_1Translations_1aee4fa4f810851b4db192e9cd6241c482" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>ugettext</name></member>
+      <member refid="classbabel_1_1support_1_1Translations_1ac0d41c9d059490a0ce8c31c07a58b52b" prot="public" virt="non-virtual"><scope>babel::support::Translations</scope><name>ungettext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

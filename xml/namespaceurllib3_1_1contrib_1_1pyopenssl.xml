@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1contrib_1_1pyopenssl" kind="namespace" language="Python">
+    <compoundname>urllib3::contrib::pyopenssl</compoundname>
+    <innerclass refid="classurllib3_1_1contrib_1_1pyopenssl_1_1PyOpenSSLContext" prot="public">urllib3::contrib::pyopenssl::PyOpenSSLContext</innerclass>
+    <innerclass refid="classurllib3_1_1contrib_1_1pyopenssl_1_1UnsupportedExtension" prot="public">urllib3::contrib::pyopenssl::UnsupportedExtension</innerclass>
+    <innerclass refid="classurllib3_1_1contrib_1_1pyopenssl_1_1WrappedSocket" prot="public">urllib3::contrib::pyopenssl::WrappedSocket</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1aaed9d35ecceb4c1fdf80769c4f33e809" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list urllib3::contrib::pyopenssl.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>urllib3.contrib.pyopenssl.__all__</qualifiedname>
+        <initializer>=  [&quot;inject_into_urllib3&quot;, &quot;extract_from_urllib3&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="67" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a6dea9b13148d5eb9dd2153f126394367" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::contrib::pyopenssl._openssl_versions</definition>
+        <argsstring></argsstring>
+        <name>_openssl_versions</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._openssl_versions</qualifiedname>
+        <initializer>=  {
+    util.ssl_.PROTOCOL_TLS: OpenSSL.SSL.SSLv23_METHOD,  # type: ignore[attr-defined]
+    util.ssl_.PROTOCOL_TLS_CLIENT: OpenSSL.SSL.SSLv23_METHOD,  # type: ignore[attr-defined]
+    ssl.PROTOCOL_TLSv1: OpenSSL.SSL.TLSv1_METHOD,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a2f5f645a633f54c3028aecadf89714b4" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::contrib::pyopenssl._stdlib_to_openssl_verify</definition>
+        <argsstring></argsstring>
+        <name>_stdlib_to_openssl_verify</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._stdlib_to_openssl_verify</qualifiedname>
+        <initializer>=  {
+    ssl.CERT_NONE: OpenSSL.SSL.VERIFY_NONE,
+    ssl.CERT_OPTIONAL: OpenSSL.SSL.VERIFY_PEER,
+    ssl.CERT_REQUIRED: OpenSSL.SSL.VERIFY_PEER
+    + OpenSSL.SSL.VERIFY_FAIL_IF_NO_PEER_CERT,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="83" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1ae6338b77c09a8220812252e2d06f8709" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::contrib::pyopenssl._openssl_to_stdlib_verify</definition>
+        <argsstring></argsstring>
+        <name>_openssl_to_stdlib_verify</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._openssl_to_stdlib_verify</qualifiedname>
+        <initializer>=  {v: k for k, v in _stdlib_to_openssl_verify.items()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="89" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::pyopenssl._OP_NO_SSLv2_OR_SSLv3</definition>
+        <argsstring></argsstring>
+        <name>_OP_NO_SSLv2_OR_SSLv3</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._OP_NO_SSLv2_OR_SSLv3</qualifiedname>
+        <initializer>=  getattr(OpenSSL.SSL, &quot;OP_NO_SSLv2&quot;, 0) | getattr(
+    OpenSSL.SSL, &quot;OP_NO_SSLv3&quot;, 0
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="93" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a87415006a681430c7242a31e04817f8f" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::pyopenssl._OP_NO_TLSv1</definition>
+        <argsstring></argsstring>
+        <name>_OP_NO_TLSv1</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._OP_NO_TLSv1</qualifiedname>
+        <initializer>=  getattr(OpenSSL.SSL, &quot;OP_NO_TLSv1&quot;, 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="96" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3aea6045a6e4b761ba7b560daf06c1aa" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::pyopenssl._OP_NO_TLSv1_1</definition>
+        <argsstring></argsstring>
+        <name>_OP_NO_TLSv1_1</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._OP_NO_TLSv1_1</qualifiedname>
+        <initializer>=  getattr(OpenSSL.SSL, &quot;OP_NO_TLSv1_1&quot;, 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="97" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a604e105068771b620e6f6dc1b23ce3ec" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::pyopenssl._OP_NO_TLSv1_2</definition>
+        <argsstring></argsstring>
+        <name>_OP_NO_TLSv1_2</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._OP_NO_TLSv1_2</qualifiedname>
+        <initializer>=  getattr(OpenSSL.SSL, &quot;OP_NO_TLSv1_2&quot;, 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1add7eac9a16b1759847961391a949932b" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::pyopenssl._OP_NO_TLSv1_3</definition>
+        <argsstring></argsstring>
+        <name>_OP_NO_TLSv1_3</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._OP_NO_TLSv1_3</qualifiedname>
+        <initializer>=  getattr(OpenSSL.SSL, &quot;OP_NO_TLSv1_3&quot;, 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="99" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1ae76850542eedb9c8e452fe5751c02a90" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::contrib::pyopenssl._openssl_to_ssl_minimum_version</definition>
+        <argsstring></argsstring>
+        <name>_openssl_to_ssl_minimum_version</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._openssl_to_ssl_minimum_version</qualifiedname>
+        <initializer>=  {
+    ssl.TLSVersion.MINIMUM_SUPPORTED: <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref>,
+    ssl.TLSVersion.TLSv1: <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref>,
+    ssl.TLSVersion.TLSv1_1: <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a87415006a681430c7242a31e04817f8f" kindref="member">_OP_NO_TLSv1</ref>,
+    ssl.TLSVersion.TLSv1_2: <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a87415006a681430c7242a31e04817f8f" kindref="member">_OP_NO_TLSv1</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3aea6045a6e4b761ba7b560daf06c1aa" kindref="member">_OP_NO_TLSv1_1</ref>,
+    ssl.TLSVersion.TLSv1_3: (
+        <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a87415006a681430c7242a31e04817f8f" kindref="member">_OP_NO_TLSv1</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3aea6045a6e4b761ba7b560daf06c1aa" kindref="member">_OP_NO_TLSv1_1</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a604e105068771b620e6f6dc1b23ce3ec" kindref="member">_OP_NO_TLSv1_2</ref>
+    ),
+    ssl.TLSVersion.MAXIMUM_SUPPORTED: (
+        <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a87415006a681430c7242a31e04817f8f" kindref="member">_OP_NO_TLSv1</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3aea6045a6e4b761ba7b560daf06c1aa" kindref="member">_OP_NO_TLSv1_1</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a604e105068771b620e6f6dc1b23ce3ec" kindref="member">_OP_NO_TLSv1_2</ref>
+    ),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1aec682ee3b5d5ee73b734e4ec04511110" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::contrib::pyopenssl._openssl_to_ssl_maximum_version</definition>
+        <argsstring></argsstring>
+        <name>_openssl_to_ssl_maximum_version</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._openssl_to_ssl_maximum_version</qualifiedname>
+        <initializer>=  {
+    ssl.TLSVersion.MINIMUM_SUPPORTED: (
+        <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref>
+        | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a87415006a681430c7242a31e04817f8f" kindref="member">_OP_NO_TLSv1</ref>
+        | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3aea6045a6e4b761ba7b560daf06c1aa" kindref="member">_OP_NO_TLSv1_1</ref>
+        | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a604e105068771b620e6f6dc1b23ce3ec" kindref="member">_OP_NO_TLSv1_2</ref>
+        | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1add7eac9a16b1759847961391a949932b" kindref="member">_OP_NO_TLSv1_3</ref>
+    ),
+    ssl.TLSVersion.TLSv1: (
+        <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3aea6045a6e4b761ba7b560daf06c1aa" kindref="member">_OP_NO_TLSv1_1</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a604e105068771b620e6f6dc1b23ce3ec" kindref="member">_OP_NO_TLSv1_2</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1add7eac9a16b1759847961391a949932b" kindref="member">_OP_NO_TLSv1_3</ref>
+    ),
+    ssl.TLSVersion.TLSv1_1: <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a604e105068771b620e6f6dc1b23ce3ec" kindref="member">_OP_NO_TLSv1_2</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1add7eac9a16b1759847961391a949932b" kindref="member">_OP_NO_TLSv1_3</ref>,
+    ssl.TLSVersion.TLSv1_2: <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref> | <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1add7eac9a16b1759847961391a949932b" kindref="member">_OP_NO_TLSv1_3</ref>,
+    ssl.TLSVersion.TLSv1_3: <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref>,
+    ssl.TLSVersion.MAXIMUM_SUPPORTED: <ref refid="namespaceurllib3_1_1contrib_1_1pyopenssl_1a3910d3f39ebd38337982e054fc377684" kindref="member">_OP_NO_SSLv2_OR_SSLv3</ref>,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="113" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a6074d83cad30bbe9dd35d8deac55cec1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::pyopenssl.SSL_WRITE_BLOCKSIZE</definition>
+        <argsstring></argsstring>
+        <name>SSL_WRITE_BLOCKSIZE</name>
+        <qualifiedname>urllib3.contrib.pyopenssl.SSL_WRITE_BLOCKSIZE</qualifiedname>
+        <initializer>=  16384</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="131" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a83416d1471d238aaa6c66338394bdd84" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::contrib::pyopenssl.orig_util_SSLContext</definition>
+        <argsstring></argsstring>
+        <name>orig_util_SSLContext</name>
+        <qualifiedname>urllib3.contrib.pyopenssl.orig_util_SSLContext</qualifiedname>
+        <initializer>=  <ref refid="namespaceurllib3_1_1util_1_1ssl___1a7a253de14f2b8023a70529697faefa45" kindref="member">util.ssl_.SSLContext</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="133" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a69a5447fe0459b54916c56249ca1d287" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::contrib::pyopenssl.log</definition>
+        <argsstring></argsstring>
+        <name>log</name>
+        <qualifiedname>urllib3.contrib.pyopenssl.log</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="136" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a293d96cd841e842ec99b5068511ab933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.contrib.pyopenssl.inject_into_urllib3</definition>
+        <argsstring>()</argsstring>
+        <name>inject_into_urllib3</name>
+        <qualifiedname>urllib3.contrib.pyopenssl.inject_into_urllib3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="139" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="139" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1a6496bac859906a80825fe673e0c7ce1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.contrib.pyopenssl.extract_from_urllib3</definition>
+        <argsstring>()</argsstring>
+        <name>extract_from_urllib3</name>
+        <qualifiedname>urllib3.contrib.pyopenssl.extract_from_urllib3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="150" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="150" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1abe5fef49c8b21806c364b7ef8974a0b9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.contrib.pyopenssl._validate_dependencies_met</definition>
+        <argsstring>()</argsstring>
+        <name>_validate_dependencies_met</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._validate_dependencies_met</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Verifies that PyOpenSSL&apos;s package-level dependencies have been met.
+Throws `ImportError` if they are not met.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="159" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="159" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1ae3f34da406798f75baa3c9102011be24" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None urllib3.contrib.pyopenssl._dnsname_to_stdlib</definition>
+        <argsstring>(str name)</argsstring>
+        <name>_dnsname_to_stdlib</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._dnsname_to_stdlib</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Converts a dNSName SubjectAlternativeName field to the form used by the
+standard library on the given Python version.
+
+Cryptography produces a dNSName as a unicode string that was idna-decoded
+from ASCII bytes. We need to idna-encode that string to get it back, and
+then on Python 3 we also need to convert to unicode via UTF-8 (the stdlib
+uses PyUnicode_FromStringAndSize on it, which decodes via UTF-8).
+
+If the name cannot be idna-encoded then we return None signalling that
+the name given should be skipped.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="185" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="185" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1ae7580601b2d8334c5b0770190d0d4f6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[tuple[str, str]]</type>
+        <definition> list[tuple[str, str]] urllib3.contrib.pyopenssl.get_subj_alt_name</definition>
+        <argsstring>(X509 peer_cert)</argsstring>
+        <name>get_subj_alt_name</name>
+        <qualifiedname>urllib3.contrib.pyopenssl.get_subj_alt_name</qualifiedname>
+        <param>
+          <type>X509</type>
+          <declname>peer_cert</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given an PyOpenSSL certificate, provides all the subject alternative names.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="226" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="226" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1pyopenssl_1ab1fda637543ea4846021da4f185bb004" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.contrib.pyopenssl._verify_callback</definition>
+        <argsstring>(OpenSSL.SSL.Connection cnx, X509 x509, int err_no, int err_depth, int return_code)</argsstring>
+        <name>_verify_callback</name>
+        <qualifiedname>urllib3.contrib.pyopenssl._verify_callback</qualifiedname>
+        <param>
+          <type>OpenSSL.SSL.Connection</type>
+          <declname>cnx</declname>
+        </param>
+        <param>
+          <type>X509</type>
+          <declname>x509</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>err_no</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>err_depth</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>return_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="557" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" bodystart="563" bodyend="565"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Module for using pyOpenSSL as a TLS backend. This module was relevant before
+the standard library ``ssl`` module supported SNI, but now that we&apos;ve dropped
+support for Python 2.7 all relevant Python versions support SNI so
+**this module is no longer recommended**.
+
+This needs the following packages installed:
+
+* `pyOpenSSL`_ (tested with 16.0.0)
+* `cryptography`_ (minimum 1.3.4, from pyopenssl)
+* `idna`_ (minimum 2.0)
+
+However, pyOpenSSL depends on cryptography, so while we use all three directly here we
+end up having relatively few packages required.
+
+You can install them with the following command:
+
+.. code-block:: bash
+
+    $ python -m pip install pyopenssl cryptography idna
+
+To activate certificate checking, call
+:func:`~urllib3.contrib.pyopenssl.inject_into_urllib3` from your Python code
+before you begin making HTTP requests. This can be done in a ``sitecustomize``
+module, or at any other time before your application begins using ``urllib3``,
+like this:
+
+.. code-block:: python
+
+    try:
+        import urllib3.contrib.pyopenssl
+        urllib3.contrib.pyopenssl.inject_into_urllib3()
+    except ImportError:
+        pass
+
+.. _pyopenssl: https://www.pyopenssl.org
+.. _cryptography: https://cryptography.io
+.. _idna: https://github.com/kjd/idna
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/pyopenssl.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_build_2__deps_2googletest-src_2docs_2reference_2assertions" kind="page">
+    <compoundname>md_build_2__deps_2googletest-src_2docs_2reference_2assertions</compoundname>
+    <title>Assertions Reference</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_build_2__deps_2googletest-src_2docs_2reference_2assertions_1autotoc_md247"/> This page lists the assertion macros provided by GoogleTest for verifying code behavior. To use them, include the header <computeroutput>gtest/gtest.h</computeroutput>.</para>
+<para>The majority of the macros listed below come as a pair with an <computeroutput>EXPECT_</computeroutput> variant and an <computeroutput>ASSERT_</computeroutput> variant. Upon failure, <computeroutput>EXPECT_</computeroutput> macros generate nonfatal failures and allow the current function to continue running, while <computeroutput>ASSERT_</computeroutput> macros generate fatal failures and abort the current function.</para>
+<para>All assertion macros support streaming a custom failure message into them with the <computeroutput>&lt;&lt;</computeroutput> operator, for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(my_condition)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;My<sp/>condition<sp/>is<sp/>not<sp/>true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting></para>
+<para>Anything that can be streamed to an <computeroutput>ostream</computeroutput> can be streamed to an assertion macro—in particular, C strings and string objects. If a wide string (<computeroutput>wchar_t*</computeroutput>, <computeroutput>TCHAR*</computeroutput> in <computeroutput>UNICODE</computeroutput> mode on Windows, or <computeroutput>std::wstring</computeroutput>) is streamed to an assertion, it will be translated to UTF-8 when printed.</para>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1success-failure">
+<title>Explicit Success and Failure</title>
+<para>The assertions in this section generate a success or failure directly instead of testing a value or expression. These are useful when control flow, rather than a Boolean expression, determines the test&apos;s success or failure, as shown by the following example:</para>
+<para><programlisting filename=".c"><codeline><highlight class="normal"><sp/>++</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal">(expression)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>1:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...<sp/>some<sp/>checks<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>2:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>...<sp/>some<sp/>other<sp/>checks<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;We<sp/>shouldn&apos;t<sp/>get<sp/>here.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1SUCCEED">
+<title>SUCCEED</title>
+<para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a75adcdf89f69b0b615e395daafc315af" kindref="member">SUCCEED()</ref></computeroutput></para>
+<para>Generates a success. This <emphasis>does not</emphasis> make the overall test succeed. A test is considered successful only if none of its assertions fail during its execution.</para>
+<para>The <computeroutput>SUCCEED</computeroutput> assertion is purely documentary and currently doesn&apos;t generate any user-visible output. However, we may add <computeroutput>SUCCEED</computeroutput> messages to GoogleTest output in the future.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1FAIL">
+<title>FAIL</title>
+<para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL()</ref></computeroutput></para>
+<para>Generates a fatal failure, which returns from the current function.</para>
+<para>Can only be used in functions that return <computeroutput>void</computeroutput>. See <ulink url="../advanced.md#assertion-placement">Assertion Placement</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1ADD_FAILURE">
+<title>ADD_FAILURE</title>
+<para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1adc16b5b0a740c39084ea5c9e960e3063" kindref="member">ADD_FAILURE()</ref></computeroutput></para>
+<para>Generates a nonfatal failure, which allows the current function to continue running.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1ADD_FAILURE_AT">
+<title>ADD_FAILURE_AT</title>
+<para><computeroutput>ADD_FAILURE_AT(</computeroutput>*<computeroutput>file_path</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>line_number</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Generates a nonfatal failure at the file and line number specified.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1generalized">
+<title>Generalized Assertion</title>
+<para>The following assertion allows <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">matchers</ref> to be used to verify values.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_THAT">
+<title>EXPECT_THAT</title>
+<para><computeroutput>EXPECT_THAT(</computeroutput>*<computeroutput>value</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_THAT(</computeroutput>*<computeroutput>value</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>value</computeroutput>* matches the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">matcher</ref> *<computeroutput>matcher</computeroutput>*.</para>
+<para>For example, the following code verifies that the string <computeroutput>value1</computeroutput> starts with <computeroutput>&quot;Hello&quot;</computeroutput>, <computeroutput>value2</computeroutput> matches a regular expression, and <computeroutput>value3</computeroutput> is between 5 and 10:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::AllOf;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Gt;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Lt;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::MatchesRegex;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::StartsWith;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_THAT(value1,<sp/><ref refid="namespacetesting_1_1internal_1ae0522f740806da841ae21bc71804e038" kindref="member">StartsWith</ref>(</highlight><highlight class="stringliteral">&quot;Hello&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-matchers_8h_1ac31e206123aa702e1152bb2735b31409" kindref="member">EXPECT_THAT</ref>(value2,<sp/>MatchesRegex(</highlight><highlight class="stringliteral">&quot;Line<sp/>\\d+&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-matchers_8h_1a41d888579850c16583baea33ee8d057e" kindref="member">ASSERT_THAT</ref>(value3,<sp/>AllOf(Gt(5),<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1af47bf94cd307008a7d12802d206260c9" kindref="member">Lt</ref>(10)));</highlight></codeline>
+</programlisting></para>
+<para>Matchers enable assertions of this form to read like English and generate informative failure messages. For example, if the above assertion on <computeroutput>value1</computeroutput> fails, the resulting message will be similar to the following:</para>
+<para><programlisting><codeline><highlight class="normal">Value<sp/>of:<sp/>value1</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>Actual:<sp/>&quot;Hi,<sp/>world!&quot;</highlight></codeline>
+<codeline><highlight class="normal">Expected:<sp/>starts<sp/>with<sp/>&quot;Hello&quot;</highlight></codeline>
+</programlisting></para>
+<para>GoogleTest provides a built-in library of matchers—see the <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">Matchers Reference</ref>. It is also possible to write your own matchers—see <ulink url="../gmock_cook_book.md#NewMatchers">Writing New Matchers Quickly</ulink>. The use of matchers makes <computeroutput>EXPECT_THAT</computeroutput> a powerful, extensible assertion.</para>
+<para><emphasis>The idea for this assertion was borrowed from Joe Walnes&apos; Hamcrest project, which adds <computeroutput>assertThat()</computeroutput> to JUnit.</emphasis></para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1boolean">
+<title>Boolean Conditions</title>
+<para>The following assertions test Boolean conditions.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_TRUE">
+<title>EXPECT_TRUE</title>
+<para><computeroutput>EXPECT_TRUE(</computeroutput>*<computeroutput>condition</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_TRUE(</computeroutput>*<computeroutput>condition</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>condition</computeroutput>* is true.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_FALSE">
+<title>EXPECT_FALSE</title>
+<para><computeroutput>EXPECT_FALSE(</computeroutput>*<computeroutput>condition</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_FALSE(</computeroutput>*<computeroutput>condition</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>condition</computeroutput>* is false.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1binary-comparison">
+<title>Binary Comparison</title>
+<para>The following assertions compare two values. The value arguments must be comparable by the assertion&apos;s comparison operator, otherwise a compiler error will result.</para>
+<para>If an argument supports the <computeroutput>&lt;&lt;</computeroutput> operator, it will be called to print the argument when the assertion fails. Otherwise, GoogleTest will attempt to print them in the best way it can—see <ulink url="../advanced.md#teaching-googletest-how-to-print-your-values">Teaching GoogleTest How to Print Your Values</ulink>.</para>
+<para>Arguments are always evaluated exactly once, so it&apos;s OK for the arguments to have side effects. However, the argument evaluation order is undefined and programs should not depend on any particular argument evaluation order.</para>
+<para>These assertions work with both narrow and wide string objects (<computeroutput>string</computeroutput> and <computeroutput>wstring</computeroutput>).</para>
+<para>See also the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1floating-point" kindref="member">Floating-Point Comparison</ref> assertions to compare floating-point numbers and avoid problems caused by rounding.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_EQ">
+<title>EXPECT_EQ</title>
+<para><computeroutput>EXPECT_EQ(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_EQ(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>val1</computeroutput>*<computeroutput>==</computeroutput>*<computeroutput>val2</computeroutput>*.</para>
+<para>Does pointer equality on pointers. If used on two C strings, it tests if they are in the same memory location, not if they have the same value. Use <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_STREQ" kindref="member">`EXPECT_STREQ`</ref> to compare C strings (e.g. <computeroutput>const char*</computeroutput>) by value.</para>
+<para>When comparing a pointer to <computeroutput>NULL</computeroutput>, use <computeroutput>EXPECT_EQ(</computeroutput>*<computeroutput>ptr</computeroutput>*<computeroutput>, nullptr)</computeroutput> instead of <computeroutput>EXPECT_EQ(</computeroutput>*<computeroutput>ptr</computeroutput>*<computeroutput>, NULL)</computeroutput>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_NE">
+<title>EXPECT_NE</title>
+<para><computeroutput>EXPECT_NE(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_NE(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>val1</computeroutput>*<computeroutput>!=</computeroutput>*<computeroutput>val2</computeroutput>*.</para>
+<para>Does pointer equality on pointers. If used on two C strings, it tests if they are in different memory locations, not if they have different values. Use <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_STRNE" kindref="member">`EXPECT_STRNE`</ref> to compare C strings (e.g. <computeroutput>const char*</computeroutput>) by value.</para>
+<para>When comparing a pointer to <computeroutput>NULL</computeroutput>, use <computeroutput>EXPECT_NE(</computeroutput>*<computeroutput>ptr</computeroutput>*<computeroutput>, nullptr)</computeroutput> instead of <computeroutput>EXPECT_NE(</computeroutput>*<computeroutput>ptr</computeroutput>*<computeroutput>, NULL)</computeroutput>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_LT">
+<title>EXPECT_LT</title>
+<para><computeroutput>EXPECT_LT(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_LT(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>val1</computeroutput>*<computeroutput>&lt;</computeroutput>*<computeroutput>val2</computeroutput>*.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_LE">
+<title>EXPECT_LE</title>
+<para><computeroutput>EXPECT_LE(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_LE(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>val1</computeroutput>*<computeroutput>&lt;=</computeroutput>*<computeroutput>val2</computeroutput>*.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_GT">
+<title>EXPECT_GT</title>
+<para><computeroutput>EXPECT_GT(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_GT(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>val1</computeroutput>*<computeroutput>&gt;</computeroutput>*<computeroutput>val2</computeroutput>*.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_GE">
+<title>EXPECT_GE</title>
+<para><computeroutput>EXPECT_GE(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_GE(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>val1</computeroutput>*<computeroutput>&gt;=</computeroutput>*<computeroutput>val2</computeroutput>*.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1c-strings">
+<title>String Comparison</title>
+<para>The following assertions compare two <bold>C strings</bold>. To compare two <computeroutput>string</computeroutput> objects, use <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_EQ" kindref="member">`EXPECT_EQ`</ref> or <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_NE" kindref="member">`EXPECT_NE`</ref> instead.</para>
+<para>These assertions also accept wide C strings (<computeroutput>wchar_t*</computeroutput>). If a comparison of two wide strings fails, their values will be printed as UTF-8 narrow strings.</para>
+<para>To compare a C string with <computeroutput>NULL</computeroutput>, use <computeroutput>EXPECT_EQ(</computeroutput>*<computeroutput>c_string</computeroutput>*<computeroutput>, nullptr)</computeroutput> or <computeroutput>EXPECT_NE(</computeroutput>*<computeroutput>c_string</computeroutput>*<computeroutput>, nullptr)</computeroutput>.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_STREQ">
+<title>EXPECT_STREQ</title>
+<para><computeroutput>EXPECT_STREQ(</computeroutput>*<computeroutput>str1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>str2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_STREQ(</computeroutput>*<computeroutput>str1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>str2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the two C strings *<computeroutput>str1</computeroutput>* and *<computeroutput>str2</computeroutput>* have the same contents.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_STRNE">
+<title>EXPECT_STRNE</title>
+<para><computeroutput>EXPECT_STRNE(</computeroutput>*<computeroutput>str1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>str2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_STRNE(</computeroutput>*<computeroutput>str1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>str2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the two C strings *<computeroutput>str1</computeroutput>* and *<computeroutput>str2</computeroutput>* have different contents.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_STRCASEEQ">
+<title>EXPECT_STRCASEEQ</title>
+<para><computeroutput>EXPECT_STRCASEEQ(</computeroutput>*<computeroutput>str1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>str2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_STRCASEEQ(</computeroutput>*<computeroutput>str1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>str2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the two C strings *<computeroutput>str1</computeroutput>* and *<computeroutput>str2</computeroutput>* have the same contents, ignoring case.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_STRCASENE">
+<title>EXPECT_STRCASENE</title>
+<para><computeroutput>EXPECT_STRCASENE(</computeroutput>*<computeroutput>str1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>str2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_STRCASENE(</computeroutput>*<computeroutput>str1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>str2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the two C strings *<computeroutput>str1</computeroutput>* and *<computeroutput>str2</computeroutput>* have different contents, ignoring case.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1floating-point">
+<title>Floating-Point Comparison</title>
+<para>The following assertions compare two floating-point values.</para>
+<para>Due to rounding errors, it is very unlikely that two floating-point values will match exactly, so <computeroutput>EXPECT_EQ</computeroutput> is not suitable. In general, for floating-point comparison to make sense, the user needs to carefully choose the error bound.</para>
+<para>GoogleTest also provides assertions that use a default error bound based on Units in the Last Place (ULPs). To learn more about ULPs, see the article <ulink url="https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/">Comparing Floating Point Numbers</ulink>.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_FLOAT_EQ">
+<title>EXPECT_FLOAT_EQ</title>
+<para><computeroutput>EXPECT_FLOAT_EQ(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_FLOAT_EQ(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the two <computeroutput>float</computeroutput> values *<computeroutput>val1</computeroutput>* and *<computeroutput>val2</computeroutput>* are approximately equal, to within 4 ULPs from each other.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_DOUBLE_EQ">
+<title>EXPECT_DOUBLE_EQ</title>
+<para><computeroutput>EXPECT_DOUBLE_EQ(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_DOUBLE_EQ(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the two <computeroutput>double</computeroutput> values *<computeroutput>val1</computeroutput>* and *<computeroutput>val2</computeroutput>* are approximately equal, to within 4 ULPs from each other.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_NEAR">
+<title>EXPECT_NEAR</title>
+<para><computeroutput>EXPECT_NEAR(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>abs_error</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_NEAR(</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>abs_error</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the difference between *<computeroutput>val1</computeroutput>* and *<computeroutput>val2</computeroutput>* does not exceed the absolute error bound *<computeroutput>abs_error</computeroutput>*.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1exceptions">
+<title>Exception Assertions</title>
+<para>The following assertions verify that a piece of code throws, or does not throw, an exception. Usage requires exceptions to be enabled in the build environment.</para>
+<para>Note that the piece of code under test can be a compound statement, for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a2743a1438137ad857aa3f9fec3ff67ec" kindref="member">EXPECT_NO_THROW</ref>({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>5;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DoSomething(&amp;n);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting></para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_THROW">
+<title>EXPECT_THROW</title>
+<para><computeroutput>EXPECT_THROW(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>exception_type</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_THROW(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>exception_type</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>statement</computeroutput>* throws an exception of type *<computeroutput>exception_type</computeroutput>*.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_ANY_THROW">
+<title>EXPECT_ANY_THROW</title>
+<para><computeroutput>EXPECT_ANY_THROW(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_ANY_THROW(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>statement</computeroutput>* throws an exception of any type.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_NO_THROW">
+<title>EXPECT_NO_THROW</title>
+<para><computeroutput>EXPECT_NO_THROW(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_NO_THROW(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>statement</computeroutput>* does not throw any exception.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1predicates">
+<title>Predicate Assertions</title>
+<para>The following assertions enable more complex predicates to be verified while printing a more clear failure message than if <computeroutput>EXPECT_TRUE</computeroutput> were used alone.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_PRED">
+<title>EXPECT_PRED*</title>
+<para><computeroutput>EXPECT_PRED1(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>EXPECT_PRED2(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>EXPECT_PRED3(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>EXPECT_PRED4(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val4</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>EXPECT_PRED5(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val4</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val5</computeroutput>*<computeroutput>)</computeroutput></para>
+<para><computeroutput>ASSERT_PRED1(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_PRED2(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_PRED3(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_PRED4(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val4</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_PRED5(</computeroutput>*<computeroutput>pred</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val4</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val5</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the predicate *<computeroutput>pred</computeroutput>* returns <computeroutput>true</computeroutput> when passed the given values as arguments.</para>
+<para>The parameter *<computeroutput>pred</computeroutput>* is a function or functor that accepts as many arguments as the corresponding macro accepts values. If *<computeroutput>pred</computeroutput>* returns <computeroutput>true</computeroutput> for the given arguments, the assertion succeeds, otherwise the assertion fails.</para>
+<para>When the assertion fails, it prints the value of each argument. Arguments are always evaluated exactly once.</para>
+<para>As an example, see the following code:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Returns<sp/>true<sp/>if<sp/>m<sp/>and<sp/>n<sp/>have<sp/>no<sp/>common<sp/>divisors<sp/>except<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>MutuallyPrime(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">const<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1six_1ac6372282e9014024e8e9a81d539f8c82" kindref="member">b</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED2(MutuallyPrime,<sp/>a,<sp/>b);<sp/><sp/></highlight><highlight class="comment">//<sp/>Succeeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest__pred__impl_8h_1a14e74e655e502914d3d07e083145ac91" kindref="member">EXPECT_PRED2</ref>(MutuallyPrime,<sp/>b,<sp/>c);<sp/><sp/></highlight><highlight class="comment">//<sp/>Fails</highlight></codeline>
+</programlisting></para>
+<para>In the above example, the first assertion succeeds, and the second fails with the following message:</para>
+<para><programlisting><codeline><highlight class="normal">MutuallyPrime(b,<sp/>c)<sp/>is<sp/>false,<sp/>where</highlight></codeline>
+<codeline><highlight class="normal">b<sp/>is<sp/>4</highlight></codeline>
+<codeline><highlight class="normal">c<sp/>is<sp/>10</highlight></codeline>
+</programlisting></para>
+<para>Note that if the given predicate is an overloaded function or a function template, the assertion macro might not be able to determine which version to use, and it might be necessary to explicitly specify the type of the function. For example, for a Boolean function <computeroutput>IsPositive()</computeroutput> overloaded to take either a single <computeroutput>int</computeroutput> or <computeroutput>double</computeroutput> argument, it would be necessary to write one of the following:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest__pred__impl_8h_1a6d09aa83f8d297481380c7c073c9f070" kindref="member">EXPECT_PRED1</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>(*)(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(IsPositive),<sp/>5);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest__pred__impl_8h_1a6d09aa83f8d297481380c7c073c9f070" kindref="member">EXPECT_PRED1</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>(*)(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(IsPositive),<sp/>3.14);</highlight></codeline>
+</programlisting></para>
+<para>Writing simply <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest__pred__impl_8h_1a6d09aa83f8d297481380c7c073c9f070" kindref="member">EXPECT_PRED1(IsPositive, 5)</ref>;</computeroutput> would result in a compiler error. Similarly, to use a template function, specify the template arguments:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IsNegative(T<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref><sp/>&lt;<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED1(IsNegative&lt;int&gt;,<sp/>-5);<sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>specify<sp/>type<sp/>for<sp/>IsNegative</highlight></codeline>
+</programlisting></para>
+<para>If a template has multiple parameters, wrap the predicate in parentheses so the macro arguments are parsed correctly:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest__pred__impl_8h_1a4e9b777cce4e5423f4c2e491be7aa818" kindref="member">ASSERT_PRED2</ref>((MyPredicate&lt;int,<sp/>int&gt;),<sp/>5,<sp/>0);</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_PRED_FORMAT">
+<title>EXPECT_PRED_FORMAT*</title>
+<para><computeroutput>EXPECT_PRED_FORMAT1(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>EXPECT_PRED_FORMAT2(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>EXPECT_PRED_FORMAT3(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>EXPECT_PRED_FORMAT4(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val4</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>EXPECT_PRED_FORMAT5(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val4</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val5</computeroutput>*<computeroutput>)</computeroutput></para>
+<para><computeroutput>ASSERT_PRED_FORMAT1(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_PRED_FORMAT2(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_PRED_FORMAT3(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_PRED_FORMAT4(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val4</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_PRED_FORMAT5(</computeroutput>*<computeroutput>pred_formatter</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val1</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val2</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val3</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val4</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>val5</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that the predicate *<computeroutput>pred_formatter</computeroutput>* succeeds when passed the given values as arguments.</para>
+<para>The parameter *<computeroutput>pred_formatter</computeroutput>* is a <emphasis>predicate-formatter</emphasis>, which is a function or functor with the signature:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">testing::AssertionResult<sp/>PredicateFormatter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>expr1,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>expr2,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>exprn,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>T1<sp/>val1,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>T2<sp/>val2,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Tn<sp/>valn);</highlight></codeline>
+</programlisting></para>
+<para>where *<computeroutput>val1</computeroutput>*, *<computeroutput>val2</computeroutput>*, ..., *<computeroutput>valn</computeroutput>* are the values of the predicate arguments, and *<computeroutput>expr1</computeroutput>*, *<computeroutput>expr2</computeroutput>*, ..., *<computeroutput>exprn</computeroutput>* are the corresponding expressions as they appear in the source code. The types <computeroutput>T1</computeroutput>, <computeroutput>T2</computeroutput>, ..., <computeroutput>Tn</computeroutput> can be either value types or reference types; if an argument has type <computeroutput>T</computeroutput>, it can be declared as either <computeroutput>T</computeroutput> or <computeroutput>const T&amp;</computeroutput>, whichever is appropriate. For more about the return type <computeroutput>testing::AssertionResult</computeroutput>, see <ulink url="../advanced.md#using-a-function-that-returns-an-assertionresult">Using a Function That Returns an AssertionResult</ulink>.</para>
+<para>As an example, see the following code:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Returns<sp/>the<sp/>smallest<sp/>prime<sp/>common<sp/>divisor<sp/>of<sp/>m<sp/>and<sp/>n,</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>or<sp/>1<sp/>when<sp/>m<sp/>and<sp/>n<sp/>are<sp/>mutually<sp/>prime.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>SmallestPrimeCommonDivisor(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Returns<sp/>true<sp/>if<sp/>m<sp/>and<sp/>n<sp/>have<sp/>no<sp/>common<sp/>divisors<sp/>except<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>MutuallyPrime(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>predicate-formatter<sp/>for<sp/>asserting<sp/>that<sp/>two<sp/>integers<sp/>are<sp/>mutually<sp/>prime.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">testing::AssertionResult<sp/>AssertMutuallyPrime(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>m_expr,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>n_expr,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(MutuallyPrime(m,<sp/>n))<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1ac1d0baedb17286c5c6c87bd1a45da8ac" kindref="member">testing::AssertionSuccess</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1a75cb789614cb1c28c34627a4a3c053df" kindref="member">testing::AssertionFailure</ref>()<sp/>&lt;&lt;<sp/>m_expr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>and<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>n_expr</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>m<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>and<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>n<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)<sp/>are<sp/>not<sp/>mutually<sp/>prime,<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;as<sp/>they<sp/>have<sp/>a<sp/>common<sp/>divisor<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>SmallestPrimeCommonDivisor(m,<sp/>n);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">const<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1six_1ac6372282e9014024e8e9a81d539f8c82" kindref="member">b</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_PRED_FORMAT2(AssertMutuallyPrime,<sp/>a,<sp/>b);<sp/><sp/></highlight><highlight class="comment">//<sp/>Succeeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest__pred__impl_8h_1af0141918615a5e2d5247e9cda8324dae" kindref="member">EXPECT_PRED_FORMAT2</ref>(AssertMutuallyPrime,<sp/>b,<sp/>c);<sp/><sp/></highlight><highlight class="comment">//<sp/>Fails</highlight></codeline>
+</programlisting></para>
+<para>In the above example, the final assertion fails and the predicate-formatter produces the following failure message:</para>
+<para><programlisting><codeline><highlight class="normal">b<sp/>and<sp/>c<sp/>(4<sp/>and<sp/>10)<sp/>are<sp/>not<sp/>mutually<sp/>prime,<sp/>as<sp/>they<sp/>have<sp/>a<sp/>common<sp/>divisor<sp/>2</highlight></codeline>
+</programlisting></para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1HRESULT">
+<title>Windows HRESULT Assertions</title>
+<para>The following assertions test for <computeroutput>HRESULT</computeroutput> success or failure. For example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">CComPtr&lt;IShellDispatch2&gt;<sp/>shell;</highlight></codeline>
+<codeline><highlight class="normal">ASSERT_HRESULT_SUCCEEDED(shell.CoCreateInstance(L</highlight><highlight class="stringliteral">&quot;Shell.Application&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal">CComVariant<sp/><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1a9c704d1fa25d9654bfdf78123f044f9f" kindref="member">empty</ref>;</highlight></codeline>
+<codeline><highlight class="normal">ASSERT_HRESULT_SUCCEEDED(shell-&gt;ShellExecute(CComBSTR(url),<sp/>empty,<sp/>empty,<sp/>empty,<sp/>empty));</highlight></codeline>
+</programlisting></para>
+<para>The generated output contains the human-readable error message associated with the returned <computeroutput>HRESULT</computeroutput> code.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_HRESULT_SUCCEEDED">
+<title>EXPECT_HRESULT_SUCCEEDED</title>
+<para><computeroutput>EXPECT_HRESULT_SUCCEEDED(</computeroutput>*<computeroutput>expression</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_HRESULT_SUCCEEDED(</computeroutput>*<computeroutput>expression</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>expression</computeroutput>* is a success <computeroutput>HRESULT</computeroutput>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_HRESULT_FAILED">
+<title>EXPECT_HRESULT_FAILED</title>
+<para><computeroutput>EXPECT_HRESULT_FAILED(</computeroutput>*<computeroutput>expression</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_HRESULT_FAILED(</computeroutput>*<computeroutput>expression</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>expression</computeroutput>* is a failure <computeroutput>HRESULT</computeroutput>.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1death">
+<title>Death Assertions</title>
+<para>The following assertions verify that a piece of code causes the process to terminate. For context, see <ulink url="../advanced.md#death-tests">Death Tests</ulink>.</para>
+<para>These assertions spawn a new process and execute the code under test in that process. How that happens depends on the platform and the variable <computeroutput>::testing::GTEST_FLAG(death_test_style)</computeroutput>, which is initialized from the command-line flag <computeroutput>--gtest_death_test_style</computeroutput>.</para>
+<para><itemizedlist>
+<listitem><para>On POSIX systems, <computeroutput>fork()</computeroutput> (or <computeroutput>clone()</computeroutput> on Linux) is used to spawn the child, after which:<itemizedlist>
+<listitem><para>If the variable&apos;s value is <computeroutput>&quot;fast&quot;</computeroutput>, the death test statement is immediately executed.</para>
+</listitem><listitem><para>If the variable&apos;s value is <computeroutput>&quot;threadsafe&quot;</computeroutput>, the child process re-executes the unit test binary just as it was originally invoked, but with some extra flags to cause just the single death test under consideration to be run.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>On Windows, the child is spawned using the <computeroutput>CreateProcess()</computeroutput> API, and re-executes the binary to cause just the single death test under consideration to be run - much like the <computeroutput>&quot;threadsafe&quot;</computeroutput> mode on POSIX.</para>
+</listitem></itemizedlist>
+</para>
+<para>Other values for the variable are illegal and will cause the death test to fail. Currently, the flag&apos;s default value is **<computeroutput>&quot;fast&quot;</computeroutput>**.</para>
+<para>If the death test statement runs to completion without dying, the child process will nonetheless terminate, and the assertion fails.</para>
+<para>Note that the piece of code under test can be a compound statement, for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">EXPECT_DEATH({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>5;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DoSomething(&amp;n);</highlight></codeline>
+<codeline><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>on<sp/>line<sp/>.*<sp/>of<sp/>DoSomething()&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_DEATH">
+<title>EXPECT_DEATH</title>
+<para><computeroutput>EXPECT_DEATH(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_DEATH(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>statement</computeroutput>* causes the process to terminate with a nonzero exit status and produces <computeroutput>stderr</computeroutput> output that matches *<computeroutput>matcher</computeroutput>*.</para>
+<para>The parameter *<computeroutput>matcher</computeroutput>* is either a <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">matcher</ref> for a <computeroutput>const std::string&amp;</computeroutput>, or a regular expression (see <ulink url="../advanced.md#regular-expression-syntax">Regular Expression Syntax</ulink>)—a bare string *<computeroutput>s</computeroutput>* (with no matcher) is treated as <ulink url="matchers.md#string-matchers"><computeroutput>ContainsRegex(s)</computeroutput></ulink>, <bold>not</bold> <ulink url="matchers.md#generic-comparison"><computeroutput>Eq(s)</computeroutput></ulink>.</para>
+<para>For example, the following code verifies that calling <computeroutput>DoSomething(42)</computeroutput> causes the process to die with an error message that contains the text <computeroutput>My error</computeroutput>:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">EXPECT_DEATH(DoSomething(42),<sp/></highlight><highlight class="stringliteral">&quot;My<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_DEATH_IF_SUPPORTED">
+<title>EXPECT_DEATH_IF_SUPPORTED</title>
+<para><computeroutput>EXPECT_DEATH_IF_SUPPORTED(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_DEATH_IF_SUPPORTED(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>If death tests are supported, behaves the same as <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_DEATH" kindref="member">`EXPECT_DEATH`</ref>. Otherwise, verifies nothing.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_DEBUG_DEATH">
+<title>EXPECT_DEBUG_DEATH</title>
+<para><computeroutput>EXPECT_DEBUG_DEATH(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_DEBUG_DEATH(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>In debug mode, behaves the same as <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_DEATH" kindref="member">`EXPECT_DEATH`</ref>. When not in debug mode (i.e. <computeroutput>NDEBUG</computeroutput> is defined), just executes *<computeroutput>statement</computeroutput>*.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions_1EXPECT_EXIT">
+<title>EXPECT_EXIT</title>
+<para><computeroutput>EXPECT_EXIT(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>predicate</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>ASSERT_EXIT(</computeroutput>*<computeroutput>statement</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>predicate</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>matcher</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Verifies that *<computeroutput>statement</computeroutput>* causes the process to terminate with an exit status that satisfies *<computeroutput>predicate</computeroutput>*, and produces <computeroutput>stderr</computeroutput> output that matches *<computeroutput>matcher</computeroutput>*.</para>
+<para>The parameter *<computeroutput>predicate</computeroutput>* is a function or functor that accepts an <computeroutput>int</computeroutput> exit status and returns a <computeroutput>bool</computeroutput>. GoogleTest provides two predicates to handle common cases:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Returns<sp/>true<sp/>if<sp/>the<sp/>program<sp/>exited<sp/>normally<sp/>with<sp/>the<sp/>given<sp/>exit<sp/>status<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">::testing::ExitedWithCode(exit_code);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Returns<sp/>true<sp/>if<sp/>the<sp/>program<sp/>was<sp/>killed<sp/>by<sp/>the<sp/>given<sp/>signal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Not<sp/>available<sp/>on<sp/>Windows.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">::testing::KilledBySignal(signal_number);</highlight></codeline>
+</programlisting></para>
+<para>The parameter *<computeroutput>matcher</computeroutput>* is either a <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">matcher</ref> for a <computeroutput>const std::string&amp;</computeroutput>, or a regular expression (see <ulink url="../advanced.md#regular-expression-syntax">Regular Expression Syntax</ulink>)—a bare string *<computeroutput>s</computeroutput>* (with no matcher) is treated as <ulink url="matchers.md#string-matchers"><computeroutput>ContainsRegex(s)</computeroutput></ulink>, <bold>not</bold> <ulink url="matchers.md#generic-comparison"><computeroutput>Eq(s)</computeroutput></ulink>.</para>
+<para>For example, the following code verifies that calling <computeroutput>NormalExit()</computeroutput> causes the process to print a message containing the text <computeroutput>Success</computeroutput> to <computeroutput>stderr</computeroutput> and exit with exit status code 0:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">EXPECT_EXIT(NormalExit(),<sp/>testing::ExitedWithCode(0),<sp/></highlight><highlight class="stringliteral">&quot;Success&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+</sect2>
+</sect1>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/docs/reference/assertions.md"/>
+  </compounddef>
+</doxygen>

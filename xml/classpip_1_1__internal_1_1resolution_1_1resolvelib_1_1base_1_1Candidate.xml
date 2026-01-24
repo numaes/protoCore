@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::resolution::resolvelib::base::Candidate</compoundname>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.candidates.AlreadyInstalledCandidate</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.candidates.ExtrasCandidate</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.candidates.RequiresPythonCandidate</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.candidates._InstallRequirementBackedCandidate</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1aceefc46c594fc32f62a567eafa8ff507" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>NormalizedName</type>
+        <definition> NormalizedName pip._internal.resolution.resolvelib.base.Candidate.project_name</definition>
+        <argsstring>(self)</argsstring>
+        <name>project_name</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.project_name</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate_1afb29636cf2105645e2e535afe69ee58b">project_name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate_1a7a8c464f07a539f78d39fa5283b6e785">project_name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1afd5cf51e5e0260ce36e402b61fdba92f">project_name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate_1a3e210595f49465f9b592a12dcaf29a69">project_name</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The &quot;project name&quot; of the candidate.
+
+This is different from ``name`` if this candidate contains extras,
+in which case ``name`` would contain the ``[...]`` part, while this
+refers to the name of the project.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="100" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="100" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a7000e68e912182072a011f9df0c142ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.resolution.resolvelib.base.Candidate.name</definition>
+        <argsstring>(self)</argsstring>
+        <name>name</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.name</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate_1a1538a825241b855a4abf51d6bf616cde">name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate_1a0f4ae3f092daa140dc8bda04e8d0f2d0">name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1a6e13b1ab724cd7af8b22cadb37352b31">name</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate_1aeff13058676b07d1b67feed53749d838">name</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The name identifying this candidate in the resolver.
+
+This is different from ``project_name`` if this candidate contains
+extras, where ``project_name`` would not contain the ``[...]`` part.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="110" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a9c16dfa9e4f9aefc73ba5e64b22a8475" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1a8682b7cdbe043314a124e3ddecee4429" kindref="member">CandidateVersion</ref></type>
+        <definition> CandidateVersion pip._internal.resolution.resolvelib.base.Candidate.version</definition>
+        <argsstring>(self)</argsstring>
+        <name>version</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.version</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate_1a4f4a974e66da6155fd19dedc8149f7a9">version</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate_1a00f06d15e6d65f9278521c4818effeef">version</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1afd11c944b3a60218acccf10656b4c59e">version</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate_1a2ec46fa71f2669b413ba5b9943c19dfc">version</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="119" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a55f4a4790cd4066fd90ba6b975ce911a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.resolution.resolvelib.base.Candidate.is_installed</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_installed</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.is_installed</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1a305bd9933d599dfe8c778f45809c1cfa">is_installed</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="123" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a0668bf4135535913f12aa234ef7f9ed9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.resolution.resolvelib.base.Candidate.is_editable</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_editable</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.is_editable</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate_1a7ddb3bdb65c3cf879137f414fbcd1551">is_editable</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1a5a73dec16dc070c718c23adf2312462c">is_editable</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="127" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a24d39ad79f5d6971bf636628c2713649" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref>]</type>
+        <definition> Optional[Link] pip._internal.resolution.resolvelib.base.Candidate.source_link</definition>
+        <argsstring>(self)</argsstring>
+        <name>source_link</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.source_link</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate_1af5d0ef20bce4de137aab3f4efae0e4c6">source_link</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1ac1653710e1e4581074f3558c003683ac">source_link</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="131" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a4dcbeb0255f9b5f056b1f9f934f9f7bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[Optional[<ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement" kindref="compound">Requirement</ref>]]</type>
+        <definition> Iterable[Optional[Requirement]] pip._internal.resolution.resolvelib.base.Candidate.iter_dependencies</definition>
+        <argsstring>(self, bool with_requires)</argsstring>
+        <name>iter_dependencies</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.iter_dependencies</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate_1adaaf9ec271a4b8bfda3fee7671bddd22">iter_dependencies</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate_1a44cbf63518d4217ff552af9073d398a1">iter_dependencies</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1a1802ad4aa28b3ba7ad4e250aa22fcdd1">iter_dependencies</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate_1a0fec7df2341aab12246123b89938f054">iter_dependencies</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>with_requires</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="134" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1aa2ba125e0684ee56a7c729e917cb42f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref>]</type>
+        <definition> Optional[InstallRequirement] pip._internal.resolution.resolvelib.base.Candidate.get_install_requirement</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_install_requirement</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.get_install_requirement</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate_1a158d2a10208b7ef748391eac86aecb24">get_install_requirement</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate_1a004c44b4be6e3896d3f9e04907a35cc3">get_install_requirement</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1a527f0292823212d69b67d6b2fdcecebc">get_install_requirement</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate_1ac1f48f451175ff9b07edf4d35b6cd87a">get_install_requirement</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1abcd89b4bc5ef620a655efe73bceeac7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.resolution.resolvelib.base.Candidate.format_for_error</definition>
+        <argsstring>(self)</argsstring>
+        <name>format_for_error</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.base.Candidate.format_for_error</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate_1abc21e22dab2ca183af55242d8a6873d6">format_for_error</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate_1a2dbadd19a565189a9b0b7644a21dc0e4">format_for_error</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate_1a9079d8f8aa6e6fb0e40bfd80ee8681da">format_for_error</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate_1a1aae019afc459138c158c81c3a75c351">format_for_error</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="140" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="140" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.resolution.resolvelib.base.Candidate</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate"/>
+      </node>
+      <node id="2">
+        <label>pip._internal.resolution.resolvelib.candidates.AlreadyInstalledCandidate</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1AlreadyInstalledCandidate"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._internal.resolution.resolvelib.candidates.EditableCandidate</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1EditableCandidate"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.resolution.resolvelib.candidates.ExtrasCandidate</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1ExtrasCandidate"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pip._internal.resolution.resolvelib.candidates.LinkCandidate</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1LinkCandidate"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.resolution.resolvelib.candidates.RequiresPythonCandidate</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1RequiresPythonCandidate"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.resolution.resolvelib.candidates._InstallRequirementBackedCandidate</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1candidates_1_1__InstallRequirementBackedCandidate"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/base.py" bodystart="98" bodyend="142"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1abcd89b4bc5ef620a655efe73bceeac7f" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>format_for_error</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1aa2ba125e0684ee56a7c729e917cb42f7" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>get_install_requirement</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a0668bf4135535913f12aa234ef7f9ed9" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>is_editable</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a55f4a4790cd4066fd90ba6b975ce911a" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>is_installed</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a4dcbeb0255f9b5f056b1f9f934f9f7bd" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>iter_dependencies</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a7000e68e912182072a011f9df0c142ee" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>name</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1aceefc46c594fc32f62a567eafa8ff507" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>project_name</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a24d39ad79f5d6971bf636628c2713649" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>source_link</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate_1a9c16dfa9e4f9aefc73ba5e64b22a8475" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::base::Candidate</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

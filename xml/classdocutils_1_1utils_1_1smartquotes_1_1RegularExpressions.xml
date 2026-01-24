@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions" kind="class" language="Python" prot="public">
+    <compoundname>docutils::utils::smartquotes::RegularExpressions</compoundname>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a52a2e988465daf9e48c3a03916c1220f" prot="protected" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.utils.smartquotes.RegularExpressions::_CH_CLASSES</definition>
+        <argsstring></argsstring>
+        <name>_CH_CLASSES</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions._CH_CLASSES</qualifiedname>
+        <initializer>=  {&apos;open&apos;: &apos;[([{]&apos;,    # opening braces
+                   &apos;close&apos;: r&apos;[^\s]&apos;,  # everything except whitespace
+                   &apos;punct&apos;: ,
+                   &apos;dash&apos;: r&apos;[-–—]&apos;,
+                   &apos;sep&apos;: &apos;[\\s\u200B\u200C]&apos;,  # Whitespace, ZWSP, ZWNJ
+                   }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="508" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="508" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a3ddb3f5e2a249c1f30f08028d99f039c" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::START_SINGLE</definition>
+        <argsstring></argsstring>
+        <name>START_SINGLE</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.START_SINGLE</qualifiedname>
+        <initializer>=  re.compile(r&quot;^&apos;(?=%s\\B)&quot; % _CH_CLASSES[&apos;punct&apos;])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="514" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a6638f21651696ae3004eae2d34332a95" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::START_DOUBLE</definition>
+        <argsstring></argsstring>
+        <name>START_DOUBLE</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.START_DOUBLE</qualifiedname>
+        <initializer>=  re.compile(r&apos;^&quot;(?=%s\\B)&apos; % <ref refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a52a2e988465daf9e48c3a03916c1220f" kindref="member">_CH_CLASSES</ref>[&apos;punct&apos;])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="515" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="515" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a10c2a2930a82d2a5b85c9b93a8e89b59" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::ADJACENT_1</definition>
+        <argsstring></argsstring>
+        <name>ADJACENT_1</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.ADJACENT_1</qualifiedname>
+        <initializer>=  re.compile(&apos;&quot;\&apos;(?=\\w)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="516" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1ace13911173b4c341ba907abb0965a1b2" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::ADJACENT_2</definition>
+        <argsstring></argsstring>
+        <name>ADJACENT_2</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.ADJACENT_2</qualifiedname>
+        <initializer>=  re.compile(&apos;\&apos;&quot;(?=\\w)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="517" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1ac62b0012417968159ea689d89beadf1e" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::OPEN_SINGLE</definition>
+        <argsstring></argsstring>
+        <name>OPEN_SINGLE</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.OPEN_SINGLE</qualifiedname>
+        <initializer>=  re.compile(r&quot;(%(open)s|%(dash)s)&apos;(?=%(punct)s? )&quot;
+                             % _CH_CLASSES)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="518" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a4da87290bd3a7f5c5b9b7906f5d127a4" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::OPEN_DOUBLE</definition>
+        <argsstring></argsstring>
+        <name>OPEN_DOUBLE</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.OPEN_DOUBLE</qualifiedname>
+        <initializer>=  re.compile(r&apos;(%(open)s|%(dash)s)&quot;(?=%(punct)s? )&apos;
+                             % <ref refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a52a2e988465daf9e48c3a03916c1220f" kindref="member">_CH_CLASSES</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="520" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1afdb7b74952b2d7d41a1cd1693fcaf61f" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::DECADE</definition>
+        <argsstring></argsstring>
+        <name>DECADE</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.DECADE</qualifiedname>
+        <initializer>=  re.compile(r&quot;&apos;(?=\d{2}s)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="522" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="522" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a092514ffc07d0bb7b49c1801e422312c" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::APOSTROPHE</definition>
+        <argsstring></argsstring>
+        <name>APOSTROPHE</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.APOSTROPHE</qualifiedname>
+        <initializer>=  re.compile(r&quot;(?&lt;=(\w|\d))&apos;(?=\w)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="523" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1ad2c85061c749ea6e0eaf3eeee097447c" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::OPENING_SECONDARY</definition>
+        <argsstring></argsstring>
+        <name>OPENING_SECONDARY</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.OPENING_SECONDARY</qualifiedname>
+        <initializer>=  re.compile( % <ref refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a52a2e988465daf9e48c3a03916c1220f" kindref="member">_CH_CLASSES</ref>, re.VERBOSE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="524" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="524" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a5e3f10b93b84a47813edef63bfc97654" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::CLOSING_SECONDARY</definition>
+        <argsstring></argsstring>
+        <name>CLOSING_SECONDARY</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.CLOSING_SECONDARY</qualifiedname>
+        <initializer>=  re.compile(r&quot;(?&lt;!\s)&apos;&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="533" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="533" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a4487db9007486630adea7f5832c354ea" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::OPENING_PRIMARY</definition>
+        <argsstring></argsstring>
+        <name>OPENING_PRIMARY</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.OPENING_PRIMARY</qualifiedname>
+        <initializer>=  re.compile( % <ref refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a52a2e988465daf9e48c3a03916c1220f" kindref="member">_CH_CLASSES</ref>, re.VERBOSE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="534" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="534" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a6333587119acc18fdd814bf47ad7dad9" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.utils.smartquotes.RegularExpressions::CLOSING_PRIMARY</definition>
+        <argsstring></argsstring>
+        <name>CLOSING_PRIMARY</name>
+        <qualifiedname>docutils.utils.smartquotes.RegularExpressions.CLOSING_PRIMARY</qualifiedname>
+        <initializer>=  re.compile(, re.VERBOSE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="543" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="543" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="506" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="506" bodyend="550"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a52a2e988465daf9e48c3a03916c1220f" prot="protected" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>_CH_CLASSES</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a10c2a2930a82d2a5b85c9b93a8e89b59" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>ADJACENT_1</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1ace13911173b4c341ba907abb0965a1b2" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>ADJACENT_2</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a092514ffc07d0bb7b49c1801e422312c" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>APOSTROPHE</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a6333587119acc18fdd814bf47ad7dad9" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>CLOSING_PRIMARY</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a5e3f10b93b84a47813edef63bfc97654" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>CLOSING_SECONDARY</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1afdb7b74952b2d7d41a1cd1693fcaf61f" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>DECADE</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a4da87290bd3a7f5c5b9b7906f5d127a4" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>OPEN_DOUBLE</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1ac62b0012417968159ea689d89beadf1e" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>OPEN_SINGLE</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a4487db9007486630adea7f5832c354ea" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>OPENING_PRIMARY</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1ad2c85061c749ea6e0eaf3eeee097447c" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>OPENING_SECONDARY</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a6638f21651696ae3004eae2d34332a95" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>START_DOUBLE</name></member>
+      <member refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions_1a3ddb3f5e2a249c1f30f08028d99f039c" prot="public" virt="non-virtual"><scope>docutils::utils::smartquotes::RegularExpressions</scope><name>START_SINGLE</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

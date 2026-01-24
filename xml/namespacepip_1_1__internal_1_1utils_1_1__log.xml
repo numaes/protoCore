@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1__log" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::_log</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1__log_1_1VerboseLogger" prot="public">pip::_internal::utils::_log::VerboseLogger</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1__log_1a6ad887ab88a2b1d2cc97af7ebaa39b56" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int pip::_internal::utils::_log.VERBOSE</definition>
+        <argsstring></argsstring>
+        <name>VERBOSE</name>
+        <qualifiedname>pip._internal.utils._log.VERBOSE</qualifiedname>
+        <initializer>=  15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/_log.py" line="13" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/_log.py" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1__log_1a93a1c14145db71e250d847bd2bbe45fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1utils_1_1__log_1_1VerboseLogger" kindref="compound">VerboseLogger</ref></type>
+        <definition> VerboseLogger pip._internal.utils._log.getLogger</definition>
+        <argsstring>(str name)</argsstring>
+        <name>getLogger</name>
+        <qualifiedname>pip._internal.utils._log.getLogger</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>logging.getLogger, but ensures our VerboseLogger class is returned</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/_log.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/_log.py" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1__log_1aba515bae5a21e3aa969757aec1da01ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils._log.init_logging</definition>
+        <argsstring>()</argsstring>
+        <name>init_logging</name>
+        <qualifiedname>pip._internal.utils._log.init_logging</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Register our VerboseLogger and VERBOSE log level.
+
+Should be called before any calls to getLogger(),
+i.e. in pip._internal.__init__
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/_log.py" line="31" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/_log.py" bodystart="31" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Customize logging
+
+Defines custom logger class for the `logger.verbose(...)` method.
+
+init_logging() must be called before any other modules that call logging.getLogger.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/utils/_log.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

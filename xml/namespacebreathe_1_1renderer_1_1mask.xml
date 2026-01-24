@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebreathe_1_1renderer_1_1mask" kind="namespace" language="Python">
+    <compoundname>breathe::renderer::mask</compoundname>
+    <innerclass refid="classbreathe_1_1renderer_1_1mask_1_1MaskFactory" prot="public">breathe::renderer::mask::MaskFactory</innerclass>
+    <innerclass refid="classbreathe_1_1renderer_1_1mask_1_1MaskFactoryBase" prot="public">breathe::renderer::mask::MaskFactoryBase</innerclass>
+    <innerclass refid="classbreathe_1_1renderer_1_1mask_1_1NoParameterNamesMask" prot="public">breathe::renderer::mask::NoParameterNamesMask</innerclass>
+    <innerclass refid="classbreathe_1_1renderer_1_1mask_1_1NullMaskFactory" prot="public">breathe::renderer::mask::NullMaskFactory</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Masks
+=====
+
+Masks are related to filters. Filters can block the processing of particular parts of the xml
+hierarchy but they can only work on node level. If the part of the xml hierarchy that you want to
+filter out is read in as an instance of one of the classes in parser/doxygen/*.py then you can use
+the filters. However, if you want to filter out an attribute from one of the nodes (and some of the
+xml child nodes are read in as attributes on their parents) then you can&apos;t use a filter.
+
+We introduce the Mask&apos;s to fulfil this need. The masks are designed to be applied to a particular
+node type and to limit the access to particular attributes on the node. For example, then
+NoParameterNamesMask wraps a node a returns all its standard attributes but returns None for the
+&apos;declname&apos; and &apos;defname&apos; attributes.
+
+Currently the Mask functionality is only used for the text signature rendering for doing function
+matching.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/breathe/renderer/mask.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

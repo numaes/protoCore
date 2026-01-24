@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="concurrent__append__benchmark_8cpp" kind="file" language="C++">
+    <compoundname>concurrent_append_benchmark.cpp</compoundname>
+    <includes local="no">iostream</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includes refid="protoCore_8h" local="yes">../headers/protoCore.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>../headers/protoCore.h</label>
+        <link refid="protoCore_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>performance/concurrent_append_benchmark.cpp</label>
+        <link refid="concurrent__append__benchmark_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>iostream</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="concurrent__append__benchmark_8cpp_1a7735206bdfad487588bba2126b806ab7" prot="public" static="no">
+        <name>NUM_THREADS</name>
+        <initializer>4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/concurrent_append_benchmark.cpp" line="16" column="9" bodyfile="performance/concurrent_append_benchmark.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="concurrent__append__benchmark_8cpp_1a5877c72711924ecb3ab631589b0a1218" prot="public" static="no">
+        <name>NUM_APPENDS</name>
+        <initializer>10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/concurrent_append_benchmark.cpp" line="17" column="9" bodyfile="performance/concurrent_append_benchmark.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="concurrent__append__benchmark_8cpp_1a778879cc2119c77afa40968864393907" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; const <ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> * &gt;</type>
+        <definition>std::atomic&lt;const ProtoList*&gt; shared_proto_list</definition>
+        <argsstring></argsstring>
+        <name>shared_proto_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/concurrent_append_benchmark.cpp" line="20" column="13" bodyfile="performance/concurrent_append_benchmark.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="concurrent__append__benchmark_8cpp_1a0c73508b05f62c228e0e25e0c94a6aea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void proto_list_append_worker</definition>
+        <argsstring>(ProtoContext *c)</argsstring>
+        <name>proto_list_append_worker</name>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/concurrent_append_benchmark.cpp" line="22" column="6" bodyfile="performance/concurrent_append_benchmark.cpp" bodystart="22" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="concurrent__append__benchmark_8cpp_1ae5539ef647384efbba6a1c138a9477e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+        <definition>const ProtoObject * benchmarks</definition>
+        <argsstring>(ProtoContext *c, const ProtoObject *self, const ParentLink *parentLink, const ProtoList *positionalParameters, const ProtoSparseList *keywordParametersDict)</argsstring>
+        <name>benchmarks</name>
+        <param>
+          <type><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>const ParentLink *</type>
+          <declname>parentLink</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
+          <declname>positionalParameters</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
+          <declname>keywordParametersDict</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/concurrent_append_benchmark.cpp" line="37" column="19" bodyfile="performance/concurrent_append_benchmark.cpp" bodystart="37" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="concurrent__append__benchmark_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char *argv[])</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="performance/concurrent_append_benchmark.cpp" line="71" column="5" bodyfile="performance/concurrent_append_benchmark.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>concurrent_append_benchmark.cpp</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/><sp/>Created<sp/>on:<sp/>2024-01-15</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>Author:<sp/>gamarino</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../headers/protoCore.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceproto" kindref="compound">proto</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NUM_THREADS<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NUM_APPENDS<sp/>10000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Corrected:<sp/>std::atomic<sp/>must<sp/>work<sp/>with<sp/>pointers<sp/>for<sp/>complex<sp/>types.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">std::atomic&lt;const<sp/>ProtoList*&gt;<sp/><ref refid="concurrent__append__benchmark_8cpp_1a778879cc2119c77afa40968864393907" kindref="member">shared_proto_list</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="concurrent__append__benchmark_8cpp_1a0c73508b05f62c228e0e25e0c94a6aea" kindref="member">proto_list_append_worker</ref>(<ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref>*<sp/>c)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>Simplified<sp/>context<sp/>creation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoContext" kindref="compound">proto::ProtoContext</ref><sp/>thread_context(<ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref>-&gt;space);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/><ref refid="concurrent__append__benchmark_8cpp_1a5877c72711924ecb3ab631589b0a1218" kindref="member">NUM_APPENDS</ref>;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref>*<sp/>current_list;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref>*<sp/>new_list;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_list<sp/>=<sp/><ref refid="concurrent__append__benchmark_8cpp_1a778879cc2119c77afa40968864393907" kindref="member">shared_proto_list</ref>.load();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>appendLast<sp/>now<sp/>returns<sp/>a<sp/>const<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_list<sp/>=<sp/>current_list-&gt;<ref refid="classproto_1_1ProtoList_1a481e3bae1d1c1ab7a22ca78d03b622d8" kindref="member">appendLast</ref>(&amp;thread_context,<sp/>thread_context.fromInteger(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>));</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!<ref refid="concurrent__append__benchmark_8cpp_1a778879cc2119c77afa40968864393907" kindref="member">shared_proto_list</ref>.compare_exchange_weak(current_list,<sp/>new_list));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref>*<sp/><ref refid="concurrent__append__benchmark_8cpp_1ae5539ef647384efbba6a1c138a9477e0" kindref="member">benchmarks</ref>(</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref>*<sp/>c,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref>*<sp/>self,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ParentLink*<sp/>parentLink,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref>*<sp/>positionalParameters,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref>*<sp/>keywordParametersDict</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;---<sp/>Concurrent<sp/>Append<sp/>Benchmark<sp/>---&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Threads:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="concurrent__append__benchmark_8cpp_1a7735206bdfad487588bba2126b806ab7" kindref="member">NUM_THREADS</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>Appends<sp/>per<sp/>thread:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="concurrent__append__benchmark_8cpp_1a5877c72711924ecb3ab631589b0a1218" kindref="member">NUM_APPENDS</ref><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>shared<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="concurrent__append__benchmark_8cpp_1a778879cc2119c77afa40968864393907" kindref="member">shared_proto_list</ref>.store(<ref refid="namespacepip_1_1__vendor_1_1pygments_1_1unistring_1a468ba8e9b5843ca912ff419a72db2db7" kindref="member">c</ref>-&gt;newList());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1____main_____1a19a8c5a0ef35ccb73acc9e829c2d6797" kindref="member">start</ref><sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/><ref refid="concurrent__append__benchmark_8cpp_1a7735206bdfad487588bba2126b806ab7" kindref="member">NUM_THREADS</ref>;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back(<ref refid="concurrent__append__benchmark_8cpp_1a0c73508b05f62c228e0e25e0c94a6aea" kindref="member">proto_list_append_worker</ref>,<sp/>c);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacepackaging_1_1__musllinux_1a443e31063cc51804165a7ab21ee977ce" kindref="member">t</ref>.join();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1__musllinux_1aad969733a57fc63ae5dcb5526c2db626" kindref="member">end</ref><sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double&gt;<sp/>diff<sp/>=<sp/><ref refid="namespacepackaging_1_1__musllinux_1aad969733a57fc63ae5dcb5526c2db626" kindref="member">end</ref><sp/>-<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1____main_____1a19a8c5a0ef35ccb73acc9e829c2d6797" kindref="member">start</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Total<sp/>time:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>diff.count()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>s&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Final<sp/>size:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="concurrent__append__benchmark_8cpp_1a778879cc2119c77afa40968864393907" kindref="member">shared_proto_list</ref>.load()-&gt;getSize(c)<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;------------------------------------&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="protoCore_8h_1afdd64851a8dadecfaf7581c48d5db136" kindref="member">PROTO_NONE</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2src_2gmock__main_8cc_1a7f83bdc516d2cb86e20235d94ddf055a" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[])<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrected:<sp/>ProtoSpace<sp/>constructor<sp/>takes<sp/>no<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoSpace" kindref="compound">proto::ProtoSpace</ref><sp/>space;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>You<sp/>might<sp/>need<sp/>to<sp/>register<sp/>the<sp/>&apos;benchmarks&apos;<sp/>method<sp/>with<sp/>the<sp/>space<sp/>if<sp/>you<sp/>want<sp/>to<sp/>call<sp/>it<sp/>dynamically.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>this<sp/>simple<sp/>case,<sp/>we<sp/>can<sp/>call<sp/>it<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="concurrent__append__benchmark_8cpp_1ae5539ef647384efbba6a1c138a9477e0" kindref="member">benchmarks</ref>(space.<ref refid="classproto_1_1ProtoSpace_1a1a5f636933d7178bc8e7def9efc2da1c" kindref="member">rootContext</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="performance/concurrent_append_benchmark.cpp"/>
+  </compounddef>
+</doxygen>

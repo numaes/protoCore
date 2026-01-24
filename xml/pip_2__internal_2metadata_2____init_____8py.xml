@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__internal_2metadata_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1metadata_1_1Backend" prot="public">pip::_internal::metadata::Backend</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1metadata">pip::_internal::metadata</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1metadata" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>contextlib</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>functools</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING,<sp/>List,<sp/>Optional,<sp/>Type,<sp/>cast</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1misc" kindref="compound">pip._internal.utils.misc</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>strtobool</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.base<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BaseDistribution,<sp/>BaseEnvironment,<sp/>FilesystemWheel,<sp/>MemoryWheel,<sp/>Wheel</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Literal,<sp/>Protocol</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>Protocol<sp/>=<sp/>object</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">__all__<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;BaseDistribution&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;BaseEnvironment&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FilesystemWheel&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;MemoryWheel&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Wheel&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;get_default_environment&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;get_environment&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;get_wheel_distribution&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;select_backend&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">]</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1metadata_1a865ea01361351880f07f551e562d2166" kindref="member">_should_use_importlib_metadata</ref>()<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Whether<sp/>to<sp/>use<sp/>the<sp/>``importlib.metadata``<sp/>or<sp/>``pkg_resources``<sp/>backend.</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>By<sp/>default,<sp/>pip<sp/>uses<sp/>``importlib.metadata``<sp/>on<sp/>Python<sp/>3.11+,<sp/>and</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``pkg_resourcess``<sp/>otherwise.<sp/>This<sp/>can<sp/>be<sp/>overridden<sp/>by<sp/>a<sp/>couple<sp/>of<sp/>ways:</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/>If<sp/>environment<sp/>variable<sp/>``_PIP_USE_IMPORTLIB_METADATA``<sp/>is<sp/>set,<sp/>it</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>dictates<sp/>whether<sp/>``importlib.metadata``<sp/>is<sp/>used,<sp/>regardless<sp/>of<sp/>Python</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>version.</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>*<sp/>On<sp/>Python<sp/>3.11+,<sp/>Python<sp/>distributors<sp/>can<sp/>patch<sp/>``importlib.metadata``</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>add<sp/>a<sp/>global<sp/>constant<sp/>``_PIP_USE_IMPORTLIB_METADATA<sp/>=<sp/>False``.<sp/>This</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>makes<sp/>pip<sp/>use<sp/>``pkg_resources``<sp/>(unless<sp/>the<sp/>user<sp/>set<sp/>the<sp/>aforementioned</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>environment<sp/>variable<sp/>to<sp/>*True*).</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/>contextlib.suppress(KeyError,<sp/>ValueError):</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bool(strtobool(os.environ[</highlight><highlight class="stringliteral">&quot;_PIP_USE_IMPORTLIB_METADATA&quot;</highlight><highlight class="normal">]))</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.version_info<sp/>&lt;<sp/>(3,<sp/>11):</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespaceimportlib_1_1metadata" kindref="compound">importlib.metadata</ref></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bool(getattr(<ref refid="namespaceimportlib_1_1metadata" kindref="compound">importlib.metadata</ref>,<sp/></highlight><highlight class="stringliteral">&quot;_PIP_USE_IMPORTLIB_METADATA&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classpip_1_1__internal_1_1metadata_1_1Backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1metadata_1_1Backend" kindref="compound">Backend</ref>(Protocol):</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>NAME:<sp/></highlight><highlight class="stringliteral">&apos;Literal[&quot;importlib&quot;,<sp/>&quot;pkg_resources&quot;]&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>Distribution:<sp/>Type[BaseDistribution]</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>Environment:<sp/>Type[BaseEnvironment]</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">@functools.lru_cache(maxsize=None)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1metadata_1a88e0921ded5bdbcd8601757542d99e63" kindref="member">select_backend</ref>()<sp/>-&gt;<sp/>Backend:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata_1a865ea01361351880f07f551e562d2166" kindref="member">_should_use_importlib_metadata</ref>():</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>importlib</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cast(Backend,<sp/>importlib)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>pkg_resources</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cast(Backend,<sp/>pkg_resources)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1metadata_1a681e74ea6f11474951e9ca35341525b6" kindref="member">get_default_environment</ref>()<sp/>-&gt;<sp/>BaseEnvironment:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>default<sp/>representation<sp/>for<sp/>the<sp/>current<sp/>environment.</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>returns<sp/>an<sp/>Environment<sp/>instance<sp/>from<sp/>the<sp/>chosen<sp/>backend.<sp/>The<sp/>default</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Environment<sp/>instance<sp/>should<sp/>be<sp/>built<sp/>from<sp/>``sys.path``<sp/>and<sp/>may<sp/>use<sp/>caching</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>to<sp/>share<sp/>instance<sp/>state<sp/>accorss<sp/>calls.</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata_1a88e0921ded5bdbcd8601757542d99e63" kindref="member">select_backend</ref>().Environment.default()</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_environment(paths:<sp/>Optional[List[str]])<sp/>-&gt;<sp/>BaseEnvironment:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>a<sp/>representation<sp/>of<sp/>the<sp/>environment<sp/>specified<sp/>by<sp/>``paths``.</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>returns<sp/>an<sp/>Environment<sp/>instance<sp/>from<sp/>the<sp/>chosen<sp/>backend<sp/>based<sp/>on<sp/>the</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>given<sp/>import<sp/>paths.<sp/>The<sp/>backend<sp/>must<sp/>build<sp/>a<sp/>fresh<sp/>instance<sp/>representing</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>state<sp/>of<sp/>installed<sp/>distributions<sp/>when<sp/>this<sp/>function<sp/>is<sp/>called.</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata_1a88e0921ded5bdbcd8601757542d99e63" kindref="member">select_backend</ref>().Environment.from_paths(paths)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_directory_distribution(directory:<sp/>str)<sp/>-&gt;<sp/>BaseDistribution:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>distribution<sp/>metadata<sp/>representation<sp/>in<sp/>the<sp/>specified<sp/>directory.</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>returns<sp/>a<sp/>Distribution<sp/>instance<sp/>from<sp/>the<sp/>chosen<sp/>backend<sp/>based<sp/>on</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>given<sp/>on-disk<sp/>``.dist-info``<sp/>directory.</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata_1a88e0921ded5bdbcd8601757542d99e63" kindref="member">select_backend</ref>().Distribution.from_directory(directory)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_wheel_distribution(wheel:<sp/>Wheel,<sp/>canonical_name:<sp/>str)<sp/>-&gt;<sp/>BaseDistribution:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>representation<sp/>of<sp/>the<sp/>specified<sp/>wheel&apos;s<sp/>distribution<sp/>metadata.</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>returns<sp/>a<sp/>Distribution<sp/>instance<sp/>from<sp/>the<sp/>chosen<sp/>backend<sp/>based<sp/>on</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>given<sp/>wheel&apos;s<sp/>``.dist-info``<sp/>directory.</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>canonical_name:<sp/>Normalized<sp/>project<sp/>name<sp/>of<sp/>the<sp/>given<sp/>wheel.</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata_1a88e0921ded5bdbcd8601757542d99e63" kindref="member">select_backend</ref>().Distribution.from_wheel(wheel,<sp/>canonical_name)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_metadata_distribution(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata_contents:<sp/>bytes,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>filename:<sp/>str,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>canonical_name:<sp/>str,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">)<sp/>-&gt;<sp/>BaseDistribution:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>dist<sp/>representation<sp/>of<sp/>the<sp/>specified<sp/>METADATA<sp/>file<sp/>contents.</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>returns<sp/>a<sp/>Distribution<sp/>instance<sp/>from<sp/>the<sp/>chosen<sp/>backend<sp/>sourced<sp/>from<sp/>the<sp/>data</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>in<sp/>`metadata_contents`.</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>metadata_contents:<sp/>Contents<sp/>of<sp/>a<sp/>METADATA<sp/>file<sp/>within<sp/>a<sp/>dist,<sp/>or<sp/>one<sp/>served</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>via<sp/>PEP<sp/>658.</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>filename:<sp/>Filename<sp/>for<sp/>the<sp/>dist<sp/>this<sp/>metadata<sp/>represents.</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>canonical_name:<sp/>Normalized<sp/>project<sp/>name<sp/>of<sp/>the<sp/>given<sp/>dist.</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata_1a88e0921ded5bdbcd8601757542d99e63" kindref="member">select_backend</ref>().Distribution.from_metadata_file_contents(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_contents,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>filename,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>canonical_name,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py"/>
+  </compounddef>
+</doxygen>

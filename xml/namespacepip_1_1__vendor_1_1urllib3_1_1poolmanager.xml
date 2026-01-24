@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::urllib3::poolmanager</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1urllib3_1_1poolmanager_1_1PoolManager" prot="public">pip::_vendor::urllib3::poolmanager::PoolManager</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1urllib3_1_1poolmanager_1_1ProxyManager" prot="public">pip::_vendor::urllib3::poolmanager::ProxyManager</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1a6d407472cfe4b2ea9f4877e03d7fb9a7" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::urllib3::poolmanager.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager.__all__</qualifiedname>
+        <initializer>=  [&quot;PoolManager&quot;, &quot;ProxyManager&quot;, &quot;proxy_from_url&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1af5f229da4ceb3f6f78fb35d134449a3f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::urllib3::poolmanager.log</definition>
+        <argsstring></argsstring>
+        <name>log</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager.log</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="26" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1a170e373c5c682fd659ab6ed6d608abc9" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_vendor::urllib3::poolmanager.SSL_KEYWORDS</definition>
+        <argsstring></argsstring>
+        <name>SSL_KEYWORDS</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager.SSL_KEYWORDS</qualifiedname>
+        <initializer>=  (
+    &quot;key_file&quot;,
+    &quot;cert_file&quot;,
+    &quot;cert_reqs&quot;,
+    &quot;ca_certs&quot;,
+    &quot;ssl_version&quot;,
+    &quot;ca_cert_dir&quot;,
+    &quot;ssl_context&quot;,
+    &quot;key_password&quot;,
+    &quot;server_hostname&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1a1bd0ba7c9fa2fc3b9b0ebe04bc0eeeb8" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_vendor::urllib3::poolmanager._key_fields</definition>
+        <argsstring></argsstring>
+        <name>_key_fields</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager._key_fields</qualifiedname>
+        <initializer>=  (
+    &quot;key_scheme&quot;,  # str
+    &quot;key_host&quot;,  # str
+    &quot;key_port&quot;,  # int
+    &quot;key_timeout&quot;,  # int or float or <ref refid="classpip_1_1__vendor_1_1urllib3_1_1util_1_1timeout_1_1Timeout" kindref="compound">Timeout</ref>
+    &quot;key_retries&quot;,  # int or <ref refid="classpip_1_1__vendor_1_1urllib3_1_1util_1_1retry_1_1Retry" kindref="compound">Retry</ref>
+    &quot;key_strict&quot;,  # bool
+    &quot;key_block&quot;,  # bool
+    &quot;key_source_address&quot;,  # str
+    &quot;key_key_file&quot;,  # str
+    &quot;key_key_password&quot;,  # str
+    &quot;key_cert_file&quot;,  # str
+    &quot;key_cert_reqs&quot;,  # str
+    &quot;key_ca_certs&quot;,  # str
+    &quot;key_ssl_version&quot;,  # str
+    &quot;key_ca_cert_dir&quot;,  # str
+    &quot;key_ssl_context&quot;,  # instance of ssl.SSLContext or <ref refid="classpip_1_1__vendor_1_1urllib3_1_1util_1_1ssl___1_1SSLContext" kindref="compound">urllib3.util.ssl_.SSLContext</ref>
+    &quot;key_maxsize&quot;,  # int
+    &quot;key_headers&quot;,  # dict
+    &quot;key__proxy&quot;,  # parsed proxy url
+    &quot;key__proxy_headers&quot;,  # dict
+    &quot;key__proxy_config&quot;,  # class
+    &quot;key_socket_options&quot;,  # list of (level (int), optname (int), <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref> (int or str)) tuples
+    &quot;key__socks_options&quot;,  # dict
+    &quot;key_assert_hostname&quot;,  # bool or string
+    &quot;key_assert_fingerprint&quot;,  # str
+    &quot;key_server_hostname&quot;,  # str
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1ae231f25ce869337aa3bc4a70de7ffd6a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::urllib3::poolmanager.PoolKey</definition>
+        <argsstring></argsstring>
+        <name>PoolKey</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager.PoolKey</qualifiedname>
+        <initializer>=  collections.namedtuple(&quot;PoolKey&quot;, <ref refid="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1a1bd0ba7c9fa2fc3b9b0ebe04bc0eeeb8" kindref="member">_key_fields</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1af495cb2c4ee09998efb42b5ca33c447a" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_vendor::urllib3::poolmanager._proxy_config_fields</definition>
+        <argsstring></argsstring>
+        <name>_proxy_config_fields</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager._proxy_config_fields</qualifiedname>
+        <initializer>=  (&quot;ssl_context&quot;, &quot;use_forwarding_for_https&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1a86799b39460e7e60e5de494d6d6845bb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::urllib3::poolmanager.ProxyConfig</definition>
+        <argsstring></argsstring>
+        <name>ProxyConfig</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager.ProxyConfig</qualifiedname>
+        <initializer>=  collections.namedtuple(&quot;ProxyConfig&quot;, <ref refid="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1af495cb2c4ee09998efb42b5ca33c447a" kindref="member">_proxy_config_fields</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1afcd4578d7dad1eb3010fc8a22d8a50e3" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::urllib3::poolmanager.key_fn_by_scheme</definition>
+        <argsstring></argsstring>
+        <name>key_fn_by_scheme</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager.key_fn_by_scheme</qualifiedname>
+        <initializer>=  {
+    &quot;http&quot;: functools.partial(<ref refid="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1ad6a4e1461b4f492001942ecbd007f4a2" kindref="member">_default_key_normalizer</ref>, <ref refid="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1ae231f25ce869337aa3bc4a70de7ffd6a" kindref="member">PoolKey</ref>),
+    &quot;https&quot;: functools.partial(<ref refid="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1ad6a4e1461b4f492001942ecbd007f4a2" kindref="member">_default_key_normalizer</ref>, <ref refid="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1ae231f25ce869337aa3bc4a70de7ffd6a" kindref="member">PoolKey</ref>),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="132" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1a63c407ce791a1a664ec576c7b9bd650e" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::urllib3::poolmanager.pool_classes_by_scheme</definition>
+        <argsstring></argsstring>
+        <name>pool_classes_by_scheme</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager.pool_classes_by_scheme</qualifiedname>
+        <initializer>=  {&quot;http&quot;: <ref refid="classpip_1_1__vendor_1_1urllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref>, &quot;https&quot;: <ref refid="classpip_1_1__vendor_1_1urllib3_1_1connectionpool_1_1HTTPSConnectionPool" kindref="compound">HTTPSConnectionPool</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1ad6a4e1461b4f492001942ecbd007f4a2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.poolmanager._default_key_normalizer</definition>
+        <argsstring>(key_class, request_context)</argsstring>
+        <name>_default_key_normalizer</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager._default_key_normalizer</qualifiedname>
+        <param>
+          <type>key_class</type>
+          <defname>key_class</defname>
+        </param>
+        <param>
+          <type>request_context</type>
+          <defname>request_context</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a pool key out of a request context dictionary.
+
+According to RFC 3986, both the scheme and host are case-insensitive.
+Therefore, this function normalizes both before constructing the pool
+key for an HTTPS request. If you wish to change this behaviour, provide
+alternate callables to ``key_fn_by_scheme``.
+
+:param key_class:
+    The class to use when constructing the key. This should be a namedtuple
+    with the ``scheme`` and ``host`` keys at a minimum.
+:type  key_class: namedtuple
+:param request_context:
+    A dictionary-like object that contain the context for a request.
+:type  request_context: dict
+
+:return: A namedtuple that can be used as a connection pool key.
+:rtype:  PoolKey
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="79" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="79" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1urllib3_1_1poolmanager_1a998e0ef5aee165b0078932bf78ca510a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.urllib3.poolmanager.proxy_from_url</definition>
+        <argsstring>(url, **kw)</argsstring>
+        <name>proxy_from_url</name>
+        <qualifiedname>pip._vendor.urllib3.poolmanager.proxy_from_url</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="552" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" bodystart="552" bodyend="554"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/urllib3/poolmanager.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

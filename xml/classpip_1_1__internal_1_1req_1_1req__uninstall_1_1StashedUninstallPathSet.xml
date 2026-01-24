@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::req::req_uninstall::StashedUninstallPathSet</compoundname>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a7d0c0ba467e44e920d180326e76a5453" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.req.req_uninstall.StashedUninstallPathSet::_moves</definition>
+        <argsstring></argsstring>
+        <name>_moves</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet._moves</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="278" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1aae2e7ff5c7472f2ba19917f97ce254cc" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.req.req_uninstall.StashedUninstallPathSet::_save_dirs</definition>
+        <argsstring></argsstring>
+        <name>_save_dirs</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet._save_dirs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="279" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1aeaf1e19322d09ad098f1bc865c92dbe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.req.req_uninstall.StashedUninstallPathSet.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="204" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="204" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a621c1194b95f9c9ecdb1adaff42ae46f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.req.req_uninstall.StashedUninstallPathSet.stash</definition>
+        <argsstring>(self, str path)</argsstring>
+        <name>stash</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet.stash</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stashes the directory or file and returns its new location.
+Handle symlinks as files to avoid modifying the symlink targets.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="253" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="253" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a3c604c2032c2bdb10b9b39405ad21a67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.req.req_uninstall.StashedUninstallPathSet.commit</definition>
+        <argsstring>(self)</argsstring>
+        <name>commit</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet.commit</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Commits the uninstall by removing stashed files.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="274" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="274" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1ad18f248d530dd724a7f31d741b2621e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.req.req_uninstall.StashedUninstallPathSet.rollback</definition>
+        <argsstring>(self)</argsstring>
+        <name>rollback</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet.rollback</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Undoes the uninstall by moving stashed files back.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="281" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="281" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1aab49398ac5bc7b51c60edf216e934ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.req.req_uninstall.StashedUninstallPathSet.can_rollback</definition>
+        <argsstring>(self)</argsstring>
+        <name>can_rollback</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet.can_rollback</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="301" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="301" bodyend="304"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a08ac5b42ac5e7a2e1cf389fe0dfd97bf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.req.req_uninstall.StashedUninstallPathSet._get_directory_stash</definition>
+        <argsstring>(self, str path)</argsstring>
+        <name>_get_directory_stash</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet._get_directory_stash</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stashes a directory.
+
+Directories are stashed adjacent to their original location if
+possible, or else moved/copied into the user&apos;s temp dir.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="212" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="212" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a0580decb88f962a24044e943e537cd6f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.req.req_uninstall.StashedUninstallPathSet._get_file_stash</definition>
+        <argsstring>(self, str path)</argsstring>
+        <name>_get_file_stash</name>
+        <qualifiedname>pip._internal.req.req_uninstall.StashedUninstallPathSet._get_file_stash</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stashes a file.
+
+If no root has been provided, one will be created for the directory
+in the user&apos;s temp directory.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="226" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="226" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A set of file rename operations to stash files while
+tentatively uninstalling them.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" line="200" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/req/req_uninstall.py" bodystart="200" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1aeaf1e19322d09ad098f1bc865c92dbe3" prot="public" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a08ac5b42ac5e7a2e1cf389fe0dfd97bf" prot="protected" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>_get_directory_stash</name></member>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a0580decb88f962a24044e943e537cd6f" prot="protected" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>_get_file_stash</name></member>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a7d0c0ba467e44e920d180326e76a5453" prot="protected" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>_moves</name></member>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1aae2e7ff5c7472f2ba19917f97ce254cc" prot="protected" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>_save_dirs</name></member>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1aab49398ac5bc7b51c60edf216e934ac7" prot="public" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>can_rollback</name></member>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a3c604c2032c2bdb10b9b39405ad21a67" prot="public" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>commit</name></member>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1ad18f248d530dd724a7f31d741b2621e1" prot="public" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>rollback</name></member>
+      <member refid="classpip_1_1__internal_1_1req_1_1req__uninstall_1_1StashedUninstallPathSet_1a621c1194b95f9c9ecdb1adaff42ae46f" prot="public" virt="non-virtual"><scope>pip::_internal::req::req_uninstall::StashedUninstallPathSet</scope><name>stash</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1distlib_1_1database" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::distlib::database</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1__Cache" prot="protected">pip::_vendor::distlib::database::_Cache</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1BaseInstalledDistribution" prot="public">pip::_vendor::distlib::database::BaseInstalledDistribution</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1DependencyGraph" prot="public">pip::_vendor::distlib::database::DependencyGraph</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1Distribution" prot="public">pip::_vendor::distlib::database::Distribution</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1DistributionPath" prot="public">pip::_vendor::distlib::database::DistributionPath</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1EggInfoDistribution" prot="public">pip::_vendor::distlib::database::EggInfoDistribution</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1InstalledDistribution" prot="public">pip::_vendor::distlib::database::InstalledDistribution</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1aeaf9808de253c05202cc996123615663" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::distlib::database.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._vendor.distlib.database.__all__</qualifiedname>
+        <initializer>=  [
+    &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1Distribution" kindref="compound">Distribution</ref>&apos;, &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1BaseInstalledDistribution" kindref="compound">BaseInstalledDistribution</ref>&apos;, &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1InstalledDistribution" kindref="compound">InstalledDistribution</ref>&apos;,
+    &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1EggInfoDistribution" kindref="compound">EggInfoDistribution</ref>&apos;, &apos;<ref refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1DistributionPath" kindref="compound">DistributionPath</ref>&apos;
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1af347bcfaf4f42a2c197872ae66160fc7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::database.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._vendor.distlib.database.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1a26640eaa90adf26f731a7e67e2261499" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::database.EXPORTS_FILENAME</definition>
+        <argsstring></argsstring>
+        <name>EXPORTS_FILENAME</name>
+        <qualifiedname>pip._vendor.distlib.database.EXPORTS_FILENAME</qualifiedname>
+        <initializer>=  &apos;pydist-exports.json&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1a3c4a266ec352dccc6de5d1a3cbdd8be4" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::database.COMMANDS_FILENAME</definition>
+        <argsstring></argsstring>
+        <name>COMMANDS_FILENAME</name>
+        <qualifiedname>pip._vendor.distlib.database.COMMANDS_FILENAME</qualifiedname>
+        <initializer>=  &apos;pydist-commands.json&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1a68b2a5df5789cbcd0caa441da43b33cf" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_vendor::distlib::database.DIST_FILES</definition>
+        <argsstring></argsstring>
+        <name>DIST_FILES</name>
+        <qualifiedname>pip._vendor.distlib.database.DIST_FILES</qualifiedname>
+        <initializer>=  (&apos;INSTALLER&apos;, METADATA_FILENAME, &apos;RECORD&apos;, &apos;REQUESTED&apos;,
+              &apos;RESOURCES&apos;, <ref refid="namespacepip_1_1__vendor_1_1distlib_1_1database_1a26640eaa90adf26f731a7e67e2261499" kindref="member">EXPORTS_FILENAME</ref>, &apos;SHARED&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="38" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1adfe7b88652b522024f529e0c76c9bcf9" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::database.DISTINFO_EXT</definition>
+        <argsstring></argsstring>
+        <name>DISTINFO_EXT</name>
+        <qualifiedname>pip._vendor.distlib.database.DISTINFO_EXT</qualifiedname>
+        <initializer>=  &apos;.dist-info&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1a51e6e974a0aea8f0ab182ac829c83565" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::database.new_dist_class</definition>
+        <argsstring></argsstring>
+        <name>new_dist_class</name>
+        <qualifiedname>pip._vendor.distlib.database.new_dist_class</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1InstalledDistribution" kindref="compound">InstalledDistribution</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="1093" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="1093" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1a19b01881e214d52e16534949d8ee9002" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::database.old_dist_class</definition>
+        <argsstring></argsstring>
+        <name>old_dist_class</name>
+        <qualifiedname>pip._vendor.distlib.database.old_dist_class</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1distlib_1_1database_1_1EggInfoDistribution" kindref="compound">EggInfoDistribution</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="1094" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="1094" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1a5de32a4cfcdd9db96b9f70a968abf819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.database.make_graph</definition>
+        <argsstring>(dists, scheme=&apos;default&apos;)</argsstring>
+        <name>make_graph</name>
+        <qualifiedname>pip._vendor.distlib.database.make_graph</qualifiedname>
+        <param>
+          <type>dists</type>
+          <defname>dists</defname>
+        </param>
+        <param>
+          <type>scheme</type>
+          <defname>scheme</defname>
+          <defval>&apos;default&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Makes a dependency graph from the given distributions.
+
+:parameter dists: a list of distributions
+:type dists: list of :class:`distutils2.database.InstalledDistribution` and
+             :class:`distutils2.database.EggInfoDistribution` instances
+:rtype: a :class:`DependencyGraph` instance
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="1241" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="1241" bodyend="1294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1afea542d4f9e953d90186ffd8370005d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.database.get_dependent_dists</definition>
+        <argsstring>(dists, dist)</argsstring>
+        <name>get_dependent_dists</name>
+        <qualifiedname>pip._vendor.distlib.database.get_dependent_dists</qualifiedname>
+        <param>
+          <type>dists</type>
+          <defname>dists</defname>
+        </param>
+        <param>
+          <type>dist</type>
+          <defname>dist</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Recursively generate a list of distributions from *dists* that are
+dependent on *dist*.
+
+:param dists: a list of distributions
+:param dist: a distribution, member of *dists* for which we are interested
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="1295" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="1295" bodyend="1320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1a7aa144f366b79eac8d2c13e135c16b91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.database.get_required_dists</definition>
+        <argsstring>(dists, dist)</argsstring>
+        <name>get_required_dists</name>
+        <qualifiedname>pip._vendor.distlib.database.get_required_dists</qualifiedname>
+        <param>
+          <type>dists</type>
+          <defname>dists</defname>
+        </param>
+        <param>
+          <type>dist</type>
+          <defname>dist</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Recursively generate a list of distributions from *dists* that are
+required by *dist*.
+
+:param dists: a list of distributions
+:param dist: a distribution, member of *dists* for which we are interested
+             in finding the dependencies.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="1321" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="1321" bodyend="1349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1database_1a37bf6a2e0a196d0049cc6b5c33e86d00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.database.make_dist</definition>
+        <argsstring>(name, version, **kwargs)</argsstring>
+        <name>make_dist</name>
+        <qualifiedname>pip._vendor.distlib.database.make_dist</qualifiedname>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>version</type>
+          <defname>version</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A convenience method for making a dist given just a name and version.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="1350" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" bodystart="1350" bodyend="1360"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>PEP 376 implementation.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/distlib/database.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

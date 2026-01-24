@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2truststore_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1truststore">pip::_vendor::truststore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1truststore" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Verify<sp/>certificates<sp/>using<sp/>native<sp/>system<sp/>trust<sp/>stores&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_sys</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>_sys.version_info<sp/>&lt;<sp/>(3,<sp/>10):</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ImportError(</highlight><highlight class="stringliteral">&quot;truststore<sp/>requires<sp/>Python<sp/>3.10<sp/>or<sp/>later&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>._api<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SSLContext,<sp/>extract_from_ssl,<sp/>inject_into_ssl<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>E402</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal">del<sp/>_api,<sp/>_sys<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[name-defined]<sp/>#<sp/>noqa:<sp/>F821</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;SSLContext&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;inject_into_ssl&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;extract_from_ssl&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">__version__<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;0.8.0&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/truststore/__init__.py"/>
+  </compounddef>
+</doxygen>

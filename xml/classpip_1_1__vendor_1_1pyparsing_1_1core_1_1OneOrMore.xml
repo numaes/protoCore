@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1OneOrMore" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pyparsing::core::OneOrMore</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__MultipleMatch" prot="public" virt="non-virtual">pip._vendor.pyparsing.core._MultipleMatch</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1OneOrMore_1a02fb21d102da9678abe7d48f88d5e3aa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.OneOrMore::expr</definition>
+        <argsstring></argsstring>
+        <name>expr</name>
+        <qualifiedname>pip._vendor.pyparsing.core.OneOrMore.expr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5051" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5051" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1OneOrMore_1a7f40a97e35a753fa5ed490650c30824f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.pyparsing.core.OneOrMore._generateDefaultName</definition>
+        <argsstring>(self)</argsstring>
+        <name>_generateDefaultName</name>
+        <qualifiedname>pip._vendor.pyparsing.core.OneOrMore._generateDefaultName</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance_1a1540564bc609e273eb003bdac119d628">_generateDefaultName</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Child classes must define this method, which defines how the ``default_name`` is set.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5050" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5050" bodyend="5053"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Repetition of one or more of the given expression.
+
+Parameters:
+
+- ``expr`` - expression that must match one or more times
+- ``stop_on`` - (default= ``None``) - expression for a terminating sentinel
+  (only required if the sentinel would ordinarily match the repetition
+  expression)
+
+Example::
+
+    data_word = Word(alphas)
+    label = data_word + FollowedBy(&apos;:&apos;)
+    attr_expr = Group(label + Suppress(&apos;:&apos;) + OneOrMore(data_word).set_parse_action(&apos; &apos;.join))
+
+    text = &quot;shape: SQUARE posn: upper left color: BLACK&quot;
+    attr_expr[1, ...].parse_string(text).pprint()  # Fail! read &apos;color&apos; as data instead of next label -&gt; [[&apos;shape&apos;, &apos;SQUARE color&apos;]]
+
+    # use stop_on attribute for OneOrMore to avoid reading label string as part of the data
+    attr_expr = Group(label + Suppress(&apos;:&apos;) + OneOrMore(data_word, stop_on=label).set_parse_action(&apos; &apos;.join))
+    OneOrMore(attr_expr).parse_string(text).pprint() # Better -&gt; [[&apos;shape&apos;, &apos;SQUARE&apos;], [&apos;posn&apos;, &apos;upper left&apos;], [&apos;color&apos;, &apos;BLACK&apos;]]
+
+    # could also be written as
+    (attr_expr * (1,)).parse_string(text).pprint()
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.OneOrMore</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1OneOrMore"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core._MultipleMatch</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__MultipleMatch"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>ABC</label>
+      </node>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.OneOrMore</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1OneOrMore"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>DEFAULT_WHITE_CHARS</edgelabel>
+          <edgelabel>defaultName</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>packrat_cache</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>packrat_cache_stats</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>_parse</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core._MultipleMatch</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__MultipleMatch"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>list</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="9">
+        <label>Tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5022" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5022" bodyend="5053"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1OneOrMore_1a7f40a97e35a753fa5ed490650c30824f" prot="protected" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::OneOrMore</scope><name>_generateDefaultName</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1OneOrMore_1a02fb21d102da9678abe7d48f88d5e3aa" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::OneOrMore</scope><name>expr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

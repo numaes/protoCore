@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::environment::collectors::metadata::MetadataCollector</compoundname>
+    <basecompoundref refid="classsphinx_1_1environment_1_1collectors_1_1EnvironmentCollector" prot="public" virt="non-virtual">sphinx.environment.collectors.EnvironmentCollector</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector_1ab33df5402f181a8d15a8ffd09fcffaf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.environment.collectors.metadata.MetadataCollector.clear_doc</definition>
+        <argsstring>(self, Sphinx app, BuildEnvironment env, str docname)</argsstring>
+        <name>clear_doc</name>
+        <qualifiedname>sphinx.environment.collectors.metadata.MetadataCollector.clear_doc</qualifiedname>
+        <reimplements refid="classsphinx_1_1environment_1_1collectors_1_1EnvironmentCollector_1aad601b52e023724cc592a653644a6920">clear_doc</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/collectors/metadata.py" line="22" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/collectors/metadata.py" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector_1ae4fda06e7aaae1d85fe87f71f25e018b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.environment.collectors.metadata.MetadataCollector.merge_other</definition>
+        <argsstring>(self, Sphinx app, BuildEnvironment env, Set[str] docnames, BuildEnvironment other)</argsstring>
+        <name>merge_other</name>
+        <qualifiedname>sphinx.environment.collectors.metadata.MetadataCollector.merge_other</qualifiedname>
+        <reimplements refid="classsphinx_1_1environment_1_1collectors_1_1EnvironmentCollector_1a1154a4f4cbfec35f463276d485debbb1">merge_other</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/collectors/metadata.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/collectors/metadata.py" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector_1abf49b8a3fa1c003ff23c7ed6b160d311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.environment.collectors.metadata.MetadataCollector.process_doc</definition>
+        <argsstring>(self, Sphinx app, nodes.document doctree)</argsstring>
+        <name>process_doc</name>
+        <qualifiedname>sphinx.environment.collectors.metadata.MetadataCollector.process_doc</qualifiedname>
+        <reimplements refid="classsphinx_1_1environment_1_1collectors_1_1EnvironmentCollector_1a6a2cd8095f33af721122741a0274034e">process_doc</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Process the docinfo part of the doctree as metadata.
+
+Keep processing minimal -- just return what docutils says.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/collectors/metadata.py" line="35" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/collectors/metadata.py" bodystart="35" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>metadata collector for sphinx.environment.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.environment.collectors.metadata.MetadataCollector</label>
+        <link refid="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.environment.collectors.EnvironmentCollector</label>
+        <link refid="classsphinx_1_1environment_1_1collectors_1_1EnvironmentCollector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>sphinx.environment.collectors.metadata.MetadataCollector</label>
+        <link refid="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.environment.collectors.EnvironmentCollector</label>
+        <link refid="classsphinx_1_1environment_1_1collectors_1_1EnvironmentCollector"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/environment/collectors/metadata.py" line="19" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/environment/collectors/metadata.py" bodystart="19" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector_1ab33df5402f181a8d15a8ffd09fcffaf6" prot="public" virt="non-virtual"><scope>sphinx::environment::collectors::metadata::MetadataCollector</scope><name>clear_doc</name></member>
+      <member refid="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector_1ae4fda06e7aaae1d85fe87f71f25e018b" prot="public" virt="non-virtual"><scope>sphinx::environment::collectors::metadata::MetadataCollector</scope><name>merge_other</name></member>
+      <member refid="classsphinx_1_1environment_1_1collectors_1_1metadata_1_1MetadataCollector_1abf49b8a3fa1c003ff23c7ed6b160d311" prot="public" virt="non-virtual"><scope>sphinx::environment::collectors::metadata::MetadataCollector</scope><name>process_doc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

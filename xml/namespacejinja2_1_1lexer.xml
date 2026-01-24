@@ -1,0 +1,1091 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1lexer" kind="namespace" language="Python">
+    <compoundname>jinja2::lexer</compoundname>
+    <innerclass refid="classjinja2_1_1lexer_1_1__Rule" prot="protected">jinja2::lexer::_Rule</innerclass>
+    <innerclass refid="classjinja2_1_1lexer_1_1Failure" prot="public">jinja2::lexer::Failure</innerclass>
+    <innerclass refid="classjinja2_1_1lexer_1_1Lexer" prot="public">jinja2::lexer::Lexer</innerclass>
+    <innerclass refid="classjinja2_1_1lexer_1_1OptionalLStrip" prot="public">jinja2::lexer::OptionalLStrip</innerclass>
+    <innerclass refid="classjinja2_1_1lexer_1_1Token" prot="public">jinja2::lexer::Token</innerclass>
+    <innerclass refid="classjinja2_1_1lexer_1_1TokenStream" prot="public">jinja2::lexer::TokenStream</innerclass>
+    <innerclass refid="classjinja2_1_1lexer_1_1TokenStreamIterator" prot="public">jinja2::lexer::TokenStreamIterator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1aa627f3833a95c714fd4bcbfb0736eb1c" prot="protected" static="no" mutable="no">
+        <type>t</type>
+        <definition>t jinja2::lexer._lexer_cache</definition>
+        <argsstring></argsstring>
+        <name>_lexer_cache</name>
+        <qualifiedname>jinja2.lexer._lexer_cache</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1utils_1_1LRUCache" kindref="compound">LRUCache</ref>(50)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1ac8f1247fb38b2b625af4e8255007ed7a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.whitespace_re</definition>
+        <argsstring></argsstring>
+        <name>whitespace_re</name>
+        <qualifiedname>jinja2.lexer.whitespace_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;\s+&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="27" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a3251916fb908fb7b1ae6f21ed310d734" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.newline_re</definition>
+        <argsstring></argsstring>
+        <name>newline_re</name>
+        <qualifiedname>jinja2.lexer.newline_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;(\r\n|\r|\n)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a12f501295f7d04ac6c6d4e05321737df" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.string_re</definition>
+        <argsstring></argsstring>
+        <name>string_re</name>
+        <qualifiedname>jinja2.lexer.string_re</qualifiedname>
+        <initializer>=  re.compile(
+    r&quot;(&apos;([^&apos;\\]*(?:\\.[^&apos;\\]*)*)&apos;&quot; r&apos;|&quot;([^&quot;\\]*(?:\\.[^&quot;\\]*)*)&quot;)&apos;, re.S
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="29" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a1cc2dbaf6afa3b265e2842595a68e23c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.integer_re</definition>
+        <argsstring></argsstring>
+        <name>integer_re</name>
+        <qualifiedname>jinja2.lexer.integer_re</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    re.IGNORECASE | re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1aecdf9af83a3e30675fb5e154b5b20660" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.float_re</definition>
+        <argsstring></argsstring>
+        <name>float_re</name>
+        <qualifiedname>jinja2.lexer.float_re</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    re.IGNORECASE | re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a461ab21b77893bf440ece470cab9a707" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_ADD</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_ADD</name>
+        <qualifiedname>jinja2.lexer.TOKEN_ADD</qualifiedname>
+        <initializer>=  intern(&quot;add&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="63" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1af4a552646af1384dd8e4ac8bedaf8cc0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_ASSIGN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_ASSIGN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_ASSIGN</qualifiedname>
+        <initializer>=  intern(&quot;assign&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="64" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a811ce1b1755af2b84adcad55178387cf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_COLON</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_COLON</name>
+        <qualifiedname>jinja2.lexer.TOKEN_COLON</qualifiedname>
+        <initializer>=  intern(&quot;colon&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="65" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1ad89170b7bead53e88a773b895005c473" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_COMMA</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_COMMA</name>
+        <qualifiedname>jinja2.lexer.TOKEN_COMMA</qualifiedname>
+        <initializer>=  intern(&quot;comma&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="66" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a14c1a42c44e68f272827fe24bd57ec11" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_DIV</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_DIV</name>
+        <qualifiedname>jinja2.lexer.TOKEN_DIV</qualifiedname>
+        <initializer>=  intern(&quot;div&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="67" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a19e15cf7829a53b0ae0f1f3bacc62fcf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_DOT</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_DOT</name>
+        <qualifiedname>jinja2.lexer.TOKEN_DOT</qualifiedname>
+        <initializer>=  intern(&quot;dot&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="68" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a93af7d18b7ff815aaa4d32b34c88ca64" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_EQ</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_EQ</name>
+        <qualifiedname>jinja2.lexer.TOKEN_EQ</qualifiedname>
+        <initializer>=  intern(&quot;eq&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1ac86503ef9640df5dffdcf3fac0dcb5c9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_FLOORDIV</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_FLOORDIV</name>
+        <qualifiedname>jinja2.lexer.TOKEN_FLOORDIV</qualifiedname>
+        <initializer>=  intern(&quot;floordiv&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1ac47d5930e4d10b642349008f98999c6d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_GT</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_GT</name>
+        <qualifiedname>jinja2.lexer.TOKEN_GT</qualifiedname>
+        <initializer>=  intern(&quot;gt&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="71" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1ae210c4428181cd90c7713e18c6f73122" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_GTEQ</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_GTEQ</name>
+        <qualifiedname>jinja2.lexer.TOKEN_GTEQ</qualifiedname>
+        <initializer>=  intern(&quot;gteq&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="72" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1aee77d8adb6196064ff1bbb66f0911cd2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LBRACE</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LBRACE</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LBRACE</qualifiedname>
+        <initializer>=  intern(&quot;lbrace&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1acf6d05143cd1c9ed3e9305e15822f6d4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LBRACKET</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LBRACKET</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LBRACKET</qualifiedname>
+        <initializer>=  intern(&quot;lbracket&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="74" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1aa2715f56333d120bd562403d6428cef7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LPAREN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LPAREN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LPAREN</qualifiedname>
+        <initializer>=  intern(&quot;lparen&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="75" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a0bb4a63194fe45dbf22d86e447848bb8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LT</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LT</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LT</qualifiedname>
+        <initializer>=  intern(&quot;lt&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1ab5be802dd8ab75d4768a4ec7fcb48fae" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LTEQ</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LTEQ</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LTEQ</qualifiedname>
+        <initializer>=  intern(&quot;lteq&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1aed377c3c7b20b92d4b1fada3921c67ce" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_MOD</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_MOD</name>
+        <qualifiedname>jinja2.lexer.TOKEN_MOD</qualifiedname>
+        <initializer>=  intern(&quot;mod&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a6dc6db525b306e09a061045e425ac78f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_MUL</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_MUL</name>
+        <qualifiedname>jinja2.lexer.TOKEN_MUL</qualifiedname>
+        <initializer>=  intern(&quot;mul&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="79" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a1a329a2edf6e7f61f26c1973017307bf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_NE</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_NE</name>
+        <qualifiedname>jinja2.lexer.TOKEN_NE</qualifiedname>
+        <initializer>=  intern(&quot;ne&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="80" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1af942d18898a477a5ef98847ff0ef98ed" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_PIPE</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_PIPE</name>
+        <qualifiedname>jinja2.lexer.TOKEN_PIPE</qualifiedname>
+        <initializer>=  intern(&quot;pipe&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="81" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a1d05638a1391950b6e862e94794a3516" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_POW</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_POW</name>
+        <qualifiedname>jinja2.lexer.TOKEN_POW</qualifiedname>
+        <initializer>=  intern(&quot;pow&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="82" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a16638982bf7d70404a7cc7c9d497f9c4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_RBRACE</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_RBRACE</name>
+        <qualifiedname>jinja2.lexer.TOKEN_RBRACE</qualifiedname>
+        <initializer>=  intern(&quot;rbrace&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="83" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a67afba2f6ae7b039ea2d81ebfd876258" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_RBRACKET</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_RBRACKET</name>
+        <qualifiedname>jinja2.lexer.TOKEN_RBRACKET</qualifiedname>
+        <initializer>=  intern(&quot;rbracket&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="84" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1af6a6d231c488e181b1d79fab896e7328" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_RPAREN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_RPAREN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_RPAREN</qualifiedname>
+        <initializer>=  intern(&quot;rparen&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a80df8e487eaf131492367c3efdc6c554" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_SEMICOLON</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_SEMICOLON</name>
+        <qualifiedname>jinja2.lexer.TOKEN_SEMICOLON</qualifiedname>
+        <initializer>=  intern(&quot;semicolon&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="86" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1aa576a136b74215289affc2cc210fb269" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_SUB</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_SUB</name>
+        <qualifiedname>jinja2.lexer.TOKEN_SUB</qualifiedname>
+        <initializer>=  intern(&quot;sub&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a7cf2c44410331ea8ad84543f52f3c333" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_TILDE</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_TILDE</name>
+        <qualifiedname>jinja2.lexer.TOKEN_TILDE</qualifiedname>
+        <initializer>=  intern(&quot;tilde&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="88" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1adda2b80d32893442b25dc57630c47c62" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_WHITESPACE</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_WHITESPACE</name>
+        <qualifiedname>jinja2.lexer.TOKEN_WHITESPACE</qualifiedname>
+        <initializer>=  intern(&quot;whitespace&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="89" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1ac41bd512ec24456c04083e6f46d1ce31" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_FLOAT</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_FLOAT</name>
+        <qualifiedname>jinja2.lexer.TOKEN_FLOAT</qualifiedname>
+        <initializer>=  intern(&quot;float&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="90" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1abc4d707e4279566def1625183de4d315" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_INTEGER</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_INTEGER</name>
+        <qualifiedname>jinja2.lexer.TOKEN_INTEGER</qualifiedname>
+        <initializer>=  intern(&quot;integer&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="91" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a6d346540eb6ef21d3704ce6350ef632e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_NAME</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_NAME</name>
+        <qualifiedname>jinja2.lexer.TOKEN_NAME</qualifiedname>
+        <initializer>=  intern(&quot;name&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="92" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a9abf4445c79e0ddb3df360fa30137011" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_STRING</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_STRING</name>
+        <qualifiedname>jinja2.lexer.TOKEN_STRING</qualifiedname>
+        <initializer>=  intern(&quot;string&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="93" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a23266fb69d5469954ed75ac5fa6d9ae0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_OPERATOR</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_OPERATOR</name>
+        <qualifiedname>jinja2.lexer.TOKEN_OPERATOR</qualifiedname>
+        <initializer>=  intern(&quot;operator&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="94" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a176a283b204014786428814a3c1051bd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_BLOCK_BEGIN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_BLOCK_BEGIN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_BLOCK_BEGIN</qualifiedname>
+        <initializer>=  intern(&quot;block_begin&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="95" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1add1fd658320b0da85c15abe5434f3f21" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_BLOCK_END</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_BLOCK_END</name>
+        <qualifiedname>jinja2.lexer.TOKEN_BLOCK_END</qualifiedname>
+        <initializer>=  intern(&quot;block_end&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="96" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a3ff777ced929d2049d7ff905a3d0e3cb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_VARIABLE_BEGIN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_VARIABLE_BEGIN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_VARIABLE_BEGIN</qualifiedname>
+        <initializer>=  intern(&quot;variable_begin&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="97" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a11c221c26d171687455ec19a3366a812" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_VARIABLE_END</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_VARIABLE_END</name>
+        <qualifiedname>jinja2.lexer.TOKEN_VARIABLE_END</qualifiedname>
+        <initializer>=  intern(&quot;variable_end&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="98" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a3addd2122dec27073225e6665e0a87ef" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_RAW_BEGIN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_RAW_BEGIN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_RAW_BEGIN</qualifiedname>
+        <initializer>=  intern(&quot;raw_begin&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="99" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a30103350e8ff559f4b19ee14a579af89" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_RAW_END</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_RAW_END</name>
+        <qualifiedname>jinja2.lexer.TOKEN_RAW_END</qualifiedname>
+        <initializer>=  intern(&quot;raw_end&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="100" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a97040b48a74570e7e9e09b9fc4768c34" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_COMMENT_BEGIN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_COMMENT_BEGIN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_COMMENT_BEGIN</qualifiedname>
+        <initializer>=  intern(&quot;comment_begin&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a329df05b8091212c45be0ded2de82918" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_COMMENT_END</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_COMMENT_END</name>
+        <qualifiedname>jinja2.lexer.TOKEN_COMMENT_END</qualifiedname>
+        <initializer>=  intern(&quot;comment_end&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="102" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a4911059b9e8b29fa254732d94069f2a4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_COMMENT</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_COMMENT</name>
+        <qualifiedname>jinja2.lexer.TOKEN_COMMENT</qualifiedname>
+        <initializer>=  intern(&quot;comment&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="103" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a56f9a4878870b30a047dc6156aa95d97" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LINESTATEMENT_BEGIN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LINESTATEMENT_BEGIN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LINESTATEMENT_BEGIN</qualifiedname>
+        <initializer>=  intern(&quot;linestatement_begin&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="104" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a5232e624f14d37cec22fad8f178a5ecd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LINESTATEMENT_END</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LINESTATEMENT_END</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LINESTATEMENT_END</qualifiedname>
+        <initializer>=  intern(&quot;linestatement_end&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="105" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a54fd6b9338721edd4239d50ab648f6ec" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LINECOMMENT_BEGIN</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LINECOMMENT_BEGIN</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LINECOMMENT_BEGIN</qualifiedname>
+        <initializer>=  intern(&quot;linecomment_begin&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="106" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a290aae86bcbe020c7fb53191369918c7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LINECOMMENT_END</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LINECOMMENT_END</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LINECOMMENT_END</qualifiedname>
+        <initializer>=  intern(&quot;linecomment_end&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="107" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a33c488b52e48696b7c43404a0b1ba2ab" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_LINECOMMENT</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_LINECOMMENT</name>
+        <qualifiedname>jinja2.lexer.TOKEN_LINECOMMENT</qualifiedname>
+        <initializer>=  intern(&quot;linecomment&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="108" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a9b6ea9b7cb58fa3d8e9b7c27cccdf5db" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_DATA</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_DATA</name>
+        <qualifiedname>jinja2.lexer.TOKEN_DATA</qualifiedname>
+        <initializer>=  intern(&quot;data&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="109" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a4abfd4db8580944268d6a2b073047042" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_INITIAL</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_INITIAL</name>
+        <qualifiedname>jinja2.lexer.TOKEN_INITIAL</qualifiedname>
+        <initializer>=  intern(&quot;initial&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="110" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a17d944e68268c854b6dfddca2ae7d91e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.TOKEN_EOF</definition>
+        <argsstring></argsstring>
+        <name>TOKEN_EOF</name>
+        <qualifiedname>jinja2.lexer.TOKEN_EOF</qualifiedname>
+        <initializer>=  intern(&quot;eof&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="111" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a616f85a922c022c09b529e11e453b33a" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2::lexer.operators</definition>
+        <argsstring></argsstring>
+        <name>operators</name>
+        <qualifiedname>jinja2.lexer.operators</qualifiedname>
+        <initializer>=  {
+    &quot;+&quot;: <ref refid="namespacejinja2_1_1lexer_1a461ab21b77893bf440ece470cab9a707" kindref="member">TOKEN_ADD</ref>,
+    &quot;-&quot;: <ref refid="namespacejinja2_1_1lexer_1aa576a136b74215289affc2cc210fb269" kindref="member">TOKEN_SUB</ref>,
+    &quot;/&quot;: <ref refid="namespacejinja2_1_1lexer_1a14c1a42c44e68f272827fe24bd57ec11" kindref="member">TOKEN_DIV</ref>,
+    &quot;//&quot;: <ref refid="namespacejinja2_1_1lexer_1ac86503ef9640df5dffdcf3fac0dcb5c9" kindref="member">TOKEN_FLOORDIV</ref>,
+    &quot;*&quot;: <ref refid="namespacejinja2_1_1lexer_1a6dc6db525b306e09a061045e425ac78f" kindref="member">TOKEN_MUL</ref>,
+    &quot;%&quot;: <ref refid="namespacejinja2_1_1lexer_1aed377c3c7b20b92d4b1fada3921c67ce" kindref="member">TOKEN_MOD</ref>,
+    &quot;**&quot;: <ref refid="namespacejinja2_1_1lexer_1a1d05638a1391950b6e862e94794a3516" kindref="member">TOKEN_POW</ref>,
+    &quot;~&quot;: <ref refid="namespacejinja2_1_1lexer_1a7cf2c44410331ea8ad84543f52f3c333" kindref="member">TOKEN_TILDE</ref>,
+    &quot;[&quot;: <ref refid="namespacejinja2_1_1lexer_1acf6d05143cd1c9ed3e9305e15822f6d4" kindref="member">TOKEN_LBRACKET</ref>,
+    &quot;]&quot;: <ref refid="namespacejinja2_1_1lexer_1a67afba2f6ae7b039ea2d81ebfd876258" kindref="member">TOKEN_RBRACKET</ref>,
+    &quot;(&quot;: <ref refid="namespacejinja2_1_1lexer_1aa2715f56333d120bd562403d6428cef7" kindref="member">TOKEN_LPAREN</ref>,
+    &quot;)&quot;: <ref refid="namespacejinja2_1_1lexer_1af6a6d231c488e181b1d79fab896e7328" kindref="member">TOKEN_RPAREN</ref>,
+    &quot;{&quot;: <ref refid="namespacejinja2_1_1lexer_1aee77d8adb6196064ff1bbb66f0911cd2" kindref="member">TOKEN_LBRACE</ref>,
+    &quot;}&quot;: <ref refid="namespacejinja2_1_1lexer_1a16638982bf7d70404a7cc7c9d497f9c4" kindref="member">TOKEN_RBRACE</ref>,
+    &quot;==&quot;: <ref refid="namespacejinja2_1_1lexer_1a93af7d18b7ff815aaa4d32b34c88ca64" kindref="member">TOKEN_EQ</ref>,
+    &quot;!=&quot;: <ref refid="namespacejinja2_1_1lexer_1a1a329a2edf6e7f61f26c1973017307bf" kindref="member">TOKEN_NE</ref>,
+    &quot;&gt;&quot;: <ref refid="namespacejinja2_1_1lexer_1ac47d5930e4d10b642349008f98999c6d" kindref="member">TOKEN_GT</ref>,
+    &quot;&gt;=&quot;: <ref refid="namespacejinja2_1_1lexer_1ae210c4428181cd90c7713e18c6f73122" kindref="member">TOKEN_GTEQ</ref>,
+    &quot;&lt;&quot;: <ref refid="namespacejinja2_1_1lexer_1a0bb4a63194fe45dbf22d86e447848bb8" kindref="member">TOKEN_LT</ref>,
+    &quot;&lt;=&quot;: <ref refid="namespacejinja2_1_1lexer_1ab5be802dd8ab75d4768a4ec7fcb48fae" kindref="member">TOKEN_LTEQ</ref>,
+    &quot;=&quot;: <ref refid="namespacejinja2_1_1lexer_1af4a552646af1384dd8e4ac8bedaf8cc0" kindref="member">TOKEN_ASSIGN</ref>,
+    &quot;.&quot;: <ref refid="namespacejinja2_1_1lexer_1a19e15cf7829a53b0ae0f1f3bacc62fcf" kindref="member">TOKEN_DOT</ref>,
+    &quot;:&quot;: <ref refid="namespacejinja2_1_1lexer_1a811ce1b1755af2b84adcad55178387cf" kindref="member">TOKEN_COLON</ref>,
+    &quot;|&quot;: <ref refid="namespacejinja2_1_1lexer_1af942d18898a477a5ef98847ff0ef98ed" kindref="member">TOKEN_PIPE</ref>,
+    &quot;,&quot;: <ref refid="namespacejinja2_1_1lexer_1ad89170b7bead53e88a773b895005c473" kindref="member">TOKEN_COMMA</ref>,
+    &quot;;&quot;: <ref refid="namespacejinja2_1_1lexer_1a80df8e487eaf131492367c3efdc6c554" kindref="member">TOKEN_SEMICOLON</ref>,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="114" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a10e2d92da74deb70350f218e822e9387" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2::lexer.reverse_operators</definition>
+        <argsstring></argsstring>
+        <name>reverse_operators</name>
+        <qualifiedname>jinja2.lexer.reverse_operators</qualifiedname>
+        <initializer>=  {v: k for k, v in operators.items()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="143" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1af4be2b8a46ddefd1e05fd2bdb943c4fc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.operator_re</definition>
+        <argsstring></argsstring>
+        <name>operator_re</name>
+        <qualifiedname>jinja2.lexer.operator_re</qualifiedname>
+        <initializer>=  re.compile(
+    f&quot;({&apos;|&apos;.join(re.escape(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>) for <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref> in sorted(<ref refid="namespacejinja2_1_1lexer_1a616f85a922c022c09b529e11e453b33a" kindref="member">operators</ref>, key=lambda x: -len(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>)))})&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="145" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a2fc48289f944b37836b2f0055eb84a7a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.ignored_tokens</definition>
+        <argsstring></argsstring>
+        <name>ignored_tokens</name>
+        <qualifiedname>jinja2.lexer.ignored_tokens</qualifiedname>
+        <initializer>=  frozenset(
+    [
+        <ref refid="namespacejinja2_1_1lexer_1a97040b48a74570e7e9e09b9fc4768c34" kindref="member">TOKEN_COMMENT_BEGIN</ref>,
+        <ref refid="namespacejinja2_1_1lexer_1a4911059b9e8b29fa254732d94069f2a4" kindref="member">TOKEN_COMMENT</ref>,
+        <ref refid="namespacejinja2_1_1lexer_1a329df05b8091212c45be0ded2de82918" kindref="member">TOKEN_COMMENT_END</ref>,
+        <ref refid="namespacejinja2_1_1lexer_1adda2b80d32893442b25dc57630c47c62" kindref="member">TOKEN_WHITESPACE</ref>,
+        <ref refid="namespacejinja2_1_1lexer_1a54fd6b9338721edd4239d50ab648f6ec" kindref="member">TOKEN_LINECOMMENT_BEGIN</ref>,
+        <ref refid="namespacejinja2_1_1lexer_1a290aae86bcbe020c7fb53191369918c7" kindref="member">TOKEN_LINECOMMENT_END</ref>,
+        <ref refid="namespacejinja2_1_1lexer_1a33c488b52e48696b7c43404a0b1ba2ab" kindref="member">TOKEN_LINECOMMENT</ref>,
+    ]
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="149" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1lexer_1a2aa55f6ec41e41dafd556e212e63ec7f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::lexer.ignore_if_empty</definition>
+        <argsstring></argsstring>
+        <name>ignore_if_empty</name>
+        <qualifiedname>jinja2.lexer.ignore_if_empty</qualifiedname>
+        <initializer>=  frozenset(
+    [<ref refid="namespacejinja2_1_1lexer_1adda2b80d32893442b25dc57630c47c62" kindref="member">TOKEN_WHITESPACE</ref>, <ref refid="namespacejinja2_1_1lexer_1a9b6ea9b7cb58fa3d8e9b7c27cccdf5db" kindref="member">TOKEN_DATA</ref>, <ref refid="namespacejinja2_1_1lexer_1a4911059b9e8b29fa254732d94069f2a4" kindref="member">TOKEN_COMMENT</ref>, <ref refid="namespacejinja2_1_1lexer_1a33c488b52e48696b7c43404a0b1ba2ab" kindref="member">TOKEN_LINECOMMENT</ref>]
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="160" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1lexer_1a8ed996f90a658160ae965be8ab09f1c7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.lexer._describe_token_type</definition>
+        <argsstring>(str token_type)</argsstring>
+        <name>_describe_token_type</name>
+        <qualifiedname>jinja2.lexer._describe_token_type</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>token_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="165" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="165" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1lexer_1a588731fde1cadc87f1caeb5d23be3d8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.lexer.describe_token</definition>
+        <argsstring>(&quot;Token&quot; token)</argsstring>
+        <name>describe_token</name>
+        <qualifiedname>jinja2.lexer.describe_token</qualifiedname>
+        <param>
+          <type>&quot;Token&quot;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a description of the token.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="185" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="185" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1lexer_1a32527b269b66f16edc51f23c7dfe8155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.lexer.describe_token_expr</definition>
+        <argsstring>(str expr)</argsstring>
+        <name>describe_token_expr</name>
+        <qualifiedname>jinja2.lexer.describe_token_expr</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Like `describe_token` but for token expressions.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="193" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="193" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1lexer_1a3429bfa07a8bd1b2d14bc1af4e638f96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int jinja2.lexer.count_newlines</definition>
+        <argsstring>(str value)</argsstring>
+        <name>count_newlines</name>
+        <qualifiedname>jinja2.lexer.count_newlines</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Count the number of newline characters in the string.  This is
+useful for extensions that filter a stream.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="206" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="206" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1lexer_1a33e97a479a5693e1643c4ecb554dad23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.List[t.Tuple[str, str]]</type>
+        <definition> t.List[t.Tuple[str, str]] jinja2.lexer.compile_rules</definition>
+        <argsstring>(&quot;Environment&quot; environment)</argsstring>
+        <name>compile_rules</name>
+        <qualifiedname>jinja2.lexer.compile_rules</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compiles all the rules from the environment into a list of rules.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="213" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="213" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1lexer_1a80b30546fdd3bbf26590b8b8fedf7867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Lexer&quot;</type>
+        <definition> &quot;Lexer&quot; jinja2.lexer.get_lexer</definition>
+        <argsstring>(&quot;Environment&quot; environment)</argsstring>
+        <name>get_lexer</name>
+        <qualifiedname>jinja2.lexer.get_lexer</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a lexer which is probably cached.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="428" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" bodystart="428" bodyend="451"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Implements a Jinja / Python combination lexer. The ``Lexer`` class
+is used to do some preprocessing. It filters out invalid operators like
+the bitshift operators we don&apos;t allow in templates. It separates
+template code and python code in expressions.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/lexer.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

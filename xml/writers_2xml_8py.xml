@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="writers_2xml_8py" kind="file" language="Python">
+    <compoundname>xml.py</compoundname>
+    <innerclass refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter" prot="public">sphinx::writers::xml::XMLWriter</innerclass>
+    <innerclass refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter" prot="public">sphinx::writers::xml::PseudoXMLWriter</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1writers">sphinx::writers</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1writers_1_1xml">sphinx::writers::xml</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1writers_1_1xml" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Docutils-native<sp/>XML<sp/>and<sp/>pseudo-XML<sp/>writers.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1writers_1_1docutils__xml" kindref="compound">docutils.writers.docutils_xml</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Writer<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>BaseXMLWriter</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Any</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1builders" kindref="compound">sphinx.builders</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Builder</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter" kindref="compound">XMLWriter</ref>(BaseXMLWriter):<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[misc]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>output:<sp/>str</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1a1dc75d8acf406752c5d114dfa61b065d" kindref="member">__init__</ref>(self,<sp/>builder:<sp/>Builder)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1a1dc75d8acf406752c5d114dfa61b065d" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1ab98a977bd20fb6152fb6a2c99ba66850" kindref="member">builder</ref><sp/>=<sp/>builder</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1a1165bdd405e9ca2b39e5658f8107f712" kindref="member">_config</ref><sp/>=<sp/>builder.config</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1afc366d5a4aae7e54b1819dde1165fc2b" kindref="member">translate</ref>(self,<sp/>*args:<sp/>Any,<sp/>**kwargs:<sp/>Any)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.document.settings.newlines<sp/>=<sp/>self.document.settings.indents<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1a1165bdd405e9ca2b39e5658f8107f712" kindref="member">_config</ref>.xml_pretty</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.document.settings.xml_declaration<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.document.settings.doctype_declaration<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>copied<sp/>from<sp/>docutils.writers.docutils_xml.Writer.translate()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>so<sp/>that<sp/>we<sp/>can<sp/>override<sp/>the<sp/>translator<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1af43c316285ba4b22a7dd51d4de1a3013" kindref="member">visitor</ref><sp/>=<sp/>visitor<sp/>=<sp/>self.<ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1ab98a977bd20fb6152fb6a2c99ba66850" kindref="member">builder</ref>.create_translator(self.document)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.document.walkabout(visitor)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1aeb7f401b3e18d4b51f7503bce9a587ad" kindref="member">output</ref><ref refid="classsphinx_1_1writers_1_1xml_1_1XMLWriter_1aa3572b739455883d3f9b2cf8cddacdcd" kindref="member">output</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">.join(visitor.output)<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[attr-defined]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter" kindref="compound">PseudoXMLWriter</ref>(BaseXMLWriter):<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[misc]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>supported<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;pprint&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;pformat&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;pseudoxml&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Formats<sp/>this<sp/>writer<sp/>supports.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;pseudoxml<sp/>writer&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section_dependencies<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;writers&apos;</highlight><highlight class="normal">,)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>output:<sp/>str</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Final<sp/>translated<sp/>form<sp/>of<sp/>`document`.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter_1ab39db995df10fa03ebb19728a88b3c45" kindref="member">__init__</ref>(self,<sp/>builder:<sp/>Builder)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter_1ab39db995df10fa03ebb19728a88b3c45" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter_1a9b770aeb976b3bab58b687e87f26c2de" kindref="member">builder</ref><sp/>=<sp/>builder</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter_1a85c913444bad702302e4596ecc00e838" kindref="member">translate</ref>(self)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter_1a252218f048df0583f3774e015c5bdfee" kindref="member">output</ref><ref refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter_1aaeecbb50a57ce3e9f32cbc4b34f7f9ab" kindref="member">output</ref><sp/>=<sp/>self.document.pformat()</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1writers_1_1xml_1_1PseudoXMLWriter_1a05fbc9dee8c176f36b24b9b09e831212" kindref="member">supports</ref>(self,<sp/>format:<sp/>str)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;All<sp/>format-specific<sp/>elements<sp/>are<sp/>supported.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/writers/xml.py"/>
+  </compounddef>
+</doxygen>

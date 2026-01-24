@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="urllib3_2contrib_2emscripten_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespaceurllib3">urllib3</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1contrib">urllib3::contrib</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1contrib_1_1emscripten">urllib3::contrib::emscripten</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceurllib3_1_1contrib" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespaceurllib3_1_1connection" kindref="compound">urllib3.connection</ref></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>...connectionpool<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>HTTPConnectionPool,<sp/>HTTPSConnectionPool</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.connection<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>EmscriptenHTTPConnection,<sp/>EmscriptenHTTPSConnection</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">inject_into_urllib3()<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>override<sp/>connection<sp/>classes<sp/>to<sp/>use<sp/>emscripten<sp/>specific<sp/>classes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>n.b.<sp/>mypy<sp/>complains<sp/>about<sp/>the<sp/>overriding<sp/>of<sp/>classes<sp/>below</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>if<sp/>it<sp/>isn&apos;t<sp/>ignored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>HTTPConnectionPool.ConnectionCls<sp/>=<sp/>EmscriptenHTTPConnection</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>HTTPSConnectionPool.ConnectionCls<sp/>=<sp/>EmscriptenHTTPSConnection</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classurllib3_1_1connection_1_1HTTPConnection" kindref="compound">urllib3.connection.HTTPConnection</ref><sp/>=<sp/>EmscriptenHTTPConnection<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[misc,assignment]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classurllib3_1_1connection_1_1HTTPSConnection" kindref="compound">urllib3.connection.HTTPSConnection</ref><sp/>=<sp/>EmscriptenHTTPSConnection<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[misc,assignment]</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/__init__.py"/>
+  </compounddef>
+</doxygen>

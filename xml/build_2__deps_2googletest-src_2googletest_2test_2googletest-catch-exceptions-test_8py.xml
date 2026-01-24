@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="build_2__deps_2googletest-src_2googletest_2test_2googletest-catch-exceptions-test_8py" kind="file" language="Python">
+    <compoundname>googletest-catch-exceptions-test.py</compoundname>
+    <innerclass refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest" prot="public">googletest-catch-exceptions-test::CatchSehExceptionsTest</innerclass>
+    <innerclass refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest" prot="public">googletest-catch-exceptions-test::CatchCxxExceptionsTest</innerclass>
+    <innernamespace refid="namespacegoogletest-catch-exceptions-test">googletest-catch-exceptions-test</innernamespace>
+    <innernamespace refid="namespacegoogletest">googletest</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacegoogletest-catch-exceptions-test" refkind="compound"><highlight class="comment">#!/usr/bin/env<sp/>python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright<sp/>2010<sp/>Google<sp/>Inc.<sp/><sp/>All<sp/>Rights<sp/>Reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">#<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">#<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/>copyright<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">#<sp/>in<sp/>the<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/><sp/>*<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>Google<sp/>Inc.<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#<sp/>this<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">#</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">#<sp/>&quot;AS<sp/>IS&quot;<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>THE<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">#<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OWNER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">#<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">#<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">#<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">#<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">#<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">#<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Tests<sp/>Google<sp/>Test&apos;s<sp/>exception<sp/>catching<sp/>behavior.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral">This<sp/>script<sp/>invokes<sp/>googletest-catch-exceptions-test_<sp/>and</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">googletest-catch-exceptions-ex-test_<sp/>(programs<sp/>written<sp/>with</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">Google<sp/>Test)<sp/>and<sp/>verifies<sp/>their<sp/>output.</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>googletest.test<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>gtest_test_utils</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Constants.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">FLAG_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;--gtest_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">LIST_TESTS_FLAG<sp/>=<sp/>FLAG_PREFIX<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;list_tests&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">NO_CATCH_EXCEPTIONS_FLAG<sp/>=<sp/>FLAG_PREFIX<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;catch_exceptions=0&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">FILTER_FLAG<sp/>=<sp/>FLAG_PREFIX<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;filter&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Path<sp/>to<sp/>the<sp/>googletest-catch-exceptions-ex-test_<sp/>binary,<sp/>compiled<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">#<sp/>exceptions<sp/>enabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">EX_EXE_PATH<sp/>=<sp/><ref refid="namespacegtest__test__utils_1ae7a8ef352b6b64ef8ec893f79874a1cd" kindref="member">gtest_test_utils.GetTestExecutablePath</ref>(</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;googletest-catch-exceptions-ex-test_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Path<sp/>to<sp/>the<sp/>googletest-catch-exceptions-test_<sp/>binary,<sp/>compiled<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">#<sp/>exceptions<sp/>disabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">EXE_PATH<sp/>=<sp/><ref refid="namespacegtest__test__utils_1ae7a8ef352b6b64ef8ec893f79874a1cd" kindref="member">gtest_test_utils.GetTestExecutablePath</ref>(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;googletest-catch-exceptions-no-ex-test_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">environ<sp/>=<sp/>gtest_test_utils.environ</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">SetEnvVar<sp/>=<sp/>gtest_test_utils.SetEnvVar</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Tests<sp/>in<sp/>this<sp/>file<sp/>run<sp/>a<sp/>Google-Test-based<sp/>test<sp/>program<sp/>and<sp/>expect<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">#<sp/>to<sp/>terminate<sp/>prematurely.<sp/><sp/>Therefore<sp/>they<sp/>are<sp/>incompatible<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">#<sp/>the<sp/>premature-exit-file<sp/>protocol<sp/>by<sp/>design.<sp/><sp/>Unset<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">#<sp/>premature-exit<sp/>filepath<sp/>to<sp/>prevent<sp/>Google<sp/>Test<sp/>from<sp/>creating</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">#<sp/>the<sp/>file.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="namespacegoogletest-catch-exceptions-test_1aa87a06c3b29e680c311b77240c61d745" kindref="member">SetEnvVar</ref>(gtest_test_utils.PREMATURE_EXIT_FILE_ENV_VAR,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">TEST_LIST<sp/>=<sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>[EXE_PATH,<sp/>LIST_TESTS_FLAG],<sp/>env=environ</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">).output</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">SUPPORTS_SEH_EXCEPTIONS<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;ThrowsSehException&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>TEST_LIST</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>SUPPORTS_SEH_EXCEPTIONS:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/>BINARY_OUTPUT<sp/>=<sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>([EXE_PATH],<sp/>env=environ).output</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">EX_BINARY_OUTPUT<sp/>=<sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>[EX_EXE_PATH],<sp/>env=environ</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">).output</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">#<sp/>The<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>SUPPORTS_SEH_EXCEPTIONS:</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest" kindref="compound">CatchSehExceptionsTest</ref>(<ref refid="namespacegtest__test__utils_1acb97a85206c09d233db6c7f2362e5428" kindref="member">gtest_test_utils.TestCase</ref>):</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Tests<sp/>exception-catching<sp/>behavior.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest_1a6c861877cf1d1da5fb43b2405039ace6" kindref="member">TestSehExceptions</ref>(self,<sp/>test_output):</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertIn(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;SEH<sp/>exception<sp/>with<sp/>code<sp/>0x2a<sp/>thrown<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in<sp/>the<sp/>test<sp/>fixture&apos;s<sp/>constructor&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_output,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertIn(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;SEH<sp/>exception<sp/>with<sp/>code<sp/>0x2a<sp/>thrown<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in<sp/>the<sp/>test<sp/>fixture&apos;s<sp/>destructor&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_output,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertIn(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;SEH<sp/>exception<sp/>with<sp/>code<sp/>0x2a<sp/>thrown<sp/>in<sp/>SetUpTestSuite()&apos;</highlight><highlight class="normal">,<sp/>test_output</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertIn(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;SEH<sp/>exception<sp/>with<sp/>code<sp/>0x2a<sp/>thrown<sp/>in<sp/>TearDownTestSuite()&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_output,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertIn(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;SEH<sp/>exception<sp/>with<sp/>code<sp/>0x2a<sp/>thrown<sp/>in<sp/>SetUp()&apos;</highlight><highlight class="normal">,<sp/>test_output</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertIn(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;SEH<sp/>exception<sp/>with<sp/>code<sp/>0x2a<sp/>thrown<sp/>in<sp/>TearDown()&apos;</highlight><highlight class="normal">,<sp/>test_output</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertIn(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;SEH<sp/>exception<sp/>with<sp/>code<sp/>0x2a<sp/>thrown<sp/>in<sp/>the<sp/>test<sp/>body&apos;</highlight><highlight class="normal">,<sp/>test_output</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest_1aa79284eb703713ef890cae35648c1ec8" kindref="member">testCatchesSehExceptionsWithCxxExceptionsEnabled</ref>(self):</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest_1a6c861877cf1d1da5fb43b2405039ace6" kindref="member">TestSehExceptions</ref><ref refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest_1a6c861877cf1d1da5fb43b2405039ace6" kindref="member">TestSehExceptions</ref>(EX_BINARY_OUTPUT)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest_1a22b59a8251148ea6572b15602a446c9d" kindref="member">testCatchesSehExceptionsWithCxxExceptionsDisabled</ref>(self):</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest_1a6c861877cf1d1da5fb43b2405039ace6" kindref="member">TestSehExceptions</ref><ref refid="classgoogletest-catch-exceptions-test_1_1CatchSehExceptionsTest_1a6c861877cf1d1da5fb43b2405039ace6" kindref="member">TestSehExceptions</ref>(BINARY_OUTPUT)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest" kindref="compound">CatchCxxExceptionsTest</ref>(<ref refid="namespacegtest__test__utils_1acb97a85206c09d233db6c7f2362e5428" kindref="member">gtest_test_utils.TestCase</ref>):</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Tests<sp/>C++<sp/>exception-catching<sp/>behavior.</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/>Tests<sp/>in<sp/>this<sp/>test<sp/>case<sp/>verify<sp/>that:</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/>*<sp/>C++<sp/>exceptions<sp/>are<sp/>caught<sp/>and<sp/>logged<sp/>as<sp/>C++<sp/>(not<sp/>SEH)<sp/>exceptions</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/>*<sp/>Exception<sp/>thrown<sp/>affect<sp/>the<sp/>remainder<sp/>of<sp/>the<sp/>test<sp/>work<sp/>flow<sp/>in<sp/>the</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>expected<sp/>manner.</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1a770d1b43bf35a0785c5a0587fa968093" kindref="member">testCatchesCxxExceptionsInFixtureConstructor</ref>(self):</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;C++<sp/>exception<sp/>with<sp/>description<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&quot;Standard<sp/>C++<sp/>exception&quot;<sp/>thrown<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in<sp/>the<sp/>test<sp/>fixture&apos;s<sp/>constructor&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;unexpected&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;This<sp/>failure<sp/>belongs<sp/>in<sp/>this<sp/>test<sp/>only<sp/>if<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&quot;CxxExceptionInConstructorTest&quot;<sp/>(no<sp/>quotes)<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;appears<sp/>on<sp/>the<sp/>same<sp/>line<sp/>as<sp/>words<sp/>&quot;called<sp/>unexpectedly&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInDestructorTest.ThrowsExceptionInDestructor&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/>):</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1a41e035a4b8263198b3e8a8c597a0552f" kindref="member">testCatchesCxxExceptionsInFixtureDestructor</ref>(self):</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;C++<sp/>exception<sp/>with<sp/>description<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&quot;Standard<sp/>C++<sp/>exception&quot;<sp/>thrown<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in<sp/>the<sp/>test<sp/>fixture&apos;s<sp/>destructor&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInDestructorTest::TearDownTestSuite()<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1a2406019fe737e60094300774082667ad" kindref="member">testCatchesCxxExceptionsInSetUpTestCase</ref>(self):</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;C++<sp/>exception<sp/>with<sp/>description<sp/>&quot;Standard<sp/>C++<sp/>exception&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;<sp/>thrown<sp/>in<sp/>SetUpTestSuite()&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInConstructorTest::TearDownTestSuite()<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertFalse(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInSetUpTestSuiteTest<sp/>constructor<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertFalse(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInSetUpTestSuiteTest<sp/>destructor<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertFalse(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInSetUpTestSuiteTest::SetUp()<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertFalse(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInSetUpTestSuiteTest::TearDown()<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertFalse(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInSetUpTestSuiteTest<sp/>test<sp/>body<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1a9955eae0d7f374cacd4d94a87c077e77" kindref="member">testCatchesCxxExceptionsInTearDownTestCase</ref>(self):</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;C++<sp/>exception<sp/>with<sp/>description<sp/>&quot;Standard<sp/>C++<sp/>exception&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;<sp/>thrown<sp/>in<sp/>TearDownTestSuite()&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1ae97cc7fe22bfb8fe15e1966a8d56d225" kindref="member">testCatchesCxxExceptionsInSetUp</ref>(self):</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;C++<sp/>exception<sp/>with<sp/>description<sp/>&quot;Standard<sp/>C++<sp/>exception&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;<sp/>thrown<sp/>in<sp/>SetUp()&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInSetUpTest::TearDownTestSuite()<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInSetUpTest<sp/>destructor<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInSetUpTest::TearDown()<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;unexpected&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;This<sp/>failure<sp/>belongs<sp/>in<sp/>this<sp/>test<sp/>only<sp/>if<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&quot;CxxExceptionInSetUpTest&quot;<sp/>(no<sp/>quotes)<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;appears<sp/>on<sp/>the<sp/>same<sp/>line<sp/>as<sp/>words<sp/>&quot;called<sp/>unexpectedly&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1aed4ef281f6c99a7e749ff90e072c6969" kindref="member">testCatchesCxxExceptionsInTearDown</ref>(self):</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;C++<sp/>exception<sp/>with<sp/>description<sp/>&quot;Standard<sp/>C++<sp/>exception&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;<sp/>thrown<sp/>in<sp/>TearDown()&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInTearDownTest::TearDownTestSuite()<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInTearDownTest<sp/>destructor<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1a7c4e424c079c38b64c8fb849db4949d7" kindref="member">testCatchesCxxExceptionsInTestBody</ref>(self):</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;C++<sp/>exception<sp/>with<sp/>description<sp/>&quot;Standard<sp/>C++<sp/>exception&quot;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;<sp/>thrown<sp/>in<sp/>the<sp/>test<sp/>body&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInTestBodyTest::TearDownTestSuite()<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInTestBodyTest<sp/>destructor<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;CxxExceptionInTestBodyTest::TearDown()<sp/>called<sp/>as<sp/>expected.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1a2fca0f2016be6890477e8361f6aaabd3" kindref="member">testCatchesNonStdCxxExceptions</ref>(self):</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertTrue(</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Unknown<sp/>C++<sp/>exception<sp/>thrown<sp/>in<sp/>the<sp/>test<sp/>body&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EX_BINARY_OUTPUT,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classgoogletest-catch-exceptions-test_1_1CatchCxxExceptionsTest_1a779012a964453a445ee8ec2579e2848b" kindref="member">testUnhandledCxxExceptionsAbortTheProgram</ref>(self):</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Filters<sp/>out<sp/>SEH<sp/>exception<sp/>tests<sp/>on<sp/>Windows.<sp/>Unhandled<sp/>SEH<sp/>exceptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>cause<sp/>tests<sp/>to<sp/>show<sp/>pop-up<sp/>windows<sp/>there.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>filter_out_seh_tests_flag<sp/>=<sp/>FILTER_FLAG<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;=-*Seh*&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>By<sp/>default,<sp/>Google<sp/>Test<sp/>doesn&apos;t<sp/>catch<sp/>the<sp/>exceptions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>uncaught_exceptions_ex_binary_output<sp/>=<sp/><ref refid="classgtest__test__utils_1_1Subprocess" kindref="compound">gtest_test_utils.Subprocess</ref>(</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[EX_EXE_PATH,<sp/>NO_CATCH_EXCEPTIONS_FLAG,<sp/>filter_out_seh_tests_flag],</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env=environ,</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>).output</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertIn(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Unhandled<sp/>C++<sp/>exception<sp/>terminating<sp/>the<sp/>program&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uncaught_exceptions_ex_binary_output,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>self.assertNotIn(</highlight><highlight class="stringliteral">&apos;unexpected&apos;</highlight><highlight class="normal">,<sp/>uncaught_exceptions_ex_binary_output)</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><ref refid="namespacegtest__test__utils_1a70db3f06a6df00628acf3436784db483" kindref="member">gtest_test_utils.Main</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="build/_deps/googletest-src/googletest/test/googletest-catch-exceptions-test.py"/>
+  </compounddef>
+</doxygen>

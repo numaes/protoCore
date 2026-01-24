@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="breathe_2parser_2index_8py" kind="file" language="Python">
+    <compoundname>index.py</compoundname>
+    <innerclass refid="classbreathe_1_1parser_1_1index_1_1DoxygenTypeSub" prot="public">breathe::parser::index::DoxygenTypeSub</innerclass>
+    <innerclass refid="classbreathe_1_1parser_1_1index_1_1CompoundTypeSub" prot="public">breathe::parser::index::CompoundTypeSub</innerclass>
+    <innerclass refid="classbreathe_1_1parser_1_1index_1_1MemberTypeSub" prot="public">breathe::parser::index::MemberTypeSub</innerclass>
+    <innerclass refid="classbreathe_1_1parser_1_1index_1_1ParseError" prot="public">breathe::parser::index::ParseError</innerclass>
+    <innerclass refid="classbreathe_1_1parser_1_1index_1_1FileIOError" prot="public">breathe::parser::index::FileIOError</innerclass>
+    <innernamespace refid="namespacebreathe">breathe</innernamespace>
+    <innernamespace refid="namespacebreathe_1_1parser">breathe::parser</innernamespace>
+    <innernamespace refid="namespacebreathe_1_1parser_1_1index">breathe::parser::index</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacebreathe_1_1parser_1_1index" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">Generated<sp/>Mon<sp/>Feb<sp/><sp/>9<sp/>19:08:05<sp/>2009<sp/>by<sp/>generateDS.py.</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>xml.dom<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>minidom</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>xml.parsers.expat<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ExpatError</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacebreathe_1_1parser" kindref="compound">breathe.parser</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>indexsuper<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>supermod</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="classbreathe_1_1parser_1_1index_1_1DoxygenTypeSub" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1parser_1_1index_1_1DoxygenTypeSub" kindref="compound">DoxygenTypeSub</ref>(supermod.DoxygenType):</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>node_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doxygen&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1parser_1_1index_1_1DoxygenTypeSub_1aa4bf0d19e109b58e0e9bd990fc65a237" kindref="member">__init__</ref>(self,<sp/>version=None,<sp/>compound=None):</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>supermod.DoxygenType.__init__(self,<sp/>version,<sp/>compound)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">supermod.DoxygenType.subclass<sp/>=<sp/>DoxygenTypeSub</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">#<sp/>end<sp/>class<sp/>DoxygenTypeSub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classbreathe_1_1parser_1_1index_1_1CompoundTypeSub" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1parser_1_1index_1_1CompoundTypeSub" kindref="compound">CompoundTypeSub</ref>(supermod.CompoundType):</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>node_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;compound&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1parser_1_1index_1_1CompoundTypeSub_1aa11f4b5814e740767783acb18a0ae299" kindref="member">__init__</ref>(self,<sp/>kind=None,<sp/>refid=None,<sp/>name=&quot;&quot;,<sp/>member=None):</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>supermod.CompoundType.__init__(self,<sp/>kind,<sp/>refid,<sp/>name,<sp/>member)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">supermod.CompoundType.subclass<sp/>=<sp/>CompoundTypeSub</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">#<sp/>end<sp/>class<sp/>CompoundTypeSub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classbreathe_1_1parser_1_1index_1_1MemberTypeSub" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1parser_1_1index_1_1MemberTypeSub" kindref="compound">MemberTypeSub</ref>(supermod.MemberType):</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>node_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;member&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1parser_1_1index_1_1MemberTypeSub_1af1951e52a0eb94f571f05dff6e815988" kindref="member">__init__</ref>(self,<sp/>kind=None,<sp/>refid=None,<sp/>name=&quot;&quot;):</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>supermod.MemberType.__init__(self,<sp/>kind,<sp/>refid,<sp/>name)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">supermod.MemberType.subclass<sp/>=<sp/>MemberTypeSub</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">#<sp/>end<sp/>class<sp/>MemberTypeSub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classbreathe_1_1parser_1_1index_1_1ParseError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1parser_1_1index_1_1ParseError" kindref="compound">ParseError</ref>(Exception):</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classbreathe_1_1parser_1_1index_1_1FileIOError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">FileIOError(Exception):</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">parse(inFilename):</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc<sp/>=<sp/>minidom.parse(str(inFilename))</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>OSError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>e:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>FileIOError(e)</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ExpatError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>e:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ParseError(e)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>rootNode<sp/>=<sp/>doc.documentElement</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>rootObj<sp/>=<sp/>supermod.DoxygenType.factory()</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>rootObj.build(rootNode)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rootObj</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/breathe/parser/index.py"/>
+  </compounddef>
+</doxygen>

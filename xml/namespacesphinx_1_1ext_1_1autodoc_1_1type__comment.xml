@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1autodoc_1_1type__comment" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::autodoc::type_comment</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1autodoc_1_1type__comment_1aea654838eb75f063f5daab0a2be33cf7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::autodoc::type_comment.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.autodoc.type_comment.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1type__comment_1a249fb72cb298fad4bbcb83f1ac1f9186" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.autodoc.type_comment.not_suppressed</definition>
+        <argsstring>(Sequence[ast.expr] argtypes=())</argsstring>
+        <name>not_suppressed</name>
+        <qualifiedname>sphinx.ext.autodoc.type_comment.not_suppressed</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>argtypes</declname>
+          <array>[ast.expr]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check given *argtypes* is suppressed type_comment or not.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" bodystart="24" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1type__comment_1a9656003a591c8df071b22c5f03faf364" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Signature</type>
+        <definition> Signature sphinx.ext.autodoc.type_comment.signature_from_ast</definition>
+        <argsstring>(ast.FunctionDef node, bool bound_method, ast.FunctionDef type_comment)</argsstring>
+        <name>signature_from_ast</name>
+        <qualifiedname>sphinx.ext.autodoc.type_comment.signature_from_ast</qualifiedname>
+        <param>
+          <type>ast.FunctionDef</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>bound_method</declname>
+        </param>
+        <param>
+          <type>ast.FunctionDef</type>
+          <declname>type_comment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a Signature object for the given *node*.
+
+:param bound_method: Specify *node* is a bound method or not
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" line="36" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" bodystart="38" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1type__comment_1a11a7ab240512c697878b358a79a25217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Signature|None</type>
+        <definition> Signature | None sphinx.ext.autodoc.type_comment.get_type_comment</definition>
+        <argsstring>(Any obj, bool bound_method=False)</argsstring>
+        <name>get_type_comment</name>
+        <qualifiedname>sphinx.ext.autodoc.type_comment.get_type_comment</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>bound_method</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get type_comment&apos;ed FunctionDef object from living object.
+
+This tries to parse original code for living object and returns
+Signature for given *obj*.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" bodystart="101" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1type__comment_1a94f535782afe969f80b4f5490b629e4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.type_comment.update_annotations_using_type_comments</definition>
+        <argsstring>(Sphinx app, Any obj, bool bound_method)</argsstring>
+        <name>update_annotations_using_type_comments</name>
+        <qualifiedname>sphinx.ext.autodoc.type_comment.update_annotations_using_type_comments</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>bound_method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Update annotations info of *obj* using type_comments.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" line="130" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" bodystart="132" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autodoc_1_1type__comment_1a55ec67f3b907c3bd9dca4ea989cc563a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.autodoc.type_comment.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.autodoc.type_comment.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" line="157" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" bodystart="157" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Update annotations info of living objects using type_comments.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autodoc/type_comment.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

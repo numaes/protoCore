@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_docs_2Structural_01description_2tutorials_201__building__a__repl" kind="page">
+    <compoundname>md_docs_2Structural_01description_2tutorials_201__building__a__repl</compoundname>
+    <title>Tutorial: Building a REPL from Scratch</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_docs_2Structural_01description_2tutorials_201__building__a__repl_1autotoc_md935"/> </para>
+<sect1 id="md_docs_2Structural_01description_2tutorials_201__building__a__repl_1autotoc_md936">
+<title>Introduction</title>
+<para>A REPL (Read-Eval-Print-Loop) is a simple, interactive command-line interface for a language. It&apos;s one of the best ways to learn a new runtime, as it gives you immediate feedback. The <computeroutput>proto</computeroutput> executable you built in the Quick Start guide is a REPL.</para>
+<para>In this tutorial, we will build our own minimal REPL from scratch in C++. This will teach you the fundamentals of embedding the Proto runtime in a host application.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_201__building__a__repl_1autotoc_md937">
+<title>The Core Loop</title>
+<para>The logic of a REPL is right in its name:</para>
+<para><orderedlist>
+<listitem><para><bold>Read:</bold> Read a line of input from the user.</para>
+</listitem><listitem><para><bold>Eval:</bold> Evaluate that line of code.</para>
+</listitem><listitem><para><bold>Print:</bold> Print the result of the evaluation.</para>
+</listitem><listitem><para><bold>Loop:</bold> Repeat.</para>
+</listitem></orderedlist>
+</para>
+<para>We can represent this with a simple <computeroutput>while</computeroutput> loop in C++.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_201__building__a__repl_1autotoc_md938">
+<title>Step 1: Initialization</title>
+<para>First, we need to include the main Proto header and create a <computeroutput>ProtoContext</computeroutput>. The context is our handle to the entire Proto runtime.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&quot;proto.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2src_2gmock__main_8cc_1a7f83bdc516d2cb86e20235d94ddf055a" kindref="member">main</ref>()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ProtoContext*<sp/>context<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>ProtoContext();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Welcome<sp/>to<sp/>the<sp/>Mini<sp/>Proto<sp/>REPL!\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>REPL<sp/>loop<sp/>will<sp/>go<sp/>here<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>context;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_201__building__a__repl_1autotoc_md939">
+<title>Step 2: The Loop (Read, Eval, Print)</title>
+<para>Now let&apos;s add the core loop inside our <computeroutput>main</computeroutput> function.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Inside<sp/>main(),<sp/>after<sp/>creating<sp/>the<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/><ref refid="namespacedocutils_1_1writers_1_1latex2e_1a1082ec26e6d9fd8ae078dc30de07bf8b" kindref="member">line</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>READ</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&gt;<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::getline(std::cin,<sp/>line)<sp/>||<sp/>line<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;exit&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>EVAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>this<sp/>simple<sp/>REPL,<sp/>we&apos;ll<sp/>lean<sp/>on<sp/>the<sp/>proto_python</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>library&apos;s<sp/>ability<sp/>to<sp/>evaluate<sp/>a<sp/>single<sp/>line<sp/>of<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>a<sp/>real<sp/>application,<sp/>this<sp/>might<sp/>involve<sp/>a<sp/>more<sp/>complex<sp/>parser.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1prompt_1ae8c100ce7b4b02ef7ce94d7581f2ac82" kindref="member">result</ref><sp/>=<sp/>context-&gt;evalPython(line);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>PRINT</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1prompt_1ae8c100ce7b4b02ef7ce94d7581f2ac82" kindref="member">result</ref>-&gt;toString()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<sect2 id="md_docs_2Structural_01description_2tutorials_201__building__a__repl_1autotoc_md940">
+<title>A Note on Evaluation</title>
+<para>The <computeroutput>context-&gt;evalPython(line)</computeroutput> function is a high-level utility provided for convenience. It takes a string of Python code, transpiles it to Proto-compatible C++ in memory, executes it, and returns the result as a <computeroutput>const ProtoObject</computeroutput>. This is perfect for a simple tool like this.</para>
+<para>For a more advanced language, the &quot;Eval&quot; step would involve parsing the input text into an Abstract Syntax Tree (AST) and then walking that tree to execute the logic using Proto&apos;s C++ API.</para>
+</sect2>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_201__building__a__repl_1autotoc_md941">
+<title>Step 3: Putting It All Together</title>
+<para>Here is the complete <computeroutput>main.cpp</computeroutput> for our minimal REPL.</para>
+<para>**<computeroutput>repl.cpp</computeroutput>:** <programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&quot;proto.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2src_2gmock__main_8cc_1a7f83bdc516d2cb86e20235d94ddf055a" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>argv)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Initialize<sp/>the<sp/>runtime</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ProtoContext*<sp/>context<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>ProtoContext();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Welcome<sp/>to<sp/>the<sp/>Mini<sp/>Proto<sp/>REPL!<sp/>Type<sp/>&apos;exit&apos;<sp/>to<sp/>quit.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacedocutils_1_1writers_1_1latex2e_1a1082ec26e6d9fd8ae078dc30de07bf8b" kindref="member">line</ref>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>READ<sp/>a<sp/>line<sp/>of<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&gt;<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!std::getline(std::cin,<sp/>line)<sp/>||<sp/>line<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;exit&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacedocutils_1_1writers_1_1latex2e_1a1082ec26e6d9fd8ae078dc30de07bf8b" kindref="member">line</ref>.empty())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>EVALUATE<sp/>the<sp/>line<sp/>using<sp/>the<sp/>Python<sp/>bridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1prompt_1ae8c100ce7b4b02ef7ce94d7581f2ac82" kindref="member">result</ref><sp/>=<sp/>context-&gt;evalPython(line);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>PRINT<sp/>the<sp/>string<sp/>representation<sp/>of<sp/>the<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1prompt_1ae8c100ce7b4b02ef7ce94d7581f2ac82" kindref="member">result</ref>-&gt;toString()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Goodbye!\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>context;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>To build this, you would link it against <computeroutput>libproto.a</computeroutput> just like in the <computeroutput>building_on_proto</computeroutput> guide.</para>
+</sect1>
+<sect1 id="md_docs_2Structural_01description_2tutorials_201__building__a__repl_1autotoc_md942">
+<title>Next Steps</title>
+<para>This REPL is very basic. Here are some features you could add to improve it:</para>
+<para><itemizedlist>
+<listitem><para><bold>Better Error Handling:</bold> The <computeroutput>evalPython</computeroutput> function can return an error object. Check for it and print a helpful error message.</para>
+</listitem><listitem><para><bold>Multi-line Input:</bold> Allow users to enter code that spans multiple lines.</para>
+</listitem><listitem><para><bold>History:</bold> Use a library like <computeroutput>readline</computeroutput> to allow users to press the up and down arrows to access previous commands. </para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="docs/Structural description/tutorials/01_building_a_repl.md"/>
+  </compounddef>
+</doxygen>

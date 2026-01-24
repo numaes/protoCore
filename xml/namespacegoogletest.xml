@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacegoogletest" kind="namespace" language="Python">
+    <compoundname>googletest</compoundname>
+    <briefdescription>
+<para>-break-on-failure-unittest </para>
+    </briefdescription>
+    <detaileddescription>
+<para>-uninitialized-test</para>
+<para>-throw-on-failure-test</para>
+<para>-shuffle-test</para>
+<para>-setuptestsuite-test</para>
+<para>-param-test-invalid-name2-test</para>
+<para>-param-test-invalid-name1-test</para>
+<para>-output-test</para>
+<para>-list-tests-unittest</para>
+<para>-json-output-unittest</para>
+<para>-json-outfiles-test</para>
+<para>-global-environment-unittest</para>
+<para>-filter-unittest</para>
+<para>-failfast-unittest</para>
+<para>-env-var-test</para>
+<para>-color-test</para>
+<para>-catch-exceptions-test</para>
+<para><verbatim>Unit test for Google Test&apos;s break-on-failure mode.
+
+A user can ask Google Test to seg-fault when an assertion fails, using
+either the GTEST_BREAK_ON_FAILURE environment variable or the
+--gtest_break_on_failure flag.  This script tests such functionality
+by invoking googletest-break-on-failure-unittest_ (a program written with
+Google Test) with different environments and command line flags.
+</verbatim></para>
+<para><verbatim>Tests Google Test&apos;s exception catching behavior.
+
+This script invokes googletest-catch-exceptions-test_ and
+googletest-catch-exceptions-ex-test_ (programs written with
+Google Test) and verifies their output.
+</verbatim></para>
+<para><verbatim>Verifies that Google Test correctly determines whether to use colors.</verbatim></para>
+<para><verbatim>Verifies that Google Test correctly parses environment variables.</verbatim></para>
+<para><verbatim>Unit test for Google Test fail_fast.
+
+A user can specify if a Google Test program should continue test execution
+after a test failure via the GTEST_FAIL_FAST environment variable or the
+--gtest_fail_fast flag. The default value of the flag can also be changed
+by Bazel fail fast environment variable TESTBRIDGE_TEST_RUNNER_FAIL_FAST.
+
+This script tests such functionality by invoking googletest-failfast-unittest_
+(a program written with Google Test) with different environments and command
+line flags.
+</verbatim></para>
+<para><verbatim>Unit test for Google Test test filters.
+
+A user can specify which test(s) in a Google Test program to run via either
+the GTEST_FILTER environment variable or the --gtest_filter flag.
+This script tests such functionality by invoking
+googletest-filter-unittest_ (a program written with Google Test) with different
+environments and command line flags.
+
+Note that test sharding may also influence which tests are filtered. Therefore,
+we test that here also.
+</verbatim></para>
+<para><verbatim>Unit test for Google Test&apos;s global test environment behavior.
+
+A user can specify a global test environment via
+testing::AddGlobalTestEnvironment. Failures in the global environment should
+result in all unit tests being skipped.
+
+This script tests such functionality by invoking
+googletest-global-environment-unittest_ (a program written with Google Test).
+</verbatim></para>
+<para><verbatim>Unit test for the gtest_json_output module.</verbatim></para>
+<para><verbatim>Unit test for Google Test&apos;s --gtest_list_tests flag.
+
+A user can ask Google Test to list all tests by specifying the
+--gtest_list_tests flag.  This script tests such functionality
+by invoking googletest-list-tests-unittest_ (a program written with
+Google Test) the command line flags.
+</verbatim></para>
+<para><verbatim>Tests the text output of Google C++ Testing and Mocking Framework.
+
+To update the golden file:
+googletest_output_test.py --build_dir=BUILD/DIR --gengolden
+where BUILD/DIR contains the built googletest-output-test_ file.
+googletest_output_test.py --gengolden
+googletest_output_test.py
+</verbatim></para>
+<para><verbatim>Verifies that Google Test warns the user when not initialized properly.</verbatim></para>
+<para><verbatim>Verifies that SetUpTestSuite and TearDownTestSuite errors are noticed.</verbatim></para>
+<para><verbatim>Verifies that test shuffling works.</verbatim></para>
+<para><verbatim>Tests Google Test&apos;s throw-on-failure mode with exceptions disabled.
+
+This script invokes googletest-throw-on-failure-test_ (a program written with
+Google Test) with different environments and command line flags.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/googletest/test/googletest-break-on-failure-unittest.py" line="32" column="1"/>
+  </compounddef>
+</doxygen>

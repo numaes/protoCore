@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::packaging::_manylinux</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1__manylinux_1_1__ELFFileHeader" prot="protected">pip::_vendor::packaging::_manylinux::_ELFFileHeader</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1__manylinux_1_1__GLibCVersion" prot="protected">pip::_vendor::packaging::_manylinux::_GLibCVersion</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1aeb7d3b7b9d1fea6060d2234216bd1d04" prot="protected" static="no" mutable="no">
+        <type>Dict</type>
+        <definition>Dict pip::_vendor::packaging::_manylinux._LAST_GLIBC_MINOR</definition>
+        <argsstring></argsstring>
+        <name>_LAST_GLIBC_MINOR</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._LAST_GLIBC_MINOR</qualifiedname>
+        <initializer>=  collections.defaultdict(lambda: 50)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="127" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1aed3e3d2085a5af930cebc8d3da7e5911" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::packaging::_manylinux._LEGACY_MANYLINUX_MAP</definition>
+        <argsstring></argsstring>
+        <name>_LEGACY_MANYLINUX_MAP</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._LEGACY_MANYLINUX_MAP</qualifiedname>
+        <initializer>=  {
+    # CentOS 7 w/ glibc 2.17 (PEP 599)
+    (2, 17): &quot;manylinux2014&quot;,
+    # CentOS 6 w/ glibc 2.12 (PEP 571)
+    (2, 12): &quot;manylinux2010&quot;,
+    # CentOS 5 w/ glibc 2.5 (PEP 513)
+    (2, 5): &quot;manylinux1&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="257" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="257" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1aba87eadf19f7b552e3a8dc5890419b4e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="classpip_1_1__vendor_1_1packaging_1_1__manylinux_1_1__ELFFileHeader" kindref="compound">_ELFFileHeader</ref>]</type>
+        <definition> Optional[_ELFFileHeader] pip._vendor.packaging._manylinux._get_elf_header</definition>
+        <argsstring>()</argsstring>
+        <name>_get_elf_header</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._get_elf_header</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="76" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="76" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1ae199172cc7aa348492ce5598211b37d4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging._manylinux._is_linux_armhf</definition>
+        <argsstring>()</argsstring>
+        <name>_is_linux_armhf</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._is_linux_armhf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="85" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1a04bae9f99e8d1ce09e3df08ff3d414a1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging._manylinux._is_linux_i686</definition>
+        <argsstring>()</argsstring>
+        <name>_is_linux_i686</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._is_linux_i686</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="104" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="104" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1a4112fe640a538e4b48c212c7b2084a14" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging._manylinux._have_compatible_abi</definition>
+        <argsstring>(str arch)</argsstring>
+        <name>_have_compatible_abi</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._have_compatible_abi</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>arch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="114" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="114" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1a63777dbfd883c936696650c8d0021d76" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._vendor.packaging._manylinux._glibc_version_string_confstr</definition>
+        <argsstring>()</argsstring>
+        <name>_glibc_version_string_confstr</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._glibc_version_string_confstr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Primary implementation of glibc_version_string using os.confstr.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="135" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="135" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1a678e8dd7367f34cca3431a06fef7079f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._vendor.packaging._manylinux._glibc_version_string_ctypes</definition>
+        <argsstring>()</argsstring>
+        <name>_glibc_version_string_ctypes</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._glibc_version_string_ctypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Fallback implementation of glibc_version_string using ctypes.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="154" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="154" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1a4131723784d2644d553ed3bb497f7550" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._vendor.packaging._manylinux._glibc_version_string</definition>
+        <argsstring>()</argsstring>
+        <name>_glibc_version_string</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._glibc_version_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns glibc version string, or None if not using glibc.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="198" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="198" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1a8a14994da3863825d67608ca121b4de4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int, int]</type>
+        <definition> Tuple[int, int] pip._vendor.packaging._manylinux._parse_glibc_version</definition>
+        <argsstring>(str version_str)</argsstring>
+        <name>_parse_glibc_version</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._parse_glibc_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>version_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse glibc version.
+
+We use a regexp instead of str.split because we want to discard any
+random junk that might come after the minor version -- this might happen
+in patched/forked versions of glibc (e.g. Linaro&apos;s version of glibc
+uses version strings like &quot;2.20-2014.11&quot;). See gh-3588.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="203" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="203" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1ab44c7367067fbd05ab4962eab6fd766e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int, int]</type>
+        <definition> Tuple[int, int] pip._vendor.packaging._manylinux._get_glibc_version</definition>
+        <argsstring>()</argsstring>
+        <name>_get_glibc_version</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._get_glibc_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="223" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="223" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1a61546c2d9ac9ede1ea3ab783fe187e59" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging._manylinux._is_compatible</definition>
+        <argsstring>(str name, str arch, _GLibCVersion version)</argsstring>
+        <name>_is_compatible</name>
+        <qualifiedname>pip._vendor.packaging._manylinux._is_compatible</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>arch</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1__manylinux_1_1__GLibCVersion" kindref="compound">_GLibCVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="231" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="231" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1__manylinux_1a30fd696e0e17001bd9348292008e9990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging._manylinux.platform_tags</definition>
+        <argsstring>(str linux, str arch)</argsstring>
+        <name>platform_tags</name>
+        <qualifiedname>pip._vendor.packaging._manylinux.platform_tags</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>linux</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>arch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="267" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" bodystart="267" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/packaging/_manylinux.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

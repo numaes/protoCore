@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1pycode_1_1parser" kind="namespace" language="Python">
+    <compoundname>sphinx::pycode::parser</compoundname>
+    <innerclass refid="classsphinx_1_1pycode_1_1parser_1_1AfterCommentParser" prot="public">sphinx::pycode::parser::AfterCommentParser</innerclass>
+    <innerclass refid="classsphinx_1_1pycode_1_1parser_1_1DefinitionFinder" prot="public">sphinx::pycode::parser::DefinitionFinder</innerclass>
+    <innerclass refid="classsphinx_1_1pycode_1_1parser_1_1Parser" prot="public">sphinx::pycode::parser::Parser</innerclass>
+    <innerclass refid="classsphinx_1_1pycode_1_1parser_1_1Token" prot="public">sphinx::pycode::parser::Token</innerclass>
+    <innerclass refid="classsphinx_1_1pycode_1_1parser_1_1TokenProcessor" prot="public">sphinx::pycode::parser::TokenProcessor</innerclass>
+    <innerclass refid="classsphinx_1_1pycode_1_1parser_1_1VariableCommentPicker" prot="public">sphinx::pycode::parser::VariableCommentPicker</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1pycode_1_1parser_1a2b3a591e88c781450fe18b5cbbf19694" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::pycode::parser.comment_re</definition>
+        <argsstring></argsstring>
+        <name>comment_re</name>
+        <qualifiedname>sphinx.pycode.parser.comment_re</qualifiedname>
+        <initializer>=  re.compile(&apos;^\\s*#: ?(.*)\r?\n?$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1pycode_1_1parser_1ae1021286a5ea47edb3272e8be5d575b9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::pycode::parser.indent_re</definition>
+        <argsstring></argsstring>
+        <name>indent_re</name>
+        <qualifiedname>sphinx.pycode.parser.indent_re</qualifiedname>
+        <initializer>=  re.compile(&apos;^\\s*$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1pycode_1_1parser_1aae8203e8746a1ec06203afe0e7ec8f99" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::pycode::parser.emptyline_re</definition>
+        <argsstring></argsstring>
+        <name>emptyline_re</name>
+        <qualifiedname>sphinx.pycode.parser.emptyline_re</qualifiedname>
+        <initializer>=  re.compile(&apos;^\\s*(#.*)?$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" line="25" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1pycode_1_1parser_1a489b8c79c75851596bc86bdeea95a28f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.pycode.parser.filter_whitespace</definition>
+        <argsstring>(str code)</argsstring>
+        <name>filter_whitespace</name>
+        <qualifiedname>sphinx.pycode.parser.filter_whitespace</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" line="28" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" bodystart="28" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1pycode_1_1parser_1ac961871c61f9d976a19908eaa997ca7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[ast.expr]</type>
+        <definition> list[ast.expr] sphinx.pycode.parser.get_assign_targets</definition>
+        <argsstring>(ast.AST node)</argsstring>
+        <name>get_assign_targets</name>
+        <qualifiedname>sphinx.pycode.parser.get_assign_targets</qualifiedname>
+        <param>
+          <type>ast.AST</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get list of targets from Assign and AnnAssign node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" line="32" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" bodystart="32" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1pycode_1_1parser_1a585aec2aea85cfd04d17db02c5cfb454" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.pycode.parser.get_lvar_names</definition>
+        <argsstring>(ast.AST node, ast.arg|None self=None)</argsstring>
+        <name>get_lvar_names</name>
+        <qualifiedname>sphinx.pycode.parser.get_lvar_names</qualifiedname>
+        <param>
+          <type>ast.AST</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>ast.arg|None</type>
+          <declname>self</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert assignment-AST to variable names.
+
+This raises `TypeError` if the assignment does not create new variable::
+
+    ary[0] = &apos;foo&apos;
+    dic[&apos;bar&apos;] = &apos;baz&apos;
+    # =&gt; TypeError
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" line="40" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" bodystart="40" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1pycode_1_1parser_1aecd08a881990835ab8ba11efa51852dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.pycode.parser.dedent_docstring</definition>
+        <argsstring>(str s)</argsstring>
+        <name>dedent_docstring</name>
+        <qualifiedname>sphinx.pycode.parser.dedent_docstring</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Remove common leading indentation from docstring.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" bodystart="85" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Utilities parsing and analyzing Python code.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/pycode/parser.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

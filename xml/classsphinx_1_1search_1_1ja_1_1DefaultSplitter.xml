@@ -1,0 +1,979 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::search::ja::DefaultSplitter</compoundname>
+    <basecompoundref refid="classsphinx_1_1search_1_1ja_1_1BaseSplitter" prot="public" virt="non-virtual">sphinx.search.ja.BaseSplitter</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a185f2c7ce0facf5102095d7e287a2e4f" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::patterns_</definition>
+        <argsstring></argsstring>
+        <name>patterns_</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.patterns_</qualifiedname>
+        <initializer>=  {
+        re.compile(pattern): <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>
+        for pattern, <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref> in {
+            &apos;[一二三四五六七八九十百千万億兆]&apos;: &apos;M&apos;,
+            &apos;[一-龠々〆ヵヶ]&apos;: &apos;H&apos;,
+            &apos;[ぁ-ん]&apos;: &apos;I&apos;,
+            &apos;[ァ-ヴーｱ-ﾝﾞｰ]&apos;: &apos;K&apos;,
+            &apos;[a-zA-Zａ-ｚＡ-Ｚ]&apos;: &apos;A&apos;,
+            &apos;[0-9０-９]&apos;: &apos;N&apos;,
+        }.items()
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="147" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a95368bda4e82e8cb33dcf492f82b691d" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.search.ja.DefaultSplitter::BIAS__</definition>
+        <argsstring></argsstring>
+        <name>BIAS__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BIAS__</qualifiedname>
+        <initializer>=  -332</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="159" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab44c9c624db8070280193859b18d4735" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BC1__</definition>
+        <argsstring></argsstring>
+        <name>BC1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BC1__</qualifiedname>
+        <initializer>=  {&apos;HH&apos;: 6, &apos;II&apos;: 2461, &apos;KH&apos;: 406, &apos;OH&apos;: -1378}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="160" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a957f530770d52e1bf60f351880ca7e8c" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BC2__</definition>
+        <argsstring></argsstring>
+        <name>BC2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BC2__</qualifiedname>
+        <initializer>=  {&apos;AA&apos;: -3267, &apos;AI&apos;: 2744, &apos;AN&apos;: -878, &apos;HH&apos;: -4070, &apos;HM&apos;: -1711,
+             &apos;HN&apos;: 4012, &apos;HO&apos;: 3761, &apos;IA&apos;: 1327, &apos;IH&apos;: -1184, &apos;II&apos;: -1332,
+             &apos;IK&apos;: 1721, &apos;IO&apos;: 5492, &apos;KI&apos;: 3831, &apos;KK&apos;: -8741, &apos;MH&apos;: -3132,
+             &apos;MK&apos;: 3334, &apos;OO&apos;: -2920}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="161" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1aaab6f780e3eabf8b91457b5a748ba2a5" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BC3__</definition>
+        <argsstring></argsstring>
+        <name>BC3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BC3__</qualifiedname>
+        <initializer>=  {&apos;HH&apos;: 996, &apos;HI&apos;: 626, &apos;HK&apos;: -721, &apos;HN&apos;: -1307, &apos;HO&apos;: -836, &apos;IH&apos;: -301,
+             &apos;KK&apos;: 2762, &apos;MK&apos;: 1079, &apos;MM&apos;: 4034, &apos;OA&apos;: -1652, &apos;OH&apos;: 266}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="165" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a49ccc3a2d648f969fd743f1c6d1c15c1" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BP1__</definition>
+        <argsstring></argsstring>
+        <name>BP1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BP1__</qualifiedname>
+        <initializer>=  {&apos;BB&apos;: 295, &apos;OB&apos;: 304, &apos;OO&apos;: -125, &apos;UB&apos;: 352}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="167" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a6d86bc0de6bde2f69a084bea81c0b9ca" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BP2__</definition>
+        <argsstring></argsstring>
+        <name>BP2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BP2__</qualifiedname>
+        <initializer>=  {&apos;BO&apos;: 60, &apos;OO&apos;: -1762}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="168" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ad328c6cdc561412c2ac7381f30b3d386" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BQ1__</definition>
+        <argsstring></argsstring>
+        <name>BQ1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BQ1__</qualifiedname>
+        <initializer>=  {&apos;BHH&apos;: 1150, &apos;BHM&apos;: 1521, &apos;BII&apos;: -1158, &apos;BIM&apos;: 886, &apos;BMH&apos;: 1208,
+             &apos;BNH&apos;: 449, &apos;BOH&apos;: -91, &apos;BOO&apos;: -2597, &apos;OHI&apos;: 451, &apos;OIH&apos;: -296,
+             &apos;OKA&apos;: 1851, &apos;OKH&apos;: -1020, &apos;OKK&apos;: 904, &apos;OOO&apos;: 2965}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="169" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1afffd47092a5a3513b5fd9f3d839fd6bb" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BQ2__</definition>
+        <argsstring></argsstring>
+        <name>BQ2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BQ2__</qualifiedname>
+        <initializer>=  {&apos;BHH&apos;: 118, &apos;BHI&apos;: -1159, &apos;BHM&apos;: 466, &apos;BIH&apos;: -919, &apos;BKK&apos;: -1720,
+             &apos;BKO&apos;: 864, &apos;OHH&apos;: -1139, &apos;OHM&apos;: -181, &apos;OIH&apos;: 153, &apos;UHI&apos;: -1146}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="172" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1aaec8c320ce4ffe54320bd72b1f162ee5" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BQ3__</definition>
+        <argsstring></argsstring>
+        <name>BQ3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BQ3__</qualifiedname>
+        <initializer>=  {&apos;BHH&apos;: -792, &apos;BHI&apos;: 2664, &apos;BII&apos;: -299, &apos;BKI&apos;: 419, &apos;BMH&apos;: 937,
+             &apos;BMM&apos;: 8335, &apos;BNN&apos;: 998, &apos;BOH&apos;: 775, &apos;OHH&apos;: 2174, &apos;OHM&apos;: 439, &apos;OII&apos;: 280,
+             &apos;OKH&apos;: 1798, &apos;OKI&apos;: -793, &apos;OKO&apos;: -2242, &apos;OMH&apos;: -2402, &apos;OOO&apos;: 11699}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="174" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a991621ea5c5f5b1e6d036a27ce8e95ce" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BQ4__</definition>
+        <argsstring></argsstring>
+        <name>BQ4__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BQ4__</qualifiedname>
+        <initializer>=  {&apos;BHH&apos;: -3895, &apos;BIH&apos;: 3761, &apos;BII&apos;: -4654, &apos;BIK&apos;: 1348, &apos;BKK&apos;: -1806,
+             &apos;BMI&apos;: -3385, &apos;BOO&apos;: -12396, &apos;OAH&apos;: 926, &apos;OHH&apos;: 266, &apos;OHK&apos;: -2036,
+             &apos;ONN&apos;: -973}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="177" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a957980429ebc4554d65d2cb7ad8a310c" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BW1__</definition>
+        <argsstring></argsstring>
+        <name>BW1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BW1__</qualifiedname>
+        <initializer>=  {&apos;,と&apos;: 660, &apos;,同&apos;: 727, &apos;B1あ&apos;: 1404, &apos;B1同&apos;: 542, &apos;、と&apos;: 660,
+             &apos;、同&apos;: 727, &apos;」と&apos;: 1682, &apos;あっ&apos;: 1505, &apos;いう&apos;: 1743, &apos;いっ&apos;: -2055,
+             &apos;いる&apos;: 672, &apos;うし&apos;: -4817, &apos;うん&apos;: 665, &apos;から&apos;: 3472, &apos;がら&apos;: 600,
+             &apos;こう&apos;: -790, &apos;こと&apos;: 2083, &apos;こん&apos;: -1262, &apos;さら&apos;: -4143, &apos;さん&apos;: 4573,
+             &apos;した&apos;: 2641, &apos;して&apos;: 1104, &apos;すで&apos;: -3399, &apos;そこ&apos;: 1977, &apos;それ&apos;: -871,
+             &apos;たち&apos;: 1122, &apos;ため&apos;: 601, &apos;った&apos;: 3463, &apos;つい&apos;: -802, &apos;てい&apos;: 805,
+             &apos;てき&apos;: 1249, &apos;でき&apos;: 1127, &apos;です&apos;: 3445, &apos;では&apos;: 844, &apos;とい&apos;: -4915,
+             &apos;とみ&apos;: 1922, &apos;どこ&apos;: 3887, &apos;ない&apos;: 5713, &apos;なっ&apos;: 3015, &apos;など&apos;: 7379,
+             &apos;なん&apos;: -1113, &apos;にし&apos;: 2468, &apos;には&apos;: 1498, &apos;にも&apos;: 1671, &apos;に対&apos;: -912,
+             &apos;の一&apos;: -501, &apos;の中&apos;: 741, &apos;ませ&apos;: 2448, &apos;まで&apos;: 1711, &apos;まま&apos;: 2600,
+             &apos;まる&apos;: -2155, &apos;やむ&apos;: -1947, &apos;よっ&apos;: -2565, &apos;れた&apos;: 2369, &apos;れで&apos;: -913,
+             &apos;をし&apos;: 1860, &apos;を見&apos;: 731, &apos;亡く&apos;: -1886, &apos;京都&apos;: 2558, &apos;取り&apos;: -2784,
+             &apos;大き&apos;: -2604, &apos;大阪&apos;: 1497, &apos;平方&apos;: -2314, &apos;引き&apos;: -1336, &apos;日本&apos;: -195,
+             &apos;本当&apos;: -2423, &apos;毎日&apos;: -2113, &apos;目指&apos;: -724, &apos;Ｂ１あ&apos;: 1404, &apos;Ｂ１同&apos;: 542,
+             &apos;｣と&apos;: 1682}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="180" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1aa08e3450677d5b369d217bdeb979b228" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BW2__</definition>
+        <argsstring></argsstring>
+        <name>BW2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BW2__</qualifiedname>
+        <initializer>=  {&apos;..&apos;: -11822, &apos;11&apos;: -669, &apos;――&apos;: -5730, &apos;−−&apos;: -13175, &apos;いう&apos;: -1609,
+             &apos;うか&apos;: 2490, &apos;かし&apos;: -1350, &apos;かも&apos;: -602, &apos;から&apos;: -7194, &apos;かれ&apos;: 4612,
+             &apos;がい&apos;: 853, &apos;がら&apos;: -3198, &apos;きた&apos;: 1941, &apos;くな&apos;: -1597, &apos;こと&apos;: -8392,
+             &apos;この&apos;: -4193, &apos;させ&apos;: 4533, &apos;され&apos;: 13168, &apos;さん&apos;: -3977, &apos;しい&apos;: -1819,
+             &apos;しか&apos;: -545, &apos;した&apos;: 5078, &apos;して&apos;: 972, &apos;しな&apos;: 939, &apos;その&apos;: -3744,
+             &apos;たい&apos;: -1253, &apos;たた&apos;: -662, &apos;ただ&apos;: -3857, &apos;たち&apos;: -786, &apos;たと&apos;: 1224,
+             &apos;たは&apos;: -939, &apos;った&apos;: 4589, &apos;って&apos;: 1647, &apos;っと&apos;: -2094, &apos;てい&apos;: 6144,
+             &apos;てき&apos;: 3640, &apos;てく&apos;: 2551, &apos;ては&apos;: -3110, &apos;ても&apos;: -3065, &apos;でい&apos;: 2666,
+             &apos;でき&apos;: -1528, &apos;でし&apos;: -3828, &apos;です&apos;: -4761, &apos;でも&apos;: -4203, &apos;とい&apos;: 1890,
+             &apos;とこ&apos;: -1746, &apos;とと&apos;: -2279, &apos;との&apos;: 720, &apos;とみ&apos;: 5168, &apos;とも&apos;: -3941,
+             &apos;ない&apos;: -2488, &apos;なが&apos;: -1313, &apos;など&apos;: -6509, &apos;なの&apos;: 2614, &apos;なん&apos;: 3099,
+             &apos;にお&apos;: -1615, &apos;にし&apos;: 2748, &apos;にな&apos;: 2454, &apos;によ&apos;: -7236, &apos;に対&apos;: -14943,
+             &apos;に従&apos;: -4688, &apos;に関&apos;: -11388, &apos;のか&apos;: 2093, &apos;ので&apos;: -7059, &apos;のに&apos;: -6041,
+             &apos;のの&apos;: -6125, &apos;はい&apos;: 1073, &apos;はが&apos;: -1033, &apos;はず&apos;: -2532, &apos;ばれ&apos;: 1813,
+             &apos;まし&apos;: -1316, &apos;まで&apos;: -6621, &apos;まれ&apos;: 5409, &apos;めて&apos;: -3153, &apos;もい&apos;: 2230,
+             &apos;もの&apos;: -10713, &apos;らか&apos;: -944, &apos;らし&apos;: -1611, &apos;らに&apos;: -1897, &apos;りし&apos;: 651,
+             &apos;りま&apos;: 1620, &apos;れた&apos;: 4270, &apos;れて&apos;: 849, &apos;れば&apos;: 4114, &apos;ろう&apos;: 6067,
+             &apos;われ&apos;: 7901, &apos;を通&apos;: -11877, &apos;んだ&apos;: 728, &apos;んな&apos;: -4115, &apos;一人&apos;: 602,
+             &apos;一方&apos;: -1375, &apos;一日&apos;: 970, &apos;一部&apos;: -1051, &apos;上が&apos;: -4479, &apos;会社&apos;: -1116,
+             &apos;出て&apos;: 2163, &apos;分の&apos;: -7758, &apos;同党&apos;: 970, &apos;同日&apos;: -913, &apos;大阪&apos;: -2471,
+             &apos;委員&apos;: -1250, &apos;少な&apos;: -1050, &apos;年度&apos;: -8669, &apos;年間&apos;: -1626, &apos;府県&apos;: -2363,
+             &apos;手権&apos;: -1982, &apos;新聞&apos;: -4066, &apos;日新&apos;: -722, &apos;日本&apos;: -7068, &apos;日米&apos;: 3372,
+             &apos;曜日&apos;: -601, &apos;朝鮮&apos;: -2355, &apos;本人&apos;: -2697, &apos;東京&apos;: -1543, &apos;然と&apos;: -1384,
+             &apos;社会&apos;: -1276, &apos;立て&apos;: -990, &apos;第に&apos;: -1612, &apos;米国&apos;: -4268, &apos;１１&apos;: -669}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="195" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a14b8db42e6f3464c49f0b8298322e70e" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::BW3__</definition>
+        <argsstring></argsstring>
+        <name>BW3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.BW3__</qualifiedname>
+        <initializer>=  {&apos;あた&apos;: -2194, &apos;あり&apos;: 719, &apos;ある&apos;: 3846, &apos;い.&apos;: -1185, &apos;い。&apos;: -1185,
+             &apos;いい&apos;: 5308, &apos;いえ&apos;: 2079, &apos;いく&apos;: 3029, &apos;いた&apos;: 2056, &apos;いっ&apos;: 1883,
+             &apos;いる&apos;: 5600, &apos;いわ&apos;: 1527, &apos;うち&apos;: 1117, &apos;うと&apos;: 4798, &apos;えと&apos;: 1454,
+             &apos;か.&apos;: 2857, &apos;か。&apos;: 2857, &apos;かけ&apos;: -743, &apos;かっ&apos;: -4098, &apos;かに&apos;: -669,
+             &apos;から&apos;: 6520, &apos;かり&apos;: -2670, &apos;が,&apos;: 1816, &apos;が、&apos;: 1816, &apos;がき&apos;: -4855,
+             &apos;がけ&apos;: -1127, &apos;がっ&apos;: -913, &apos;がら&apos;: -4977, &apos;がり&apos;: -2064, &apos;きた&apos;: 1645,
+             &apos;けど&apos;: 1374, &apos;こと&apos;: 7397, &apos;この&apos;: 1542, &apos;ころ&apos;: -2757, &apos;さい&apos;: -714,
+             &apos;さを&apos;: 976, &apos;し,&apos;: 1557, &apos;し、&apos;: 1557, &apos;しい&apos;: -3714, &apos;した&apos;: 3562,
+             &apos;して&apos;: 1449, &apos;しな&apos;: 2608, &apos;しま&apos;: 1200, &apos;す.&apos;: -1310, &apos;す。&apos;: -1310,
+             &apos;する&apos;: 6521, &apos;ず,&apos;: 3426, &apos;ず、&apos;: 3426, &apos;ずに&apos;: 841, &apos;そう&apos;: 428,
+             &apos;た.&apos;: 8875, &apos;た。&apos;: 8875, &apos;たい&apos;: -594, &apos;たの&apos;: 812, &apos;たり&apos;: -1183,
+             &apos;たる&apos;: -853, &apos;だ.&apos;: 4098, &apos;だ。&apos;: 4098, &apos;だっ&apos;: 1004, &apos;った&apos;: -4748,
+             &apos;って&apos;: 300, &apos;てい&apos;: 6240, &apos;てお&apos;: 855, &apos;ても&apos;: 302, &apos;です&apos;: 1437,
+             &apos;でに&apos;: -1482, &apos;では&apos;: 2295, &apos;とう&apos;: -1387, &apos;とし&apos;: 2266, &apos;との&apos;: 541,
+             &apos;とも&apos;: -3543, &apos;どう&apos;: 4664, &apos;ない&apos;: 1796, &apos;なく&apos;: -903, &apos;など&apos;: 2135,
+             &apos;に,&apos;: -1021, &apos;に、&apos;: -1021, &apos;にし&apos;: 1771, &apos;にな&apos;: 1906, &apos;には&apos;: 2644,
+             &apos;の,&apos;: -724, &apos;の、&apos;: -724, &apos;の子&apos;: -1000, &apos;は,&apos;: 1337, &apos;は、&apos;: 1337,
+             &apos;べき&apos;: 2181, &apos;まし&apos;: 1113, &apos;ます&apos;: 6943, &apos;まっ&apos;: -1549, &apos;まで&apos;: 6154,
+             &apos;まれ&apos;: -793, &apos;らし&apos;: 1479, &apos;られ&apos;: 6820, &apos;るる&apos;: 3818, &apos;れ,&apos;: 854,
+             &apos;れ、&apos;: 854, &apos;れた&apos;: 1850, &apos;れて&apos;: 1375, &apos;れば&apos;: -3246, &apos;れる&apos;: 1091,
+             &apos;われ&apos;: -605, &apos;んだ&apos;: 606, &apos;んで&apos;: 798, &apos;カ月&apos;: 990, &apos;会議&apos;: 860,
+             &apos;入り&apos;: 1232, &apos;大会&apos;: 2217, &apos;始め&apos;: 1681, &apos;市&apos;: 965, &apos;新聞&apos;: -5055,
+             &apos;日,&apos;: 974, &apos;日、&apos;: 974, &apos;社会&apos;: 2024, &apos;ｶ月&apos;: 990}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="219" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab7760d436d66b6db7270fa7cef647834" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TC1__</definition>
+        <argsstring></argsstring>
+        <name>TC1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TC1__</qualifiedname>
+        <initializer>=  {&apos;AAA&apos;: 1093, &apos;HHH&apos;: 1029, &apos;HHM&apos;: 580, &apos;HII&apos;: 998, &apos;HOH&apos;: -390,
+             &apos;HOM&apos;: -331, &apos;IHI&apos;: 1169, &apos;IOH&apos;: -142, &apos;IOI&apos;: -1015, &apos;IOM&apos;: 467,
+             &apos;MMH&apos;: 187, &apos;OOI&apos;: -1832}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="242" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab13a244b3791a31a6ff2eb34745a8b12" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TC2__</definition>
+        <argsstring></argsstring>
+        <name>TC2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TC2__</qualifiedname>
+        <initializer>=  {&apos;HHO&apos;: 2088, &apos;HII&apos;: -1023, &apos;HMM&apos;: -1154, &apos;IHI&apos;: -1965,
+             &apos;KKH&apos;: 703, &apos;OII&apos;: -2649}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="245" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a77123b3135f2a62f156f67c2ceded33d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TC3__</definition>
+        <argsstring></argsstring>
+        <name>TC3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TC3__</qualifiedname>
+        <initializer>=  {&apos;AAA&apos;: -294, &apos;HHH&apos;: 346, &apos;HHI&apos;: -341, &apos;HII&apos;: -1088, &apos;HIK&apos;: 731,
+             &apos;HOH&apos;: -1486, &apos;IHH&apos;: 128, &apos;IHI&apos;: -3041, &apos;IHO&apos;: -1935, &apos;IIH&apos;: -825,
+             &apos;IIM&apos;: -1035, &apos;IOI&apos;: -542, &apos;KHH&apos;: -1216, &apos;KKA&apos;: 491, &apos;KKH&apos;: -1217,
+             &apos;KOK&apos;: -1009, &apos;MHH&apos;: -2694, &apos;MHM&apos;: -457, &apos;MHO&apos;: 123, &apos;MMH&apos;: -471,
+             &apos;NNH&apos;: -1689, &apos;NNO&apos;: 662, &apos;OHO&apos;: -3393}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="247" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae520489708211c3da78fa40e5d12d958" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TC4__</definition>
+        <argsstring></argsstring>
+        <name>TC4__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TC4__</qualifiedname>
+        <initializer>=  {&apos;HHH&apos;: -203, &apos;HHI&apos;: 1344, &apos;HHK&apos;: 365, &apos;HHM&apos;: -122, &apos;HHN&apos;: 182,
+             &apos;HHO&apos;: 669, &apos;HIH&apos;: 804, &apos;HII&apos;: 679, &apos;HOH&apos;: 446, &apos;IHH&apos;: 695,
+             &apos;IHO&apos;: -2324, &apos;IIH&apos;: 321, &apos;III&apos;: 1497, &apos;IIO&apos;: 656, &apos;IOO&apos;: 54,
+             &apos;KAK&apos;: 4845, &apos;KKA&apos;: 3386, &apos;KKK&apos;: 3065, &apos;MHH&apos;: -405, &apos;MHI&apos;: 201,
+             &apos;MMH&apos;: -241, &apos;MMM&apos;: 661, &apos;MOM&apos;: 841}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="252" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a32e2519b32d93edba3620a5e905124a8" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TQ1__</definition>
+        <argsstring></argsstring>
+        <name>TQ1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TQ1__</qualifiedname>
+        <initializer>=  {&apos;BHHH&apos;: -227, &apos;BHHI&apos;: 316, &apos;BHIH&apos;: -132, &apos;BIHH&apos;: 60, &apos;BIII&apos;: 1595,
+             &apos;BNHH&apos;: -744, &apos;BOHH&apos;: 225, &apos;BOOO&apos;: -908, &apos;OAKK&apos;: 482, &apos;OHHH&apos;: 281,
+             &apos;OHIH&apos;: 249, &apos;OIHI&apos;: 200, &apos;OIIH&apos;: -68}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="257" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab105310e16ead13490e30398abec55b4" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TQ2__</definition>
+        <argsstring></argsstring>
+        <name>TQ2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TQ2__</qualifiedname>
+        <initializer>=  {&apos;BIHH&apos;: -1401, &apos;BIII&apos;: -1033, &apos;BKAK&apos;: -543, &apos;BOOO&apos;: -5591}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="260" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a75b2bdee796e46c15b2f27c1727cdabb" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TQ3__</definition>
+        <argsstring></argsstring>
+        <name>TQ3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TQ3__</qualifiedname>
+        <initializer>=  {&apos;BHHH&apos;: 478, &apos;BHHM&apos;: -1073, &apos;BHIH&apos;: 222, &apos;BHII&apos;: -504, &apos;BIIH&apos;: -116,
+             &apos;BIII&apos;: -105, &apos;BMHI&apos;: -863, &apos;BMHM&apos;: -464, &apos;BOMH&apos;: 620, &apos;OHHH&apos;: 346,
+             &apos;OHHI&apos;: 1729, &apos;OHII&apos;: 997, &apos;OHMH&apos;: 481, &apos;OIHH&apos;: 623, &apos;OIIH&apos;: 1344,
+             &apos;OKAK&apos;: 2792, &apos;OKHH&apos;: 587, &apos;OKKA&apos;: 679, &apos;OOHH&apos;: 110, &apos;OOII&apos;: -685}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="261" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ac5a55c869a3fcfe85df1f957fb081053" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TQ4__</definition>
+        <argsstring></argsstring>
+        <name>TQ4__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TQ4__</qualifiedname>
+        <initializer>=  {&apos;BHHH&apos;: -721, &apos;BHHM&apos;: -3604, &apos;BHII&apos;: -966, &apos;BIIH&apos;: -607, &apos;BIII&apos;: -2181,
+             &apos;OAAA&apos;: -2763, &apos;OAKK&apos;: 180, &apos;OHHH&apos;: -294, &apos;OHHI&apos;: 2446, &apos;OHHO&apos;: 480,
+             &apos;OHIH&apos;: -1573, &apos;OIHH&apos;: 1935, &apos;OIHI&apos;: -493, &apos;OIIH&apos;: 626, &apos;OIII&apos;: -4007,
+             &apos;OKAK&apos;: -8156}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="265" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a13974fe03daca5eca7e76773684ce7b2" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TW1__</definition>
+        <argsstring></argsstring>
+        <name>TW1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TW1__</qualifiedname>
+        <initializer>=  {&apos;につい&apos;: -4681, &apos;東京都&apos;: 2026}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="269" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a7782252b77b426621cd9c42d5d7e3c7a" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TW2__</definition>
+        <argsstring></argsstring>
+        <name>TW2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TW2__</qualifiedname>
+        <initializer>=  {&apos;ある程&apos;: -2049, &apos;いった&apos;: -1256, &apos;ころが&apos;: -2434, &apos;しょう&apos;: 3873,
+             &apos;その後&apos;: -4430, &apos;だって&apos;: -1049, &apos;ていた&apos;: 1833, &apos;として&apos;: -4657,
+             &apos;ともに&apos;: -4517, &apos;もので&apos;: 1882, &apos;一気に&apos;: -792, &apos;初めて&apos;: -1512,
+             &apos;同時に&apos;: -8097, &apos;大きな&apos;: -1255, &apos;対して&apos;: -2721, &apos;社会党&apos;: -3216}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="270" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a1b3db7323461e0673b43e31cc8034257" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TW3__</definition>
+        <argsstring></argsstring>
+        <name>TW3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TW3__</qualifiedname>
+        <initializer>=  {&apos;いただ&apos;: -1734, &apos;してい&apos;: 1314, &apos;として&apos;: -4314, &apos;につい&apos;: -5483,
+             &apos;にとっ&apos;: -5989, &apos;に当た&apos;: -6247, &apos;ので,&apos;: -727, &apos;ので、&apos;: -727,
+             &apos;のもの&apos;: -600, &apos;れから&apos;: -3752, &apos;十二月&apos;: -2287}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="274" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1af58c6e8c1269d15545f3ba02586a71d5" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::TW4__</definition>
+        <argsstring></argsstring>
+        <name>TW4__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.TW4__</qualifiedname>
+        <initializer>=  {&apos;いう.&apos;: 8576, &apos;いう。&apos;: 8576, &apos;からな&apos;: -2348, &apos;してい&apos;: 2958,
+             &apos;たが,&apos;: 1516, &apos;たが、&apos;: 1516, &apos;ている&apos;: 1538, &apos;という&apos;: 1349,
+             &apos;ました&apos;: 5543, &apos;ません&apos;: 1097, &apos;ようと&apos;: -4258, &apos;よると&apos;: 5865}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="277" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a24b5890aaeed901fec8e0c87536b0053" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UC1__</definition>
+        <argsstring></argsstring>
+        <name>UC1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UC1__</qualifiedname>
+        <initializer>=  {&apos;A&apos;: 484, &apos;K&apos;: 93, &apos;M&apos;: 645, &apos;O&apos;: -505}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="280" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a4cb1b779a6b57f34920a71cc85f8b1e6" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UC2__</definition>
+        <argsstring></argsstring>
+        <name>UC2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UC2__</qualifiedname>
+        <initializer>=  {&apos;A&apos;: 819, &apos;H&apos;: 1059, &apos;I&apos;: 409, &apos;M&apos;: 3987, &apos;N&apos;: 5775, &apos;O&apos;: 646}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="281" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a0d54bef2a08f92917c2490edb8c018e1" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UC3__</definition>
+        <argsstring></argsstring>
+        <name>UC3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UC3__</qualifiedname>
+        <initializer>=  {&apos;A&apos;: -1370, &apos;I&apos;: 2311}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="282" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a6d6275438258ad926e48e19f088ab5ad" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UC4__</definition>
+        <argsstring></argsstring>
+        <name>UC4__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UC4__</qualifiedname>
+        <initializer>=  {&apos;A&apos;: -2643, &apos;H&apos;: 1809, &apos;I&apos;: -1032, &apos;K&apos;: -3450, &apos;M&apos;: 3565,
+             &apos;N&apos;: 3876, &apos;O&apos;: 6646}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="283" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1adb156cbd21ed845afef2d7bf5a83b8af" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UC5__</definition>
+        <argsstring></argsstring>
+        <name>UC5__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UC5__</qualifiedname>
+        <initializer>=  {&apos;H&apos;: 313, &apos;I&apos;: -1238, &apos;K&apos;: -799, &apos;M&apos;: 539, &apos;O&apos;: -831}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="285" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae0df9504f5f5026f7261e5bf187ddb0a" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UC6__</definition>
+        <argsstring></argsstring>
+        <name>UC6__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UC6__</qualifiedname>
+        <initializer>=  {&apos;H&apos;: -506, &apos;I&apos;: -253, &apos;K&apos;: 87, &apos;M&apos;: 247, &apos;O&apos;: -387}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="286" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1aae6ec997696946f4f060af4357eb4f4f" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UP1__</definition>
+        <argsstring></argsstring>
+        <name>UP1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UP1__</qualifiedname>
+        <initializer>=  {&apos;O&apos;: -214}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="287" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a40a9de7cfd04e1a898b2cc6a4fd42839" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UP2__</definition>
+        <argsstring></argsstring>
+        <name>UP2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UP2__</qualifiedname>
+        <initializer>=  {&apos;B&apos;: 69, &apos;O&apos;: 935}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="288" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a8fcf84f06e54d034702c08ee9dec270d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UP3__</definition>
+        <argsstring></argsstring>
+        <name>UP3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UP3__</qualifiedname>
+        <initializer>=  {&apos;B&apos;: 189}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="289" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ac5d749ec0c779be7b2dc2690111c12d8" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UQ1__</definition>
+        <argsstring></argsstring>
+        <name>UQ1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UQ1__</qualifiedname>
+        <initializer>=  {&apos;BH&apos;: 21, &apos;BI&apos;: -12, &apos;BK&apos;: -99, &apos;BN&apos;: 142, &apos;BO&apos;: -56, &apos;OH&apos;: -95,
+             &apos;OI&apos;: 477, &apos;OK&apos;: 410, &apos;OO&apos;: -2422}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="290" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae87939e216929fd455b67877a6104a1b" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UQ2__</definition>
+        <argsstring></argsstring>
+        <name>UQ2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UQ2__</qualifiedname>
+        <initializer>=  {&apos;BH&apos;: 216, &apos;BI&apos;: 113, &apos;OK&apos;: 1759}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="292" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab9c3bd4f8cba0486594ad242f2748882" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UQ3__</definition>
+        <argsstring></argsstring>
+        <name>UQ3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UQ3__</qualifiedname>
+        <initializer>=  {&apos;BA&apos;: -479, &apos;BH&apos;: 42, &apos;BI&apos;: 1913, &apos;BK&apos;: -7198, &apos;BM&apos;: 3160,
+             &apos;BN&apos;: 6427, &apos;BO&apos;: 14761, &apos;OI&apos;: -827, &apos;ON&apos;: -3212}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="293" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1acadcd7a69dd1cb7ee2af6f21f0b03c90" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UW1__</definition>
+        <argsstring></argsstring>
+        <name>UW1__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UW1__</qualifiedname>
+        <initializer>=  {&apos;,&apos;: 156, &apos;、&apos;: 156, &apos;「&apos;: -463, &apos;あ&apos;: -941, &apos;う&apos;: -127, &apos;が&apos;: -553,
+             &apos;き&apos;: 121, &apos;こ&apos;: 505, &apos;で&apos;: -201, &apos;と&apos;: -547, &apos;ど&apos;: -123, &apos;に&apos;: -789,
+             &apos;の&apos;: -185, &apos;は&apos;: -847, &apos;も&apos;: -466, &apos;や&apos;: -470, &apos;よ&apos;: 182, &apos;ら&apos;: -292,
+             &apos;り&apos;: 208, &apos;れ&apos;: 169, &apos;を&apos;: -446, &apos;ん&apos;: -137, &apos;・&apos;: -135, &apos;主&apos;: -402,
+             &apos;京&apos;: -268, &apos;区&apos;: -912, &apos;午&apos;: 871, &apos;国&apos;: -460, &apos;大&apos;: 561, &apos;委&apos;: 729,
+             &apos;市&apos;: -411, &apos;日&apos;: -141, &apos;理&apos;: 361, &apos;生&apos;: -408, &apos;県&apos;: -386, &apos;都&apos;: -718,
+             &apos;｢&apos;: -463, &apos;･&apos;: -135}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="295" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a1303a96eb4270cab98b160d31b04b46d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UW2__</definition>
+        <argsstring></argsstring>
+        <name>UW2__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UW2__</qualifiedname>
+        <initializer>=  {&apos;,&apos;: -829, &apos;、&apos;: -829, &apos;〇&apos;: 892, &apos;「&apos;: -645, &apos;」&apos;: 3145, &apos;あ&apos;: -538,
+             &apos;い&apos;: 505, &apos;う&apos;: 134, &apos;お&apos;: -502, &apos;か&apos;: 1454, &apos;が&apos;: -856, &apos;く&apos;: -412,
+             &apos;こ&apos;: 1141, &apos;さ&apos;: 878, &apos;ざ&apos;: 540, &apos;し&apos;: 1529, &apos;す&apos;: -675, &apos;せ&apos;: 300,
+             &apos;そ&apos;: -1011, &apos;た&apos;: 188, &apos;だ&apos;: 1837, &apos;つ&apos;: -949, &apos;て&apos;: -291, &apos;で&apos;: -268,
+             &apos;と&apos;: -981, &apos;ど&apos;: 1273, &apos;な&apos;: 1063, &apos;に&apos;: -1764, &apos;の&apos;: 130, &apos;は&apos;: -409,
+             &apos;ひ&apos;: -1273, &apos;べ&apos;: 1261, &apos;ま&apos;: 600, &apos;も&apos;: -1263, &apos;や&apos;: -402, &apos;よ&apos;: 1639,
+             &apos;り&apos;: -579, &apos;る&apos;: -694, &apos;れ&apos;: 571, &apos;を&apos;: -2516, &apos;ん&apos;: 2095, &apos;ア&apos;: -587,
+             &apos;カ&apos;: 306, &apos;キ&apos;: 568, &apos;ッ&apos;: 831, &apos;三&apos;: -758, &apos;不&apos;: -2150, &apos;世&apos;: -302,
+             &apos;中&apos;: -968, &apos;主&apos;: -861, &apos;事&apos;: 492, &apos;人&apos;: -123, &apos;会&apos;: 978, &apos;保&apos;: 362,
+             &apos;入&apos;: 548, &apos;初&apos;: -3025, &apos;副&apos;: -1566, &apos;北&apos;: -3414, &apos;区&apos;: -422, &apos;大&apos;: -1769,
+             &apos;天&apos;: -865, &apos;太&apos;: -483, &apos;子&apos;: -1519, &apos;学&apos;: 760, &apos;実&apos;: 1023, &apos;小&apos;: -2009,
+             &apos;市&apos;: -813, &apos;年&apos;: -1060, &apos;強&apos;: 1067, &apos;手&apos;: -1519, &apos;揺&apos;: -1033, &apos;政&apos;: 1522,
+             &apos;文&apos;: -1355, &apos;新&apos;: -1682, &apos;日&apos;: -1815, &apos;明&apos;: -1462, &apos;最&apos;: -630, &apos;朝&apos;: -1843,
+             &apos;本&apos;: -1650, &apos;東&apos;: -931, &apos;果&apos;: -665, &apos;次&apos;: -2378, &apos;民&apos;: -180, &apos;気&apos;: -1740,
+             &apos;理&apos;: 752, &apos;発&apos;: 529, &apos;目&apos;: -1584, &apos;相&apos;: -242, &apos;県&apos;: -1165, &apos;立&apos;: -763,
+             &apos;第&apos;: 810, &apos;米&apos;: 509, &apos;自&apos;: -1353, &apos;行&apos;: 838, &apos;西&apos;: -744, &apos;見&apos;: -3874,
+             &apos;調&apos;: 1010, &apos;議&apos;: 1198, &apos;込&apos;: 3041, &apos;開&apos;: 1758, &apos;間&apos;: -1257, &apos;｢&apos;: -645,
+             &apos;｣&apos;: 3145, &apos;ｯ&apos;: 831, &apos;ｱ&apos;: -587, &apos;ｶ&apos;: 306, &apos;ｷ&apos;: 568}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="302" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a2700f94dcf17d778279d073eb51e850d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UW3__</definition>
+        <argsstring></argsstring>
+        <name>UW3__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UW3__</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="320" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1affd866f4e9d0c57b1dcfad3870ccbe6b" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UW4__</definition>
+        <argsstring></argsstring>
+        <name>UW4__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UW4__</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="356" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a1216031cf6692414608b885589cda973" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UW5__</definition>
+        <argsstring></argsstring>
+        <name>UW5__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UW5__</qualifiedname>
+        <initializer>=  {&apos;,&apos;: 465, &apos;.&apos;: -299, &apos;1&apos;: -514, &apos;E2&apos;: -32768, &apos;]&apos;: -2762, &apos;、&apos;: 465,
+             &apos;。&apos;: -299, &apos;「&apos;: 363, &apos;あ&apos;: 1655, &apos;い&apos;: 331, &apos;う&apos;: -503, &apos;え&apos;: 1199,
+             &apos;お&apos;: 527, &apos;か&apos;: 647, &apos;が&apos;: -421, &apos;き&apos;: 1624, &apos;ぎ&apos;: 1971, &apos;く&apos;: 312,
+             &apos;げ&apos;: -983, &apos;さ&apos;: -1537, &apos;し&apos;: -1371, &apos;す&apos;: -852, &apos;だ&apos;: -1186, &apos;ち&apos;: 1093,
+             &apos;っ&apos;: 52, &apos;つ&apos;: 921, &apos;て&apos;: -18, &apos;で&apos;: -850, &apos;と&apos;: -127, &apos;ど&apos;: 1682,
+             &apos;な&apos;: -787, &apos;に&apos;: -1224, &apos;の&apos;: -635, &apos;は&apos;: -578, &apos;べ&apos;: 1001, &apos;み&apos;: 502,
+             &apos;め&apos;: 865, &apos;ゃ&apos;: 3350, &apos;ょ&apos;: 854, &apos;り&apos;: -208, &apos;る&apos;: 429, &apos;れ&apos;: 504,
+             &apos;わ&apos;: 419, &apos;を&apos;: -1264, &apos;ん&apos;: 327, &apos;イ&apos;: 241, &apos;ル&apos;: 451, &apos;ン&apos;: -343,
+             &apos;中&apos;: -871, &apos;京&apos;: 722, &apos;会&apos;: -1153, &apos;党&apos;: -654, &apos;務&apos;: 3519, &apos;区&apos;: -901,
+             &apos;告&apos;: 848, &apos;員&apos;: 2104, &apos;大&apos;: -1296, &apos;学&apos;: -548, &apos;定&apos;: 1785, &apos;嵐&apos;: -1304,
+             &apos;市&apos;: -2991, &apos;席&apos;: 921, &apos;年&apos;: 1763, &apos;思&apos;: 872, &apos;所&apos;: -814, &apos;挙&apos;: 1618,
+             &apos;新&apos;: -1682, &apos;日&apos;: 218, &apos;月&apos;: -4353, &apos;査&apos;: 932, &apos;格&apos;: 1356, &apos;機&apos;: -1508,
+             &apos;氏&apos;: -1347, &apos;田&apos;: 240, &apos;町&apos;: -3912, &apos;的&apos;: -3149, &apos;相&apos;: 1319, &apos;省&apos;: -1052,
+             &apos;県&apos;: -4003, &apos;研&apos;: -997, &apos;社&apos;: -278, &apos;空&apos;: -813, &apos;統&apos;: 1955, &apos;者&apos;: -2233,
+             &apos;表&apos;: 663, &apos;語&apos;: -1073, &apos;議&apos;: 1219, &apos;選&apos;: -1018, &apos;郎&apos;: -368, &apos;長&apos;: 786,
+             &apos;間&apos;: 1191, &apos;題&apos;: 2368, &apos;館&apos;: -689, &apos;１&apos;: -514, &apos;Ｅ２&apos;: -32768, &apos;｢&apos;: 363,
+             &apos;ｲ&apos;: 241, &apos;ﾙ&apos;: 451, &apos;ﾝ&apos;: -343}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="393" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae0fd930e043582e203854660e68a927b" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.search.ja.DefaultSplitter::UW6__</definition>
+        <argsstring></argsstring>
+        <name>UW6__</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.UW6__</qualifiedname>
+        <initializer>=  {&apos;,&apos;: 227, &apos;.&apos;: 808, &apos;1&apos;: -270, &apos;E1&apos;: 306, &apos;、&apos;: 227, &apos;。&apos;: 808,
+             &apos;あ&apos;: -307, &apos;う&apos;: 189, &apos;か&apos;: 241, &apos;が&apos;: -73, &apos;く&apos;: -121, &apos;こ&apos;: -200,
+             &apos;じ&apos;: 1782, &apos;す&apos;: 383, &apos;た&apos;: -428, &apos;っ&apos;: 573, &apos;て&apos;: -1014, &apos;で&apos;: 101,
+             &apos;と&apos;: -105, &apos;な&apos;: -253, &apos;に&apos;: -149, &apos;の&apos;: -417, &apos;は&apos;: -236, &apos;も&apos;: -206,
+             &apos;り&apos;: 187, &apos;る&apos;: -135, &apos;を&apos;: 195, &apos;ル&apos;: -673, &apos;ン&apos;: -496, &apos;一&apos;: -277,
+             &apos;中&apos;: 201, &apos;件&apos;: -800, &apos;会&apos;: 624, &apos;前&apos;: 302, &apos;区&apos;: 1792, &apos;員&apos;: -1212,
+             &apos;委&apos;: 798, &apos;学&apos;: -960, &apos;市&apos;: 887, &apos;広&apos;: -695, &apos;後&apos;: 535, &apos;業&apos;: -697,
+             &apos;相&apos;: 753, &apos;社&apos;: -507, &apos;福&apos;: 974, &apos;空&apos;: -822, &apos;者&apos;: 1811, &apos;連&apos;: 463,
+             &apos;郎&apos;: 1082, &apos;１&apos;: -270, &apos;Ｅ１&apos;: 306, &apos;ﾙ&apos;: -673, &apos;ﾝ&apos;: -496}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="410" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="410" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a696fbf4e4a4c91c21459b80a6f66bb1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.search.ja.DefaultSplitter.ctype_</definition>
+        <argsstring>(self, str char)</argsstring>
+        <name>ctype_</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.ctype_</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str char</type>
+          <defname>char</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="422" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="422" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a2da4d013981829cbbad8338df2ae452f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.search.ja.DefaultSplitter.ts_</definition>
+        <argsstring>(self, dict[str, int] dict, str key)</argsstring>
+        <name>ts_</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.ts_</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>dict</declname>
+          <array>[str, int]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="429" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="429" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae1738eaa4df5152189bac11216af9f61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.search.ja.DefaultSplitter.split</definition>
+        <argsstring>(self, str input)</argsstring>
+        <name>split</name>
+        <qualifiedname>sphinx.search.ja.DefaultSplitter.split</qualifiedname>
+        <reimplements refid="classsphinx_1_1search_1_1ja_1_1BaseSplitter_1a16e02b7ace6e1fcd75a8ffc62bdfd20c">split</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param str input:
+:return:
+:rtype: list[str]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="435" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="435" bodyend="517"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.search.ja.DefaultSplitter</label>
+        <link refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.search.ja.BaseSplitter</label>
+        <link refid="classsphinx_1_1search_1_1ja_1_1BaseSplitter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>sphinx.search.ja.DefaultSplitter</label>
+        <link refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.search.ja.BaseSplitter</label>
+        <link refid="classsphinx_1_1search_1_1ja_1_1BaseSplitter"/>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" line="146" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/search/ja.py" bodystart="146" bodyend="517"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab44c9c624db8070280193859b18d4735" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BC1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a957f530770d52e1bf60f351880ca7e8c" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BC2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1aaab6f780e3eabf8b91457b5a748ba2a5" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BC3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a95368bda4e82e8cb33dcf492f82b691d" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BIAS__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a49ccc3a2d648f969fd743f1c6d1c15c1" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BP1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a6d86bc0de6bde2f69a084bea81c0b9ca" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BP2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ad328c6cdc561412c2ac7381f30b3d386" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BQ1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1afffd47092a5a3513b5fd9f3d839fd6bb" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BQ2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1aaec8c320ce4ffe54320bd72b1f162ee5" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BQ3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a991621ea5c5f5b1e6d036a27ce8e95ce" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BQ4__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a957980429ebc4554d65d2cb7ad8a310c" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BW1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1aa08e3450677d5b369d217bdeb979b228" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BW2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a14b8db42e6f3464c49f0b8298322e70e" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>BW3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a696fbf4e4a4c91c21459b80a6f66bb1e" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>ctype_</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a185f2c7ce0facf5102095d7e287a2e4f" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>patterns_</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae1738eaa4df5152189bac11216af9f61" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>split</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab7760d436d66b6db7270fa7cef647834" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TC1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab13a244b3791a31a6ff2eb34745a8b12" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TC2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a77123b3135f2a62f156f67c2ceded33d" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TC3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae520489708211c3da78fa40e5d12d958" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TC4__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a32e2519b32d93edba3620a5e905124a8" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TQ1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab105310e16ead13490e30398abec55b4" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TQ2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a75b2bdee796e46c15b2f27c1727cdabb" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TQ3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ac5a55c869a3fcfe85df1f957fb081053" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TQ4__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a2da4d013981829cbbad8338df2ae452f" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>ts_</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a13974fe03daca5eca7e76773684ce7b2" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TW1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a7782252b77b426621cd9c42d5d7e3c7a" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TW2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a1b3db7323461e0673b43e31cc8034257" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TW3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1af58c6e8c1269d15545f3ba02586a71d5" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>TW4__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a24b5890aaeed901fec8e0c87536b0053" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UC1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a4cb1b779a6b57f34920a71cc85f8b1e6" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UC2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a0d54bef2a08f92917c2490edb8c018e1" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UC3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a6d6275438258ad926e48e19f088ab5ad" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UC4__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1adb156cbd21ed845afef2d7bf5a83b8af" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UC5__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae0df9504f5f5026f7261e5bf187ddb0a" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UC6__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1aae6ec997696946f4f060af4357eb4f4f" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UP1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a40a9de7cfd04e1a898b2cc6a4fd42839" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UP2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a8fcf84f06e54d034702c08ee9dec270d" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UP3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ac5d749ec0c779be7b2dc2690111c12d8" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UQ1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae87939e216929fd455b67877a6104a1b" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UQ2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ab9c3bd4f8cba0486594ad242f2748882" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UQ3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1acadcd7a69dd1cb7ee2af6f21f0b03c90" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UW1__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a1303a96eb4270cab98b160d31b04b46d" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UW2__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a2700f94dcf17d778279d073eb51e850d" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UW3__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1affd866f4e9d0c57b1dcfad3870ccbe6b" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UW4__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1a1216031cf6692414608b885589cda973" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UW5__</name></member>
+      <member refid="classsphinx_1_1search_1_1ja_1_1DefaultSplitter_1ae0fd930e043582e203854660e68a927b" prot="public" virt="non-virtual"><scope>sphinx::search::ja::DefaultSplitter</scope><name>UW6__</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

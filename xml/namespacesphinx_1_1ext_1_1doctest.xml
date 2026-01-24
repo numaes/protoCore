@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1doctest" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::doctest</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1DocTestBuilder" prot="public">sphinx::ext::doctest::DocTestBuilder</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1DoctestDirective" prot="public">sphinx::ext::doctest::DoctestDirective</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1SphinxDocTestRunner" prot="public">sphinx::ext::doctest::SphinxDocTestRunner</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1TestcleanupDirective" prot="public">sphinx::ext::doctest::TestcleanupDirective</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1TestCode" prot="public">sphinx::ext::doctest::TestCode</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1TestcodeDirective" prot="public">sphinx::ext::doctest::TestcodeDirective</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1TestDirective" prot="public">sphinx::ext::doctest::TestDirective</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1TestGroup" prot="public">sphinx::ext::doctest::TestGroup</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1TestoutputDirective" prot="public">sphinx::ext::doctest::TestoutputDirective</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1doctest_1_1TestsetupDirective" prot="public">sphinx::ext::doctest::TestsetupDirective</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1doctest_1a07d0c6c3f28e7a467c979ea932b0e61f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::doctest.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.doctest.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" line="39" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1doctest_1a82be6e7dbc1e6cd05ea2f412328e1079" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::doctest.blankline_re</definition>
+        <argsstring></argsstring>
+        <name>blankline_re</name>
+        <qualifiedname>sphinx.ext.doctest.blankline_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;^\s*&lt;BLANKLINE&gt;&apos;, re.MULTILINE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1doctest_1ab7b4a54dd56633ea94119ce03645356a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::doctest.doctestopt_re</definition>
+        <argsstring></argsstring>
+        <name>doctestopt_re</name>
+        <qualifiedname>sphinx.ext.doctest.doctestopt_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;[ \t]*#\s*doctest:.+$&apos;, re.MULTILINE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" line="42" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1doctest_1a54a25594e1d4af4adaf11560ef2057da" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::doctest.parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>sphinx.ext.doctest.parser</qualifiedname>
+        <initializer>=  doctest.DocTestParser()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" line="194" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1doctest_1ad22377d8e1d328229d5a6834f7ad2f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.doctest.is_allowed_version</definition>
+        <argsstring>(str spec, str version)</argsstring>
+        <name>is_allowed_version</name>
+        <qualifiedname>sphinx.ext.doctest.is_allowed_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check `spec` satisfies `version` or not.
+
+This obeys PEP-440 specifiers:
+https://peps.python.org/pep-0440/#version-specifiers
+
+Some examples:
+
+    &gt;&gt;&gt; is_allowed_version(&apos;&lt;=3.5&apos;, &apos;3.3&apos;)
+    True
+    &gt;&gt;&gt; is_allowed_version(&apos;&lt;=3.2&apos;, &apos;3.3&apos;)
+    False
+    &gt;&gt;&gt; is_allowed_version(&apos;&gt;3.2, &lt;4.0&apos;, &apos;3.3&apos;)
+    True
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" line="45" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" bodystart="45" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1doctest_1a4b9ed06de2220e877700c4304165f5ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.doctest.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.doctest.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" line="618" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" bodystart="618" bodyend="645"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Mimic doctest in Sphinx.
+
+The extension automatically execute code snippets and checks their results.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/doctest.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1007 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing" kind="page">
+    <compoundname>md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing</compoundname>
+    <title>Testing Reference</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md684"/></para>
+<para>This page lists the facilities provided by GoogleTest for writing test programs. To use them, include the header <computeroutput>gtest/gtest.h</computeroutput>.</para>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md685">
+<title>Macros</title>
+<para>GoogleTest defines the following macros for writing tests.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TEST">
+<title>TEST</title>
+<para><preformatted>
+TEST(<emphasis>TestSuiteName</emphasis>, <emphasis>TestName</emphasis>) {
+  ... <emphasis>statements</emphasis> ...
+}
+</preformatted></para>
+<para>Defines an individual test named *<computeroutput>TestName</computeroutput>* in the test suite *<computeroutput>TestSuiteName</computeroutput>*, consisting of the given statements.</para>
+<para>Both arguments *<computeroutput>TestSuiteName</computeroutput>* and *<computeroutput>TestName</computeroutput>* must be valid C++ identifiers and must not contain underscores (<computeroutput>_</computeroutput>). Tests in different test suites can have the same individual name.</para>
+<para>The statements within the test body can be any code under test. <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions" kindref="compound">Assertions</ref> used within the test body determine the outcome of the test.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TEST_F">
+<title>TEST_F</title>
+<para><preformatted>
+TEST_F(<emphasis>TestFixtureName</emphasis>, <emphasis>TestName</emphasis>) {
+  ... <emphasis>statements</emphasis> ...
+}
+</preformatted></para>
+<para>Defines an individual test named *<computeroutput>TestName</computeroutput>* that uses the test fixture class *<computeroutput>TestFixtureName</computeroutput>*. The test suite name is *<computeroutput>TestFixtureName</computeroutput>*.</para>
+<para>Both arguments *<computeroutput>TestFixtureName</computeroutput>* and *<computeroutput>TestName</computeroutput>* must be valid C++ identifiers and must not contain underscores (<computeroutput>_</computeroutput>). *<computeroutput>TestFixtureName</computeroutput>* must be the name of a test fixture class—see <ulink url="../primer.md#same-data-multiple-tests">Test Fixtures</ulink>.</para>
+<para>The statements within the test body can be any code under test. <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions" kindref="compound">Assertions</ref> used within the test body determine the outcome of the test.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TEST_P">
+<title>TEST_P</title>
+<para><preformatted>
+TEST_P(<emphasis>TestFixtureName</emphasis>, <emphasis>TestName</emphasis>) {
+  ... <emphasis>statements</emphasis> ...
+}
+</preformatted></para>
+<para>Defines an individual value-parameterized test named *<computeroutput>TestName</computeroutput>* that uses the test fixture class *<computeroutput>TestFixtureName</computeroutput>*. The test suite name is *<computeroutput>TestFixtureName</computeroutput>*.</para>
+<para>Both arguments *<computeroutput>TestFixtureName</computeroutput>* and *<computeroutput>TestName</computeroutput>* must be valid C++ identifiers and must not contain underscores (<computeroutput>_</computeroutput>). *<computeroutput>TestFixtureName</computeroutput>* must be the name of a value-parameterized test fixture class—see <ulink url="../advanced.md#value-parameterized-tests">Value-Parameterized Tests</ulink>.</para>
+<para>The statements within the test body can be any code under test. Within the test body, the test parameter can be accessed with the <computeroutput>GetParam()</computeroutput> function (see <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1WithParamInterface" kindref="member">`WithParamInterface`</ref>). For example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a1adc861b311e3fbd97bcc72e0b0f5962" kindref="member">TEST_P</ref>(MyTestSuite,<sp/>DoesSomething)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(DoSomething(GetParam()));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2assertions" kindref="compound">Assertions</ref> used within the test body determine the outcome of the test.</para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1INSTANTIATE_TEST_SUITE_P" kindref="member">`INSTANTIATE_TEST_SUITE_P`</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1INSTANTIATE_TEST_SUITE_P">
+<title>INSTANTIATE_TEST_SUITE_P</title>
+<para><computeroutput>INSTANTIATE_TEST_SUITE_P(</computeroutput>*<computeroutput>InstantiationName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>TestSuiteName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>param_generator</computeroutput>*<computeroutput>)</computeroutput> \ <computeroutput>INSTANTIATE_TEST_SUITE_P(</computeroutput>*<computeroutput>InstantiationName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>TestSuiteName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>param_generator</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>name_generator</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Instantiates the value-parameterized test suite *<computeroutput>TestSuiteName</computeroutput>* (defined with <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TEST_P" kindref="member">`TEST_P`</ref>).</para>
+<para>The argument *<computeroutput>InstantiationName</computeroutput>* is a unique name for the instantiation of the test suite, to distinguish between multiple instantiations. In test output, the instantiation name is added as a prefix to the test suite name *<computeroutput>TestSuiteName</computeroutput>*.</para>
+<para>The argument *<computeroutput>param_generator</computeroutput>* is one of the following GoogleTest-provided functions that generate the test parameters, all defined in the <computeroutput><ref refid="namespacetesting" kindref="compound">testing</ref></computeroutput> namespace:</para>
+<para></para>
+<para><table rows="7" cols="2"><row>
+<entry thead="yes"><para>Parameter Generator   </para>
+</entry><entry thead="yes"><para>Behavior    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>Range(begin, end [, step])</computeroutput>   </para>
+</entry><entry thead="no"><para>Yields values <computeroutput>{begin, begin+step, begin+step+step, ...}</computeroutput>. The values do not include <computeroutput>end</computeroutput>. <computeroutput>step</computeroutput> defaults to 1.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>Values(v1, v2, ..., vN)</computeroutput>   </para>
+</entry><entry thead="no"><para>Yields values <computeroutput>{v1, v2, ..., vN}</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>ValuesIn(container)</computeroutput> or <computeroutput>ValuesIn(begin,end)</computeroutput>   </para>
+</entry><entry thead="no"><para>Yields values from a C-style array, an STL-style container, or an iterator range <computeroutput>[begin, end)</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput><ref refid="structBool" kindref="compound">Bool()</ref></computeroutput>   </para>
+</entry><entry thead="no"><para>Yields sequence <computeroutput>{false, true}</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>Combine(g1, g2, ..., gN)</computeroutput>   </para>
+</entry><entry thead="no"><para>Yields as <computeroutput>std::tuple</computeroutput> <emphasis>n</emphasis>-tuples all combinations (Cartesian product) of the values generated by the given <emphasis>n</emphasis> generators <computeroutput>g1</computeroutput>, <computeroutput>g2</computeroutput>, ..., <computeroutput>gN</computeroutput>.    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>ConvertGenerator&lt;T&gt;(g)</computeroutput>   </para>
+</entry><entry thead="no"><para>Yields values generated by generator <computeroutput>g</computeroutput>, <computeroutput>static_cast</computeroutput> to <computeroutput>T</computeroutput>.   </para>
+</entry></row>
+</table>
+</para>
+<para>The optional last argument *<computeroutput>name_generator</computeroutput>* is a function or functor that generates custom test name suffixes based on the test parameters. The function must accept an argument of type <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestParamInfo" kindref="member">`TestParamInfo&lt;class ParamType&gt;`</ref> and return a <computeroutput>std::string</computeroutput>. The test name suffix can only contain alphanumeric characters and underscores. GoogleTest provides <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1PrintToStringParamName" kindref="member">`PrintToStringParamName`</ref>, or a custom function can be used for more control:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-param-test_8h_1a6a5cb3ce0a0fe17f84f357a6f39a4ba5" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MyInstantiation,<sp/>MyTestSuite,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacetesting_1abd3c87b40c2a0663691c9b617ed5fcc2" kindref="member">testing::Values</ref>(...),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structtesting_1_1TestParamInfo" kindref="compound">testing::TestParamInfo&lt;MyTestSuite::ParamType&gt;</ref>&amp;<sp/>info)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>use<sp/>info.param<sp/>here<sp/>to<sp/>generate<sp/>the<sp/>test<sp/>suffix</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacedocutils_1_1parsers_1_1rst_1a55a9422a08fef02a7efdff45b7321ebb" kindref="member">name</ref><sp/>=<sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers_1_1rst_1a55a9422a08fef02a7efdff45b7321ebb" kindref="member">name</ref>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+</programlisting></para>
+<para>For more information, see <ulink url="../advanced.md#value-parameterized-tests">Value-Parameterized Tests</ulink>.</para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST" kindref="member">`GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST`</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_SUITE">
+<title>TYPED_TEST_SUITE</title>
+<para><computeroutput>TYPED_TEST_SUITE(</computeroutput>*<computeroutput>TestFixtureName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>Types</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Defines a typed test suite based on the test fixture *<computeroutput>TestFixtureName</computeroutput>*. The test suite name is *<computeroutput>TestFixtureName</computeroutput>*.</para>
+<para>The argument *<computeroutput>TestFixtureName</computeroutput>* is a fixture class template, parameterized by a type, for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyFixture<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">testing::Test</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1typing__extensions_1a40dbf210a5435d884c61cdc038a43941" kindref="member">List</ref><sp/>=<sp/>std::list&lt;T&gt;;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacepackaging_1_1metadata_1a2bf6495e48092fff09448cd00be34730" kindref="member">T</ref><sp/>shared_;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="namespacepackaging_1_1metadata_1a2bf6495e48092fff09448cd00be34730" kindref="member">T</ref><sp/>value_;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>The argument *<computeroutput>Types</computeroutput>* is a <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Types" kindref="member">`Types`</ref> object representing the list of types to run the tests on, for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">MyTypes</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">::testing::Types&lt;char, int, unsigned int&gt;</ref>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1af84bf8ca7d774f32797e526bec88d12f" kindref="member">TYPED_TEST_SUITE</ref>(MyFixture,<sp/><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">MyTypes</ref>);</highlight></codeline>
+</programlisting></para>
+<para>The type alias (<computeroutput>using</computeroutput> or <computeroutput>typedef</computeroutput>) is necessary for the <computeroutput>TYPED_TEST_SUITE</computeroutput> macro to parse correctly.</para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST" kindref="member">`TYPED_TEST`</ref> and <ulink url="../advanced.md#typed-tests">Typed Tests</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST">
+<title>TYPED_TEST</title>
+<para><preformatted>
+TYPED_TEST(<emphasis>TestSuiteName</emphasis>, <emphasis>TestName</emphasis>) {
+  ... <emphasis>statements</emphasis> ...
+}
+</preformatted></para>
+<para>Defines an individual typed test named *<computeroutput>TestName</computeroutput>* in the typed test suite *<computeroutput>TestSuiteName</computeroutput>*. The test suite must be defined with <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_SUITE" kindref="member">`TYPED_TEST_SUITE`</ref>.</para>
+<para>Within the test body, the special name <computeroutput>TypeParam</computeroutput> refers to the type parameter, and <computeroutput>TestFixture</computeroutput> refers to the fixture class. See the following example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1ae6f575265873190de41b1329d16df0f0" kindref="member">TYPED_TEST</ref>(MyFixture,<sp/>Example)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Inside<sp/>a<sp/>test,<sp/>refer<sp/>to<sp/>the<sp/>special<sp/>name<sp/>TypeParam<sp/>to<sp/>get<sp/>the<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>parameter.<sp/><sp/>Since<sp/>we<sp/>are<sp/>inside<sp/>a<sp/>derived<sp/>class<sp/>template,<sp/>C++<sp/>requires</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>us<sp/>to<sp/>visit<sp/>the<sp/>members<sp/>of<sp/>MyFixture<sp/>via<sp/>&apos;this&apos;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>TypeParam<sp/>n<sp/>=<sp/>this-&gt;value_;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>To<sp/>visit<sp/>static<sp/>members<sp/>of<sp/>the<sp/>fixture,<sp/>add<sp/>the<sp/>&apos;TestFixture::&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>prefix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>n<sp/>+=<sp/>TestFixture::shared_;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>To<sp/>refer<sp/>to<sp/>typedefs<sp/>in<sp/>the<sp/>fixture,<sp/>add<sp/>the<sp/>&apos;typename<sp/>TestFixture::&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>prefix.<sp/>The<sp/>&apos;typename&apos;<sp/>is<sp/>required<sp/>to<sp/>satisfy<sp/>the<sp/>compiler.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>TestFixture::List<sp/>values;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>values.push_back(n);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>For more information, see <ulink url="../advanced.md#typed-tests">Typed Tests</ulink>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_SUITE_P">
+<title>TYPED_TEST_SUITE_P</title>
+<para><computeroutput>TYPED_TEST_SUITE_P(</computeroutput>*<computeroutput>TestFixtureName</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Defines a type-parameterized test suite based on the test fixture *<computeroutput>TestFixtureName</computeroutput>*. The test suite name is *<computeroutput>TestFixtureName</computeroutput>*.</para>
+<para>The argument *<computeroutput>TestFixtureName</computeroutput>* is a fixture class template, parameterized by a type. See <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_SUITE" kindref="member">`TYPED_TEST_SUITE`</ref> for an example.</para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_P" kindref="member">`TYPED_TEST_P`</ref> and <ulink url="../advanced.md#type-parameterized-tests">Type-Parameterized Tests</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_P">
+<title>TYPED_TEST_P</title>
+<para><preformatted>
+TYPED_TEST_P(<emphasis>TestSuiteName</emphasis>, <emphasis>TestName</emphasis>) {
+  ... <emphasis>statements</emphasis> ...
+}
+</preformatted></para>
+<para>Defines an individual type-parameterized test named *<computeroutput>TestName</computeroutput>* in the type-parameterized test suite *<computeroutput>TestSuiteName</computeroutput>*. The test suite must be defined with <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_SUITE_P" kindref="member">`TYPED_TEST_SUITE_P`</ref>.</para>
+<para>Within the test body, the special name <computeroutput>TypeParam</computeroutput> refers to the type parameter, and <computeroutput>TestFixture</computeroutput> refers to the fixture class. See <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST" kindref="member">`TYPED_TEST`</ref> for an example.</para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1REGISTER_TYPED_TEST_SUITE_P" kindref="member">`REGISTER_TYPED_TEST_SUITE_P`</ref> and <ulink url="../advanced.md#type-parameterized-tests">Type-Parameterized Tests</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1REGISTER_TYPED_TEST_SUITE_P">
+<title>REGISTER_TYPED_TEST_SUITE_P</title>
+<para><computeroutput>REGISTER_TYPED_TEST_SUITE_P(</computeroutput>*<computeroutput>TestSuiteName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>TestNames...</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Registers the type-parameterized tests *<computeroutput>TestNames...</computeroutput>* of the test suite *<computeroutput>TestSuiteName</computeroutput>*. The test suite and tests must be defined with <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_SUITE_P" kindref="member">`TYPED_TEST_SUITE_P`</ref> and <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TYPED_TEST_P" kindref="member">`TYPED_TEST_P`</ref>.</para>
+<para>For example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Define<sp/>the<sp/>test<sp/>suite<sp/>and<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a3d74325e27e02ed1d1c7b30a24f7af13" kindref="member">TYPED_TEST_SUITE_P</ref>(MyFixture);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a6e9d1cd9b97da0076ae699775d3222d0" kindref="member">TYPED_TEST_P</ref>(MyFixture,<sp/>HasPropertyA)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a6e9d1cd9b97da0076ae699775d3222d0" kindref="member">TYPED_TEST_P</ref>(MyFixture,<sp/>HasPropertyB)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>the<sp/>tests<sp/>in<sp/>the<sp/>test<sp/>suite.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1a03990bffa8f0f58c37d4938107722f99" kindref="member">REGISTER_TYPED_TEST_SUITE_P</ref>(MyFixture,<sp/>HasPropertyA,<sp/>HasPropertyB);</highlight></codeline>
+</programlisting></para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1INSTANTIATE_TYPED_TEST_SUITE_P" kindref="member">`INSTANTIATE_TYPED_TEST_SUITE_P`</ref> and <ulink url="../advanced.md#type-parameterized-tests">Type-Parameterized Tests</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1INSTANTIATE_TYPED_TEST_SUITE_P">
+<title>INSTANTIATE_TYPED_TEST_SUITE_P</title>
+<para><computeroutput>INSTANTIATE_TYPED_TEST_SUITE_P(</computeroutput>*<computeroutput>InstantiationName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>TestSuiteName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>Types</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Instantiates the type-parameterized test suite *<computeroutput>TestSuiteName</computeroutput>*. The test suite must be registered with <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1REGISTER_TYPED_TEST_SUITE_P" kindref="member">`REGISTER_TYPED_TEST_SUITE_P`</ref>.</para>
+<para>The argument *<computeroutput>InstantiationName</computeroutput>* is a unique name for the instantiation of the test suite, to distinguish between multiple instantiations. In test output, the instantiation name is added as a prefix to the test suite name *<computeroutput>TestSuiteName</computeroutput>*.</para>
+<para>The argument *<computeroutput>Types</computeroutput>* is a <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Types" kindref="member">`Types`</ref> object representing the list of types to run the tests on, for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">MyTypes</ref><sp/>=<sp/><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">::testing::Types&lt;char, int, unsigned int&gt;</ref>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest-typed-test_8h_1ae1f8548fa07ec0a138362654b7bc3194" kindref="member">INSTANTIATE_TYPED_TEST_SUITE_P</ref>(MyInstantiation,<sp/>MyFixture,<sp/><ref refid="structtesting_1_1internal_1_1ProxyTypeList" kindref="compound">MyTypes</ref>);</highlight></codeline>
+</programlisting></para>
+<para>The type alias (<computeroutput>using</computeroutput> or <computeroutput>typedef</computeroutput>) is necessary for the <computeroutput>INSTANTIATE_TYPED_TEST_SUITE_P</computeroutput> macro to parse correctly.</para>
+<para>For more information, see <ulink url="../advanced.md#type-parameterized-tests">Type-Parameterized Tests</ulink>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1FRIEND_TEST">
+<title>FRIEND_TEST</title>
+<para><computeroutput>FRIEND_TEST(</computeroutput>*<computeroutput>TestSuiteName</computeroutput>*<computeroutput>,</computeroutput>*<computeroutput>TestName</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Within a class body, declares an individual test as a friend of the class, enabling the test to access private class members.</para>
+<para>If the class is defined in a namespace, then in order to be friends of the class, test fixtures and tests must be defined in the exact same namespace, without inline or anonymous namespaces.</para>
+<para>For example, if the class definition looks like the following:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacemy__namespace" kindref="compound">my_namespace</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyClass<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyClassTest;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest__prod_8h_1a8d443b4cc1d87a7a17943b8fbdbf3910" kindref="member">FRIEND_TEST</ref>(MyClassTest,<sp/>HasPropertyA);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest__prod_8h_1a8d443b4cc1d87a7a17943b8fbdbf3910" kindref="member">FRIEND_TEST</ref>(MyClassTest,<sp/>HasPropertyB);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...<sp/>definition<sp/>of<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyClass<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>my_namespace</highlight></codeline>
+</programlisting></para>
+<para>Then the test code should look like:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacemy__namespace" kindref="compound">my_namespace</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyClassTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1Test" kindref="compound">testing::Test</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(MyClassTest,<sp/>HasPropertyA)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a0ee66d464d1a06c20c1929cae09d8758" kindref="member">TEST_F</ref>(MyClassTest,<sp/>HasPropertyB)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>my_namespace</highlight></codeline>
+</programlisting></para>
+<para>See <ulink url="../advanced.md#testing-private-code">Testing Private Code</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1SCOPED_TRACE">
+<title>SCOPED_TRACE</title>
+<para><computeroutput>SCOPED_TRACE(</computeroutput>*<computeroutput>message</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Causes the current file name, line number, and the given message *<computeroutput>message</computeroutput>* to be added to the failure message for each assertion failure that occurs in the scope.</para>
+<para>For more information, see <ulink url="../advanced.md#adding-traces-to-assertions">Adding Traces to Assertions</ulink>.</para>
+<para>See also the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1ScopedTrace" kindref="member">`ScopedTrace` class</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1GTEST_SKIP">
+<title>GTEST_SKIP</title>
+<para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3c0bbb980d533108ecc23c3534527d3c" kindref="member">GTEST_SKIP()</ref></computeroutput></para>
+<para>Prevents further test execution at runtime.</para>
+<para>Can be used in individual test cases or in the <computeroutput>SetUp()</computeroutput> methods of test environments or test fixtures (classes derived from the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Environment" kindref="member">`Environment`</ref> or <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Test" kindref="member">`Test`</ref> classes). If used in a global test environment <computeroutput>SetUp()</computeroutput> method, it skips all tests in the test program. If used in a test fixture <computeroutput>SetUp()</computeroutput> method, it skips all tests in the corresponding test suite.</para>
+<para>Similar to assertions, <computeroutput>GTEST_SKIP</computeroutput> allows streaming a custom message into it.</para>
+<para>See <ulink url="../advanced.md#skipping-test-execution">Skipping Test Execution</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST">
+<title>GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST</title>
+<para><computeroutput>GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(</computeroutput>*<computeroutput>TestSuiteName</computeroutput>*<computeroutput>)</computeroutput></para>
+<para>Allows the value-parameterized test suite *<computeroutput>TestSuiteName</computeroutput>* to be uninstantiated.</para>
+<para>By default, every <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TEST_P" kindref="member">`TEST_P`</ref> call without a corresponding <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1INSTANTIATE_TEST_SUITE_P" kindref="member">`INSTANTIATE_TEST_SUITE_P`</ref> call causes a failing test in the test suite <computeroutput>GoogleTestVerification</computeroutput>. <computeroutput>GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST</computeroutput> suppresses this failure for the given test suite.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md686">
+<title>Classes and types</title>
+<para>GoogleTest defines the following classes and types to help with writing tests.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionResult">
+<title>AssertionResult</title>
+<para><computeroutput>testing::AssertionResult</computeroutput></para>
+<para>A class for indicating whether an assertion was successful.</para>
+<para>When the assertion wasn&apos;t successful, the <computeroutput>AssertionResult</computeroutput> object stores a non-empty failure message that can be retrieved with the object&apos;s <computeroutput>message()</computeroutput> method.</para>
+<para>To create an instance of this class, use one of the factory functions <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionSuccess" kindref="member">`AssertionSuccess()`</ref> or <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionFailure" kindref="member">`AssertionFailure()`</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionException">
+<title>AssertionException</title>
+<para><computeroutput>testing::AssertionException</computeroutput></para>
+<para>Exception which can be thrown from `TestEventListener::OnTestPartResult`.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1EmptyTestEventListener">
+<title>EmptyTestEventListener</title>
+<para><computeroutput><ref refid="classtesting_1_1EmptyTestEventListener" kindref="compound">testing::EmptyTestEventListener</ref></computeroutput></para>
+<para>Provides an empty implementation of all methods in the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestEventListener" kindref="member">`TestEventListener`</ref> interface, such that a subclass only needs to override the methods it cares about.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Environment">
+<title>Environment</title>
+<para><computeroutput><ref refid="classtesting_1_1Environment" kindref="compound">testing::Environment</ref></computeroutput></para>
+<para>Represents a global test environment. See <ulink url="../advanced.md#global-set-up-and-tear-down">Global Set-Up and Tear-Down</ulink>.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Environment-protected">
+<title>Protected Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md687">
+<title>SetUp {#Environment::SetUp}</title>
+<para><computeroutput>virtual void Environment::SetUp()</computeroutput></para>
+<para>Override this to define how to set up the environment.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md688">
+<title>TearDown {#Environment::TearDown}</title>
+<para><computeroutput>virtual void Environment::TearDown()</computeroutput></para>
+<para>Override this to define how to tear down the environment.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1ScopedTrace">
+<title>ScopedTrace</title>
+<para><computeroutput><ref refid="classtesting_1_1ScopedTrace" kindref="compound">testing::ScopedTrace</ref></computeroutput></para>
+<para>An instance of this class causes a trace to be included in every test failure message generated by code in the scope of the lifetime of the <computeroutput>ScopedTrace</computeroutput> instance. The effect is undone with the destruction of the instance.</para>
+<para>The <computeroutput>ScopedTrace</computeroutput> constructor has the following form:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline><highlight class="normal">ScopedTrace(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>file,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T&amp;<sp/>message)</highlight></codeline>
+</programlisting></para>
+<para>Example usage:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classtesting_1_1ScopedTrace" kindref="compound">testing::ScopedTrace</ref><sp/>trace(</highlight><highlight class="stringliteral">&quot;file.cc&quot;</highlight><highlight class="normal">,<sp/>123,<sp/></highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para>The resulting trace includes the given source file path and line number, and the given message. The <computeroutput>message</computeroutput> argument can be anything streamable to <computeroutput>std::ostream</computeroutput>.</para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1SCOPED_TRACE" kindref="member">`SCOPED_TRACE`</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Test">
+<title>Test</title>
+<para><computeroutput><ref refid="classtesting_1_1Test" kindref="compound">testing::Test</ref></computeroutput></para>
+<para>The abstract class that all tests inherit from. <computeroutput>Test</computeroutput> is not copyable.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Test-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md689">
+<title>SetUpTestSuite {#Test::SetUpTestSuite}</title>
+<para><computeroutput>static void Test::SetUpTestSuite()</computeroutput></para>
+<para>Performs shared setup for all tests in the test suite. GoogleTest calls <computeroutput>SetUpTestSuite()</computeroutput> before running the first test in the test suite.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md690">
+<title>TearDownTestSuite {#Test::TearDownTestSuite}</title>
+<para><computeroutput>static void Test::TearDownTestSuite()</computeroutput></para>
+<para>Performs shared teardown for all tests in the test suite. GoogleTest calls <computeroutput>TearDownTestSuite()</computeroutput> after running the last test in the test suite.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md691">
+<title>HasFatalFailure {#Test::HasFatalFailure}</title>
+<para><computeroutput>static bool Test::HasFatalFailure()</computeroutput></para>
+<para>Returns true if and only if the current test has a fatal failure.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md692">
+<title>HasNonfatalFailure {#Test::HasNonfatalFailure}</title>
+<para><computeroutput>static bool Test::HasNonfatalFailure()</computeroutput></para>
+<para>Returns true if and only if the current test has a nonfatal failure.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md693">
+<title>HasFailure {#Test::HasFailure}</title>
+<para><computeroutput>static bool Test::HasFailure()</computeroutput></para>
+<para>Returns true if and only if the current test has any failure, either fatal or nonfatal.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md694">
+<title>IsSkipped {#Test::IsSkipped}</title>
+<para><computeroutput>static bool Test::IsSkipped()</computeroutput></para>
+<para>Returns true if and only if the current test was skipped.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md695">
+<title>RecordProperty {#Test::RecordProperty}</title>
+<para><computeroutput>static void Test::RecordProperty(const std::string&amp; key, const std::string&amp; value)</computeroutput> \ <computeroutput>static void Test::RecordProperty(const std::string&amp; key, int value)</computeroutput></para>
+<para>Logs a property for the current test, test suite, or entire invocation of the test program. Only the last value for a given key is logged.</para>
+<para>The key must be a valid XML attribute name, and cannot conflict with the ones already used by GoogleTest (<computeroutput>name</computeroutput>, <computeroutput>file</computeroutput>, <computeroutput>line</computeroutput>, <computeroutput>status</computeroutput>, <computeroutput>time</computeroutput>, <computeroutput>classname</computeroutput>, <computeroutput>type_param</computeroutput>, and <computeroutput>value_param</computeroutput>).</para>
+<para><computeroutput>RecordProperty</computeroutput> is <computeroutput>public static</computeroutput> so it can be called from utility functions that are not members of the test fixture.</para>
+<para>Calls to <computeroutput>RecordProperty</computeroutput> made during the lifespan of the test (from the moment its constructor starts to the moment its destructor finishes) are output in XML as attributes of the <computeroutput>&lt;testcase&gt;</computeroutput> element. Properties recorded from a fixture&apos;s <computeroutput>SetUpTestSuite</computeroutput> or <computeroutput>TearDownTestSuite</computeroutput> methods are logged as attributes of the corresponding <computeroutput>&lt;testsuite&gt;</computeroutput> element. Calls to <computeroutput>RecordProperty</computeroutput> made in the global context (before or after invocation of <computeroutput>RUN_ALL_TESTS</computeroutput> or from the <computeroutput>SetUp</computeroutput>/<computeroutput>TearDown</computeroutput> methods of registered <computeroutput>Environment</computeroutput> objects) are output as attributes of the <computeroutput>&lt;testsuites&gt;</computeroutput> element.</para>
+</sect4>
+</sect3>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Test-protected">
+<title>Protected Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md696">
+<title>SetUp {#Test::SetUp}</title>
+<para><computeroutput>virtual void Test::SetUp()</computeroutput></para>
+<para>Override this to perform test fixture setup. GoogleTest calls <computeroutput>SetUp()</computeroutput> before running each individual test.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md697">
+<title>TearDown {#Test::TearDown}</title>
+<para><computeroutput>virtual void Test::TearDown()</computeroutput></para>
+<para>Override this to perform test fixture teardown. GoogleTest calls <computeroutput>TearDown()</computeroutput> after running each individual test.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestWithParam">
+<title>TestWithParam</title>
+<para><computeroutput><ref refid="classtesting_1_1TestWithParam" kindref="compound">testing::TestWithParam</ref>&lt;T&gt;</computeroutput></para>
+<para>A convenience class which inherits from both <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Test" kindref="member">`Test`</ref> and <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1WithParamInterface" kindref="member">`WithParamInterface&lt;T&gt;`</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestSuite">
+<title>TestSuite</title>
+<para>Represents a test suite. <computeroutput>TestSuite</computeroutput> is not copyable.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestSuite-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md698">
+<title>name {#TestSuite::name}</title>
+<para><computeroutput>const char* TestSuite::name() const</computeroutput></para>
+<para>Gets the name of the test suite.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md699">
+<title>type_param {#TestSuite::type_param}</title>
+<para><computeroutput>const char* TestSuite::type_param() const</computeroutput></para>
+<para>Returns the name of the parameter type, or <computeroutput>NULL</computeroutput> if this is not a typed or type-parameterized test suite. See <ulink url="../advanced.md#typed-tests">Typed Tests</ulink> and <ulink url="../advanced.md#type-parameterized-tests">Type-Parameterized Tests</ulink>.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md700">
+<title>should_run {#TestSuite::should_run}</title>
+<para><computeroutput>bool TestSuite::should_run() const</computeroutput></para>
+<para>Returns true if any test in this test suite should run.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md701">
+<title>successful_test_count {#TestSuite::successful_test_count}</title>
+<para><computeroutput>int TestSuite::successful_test_count() const</computeroutput></para>
+<para>Gets the number of successful tests in this test suite.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md702">
+<title>skipped_test_count {#TestSuite::skipped_test_count}</title>
+<para><computeroutput>int TestSuite::skipped_test_count() const</computeroutput></para>
+<para>Gets the number of skipped tests in this test suite.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md703">
+<title>failed_test_count {#TestSuite::failed_test_count}</title>
+<para><computeroutput>int TestSuite::failed_test_count() const</computeroutput></para>
+<para>Gets the number of failed tests in this test suite.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md704">
+<title>reportable_disabled_test_count {#TestSuite::reportable_disabled_test_count}</title>
+<para><computeroutput>int TestSuite::reportable_disabled_test_count() const</computeroutput></para>
+<para>Gets the number of disabled tests that will be reported in the XML report.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md705">
+<title>disabled_test_count {#TestSuite::disabled_test_count}</title>
+<para><computeroutput>int TestSuite::disabled_test_count() const</computeroutput></para>
+<para>Gets the number of disabled tests in this test suite.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md706">
+<title>reportable_test_count {#TestSuite::reportable_test_count}</title>
+<para><computeroutput>int TestSuite::reportable_test_count() const</computeroutput></para>
+<para>Gets the number of tests to be printed in the XML report.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md707">
+<title>test_to_run_count {#TestSuite::test_to_run_count}</title>
+<para><computeroutput>int TestSuite::test_to_run_count() const</computeroutput></para>
+<para>Get the number of tests in this test suite that should run.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md708">
+<title>total_test_count {#TestSuite::total_test_count}</title>
+<para><computeroutput>int TestSuite::total_test_count() const</computeroutput></para>
+<para>Gets the number of all tests in this test suite.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md709">
+<title>Passed {#TestSuite::Passed}</title>
+<para><computeroutput>bool TestSuite::Passed() const</computeroutput></para>
+<para>Returns true if and only if the test suite passed.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md710">
+<title>Failed {#TestSuite::Failed}</title>
+<para><computeroutput>bool TestSuite::Failed() const</computeroutput></para>
+<para>Returns true if and only if the test suite failed.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md711">
+<title>elapsed_time {#TestSuite::elapsed_time}</title>
+<para><computeroutput>TimeInMillis TestSuite::elapsed_time() const</computeroutput></para>
+<para>Returns the elapsed time, in milliseconds.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md712">
+<title>start_timestamp {#TestSuite::start_timestamp}</title>
+<para><computeroutput>TimeInMillis TestSuite::start_timestamp() const</computeroutput></para>
+<para>Gets the time of the test suite start, in ms from the start of the UNIX epoch.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md713">
+<title>GetTestInfo {#TestSuite::GetTestInfo}</title>
+<para><computeroutput>const TestInfo* TestSuite::GetTestInfo(int i) const</computeroutput></para>
+<para>Returns the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestInfo" kindref="member">`TestInfo`</ref> for the <computeroutput>i</computeroutput>-th test among all the tests. <computeroutput>i</computeroutput> can range from 0 to <computeroutput>total_test_count() - 1</computeroutput>. If <computeroutput>i</computeroutput> is not in that range, returns <computeroutput>NULL</computeroutput>.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md714">
+<title>ad_hoc_test_result {#TestSuite::ad_hoc_test_result}</title>
+<para><computeroutput>const TestResult&amp; TestSuite::ad_hoc_test_result() const</computeroutput></para>
+<para>Returns the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestResult" kindref="member">`TestResult`</ref> that holds test properties recorded during execution of <computeroutput>SetUpTestSuite</computeroutput> and <computeroutput>TearDownTestSuite</computeroutput>.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestInfo">
+<title>TestInfo</title>
+<para><computeroutput><ref refid="classtesting_1_1TestInfo" kindref="compound">testing::TestInfo</ref></computeroutput></para>
+<para>Stores information about a test.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestInfo-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md715">
+<title>test_suite_name {#TestInfo::test_suite_name}</title>
+<para><computeroutput>const char* TestInfo::test_suite_name() const</computeroutput></para>
+<para>Returns the test suite name.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md716">
+<title>name {#TestInfo::name}</title>
+<para><computeroutput>const char* TestInfo::name() const</computeroutput></para>
+<para>Returns the test name.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md717">
+<title>type_param {#TestInfo::type_param}</title>
+<para><computeroutput>const char* TestInfo::type_param() const</computeroutput></para>
+<para>Returns the name of the parameter type, or <computeroutput>NULL</computeroutput> if this is not a typed or type-parameterized test. See <ulink url="../advanced.md#typed-tests">Typed Tests</ulink> and <ulink url="../advanced.md#type-parameterized-tests">Type-Parameterized Tests</ulink>.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md718">
+<title>value_param {#TestInfo::value_param}</title>
+<para><computeroutput>const char* TestInfo::value_param() const</computeroutput></para>
+<para>Returns the text representation of the value parameter, or <computeroutput>NULL</computeroutput> if this is not a value-parameterized test. See <ulink url="../advanced.md#value-parameterized-tests">Value-Parameterized Tests</ulink>.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md719">
+<title>file {#TestInfo::file}</title>
+<para><computeroutput>const char* TestInfo::file() const</computeroutput></para>
+<para>Returns the file name where this test is defined.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md720">
+<title>line {#TestInfo::line}</title>
+<para><computeroutput>int TestInfo::line() const</computeroutput></para>
+<para>Returns the line where this test is defined.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md721">
+<title>is_in_another_shard {#TestInfo::is_in_another_shard}</title>
+<para><computeroutput>bool TestInfo::is_in_another_shard() const</computeroutput></para>
+<para>Returns true if this test should not be run because it&apos;s in another shard.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md722">
+<title>should_run {#TestInfo::should_run}</title>
+<para><computeroutput>bool TestInfo::should_run() const</computeroutput></para>
+<para>Returns true if this test should run, that is if the test is not disabled (or it is disabled but the <computeroutput>also_run_disabled_tests</computeroutput> flag has been specified) and its full name matches the user-specified filter.</para>
+<para>GoogleTest allows the user to filter the tests by their full names. Only the tests that match the filter will run. See <ulink url="../advanced.md#running-a-subset-of-the-tests">Running a Subset of the Tests</ulink> for more information.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md723">
+<title>is_reportable {#TestInfo::is_reportable}</title>
+<para><computeroutput>bool TestInfo::is_reportable() const</computeroutput></para>
+<para>Returns true if and only if this test will appear in the XML report.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md724">
+<title>result {#TestInfo::result}</title>
+<para><computeroutput>const TestResult* TestInfo::result() const</computeroutput></para>
+<para>Returns the result of the test. See <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestResult" kindref="member">`TestResult`</ref>.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestParamInfo">
+<title>TestParamInfo</title>
+<para><computeroutput><ref refid="structtesting_1_1TestParamInfo" kindref="compound">testing::TestParamInfo</ref>&lt;T&gt;</computeroutput></para>
+<para>Describes a parameter to a value-parameterized test. The type <computeroutput>T</computeroutput> is the type of the parameter.</para>
+<para>Contains the fields <computeroutput>param</computeroutput> and <computeroutput>index</computeroutput> which hold the value of the parameter and its integer index respectively.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1UnitTest">
+<title>UnitTest</title>
+<para><computeroutput><ref refid="classtesting_1_1UnitTest" kindref="compound">testing::UnitTest</ref></computeroutput></para>
+<para>This class contains information about the test program.</para>
+<para><computeroutput>UnitTest</computeroutput> is a singleton class. The only instance is created when <computeroutput>UnitTest::GetInstance()</computeroutput> is first called. This instance is never deleted.</para>
+<para><computeroutput>UnitTest</computeroutput> is not copyable.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1UnitTest-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md725">
+<title>GetInstance {#UnitTest::GetInstance}</title>
+<para><computeroutput>static UnitTest* UnitTest::GetInstance()</computeroutput></para>
+<para>Gets the singleton <computeroutput>UnitTest</computeroutput> object. The first time this method is called, a <computeroutput>UnitTest</computeroutput> object is constructed and returned. Consecutive calls will return the same object.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md726">
+<title>original_working_dir {#UnitTest::original_working_dir}</title>
+<para><computeroutput>const char* UnitTest::original_working_dir() const</computeroutput></para>
+<para>Returns the working directory when the first <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TEST" kindref="member">`TEST()`</ref> or <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TEST_F" kindref="member">`TEST_F()`</ref> was executed. The <computeroutput>UnitTest</computeroutput> object owns the string.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md727">
+<title>current_test_suite {#UnitTest::current_test_suite}</title>
+<para><computeroutput>const TestSuite* UnitTest::current_test_suite() const</computeroutput></para>
+<para>Returns the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestSuite" kindref="member">`TestSuite`</ref> object for the test that&apos;s currently running, or <computeroutput>NULL</computeroutput> if no test is running.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md728">
+<title>current_test_info {#UnitTest::current_test_info}</title>
+<para><computeroutput>const TestInfo* UnitTest::current_test_info() const</computeroutput></para>
+<para>Returns the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestInfo" kindref="member">`TestInfo`</ref> object for the test that&apos;s currently running, or <computeroutput>NULL</computeroutput> if no test is running.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md729">
+<title>random_seed {#UnitTest::random_seed}</title>
+<para><computeroutput>int UnitTest::random_seed() const</computeroutput></para>
+<para>Returns the random seed used at the start of the current test run.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md730">
+<title>successful_test_suite_count {#UnitTest::successful_test_suite_count}</title>
+<para><computeroutput>int UnitTest::successful_test_suite_count() const</computeroutput></para>
+<para>Gets the number of successful test suites.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md731">
+<title>failed_test_suite_count {#UnitTest::failed_test_suite_count}</title>
+<para><computeroutput>int UnitTest::failed_test_suite_count() const</computeroutput></para>
+<para>Gets the number of failed test suites.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md732">
+<title>total_test_suite_count {#UnitTest::total_test_suite_count}</title>
+<para><computeroutput>int UnitTest::total_test_suite_count() const</computeroutput></para>
+<para>Gets the number of all test suites.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md733">
+<title>test_suite_to_run_count {#UnitTest::test_suite_to_run_count}</title>
+<para><computeroutput>int UnitTest::test_suite_to_run_count() const</computeroutput></para>
+<para>Gets the number of all test suites that contain at least one test that should run.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md734">
+<title>successful_test_count {#UnitTest::successful_test_count}</title>
+<para><computeroutput>int UnitTest::successful_test_count() const</computeroutput></para>
+<para>Gets the number of successful tests.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md735">
+<title>skipped_test_count {#UnitTest::skipped_test_count}</title>
+<para><computeroutput>int UnitTest::skipped_test_count() const</computeroutput></para>
+<para>Gets the number of skipped tests.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md736">
+<title>failed_test_count {#UnitTest::failed_test_count}</title>
+<para><computeroutput>int UnitTest::failed_test_count() const</computeroutput></para>
+<para>Gets the number of failed tests.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md737">
+<title>reportable_disabled_test_count {#UnitTest::reportable_disabled_test_count}</title>
+<para><computeroutput>int UnitTest::reportable_disabled_test_count() const</computeroutput></para>
+<para>Gets the number of disabled tests that will be reported in the XML report.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md738">
+<title>disabled_test_count {#UnitTest::disabled_test_count}</title>
+<para><computeroutput>int UnitTest::disabled_test_count() const</computeroutput></para>
+<para>Gets the number of disabled tests.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md739">
+<title>reportable_test_count {#UnitTest::reportable_test_count}</title>
+<para><computeroutput>int UnitTest::reportable_test_count() const</computeroutput></para>
+<para>Gets the number of tests to be printed in the XML report.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md740">
+<title>total_test_count {#UnitTest::total_test_count}</title>
+<para><computeroutput>int UnitTest::total_test_count() const</computeroutput></para>
+<para>Gets the number of all tests.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md741">
+<title>test_to_run_count {#UnitTest::test_to_run_count}</title>
+<para><computeroutput>int UnitTest::test_to_run_count() const</computeroutput></para>
+<para>Gets the number of tests that should run.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md742">
+<title>start_timestamp {#UnitTest::start_timestamp}</title>
+<para><computeroutput>TimeInMillis UnitTest::start_timestamp() const</computeroutput></para>
+<para>Gets the time of the test program start, in ms from the start of the UNIX epoch.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md743">
+<title>elapsed_time {#UnitTest::elapsed_time}</title>
+<para><computeroutput>TimeInMillis UnitTest::elapsed_time() const</computeroutput></para>
+<para>Gets the elapsed time, in milliseconds.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md744">
+<title>Passed {#UnitTest::Passed}</title>
+<para><computeroutput>bool UnitTest::Passed() const</computeroutput></para>
+<para>Returns true if and only if the unit test passed (i.e. all test suites passed).</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md745">
+<title>Failed {#UnitTest::Failed}</title>
+<para><computeroutput>bool UnitTest::Failed() const</computeroutput></para>
+<para>Returns true if and only if the unit test failed (i.e. some test suite failed or something outside of all tests failed).</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md746">
+<title>GetTestSuite {#UnitTest::GetTestSuite}</title>
+<para><computeroutput>const TestSuite* UnitTest::GetTestSuite(int i) const</computeroutput></para>
+<para>Gets the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestSuite" kindref="member">`TestSuite`</ref> object for the <computeroutput>i</computeroutput>-th test suite among all the test suites. <computeroutput>i</computeroutput> can range from 0 to <computeroutput>total_test_suite_count() - 1</computeroutput>. If <computeroutput>i</computeroutput> is not in that range, returns <computeroutput>NULL</computeroutput>.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md747">
+<title>ad_hoc_test_result {#UnitTest::ad_hoc_test_result}</title>
+<para><computeroutput>const TestResult&amp; UnitTest::ad_hoc_test_result() const</computeroutput></para>
+<para>Returns the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestResult" kindref="member">`TestResult`</ref> containing information on test failures and properties logged outside of individual test suites.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md748">
+<title>listeners {#UnitTest::listeners}</title>
+<para><computeroutput>TestEventListeners&amp; UnitTest::listeners()</computeroutput></para>
+<para>Returns the list of event listeners that can be used to track events inside GoogleTest. See <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestEventListeners" kindref="member">`TestEventListeners`</ref>.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestEventListener">
+<title>TestEventListener</title>
+<para><computeroutput><ref refid="classtesting_1_1TestEventListener" kindref="compound">testing::TestEventListener</ref></computeroutput></para>
+<para>The interface for tracing execution of tests. The methods below are listed in the order the corresponding events are fired.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestEventListener-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md749">
+<title>OnTestProgramStart {#TestEventListener::OnTestProgramStart}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestProgramStart(const UnitTest&amp; unit_test)</computeroutput></para>
+<para>Fired before any test activity starts.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md750">
+<title>OnTestIterationStart {#TestEventListener::OnTestIterationStart}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestIterationStart(const UnitTest&amp; unit_test, int iteration)</computeroutput></para>
+<para>Fired before each iteration of tests starts. There may be more than one iteration if <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a828f4e34a1c4b510da50ec1563e3562a" kindref="member">GTEST_FLAG(repeat)</ref></computeroutput> is set. <computeroutput>iteration</computeroutput> is the iteration index, starting from 0.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md751">
+<title>OnEnvironmentsSetUpStart {#TestEventListener::OnEnvironmentsSetUpStart}</title>
+<para><computeroutput>virtual void TestEventListener::OnEnvironmentsSetUpStart(const UnitTest&amp; unit_test)</computeroutput></para>
+<para>Fired before environment set-up for each iteration of tests starts.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md752">
+<title>OnEnvironmentsSetUpEnd {#TestEventListener::OnEnvironmentsSetUpEnd}</title>
+<para><computeroutput>virtual void TestEventListener::OnEnvironmentsSetUpEnd(const UnitTest&amp; unit_test)</computeroutput></para>
+<para>Fired after environment set-up for each iteration of tests ends.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md753">
+<title>OnTestSuiteStart {#TestEventListener::OnTestSuiteStart}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestSuiteStart(const TestSuite&amp; test_suite)</computeroutput></para>
+<para>Fired before the test suite starts.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md754">
+<title>OnTestStart {#TestEventListener::OnTestStart}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestStart(const TestInfo&amp; test_info)</computeroutput></para>
+<para>Fired before the test starts.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md755">
+<title>OnTestPartResult {#TestEventListener::OnTestPartResult}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestPartResult(const TestPartResult&amp; test_part_result)</computeroutput></para>
+<para>Fired after a failed assertion or a <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a75adcdf89f69b0b615e395daafc315af" kindref="member">SUCCEED()</ref></computeroutput> invocation. If you want to throw an exception from this function to skip to the next test, it must be an <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionException" kindref="member">`AssertionException`</ref> or inherited from it.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md756">
+<title>OnTestEnd {#TestEventListener::OnTestEnd}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestEnd(const TestInfo&amp; test_info)</computeroutput></para>
+<para>Fired after the test ends.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md757">
+<title>OnTestSuiteEnd {#TestEventListener::OnTestSuiteEnd}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestSuiteEnd(const TestSuite&amp; test_suite)</computeroutput></para>
+<para>Fired after the test suite ends.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md758">
+<title>OnEnvironmentsTearDownStart {#TestEventListener::OnEnvironmentsTearDownStart}</title>
+<para><computeroutput>virtual void TestEventListener::OnEnvironmentsTearDownStart(const UnitTest&amp; unit_test)</computeroutput></para>
+<para>Fired before environment tear-down for each iteration of tests starts.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md759">
+<title>OnEnvironmentsTearDownEnd {#TestEventListener::OnEnvironmentsTearDownEnd}</title>
+<para><computeroutput>virtual void TestEventListener::OnEnvironmentsTearDownEnd(const UnitTest&amp; unit_test)</computeroutput></para>
+<para>Fired after environment tear-down for each iteration of tests ends.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md760">
+<title>OnTestIterationEnd {#TestEventListener::OnTestIterationEnd}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestIterationEnd(const UnitTest&amp; unit_test, int iteration)</computeroutput></para>
+<para>Fired after each iteration of tests finishes.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md761">
+<title>OnTestProgramEnd {#TestEventListener::OnTestProgramEnd}</title>
+<para><computeroutput>virtual void TestEventListener::OnTestProgramEnd(const UnitTest&amp; unit_test)</computeroutput></para>
+<para>Fired after all test activities have ended.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestEventListeners">
+<title>TestEventListeners</title>
+<para><computeroutput><ref refid="classtesting_1_1TestEventListeners" kindref="compound">testing::TestEventListeners</ref></computeroutput></para>
+<para>Lets users add listeners to track events in GoogleTest.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestEventListeners-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md762">
+<title>Append {#TestEventListeners::Append}</title>
+<para><computeroutput>void TestEventListeners::Append(TestEventListener* listener)</computeroutput></para>
+<para>Appends an event listener to the end of the list. GoogleTest assumes ownership of the listener (i.e. it will delete the listener when the test program finishes).</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md763">
+<title>Release {#TestEventListeners::Release}</title>
+<para><computeroutput>TestEventListener* TestEventListeners::Release(TestEventListener* listener)</computeroutput></para>
+<para>Removes the given event listener from the list and returns it. It then becomes the caller&apos;s responsibility to delete the listener. Returns <computeroutput>NULL</computeroutput> if the listener is not found in the list.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md764">
+<title>default_result_printer {#TestEventListeners::default_result_printer}</title>
+<para><computeroutput>TestEventListener* TestEventListeners::default_result_printer() const</computeroutput></para>
+<para>Returns the standard listener responsible for the default console output. Can be removed from the listeners list to shut down default console output. Note that removing this object from the listener list with `Release()` transfers its ownership to the caller and makes this function return <computeroutput>NULL</computeroutput> the next time.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md765">
+<title>default_xml_generator {#TestEventListeners::default_xml_generator}</title>
+<para><computeroutput>TestEventListener* TestEventListeners::default_xml_generator() const</computeroutput></para>
+<para>Returns the standard listener responsible for the default XML output controlled by the <computeroutput>--gtest_output=xml</computeroutput> flag. Can be removed from the listeners list by users who want to shut down the default XML output controlled by this flag and substitute it with custom one. Note that removing this object from the listener list with `Release()` transfers its ownership to the caller and makes this function return <computeroutput>NULL</computeroutput> the next time.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestPartResult">
+<title>TestPartResult</title>
+<para><computeroutput>testing::TestPartResult</computeroutput></para>
+<para>A copyable object representing the result of a test part (i.e. an assertion or an explicit <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed" kindref="member">FAIL()</ref></computeroutput>, <computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1adc16b5b0a740c39084ea5c9e960e3063" kindref="member">ADD_FAILURE()</ref></computeroutput>, or <computeroutput>SUCCESS()</computeroutput>).</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestPartResult-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md766">
+<title>type {#TestPartResult::type}</title>
+<para><computeroutput>Type TestPartResult::type() const</computeroutput></para>
+<para>Gets the outcome of the test part.</para>
+<para>The return type <computeroutput>Type</computeroutput> is an enum defined as follows:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1typing__extensions_1a5e4c05c088b34eeac1829593c080f95d" kindref="member">Type</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>kSuccess,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Succeeded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>kNonFatalFailure,<sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>but<sp/>the<sp/>test<sp/>can<sp/>continue.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>kFatalFailure,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>and<sp/>the<sp/>test<sp/>should<sp/>be<sp/>terminated.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>kSkip<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skipped.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md767">
+<title>file_name {#TestPartResult::file_name}</title>
+<para><computeroutput>const char* TestPartResult::file_name() const</computeroutput></para>
+<para>Gets the name of the source file where the test part took place, or <computeroutput>NULL</computeroutput> if it&apos;s unknown.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md768">
+<title>line_number {#TestPartResult::line_number}</title>
+<para><computeroutput>int TestPartResult::line_number() const</computeroutput></para>
+<para>Gets the line in the source file where the test part took place, or <computeroutput>-1</computeroutput> if it&apos;s unknown.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md769">
+<title>summary {#TestPartResult::summary}</title>
+<para><computeroutput>const char* TestPartResult::summary() const</computeroutput></para>
+<para>Gets the summary of the failure message.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md770">
+<title>message {#TestPartResult::message}</title>
+<para><computeroutput>const char* TestPartResult::message() const</computeroutput></para>
+<para>Gets the message associated with the test part.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md771">
+<title>skipped {#TestPartResult::skipped}</title>
+<para><computeroutput>bool TestPartResult::skipped() const</computeroutput></para>
+<para>Returns true if and only if the test part was skipped.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md772">
+<title>passed {#TestPartResult::passed}</title>
+<para><computeroutput>bool TestPartResult::passed() const</computeroutput></para>
+<para>Returns true if and only if the test part passed.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md773">
+<title>nonfatally_failed {#TestPartResult::nonfatally_failed}</title>
+<para><computeroutput>bool TestPartResult::nonfatally_failed() const</computeroutput></para>
+<para>Returns true if and only if the test part non-fatally failed.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md774">
+<title>fatally_failed {#TestPartResult::fatally_failed}</title>
+<para><computeroutput>bool TestPartResult::fatally_failed() const</computeroutput></para>
+<para>Returns true if and only if the test part fatally failed.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md775">
+<title>failed {#TestPartResult::failed}</title>
+<para><computeroutput>bool TestPartResult::failed() const</computeroutput></para>
+<para>Returns true if and only if the test part failed.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestProperty">
+<title>TestProperty</title>
+<para><computeroutput><ref refid="classtesting_1_1TestProperty" kindref="compound">testing::TestProperty</ref></computeroutput></para>
+<para>A copyable object representing a user-specified test property which can be output as a key/value string pair.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestProperty-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1key">
+<title>key</title>
+<para><computeroutput>const char* key() const</computeroutput></para>
+<para>Gets the user-supplied key.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1value">
+<title>value</title>
+<para><computeroutput>const char* <ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value() const</ref></computeroutput></para>
+<para>Gets the user-supplied value.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1SetValue">
+<title>SetValue</title>
+<para><computeroutput>void SetValue(const std::string&amp; new_value)</computeroutput></para>
+<para>Sets a new value, overriding the previous one.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestResult">
+<title>TestResult</title>
+<para><computeroutput><ref refid="classtesting_1_1TestResult" kindref="compound">testing::TestResult</ref></computeroutput></para>
+<para>Contains information about the result of a single test.</para>
+<para><computeroutput>TestResult</computeroutput> is not copyable.</para>
+<sect3 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestResult-public">
+<title>Public Methods</title>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md776">
+<title>total_part_count {#TestResult::total_part_count}</title>
+<para><computeroutput>int TestResult::total_part_count() const</computeroutput></para>
+<para>Gets the number of all test parts. This is the sum of the number of successful test parts and the number of failed test parts.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md777">
+<title>test_property_count {#TestResult::test_property_count}</title>
+<para><computeroutput>int TestResult::test_property_count() const</computeroutput></para>
+<para>Returns the number of test properties.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md778">
+<title>Passed {#TestResult::Passed}</title>
+<para><computeroutput>bool TestResult::Passed() const</computeroutput></para>
+<para>Returns true if and only if the test passed (i.e. no test part failed).</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md779">
+<title>Skipped {#TestResult::Skipped}</title>
+<para><computeroutput>bool TestResult::Skipped() const</computeroutput></para>
+<para>Returns true if and only if the test was skipped.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md780">
+<title>Failed {#TestResult::Failed}</title>
+<para><computeroutput>bool TestResult::Failed() const</computeroutput></para>
+<para>Returns true if and only if the test failed.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md781">
+<title>HasFatalFailure {#TestResult::HasFatalFailure}</title>
+<para><computeroutput>bool TestResult::HasFatalFailure() const</computeroutput></para>
+<para>Returns true if and only if the test fatally failed.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md782">
+<title>HasNonfatalFailure {#TestResult::HasNonfatalFailure}</title>
+<para><computeroutput>bool TestResult::HasNonfatalFailure() const</computeroutput></para>
+<para>Returns true if and only if the test has a non-fatal failure.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md783">
+<title>elapsed_time {#TestResult::elapsed_time}</title>
+<para><computeroutput>TimeInMillis TestResult::elapsed_time() const</computeroutput></para>
+<para>Returns the elapsed time, in milliseconds.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md784">
+<title>start_timestamp {#TestResult::start_timestamp}</title>
+<para><computeroutput>TimeInMillis TestResult::start_timestamp() const</computeroutput></para>
+<para>Gets the time of the test case start, in ms from the start of the UNIX epoch.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md785">
+<title>GetTestPartResult {#TestResult::GetTestPartResult}</title>
+<para><computeroutput>const TestPartResult&amp; TestResult::GetTestPartResult(int i) const</computeroutput></para>
+<para>Returns the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestPartResult" kindref="member">`TestPartResult`</ref> for the <computeroutput>i</computeroutput>-th test part result among all the results. <computeroutput>i</computeroutput> can range from 0 to <computeroutput>total_part_count() - 1</computeroutput>. If <computeroutput>i</computeroutput> is not in that range, aborts the program.</para>
+</sect4>
+<sect4 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md786">
+<title>GetTestProperty {#TestResult::GetTestProperty}</title>
+<para><computeroutput>const TestProperty&amp; TestResult::GetTestProperty(int i) const</computeroutput></para>
+<para>Returns the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestProperty" kindref="member">`TestProperty`</ref> object for the <computeroutput>i</computeroutput>-th test property. <computeroutput>i</computeroutput> can range from 0 to <computeroutput>test_property_count() - 1</computeroutput>. If <computeroutput>i</computeroutput> is not in that range, aborts the program.</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TimeInMillis">
+<title>TimeInMillis</title>
+<para><computeroutput><ref refid="namespacetesting_1a992de1d091ce660f451d1e8b3ce30fd6" kindref="member">testing::TimeInMillis</ref></computeroutput></para>
+<para>An integer type representing time in milliseconds.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Types">
+<title>Types</title>
+<para><computeroutput><ref refid="namespacetesting_1a29eec4c1aba59e52881d8eb38cece83c" kindref="member">testing::Types</ref>&lt;T...&gt;</computeroutput></para>
+<para>Represents a list of types for use in typed tests and type-parameterized tests.</para>
+<para>The template argument <computeroutput>T...</computeroutput> can be any number of types, for example:</para>
+<para><programlisting><codeline><highlight class="normal">testing::Types&lt;char,<sp/>int,<sp/>unsigned<sp/>int&gt;</highlight></codeline>
+</programlisting></para>
+<para>See <ulink url="../advanced.md#typed-tests">Typed Tests</ulink> and <ulink url="../advanced.md#type-parameterized-tests">Type-Parameterized Tests</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1WithParamInterface">
+<title>WithParamInterface</title>
+<para><computeroutput><ref refid="classtesting_1_1WithParamInterface" kindref="compound">testing::WithParamInterface</ref>&lt;T&gt;</computeroutput></para>
+<para>The pure interface class that all value-parameterized tests inherit from.</para>
+<para>A value-parameterized test fixture class must inherit from both <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Test" kindref="member">`Test`</ref> and <computeroutput>WithParamInterface</computeroutput>. In most cases that just means inheriting from <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestWithParam" kindref="member">`TestWithParam`</ref>, but more complicated test hierarchies may need to inherit from <computeroutput>Test</computeroutput> and <computeroutput>WithParamInterface</computeroutput> at different levels.</para>
+<para>This interface defines the type alias <computeroutput>ParamType</computeroutput> for the parameter type <computeroutput>T</computeroutput> and has support for accessing the test parameter value via the <computeroutput>GetParam()</computeroutput> method:</para>
+<para><programlisting><codeline><highlight class="normal">static<sp/>const<sp/>ParamType&amp;<sp/>GetParam()</highlight></codeline>
+</programlisting></para>
+<para>For more information, see <ulink url="../advanced.md#value-parameterized-tests">Value-Parameterized Tests</ulink>.</para>
+</sect2>
+</sect1>
+<sect1 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1autotoc_md787">
+<title>Functions</title>
+<para>GoogleTest defines the following functions to help with writing and running tests.</para>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1InitGoogleTest">
+<title>InitGoogleTest</title>
+<para><computeroutput>void <ref refid="namespacetesting_1afd726ae08c9bd16dc52f78c822d9946b" kindref="member">testing::InitGoogleTest(int* argc, char** argv)</ref></computeroutput> \ <computeroutput>void <ref refid="namespacetesting_1ae5a88709a4a7529e30c83242156556b3" kindref="member">testing::InitGoogleTest(int* argc, wchar_t** argv)</ref></computeroutput> \ <computeroutput>void <ref refid="namespacetesting_1ace27eb9a2534996f3711aa719689f987" kindref="member">testing::InitGoogleTest()</ref></computeroutput></para>
+<para>Initializes GoogleTest. This must be called before calling <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1RUN_ALL_TESTS" kindref="member">`RUN_ALL_TESTS()`</ref>. In particular, it parses the command line for the flags that GoogleTest recognizes. Whenever a GoogleTest flag is seen, it is removed from <computeroutput>argv</computeroutput>, and <computeroutput>*argc</computeroutput> is decremented.</para>
+<para>No value is returned. Instead, the GoogleTest flag variables are updated.</para>
+<para>The <computeroutput>InitGoogleTest(int* argc, wchar_t** argv)</computeroutput> overload can be used in Windows programs compiled in <computeroutput>UNICODE</computeroutput> mode.</para>
+<para>The argument-less <computeroutput>InitGoogleTest()</computeroutput> overload can be used on Arduino/embedded platforms where there is no <computeroutput>argc</computeroutput>/<computeroutput>argv</computeroutput>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AddGlobalTestEnvironment">
+<title>AddGlobalTestEnvironment</title>
+<para><computeroutput>Environment* testing::AddGlobalTestEnvironment(Environment* env)</computeroutput></para>
+<para>Adds a test environment to the test program. Must be called before <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1RUN_ALL_TESTS" kindref="member">`RUN_ALL_TESTS()`</ref> is called. See <ulink url="../advanced.md#global-set-up-and-tear-down">Global Set-Up and Tear-Down</ulink> for more information.</para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1Environment" kindref="member">`Environment`</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1RegisterTest">
+<title>RegisterTest</title>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Factory&gt;</highlight></codeline>
+<codeline><highlight class="normal">TestInfo*<sp/><ref refid="namespacetesting_1a8b90d759c019a155800afdd4b8d623c3" kindref="member">testing::RegisterTest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>test_suite_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>test_name,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>type_param,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>value_param,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>file,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line,<sp/>Factory<sp/>factory)</highlight></codeline>
+</programlisting></para>
+<para>Dynamically registers a test with the framework.</para>
+<para>The <computeroutput>factory</computeroutput> argument is a factory callable (move-constructible) object or function pointer that creates a new instance of the <computeroutput>Test</computeroutput> object. It handles ownership to the caller. The signature of the callable is <computeroutput>Fixture*()</computeroutput>, where <computeroutput><ref refid="classFixture" kindref="compound">Fixture</ref></computeroutput> is the test fixture class for the test. All tests registered with the same <computeroutput>test_suite_name</computeroutput> must return the same fixture type. This is checked at runtime.</para>
+<para>The framework will infer the fixture class from the factory and will call the <computeroutput>SetUpTestSuite</computeroutput> and <computeroutput>TearDownTestSuite</computeroutput> methods for it.</para>
+<para>Must be called before <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1RUN_ALL_TESTS" kindref="member">`RUN_ALL_TESTS()`</ref> is invoked, otherwise behavior is undefined.</para>
+<para>See <ulink url="../advanced.md#registering-tests-programmatically">Registering tests programmatically</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1RUN_ALL_TESTS">
+<title>RUN_ALL_TESTS</title>
+<para><computeroutput>int <ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS()</ref></computeroutput></para>
+<para>Use this function in <computeroutput>main()</computeroutput> to run all tests. It returns <computeroutput>0</computeroutput> if all tests are successful, or <computeroutput>1</computeroutput> otherwise.</para>
+<para><computeroutput><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a853a3792807489591d3d4a2f2ff9359f" kindref="member">RUN_ALL_TESTS()</ref></computeroutput> should be invoked after the command line has been parsed by <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1InitGoogleTest" kindref="member">`InitGoogleTest()`</ref>.</para>
+<para>This function was formerly a macro; thus, it is in the global namespace and has an all-caps name.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionSuccess">
+<title>AssertionSuccess</title>
+<para><computeroutput>AssertionResult <ref refid="namespacetesting_1ac1d0baedb17286c5c6c87bd1a45da8ac" kindref="member">testing::AssertionSuccess()</ref></computeroutput></para>
+<para>Creates a successful assertion result. See <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionResult" kindref="member">`AssertionResult`</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionFailure">
+<title>AssertionFailure</title>
+<para><computeroutput>AssertionResult <ref refid="namespacetesting_1a75cb789614cb1c28c34627a4a3c053df" kindref="member">testing::AssertionFailure()</ref></computeroutput></para>
+<para>Creates a failed assertion result. Use the <computeroutput>&lt;&lt;</computeroutput> operator to store a failure message:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="namespacetesting_1a75cb789614cb1c28c34627a4a3c053df" kindref="member">testing::AssertionFailure</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;My<sp/>failure<sp/>message&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting></para>
+<para>See <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1AssertionResult" kindref="member">`AssertionResult`</ref>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1StaticAssertTypeEq">
+<title>StaticAssertTypeEq</title>
+<para><computeroutput><ref refid="namespacetesting_1a8318a0c014ef26fc3d5b8b3492198ff7" kindref="member">testing::StaticAssertTypeEq</ref>&lt;T1, T2&gt;()</computeroutput></para>
+<para>Compile-time assertion for type equality. Compiles if and only if <computeroutput>T1</computeroutput> and <computeroutput>T2</computeroutput> are the same type. The value it returns is irrelevant.</para>
+<para>See <ulink url="../advanced.md#type-assertions">Type Assertions</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1PrintToString">
+<title>PrintToString</title>
+<para><computeroutput>std::string testing::PrintToString(x)</computeroutput></para>
+<para>Prints any value <computeroutput>x</computeroutput> using GoogleTest&apos;s value printer.</para>
+<para>See <ulink url="../advanced.md#teaching-googletest-how-to-print-your-values">Teaching GoogleTest How to Print Your Values</ulink> for more information.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1PrintToStringParamName">
+<title>PrintToStringParamName</title>
+<para><computeroutput>std::string <ref refid="structtesting_1_1PrintToStringParamName" kindref="compound">testing::PrintToStringParamName</ref>(TestParamInfo&lt;T&gt;&amp; info)</computeroutput></para>
+<para>A built-in parameterized test name generator which returns the result of <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1PrintToString" kindref="member">`PrintToString`</ref> called on <computeroutput>info.param</computeroutput>. Does not work when the test parameter is a <computeroutput>std::string</computeroutput> or C string. See <ulink url="../advanced.md#specifying-names-for-value-parameterized-test-parameters">Specifying Names for Value-Parameterized Test Parameters</ulink> for more information.</para>
+<para>See also <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1TestParamInfo" kindref="member">`TestParamInfo`</ref> and <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2reference_2testing_1INSTANTIATE_TEST_SUITE_P" kindref="member">`INSTANTIATE_TEST_SUITE_P`</ref>. </para>
+</sect2>
+</sect1>
+    </detaileddescription>
+    <location file="cmake-build-debug/_deps/googletest-src/docs/reference/testing.md"/>
+  </compounddef>
+</doxygen>

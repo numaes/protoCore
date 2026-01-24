@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepackaging_1_1__musllinux" kind="namespace" language="Python">
+    <compoundname>packaging::_musllinux</compoundname>
+    <innerclass refid="classpackaging_1_1__musllinux_1_1__MuslVersion" prot="protected">packaging::_musllinux::_MuslVersion</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepackaging_1_1__musllinux_1a15f489e2f02034d965ee777b5c8cc858" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::_musllinux.plat</definition>
+        <argsstring></argsstring>
+        <name>plat</name>
+        <qualifiedname>packaging._musllinux.plat</qualifiedname>
+        <initializer>=  sysconfig.get_platform()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" line="78" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__musllinux_1aad969733a57fc63ae5dcb5526c2db626" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::_musllinux.end</definition>
+        <argsstring></argsstring>
+        <name>end</name>
+        <qualifiedname>packaging._musllinux.end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" line="83" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__musllinux_1a443e31063cc51804165a7ab21ee977ce" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::_musllinux.t</definition>
+        <argsstring></argsstring>
+        <name>t</name>
+        <qualifiedname>packaging._musllinux.t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepackaging_1_1__musllinux_1ab41f236a9347d5f37b02a1d3d5e85fef" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1__musllinux_1_1__MuslVersion" kindref="compound">_MuslVersion</ref>|None</type>
+        <definition> _MuslVersion | None packaging._musllinux._parse_musl_version</definition>
+        <argsstring>(str output)</argsstring>
+        <name>_parse_musl_version</name>
+        <qualifiedname>packaging._musllinux._parse_musl_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" bodystart="23" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__musllinux_1afdda21aeb66f2428985948d3f72d7e1a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1__musllinux_1_1__MuslVersion" kindref="compound">_MuslVersion</ref>|None</type>
+        <definition> _MuslVersion | None packaging._musllinux._get_musl_version</definition>
+        <argsstring>(str executable)</argsstring>
+        <name>_get_musl_version</name>
+        <qualifiedname>packaging._musllinux._get_musl_version</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>executable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Detect currently-running musl runtime version.
+
+This is done by checking the specified executable&apos;s dynamic linking
+information, and invoking the loader to parse its output for a version
+string. If the loader is musl, the output would be something like::
+
+    musl libc (x86_64)
+    Version 1.2.2
+    Dynamic Program Loader
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" line="34" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" bodystart="34" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__musllinux_1a9259cff7589df3bab923eef03f0e4d07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] packaging._musllinux.platform_tags</definition>
+        <argsstring>(Sequence[str] archs)</argsstring>
+        <name>platform_tags</name>
+        <qualifiedname>packaging._musllinux.platform_tags</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>archs</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate musllinux tags compatible to the current platform.
+
+:param archs: Sequence of compatible architectures.
+    The first one shall be the closest to the actual architecture and be the part of
+    platform tag after the ``linux_`` prefix, e.g. ``x86_64``.
+    The ``linux_`` prefix is assumed as a prerequisite for the current platform to
+    be musllinux-compatible.
+
+:returns: An iterator of compatible musllinux tags.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" bodystart="56" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>PEP 656 support.
+
+This module implements logic to detect if the currently running Python is
+linked against musl, and what musl version is used.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/packaging/_musllinux.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

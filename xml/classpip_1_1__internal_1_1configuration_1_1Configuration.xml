@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1configuration_1_1Configuration" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::configuration::Configuration</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1af5ff122437dd1ea056a28fc102c1149b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.configuration.Configuration::isolated</definition>
+        <argsstring></argsstring>
+        <name>isolated</name>
+        <qualifiedname>pip._internal.configuration.Configuration.isolated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="110" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a12c133cf8e1ac8bd7438014a7fd26dc7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.configuration.Configuration::load_only</definition>
+        <argsstring></argsstring>
+        <name>load_only</name>
+        <qualifiedname>pip._internal.configuration.Configuration.load_only</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="111" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1af0adf63da12795a6a321b7b864f5618b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration.__init__</definition>
+        <argsstring>(self, bool isolated, Optional[Kind] load_only=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.configuration.Configuration.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>load_only</declname>
+          <array>[Kind]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="101" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1acc3aa857df7198ccb6f5eb3e728545f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration.load</definition>
+        <argsstring>(self)</argsstring>
+        <name>load</name>
+        <qualifiedname>pip._internal.configuration.Configuration.load</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Loads configuration from configuration files and environment</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="122" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="122" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a528dfbb66291d2c9d3f78ac6f1872159" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.configuration.Configuration.get_file_to_edit</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_file_to_edit</name>
+        <qualifiedname>pip._internal.configuration.Configuration.get_file_to_edit</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the file with highest priority in configuration</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="128" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="128" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1ace540ce945424c524f4c02a44f9d5e6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[Tuple[str, Any]]</type>
+        <definition> Iterable[Tuple[str, Any]] pip._internal.configuration.Configuration.items</definition>
+        <argsstring>(self)</argsstring>
+        <name>items</name>
+        <qualifiedname>pip._internal.configuration.Configuration.items</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns key-value pairs like dict.items() representing the loaded
+configuration
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="137" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="137" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a9d3398907489aad461013c3b1c3253bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any pip._internal.configuration.Configuration.get_value</definition>
+        <argsstring>(self, str key)</argsstring>
+        <name>get_value</name>
+        <qualifiedname>pip._internal.configuration.Configuration.get_value</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a value from the configuration.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="143" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="143" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a5fbaae242fbf6065c64973dff2382bfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration.set_value</definition>
+        <argsstring>(self, str key, Any value)</argsstring>
+        <name>set_value</name>
+        <qualifiedname>pip._internal.configuration.Configuration.set_value</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Modify a value in the configuration.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="155" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="155" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a29367a24573531d08ba498cb46278548" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration.unset_value</definition>
+        <argsstring>(self, str key)</argsstring>
+        <name>unset_value</name>
+        <qualifiedname>pip._internal.configuration.Configuration.unset_value</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unset a value in the configuration.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="174" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="174" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a6556dd11acdbe9eea172c60c50c76f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration.save</definition>
+        <argsstring>(self)</argsstring>
+        <name>save</name>
+        <qualifiedname>pip._internal.configuration.Configuration.save</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Save the current in-memory state.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="203" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="203" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a8b5966fc674bfd666ea82700731218a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[Tuple[str, str]]</type>
+        <definition> Iterable[Tuple[str, str]] pip._internal.configuration.Configuration.get_environ_vars</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_environ_vars</name>
+        <qualifiedname>pip._internal.configuration.Configuration.get_environ_vars</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a generator with all environmental vars with prefix PIP_</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="318" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="318" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a916725ef73f0c94e3c5f4670dd266b97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[Tuple[<ref refid="namespacepip_1_1__internal_1_1configuration_1acdbd1804aa9f7af14ec120c721d07514" kindref="member">Kind</ref>, List[str]]]</type>
+        <definition> Iterable[Tuple[Kind, List[str]]] pip._internal.configuration.Configuration.iter_config_files</definition>
+        <argsstring>(self)</argsstring>
+        <name>iter_config_files</name>
+        <qualifiedname>pip._internal.configuration.Configuration.iter_config_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yields variant and configuration files associated with it.
+
+This should be treated like items of a dictionary. The order
+here doesn&apos;t affect what gets overridden. That is controlled
+by OVERRIDE_ORDER. However this does control the order they are
+displayed to the user. It&apos;s probably most ergononmic to display
+things in the same order as OVERRIDE_ORDER
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="327" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="327" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1ab2f6bbd4275727d4837f9271856d1c90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, Any]</type>
+        <definition> Dict[str, Any] pip._internal.configuration.Configuration.get_values_in_config</definition>
+        <argsstring>(self, Kind variant)</argsstring>
+        <name>get_values_in_config</name>
+        <qualifiedname>pip._internal.configuration.Configuration.get_values_in_config</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1configuration_1acdbd1804aa9f7af14ec120c721d07514" kindref="member">Kind</ref></type>
+          <declname>variant</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get values present in a config file</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="359" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="359" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a075875dd66f1d2995aa755e962ee12bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.configuration.Configuration.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>pip._internal.configuration.Configuration.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="382" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="382" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a4a48c193ff6404389bdaeb72554b8c25" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration._ensure_have_load_only</definition>
+        <argsstring>(self)</argsstring>
+        <name>_ensure_have_load_only</name>
+        <qualifiedname>pip._internal.configuration.Configuration._ensure_have_load_only</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="227" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="227" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a65dbeac28d39e334bd0e117e56643f6b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, Any]</type>
+        <definition> Dict[str, Any] pip._internal.configuration.Configuration._dictionary</definition>
+        <argsstring>(self)</argsstring>
+        <name>_dictionary</name>
+        <qualifiedname>pip._internal.configuration.Configuration._dictionary</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A dictionary representing the loaded configuration.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="233" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="233" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a75a968f748452a2db2945b4f1a45b717" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration._load_config_files</definition>
+        <argsstring>(self)</argsstring>
+        <name>_load_config_files</name>
+        <qualifiedname>pip._internal.configuration.Configuration._load_config_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Loads configuration from configuration files</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="244" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="244" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1ab5f80bc3b777d5c7aa3540113dd103fc" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1configuration_1a361d9f6d6543b48050190488d62c2578" kindref="member">RawConfigParser</ref></type>
+        <definition> RawConfigParser pip._internal.configuration.Configuration._load_file</definition>
+        <argsstring>(self, Kind variant, str fname)</argsstring>
+        <name>_load_file</name>
+        <qualifiedname>pip._internal.configuration.Configuration._load_file</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1configuration_1acdbd1804aa9f7af14ec120c721d07514" kindref="member">Kind</ref></type>
+          <declname>variant</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="267" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="267" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a5687e49ca01d0120c64848d1ad4401f6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1configuration_1a361d9f6d6543b48050190488d62c2578" kindref="member">RawConfigParser</ref></type>
+        <definition> RawConfigParser pip._internal.configuration.Configuration._construct_parser</definition>
+        <argsstring>(self, str fname)</argsstring>
+        <name>_construct_parser</name>
+        <qualifiedname>pip._internal.configuration.Configuration._construct_parser</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="277" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="277" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a1a57e8ca81e59ec7cbbd80e8f7283a06" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration._load_environment_vars</definition>
+        <argsstring>(self)</argsstring>
+        <name>_load_environment_vars</name>
+        <qualifiedname>pip._internal.configuration.Configuration._load_environment_vars</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Loads configuration from environment variables</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="298" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="298" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1ad0c4d878c42f58b585e30feed902c9b7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, Any]</type>
+        <definition> Dict[str, Any] pip._internal.configuration.Configuration._normalized_keys</definition>
+        <argsstring>(self, str section, Iterable[Tuple[str, Any]] items)</argsstring>
+        <name>_normalized_keys</name>
+        <qualifiedname>pip._internal.configuration.Configuration._normalized_keys</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>Iterable]</type>
+          <declname>items</declname>
+          <array>[Tuple[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalizes items to construct a dictionary with normalized keys.
+
+This routine is where the names become keys and are made the same
+regardless of source - configuration files or environment.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="304" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="306" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1ae358107b1816d0653c886c792e7fa630" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, <ref refid="namespacepip_1_1__internal_1_1configuration_1a361d9f6d6543b48050190488d62c2578" kindref="member">RawConfigParser</ref>]</type>
+        <definition> Tuple[str, RawConfigParser] pip._internal.configuration.Configuration._get_parser_to_modify</definition>
+        <argsstring>(self)</argsstring>
+        <name>_get_parser_to_modify</name>
+        <qualifiedname>pip._internal.configuration.Configuration._get_parser_to_modify</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="363" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="363" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1configuration_1_1Configuration_1a0a196b35e9ad6c6da5e4e32ec68b9901" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.configuration.Configuration._mark_as_modified</definition>
+        <argsstring>(self, str fname, RawConfigParser parser)</argsstring>
+        <name>_mark_as_modified</name>
+        <qualifiedname>pip._internal.configuration.Configuration._mark_as_modified</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fname</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1configuration_1a361d9f6d6543b48050190488d62c2578" kindref="member">RawConfigParser</ref></type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="377" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="377" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Handles management of configuration.
+
+Provides an interface to accessing and managing configuration files.
+
+This class converts provides an API that takes &quot;section.key-name&quot; style
+keys and stores the value associated with it as &quot;key-name&quot; under the
+section &quot;section&quot;.
+
+This allows for a clean interface wherein the both the section and the
+key-name are preserved in an easy to manage form in the configuration files
+and the data stored is also nice.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="87" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="87" bodyend="384"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1af0adf63da12795a6a321b7b864f5618b" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a075875dd66f1d2995aa755e962ee12bc" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>__repr__</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a5687e49ca01d0120c64848d1ad4401f6" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_construct_parser</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a65dbeac28d39e334bd0e117e56643f6b" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_dictionary</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a4a48c193ff6404389bdaeb72554b8c25" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_ensure_have_load_only</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1ae358107b1816d0653c886c792e7fa630" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_get_parser_to_modify</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a75a968f748452a2db2945b4f1a45b717" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_load_config_files</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a1a57e8ca81e59ec7cbbd80e8f7283a06" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_load_environment_vars</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1ab5f80bc3b777d5c7aa3540113dd103fc" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_load_file</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a0a196b35e9ad6c6da5e4e32ec68b9901" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_mark_as_modified</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1ad0c4d878c42f58b585e30feed902c9b7" prot="protected" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>_normalized_keys</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a8b5966fc674bfd666ea82700731218a9" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>get_environ_vars</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a528dfbb66291d2c9d3f78ac6f1872159" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>get_file_to_edit</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a9d3398907489aad461013c3b1c3253bb" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>get_value</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1ab2f6bbd4275727d4837f9271856d1c90" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>get_values_in_config</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1af5ff122437dd1ea056a28fc102c1149b" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>isolated</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1ace540ce945424c524f4c02a44f9d5e6e" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>items</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a916725ef73f0c94e3c5f4670dd266b97" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>iter_config_files</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1acc3aa857df7198ccb6f5eb3e728545f6" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>load</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a12c133cf8e1ac8bd7438014a7fd26dc7" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>load_only</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a6556dd11acdbe9eea172c60c50c76f83" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>save</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a5fbaae242fbf6065c64973dff2382bfc" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>set_value</name></member>
+      <member refid="classpip_1_1__internal_1_1configuration_1_1Configuration_1a29367a24573531d08ba498cb46278548" prot="public" virt="non-virtual"><scope>pip::_internal::configuration::Configuration</scope><name>unset_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

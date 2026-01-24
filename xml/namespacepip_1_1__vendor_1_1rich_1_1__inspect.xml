@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1rich_1_1__inspect" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::rich::_inspect</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1__inspect_1_1Inspect" prot="public">pip::_vendor::rich::_inspect::Inspect</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1__inspect_1ac7a190e4e14af5baba5e6d05c7ba4ed2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich._inspect._first_paragraph</definition>
+        <argsstring>(str doc)</argsstring>
+        <name>_first_paragraph</name>
+        <qualifiedname>pip._vendor.rich._inspect._first_paragraph</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the first paragraph from a docstring.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" bodystart="17" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1__inspect_1afe3ea725d79b871946e1118eca2e5af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[type,...]</type>
+        <definition> Tuple[type, ...] pip._vendor.rich._inspect.get_object_types_mro</definition>
+        <argsstring>(Union[object, Type[Any]] obj)</argsstring>
+        <name>get_object_types_mro</name>
+        <qualifiedname>pip._vendor.rich._inspect.get_object_types_mro</qualifiedname>
+        <param>
+          <type>Union]</type>
+          <declname>obj</declname>
+          <array>[object, Type[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the MRO of an object&apos;s class, or of the object itself if it&apos;s a class.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" line="238" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" bodystart="238" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1__inspect_1a0ef53cf74c9f3a08b5b67c1b68e64655" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Collection[str]</type>
+        <definition> Collection[str] pip._vendor.rich._inspect.get_object_types_mro_as_strings</definition>
+        <argsstring>(object obj)</argsstring>
+        <name>get_object_types_mro_as_strings</name>
+        <qualifiedname>pip._vendor.rich._inspect.get_object_types_mro_as_strings</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the MRO of an object&apos;s class as full qualified names, or of the object itself if it&apos;s a class.
+
+Examples:
+    `object_types_mro_as_strings(JSONDecoder)` will return `[&apos;json.decoder.JSONDecoder&apos;, &apos;builtins.object&apos;]`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" line="247" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" bodystart="247" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1__inspect_1ad0ba1cadc4bafc4ca476722c84df517e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.rich._inspect.is_object_one_of_types</definition>
+        <argsstring>(object obj, Collection[str] fully_qualified_types_names)</argsstring>
+        <name>is_object_one_of_types</name>
+        <qualifiedname>pip._vendor.rich._inspect.is_object_one_of_types</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>fully_qualified_types_names</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns `True` if the given object&apos;s class (or the object itself, if it&apos;s a class) has one of the
+fully qualified names in its MRO.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" line="260" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" bodystart="262" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/_inspect.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

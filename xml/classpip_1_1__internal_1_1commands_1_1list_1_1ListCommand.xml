@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::commands::list::ListCommand</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand" prot="public" virt="non-virtual">pip._internal.cli.req_command.IndexGroupCommand</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a1e347f3d66ed309559c51270662047cd" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool pip._internal.commands.list.ListCommand::ignore_require_venv</definition>
+        <argsstring></argsstring>
+        <name>ignore_require_venv</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.ignore_require_venv</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="48" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a5661f68871142595f1d7f0ca4b9f0f98" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.commands.list.ListCommand::usage</definition>
+        <argsstring></argsstring>
+        <name>usage</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.usage</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;
+      %prog [options]&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="49" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a2e98b7b481a8864c09e120165386f762" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.list.ListCommand::cmd_opts</definition>
+        <argsstring></argsstring>
+        <name>cmd_opts</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.cmd_opts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="138" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a7beb3337bc0e9088a2ac304563feb671" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.list.ListCommand.add_options</definition>
+        <argsstring>(self)</argsstring>
+        <name>add_options</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.add_options</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1ad74cf63053e59d30953e9429750d41b3">add_options</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="52" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="52" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a94228d389b9156ab6e0cf12445c83557" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.commands.list.ListCommand.run</definition>
+        <argsstring>(self, Values options, List[str] args)</argsstring>
+        <name>run</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.run</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1abfb817417c4522bde2e2eb6141126aba">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="159" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="159" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a251411b0f5888c805d557a5d24710599" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;_ProcessedDists&quot;</type>
+        <definition> &quot;_ProcessedDists&quot; pip._internal.commands.list.ListCommand.get_outdated</definition>
+        <argsstring>(self, &quot;_ProcessedDists&quot; packages, Values options)</argsstring>
+        <name>get_outdated</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.get_outdated</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;_ProcessedDists&quot;</type>
+          <declname>packages</declname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="200" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="202" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a344466e8a6c6f7751e1417455059616a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;_ProcessedDists&quot;</type>
+        <definition> &quot;_ProcessedDists&quot; pip._internal.commands.list.ListCommand.get_uptodate</definition>
+        <argsstring>(self, &quot;_ProcessedDists&quot; packages, Values options)</argsstring>
+        <name>get_uptodate</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.get_uptodate</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;_ProcessedDists&quot;</type>
+          <declname>packages</declname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="209" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="211" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1aadbcbec601f65809e322a5d483ff0625" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;_ProcessedDists&quot;</type>
+        <definition> &quot;_ProcessedDists&quot; pip._internal.commands.list.ListCommand.get_not_required</definition>
+        <argsstring>(self, &quot;_ProcessedDists&quot; packages, Values options)</argsstring>
+        <name>get_not_required</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.get_not_required</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;_ProcessedDists&quot;</type>
+          <declname>packages</declname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="218" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="220" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1aca54b95aea618684c89cad2b93de6191" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[&quot;_DistWithLatestInfo&quot;, None, None]</type>
+        <definition> Generator[&quot;_DistWithLatestInfo&quot;, None, None] pip._internal.commands.list.ListCommand.iter_packages_latest_infos</definition>
+        <argsstring>(self, &quot;_ProcessedDists&quot; packages, Values options)</argsstring>
+        <name>iter_packages_latest_infos</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.iter_packages_latest_infos</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;_ProcessedDists&quot;</type>
+          <declname>packages</declname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="232" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="234" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1acaa18d34e09b219acafa31c706bf7e26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.list.ListCommand.output_package_listing</definition>
+        <argsstring>(self, &quot;_ProcessedDists&quot; packages, Values options)</argsstring>
+        <name>output_package_listing</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.output_package_listing</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;_ProcessedDists&quot;</type>
+          <declname>packages</declname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="270" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="272" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a4f30e293835211de90dd5205332bc3e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.list.ListCommand.output_package_listing_columns</definition>
+        <argsstring>(self, List[List[str]] data, List[str] header)</argsstring>
+        <name>output_package_listing_columns</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand.output_package_listing_columns</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>List]</type>
+          <declname>data</declname>
+          <array>[List[str]</array>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>header</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="291" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="293" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a5d8ef1eb569d52c1673aa8d284bed329" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+        <definition> PackageFinder pip._internal.commands.list.ListCommand._build_package_finder</definition>
+        <argsstring>(self, Values options, PipSession session)</argsstring>
+        <name>_build_package_finder</name>
+        <qualifiedname>pip._internal.commands.list.ListCommand._build_package_finder</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a package finder appropriate to this list command.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="140" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="142" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>List installed packages, including editables.
+
+Packages are listed in a case-insensitive sorted order.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.commands.list.ListCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.commands.list.ListCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" line="41" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/commands/list.py" bodystart="41" bodyend="307"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a5d8ef1eb569d52c1673aa8d284bed329" prot="protected" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>_build_package_finder</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a7beb3337bc0e9088a2ac304563feb671" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>add_options</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a2e98b7b481a8864c09e120165386f762" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>cmd_opts</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1aadbcbec601f65809e322a5d483ff0625" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>get_not_required</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a251411b0f5888c805d557a5d24710599" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>get_outdated</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a344466e8a6c6f7751e1417455059616a" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>get_uptodate</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a1e347f3d66ed309559c51270662047cd" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>ignore_require_venv</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1aca54b95aea618684c89cad2b93de6191" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>iter_packages_latest_infos</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1acaa18d34e09b219acafa31c706bf7e26" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>output_package_listing</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a4f30e293835211de90dd5205332bc3e6" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>output_package_listing_columns</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a94228d389b9156ab6e0cf12445c83557" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>run</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1list_1_1ListCommand_1a5661f68871142595f1d7f0ca4b9f0f98" prot="public" virt="non-virtual"><scope>pip::_internal::commands::list::ListCommand</scope><name>usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

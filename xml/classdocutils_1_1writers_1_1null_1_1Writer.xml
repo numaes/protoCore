@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1writers_1_1null_1_1Writer" kind="class" language="Python" prot="public">
+    <compoundname>docutils::writers::null::Writer</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1UnfilteredWriter" prot="public" virt="non-virtual">docutils.writers.UnfilteredWriter</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1null_1_1Writer_1adfe5a74a039124cadc56c381826f7a9f" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.null.Writer::supported</definition>
+        <argsstring></argsstring>
+        <name>supported</name>
+        <qualifiedname>docutils.writers.null.Writer.supported</qualifiedname>
+        <initializer>=  (&apos;null&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" line="17" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1null_1_1Writer_1a256fd461b3054bc4ba4f9dcd729d410f" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.null.Writer::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.writers.null.Writer.config_section</qualifiedname>
+        <initializer>=  &apos;null writer&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1null_1_1Writer_1a97cf981a2b73de90887bda3628fabb2d" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.null.Writer::config_section_dependencies</definition>
+        <argsstring></argsstring>
+        <name>config_section_dependencies</name>
+        <qualifiedname>docutils.writers.null.Writer.config_section_dependencies</qualifiedname>
+        <initializer>=  (&apos;writers&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1null_1_1Writer_1a26403369fbe8d938e7819036e7bbec4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.null.Writer.translate</definition>
+        <argsstring>(self)</argsstring>
+        <name>translate</name>
+        <qualifiedname>docutils.writers.null.Writer.translate</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1a94b7282f8b16d235a1839a22d19c244b">translate</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Do final translation of `self.document` into `self.output`.  Called
+from `write`.  Override in subclasses.
+
+Usually done with a `docutils.nodes.NodeVisitor` subclass, in
+combination with a call to `docutils.nodes.Node.walk()` or
+`docutils.nodes.Node.walkabout()`.  The ``NodeVisitor`` subclass must
+support all standard elements (listed in
+`docutils.nodes.node_class_names`) and possibly non-standard elements
+used by the current Reader as well.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" line="23" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" bodystart="23" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.writers.null.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1null_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="6">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers.UnfilteredWriter</label>
+        <link refid="classdocutils_1_1writers_1_1UnfilteredWriter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.writers.null.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1null_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>config_section_dependencies</edgelabel>
+          <edgelabel>supported</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>supported</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>relative_path_settings</edgelabel>
+          <edgelabel>settings_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>default_transforms</edgelabel>
+          <edgelabel>unknown_reference_resolvers</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.writers.UnfilteredWriter</label>
+        <link refid="classdocutils_1_1writers_1_1UnfilteredWriter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" line="15" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/writers/null.py" bodystart="15" bodyend="26"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1writers_1_1null_1_1Writer_1a256fd461b3054bc4ba4f9dcd729d410f" prot="public" virt="non-virtual"><scope>docutils::writers::null::Writer</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1writers_1_1null_1_1Writer_1a97cf981a2b73de90887bda3628fabb2d" prot="public" virt="non-virtual"><scope>docutils::writers::null::Writer</scope><name>config_section_dependencies</name></member>
+      <member refid="classdocutils_1_1writers_1_1null_1_1Writer_1adfe5a74a039124cadc56c381826f7a9f" prot="public" virt="non-virtual"><scope>docutils::writers::null::Writer</scope><name>supported</name></member>
+      <member refid="classdocutils_1_1writers_1_1null_1_1Writer_1a26403369fbe8d938e7819036e7bbec4e" prot="public" virt="non-virtual"><scope>docutils::writers::null::Writer</scope><name>translate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

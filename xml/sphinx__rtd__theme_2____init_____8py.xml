@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx__rtd__theme_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespacesphinx__rtd__theme">sphinx_rtd_theme</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx__rtd__theme" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">Sphinx<sp/>Read<sp/>the<sp/>Docs<sp/>theme.</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">From<sp/>https://github.com/ryan-roemer/sphinx-bootstrap-theme.</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>os<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>path</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>sys<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>version_info<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>python_version</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>sphinx<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>version_info<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>sphinx_version</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1locale" kindref="compound">sphinx.locale</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1logging" kindref="compound">sphinx.util.logging</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>getLogger</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">__version__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;3.0.2&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">__version_full__<sp/>=<sp/>__version__</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">logger<sp/>=<sp/>getLogger(__name__)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx__rtd__theme_1a8e490b975ea5518f3b39aafc0e267101" kindref="member">get_html_theme_path</ref>():</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>list<sp/>of<sp/>HTML<sp/>theme<sp/>paths.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.warning(</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_(</highlight><highlight class="stringliteral">&apos;Calling<sp/>get_html_theme_path<sp/>is<sp/>deprecated.<sp/>If<sp/>you<sp/>are<sp/>calling<sp/>it<sp/>to<sp/>define<sp/>html_theme_path,<sp/>you<sp/>are<sp/>safe<sp/>to<sp/>remove<sp/>that<sp/>code.&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>cur_dir<sp/>=<sp/>path.abspath(path.dirname(path.dirname(__file__)))</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cur_dir</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx__rtd__theme_1a77e945e07fc4616769b974e13c05d235" kindref="member">config_initiated</ref>(app,<sp/>config):</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>theme_options<sp/>=<sp/>config.html_theme_options<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>{}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>theme_options.get(</highlight><highlight class="stringliteral">&apos;canonical_url&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.warning(</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_(</highlight><highlight class="stringliteral">&apos;The<sp/>canonical_url<sp/>option<sp/>is<sp/>deprecated,<sp/>use<sp/>the<sp/>html_baseurl<sp/>option<sp/>from<sp/>Sphinx<sp/>instead.&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>theme_options.get(</highlight><highlight class="stringliteral">&quot;analytics_id&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.warning(</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_(</highlight><highlight class="stringliteral">&apos;The<sp/>analytics_id<sp/>option<sp/>is<sp/>deprecated,<sp/>use<sp/>the<sp/>sphinxcontrib-googleanalytics<sp/>extension<sp/>instead.&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>theme_options.get(</highlight><highlight class="stringliteral">&quot;analytics_anonymize_ip&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.warning(</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_(</highlight><highlight class="stringliteral">&apos;The<sp/>analytics_anonymize_ip<sp/>option<sp/>is<sp/>deprecated,<sp/>use<sp/>the<sp/>sphinxcontrib-googleanalytics<sp/>extension<sp/>instead.&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;extra_css_files&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>config.html_context:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.warning(</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_(</highlight><highlight class="stringliteral">&apos;The<sp/>extra_css_file<sp/>option<sp/>is<sp/>deprecated,<sp/>use<sp/>the<sp/>html_css_files<sp/>option<sp/>from<sp/>Sphinx<sp/>instead.&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacesphinx__rtd__theme_1ac5debeee97b61162cb32aa1ccdd601ad" kindref="member">extend_html_context</ref>(app,<sp/>pagename,<sp/>templatename,<sp/>context,<sp/>doctree):</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Add<sp/>``sphinx_version_info``<sp/>tuple<sp/>for<sp/>use<sp/>in<sp/>Jinja<sp/>templates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>context[</highlight><highlight class="stringliteral">&apos;sphinx_version_info&apos;</highlight><highlight class="normal">]<sp/>=<sp/>sphinx_version</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Inject<sp/>all<sp/>the<sp/>Read<sp/>the<sp/>Docs<sp/>environment<sp/>variables<sp/>in<sp/>the<sp/>context:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>https://docs.readthedocs.io/en/stable/reference/environment-variables.html</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>context[</highlight><highlight class="stringliteral">&apos;READTHEDOCS&apos;</highlight><highlight class="normal">]<sp/>=<sp/>os.environ.get(</highlight><highlight class="stringliteral">&quot;READTHEDOCS&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;True&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>context[</highlight><highlight class="stringliteral">&apos;READTHEDOCS&apos;</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>key,<sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>os.environ.items():</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>key.startswith(</highlight><highlight class="stringliteral">&quot;READTHEDOCS_&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>context[key]<sp/>=<sp/>value</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">#<sp/>See<sp/>http://www.sphinx-doc.org/en/stable/theming.html#distribute-your-theme-as-a-python-package</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">setup(app):</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>python_version[0]<sp/>&lt;<sp/>3:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.error(</highlight><highlight class="stringliteral">&quot;Python<sp/>2<sp/>is<sp/>not<sp/>supported<sp/>with<sp/>sphinx_rtd_theme,<sp/>update<sp/>to<sp/>Python<sp/>3.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>app.require_sphinx(</highlight><highlight class="stringliteral">&apos;6.0&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>app.config.html4_writer:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.error(</highlight><highlight class="stringliteral">&quot;&apos;html4_writer&apos;<sp/>is<sp/>not<sp/>supported<sp/>with<sp/>sphinx_rtd_theme.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Since<sp/>Sphinx<sp/>6,<sp/>jquery<sp/>isn&apos;t<sp/>bundled<sp/>anymore<sp/>and<sp/>we<sp/>need<sp/>to<sp/>ensure<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>the<sp/>sphinxcontrib-jquery<sp/>extension<sp/>is<sp/>enabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>See:<sp/>https://dev.readthedocs.io/en/latest/design/sphinx-jquery.html</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sphinx_version<sp/>&gt;=<sp/>(6,<sp/>0,<sp/>0):</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Documentation<sp/>of<sp/>Sphinx<sp/>guarantees<sp/>that<sp/>an<sp/>extension<sp/>is<sp/>added<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>enabled<sp/>at<sp/>most<sp/>once.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>See:<sp/>https://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.setup_extension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app.setup_extension(</highlight><highlight class="stringliteral">&quot;sphinxcontrib.jquery&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>However,<sp/>we<sp/>need<sp/>to<sp/>call<sp/>the<sp/>extension&apos;s<sp/>callback<sp/>since<sp/>setup_extension<sp/>doesn&apos;t<sp/>do<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>See:<sp/>https://github.com/sphinx-contrib/jquery/issues/23</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>sphinxcontrib.jquery<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>add_js_files<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>jquery_add_js_files</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jquery_add_js_files(app,<sp/>app.config)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Register<sp/>the<sp/>theme<sp/>that<sp/>can<sp/>be<sp/>referenced<sp/>without<sp/>adding<sp/>a<sp/>theme<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_html_theme(</highlight><highlight class="stringliteral">&apos;sphinx_rtd_theme&apos;</highlight><highlight class="normal">,<sp/>path.abspath(path.dirname(__file__)))</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Add<sp/>Sphinx<sp/>message<sp/>catalog<sp/>for<sp/>newer<sp/>versions<sp/>of<sp/>Sphinx</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>See<sp/>http://www.sphinx-doc.org/en/master/extdev/appapi.html#sphinx.application.Sphinx.add_message_catalog</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>rtd_locale_path<sp/>=<sp/>path.join(path.abspath(path.dirname(__file__)),<sp/></highlight><highlight class="stringliteral">&apos;locale&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_message_catalog(</highlight><highlight class="stringliteral">&apos;sphinx&apos;</highlight><highlight class="normal">,<sp/>rtd_locale_path)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>app.connect(</highlight><highlight class="stringliteral">&apos;config-inited&apos;</highlight><highlight class="normal">,<sp/>config_initiated)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>sphinx<sp/>emits<sp/>the<sp/>permalink<sp/>icon<sp/>for<sp/>headers,<sp/>so<sp/>choose<sp/>one<sp/>more<sp/>in<sp/>keeping<sp/>with<sp/>our<sp/>theme</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>app.config.html_permalinks_icon<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;\uf0c1&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Extend<sp/>the<sp/>default<sp/>context<sp/>when<sp/>rendering<sp/>the<sp/>templates.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>app.connect(</highlight><highlight class="stringliteral">&quot;html-page-context&quot;</highlight><highlight class="normal">,<sp/>extend_html_context)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="stringliteral">&apos;parallel_read_safe&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;parallel_write_safe&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx_rtd_theme/__init__.py"/>
+  </compounddef>
+</doxygen>

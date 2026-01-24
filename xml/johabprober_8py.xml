@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="johabprober_8py" kind="file" language="Python">
+    <compoundname>johabprober.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1chardet_1_1johabprober_1_1JOHABProber" prot="public">pip::_vendor::chardet::johabprober::JOHABProber</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet">pip::_vendor::chardet</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1chardet_1_1johabprober">pip::_vendor::chardet::johabprober</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1chardet_1_1johabprober" refkind="compound"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.chardistribution<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>JOHABDistributionAnalysis</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.codingstatemachine<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>CodingStateMachine</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.mbcharsetprober<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>MultiByteCharSetProber</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.mbcssm<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>JOHAB_SM_MODEL</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classpip_1_1__vendor_1_1chardet_1_1johabprober_1_1JOHABProber" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1chardet_1_1johabprober_1_1JOHABProber" kindref="compound">JOHABProber</ref>(<ref refid="classpip_1_1__vendor_1_1chardet_1_1mbcharsetprober_1_1MultiByteCharSetProber" kindref="compound">MultiByteCharSetProber</ref>):</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1chardet_1_1johabprober_1_1JOHABProber_1acffcb8b4842f980fba27cbf3008eb40a" kindref="member">__init__</ref>(self)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classpip_1_1__vendor_1_1chardet_1_1johabprober_1_1JOHABProber_1acffcb8b4842f980fba27cbf3008eb40a" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1chardet_1_1johabprober_1_1JOHABProber_1a3635c113d229581ab507909d2e47628e" kindref="member">coding_sm</ref><sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1chardet_1_1codingstatemachine_1_1CodingStateMachine" kindref="compound">CodingStateMachine</ref>(JOHAB_SM_MODEL)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1chardet_1_1johabprober_1_1JOHABProber_1aec22523f57067d483af89f1f261deacb" kindref="member">distribution_analyzer</ref><sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1chardet_1_1chardistribution_1_1JOHABDistributionAnalysis" kindref="compound">JOHABDistributionAnalysis</ref>()</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1chardet_1_1charsetprober_1_1CharSetProber_1aa710833ab46cd39e91a4cb7e51225db1" kindref="member">reset</ref><ref refid="classpip_1_1__vendor_1_1chardet_1_1mbcharsetprober_1_1MultiByteCharSetProber_1aa7855364c1f28f9b01b8c4eed4861b80" kindref="member">reset</ref>()</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1chardet_1_1mbcharsetprober_1_1MultiByteCharSetProber_1ac482e22b085d0a35cdc126c21501feda" kindref="member">charset_name</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Johab&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1chardet_1_1mbcharsetprober_1_1MultiByteCharSetProber_1a5335f4c3b71f52f1743d36fca617d366" kindref="member">language</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Korean&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/chardet/johabprober.py"/>
+  </compounddef>
+</doxygen>

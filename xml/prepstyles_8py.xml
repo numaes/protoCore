@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="prepstyles_8py" kind="file" language="Python">
+    <compoundname>prepstyles.py</compoundname>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1writers">docutils::writers</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1writers_1_1odf__odt">docutils::writers::odf_odt</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1writers_1_1odf__odt_1_1prepstyles">docutils::writers::odf_odt::prepstyles</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1writers_1_1odf__odt_1_1prepstyles" refkind="compound"><highlight class="comment">#!/usr/bin/env<sp/>python3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>$Id:<sp/>prepstyles.py<sp/>9386<sp/>2023-05-16<sp/>14:49:31Z<sp/>milde<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>Dave<sp/>Kuhlman<sp/>&lt;dkuhlman@rexx.com&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral">Adapt<sp/>a<sp/>word-processor-generated<sp/>styles.odt<sp/>for<sp/>odtwriter<sp/>use:</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral">Drop<sp/>page<sp/>size<sp/>specifications<sp/>from<sp/>styles.xml<sp/>in<sp/>STYLE_FILE.odt.</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral">See<sp/>https://docutils.sourceforge.io/docs/user/odt.html#page-size</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>Michael<sp/>Schutte<sp/>&lt;michi@uiae.at&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>xml.etree<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ElementTree<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>etree</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>zipfile</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>tempfile<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>mkstemp</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>shutil</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">NAMESPACES<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;style&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;urn:oasis:names:tc:opendocument:xmlns:style:1.0&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;fo&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacedocutils_1_1writers_1_1odf__odt_1_1prepstyles_1a926adaece671c7ef8787c9273313dde1" kindref="member">prepstyle</ref>(filename):</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>zin<sp/>=<sp/>zipfile.ZipFile(filename)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>styles<sp/>=<sp/>zin.open(</highlight><highlight class="stringliteral">&quot;styles.xml&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>root<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>some<sp/>extra<sp/>effort<sp/>to<sp/>preserve<sp/>namespace<sp/>prefixes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>event,<sp/>elem<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>etree.iterparse(styles,<sp/>events=(</highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start-ns&quot;</highlight><highlight class="normal">)):</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>event<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;start-ns&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>etree.register_namespace(elem[0],<sp/>elem[1])</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>event<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>root<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>root<sp/>=<sp/>elem</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>styles.close()</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>el<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>root.findall(</highlight><highlight class="stringliteral">&quot;.//style:page-layout-properties&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>namespaces=NAMESPACES):</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>attr<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>list(el.attrib):</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>attr.startswith(</highlight><highlight class="stringliteral">&quot;{%s}&quot;</highlight><highlight class="normal"><sp/>%<sp/>NAMESPACES[</highlight><highlight class="stringliteral">&quot;fo&quot;</highlight><highlight class="normal">]):</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>el.attrib[attr]</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>tempname<sp/>=<sp/>mkstemp()</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>zout<sp/>=<sp/>zipfile.ZipFile(os.fdopen(tempname[0],<sp/></highlight><highlight class="stringliteral">&quot;wb&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;w&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>zipfile.ZIP_DEFLATED)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>item<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>zin.infolist():</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>item.filename<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;styles.xml&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>zout.writestr(item,<sp/>etree.tostring(root,<sp/>encoding=</highlight><highlight class="stringliteral">&quot;UTF-8&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>zout.writestr(item,<sp/>zin.read(item.filename))</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>zout.close()</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>zin.close()</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>shutil.move(tempname[1],<sp/>filename)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacedocutils_1_1writers_1_1odf__odt_1_1prepstyles_1a501bbde67bd39986bccf50d2b11db4cb" kindref="member">main</ref>():</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>args<sp/>=<sp/>sys.argv[1:]</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>len(args)<sp/>!=<sp/>1<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>args[0]<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&apos;-h&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;--help&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(__doc__,<sp/>file=sys.stderr)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&quot;Usage:<sp/>%s<sp/>STYLE_FILE.odt\n&quot;</highlight><highlight class="normal"><sp/>%<sp/>sys.argv[0],<sp/>file=sys.stderr)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sys.exit(1)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>filename<sp/>=<sp/>args[0]</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedocutils_1_1writers_1_1odf__odt_1_1prepstyles_1a926adaece671c7ef8787c9273313dde1" kindref="member">prepstyle</ref>(filename)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedocutils_1_1writers_1_1odf__odt_1_1prepstyles_1a501bbde67bd39986bccf50d2b11db4cb" kindref="member">main</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/writers/odf_odt/prepstyles.py"/>
+  </compounddef>
+</doxygen>

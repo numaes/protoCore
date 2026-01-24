@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="rita_8py" kind="file" language="Python">
+    <compoundname>rita.py</compoundname>
+    <innerclass refid="classpygments_1_1lexers_1_1rita_1_1RitaLexer" prot="public">pygments::lexers::rita::RitaLexer</innerclass>
+    <innernamespace refid="namespacepygments">pygments</innernamespace>
+    <innernamespace refid="namespacepygments_1_1lexers">pygments::lexers</innernamespace>
+    <innernamespace refid="namespacepygments_1_1lexers_1_1rita">pygments::lexers::rita</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepygments_1_1lexers_1_1rita" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.lexers.rita</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Lexers<sp/>for<sp/>RITA<sp/>language</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2025<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1lexer" kindref="compound">pygments.lexer</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>RegexLexer</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1token" kindref="compound">pygments.token</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Comment,<sp/>Operator,<sp/>Keyword,<sp/>Name,<sp/>Literal,<sp/>\</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>Punctuation,<sp/>Whitespace</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;RitaLexer&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="classpygments_1_1lexers_1_1rita_1_1RitaLexer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1lexers_1_1rita_1_1RitaLexer" kindref="compound">RitaLexer</ref>(<ref refid="classpygments_1_1lexer_1_1RegexLexer" kindref="compound">RegexLexer</ref>):</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Lexer<sp/>for<sp/>RITA.</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Rita&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>url<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;https://github.com/zaibacu/rita-dsl&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>filenames<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;*.rita&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>aliases<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;rita&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>mimetypes<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;text/rita&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>version_added<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;2.11&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>tokens<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;root&apos;</highlight><highlight class="normal">:<sp/>[</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;\n&apos;</highlight><highlight class="normal">,<sp/>Whitespace),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;\s+&apos;</highlight><highlight class="normal">,<sp/>Whitespace),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;#(.*?)\n&apos;</highlight><highlight class="normal">,<sp/>Comment.Single),</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;@(.*?)\n&apos;</highlight><highlight class="normal">,<sp/>Operator),<sp/><sp/></highlight><highlight class="comment">#<sp/>Yes,<sp/>whole<sp/>line<sp/>as<sp/>an<sp/>operator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;&quot;(\w|\d|\s|(\\&quot;)|[\&apos;_\-./,\?\!])+?&quot;&apos;</highlight><highlight class="normal">,<sp/>Literal),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;\&apos;(\w|\d|\s|(\\\&apos;)|[&quot;_\-./,\?\!])+?\&apos;&apos;</highlight><highlight class="normal">,<sp/>Literal),</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;([A-Z_]+)&apos;</highlight><highlight class="normal">,<sp/>Keyword),</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;([a-z0-9_]+)&apos;</highlight><highlight class="normal">,<sp/>Name),</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;((-&gt;)|[!?+*|=])&apos;</highlight><highlight class="normal">,<sp/>Operator),</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">r&apos;[\(\),\{\}]&apos;</highlight><highlight class="normal">,<sp/>Punctuation)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/lexers/rita.py"/>
+  </compounddef>
+</doxygen>

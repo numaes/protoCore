@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1resolvelib_1_1resolvers_1_1Resolver" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::resolvelib::resolvers::Resolver</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver" prot="public" virt="non-virtual">pip._vendor.resolvelib.providers.AbstractResolver</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1resolvelib_1_1resolvers_1_1Resolver_1a608c37b1bb3d51c83b5d253b54aaa071" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.resolvelib.resolvers.Resolver::base_exception</definition>
+        <argsstring></argsstring>
+        <name>base_exception</name>
+        <qualifiedname>pip._vendor.resolvelib.resolvers.Resolver.base_exception</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1resolvelib_1_1resolvers_1_1ResolverException" kindref="compound">ResolverException</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers.py" line="515" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers.py" bodystart="515" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1resolvers_1_1Resolver_1a25647c106c5091f732ce1d799e458efc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.resolvers.Resolver.resolve</definition>
+        <argsstring>(self, requirements, max_rounds=100)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>pip._vendor.resolvelib.resolvers.Resolver.resolve</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver_1afc654fcd81b8c2544aa200a7923159f5">resolve</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>requirements</type>
+          <defname>requirements</defname>
+        </param>
+        <param>
+          <type>max_rounds</type>
+          <defname>max_rounds</defname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Take a collection of constraints, spit out the resolution result.
+
+The return value is a representation to the final resolution result. It
+is a tuple subclass with three public members:
+
+* `mapping`: A dict of resolved candidates. Each key is an identifier
+    of a requirement (as returned by the provider&apos;s `identify` method),
+    and the value is the resolved candidate.
+* `graph`: A `DirectedGraph` instance representing the dependency tree.
+    The vertices are keys of `mapping`, and each edge represents *why*
+    a particular package is included. A special vertex `None` is
+    included to represent parents of user-supplied requirements.
+* `criteria`: A dict of &quot;criteria&quot; that hold detailed information on
+    how edges in the graph are derived. Each key is an identifier of a
+    requirement, and the value is a `Criterion` instance.
+
+The following exceptions may be raised if a resolution cannot be found:
+
+* `ResolutionImpossible`: A resolution cannot be found for the given
+    combination of requirements. The `causes` attribute of the
+    exception is a list of (requirement, parent), giving the
+    requirements that could not be satisfied.
+* `ResolutionTooDeep`: The dependency tree is too deeply nested and
+    the resolver gave up. This is usually caused by a circular
+    dependency, but you can try to resolve this by increasing the
+    `max_rounds` argument.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers.py" line="517" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers.py" bodystart="517" bodyend="548"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The thing that performs the actual resolution work.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.resolvelib.resolvers.Resolver</label>
+        <link refid="classpip_1_1__vendor_1_1resolvelib_1_1resolvers_1_1Resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.resolvelib.providers.AbstractResolver</label>
+        <link refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.resolvelib.resolvers.Resolver</label>
+        <link refid="classpip_1_1__vendor_1_1resolvelib_1_1resolvers_1_1Resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.resolvelib.providers.AbstractResolver</label>
+        <link refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers.py" line="512" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/resolvers.py" bodystart="512" bodyend="548"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1resolvers_1_1Resolver_1a608c37b1bb3d51c83b5d253b54aaa071" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::resolvers::Resolver</scope><name>base_exception</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1resolvers_1_1Resolver_1a25647c106c5091f732ce1d799e458efc" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::resolvers::Resolver</scope><name>resolve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

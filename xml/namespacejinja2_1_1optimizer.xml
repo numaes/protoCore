@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1optimizer" kind="namespace" language="Python">
+    <compoundname>jinja2::optimizer</compoundname>
+    <innerclass refid="classjinja2_1_1optimizer_1_1Optimizer" prot="public">jinja2::optimizer::Optimizer</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1optimizer_1ad4eb7c63e569e911a3491d8e3cc04c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref></type>
+        <definition> nodes.Node jinja2.optimizer.optimize</definition>
+        <argsstring>(nodes.Node node, &quot;Environment&quot; environment)</argsstring>
+        <name>optimize</name>
+        <qualifiedname>jinja2.optimizer.optimize</qualifiedname>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The context hint can be used to perform an static optimization
+based on the context given.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/optimizer.py" line="20" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/optimizer.py" bodystart="20" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The optimizer tries to constant fold expressions and modify the AST
+in place so that it should be faster to evaluate.
+
+Because the AST does not contain all the scoping information and the
+compiler has to find that out, we cannot do all the optimizations we
+want. For example, loop unrolling doesn&apos;t work because unrolled loops
+would have a different scope. The solution would be a second syntax tree
+that stored the scoping rules.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/optimizer.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

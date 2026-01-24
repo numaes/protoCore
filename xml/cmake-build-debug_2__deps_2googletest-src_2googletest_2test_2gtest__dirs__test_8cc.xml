@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="cmake-build-debug_2__deps_2googletest-src_2googletest_2test_2gtest__dirs__test_8cc" kind="file" language="C++">
+    <compoundname>gtest_dirs_test.cc</compoundname>
+    <includes local="no">sys/stat.h</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes local="yes">gtest/internal/gtest-port.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>cmake-build-debug/_deps/googletest-src/googletest/test/gtest_dirs_test.cc</label>
+        <link refid="cmake-build-debug_2__deps_2googletest-src_2googletest_2test_2gtest__dirs__test_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdlib</label>
+      </node>
+      <node id="4">
+        <label>cstring</label>
+      </node>
+      <node id="6">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>gtest/internal/gtest-port.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>sys/stat.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;sys/stat.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/internal/gtest-port.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>GTEST_HAS_FILE_SYSTEM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SetEnv<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Sets<sp/>the<sp/>environment<sp/>value<sp/>with<sp/>name<sp/>`name`<sp/>to<sp/>`value`,<sp/>unless<sp/>`value`<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>nullptr,<sp/>in<sp/>which<sp/>case<sp/>it<sp/>unsets<sp/>it.<sp/>Restores<sp/>the<sp/>original<sp/>value<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>destruction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/>SetEnv(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>)<sp/>:<sp/>name_(<ref refid="namespacedocutils_1_1parsers_1_1rst_1a55a9422a08fef02a7efdff45b7321ebb" kindref="member">name</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>old_value<sp/>=<sp/>getenv(name);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(old_value<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>saved_value_<sp/>=<sp/>old_value;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>have_saved_value_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref><sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a38f6151210e363ad7c69a836b13cf0af" kindref="member">GTEST_CHECK_POSIX_SUCCESS_</ref>(unsetenv(name));</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a38f6151210e363ad7c69a836b13cf0af" kindref="member">GTEST_CHECK_POSIX_SUCCESS_</ref>(setenv(name,<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-actions__test_8cc_1ac4f474c82e82cbb89ca7c36dd52be0ed" kindref="member">value</ref>,<sp/>1<sp/></highlight><highlight class="comment">/*overwrite*/</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/>~SetEnv()<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(have_saved_value_)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a38f6151210e363ad7c69a836b13cf0af" kindref="member">GTEST_CHECK_POSIX_SUCCESS_</ref>(</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv(name_.c_str(),<sp/>saved_value_.c_str(),<sp/>1<sp/></highlight><highlight class="comment">/*overwrite*/</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a38f6151210e363ad7c69a836b13cf0af" kindref="member">GTEST_CHECK_POSIX_SUCCESS_</ref>(unsetenv(name_.c_str()));</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>std::string<sp/>name_;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>have_saved_value_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/>std::string<sp/>saved_value_;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MakeTempDir<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Creates<sp/>a<sp/>directory<sp/>with<sp/>a<sp/>unique<sp/>name<sp/>including<sp/>`testname`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>destructor<sp/>removes<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>MakeTempDir(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>testname)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mkdtemp<sp/>requires<sp/>that<sp/>the<sp/>last<sp/>6<sp/>characters<sp/>of<sp/>the<sp/>input<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>are<sp/>Xs,<sp/>and<sp/>the<sp/>string<sp/>is<sp/>modified<sp/>by<sp/>replacing<sp/>those<sp/>characters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacejinja2_1_1__identifier_1a0d26e5a4c772ff8fc0b9892ffd335d09" kindref="member">pattern</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/&quot;</highlight><highlight class="normal"><sp/>+<sp/>testname<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_XXXXXX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1ab54343f0a36dc4cb0ce8a478dd7847b8" kindref="member">GTEST_CHECK_</ref>(mkdtemp(<ref refid="namespacejinja2_1_1__identifier_1a0d26e5a4c772ff8fc0b9892ffd335d09" kindref="member">pattern</ref>.data())<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>dirname_<sp/>=<sp/><ref refid="namespacejinja2_1_1__identifier_1a0d26e5a4c772ff8fc0b9892ffd335d09" kindref="member">pattern</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>~MakeTempDir()<sp/>{<sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2internal_2gtest-port_8h_1a38f6151210e363ad7c69a836b13cf0af" kindref="member">GTEST_CHECK_POSIX_SUCCESS_</ref>(rmdir(dirname_.c_str()));<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>DirName()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dirname_.c_str();<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>std::string<sp/>dirname_;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacetesting_1_1internal_1ae0522f740806da841ae21bc71804e038" kindref="member">StartsWith</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1requests_1_1compat_1a0a3891b273b8f1ce270e9356700eb984" kindref="member">str</ref>.substr(0,<sp/>prefix.size())<sp/>==<sp/>prefix;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(TempDirTest,<sp/>InEnvironment)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Since<sp/>the<sp/>test<sp/>infrastructure<sp/>might<sp/>be<sp/>verifying<sp/>directory<sp/>existence<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>even<sp/>creating<sp/>subdirectories,<sp/>we<sp/>need<sp/>to<sp/>be<sp/>careful<sp/>that<sp/>the<sp/>directories<sp/>we</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>specify<sp/>are<sp/>actually<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/>MakeTempDir<sp/>temp_dir(</highlight><highlight class="stringliteral">&quot;TempDirTest_InEnvironment&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/>SetEnv<sp/>set_env(</highlight><highlight class="stringliteral">&quot;TEST_TMPDIR&quot;</highlight><highlight class="normal">,<sp/>temp_dir.DirName());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(<ref refid="namespacetesting_1_1internal_1ae0522f740806da841ae21bc71804e038" kindref="member">StartsWith</ref>(<ref refid="namespacetesting_1aae1bbe7c3cc99bf56263d51d3982a52e" kindref="member">testing::TempDir</ref>(),<sp/>temp_dir.DirName()));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(TempDirTest,<sp/>NotInEnvironment)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>SetEnv<sp/>set_env(</highlight><highlight class="stringliteral">&quot;TEST_TMPDIR&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE</ref>(<ref refid="namespacetesting_1aae1bbe7c3cc99bf56263d51d3982a52e" kindref="member">testing::TempDir</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(SrcDirTest,<sp/>InEnvironment)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Since<sp/>the<sp/>test<sp/>infrastructure<sp/>might<sp/>be<sp/>verifying<sp/>directory<sp/>existence<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>even<sp/>creating<sp/>subdirectories,<sp/>we<sp/>need<sp/>to<sp/>be<sp/>careful<sp/>that<sp/>the<sp/>directories<sp/>we</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>specify<sp/>are<sp/>actually<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>MakeTempDir<sp/>temp_dir(</highlight><highlight class="stringliteral">&quot;SrcDirTest_InEnvironment&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>SetEnv<sp/>set_env(</highlight><highlight class="stringliteral">&quot;TEST_SRCDIR&quot;</highlight><highlight class="normal">,<sp/>temp_dir.DirName());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(<ref refid="namespacetesting_1_1internal_1ae0522f740806da841ae21bc71804e038" kindref="member">StartsWith</ref>(<ref refid="namespacetesting_1a8b496b373fb858ecbe52634e414e8d41" kindref="member">testing::SrcDir</ref>(),<sp/>temp_dir.DirName()));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(SrcDirTest,<sp/>NotInEnvironment)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>SetEnv<sp/>set_env(</highlight><highlight class="stringliteral">&quot;TEST_SRCDIR&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1a6ae7443947f25abc58bfcfcfc56b0d75" kindref="member">EXPECT_NE</ref>(<ref refid="namespacetesting_1a8b496b373fb858ecbe52634e414e8d41" kindref="member">testing::SrcDir</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>GTEST_HAS_FILE_SYSTEM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="cmake-build-debug/_deps/googletest-src/googletest/test/gtest_dirs_test.cc"/>
+  </compounddef>
+</doxygen>

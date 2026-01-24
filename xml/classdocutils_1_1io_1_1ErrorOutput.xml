@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1io_1_1ErrorOutput" kind="class" language="Python" prot="public">
+    <compoundname>docutils::io::ErrorOutput</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1ErrorOutput_1a8119f1c83d7f2154d9f40f8ee27f3fbc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.ErrorOutput::destination</definition>
+        <argsstring></argsstring>
+        <name>destination</name>
+        <qualifiedname>docutils.io.ErrorOutput.destination</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="293" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1ErrorOutput_1ae520995bd7fafe9c12ae668fe9835ee3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.ErrorOutput::encoding</definition>
+        <argsstring></argsstring>
+        <name>encoding</name>
+        <qualifiedname>docutils.io.ErrorOutput.encoding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="296" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1ErrorOutput_1ae5775d6eba3a72115b38f7e15e4dd43a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.ErrorOutput::encoding_errors</definition>
+        <argsstring></argsstring>
+        <name>encoding_errors</name>
+        <qualifiedname>docutils.io.ErrorOutput.encoding_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="300" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1io_1_1ErrorOutput_1a6fe8fa21e13d2355df548ae43e7914ba" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.io.ErrorOutput::decoding_errors</definition>
+        <argsstring></argsstring>
+        <name>decoding_errors</name>
+        <qualifiedname>docutils.io.ErrorOutput.decoding_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="303" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="303" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1io_1_1ErrorOutput_1afcf47148e4c2bb92ac308d088437c97b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.ErrorOutput.__init__</definition>
+        <argsstring>(self, destination=None, encoding=None, encoding_errors=&apos;backslashreplace&apos;, decoding_errors=&apos;replace&apos;)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.io.ErrorOutput.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1io_1_1ErrorOutput_1a8119f1c83d7f2154d9f40f8ee27f3fbc" kindref="member">destination</ref></type>
+          <defname>destination</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1io_1_1ErrorOutput_1ae520995bd7fafe9c12ae668fe9835ee3" kindref="member">encoding</ref></type>
+          <defname>encoding</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1io_1_1ErrorOutput_1ae5775d6eba3a72115b38f7e15e4dd43a" kindref="member">encoding_errors</ref></type>
+          <defname>encoding_errors</defname>
+          <defval>&apos;backslashreplace&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1io_1_1ErrorOutput_1a6fe8fa21e13d2355df548ae43e7914ba" kindref="member">decoding_errors</ref></type>
+          <defname>decoding_errors</defname>
+          <defval>&apos;replace&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:Parameters:
+    - `destination`: a file-like object,
+                a string (path to a file),
+                `None` (write to `sys.stderr`, default), or
+                evaluating to `False` (write() requests are ignored).
+    - `encoding`: `destination` text encoding. Guessed if None.
+    - `encoding_errors`: how to treat encoding errors.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="273" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="275" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1io_1_1ErrorOutput_1a871d0e4ef304cf9c4c592813a7aa82f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.ErrorOutput.write</definition>
+        <argsstring>(self, data)</argsstring>
+        <name>write</name>
+        <qualifiedname>docutils.io.ErrorOutput.write</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write `data` to self.destination. Ignore, if self.destination is False.
+
+`data` can be a `bytes`, `str`, or `Exception` instance.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="306" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="306" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1io_1_1ErrorOutput_1a349fb642e0b06993af3df5facbec9258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.ErrorOutput.close</definition>
+        <argsstring>(self)</argsstring>
+        <name>close</name>
+        <qualifiedname>docutils.io.ErrorOutput.close</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Close the error-output stream.
+
+Ignored if the destination is` sys.stderr` or `sys.stdout` or has no
+close() method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="332" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="332" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1io_1_1ErrorOutput_1a283b346ee0d3ca060619bf4195d860b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.ErrorOutput.isatty</definition>
+        <argsstring>(self)</argsstring>
+        <name>isatty</name>
+        <qualifiedname>docutils.io.ErrorOutput.isatty</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return True, if the destination is connected to a TTY device.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="346" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="346" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Wrapper class for file-like error streams with
+failsafe de- and encoding of `str`, `bytes`, `unicode` and
+`Exception` instances.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/io.py" line="266" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/io.py" bodystart="266" bodyend="353"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1io_1_1ErrorOutput_1afcf47148e4c2bb92ac308d088437c97b" prot="public" virt="non-virtual"><scope>docutils::io::ErrorOutput</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1io_1_1ErrorOutput_1a349fb642e0b06993af3df5facbec9258" prot="public" virt="non-virtual"><scope>docutils::io::ErrorOutput</scope><name>close</name></member>
+      <member refid="classdocutils_1_1io_1_1ErrorOutput_1a6fe8fa21e13d2355df548ae43e7914ba" prot="public" virt="non-virtual"><scope>docutils::io::ErrorOutput</scope><name>decoding_errors</name></member>
+      <member refid="classdocutils_1_1io_1_1ErrorOutput_1a8119f1c83d7f2154d9f40f8ee27f3fbc" prot="public" virt="non-virtual"><scope>docutils::io::ErrorOutput</scope><name>destination</name></member>
+      <member refid="classdocutils_1_1io_1_1ErrorOutput_1ae520995bd7fafe9c12ae668fe9835ee3" prot="public" virt="non-virtual"><scope>docutils::io::ErrorOutput</scope><name>encoding</name></member>
+      <member refid="classdocutils_1_1io_1_1ErrorOutput_1ae5775d6eba3a72115b38f7e15e4dd43a" prot="public" virt="non-virtual"><scope>docutils::io::ErrorOutput</scope><name>encoding_errors</name></member>
+      <member refid="classdocutils_1_1io_1_1ErrorOutput_1a283b346ee0d3ca060619bf4195d860b0" prot="public" virt="non-virtual"><scope>docutils::io::ErrorOutput</scope><name>isatty</name></member>
+      <member refid="classdocutils_1_1io_1_1ErrorOutput_1a871d0e4ef304cf9c4c592813a7aa82f3" prot="public" virt="non-virtual"><scope>docutils::io::ErrorOutput</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

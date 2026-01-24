@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1util_1_1requests_1_1__Session" kind="class" language="Python" prot="protected">
+    <compoundname>sphinx::util::requests::_Session</compoundname>
+    <basecompoundref refid="classrequests_1_1sessions_1_1Session" prot="public" virt="non-virtual">requests.sessions.Session</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1requests_1_1__Session_1aad61a0beada202359f4bfb01e27d8a84" prot="protected" static="yes" mutable="no">
+        <type>Sequence</type>
+        <definition>Sequence sphinx.util.requests._Session::_ignored_redirects</definition>
+        <argsstring></argsstring>
+        <name>_ignored_redirects</name>
+        <qualifiedname>sphinx.util.requests._Session._ignored_redirects</qualifiedname>
+        <initializer>[re.Pattern[str]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="67" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1requests_1_1__Session_1ad584808ce6fcde269a6f8e84e16fd2ff" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.requests._Session::_ignored_redirects</definition>
+        <argsstring></argsstring>
+        <name>_ignored_redirects</name>
+        <qualifiedname>sphinx.util.requests._Session._ignored_redirects</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="70" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1util_1_1requests_1_1__Session_1a2adc46c0ec54e38da6924b5a34f415eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.requests._Session.__init__</definition>
+        <argsstring>(self, *Any args, **Any kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.util.requests._Session.__init__</qualifiedname>
+        <reimplements refid="classrequests_1_1sessions_1_1Session_1a5b58912b327aa78cd4502ec2569b6281">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="69" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1requests_1_1__Session_1ad365d7ea027ef1489e638d76b4cc915e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.util.requests._Session.get_redirect_target</definition>
+        <argsstring>(self, requests.Response resp)</argsstring>
+        <name>get_redirect_target</name>
+        <qualifiedname>sphinx.util.requests._Session.get_redirect_target</qualifiedname>
+        <reimplements refid="classrequests_1_1sessions_1_1SessionRedirectMixin_1a15e8423f68028b3267423133e2ee6758">get_redirect_target</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classrequests_1_1models_1_1Response" kindref="compound">requests.Response</ref></type>
+          <declname>resp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Overrides the default requests.Session.get_redirect_target</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="73" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="73" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1requests_1_1__Session_1a1a6de09085305c7d79bdee013a05a47b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrequests_1_1models_1_1Response" kindref="compound">requests.Response</ref></type>
+        <definition> requests.Response sphinx.util.requests._Session.request</definition>
+        <argsstring>(self, str method, str url, str _user_agent=&apos;&apos;, tuple[bool, str|dict[str, str]|None] _tls_info=(), **Any kwargs)</argsstring>
+        <name>request</name>
+        <qualifiedname>sphinx.util.requests._Session.request</qualifiedname>
+        <reimplements refid="classrequests_1_1sessions_1_1Session_1ae79cf85dd8a3868d1399f5c9dc9573fb">request</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>_user_agent</declname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <param>
+          <type>tuple|None]</type>
+          <declname>_tls_info</declname>
+          <array>[bool, str|dict[str, str]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a request with an HTTP verb and url.
+
+This sets up User-Agent header and TLS verification automatically.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="84" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="91" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>requests.sessions.Session</label>
+        <link refid="classrequests_1_1sessions_1_1Session"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>requests.sessions.SessionRedirectMixin</label>
+        <link refid="classrequests_1_1sessions_1_1SessionRedirectMixin"/>
+      </node>
+      <node id="1">
+        <label>sphinx.util.requests._Session</label>
+        <link refid="classsphinx_1_1util_1_1requests_1_1__Session"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>Sequence</label>
+      </node>
+      <node id="2">
+        <label>requests.sessions.Session</label>
+        <link refid="classrequests_1_1sessions_1_1Session"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>requests.sessions.SessionRedirectMixin</label>
+        <link refid="classrequests_1_1sessions_1_1SessionRedirectMixin"/>
+      </node>
+      <node id="1">
+        <label>sphinx.util.requests._Session</label>
+        <link refid="classsphinx_1_1util_1_1requests_1_1__Session"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>_ignored_redirects</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="66" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="66" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1util_1_1requests_1_1__Session_1a2adc46c0ec54e38da6924b5a34f415eb" prot="public" virt="non-virtual"><scope>sphinx::util::requests::_Session</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1util_1_1requests_1_1__Session_1aad61a0beada202359f4bfb01e27d8a84" prot="protected" virt="non-virtual"><scope>sphinx::util::requests::_Session</scope><name>_ignored_redirects</name></member>
+      <member refid="classsphinx_1_1util_1_1requests_1_1__Session_1ad584808ce6fcde269a6f8e84e16fd2ff" prot="protected" virt="non-virtual"><scope>sphinx::util::requests::_Session</scope><name>_ignored_redirects</name></member>
+      <member refid="classsphinx_1_1util_1_1requests_1_1__Session_1ad365d7ea027ef1489e638d76b4cc915e" prot="public" virt="non-virtual"><scope>sphinx::util::requests::_Session</scope><name>get_redirect_target</name></member>
+      <member refid="classsphinx_1_1util_1_1requests_1_1__Session_1a1a6de09085305c7d79bdee013a05a47b" prot="public" virt="non-virtual"><scope>sphinx::util::requests::_Session</scope><name>request</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

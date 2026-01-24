@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pep_8py" kind="file" language="Python">
+    <compoundname>pep.py</compoundname>
+    <innerclass refid="classdocutils_1_1readers_1_1pep_1_1Reader" prot="public">docutils::readers::pep::Reader</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1readers">docutils::readers</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1readers_1_1pep">docutils::readers::pep</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1readers_1_1pep" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>pep.py<sp/>9258<sp/>2022-11-21<sp/>14:51:43Z<sp/>milde<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>David<sp/>Goodger<sp/>&lt;goodger@python.org&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">Python<sp/>Enhancement<sp/>Proposal<sp/>(PEP)<sp/>Reader.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">__docformat__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;reStructuredText&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1readers" kindref="compound">docutils.readers</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>standalone</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms" kindref="compound">docutils.transforms</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>peps,<sp/>frontmatter</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers" kindref="compound">docutils.parsers</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>rst</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="classdocutils_1_1readers_1_1pep_1_1Reader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1readers_1_1pep_1_1Reader" kindref="compound">Reader</ref>(<ref refid="classdocutils_1_1readers_1_1standalone_1_1Reader" kindref="compound">standalone.Reader</ref>):</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>supported<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;pep&apos;</highlight><highlight class="normal">,)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Contexts<sp/>this<sp/>reader<sp/>supports.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>settings_spec<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;PEP<sp/>Reader<sp/>Option<sp/>Defaults&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;The<sp/>--pep-references<sp/>and<sp/>--rfc-references<sp/>options<sp/>(for<sp/>the<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;reStructuredText<sp/>parser)<sp/>are<sp/>on<sp/>by<sp/>default.&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>())</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;pep<sp/>reader&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section_dependencies<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;readers&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;standalone<sp/>reader&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1readers_1_1pep_1_1Reader_1a50609852da6a69086a45039b1faa0fb0" kindref="member">get_transforms</ref>(self):</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transforms<sp/>=<sp/>super().<ref refid="classdocutils_1_1readers_1_1pep_1_1Reader_1a50609852da6a69086a45039b1faa0fb0" kindref="member">get_transforms</ref>()</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>We<sp/>have<sp/>PEP-specific<sp/>frontmatter<sp/>handling.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transforms.remove(frontmatter.DocTitle)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transforms.remove(frontmatter.SectionSubTitle)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transforms.remove(frontmatter.DocInfo)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transforms.extend([peps.Headers,<sp/>peps.Contents,<sp/>peps.TargetNotes])</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>transforms</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>settings_default_overrides<sp/>=<sp/>{</highlight><highlight class="stringliteral">&apos;pep_references&apos;</highlight><highlight class="normal">:<sp/>1,<sp/></highlight><highlight class="stringliteral">&apos;rfc_references&apos;</highlight><highlight class="normal">:<sp/>1}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>inliner_class<sp/>=<sp/>rst.states.Inliner</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1readers_1_1pep_1_1Reader_1ae707cbc4070de1887fae6a053f5ea645" kindref="member">__init__</ref>(self,<sp/>parser=None,<sp/>parser_name=None):</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;`parser`<sp/>should<sp/>be<sp/>``None``.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>parser<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parser<sp/>=<sp/>rst.Parser(rfc2822=</highlight><highlight class="keyword">True</highlight><highlight class="normal">,<sp/>inliner=self.<ref refid="classdocutils_1_1readers_1_1pep_1_1Reader_1ad181002afd8eeb2bf624c11d6f0d59cc" kindref="member">inliner_class</ref>())</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>standalone.Reader.__init__(self,<sp/>parser,<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/readers/pep.py"/>
+  </compounddef>
+</doxygen>

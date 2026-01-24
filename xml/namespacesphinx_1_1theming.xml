@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1theming" kind="namespace" language="Python">
+    <compoundname>sphinx::theming</compoundname>
+    <innerclass refid="classsphinx_1_1theming_1_1__ConfigFile" prot="protected">sphinx::theming::_ConfigFile</innerclass>
+    <innerclass refid="classsphinx_1_1theming_1_1__ThemeToml" prot="protected">sphinx::theming::_ThemeToml</innerclass>
+    <innerclass refid="classsphinx_1_1theming_1_1__ThemeTomlTheme" prot="protected">sphinx::theming::_ThemeTomlTheme</innerclass>
+    <innerclass refid="classsphinx_1_1theming_1_1__ThemeTomlThemePygments" prot="protected">sphinx::theming::_ThemeTomlThemePygments</innerclass>
+    <innerclass refid="classsphinx_1_1theming_1_1HTMLThemeFactory" prot="public">sphinx::theming::HTMLThemeFactory</innerclass>
+    <innerclass refid="classsphinx_1_1theming_1_1Theme" prot="public">sphinx::theming::Theme</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1theming_1aa673a4cde3a07ed0efa140f23c7c2af8" prot="private" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::theming.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>sphinx.theming.__all__</qualifiedname>
+        <initializer>=  (&apos;<ref refid="classsphinx_1_1theming_1_1Theme" kindref="compound">Theme</ref>&apos;, &apos;<ref refid="classsphinx_1_1theming_1_1HTMLThemeFactory" kindref="compound">HTMLThemeFactory</ref>&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="5" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="5" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1theming_1a02a383b026c3b43a7eb0af92418493e4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::theming.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.theming.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="47" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1theming_1a81a2b3545a9575454a332b8095b7598b" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::theming._NO_DEFAULT</definition>
+        <argsstring></argsstring>
+        <name>_NO_DEFAULT</name>
+        <qualifiedname>sphinx.theming._NO_DEFAULT</qualifiedname>
+        <initializer>=  object()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="49" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1theming_1aff0387499feee197ab95960a37f9bf9b" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::theming._THEME_TOML</definition>
+        <argsstring></argsstring>
+        <name>_THEME_TOML</name>
+        <qualifiedname>sphinx.theming._THEME_TOML</qualifiedname>
+        <initializer>=  &apos;theme.toml&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="50" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1theming_1ad9556152aabad586ba3ba1b6e16e1bbc" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::theming._THEME_CONF</definition>
+        <argsstring></argsstring>
+        <name>_THEME_CONF</name>
+        <qualifiedname>sphinx.theming._THEME_CONF</qualifiedname>
+        <initializer>=  &apos;theme.conf&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="51" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1a8fc8e87f4582ca7e5186c5178762a1f8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.theming._is_archived_theme</definition>
+        <argsstring>(Path filename)</argsstring>
+        <name>_is_archived_theme</name>
+        <qualifiedname>sphinx.theming._is_archived_theme</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether the specified file is an archived theme file or not.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="238" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="238" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1a97a64c686f68c0e617be8903395ce0a8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[dict[str, <ref refid="classsphinx_1_1theming_1_1__ConfigFile" kindref="compound">_ConfigFile</ref>], list[Path], list[Path]]</type>
+        <definition> tuple[dict[str, _ConfigFile], list[Path], list[Path]] sphinx.theming._load_theme_with_ancestors</definition>
+        <argsstring>(str name, dict[str, _StrPath] theme_paths, dict[str, Callable[[], None]] entry_point_themes)</argsstring>
+        <name>_load_theme_with_ancestors</name>
+        <qualifiedname>sphinx.theming._load_theme_with_ancestors</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>theme_paths</declname>
+          <array>[str, _StrPath]</array>
+        </param>
+        <param>
+          <type>dict</type>
+          <defname>entry_point_themes</defname>
+          <array>[str, Callable[[]</array>
+        </param>
+        <param>
+          <type>None]]</type>
+          <declname>entry_point_themes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="248" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="253" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1ab89e2024b29736a78c160ea6a898c85d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, Path, Path|None, <ref refid="classsphinx_1_1theming_1_1__ConfigFile" kindref="compound">_ConfigFile</ref>]</type>
+        <definition> tuple[str, Path, Path | None, _ConfigFile] sphinx.theming._load_theme</definition>
+        <argsstring>(str name, Path theme_path)</argsstring>
+        <name>_load_theme</name>
+        <qualifiedname>sphinx.theming._load_theme</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>theme_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="288" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="290" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1a6d5f36191f55824003b4279415fecd4f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.theming._extract_zip</definition>
+        <argsstring>(Path filename, Path target_dir)</argsstring>
+        <name>_extract_zip</name>
+        <qualifiedname>sphinx.theming._extract_zip</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>target_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract zip file to target directory.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="315" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="315" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1af8f35cdf05aa44512b639b2d430b5dbd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1theming_1_1__ThemeToml" kindref="compound">_ThemeToml</ref></type>
+        <definition> _ThemeToml sphinx.theming._load_theme_toml</definition>
+        <argsstring>(Path config_file_path)</argsstring>
+        <name>_load_theme_toml</name>
+        <qualifiedname>sphinx.theming._load_theme_toml</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>config_file_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="328" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="328" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1a7cab8777756215da6ddc0b98315b9cb1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.theming._validate_theme_toml</definition>
+        <argsstring>(_ThemeToml cfg, str name)</argsstring>
+        <name>_validate_theme_toml</name>
+        <qualifiedname>sphinx.theming._validate_theme_toml</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1theming_1_1__ThemeToml" kindref="compound">_ThemeToml</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="333" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="333" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1a657eb576b7634e1b35b1f01319fd999b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1theming_1_1__ConfigFile" kindref="compound">_ConfigFile</ref></type>
+        <definition> _ConfigFile sphinx.theming._convert_theme_toml</definition>
+        <argsstring>(_ThemeToml cfg)</argsstring>
+        <name>_convert_theme_toml</name>
+        <qualifiedname>sphinx.theming._convert_theme_toml</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1theming_1_1__ThemeToml" kindref="compound">_ThemeToml</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="352" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="352" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1a0da32785ef93c69784ebbacfd0c8aae9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>configparser.RawConfigParser</type>
+        <definition> configparser.RawConfigParser sphinx.theming._load_theme_conf</definition>
+        <argsstring>(Path config_file_path)</argsstring>
+        <name>_load_theme_conf</name>
+        <qualifiedname>sphinx.theming._load_theme_conf</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>config_file_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="380" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="380" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1a6557549e61c4eb4bfb3ed605cdd6a72b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.theming._validate_theme_conf</definition>
+        <argsstring>(configparser.RawConfigParser cfg, str name)</argsstring>
+        <name>_validate_theme_conf</name>
+        <qualifiedname>sphinx.theming._validate_theme_conf</qualifiedname>
+        <param>
+          <type>configparser.RawConfigParser</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="386" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="386" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1ae97d7c78fd3ebde9f0b89715d2380db9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1theming_1_1__ConfigFile" kindref="compound">_ConfigFile</ref></type>
+        <definition> _ConfigFile sphinx.theming._convert_theme_conf</definition>
+        <argsstring>(configparser.RawConfigParser cfg)</argsstring>
+        <name>_convert_theme_conf</name>
+        <qualifiedname>sphinx.theming._convert_theme_conf</qualifiedname>
+        <param>
+          <type>configparser.RawConfigParser</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="395" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="395" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1theming_1a3de4a70d11065880f11e51d2d33998d7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.theming._migrate_conf_to_toml</definition>
+        <argsstring>(list[str] argv)</argsstring>
+        <name>_migrate_conf_to_toml</name>
+        <qualifiedname>sphinx.theming._migrate_conf_to_toml</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>argv</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="479" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" bodystart="479" bodyend="547"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Theming support for HTML builders.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/theming.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

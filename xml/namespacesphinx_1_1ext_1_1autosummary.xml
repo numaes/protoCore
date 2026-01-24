@@ -1,0 +1,548 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1autosummary" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::autosummary</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1autosummary_1_1AutoLink" prot="public">sphinx::ext::autosummary::AutoLink</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autosummary_1_1Autosummary" prot="public">sphinx::ext::autosummary::Autosummary</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autosummary_1_1autosummary__table" prot="public">sphinx::ext::autosummary::autosummary_table</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autosummary_1_1autosummary__toc" prot="public">sphinx::ext::autosummary::autosummary_toc</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autosummary_1_1FakeApplication" prot="public">sphinx::ext::autosummary::FakeApplication</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autosummary_1_1FakeDirective" prot="public">sphinx::ext::autosummary::FakeDirective</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1autosummary_1_1ImportExceptionGroup" prot="public">sphinx::ext::autosummary::ImportExceptionGroup</innerclass>
+    <innernamespace refid="namespacesphinx_1_1ext_1_1autosummary_1_1generate">sphinx::ext::autosummary::generate</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1autosummary_1ad83da05a423317f087b3fd6065363b22" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::autosummary.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.autosummary.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="104" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1autosummary_1a9285af90482e4fbdde5caa480cf246a6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::autosummary.periods_re</definition>
+        <argsstring></argsstring>
+        <name>periods_re</name>
+        <qualifiedname>sphinx.ext.autosummary.periods_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\.(?:\s+)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="107" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1autosummary_1a8489a226f68f5350f93d90898c17252a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::autosummary.literal_re</definition>
+        <argsstring></argsstring>
+        <name>literal_re</name>
+        <qualifiedname>sphinx.ext.autosummary.literal_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;::\s*$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="108" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1autosummary_1a517f2506f46323f2129ca87cf580bd0b" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::ext::autosummary.WELL_KNOWN_ABBREVIATIONS</definition>
+        <argsstring></argsstring>
+        <name>WELL_KNOWN_ABBREVIATIONS</name>
+        <qualifiedname>sphinx.ext.autosummary.WELL_KNOWN_ABBREVIATIONS</qualifiedname>
+        <initializer>=  (&apos;et al.&apos;, &apos;e.g.&apos;, &apos;i.e.&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="110" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1abfced6dd5bb98be8e41bee7ddf1ec514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autosummary.autosummary_toc_visit_html</definition>
+        <argsstring>(nodes.NodeVisitor self, autosummary_toc node)</argsstring>
+        <name>autosummary_toc_visit_html</name>
+        <qualifiedname>sphinx.ext.autosummary.autosummary_toc_visit_html</qualifiedname>
+        <param>
+          <type>nodes.NodeVisitor</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1autosummary_1_1autosummary__toc" kindref="compound">autosummary_toc</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Hide autosummary toctree list in HTML output.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="120" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="120" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1a88693be1277b3c91638622f09becabcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autosummary.autosummary_noop</definition>
+        <argsstring>(nodes.NodeVisitor self, Node node)</argsstring>
+        <name>autosummary_noop</name>
+        <qualifiedname>sphinx.ext.autosummary.autosummary_noop</qualifiedname>
+        <param>
+          <type>nodes.NodeVisitor</type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="125" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="125" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1ab030467ae8793f3b0844347770b7a7d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autosummary.autosummary_table_visit_html</definition>
+        <argsstring>(HTML5Translator self, autosummary_table node)</argsstring>
+        <name>autosummary_table_visit_html</name>
+        <qualifiedname>sphinx.ext.autosummary.autosummary_table_visit_html</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1html5_1_1HTML5Translator" kindref="compound">HTML5Translator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1autosummary_1_1autosummary__table" kindref="compound">autosummary_table</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make the first column of the table non-breaking.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="136" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="138" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1aad2835c2bebcd227ddcccf662b9350f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>type[<ref refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter" kindref="compound">Documenter</ref>]</type>
+        <definition> type[Documenter] sphinx.ext.autosummary.get_documenter</definition>
+        <argsstring>(Sphinx app, Any obj, Any parent)</argsstring>
+        <name>get_documenter</name>
+        <qualifiedname>sphinx.ext.autosummary.get_documenter</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an autodoc.Documenter class suitable for documenting the given
+object.
+
+*obj* is the Python object to be documented, and *parent* is an
+another Python object (e.g. a module or a class) to which *obj*
+belongs to.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="183" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="183" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1ae86aa4b5e1aa7b9682a505033eaf413e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>type[<ref refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter" kindref="compound">Documenter</ref>]</type>
+        <definition> type[Documenter] sphinx.ext.autosummary._get_documenter</definition>
+        <argsstring>(Any obj, Any parent, *SphinxComponentRegistry registry)</argsstring>
+        <name>_get_documenter</name>
+        <qualifiedname>sphinx.ext.autosummary._get_documenter</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>parent</declname>
+        </param>
+        <param>
+          <type>*<ref refid="classsphinx_1_1registry_1_1SphinxComponentRegistry" kindref="compound">SphinxComponentRegistry</ref></type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an autodoc.Documenter class suitable for documenting the given
+object.
+
+*obj* is the Python object to be documented, and *parent* is an
+another Python object (e.g. a module or a class) to which *obj*
+belongs to.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="194" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="196" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1a06c21dfee2a4cc0d18d31572e9925942" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.autosummary.strip_arg_typehint</definition>
+        <argsstring>(str s)</argsstring>
+        <name>strip_arg_typehint</name>
+        <qualifiedname>sphinx.ext.autosummary.strip_arg_typehint</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Strip a type hint from argument definition.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="512" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="512" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1add772da4ba4db04a809b58c7ee443876" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.autosummary._cleanup_signature</definition>
+        <argsstring>(str s)</argsstring>
+        <name>_cleanup_signature</name>
+        <qualifiedname>sphinx.ext.autosummary._cleanup_signature</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Clean up signature using inspect.signautre() for mangle_signature()</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="517" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="517" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1a86e085415ef66ec3fc1e0356a3975bd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.autosummary.mangle_signature</definition>
+        <argsstring>(str sig, int max_chars=30)</argsstring>
+        <name>mangle_signature</name>
+        <qualifiedname>sphinx.ext.autosummary.mangle_signature</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_chars</declname>
+          <defval>30</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reformat a function signature to a more compact form.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="537" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="537" bodyend="598"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1ac3f5df76733d15d5a240d69af3a70d2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.autosummary.extract_summary</definition>
+        <argsstring>(list[str] doc, Any document)</argsstring>
+        <name>extract_summary</name>
+        <qualifiedname>sphinx.ext.autosummary.extract_summary</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>doc</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract summary from docstring.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="599" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="599" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1a527bfb00a2cf6e59bb2100b1a12f7734" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.autosummary.limited_join</definition>
+        <argsstring>(str sep, list[str] items, int max_chars=30, str overflow_marker=&apos;...&apos;)</argsstring>
+        <name>limited_join</name>
+        <qualifiedname>sphinx.ext.autosummary.limited_join</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>sep</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>items</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_chars</declname>
+          <defval>30</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>overflow_marker</declname>
+          <defval>&apos;...&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Join a number of strings into one, limiting the length to *max_chars*.
+
+If the string overflows this limit, replace the last fitting item by
+*overflow_marker*.
+
+Returns: joined_string
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="656" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="658" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1a0507dc619c5838783a173e042cb2797b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str|None]</type>
+        <definition> list[str | None] sphinx.ext.autosummary.get_import_prefixes_from_env</definition>
+        <argsstring>(BuildEnvironment env)</argsstring>
+        <name>get_import_prefixes_from_env</name>
+        <qualifiedname>sphinx.ext.autosummary.get_import_prefixes_from_env</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Obtain current Python import prefixes (for `import_by_name`)
+from ``document.env``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="698" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="698" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1aa595cce94ca03167e8be46baa570c6a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, Any, Any, str]</type>
+        <definition> tuple[str, Any, Any, str] sphinx.ext.autosummary.import_by_name</definition>
+        <argsstring>(str name, Sequence[str|None] prefixes=(None,))</argsstring>
+        <name>import_by_name</name>
+        <qualifiedname>sphinx.ext.autosummary.import_by_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>prefixes</declname>
+          <array>[str|None]</array>
+          <defval>(None,)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Import a Python object that has the given *name*, under one of the
+*prefixes*.  The first name that succeeds is used.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="718" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="720" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1ad54c5c74c86690d5433c72a64a22a330" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Any, Any, str]</type>
+        <definition> tuple[Any, Any, str] sphinx.ext.autosummary._import_by_name</definition>
+        <argsstring>(str name, bool grouped_exception=True)</argsstring>
+        <name>_import_by_name</name>
+        <qualifiedname>sphinx.ext.autosummary._import_by_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>grouped_exception</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Import a Python object given its full name.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="762" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="762" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1aa5e82396498b75396deabdfaa220b46b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, Any, Any, str]</type>
+        <definition> tuple[str, Any, Any, str] sphinx.ext.autosummary.import_ivar_by_name</definition>
+        <argsstring>(str name, Sequence[str|None] prefixes=(None,), bool grouped_exception=True)</argsstring>
+        <name>import_ivar_by_name</name>
+        <qualifiedname>sphinx.ext.autosummary.import_ivar_by_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>prefixes</declname>
+          <array>[str|None]</array>
+          <defval>(None,)</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>grouped_exception</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Import an instance variable that has the given *name*, under one of the
+*prefixes*.  The first name that succeeds is used.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="809" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="811" bodyend="846"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1a396996286214811be1f3faf801d3cb9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.ext.autosummary.get_rst_suffix</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>get_rst_suffix</name>
+        <qualifiedname>sphinx.ext.autosummary.get_rst_suffix</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="891" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="891" bodyend="905"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1a4ced36177d055a7a4254bb9e6af9b7dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autosummary.process_generate_options</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>process_generate_options</name>
+        <qualifiedname>sphinx.ext.autosummary.process_generate_options</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="906" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="906" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1autosummary_1a5da0dab0850dc309412c79f843e31fed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.autosummary.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.autosummary.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="958" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" bodystart="958" bodyend="1007"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Extension that adds an autosummary:: directive.
+
+The directive can be used to generate function/method/attribute/etc. summary
+lists, similar to those output eg. by Epydoc and other API doc generation tools.
+
+An :autolink: role is also provided.
+
+autosummary directive
+---------------------
+
+The autosummary directive has the form::
+
+    .. autosummary::
+       :signatures: none
+       :toctree: generated/
+
+       module.function_1
+       module.function_2
+       ...
+
+and it generates an output table (containing signatures, optionally)
+
+    ========================  =============================================
+    module.function_1(args)   Summary line from the docstring of function_1
+    module.function_2(args)   Summary line from the docstring
+    ...
+    ========================  =============================================
+
+If the :toctree: option is specified, files matching the function names
+are inserted to the toctree with the given prefix:
+
+    generated/module.function_1
+    generated/module.function_2
+    ...
+
+Note: The file names contain the module:: or currentmodule:: prefixes.
+
+.. seealso:: autosummary_generate.py
+
+
+autolink role
+-------------
+
+The autolink role functions as ``:obj:`` when the name referred can be
+resolved to a Python object, and otherwise it becomes simple emphasis.
+This can be used as the default role to make links &apos;smart&apos;.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/ext/autosummary/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

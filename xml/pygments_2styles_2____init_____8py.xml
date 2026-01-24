@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pygments_2styles_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespacepygments">pygments</innernamespace>
+    <innernamespace refid="namespacepygments_1_1styles">pygments::styles</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepygments_1_1styles" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.styles</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Contains<sp/>built-in<sp/>styles.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2025<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1plugin" kindref="compound">pygments.plugin</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>find_plugin_styles</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1util" kindref="compound">pygments.util</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ClassNotFound</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1styles_1_1__mapping" kindref="compound">pygments.styles._mapping</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>STYLES</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>A<sp/>dictionary<sp/>of<sp/>built-in<sp/>styles,<sp/>mapping<sp/>style<sp/>names<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>``&apos;submodule::classname&apos;``<sp/>strings.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>This<sp/>list<sp/>is<sp/>deprecated.<sp/>Use<sp/>`pygments.styles.STYLES`<sp/>instead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">STYLE_MAP<sp/>=<sp/>{v[1]:<sp/>v[0].split(</highlight><highlight class="stringliteral">&apos;.&apos;</highlight><highlight class="normal">)[-1]<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;::&apos;</highlight><highlight class="normal"><sp/>+<sp/>k<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>k,<sp/>v<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>STYLES.items()}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>Internal<sp/>reverse<sp/>mapping<sp/>to<sp/>make<sp/>`get_style_by_name`<sp/>more<sp/>efficient</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">_STYLE_NAME_TO_MODULE_MAP<sp/>=<sp/>{v[1]:<sp/>(v[0],<sp/>k)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>k,<sp/>v<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>STYLES.items()}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_style_by_name(name):</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Return<sp/>a<sp/>style<sp/>class<sp/>by<sp/>its<sp/>short<sp/>name.<sp/>The<sp/>names<sp/>of<sp/>the<sp/>builtin<sp/>styles</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>are<sp/>listed<sp/>in<sp/>:data:`pygments.styles.STYLE_MAP`.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Will<sp/>raise<sp/>:exc:`pygments.util.ClassNotFound`<sp/>if<sp/>no<sp/>style<sp/>of<sp/>that<sp/>name<sp/>is</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>found.</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>name<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>_STYLE_NAME_TO_MODULE_MAP:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mod,<sp/>cls<sp/>=<sp/>_STYLE_NAME_TO_MODULE_MAP[name]</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>builtin<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;yes&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>found_name,<sp/>style<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>find_plugin_styles():</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>name<sp/>==<sp/>found_name:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>style</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>perhaps<sp/>it<sp/>got<sp/>dropped<sp/>into<sp/>our<sp/>styles<sp/>package</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>builtin<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mod<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;pygments.styles.&apos;</highlight><highlight class="normal"><sp/>+<sp/>name</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls<sp/>=<sp/>name.title()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;Style&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mod<sp/>=<sp/>__import__(mod,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>[cls])</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpygments_1_1util_1_1ClassNotFound" kindref="compound">ClassNotFound</ref>(f</highlight><highlight class="stringliteral">&quot;Could<sp/>not<sp/>find<sp/>style<sp/>module<sp/>{mod!r}&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(builtin<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>though<sp/>it<sp/>should<sp/>be<sp/>builtin&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getattr(mod,<sp/>cls)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>AttributeError:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpygments_1_1util_1_1ClassNotFound" kindref="compound">ClassNotFound</ref>(f</highlight><highlight class="stringliteral">&quot;Could<sp/>not<sp/>find<sp/>style<sp/>class<sp/>{cls!r}<sp/>in<sp/>style<sp/>module.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepygments_1_1styles_1a826df533ddf34b79cdcc3c001e1d6c7b" kindref="member">get_all_styles</ref>():</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>a<sp/>generator<sp/>for<sp/>all<sp/>styles<sp/>by<sp/>name,<sp/>both<sp/>builtin<sp/>and<sp/>plugin.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>v<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>STYLES.values():</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>v[1]</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name,<sp/>_<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>find_plugin_styles():</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">yield</highlight><highlight class="normal"><sp/>name</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/pygments/styles/__init__.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="GCStressTests_8cpp" kind="file" language="C++">
+    <compoundname>GCStressTests.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="protoCore_8h" local="yes">../headers/protoCore.h</includes>
+    <includes refid="proto__internal_8h" local="yes">../headers/proto_internal.h</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>../headers/protoCore.h</label>
+        <link refid="protoCore_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>../headers/proto_internal.h</label>
+        <link refid="proto__internal_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>test/GCStressTests.cpp</label>
+        <link refid="GCStressTests_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>climits</label>
+      </node>
+      <node id="5">
+        <label>condition_variable</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>iostream</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="GCStressTests_8cpp_1a0b06c99bb3a36fdbcdb915d7497a363d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GCStressTest, LargeAllocationReclamation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GCStressTest</type>
+        </param>
+        <param>
+          <type>LargeAllocationReclamation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="test/GCStressTests.cpp" line="8" column="1" bodyfile="test/GCStressTests.cpp" bodystart="8" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../headers/protoCore.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../headers/proto_internal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceproto" kindref="compound">proto</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(GCStressTest,<sp/>LargeAllocationReclamation)<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoSpace" kindref="compound">ProtoSpace</ref><sp/>space;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classproto_1_1ProtoContext" kindref="compound">ProtoContext</ref>*<sp/>ctx<sp/>=<sp/>space.<ref refid="classproto_1_1ProtoSpace_1a1a5f636933d7178bc8e7def9efc2da1c" kindref="member">rootContext</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>initialHeap<sp/>=<sp/>space.<ref refid="classproto_1_1ProtoSpace_1abc66c335a38670a9e01811f57a1ab935" kindref="member">heapSize</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>initialFree<sp/>=<sp/>space.<ref refid="classproto_1_1ProtoSpace_1a05fa7da7796bcc9d2bd670d9fae03c8a" kindref="member">freeCellsCount</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Initial<sp/>Heap<sp/>Size:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>initialHeap<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>blocks&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>massive<sp/>allocations<sp/>that<sp/>should<sp/>trigger<sp/>GC<sp/>multiple<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocation<sp/>threshold<sp/>is<sp/>20%<sp/>free.<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>allocation<sp/>in<sp/>ProtoSpace<sp/>triggers<sp/>~10240<sp/>blocks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>allocate<sp/>millions<sp/>of<sp/>objects.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;<sp/>50;<sp/>++<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>10000<sp/>objects<sp/>in<sp/>a<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>10000;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx-&gt;<ref refid="classproto_1_1ProtoContext_1a8b5a732b69d46ef504bc90ecd9953ac0" kindref="member">newObject</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>delay<sp/>to<sp/>let<sp/>GC<sp/>work<sp/>if<sp/>it&apos;s<sp/>concurrent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(5));</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Final<sp/>Heap<sp/>Size:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>space.<ref refid="classproto_1_1ProtoSpace_1abc66c335a38670a9e01811f57a1ab935" kindref="member">heapSize</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>blocks&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Final<sp/>Free<sp/>Cells:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>space.<ref refid="classproto_1_1ProtoSpace_1a05fa7da7796bcc9d2bd670d9fae03c8a" kindref="member">freeCellsCount</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>blocks&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>GC<sp/>works,<sp/>the<sp/>heap<sp/>size<sp/>should<sp/>not<sp/>grow<sp/>proportionally<sp/>to<sp/>the<sp/>millions<sp/>of<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>many<sp/>should<sp/>be<sp/>collected<sp/>(they<sp/>are<sp/>not<sp/>referenced).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>objects<sp/>created:<sp/>50<sp/>*<sp/>10000<sp/>=<sp/>500,000.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>object<sp/>is<sp/>a<sp/>Cell.<sp/>500,000<sp/>cells<sp/>&gt;<sp/>initial<sp/>heap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>heap<sp/>size<sp/>is<sp/>way<sp/>less<sp/>than<sp/>500,000,<sp/>GC<sp/>reclaimed<sp/>most<sp/>of<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1affc4f9cae4c3aabfe60fced83737b42c" kindref="member">ASSERT_LT</ref>(space.<ref refid="classproto_1_1ProtoSpace_1abc66c335a38670a9e01811f57a1ab935" kindref="member">heapSize</ref>,<sp/>100000);<sp/></highlight><highlight class="comment">//<sp/>100k<sp/>blocks<sp/>is<sp/>way<sp/>less<sp/>than<sp/>500k<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="test/GCStressTests.cpp"/>
+  </compounddef>
+</doxygen>

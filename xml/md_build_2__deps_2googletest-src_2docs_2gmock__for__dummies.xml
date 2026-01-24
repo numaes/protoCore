@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies" kind="page">
+    <compoundname>md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies</compoundname>
+    <title>gMock for Dummies</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md199"/> </para>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md200">
+<title>What Is gMock?</title>
+<para>When you write a prototype or test, often it&apos;s not feasible or wise to rely on real objects entirely. A <bold>mock object</bold> implements the same interface as a real object (so it can be used as one), but lets you specify at run time how it will be used and what it should do (which methods will be called? in which order? how many times? with what arguments? what will they return? etc).</para>
+<para>It is easy to confuse the term <emphasis>fake objects</emphasis> with mock objects. Fakes and mocks actually mean very different things in the Test-Driven Development (TDD) community:</para>
+<para><itemizedlist>
+<listitem><para><bold>Fake</bold> objects have working implementations, but usually take some shortcut (perhaps to make the operations less expensive), which makes them not suitable for production. An in-memory file system would be an example of a fake.</para>
+</listitem><listitem><para><bold>Mocks</bold> are objects pre-programmed with <emphasis>expectations</emphasis>, which form a specification of the calls they are expected to receive.</para>
+</listitem></itemizedlist>
+</para>
+<para>If all this seems too abstract for you, don&apos;t worry - the most important thing to remember is that a mock allows you to check the <emphasis>interaction</emphasis> between itself and code that uses it. The difference between fakes and mocks shall become much clearer once you start to use mocks.</para>
+<para><bold>gMock</bold> is a library (sometimes we also call it a &quot;framework&quot; to make it sound cool) for creating mock classes and using them. It does to C++ what jMock/EasyMock does to Java (well, more or less).</para>
+<para>When using gMock,</para>
+<para><orderedlist>
+<listitem><para>first, you use some simple macros to describe the interface you want to mock, and they will expand to the implementation of your mock class;</para>
+</listitem><listitem><para>next, you create some mock objects and specify its expectations and behavior using an intuitive syntax;</para>
+</listitem><listitem><para>then you exercise code that uses the mock objects. gMock will catch any violation to the expectations as soon as it arises.</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md201">
+<title>Why gMock?</title>
+<para>While mock objects help you remove unnecessary dependencies in tests and make them fast and reliable, using mocks manually in C++ is <emphasis>hard</emphasis>:</para>
+<para><itemizedlist>
+<listitem><para>Someone has to implement the mocks. The job is usually tedious and error-prone. No wonder people go great distance to avoid it.</para>
+</listitem><listitem><para>The quality of those manually written mocks is a bit, uh, unpredictable. You may see some really polished ones, but you may also see some that were hacked up in a hurry and have all sorts of ad hoc restrictions.</para>
+</listitem><listitem><para>The knowledge you gained from using one mock doesn&apos;t transfer to the next one.</para>
+</listitem></itemizedlist>
+</para>
+<para>In contrast, Java and Python programmers have some fine mock frameworks (jMock, EasyMock, etc), which automate the creation of mocks. As a result, mocking is a proven effective technique and widely adopted practice in those communities. Having the right tool absolutely makes the difference.</para>
+<para>gMock was built to help C++ programmers. It was inspired by jMock and EasyMock, but designed with C++&apos;s specifics in mind. It is your friend if any of the following problems is bothering you:</para>
+<para><itemizedlist>
+<listitem><para>You are stuck with a sub-optimal design and wish you had done more prototyping before it was too late, but prototyping in C++ is by no means &quot;rapid&quot;.</para>
+</listitem><listitem><para>Your tests are slow as they depend on too many libraries or use expensive resources (e.g. a database).</para>
+</listitem><listitem><para>Your tests are brittle as some resources they use are unreliable (e.g. the network).</para>
+</listitem><listitem><para>You want to test how your code handles a failure (e.g. a file checksum error), but it&apos;s not easy to cause one.</para>
+</listitem><listitem><para>You need to make sure that your module interacts with other modules in the right way, but it&apos;s hard to observe the interaction; therefore you resort to observing the side effects at the end of the action, but it&apos;s awkward at best.</para>
+</listitem><listitem><para>You want to &quot;mock out&quot; your dependencies, except that they don&apos;t have mock implementations yet; and, frankly, you aren&apos;t thrilled by some of those hand-written mocks.</para>
+</listitem></itemizedlist>
+</para>
+<para>We encourage you to use gMock as</para>
+<para><itemizedlist>
+<listitem><para>a <emphasis>design</emphasis> tool, for it lets you experiment with your interface design early and often. More iterations lead to better designs!</para>
+</listitem><listitem><para>a <emphasis>testing</emphasis> tool to cut your tests&apos; outbound dependencies and probe the interaction between your module and its collaborators.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md202">
+<title>Getting Started</title>
+<para>gMock is bundled with googletest.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md203">
+<title>A Case for Mock Turtles</title>
+<para>Let&apos;s look at an example. Suppose you are developing a graphics program that relies on a <ulink url="http://en.wikipedia.org/wiki/Logo_programming_language">LOGO</ulink>-like API for drawing. How would you test that it does the right thing? Well, you can run it and compare the screen with a golden screen snapshot, but let&apos;s admit it: tests like this are expensive to run and fragile (What if you just upgraded to a shiny new graphics card that has better anti-aliasing? Suddenly you have to update all your golden images.). It would be too painful if all your tests are like this. Fortunately, you learned about <ulink url="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</ulink> and know the right thing to do: instead of having your application talk to the system API directly, wrap the API in an interface (say, <computeroutput>Turtle</computeroutput>) and code to that interface:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">Turtle<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~Turtle()<sp/>{}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PenUp()<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PenDown()<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Forward(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>distance)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Turn(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>degrees)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>GoTo(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>GetX()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>GetY()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>(Note that the destructor of <computeroutput>Turtle</computeroutput> <bold>must</bold> be virtual, as is the case for <bold>all</bold> classes you intend to inherit from - otherwise the destructor of the derived class will not be called when you delete an object through a base pointer, and you&apos;ll get corrupted program states like memory leaks.)</para>
+<para>You can control whether the turtle&apos;s movement will leave a trace using <computeroutput>PenUp()</computeroutput> and <computeroutput>PenDown()</computeroutput>, and control its movement using <computeroutput>Forward()</computeroutput>, <computeroutput>Turn()</computeroutput>, and <computeroutput>GoTo()</computeroutput>. Finally, <computeroutput>GetX()</computeroutput> and <computeroutput>GetY()</computeroutput> tell you the current position of the turtle.</para>
+<para>Your program will normally use a real implementation of this interface. In tests, you can use a mock implementation instead. This allows you to easily check what drawing primitives your program is calling, with what arguments, and in which order. Tests written this way are much more robust (they won&apos;t break because your new machine does anti-aliasing differently), easier to read and maintain (the intent of a test is expressed in the code, not in some binary images), and run <emphasis>much, much faster</emphasis>.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md204">
+<title>Writing the Mock Class</title>
+<para>If you are lucky, the mocks you need to use have already been implemented by some nice people. If, however, you find yourself in the position to write a mock class, relax - gMock turns this task into a fun game! (Well, almost.)</para>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md205">
+<title>How to Define It</title>
+<para>Using the <computeroutput>Turtle</computeroutput> interface as example, here are the simple steps you need to follow:</para>
+<para><itemizedlist>
+<listitem><para>Derive a class <computeroutput>MockTurtle</computeroutput> from <computeroutput>Turtle</computeroutput>.</para>
+</listitem><listitem><para>Take a <emphasis>virtual</emphasis> function of <computeroutput>Turtle</computeroutput> (while it&apos;s possible to <ulink url="gmock_cook_book.md#MockingNonVirtualMethods">mock non-virtual methods using templates</ulink>, it&apos;s much more involved).</para>
+</listitem><listitem><para>In the <computeroutput>public:</computeroutput> section of the child class, write <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD()</ref>;</computeroutput></para>
+</listitem><listitem><para>Now comes the fun part: you take the function signature, cut-and-paste it into the macro, and add two commas - one between the return type and the name, another between the name and the argument list.</para>
+</listitem><listitem><para>If you&apos;re mocking a const method, add a 4th parameter containing <computeroutput>(const)</computeroutput> (the parentheses are required).</para>
+</listitem><listitem><para>Since you&apos;re overriding a virtual method, we suggest adding the <computeroutput>override</computeroutput> keyword. For const methods the 4th parameter becomes <computeroutput>(const, override)</computeroutput>, for non-const methods just <computeroutput>(override)</computeroutput>. This isn&apos;t mandatory.</para>
+</listitem><listitem><para>Repeat until all virtual functions you want to mock are done. (It goes without saying that <emphasis>all</emphasis> pure virtual methods in your abstract class must be either mocked or overridden.)</para>
+</listitem></itemizedlist>
+</para>
+<para>After the process, you should have something like:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Brings<sp/>in<sp/>gMock.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockTurtle<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>Turtle<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>PenUp,<sp/>(),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>PenDown,<sp/>(),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>Forward,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>distance),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>Turn,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>degrees),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/>GoTo,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a6150e0515f7202e2fb518f7206ed97dc" kindref="member">x</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-containers__test_8cc_1a39cb44155237f0205e0feb931d5acbed" kindref="member">y</ref>),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>GetX,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-function-mocker_8h_1a05ffc29d0784b131ee178da190d31397" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/>GetY,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting></para>
+<para>You don&apos;t need to define these mock methods somewhere else - the <computeroutput>MOCK_METHOD</computeroutput> macro will generate the definitions for you. It&apos;s that simple!</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md206">
+<title>Where to Put It</title>
+<para>When you define a mock class, you need to decide where to put its definition. Some people put it in a <computeroutput>_test.cc</computeroutput>. This is fine when the interface being mocked (say, <computeroutput>Foo</computeroutput>) is owned by the same person or team. Otherwise, when the owner of <computeroutput>Foo</computeroutput> changes it, your test could break. (You can&apos;t really expect <computeroutput>Foo</computeroutput>&apos;s maintainer to fix every test that uses <computeroutput>Foo</computeroutput>, can you?)</para>
+<para>Generally, you should not mock classes you don&apos;t own. If you must mock such a class owned by others, define the mock class in <computeroutput>Foo</computeroutput>&apos;s Bazel package (usually the same directory or a <computeroutput>testing</computeroutput> sub-directory), and put it in a <computeroutput>.h</computeroutput> and a <computeroutput>cc_library</computeroutput> with <computeroutput>testonly=True</computeroutput>. Then everyone can reference them from their tests. If <computeroutput>Foo</computeroutput> ever changes, there is only one copy of <computeroutput><ref refid="classMockFoo" kindref="compound">MockFoo</ref></computeroutput> to change, and only tests that depend on the changed methods need to be fixed.</para>
+<para>Another way to do it: you can introduce a thin layer <computeroutput>FooAdaptor</computeroutput> on top of <computeroutput>Foo</computeroutput> and code to this new interface. Since you own <computeroutput>FooAdaptor</computeroutput>, you can absorb changes in <computeroutput>Foo</computeroutput> much more easily. While this is more work initially, carefully choosing the adaptor interface can make your code easier to write and more readable (a net win in the long run), as you can choose <computeroutput>FooAdaptor</computeroutput> to fit your specific domain much better than <computeroutput>Foo</computeroutput> does.</para>
+</sect2>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md207">
+<title>Using Mocks in Tests</title>
+<para>Once you have a mock class, using it is easy. The typical work flow is:</para>
+<para><orderedlist>
+<listitem><para>Import the gMock names from the <computeroutput>testing</computeroutput> namespace such that you can use them unqualified (You only have to do it once per file). Remember that namespaces are a good idea.</para>
+</listitem><listitem><para>Create some mock objects.</para>
+</listitem><listitem><para>Specify your expectations on them (How many times will a method be called? With what arguments? What should it do? etc.).</para>
+</listitem><listitem><para>Exercise some code that uses the mocks; optionally, check the result using googletest assertions. If a mock method is called more than expected or with wrong arguments, you&apos;ll get an error immediately.</para>
+</listitem><listitem><para>When a mock is destructed, gMock will automatically check whether all expectations on it have been satisfied.</para>
+</listitem></orderedlist>
+</para>
+<para>Here&apos;s an example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&quot;path/to/mock-turtle.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::AtLeast;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ab5540a6d621853916be8240ff51819cf" kindref="member">TEST</ref>(PainterTest,<sp/>CanDrawSomething)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>MockTurtle<sp/>turtle;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>PenDown())<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#3</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.Times(<ref refid="namespacetesting_1a137297cb3c582843989fbd937cf0fed2" kindref="member">AtLeast</ref>(1));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>Painter<sp/>painter(&amp;turtle);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#4</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googletest_2include_2gtest_2gtest_8h_1ac33e7cdfb5d44a7a0f0ab552eb5c3c6a" kindref="member">EXPECT_TRUE</ref>(painter.DrawCircle(0,<sp/>0,<sp/>10));<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#5</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>As you might have guessed, this test checks that <computeroutput>PenDown()</computeroutput> is called at least once. If the <computeroutput>painter</computeroutput> object didn&apos;t call this method, your test will fail with a message like this:</para>
+<para><programlisting filename=".text"><codeline><highlight class="normal">path/to/my_test.cc:119:<sp/>Failure</highlight></codeline>
+<codeline><highlight class="normal">Actual<sp/>function<sp/>call<sp/>count<sp/>doesn&apos;t<sp/>match<sp/>this<sp/>expectation:</highlight></codeline>
+<codeline><highlight class="normal">Actually:<sp/>never<sp/>called;</highlight></codeline>
+<codeline><highlight class="normal">Expected:<sp/>called<sp/>at<sp/>least<sp/>once.</highlight></codeline>
+<codeline><highlight class="normal">Stack<sp/>trace:</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+</programlisting></para>
+<para><bold>Tip 1:</bold> If you run the test from an Emacs buffer, you can hit <computeroutput>&lt;Enter&gt;</computeroutput> on the line number to jump right to the failed expectation.</para>
+<para><bold>Tip 2:</bold> If your mock objects are never deleted, the final verification won&apos;t happen. Therefore it&apos;s a good idea to turn on the heap checker in your tests when you allocate mocks on the heap. You get that automatically if you use the <computeroutput>gtest_main</computeroutput> library already.</para>
+<para><bold>Important note:</bold> gMock requires expectations to be set <bold>before</bold> the mock functions are called, otherwise the behavior is <bold>undefined</bold>. Do not alternate between calls to <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput> and calls to the mock functions, and do not set any expectations on a mock after passing the mock to an API.</para>
+<para>This means <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput> should be read as expecting that a call will occur <emphasis>in the future</emphasis>, not that a call has occurred. Why does gMock work like that? Well, specifying the expectation beforehand allows gMock to report a violation as soon as it rises, when the context (stack trace, etc) is still available. This makes debugging much easier.</para>
+<para>Admittedly, this test is contrived and doesn&apos;t do much. You can easily achieve the same effect without using gMock. However, as we shall reveal soon, gMock allows you to do <emphasis>so much more</emphasis> with the mocks.</para>
+</sect1>
+<sect1 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md208">
+<title>Setting Expectations</title>
+<para>The key to using a mock object successfully is to set the <emphasis>right expectations</emphasis> on it. If you set the expectations too strict, your test will fail as the result of unrelated changes. If you set them too loose, bugs can slip through. You want to do it just right such that your test can catch exactly the kind of bugs you intend it to catch. gMock provides the necessary means for you to do it &quot;just
+right.&quot;</para>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md209">
+<title>General Syntax</title>
+<para>In gMock we use the <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput> macro to set an expectation on a mock method. The general syntax is:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(mock_object,<sp/>method(matchers))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(cardinality)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(action)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(action);</highlight></codeline>
+</programlisting></para>
+<para>The macro has two arguments: first the mock object, and then the method and its arguments. Note that the two are separated by a comma (<computeroutput>,</computeroutput>), not a period (<computeroutput>.</computeroutput>). (Why using a comma? The answer is that it was necessary for technical reasons.) If the method is not overloaded, the macro can also be called without matchers:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(mock_object,<sp/>non-overloaded-method)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(cardinality)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(action)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(action);</highlight></codeline>
+</programlisting></para>
+<para>This syntax allows the test writer to specify &quot;called with any arguments&quot; without explicitly specifying the number or types of arguments. To avoid unintended ambiguity, this syntax may only be used for methods that are not overloaded.</para>
+<para>Either form of the macro can be followed by some optional <emphasis>clauses</emphasis> that provide more information about the expectation. We&apos;ll discuss how each clause works in the coming sections.</para>
+<para>This syntax is designed to make an expectation read like English. For example, you can probably guess that</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(turtle,<sp/>GetX())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(5)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(100))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(150))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(200));</highlight></codeline>
+</programlisting></para>
+<para>says that the <computeroutput>turtle</computeroutput> object&apos;s <computeroutput>GetX()</computeroutput> method will be called five times, it will return 100 the first time, 150 the second time, and then 200 every time. Some people like to call this style of syntax a Domain-Specific Language (DSL).</para>
+<para>{: .callout .note} <bold>Note:</bold> Why do we use a macro to do this? Well it serves two purposes: first it makes expectations easily identifiable (either by <computeroutput>grep</computeroutput> or by a human reader), and second it allows gMock to include the source file location of a failed expectation in messages, making debugging easier.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md210">
+<title>Matchers: What Arguments Do We Expect?</title>
+<para>When a mock function takes arguments, we may specify what arguments we are expecting, for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Expects<sp/>the<sp/>turtle<sp/>to<sp/>move<sp/>forward<sp/>by<sp/>100<sp/>units.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>Forward(100));</highlight></codeline>
+</programlisting></para>
+<para>Oftentimes you do not want to be too specific. Remember that talk about tests being too rigid? Over specification leads to brittle tests and obscures the intent of tests. Therefore we encourage you to specify only what&apos;s necessary—no more, no less. If you aren&apos;t interested in the value of an argument, write <computeroutput>_</computeroutput> as the argument, which means &quot;anything goes&quot;:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expects<sp/>that<sp/>the<sp/>turtle<sp/>jumps<sp/>to<sp/>somewhere<sp/>on<sp/>the<sp/>x=50<sp/>line.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(turtle,<sp/>GoTo(50,<sp/>_));</highlight></codeline>
+</programlisting></para>
+<para><computeroutput>_</computeroutput> is an instance of what we call <bold>matchers</bold>. A matcher is like a predicate and can test whether an argument is what we&apos;d expect. You can use a matcher inside <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput> wherever a function argument is expected. <computeroutput>_</computeroutput> is a convenient way of saying &quot;any value&quot;.</para>
+<para>In the above examples, <computeroutput>100</computeroutput> and <computeroutput>50</computeroutput> are also matchers; implicitly, they are the same as <computeroutput>Eq(100)</computeroutput> and <computeroutput>Eq(50)</computeroutput>, which specify that the argument must be equal (using <computeroutput>operator==</computeroutput>) to the matcher argument. There are many <ref refid="md_build_2__deps_2googletest-src_2docs_2reference_2matchers" kindref="compound">built-in matchers</ref> for common types (as well as <ulink url="gmock_cook_book.md#NewMatchers">custom matchers</ulink>); for example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Ge;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expects<sp/>the<sp/>turtle<sp/>moves<sp/>forward<sp/>by<sp/>at<sp/>least<sp/>100.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(turtle,<sp/>Forward(Ge(100)));</highlight></codeline>
+</programlisting></para>
+<para>If you don&apos;t care about <emphasis>any</emphasis> arguments, rather than specify <computeroutput>_</computeroutput> for each of them you may instead omit the parameter list:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Expects<sp/>the<sp/>turtle<sp/>to<sp/>move<sp/>forward.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>Forward);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expects<sp/>the<sp/>turtle<sp/>to<sp/>jump<sp/>somewhere.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>GoTo);</highlight></codeline>
+</programlisting></para>
+<para>This works for all non-overloaded methods; if a method is overloaded, you need to help gMock resolve which overload is expected by specifying the number of arguments and possibly also the <ulink url="gmock_cook_book.md#SelectOverload">types of the arguments</ulink>.</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md211">
+<title>Cardinalities: How Many Times Will It Be Called?</title>
+<para>The first clause we can specify following an <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput> is <computeroutput>Times()</computeroutput>. We call its argument a <bold>cardinality</bold> as it tells <emphasis>how many times</emphasis> the call should occur. It allows us to repeat an expectation many times without actually writing it as many times. More importantly, a cardinality can be &quot;fuzzy&quot;, just like a matcher can be. This allows a user to express the intent of a test exactly.</para>
+<para>An interesting special case is when we say <computeroutput>Times(0)</computeroutput>. You may have guessed - it means that the function shouldn&apos;t be called with the given arguments at all, and gMock will report a googletest failure whenever the function is (wrongfully) called.</para>
+<para>We&apos;ve seen <computeroutput>AtLeast(n)</computeroutput> as an example of fuzzy cardinalities earlier. For the list of built-in cardinalities you can use, see <ulink url="gmock_cheat_sheet.md#CardinalityList">here</ulink>.</para>
+<para>The <computeroutput>Times()</computeroutput> clause can be omitted. <bold>If you omit <computeroutput>Times()</computeroutput>, gMock will infer the cardinality for you.</bold> The rules are easy to remember:</para>
+<para><itemizedlist>
+<listitem><para>If <bold>neither</bold> <computeroutput>WillOnce()</computeroutput> <bold>nor</bold> <computeroutput>WillRepeatedly()</computeroutput> is in the <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput>, the inferred cardinality is <computeroutput>Times(1)</computeroutput>.</para>
+</listitem><listitem><para>If there are <emphasis>n</emphasis> <computeroutput>WillOnce()</computeroutput>&apos;s but <bold>no</bold> <computeroutput>WillRepeatedly()</computeroutput>, where <emphasis>n</emphasis> &gt;= 1, the cardinality is <computeroutput>Times(n)</computeroutput>.</para>
+</listitem><listitem><para>If there are <emphasis>n</emphasis> <computeroutput>WillOnce()</computeroutput>&apos;s and <bold>one</bold> <computeroutput>WillRepeatedly()</computeroutput>, where <emphasis>n</emphasis> &gt;= 0, the cardinality is <computeroutput>Times(AtLeast(n))</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Quick quiz:</bold> what do you think will happen if a function is expected to be called twice but actually called four times?</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md212">
+<title>Actions: What Should It Do?</title>
+<para>Remember that a mock object doesn&apos;t really have a working implementation? We as users have to tell it what to do when a method is invoked. This is easy in gMock.</para>
+<para>First, if the return type of a mock function is a built-in type or a pointer, the function has a <bold>default action</bold> (a <computeroutput>void</computeroutput> function will just return, a <computeroutput>bool</computeroutput> function will return <computeroutput>false</computeroutput>, and other functions will return 0). In addition, in C++ 11 and above, a mock function whose return type is default-constructible (i.e. has a default constructor) has a default action of returning a default-constructed value. If you don&apos;t say anything, this behavior will be used.</para>
+<para>Second, if a mock function doesn&apos;t have a default action, or the default action doesn&apos;t suit you, you can specify the action to be taken each time the expectation matches using a series of <computeroutput>WillOnce()</computeroutput> clauses followed by an optional <computeroutput>WillRepeatedly()</computeroutput>. For example,</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(turtle,<sp/>GetX())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(100))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(200))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(300));</highlight></codeline>
+</programlisting></para>
+<para>says that <computeroutput>turtle.GetX()</computeroutput> will be called <emphasis>exactly three times</emphasis> (gMock inferred this from how many <computeroutput>WillOnce()</computeroutput> clauses we&apos;ve written, since we didn&apos;t explicitly write <computeroutput>Times()</computeroutput>), and will return 100, 200, and 300 respectively.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(turtle,<sp/>GetY())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(100))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(200))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>.WillRepeatedly(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(300));</highlight></codeline>
+</programlisting></para>
+<para>says that <computeroutput>turtle.GetY()</computeroutput> will be called <emphasis>at least twice</emphasis> (gMock knows this as we&apos;ve written two <computeroutput>WillOnce()</computeroutput> clauses and a <computeroutput>WillRepeatedly()</computeroutput> while having no explicit <computeroutput>Times()</computeroutput>), will return 100 and 200 respectively the first two times, and 300 from the third time on.</para>
+<para>Of course, if you explicitly write a <computeroutput>Times()</computeroutput>, gMock will not try to infer the cardinality itself. What if the number you specified is larger than there are <computeroutput>WillOnce()</computeroutput> clauses? Well, after all <computeroutput>WillOnce()</computeroutput>s are used up, gMock will do the <emphasis>default</emphasis> action for the function every time (unless, of course, you have a <computeroutput>WillRepeatedly()</computeroutput>.).</para>
+<para>What can we do inside <computeroutput>WillOnce()</computeroutput> besides <computeroutput>Return()</computeroutput>? You can return a reference using <computeroutput>ReturnRef(</computeroutput>*<computeroutput>variable</computeroutput>*<computeroutput>)</computeroutput>, or invoke a pre-defined function, among <ulink url="gmock_cook_book.md#using-actions">others</ulink>.</para>
+<para><bold>Important note:</bold> The <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput> statement evaluates the action clause only once, even though the action may be performed many times. Therefore you must be careful about side effects. The following may not do what you want:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>n<sp/>=<sp/>100;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>GetX())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(4)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillRepeatedly(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(n++));</highlight></codeline>
+</programlisting></para>
+<para>Instead of returning 100, 101, 102, ..., consecutively, this mock function will always return 100 as <computeroutput>n++</computeroutput> is only evaluated once. Similarly, <computeroutput>Return(new Foo)</computeroutput> will create a new <computeroutput>Foo</computeroutput> object when the <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput> is executed, and will return the same pointer every time. If you want the side effect to happen every time, you need to define a custom action, which we&apos;ll teach in the <ref refid="md_build_2__deps_2googletest-src_2docs_2gmock__cook__book" kindref="compound">cook book</ref>.</para>
+<para>Time for another quiz! What do you think the following means?</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(turtle,<sp/>GetY())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(4)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(100));</highlight></codeline>
+</programlisting></para>
+<para>Obviously <computeroutput>turtle.GetY()</computeroutput> is expected to be called four times. But if you think it will return 100 every time, think twice! Remember that one <computeroutput>WillOnce()</computeroutput> clause will be consumed each time the function is invoked and the default action will be taken afterwards. So the right answer is that <computeroutput>turtle.GetY()</computeroutput> will return 100 the first time, but <bold>return 0 from the second time on</bold>, as returning 0 is the default action for <computeroutput>int</computeroutput> functions.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__for__dummies_1MultiExpectations">
+<title>Using Multiple Expectations</title>
+<para>So far we&apos;ve only shown examples where you have a single expectation. More realistically, you&apos;ll specify expectations on multiple mock methods which may be from multiple mock objects.</para>
+<para>By default, when a mock method is invoked, gMock will search the expectations in the <bold>reverse order</bold> they are defined, and stop when an active expectation that matches the arguments is found (you can think of it as &quot;newer rules override
+older ones.&quot;). If the matching expectation cannot take any more calls, you will get an upper-bound-violated failure. Here&apos;s an example:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(turtle,<sp/>Forward(_));<sp/><sp/></highlight><highlight class="comment">//<sp/>#1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>Forward(10))<sp/><sp/></highlight><highlight class="comment">//<sp/>#2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.Times(2);</highlight></codeline>
+</programlisting></para>
+<para>If <computeroutput>Forward(10)</computeroutput> is called three times in a row, the third time it will be an error, as the last matching expectation (#2) has been saturated. If, however, the third <computeroutput>Forward(10)</computeroutput> call is replaced by <computeroutput>Forward(20)</computeroutput>, then it would be OK, as now #1 will be the matching expectation.</para>
+<para>{: .callout .note} <bold>Note:</bold> Why does gMock search for a match in the <emphasis>reverse</emphasis> order of the expectations? The reason is that this allows a user to set up the default expectations in a mock object&apos;s constructor or the test fixture&apos;s set-up phase and then customize the mock by writing more specific expectations in the test body. So, if you have two expectations on the same method, you want to put the one with more specific matchers <bold>after</bold> the other, or the more specific rule would be shadowed by the more general one that comes after it.</para>
+<para>{: .callout .tip} <bold>Tip:</bold> It is very common to start with a catch-all expectation for a method and <computeroutput>Times(AnyNumber())</computeroutput> (omitting arguments, or with <computeroutput>_</computeroutput> for all arguments, if overloaded). This makes any calls to the method expected. This is not necessary for methods that are not mentioned at all (these are &quot;uninteresting&quot;), but is useful for methods that have some expectations, but for which other calls are ok. See <ulink url="gmock_cook_book.md#uninteresting-vs-unexpected">Understanding Uninteresting vs Unexpected Calls</ulink>.</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__for__dummies_1OrderedCalls">
+<title>Expecting Ordered Calls</title>
+<para>By default, an expectation can match a call even though an earlier expectation hasn&apos;t been satisfied. In other words, the calls don&apos;t have to occur in the order the expectations are specified.</para>
+<para>Sometimes, you may want all the expected calls to occur in a strict order. To say this in gMock is easy:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::InSequence;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">TEST(FooTest,<sp/>DrawsLineSegment)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>InSequence<sp/>seq;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>PenDown());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>Forward(100));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>PenUp());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>Foo();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>By creating an object of type <computeroutput>InSequence</computeroutput>, all expectations in its scope are put into a <emphasis>sequence</emphasis> and have to occur <emphasis>sequentially</emphasis>. Since we are just relying on the constructor and destructor of this object to do the actual work, its name is really irrelevant.</para>
+<para>In this example, we test that <computeroutput>Foo()</computeroutput> calls the three expected functions in the order as written. If a call is made out-of-order, it will be an error.</para>
+<para>(What if you care about the relative order of some of the calls, but not all of them? Can you specify an arbitrary partial order? The answer is ... yes! The details can be found <ulink url="gmock_cook_book.md#OrderedCalls">here</ulink>.)</para>
+</sect2>
+<sect2 id="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__for__dummies_1StickyExpectations">
+<title>All Expectations Are Sticky (Unless Said Otherwise)</title>
+<para>Now let&apos;s do a quick quiz to see how well you can use this mock stuff already. How would you test that the turtle is asked to go to the origin <emphasis>exactly twice</emphasis> (you want to ignore any other instructions it receives)?</para>
+<para>After you&apos;ve come up with your answer, take a look at ours and compare notes (solve it yourself first - don&apos;t cheat!):</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::_;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::AnyNumber;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_CALL(turtle,<sp/>GoTo(_,<sp/>_))<sp/><sp/></highlight><highlight class="comment">//<sp/>#1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>.Times(<ref refid="namespacetesting_1aa1f8a6371097e1e9b8d6866020f35252" kindref="member">AnyNumber</ref>());</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>GoTo(0,<sp/>0))<sp/><sp/></highlight><highlight class="comment">//<sp/>#2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>.Times(2);</highlight></codeline>
+</programlisting></para>
+<para>Suppose <computeroutput>turtle.GoTo(0, 0)</computeroutput> is called three times. In the third time, gMock will see that the arguments match expectation #2 (remember that we always pick the last matching expectation). Now, since we said that there should be only two such calls, gMock will report an error immediately. This is basically what we&apos;ve told you in the <ref refid="md_cmake-build-debug_2__deps_2googletest-src_2docs_2gmock__for__dummies_1MultiExpectations" kindref="member">Using Multiple Expectations</ref> section above.</para>
+<para>This example shows that <bold>expectations in gMock are &quot;sticky&quot; by default</bold>, in the sense that they remain active even after we have reached their invocation upper bounds. This is an important rule to remember, as it affects the meaning of the spec, and is <bold>different</bold> to how it&apos;s done in many other mocking frameworks (Why&apos;d we do that? Because we think our rule makes the common cases easier to express and understand.).</para>
+<para>Simple? Let&apos;s see if you&apos;ve really understood it: what does the following code say?</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>n;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&gt;<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>--)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>GetX())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(10*<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>If you think it says that <computeroutput>turtle.GetX()</computeroutput> will be called <computeroutput>n</computeroutput> times and will return 10, 20, 30, ..., consecutively, think twice! The problem is that, as we said, expectations are sticky. So, the second time <computeroutput>turtle.GetX()</computeroutput> is called, the last (latest) <computeroutput><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL()</ref></computeroutput> statement will match, and will immediately lead to an &quot;upper bound violated&quot; error - this piece of code is not very useful!</para>
+<para>One correct way of saying that <computeroutput>turtle.GetX()</computeroutput> will return 10, 20, 30, ..., is to explicitly say that the expectations are <emphasis>not</emphasis> sticky. In other words, they should <emphasis>retire</emphasis> as soon as they are saturated:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">for<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>n;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&gt;<sp/>0;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>--)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>GetX())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(10*<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>And, there&apos;s a better way to do it: in this case, we expect the calls to occur in a specific order, and we line up the actions to match the order. Since the order is important here, we should make it explicit using a sequence:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">using<sp/>::testing::InSequence;</highlight></codeline>
+<codeline><highlight class="normal">using<sp/>::testing::Return;</highlight></codeline>
+<codeline><highlight class="normal">...</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>InSequence<sp/>s;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>=<sp/>1;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref><sp/>&lt;=<sp/>n;<sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>++)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="build_2__deps_2googletest-src_2googlemock_2include_2gmock_2gmock-spec-builders_8h_1a535a6156de72c1a2e25a127e38ee5232" kindref="member">EXPECT_CALL</ref>(turtle,<sp/>GetX())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.WillOnce(<ref refid="namespacetesting_1adae3994eb444d1ad2dd602454b854663" kindref="member">Return</ref>(10*<ref refid="build_2__deps_2googletest-src_2googlemock_2test_2gmock-matchers-comparisons__test_8cc_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.RetiresOnSaturation();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>By the way, the other situation where an expectation may <emphasis>not</emphasis> be sticky is when it&apos;s in a sequence - as soon as another expectation that comes after it in the sequence has been used, it automatically retires (and will never be used to match any call).</para>
+</sect2>
+<sect2 id="md_build_2__deps_2googletest-src_2docs_2gmock__for__dummies_1autotoc_md213">
+<title>Uninteresting Calls</title>
+<para>A mock object may have many methods, and not all of them are that interesting. For example, in some tests we may not care about how many times <computeroutput>GetX()</computeroutput> and <computeroutput>GetY()</computeroutput> get called.</para>
+<para>In gMock, if you are not interested in a method, just don&apos;t say anything about it. If a call to this method occurs, you&apos;ll see a warning in the test output, but it won&apos;t be a failure. This is called &quot;naggy&quot; behavior; to change, see <ulink url="gmock_cook_book.md#NiceStrictNaggy">The Nice, the Strict, and the Naggy</ulink>. </para>
+</sect2>
+</sect1>
+    </detaileddescription>
+    <location file="build/_deps/googletest-src/docs/gmock_for_dummies.md"/>
+  </compounddef>
+</doxygen>

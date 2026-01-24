@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1operations_1_1prepare" kind="namespace" language="Python">
+    <compoundname>pip::_internal::operations::prepare</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1prepare_1_1File" prot="public">pip::_internal::operations::prepare::File</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1prepare_1_1RequirementPreparer" prot="public">pip::_internal::operations::prepare::RequirementPreparer</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1prepare_1a5711b6d724733a124cdb792d179f0940" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::prepare.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.operations.prepare.logger</qualifiedname>
+        <initializer>=  getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" line="56" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1prepare_1acd7b7e54a45dcc70587e659d8cb9954f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.operations.prepare._get_prepared_distribution</definition>
+        <argsstring>(InstallRequirement req, BuildTracker build_tracker, PackageFinder finder, bool build_isolation, bool check_build_deps)</argsstring>
+        <name>_get_prepared_distribution</name>
+        <qualifiedname>pip._internal.operations.prepare._get_prepared_distribution</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1operations_1_1build_1_1build__tracker_1_1BuildTracker" kindref="compound">BuildTracker</ref></type>
+          <declname>build_tracker</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+          <declname>finder</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>build_isolation</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>check_build_deps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Prepare a distribution for installation.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" line="59" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" bodystart="65" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1prepare_1abdb2579b05c698f70b8e636ba0712c22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.operations.prepare.unpack_vcs_link</definition>
+        <argsstring>(Link link, str location, int verbosity)</argsstring>
+        <name>unpack_vcs_link</name>
+        <qualifiedname>pip._internal.operations.prepare.unpack_vcs_link</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" line="77" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1prepare_1a70b566fd1a3613122bf33ae602099834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1operations_1_1prepare_1_1File" kindref="compound">File</ref></type>
+        <definition> File pip._internal.operations.prepare.get_http_url</definition>
+        <argsstring>(Link link, Downloader download, Optional[str] download_dir=None, Optional[Hashes] hashes=None)</argsstring>
+        <name>get_http_url</name>
+        <qualifiedname>pip._internal.operations.prepare.get_http_url</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1network_1_1download_1_1Downloader" kindref="compound">Downloader</ref></type>
+          <declname>download</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>download_dir</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>hashes</declname>
+          <array>[Hashes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" line="92" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" bodystart="97" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1prepare_1a5d8b867a97668a3e949154707976440d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1operations_1_1prepare_1_1File" kindref="compound">File</ref></type>
+        <definition> File pip._internal.operations.prepare.get_file_url</definition>
+        <argsstring>(Link link, Optional[str] download_dir=None, Optional[Hashes] hashes=None)</argsstring>
+        <name>get_file_url</name>
+        <qualifiedname>pip._internal.operations.prepare.get_file_url</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>download_dir</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>hashes</declname>
+          <array>[Hashes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get file and optionally check its hash.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" line="116" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" bodystart="118" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1prepare_1a7955a8db1f1b373859a4e11a3c299928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="classpip_1_1__internal_1_1operations_1_1prepare_1_1File" kindref="compound">File</ref>]</type>
+        <definition> Optional[File] pip._internal.operations.prepare.unpack_url</definition>
+        <argsstring>(Link link, str location, Downloader download, int verbosity, Optional[str] download_dir=None, Optional[Hashes] hashes=None)</argsstring>
+        <name>unpack_url</name>
+        <qualifiedname>pip._internal.operations.prepare.unpack_url</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1network_1_1download_1_1Downloader" kindref="compound">Downloader</ref></type>
+          <declname>download</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>download_dir</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>hashes</declname>
+          <array>[Hashes]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unpack link into location, downloading if required.
+
+:param hashes: A Hashes object, one of whose embedded hashes must match,
+    or HashMismatch will be raised. If the Hashes is empty, no matches are
+    required, and unhashable types of requirements (like VCS ones, which
+    would ordinarily raise HashUnsupported) are allowed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" line="140" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" bodystart="147" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1prepare_1ad22bf58e53e7145b7285a53791c13d8e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.operations.prepare._check_download_dir</definition>
+        <argsstring>(Link link, str download_dir, Optional[Hashes] hashes, bool warn_on_hash_mismatch=True)</argsstring>
+        <name>_check_download_dir</name>
+        <qualifiedname>pip._internal.operations.prepare._check_download_dir</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>download_dir</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>hashes</declname>
+          <array>[Hashes]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>warn_on_hash_mismatch</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check download_dir for previously downloaded file with correct hash
+If a correct file is found return its path else None
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" line="183" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" bodystart="188" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Prepares a distribution for installation
+</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

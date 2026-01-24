@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema" kind="class" language="Python" prot="public">
+    <compoundname>docutils::utils::math::mathml_elements::MathSchema</compoundname>
+    <basecompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.MathElement</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mfrac" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.mfrac</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mroot" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.mroot</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1msub" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.msub</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1msubsup" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.msubsup</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1msup" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.msup</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema_1a1cabd6222a4568080018bb33b9d4f08b" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.utils.math.mathml_elements.MathSchema::nchildren</definition>
+        <argsstring></argsstring>
+        <name>nchildren</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.MathSchema.nchildren</qualifiedname>
+        <initializer>=  2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="253" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema_1ae1cf5c2b01635abc50465ce1941c0789" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.utils.math.mathml_elements.MathSchema::switch</definition>
+        <argsstring></argsstring>
+        <name>switch</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.MathSchema.switch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="256" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema_1ad0bbd224ddfadb1452b2c3d726f92108" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.mathml_elements.MathSchema.__init__</definition>
+        <argsstring>(self, *children, **kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.MathSchema.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement_1a52041a0a3e3bd5e0f23e9fdfdadf6444">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>children</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>attributes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up node with `children` and `attributes`.
+
+Attribute names are normalised to lowercase.
+You may use &quot;CLASS&quot; to set a &quot;class&quot; attribute.
+Attribute values are converted to strings
+(with True -&gt; &quot;true&quot; and False -&gt; &quot;false&quot;).
+
+&gt;&gt;&gt; math(CLASS=&apos;test&apos;, level=3, split=True)
+math(class=&apos;test&apos;, level=&apos;3&apos;, split=&apos;true&apos;)
+&gt;&gt;&gt; math(CLASS=&apos;test&apos;, level=3, split=True).toxml()
+&apos;&lt;math class=&quot;test&quot; level=&quot;3&quot; split=&quot;true&quot;&gt;&lt;/math&gt;&apos;</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="255" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="255" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema_1a3ce0d09baca708f9f5bcfeec94fd1cd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.mathml_elements.MathSchema.append</definition>
+        <argsstring>(self, element)</argsstring>
+        <name>append</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.MathSchema.append</qualifiedname>
+        <reimplements refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement_1abb206ef753e51fc46368f28d6ada6ea2">append</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>element</type>
+          <defname>element</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Append element. Normalize order and close if full.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="259" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="259" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base class for schemata expecting 2 or more children.
+
+The special attribute `switch` indicates that the last two child
+elements are in reversed order and must be switched before XML-export.
+See `msub` for an example.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>ET::Element</label>
+      </node>
+      <node id="1">
+        <label>docutils.utils.math.mathml_elements.MathSchema</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.utils.math.mathml_elements.MathElement</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.utils.math.mathml_elements.mfrac</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mfrac"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>docutils.utils.math.mathml_elements.mover</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mover"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.utils.math.mathml_elements.mroot</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mroot"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.utils.math.mathml_elements.msub</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1msub"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>docutils.utils.math.mathml_elements.msubsup</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1msubsup"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>docutils.utils.math.mathml_elements.msup</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1msup"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.utils.math.mathml_elements.munder</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1munder"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>docutils.utils.math.mathml_elements.munderover</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1munderover"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>ET::Element</label>
+      </node>
+      <node id="1">
+        <label>docutils.utils.math.mathml_elements.MathSchema</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.utils.math.mathml_elements.MathElement</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="246" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="246" bodyend="270"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema_1ad0bbd224ddfadb1452b2c3d726f92108" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::MathSchema</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema_1a3ce0d09baca708f9f5bcfeec94fd1cd5" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::MathSchema</scope><name>append</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema_1a1cabd6222a4568080018bb33b9d4f08b" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::MathSchema</scope><name>nchildren</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathSchema_1ae1cf5c2b01635abc50465ce1941c0789" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::MathSchema</scope><name>switch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

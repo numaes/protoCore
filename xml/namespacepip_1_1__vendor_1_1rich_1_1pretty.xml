@@ -1,0 +1,653 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1rich_1_1pretty" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::rich::pretty</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1pretty_1_1__Line" prot="protected">pip::_vendor::rich::pretty::_Line</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1pretty_1_1BrokenRepr" prot="public">pip::_vendor::rich::pretty::BrokenRepr</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1pretty_1_1Node" prot="public">pip::_vendor::rich::pretty::Node</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1pretty_1_1Pretty" prot="public">pip::_vendor::rich::pretty::Pretty</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1pretty_1_1StockKeepingUnit" prot="public">pip::_vendor::rich::pretty::StockKeepingUnit</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1pretty_1_1Thing" prot="public">pip::_vendor::rich::pretty::Thing</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a9d377a16fffeec8b5cae7022ca391f86" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>bool pip::_vendor::rich::pretty::_has_attrs</definition>
+        <argsstring></argsstring>
+        <name>_has_attrs</name>
+        <qualifiedname>pip._vendor.rich.pretty._has_attrs</qualifiedname>
+        <initializer>=  hasattr(_attr_module, &quot;ib&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="33" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1ab52bff6773e23b8194fe9eb2a0d8bb10" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::pretty._dummy_namedtuple</definition>
+        <argsstring></argsstring>
+        <name>_dummy_namedtuple</name>
+        <qualifiedname>pip._vendor.rich.pretty._dummy_namedtuple</qualifiedname>
+        <initializer>=  collections.namedtuple(&quot;_dummy_namedtuple&quot;, [])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="85" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a58c5839f54ac0e4b61f702fdd9f9100a" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::rich::pretty._BRACES</definition>
+        <argsstring></argsstring>
+        <name>_BRACES</name>
+        <qualifiedname>pip._vendor.rich.pretty._BRACES</qualifiedname>
+        <initializer>=  {
+    os._Environ: lambda _object: (&quot;environ({&quot;, &quot;})&quot;, &quot;environ({})&quot;),
+    array: <ref refid="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a7f9363f729c49465cff5bc6517f8dd5d" kindref="member">_get_braces_for_array</ref>,
+    defaultdict: <ref refid="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a4388b6358bf57c2a8b5f4528945b61f0" kindref="member">_get_braces_for_defaultdict</ref>,
+    Counter: lambda _object: (&quot;Counter({&quot;, &quot;})&quot;, &quot;<ref refid="classCounter" kindref="compound">Counter</ref>()&quot;),
+    deque: lambda _object: (&quot;deque([&quot;, &quot;])&quot;, &quot;deque()&quot;),
+    dict: lambda _object: (&quot;{&quot;, &quot;}&quot;, &quot;{}&quot;),
+    UserDict: lambda _object: (&quot;{&quot;, &quot;}&quot;, &quot;{}&quot;),
+    frozenset: lambda _object: (&quot;frozenset({&quot;, &quot;})&quot;, &quot;frozenset()&quot;),
+    list: lambda _object: (&quot;[&quot;, &quot;]&quot;, &quot;[]&quot;),
+    UserList: lambda _object: (&quot;[&quot;, &quot;]&quot;, &quot;[]&quot;),
+    set: lambda _object: (&quot;{&quot;, &quot;}&quot;, &quot;set()&quot;),
+    tuple: lambda _object: (&quot;(&quot;, &quot;)&quot;, &quot;()&quot;),
+    MappingProxyType: lambda _object: (&quot;mappingproxy({&quot;, &quot;})&quot;, &quot;mappingproxy({})&quot;),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="359" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a84eee6781280bd19aff75aa07c467182" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::pretty._CONTAINERS</definition>
+        <argsstring></argsstring>
+        <name>_CONTAINERS</name>
+        <qualifiedname>pip._vendor.rich.pretty._CONTAINERS</qualifiedname>
+        <initializer>=  tuple(_BRACES.keys())</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="374" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1ac97d072378c411ef3b2b3ee0ba097570" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_vendor::rich::pretty._MAPPING_CONTAINERS</definition>
+        <argsstring></argsstring>
+        <name>_MAPPING_CONTAINERS</name>
+        <qualifiedname>pip._vendor.rich.pretty._MAPPING_CONTAINERS</qualifiedname>
+        <initializer>=  (dict, os._Environ, MappingProxyType, UserDict)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="375" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a9fa9af11bd31974856df9dbb689fc9cc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::pretty.d</definition>
+        <argsstring></argsstring>
+        <name>d</name>
+        <qualifiedname>pip._vendor.rich.pretty.d</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="949" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="949" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a74c3f9e036036339189d4e6d9e8b7c7c" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::rich::pretty.data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>pip._vendor.rich.pretty.data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="951" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="951" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a04b4a225f822b3b3a54b7f9aede8a843" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.rich.pretty._is_attr_object</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>_is_attr_object</name>
+        <qualifiedname>pip._vendor.rich.pretty._is_attr_object</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if an object was created with attrs module.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="58" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1adc68e910b63811084f1ac3f54fb4e29c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Sequence[&quot;_attr_module.Attribute[Any]&quot;]</type>
+        <definition> Sequence[&quot;_attr_module.Attribute[Any]&quot;] pip._vendor.rich.pretty._get_attr_fields</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>_get_attr_fields</name>
+        <qualifiedname>pip._vendor.rich.pretty._get_attr_fields</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get fields for an attrs object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="63" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a29496d4f967a3b732ee26280bc87afd3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.rich.pretty._is_dataclass_repr</definition>
+        <argsstring>(object obj)</argsstring>
+        <name>_is_dataclass_repr</name>
+        <qualifiedname>pip._vendor.rich.pretty._is_dataclass_repr</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if an instance of a dataclass contains the default repr.
+
+Args:
+    obj (object): A dataclass instance.
+
+Returns:
+    bool: True if the default repr is used, False if there is a custom repr.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="68" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="68" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a7b500c4ad0939cf18a547010a7c9d2f9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.rich.pretty._has_default_namedtuple_repr</definition>
+        <argsstring>(object obj)</argsstring>
+        <name>_has_default_namedtuple_repr</name>
+        <qualifiedname>pip._vendor.rich.pretty._has_default_namedtuple_repr</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if an instance of namedtuple contains the default repr
+
+Args:
+    obj (object): A namedtuple
+
+Returns:
+    bool: True if the default repr is used, False if there&apos;s a custom repr.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="88" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="88" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a9da052d6696ad9a4c463ee07cdc8cc59" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Union[str, None]</type>
+        <definition> Union[str, None] pip._vendor.rich.pretty._ipy_display_hook</definition>
+        <argsstring>(Any value, Optional[&quot;Console&quot;] console=None, &quot;OverflowMethod&quot; overflow=&quot;ignore&quot;, bool crop=False, bool indent_guides=False, Optional[int] max_length=None, Optional[int] max_string=None, Optional[int] max_depth=None, bool expand_all=False)</argsstring>
+        <name>_ipy_display_hook</name>
+        <qualifiedname>pip._vendor.rich.pretty._ipy_display_hook</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>console</declname>
+          <array>[&quot;Console&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>&quot;OverflowMethod&quot;</type>
+          <declname>overflow</declname>
+          <defval>&quot;ignore&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>crop</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>indent_guides</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_length</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_string</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_depth</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>expand_all</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="108" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="118" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1ab72d8b3de5c9dff3a7de98e5f4761f11" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.rich.pretty._safe_isinstance</definition>
+        <argsstring>(object obj, Union[type, Tuple[type,...]] class_or_tuple)</argsstring>
+        <name>_safe_isinstance</name>
+        <qualifiedname>pip._vendor.rich.pretty._safe_isinstance</qualifiedname>
+        <param>
+          <type>object</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Union]</type>
+          <declname>class_or_tuple</declname>
+          <array>[type, Tuple[type,...]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>isinstance can fail in rare cases, for example types with no __class__</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="154" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="156" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a0a7b1d8e77d951ba6679e704cfab5fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.rich.pretty.install</definition>
+        <argsstring>(Optional[&quot;Console&quot;] console=None, &quot;OverflowMethod&quot; overflow=&quot;ignore&quot;, bool crop=False, bool indent_guides=False, Optional[int] max_length=None, Optional[int] max_string=None, Optional[int] max_depth=None, bool expand_all=False)</argsstring>
+        <name>install</name>
+        <qualifiedname>pip._vendor.rich.pretty.install</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>console</declname>
+          <array>[&quot;Console&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>&quot;OverflowMethod&quot;</type>
+          <declname>overflow</declname>
+          <defval>&quot;ignore&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>crop</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>indent_guides</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_length</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_string</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_depth</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>expand_all</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Install automatic pretty printing in the Python REPL.
+
+Args:
+    console (Console, optional): Console instance or ``None`` to use global console. Defaults to None.
+    overflow (Optional[OverflowMethod], optional): Overflow method. Defaults to &quot;ignore&quot;.
+    crop (Optional[bool], optional): Enable cropping of long lines. Defaults to False.
+    indent_guides (bool, optional): Enable indentation guides. Defaults to False.
+    max_length (int, optional): Maximum length of containers before abbreviating, or None for no abbreviation.
+        Defaults to None.
+    max_string (int, optional): Maximum length of string before truncating, or None to disable. Defaults to None.
+    max_depth (int, optional): Maximum depth of nested data structures, or None for no maximum. Defaults to None.
+    expand_all (bool, optional): Expand all containers. Defaults to False.
+    max_frames (int): Maximum number of frames to show in a traceback, 0 for no maximum. Defaults to 100.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="164" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="173" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a4388b6358bf57c2a8b5f4528945b61f0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str, str]</type>
+        <definition> Tuple[str, str, str] pip._vendor.rich.pretty._get_braces_for_defaultdict</definition>
+        <argsstring>(DefaultDict[Any, Any] _object)</argsstring>
+        <name>_get_braces_for_defaultdict</name>
+        <qualifiedname>pip._vendor.rich.pretty._get_braces_for_defaultdict</qualifiedname>
+        <param>
+          <type>DefaultDict</type>
+          <declname>_object</declname>
+          <array>[Any, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="347" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="347" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a7f9363f729c49465cff5bc6517f8dd5d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str, str]</type>
+        <definition> Tuple[str, str, str] pip._vendor.rich.pretty._get_braces_for_array</definition>
+        <argsstring>(&quot;array[Any]&quot; _object)</argsstring>
+        <name>_get_braces_for_array</name>
+        <qualifiedname>pip._vendor.rich.pretty._get_braces_for_array</qualifiedname>
+        <param>
+          <type>&quot;array&quot;</type>
+          <declname>_object</declname>
+          <array>[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="355" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="355" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a25d816e010626c710825615cf950b805" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.rich.pretty.is_expandable</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>is_expandable</name>
+        <qualifiedname>pip._vendor.rich.pretty.is_expandable</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if an object may be expanded by pretty print.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="378" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="378" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1adfc74ede3b8c78260db6e46ac6591930" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.rich.pretty._is_namedtuple</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>_is_namedtuple</name>
+        <qualifiedname>pip._vendor.rich.pretty._is_namedtuple</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks if an object is most likely a namedtuple. It is possible
+to craft an object that passes this check and isn&apos;t a namedtuple, but
+there is only a minuscule chance of this happening unintentionally.
+
+Args:
+    obj (Any): The object to test
+
+Returns:
+    bool: True if the object is a namedtuple. False otherwise.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="541" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="541" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1a33086e63b89d60e0d66bb567d84bb907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1rich_1_1pretty_1_1Node" kindref="compound">Node</ref></type>
+        <definition> Node pip._vendor.rich.pretty.traverse</definition>
+        <argsstring>(Any _object, Optional[int] max_length=None, Optional[int] max_string=None, Optional[int] max_depth=None)</argsstring>
+        <name>traverse</name>
+        <qualifiedname>pip._vendor.rich.pretty.traverse</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>_object</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_length</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_string</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_depth</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Traverse object and generate a tree.
+
+Args:
+    _object (Any): Object to be traversed.
+    max_length (int, optional): Maximum length of containers before abbreviating, or None for no abbreviation.
+        Defaults to None.
+    max_string (int, optional): Maximum length of string before truncating, or None to disable truncating.
+        Defaults to None.
+    max_depth (int, optional): Maximum depth of data structures, or None for no maximum.
+        Defaults to None.
+
+Returns:
+    Node: The root of a tree structure which can be used to render a pretty repr.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="560" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="565" bodyend="855"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1aea51e4518e6784b1127427e5198ebc8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich.pretty.pretty_repr</definition>
+        <argsstring>(Any _object, *int max_width=80, int indent_size=4, Optional[int] max_length=None, Optional[int] max_string=None, Optional[int] max_depth=None, bool expand_all=False)</argsstring>
+        <name>pretty_repr</name>
+        <qualifiedname>pip._vendor.rich.pretty.pretty_repr</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>_object</declname>
+        </param>
+        <param>
+          <type>*int</type>
+          <declname>max_width</declname>
+          <defval>80</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>indent_size</declname>
+          <defval>4</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_length</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_string</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_depth</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>expand_all</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Prettify repr string by expanding on to new lines to fit within a given width.
+
+Args:
+    _object (Any): Object to repr.
+    max_width (int, optional): Desired maximum width of repr string. Defaults to 80.
+    indent_size (int, optional): Number of spaces to indent. Defaults to 4.
+    max_length (int, optional): Maximum length of containers before abbreviating, or None for no abbreviation.
+        Defaults to None.
+    max_string (int, optional): Maximum length of string before truncating, or None to disable truncating.
+        Defaults to None.
+    max_depth (int, optional): Maximum depth of nested data structure, or None for no depth.
+        Defaults to None.
+    expand_all (bool, optional): Expand all containers regardless of available width. Defaults to False.
+
+Returns:
+    str: A possibly multi-line representation of the object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="856" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="865" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1pretty_1ae26e52db79bc2b56dc8882c2eb36bd2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.rich.pretty.pprint</definition>
+        <argsstring>(Any _object, *Optional[&quot;Console&quot;] console=None, bool indent_guides=True, Optional[int] max_length=None, Optional[int] max_string=None, Optional[int] max_depth=None, bool expand_all=False)</argsstring>
+        <name>pprint</name>
+        <qualifiedname>pip._vendor.rich.pretty.pprint</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>_object</declname>
+        </param>
+        <param>
+          <type>*Optional</type>
+          <declname>console</declname>
+          <array>[&quot;Console&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>indent_guides</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_length</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_string</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>max_depth</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>expand_all</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A convenience function for pretty printing.
+
+Args:
+    _object (Any): Object to pretty print.
+    console (Console, optional): Console instance, or None to use default. Defaults to None.
+    max_length (int, optional): Maximum length of containers before abbreviating, or None for no abbreviation.
+        Defaults to None.
+    max_string (int, optional): Maximum length of strings before truncating, or None to disable. Defaults to None.
+    max_depth (int, optional): Maximum depth for nested data structures, or None for unlimited depth. Defaults to None.
+    indent_guides (bool, optional): Enable indentation guides. Defaults to True.
+    expand_all (bool, optional): Expand all containers. Defaults to False.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="896" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" bodystart="905" bodyend="932"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/pip/_vendor/rich/pretty.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

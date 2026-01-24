@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2____init_____8py" kind="file" language="Python">
+    <compoundname>__init__.py</compoundname>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>Sphinx<sp/>documentation<sp/>toolchain.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Keep<sp/>this<sp/>file<sp/>executable<sp/>as-is<sp/>in<sp/>Python<sp/>3!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">#<sp/>(Otherwise<sp/>getting<sp/>the<sp/>version<sp/>out<sp/>of<sp/>it<sp/>when<sp/>packaging<sp/>is<sp/>impossible.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>warnings</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">#<sp/>work<sp/>around<sp/>flit<sp/>error<sp/>in<sp/>parsing<sp/>annotated<sp/>assignments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1__pathlib" kindref="compound">sphinx.util._pathlib</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_StrPath</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ImportError:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>pathlib<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Path<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_StrPath<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[assignment]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">TYPE_CHECKING<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Final</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">__version__:<sp/>Final<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;8.2.3&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">__display_version__:<sp/>Final<sp/>=<sp/>__version__<sp/><sp/></highlight><highlight class="comment">#<sp/>used<sp/>for<sp/>command<sp/>line<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">warnings.filterwarnings(</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;ignore&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;The<sp/>frontend.Option<sp/>class<sp/>.*&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>DeprecationWarning,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>module=</highlight><highlight class="stringliteral">&apos;docutils.frontend&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>Version<sp/>info<sp/>for<sp/>better<sp/>programmatic<sp/>use.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">#:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>A<sp/>tuple<sp/>of<sp/>five<sp/>elements;<sp/>for<sp/>Sphinx<sp/>version<sp/>1.2.1<sp/>beta<sp/>3<sp/>this<sp/>would<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>``(1,<sp/>2,<sp/>1,<sp/>&apos;beta&apos;,<sp/>3)``.<sp/>The<sp/>fourth<sp/>element<sp/>can<sp/>be<sp/>one<sp/>of:<sp/>``alpha``,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>``beta``,<sp/>``rc``,<sp/>``final``.<sp/>``final``<sp/>always<sp/>has<sp/>0<sp/>as<sp/>the<sp/>last<sp/>element.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">#:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">#:<sp/>..<sp/>versionadded::<sp/>1.2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">#:<sp/><sp/><sp/><sp/>Before<sp/>version<sp/>1.2,<sp/>check<sp/>the<sp/>string<sp/>``sphinx.__version__``.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">version_info:<sp/>Final<sp/>=<sp/>(8,<sp/>2,<sp/>3,<sp/></highlight><highlight class="stringliteral">&apos;final&apos;</highlight><highlight class="normal">,<sp/>0)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">package_dir:<sp/>Final<sp/>=<sp/><ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref>(__file__).resolve().parent</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">_in_development<sp/>=<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>_in_development:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Only<sp/>import<sp/>subprocess<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>subprocess</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>ret<sp/>:=<sp/>subprocess.run(</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;git&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;rev-parse&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;--short&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;HEAD&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capture_output=</highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>check=</highlight><highlight class="keyword">False</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cwd=package_dir,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encoding=</highlight><highlight class="stringliteral">&apos;utf-8&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors=</highlight><highlight class="stringliteral">&apos;surrogateescape&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>).stdout:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__display_version__<sp/>+=<sp/>f</highlight><highlight class="stringliteral">&apos;+/{ret.strip()}&apos;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[misc]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>ret</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">finally</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>subprocess</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">del<sp/>_in_development</highlight></codeline>
+    </programlisting>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/__init__.py"/>
+  </compounddef>
+</doxygen>

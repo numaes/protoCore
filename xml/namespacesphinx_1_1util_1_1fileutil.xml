@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1fileutil" kind="namespace" language="Python">
+    <compoundname>sphinx::util::fileutil</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1fileutil_1ac84936f3c1b7b42ec7f6e3e1a8de89c1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::fileutil.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.util.fileutil.logger</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" kindref="member">logging.getLogger</ref>(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" line="21" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1fileutil_1a8b37ad56df9f99293cdcc7a9b35101c1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Path|None</type>
+        <definition> Path | None sphinx.util.fileutil._template_basename</definition>
+        <argsstring>(Path filename)</argsstring>
+        <name>_template_basename</name>
+        <qualifiedname>sphinx.util.fileutil._template_basename</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given an input filename:
+If the input looks like a template, then return the filename output should
+be written to.  Otherwise, return no result (None).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" line="24" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" bodystart="24" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1fileutil_1a2ee31f5516790f5b7774bbf7a8d69d1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.fileutil.copy_asset_file</definition>
+        <argsstring>(str|os.PathLike[str] source, str|os.PathLike[str] destination, dict[str, Any]|None context=None, BaseRenderer|None renderer=None, *bool force=False)</argsstring>
+        <name>copy_asset_file</name>
+        <qualifiedname>sphinx.util.fileutil.copy_asset_file</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>source</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>destination</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>context</declname>
+          <array>[str, Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1template_1_1BaseRenderer" kindref="compound">BaseRenderer</ref>|None</type>
+          <declname>renderer</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>force</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy an asset file to destination.
+
+On copying, it expands the template variables if context argument is given and
+the asset is a template file.
+
+:param source: The path to source file
+:param destination: The path to destination file or directory
+:param context: The template variables.  If not given, template files are simply copied
+:param renderer: The template engine.  If not given, SphinxRenderer is used by default
+:param bool force: Overwrite the destination file even if it exists.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" line="37" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" bodystart="44" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1fileutil_1af646aa2c208d323dc8271a1c5a1dacc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.fileutil.copy_asset</definition>
+        <argsstring>(str|os.PathLike[str] source, str|os.PathLike[str] destination, PathMatcher excluded=lambda path:False, dict[str, Any]|None context=None, BaseRenderer|None renderer=None, Callable[[str, Exception], None]|None onerror=None, *bool force=False)</argsstring>
+        <name>copy_asset</name>
+        <qualifiedname>sphinx.util.fileutil.copy_asset</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>source</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>destination</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>PathMatcher</type>
+          <declname>excluded</declname>
+          <defval>lambda path:False</defval>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>context</declname>
+          <array>[str, Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1template_1_1BaseRenderer" kindref="compound">BaseRenderer</ref>|None</type>
+          <declname>renderer</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>onerror</defname>
+          <array>[[str, Exception]</array>
+        </param>
+        <param>
+          <type>None]|None</type>
+          <declname>onerror</declname>
+          <defname>force</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>force</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy asset files to destination recursively.
+
+On copying, it expands the template variables if context argument is given and
+the asset is a template file.
+
+Use ``copy_asset_file`` instead to copy a single file.
+
+:param source: The path to source file or directory
+:param destination: The path to destination directory
+:param excluded: The matcher to determine the given path should be copied or not
+:param context: The template variables.  If not given, template files are simply copied
+:param renderer: The template engine.  If not given, SphinxRenderer is used by default
+:param onerror: The error handler.
+:param bool force: Overwrite the destination file even if it exists.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" line="101" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" bodystart="110" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>File utility functions for Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="docs/venv/lib/python3.12/site-packages/sphinx/util/fileutil.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

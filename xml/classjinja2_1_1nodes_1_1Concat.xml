@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1Concat" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::Concat</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1Expr" prot="public" virt="non-virtual">jinja2.nodes.Expr</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Concat_1ab19a4f467d9e092f10ff9233a531f979" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.Concat::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.Concat.fields</qualifiedname>
+        <initializer>=  (&quot;nodes&quot;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="903" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="903" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Concat_1a7648f28df67af605f1f4af37a49313e9" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.nodes.Concat::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>jinja2.nodes.Concat.nodes</qualifiedname>
+        <initializer>.<ref refid="classjinja2_1_1nodes_1_1List" kindref="compound">List</ref>[<ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">Expr</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="904" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="904" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Concat_1a5da5b0621eae6e23b08f4409d025216a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.nodes.Concat::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>jinja2.nodes.Concat.nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="908" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="908" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Concat_1a734b86ffe8a2511756a674371e6ea98f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.nodes.Concat.as_const</definition>
+        <argsstring>(self, t.Optional[EvalContext] eval_ctx=None)</argsstring>
+        <name>as_const</name>
+        <qualifiedname>jinja2.nodes.Concat.as_const</qualifiedname>
+        <reimplements refid="classjinja2_1_1nodes_1_1Expr_1afc3c83d61cdf1d87d4a3f54637efb194">as_const</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>eval_ctx</declname>
+          <array>[EvalContext]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the value of the expression as constant or raise
+:exc:`Impossible` if this was not possible.
+
+An :class:`EvalContext` can be provided, if none is given
+a default context is created which requires the nodes to have
+an attached environment.
+
+.. versionchanged:: 2.4
+   the `eval_ctx` parameter was added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="906" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="906" bodyend="910"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Concatenates the list of expressions provided after converting
+them to strings.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.Concat</label>
+        <link refid="classjinja2_1_1nodes_1_1Concat"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.nodes.Concat</label>
+        <link refid="classjinja2_1_1nodes_1_1Concat"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>fields</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>attributes</edgelabel>
+          <edgelabel>fields</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" line="898" column="1" bodyfile="docs/venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="898" bodyend="910"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1Concat_1a734b86ffe8a2511756a674371e6ea98f" prot="public" virt="non-virtual"><scope>jinja2::nodes::Concat</scope><name>as_const</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Concat_1ab19a4f467d9e092f10ff9233a531f979" prot="public" virt="non-virtual"><scope>jinja2::nodes::Concat</scope><name>fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Concat_1a7648f28df67af605f1f4af37a49313e9" prot="public" virt="non-virtual"><scope>jinja2::nodes::Concat</scope><name>nodes</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Concat_1a5da5b0621eae6e23b08f4409d025216a" prot="public" virt="non-virtual"><scope>jinja2::nodes::Concat</scope><name>nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
