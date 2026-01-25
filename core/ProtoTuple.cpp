@@ -110,6 +110,13 @@ namespace proto {
     unsigned long ProtoTupleIteratorImplementation::getHash(ProtoContext* context) const {
         return reinterpret_cast<uintptr_t>(this);
     }
+    
+    const ProtoTupleIterator* ProtoTupleIteratorImplementation::asProtoTupleIterator(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.tupleIteratorImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_TUPLE_ITERATOR;
+        return p.tupleIterator;
+    }
 
 
     //=========================================================================

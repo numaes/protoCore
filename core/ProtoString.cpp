@@ -68,6 +68,13 @@ namespace proto {
     unsigned long ProtoStringIteratorImplementation::getHash(ProtoContext* context) const {
         return reinterpret_cast<uintptr_t>(this);
     }
+    
+    const ProtoStringIterator* ProtoStringIteratorImplementation::asProtoStringIterator(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.stringIteratorImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_STRING_ITERATOR;
+        return p.stringIterator;
+    }
 
 
     //=========================================================================
@@ -183,6 +190,94 @@ namespace proto {
 
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
         return toImpl<const ProtoStringImplementation>(this)->implAsObject(context);
+    }
+    
+    const ProtoString* ProtoString::setAt(ProtoContext* context, int index, const ProtoObject* character) const {
+        const ProtoList* list = asList(context);
+        const ProtoList* newList = list->setAt(context, index, character);
+        const ProtoTuple* tuple = context->newTupleFromList(newList);
+        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+    }
+    
+    const ProtoString* ProtoString::insertAt(ProtoContext* context, int index, const ProtoObject* character) const {
+        const ProtoList* list = asList(context);
+        const ProtoList* newList = list->insertAt(context, index, character);
+        const ProtoTuple* tuple = context->newTupleFromList(newList);
+        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+    }
+    
+    const ProtoString* ProtoString::setAtString(ProtoContext* context, int index, const ProtoString* otherString) const {
+        // Convert to list, replace range, convert back
+        const ProtoList* list = asList(context);
+        const ProtoList* otherList = otherString->asList(context);
+        const ProtoListIterator* it = otherList->getIterator(context);
+        const ProtoList* newList = list;
+        int i = index;
+        while (it->hasNext(context) && i < (int)list->getSize(context)) {
+            newList = newList->setAt(context, i++, it->next(context));
+        }
+        const ProtoTuple* tuple = context->newTupleFromList(newList);
+        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+    }
+    
+    const ProtoString* ProtoString::insertAtString(ProtoContext* context, int index, const ProtoString* otherString) const {
+        const ProtoList* list = asList(context);
+        const ProtoList* otherList = otherString->asList(context);
+        const ProtoListIterator* it = otherList->getIterator(context);
+        const ProtoList* newList = list;
+        int i = index;
+        while (it->hasNext(context)) {
+            newList = newList->insertAt(context, i++, it->next(context));
+        }
+        const ProtoTuple* tuple = context->newTupleFromList(newList);
+        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+    }
+    
+    const ProtoString* ProtoString::splitFirst(ProtoContext* context, int count) const {
+        unsigned long size = getSize(context);
+        if (count <= 0) return ProtoString::fromUTF8String(context, "");
+        if (count >= (int)size) return const_cast<ProtoString*>(this);
+        return getSlice(context, 0, count);
+    }
+    
+    const ProtoString* ProtoString::splitLast(ProtoContext* context, int count) const {
+        unsigned long size = getSize(context);
+        if (count <= 0) return ProtoString::fromUTF8String(context, "");
+        if (count >= (int)size) return const_cast<ProtoString*>(this);
+        return getSlice(context, size - count, size);
+    }
+    
+    const ProtoString* ProtoString::removeFirst(ProtoContext* context, int count) const {
+        unsigned long size = getSize(context);
+        if (count <= 0) return const_cast<ProtoString*>(this);
+        if (count >= (int)size) return ProtoString::fromUTF8String(context, "");
+        return getSlice(context, count, size);
+    }
+    
+    const ProtoString* ProtoString::removeLast(ProtoContext* context, int count) const {
+        unsigned long size = getSize(context);
+        if (count <= 0) return const_cast<ProtoString*>(this);
+        if (count >= (int)size) return ProtoString::fromUTF8String(context, "");
+        return getSlice(context, 0, size - count);
+    }
+    
+    const ProtoString* ProtoString::removeAt(ProtoContext* context, int index) const {
+        const ProtoList* list = asList(context);
+        const ProtoList* newList = list->removeAt(context, index);
+        // Convert list back to string - simplified approach
+        const ProtoTuple* tuple = context->newTupleFromList(newList);
+        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+    }
+    
+    const ProtoString* ProtoString::removeSlice(ProtoContext* context, int from, int to) const {
+        const ProtoList* list = asList(context);
+        const ProtoList* newList = list->removeSlice(context, from, to);
+        const ProtoTuple* tuple = context->newTupleFromList(newList);
+        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+    }
+    
+    const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const {
+        return toImpl<const ProtoStringImplementation>(this)->implGetIterator(context)->asProtoStringIterator(context);
     }
 
     //=========================================================================

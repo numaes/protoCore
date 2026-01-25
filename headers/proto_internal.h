@@ -832,6 +832,7 @@ namespace proto {
         const ProtoObject* implNext(ProtoContext* context);
         const ProtoTupleIteratorImplementation* implAdvance(ProtoContext* context) const;
         const ProtoObject* implAsObject(ProtoContext* context) const override;
+        const ProtoTupleIterator* asProtoTupleIterator(ProtoContext* context) const;
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
         unsigned long getHash(ProtoContext* context) const;
@@ -847,6 +848,7 @@ namespace proto {
         const ProtoObject* implNext(ProtoContext* context);
         const ProtoStringIteratorImplementation* implAdvance(ProtoContext* context) const;
         const ProtoObject* implAsObject(ProtoContext* context) const override;
+        const ProtoStringIterator* asProtoStringIterator(ProtoContext* context) const;
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
         unsigned long getHash(ProtoContext* context) const;
