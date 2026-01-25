@@ -327,6 +327,14 @@ namespace proto
         return p.oid;
     }
 
+    const ProtoObject* ProtoContext::fromBuffer(unsigned long length, char* buffer, bool freeOnExit) {
+        return (new(this) ProtoByteBufferImplementation(this, buffer, length, freeOnExit))->implAsObject(this);
+    }
+
+    const ProtoObject* ProtoContext::newBuffer(unsigned long length) {
+        return (new(this) ProtoByteBufferImplementation(this, nullptr, length, true))->implAsObject(this);
+    }
+
     ReturnReference::ReturnReference(ProtoContext* context, Cell* rv) : Cell(context), returnValue(rv) {}
 
     const ProtoObject* ReturnReference::implAsObject(ProtoContext* context) const

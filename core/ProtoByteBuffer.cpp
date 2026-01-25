@@ -112,3 +112,34 @@ namespace proto
     }
 
 } // namespace proto
+
+namespace proto {
+    //=========================================================================
+    // ProtoByteBuffer API
+    //=========================================================================
+
+    unsigned long ProtoByteBuffer::getSize(ProtoContext* context) const {
+        return toImpl<const ProtoByteBufferImplementation>(this)->implGetSize(context);
+    }
+
+    char* ProtoByteBuffer::getBuffer(ProtoContext* context) const {
+        return toImpl<const ProtoByteBufferImplementation>(this)->implGetBuffer(context);
+    }
+
+    char ProtoByteBuffer::getAt(ProtoContext* context, int index) const {
+        return toImpl<const ProtoByteBufferImplementation>(this)->implGetAt(context, index);
+    }
+
+    void ProtoByteBuffer::setAt(ProtoContext* context, int index, char value) {
+        const_cast<ProtoByteBufferImplementation*>(toImpl<const ProtoByteBufferImplementation>(this))->implSetAt(context, index, value);
+    }
+
+    const ProtoObject* ProtoByteBuffer::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoByteBufferImplementation>(this)->implAsObject(context);
+    }
+
+    unsigned long ProtoByteBuffer::getHash(ProtoContext* context) const {
+        return toImpl<const ProtoByteBufferImplementation>(this)->getHash(context);
+    }
+
+}
