@@ -133,7 +133,7 @@ The project documentation is generated using **Doxygen**, **Sphinx**, and **Brea
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-Copyright (c) 2024
+Copyright (c) 2024 Gustavo Marino <gamarino@gmail.com>
 
 ## Contributing
 
