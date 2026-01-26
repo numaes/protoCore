@@ -77,19 +77,46 @@ The project uses **CMake** for a modern, cross-platform build system.
 1.  **Clone the repository:**
     ```bash
     git clone <repository_url>
-    cd protoCoreCore
+    cd protoCore
     ```
 
 2.  **Configure and Build:**
-    This standard "out-of-source" build keeps your source directory clean.
+    It is recommended to use a separate build directory:
     ```bash
-    mkdir build
-    cd build
-    cmake ..
-    make
+    cmake -B build -S .
+    cmake --build build --target proto
     ```
 
-This will produce the `libprotoCore.a` static library, along with all test and benchmark executables inside the `build` directory.
+This will produce the `libproto.a` static library, along with test and benchmark executables in the `build` directory.
+
+## Installation and Packaging
+
+Proto supports standard installation and multi-platform packaging using CMake and CPack.
+
+### 1. Build
+To compile the library:
+```bash
+cmake -B build -S .
+cmake --build build --target proto
+```
+
+### 2. Installation
+To install the library on your system (requires administrative privileges):
+```bash
+sudo cmake --install build --component proto_lib
+```
+To install to a specific directory (staging):
+```bash
+cmake --install build --component proto_lib --prefix ./dist
+```
+
+### 3. Packaging
+To generate installers or packages for your platform (.deb, .rpm, .zip, .nsis, etc.):
+```bash
+cd build
+cpack
+```
+This will generate the package files in the `build` directory.
 
 ## Running Tests and Benchmarks
 
@@ -99,16 +126,15 @@ After a successful build, all executables are located in the `build` directory.
 
 The project uses the **Google Test** framework. To run all tests:
 ```bash
-cd build
-ctest --verbose
+ctest --test-dir build --output-on-failure
 ```
 
 ### Running the Benchmarks
 
 The benchmarks provide insight into Proto's performance characteristics.
 ```bash
-./build/performance/immutable_sharing_benchmark
-./build/performance/concurrent_append_benchmark
+./build/immutable_sharing_benchmark
+./build/concurrent_append_benchmark
 ```
 
 ## Building the Documentation

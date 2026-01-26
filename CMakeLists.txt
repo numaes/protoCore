@@ -3,7 +3,14 @@
 
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
-project(Proto CXX)
+project(Proto 
+    VERSION 1.0.0
+    DESCRIPTION "Proto core library"
+    HOMEPAGE_URL "https://github.com/proto-project/proto"
+    LANGUAGES CXX
+)
+
+include(GNUInstallDirs)
 
 # 2. Set the C++ standard to C++20
 set(CMAKE_CXX_STANDARD 20)
@@ -63,5 +70,42 @@ message(STATUS "Configured benchmark: concurrent_append_benchmark")
 enable_testing()
 add_subdirectory(test)
 
-# 6. User-friendly message on completion
-message(STATUS "Proto project configured successfully. Use 'make' to build and 'ctest' to run tests.")
+# 6. Installation rules
+set(PROTO_INSTALL_COMPONENT "proto_lib")
+install(TARGETS proto
+    EXPORT ProtoTargets
+    COMPONENT ${PROTO_INSTALL_COMPONENT}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+install(FILES headers/protoCore.h
+    COMPONENT ${PROTO_INSTALL_COMPONENT}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+# 7. Packaging configuration (CPack)
+set(CPACK_PACKAGE_VENDOR "ProtoProject")
+set(CPACK_PACKAGE_CONTACT "admin@proto.org")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+
+# Generator selection
+if(WIN32)
+    set(CPACK_GENERATOR "ZIP;NSIS")
+elseif(APPLE)
+    set(CPACK_GENERATOR "TGZ;DragNDrop")
+else()
+    set(CPACK_GENERATOR "TGZ;DEB;RPM")
+endif()
+
+# Only pack the library component by default
+set(CPACK_COMPONENTS_ALL proto_lib)
+
+include(CPack)
+
+# 8. User-friendly message on completion
+message(STATUS "Proto project configured successfully. Use 'cmake --build <build_dir>' to build, 'ctest' to run tests, and 'cpack' for packaging.")
