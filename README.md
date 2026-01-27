@@ -29,6 +29,36 @@ It is designed for developers who need to script complex application behavior, c
 - ✅ **GC Stress Testing** - Validated and optimized garbage collection behavior
 - ✅ **Comprehensive Technical Audit** - Complete architecture and implementation review
 - ✅ **Documentation** - Full API documentation and technical specifications
+- ✅ **protoJS Runtime** - Complete JavaScript runtime built on protoCore (Phase 5 Complete)
+
+---
+
+## Real-World Application: protoJS
+
+**protoJS** is a modern JavaScript runtime built entirely on protoCore, demonstrating the framework's capability to serve as the foundation for production-ready runtimes. This real-world application showcases protoCore's strengths in a practical, high-performance environment.
+
+### protoJS Status: Phase 5 Complete ✅
+
+**Current Status:** Production-ready JavaScript runtime with full Node.js compatibility
+
+**Key Achievements:**
+- ✅ Complete JavaScript runtime with QuickJS parser integration
+- ✅ Full Node.js API compatibility (fs, http, net, stream, crypto, buffer, etc.)
+- ✅ Advanced networking (TCP, UDP, HTTP, Cluster, Worker Threads)
+- ✅ Comprehensive developer tools (Memory Analyzer, Visual Profiler, Integrated Debugger)
+- ✅ Module system (CommonJS, ES Modules, npm integration)
+- ✅ Transparent worker thread execution with automatic parallelization
+- ✅ Production-ready binary (2.3 MB executable)
+- ✅ Comprehensive test suite with high coverage
+
+**What protoJS Demonstrates:**
+- **Concurrency without GIL**: protoCore's GIL-free architecture enables true parallel execution
+- **Efficient Memory Management**: protoCore's concurrent GC handles JavaScript object lifecycle
+- **Immutability Benefits**: Structural sharing provides memory efficiency and thread safety
+- **Performance**: Hardware-aware design delivers elite performance characteristics
+- **Production Readiness**: Complete runtime with full module system and developer tools
+
+**Learn More:** See the [protoJS project](https://github.com/gamarino/protoJS) for complete documentation and source code.
 
 ---
 
@@ -191,6 +221,10 @@ Comprehensive documentation is available:
 - **`COMPREHENSIVE_TECHNICAL_AUDIT_2026.md`** - Complete technical audit and quality assessment
 - **`API_COMPLETENESS_AUDIT_2026.md`** - API completeness verification and implementation status
 - **`docs/`** - Generated API documentation (Doxygen/Sphinx)
+
+### Real-World Reference Implementation
+
+- **protoJS** - A complete JavaScript runtime built on protoCore, demonstrating production use of all protoCore features. See the [protoJS repository](https://github.com/gamarino/protoJS) for implementation examples and best practices.
 
 ## Contributing
 
