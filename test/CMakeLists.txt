@@ -19,8 +19,8 @@ file(GLOB TEST_SOURCES "*.cpp")
 # 3. Create an executable for the test suite
 add_executable(proto_tests ${TEST_SOURCES})
 
-# 4. Link the test suite against our core 'protoCore' library and Google Test
-target_link_libraries(proto_tests PRIVATE proto gtest_main)
+# 4. Link the test suite against the protoCore shared library and Google Test
+target_link_libraries(proto_tests PRIVATE protoCore gtest_main)
 
 # 5. Include Google Test headers
 target_include_directories(proto_tests PRIVATE ${googletest_SOURCE_DIR}/googletest/include)

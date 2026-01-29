@@ -85,11 +85,11 @@ namespace proto {
 ### Build Status
 - ✅ Clean compilation with no warnings
 - ✅ All object files compiled successfully
-- ✅ libproto.a rebuilt with new symbols
+- ✅ protoCore shared library rebuilt with new symbols
 
 ### Symbol Verification
 ```bash
-$ nm libproto.a | grep -E "ProtoByteBuffer|ProtoContext" | grep -E "getSize|getBuffer|newBuffer|fromBuffer"
+$ nm libprotoCore.so | grep -E "ProtoByteBuffer|ProtoContext" | grep -E "getSize|getBuffer|newBuffer|fromBuffer"
 
 000000000000035c T _ZNK5proto15ProtoByteBuffer7getSizeEPNS_12ProtoContextE
 0000000000000390 T _ZNK5proto15ProtoByteBuffer9getBufferEPNS_12ProtoContextE
@@ -238,7 +238,7 @@ const ProtoObject* ProtoContext::newBuffer(unsigned long length) {
 ## Next Steps
 
 ### Immediate (Ready Now)
-1. ✅ Rebuild protoJS with updated libproto.a
+1. ✅ Rebuild protoJS with updated protoCore shared library
 2. ✅ Test Buffer module integration
 3. ✅ Verify all Buffer module functionality
 

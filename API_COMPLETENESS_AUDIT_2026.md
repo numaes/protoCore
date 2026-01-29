@@ -337,7 +337,7 @@ const ProtoObject* ProtoSetIterator::next(ProtoContext* context) const {
 ### Build Status
 - ✅ Clean compilation (no warnings)
 - ✅ All object files compiled successfully
-- ✅ libproto.a rebuilt with all new methods
+- ✅ protoCore shared library rebuilt with all new methods
 
 ### Test Results
 ```
@@ -350,7 +350,7 @@ Runtime:    ~3.25 seconds
 **All existing tests pass** - No regressions introduced
 
 ### Symbol Verification
-All new methods are exported in libproto.a:
+All new methods are exported in the protoCore shared library:
 - ✅ ProtoObject methods (13 symbols)
 - ✅ ProtoList methods (9 symbols)
 - ✅ ProtoString methods (11 symbols)

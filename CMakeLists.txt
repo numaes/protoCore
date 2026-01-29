@@ -1,12 +1,13 @@
-# CMake configuration for the Proto project
+# CMake configuration for the protoCore project
+# Official library name: protoCore (shared library)
 # This file has been updated to follow modern CMake best practices.
 
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
-project(Proto 
+project(protoCore
     VERSION 1.0.0
-    DESCRIPTION "Proto core library"
-    HOMEPAGE_URL "https://github.com/proto-project/proto"
+    DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
+    HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
 )
 
@@ -17,10 +18,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # Prefer explicit standard flags
 
-# 3. Define the core Proto static library
+# 3. Define the core protoCore shared library (official name)
 # Source files are listed explicitly to ensure robustness and prevent issues
 # where newly added files are not automatically detected by the build system.
-add_library(proto STATIC
+add_library(protoCore SHARED
     core/Cell.cpp
     core/Double.cpp
     core/LargeInteger.cpp
@@ -42,27 +43,34 @@ add_library(proto STATIC
     core/Integer.cpp
 )
 
+# Shared library versioning (version for linker, soversion for ABI)
+set_target_properties(protoCore PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION 1
+    OUTPUT_NAME protoCore
+    PUBLIC_HEADER "headers/protoCore.h"
+)
+
 # The headers directory is made public so that any consumer linking against
-# 'proto' will automatically have access to the necessary headers.
-target_include_directories(proto PUBLIC
+# 'protoCore' will automatically have access to the necessary headers.
+target_include_directories(protoCore PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/headers>
-    $<INSTALL_INTERFACE:include> # For future installation rules
+    $<INSTALL_INTERFACE:include>
 )
 
 # Find and link the platform-native Threads library.
 find_package(Threads REQUIRED)
-target_link_libraries(proto PUBLIC Threads::Threads)
+target_link_libraries(protoCore PUBLIC Threads::Threads)
 
-message(STATUS "Configured Proto library target: proto")
+message(STATUS "Configured protoCore shared library target: protoCore")
 
 # 4. Define the performance benchmark executables
-# Each benchmark is defined as a separate executable.
 add_executable(immutable_sharing_benchmark performance/immutable_sharing_benchmark.cpp)
-target_link_libraries(immutable_sharing_benchmark PRIVATE proto)
+target_link_libraries(immutable_sharing_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: immutable_sharing_benchmark")
 
 add_executable(concurrent_append_benchmark performance/concurrent_append_benchmark.cpp)
-target_link_libraries(concurrent_append_benchmark PRIVATE proto)
+target_link_libraries(concurrent_append_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: concurrent_append_benchmark")
 
 # 5. Configure the test suite
@@ -70,24 +78,22 @@ message(STATUS "Configured benchmark: concurrent_append_benchmark")
 enable_testing()
 add_subdirectory(test)
 
-# 6. Installation rules
-set(PROTO_INSTALL_COMPONENT "proto_lib")
-install(TARGETS proto
-    EXPORT ProtoTargets
-    COMPONENT ${PROTO_INSTALL_COMPONENT}
+# 6. Installation rules for protoCore shared library
+set(PROTOCORE_INSTALL_COMPONENT "protoCore")
+install(TARGETS protoCore
+    EXPORT protoCoreTargets
+    COMPONENT ${PROTOCORE_INSTALL_COMPONENT}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-install(FILES headers/protoCore.h
-    COMPONENT ${PROTO_INSTALL_COMPONENT}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 # 7. Packaging configuration (CPack)
-set(CPACK_PACKAGE_VENDOR "ProtoProject")
-set(CPACK_PACKAGE_CONTACT "admin@proto.org")
+set(CPACK_PACKAGE_NAME "protoCore")
+set(CPACK_PACKAGE_VENDOR "numaes")
+set(CPACK_PACKAGE_CONTACT "gamarino@gmail.com")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "protoCore - High-Performance Embeddable Dynamic Object System for C++")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -103,9 +109,9 @@ else()
 endif()
 
 # Only pack the library component by default
-set(CPACK_COMPONENTS_ALL proto_lib)
+set(CPACK_COMPONENTS_ALL protoCore)
 
 include(CPack)
 
 # 8. User-friendly message on completion
-message(STATUS "Proto project configured successfully. Use 'cmake --build <build_dir>' to build, 'ctest' to run tests, and 'cpack' for packaging.")
+message(STATUS "protoCore project configured successfully. Use 'cmake --build <build_dir>' to build protoCore, 'ctest' to run tests, and 'cpack' for packaging.")

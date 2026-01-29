@@ -1,8 +1,8 @@
-# Guide: Building Your Own Systems with Proto
+# Guide: Building Your Own Systems with protoCore
 
 ## Introduction
 
-Proto is not a standalone language; it's a library designed to be the powerful engine inside other systems. This guide outlines the two primary ways you can integrate Proto to build your own high-performance applications, virtual machines, or language runtimes.
+protoCore is not a standalone language; it's a shared library (official name: **protoCore**) designed to be the powerful engine inside other systems. This guide outlines the two primary ways you can integrate Proto to build your own high-performance applications, virtual machines, or language runtimes.
 
 ## The Two Integration Paths
 
@@ -20,11 +20,11 @@ The `protoDB` project is a perfect real-world example of the transpiler path. It
 
 When you need to build a system directly in C++, the workflow is straightforward.
 
-1.  **Include `proto.h`:** This is the main public header file that exposes all of Proto's core functionality.
+1.  **Include `protoCore.h`:** This is the main public header file that exposes all of protoCore's core functionality.
 
 2.  **Create a `ProtoContext`:** Your C++ application will create and hold an instance of a `ProtoContext`. This object is your primary interface to the runtime, used for creating objects, calling functions, and managing memory.
 
-3.  **Compile and Link against `libproto.a`:** Your C++ code is compiled as usual, and you simply link the final executable against the `libproto.a` static library that you built in the Quick Start guide.
+3.  **Compile and Link against protoCore:** Your C++ code is compiled as usual, and you link the final executable against the protoCore shared library (`libprotoCore.so`, `libprotoCore.dylib`, or `protoCore.dll`) that you built in the Quick Start guide.
 
 ### Example: A Simple C++ Host Application
 
@@ -32,7 +32,7 @@ Here is a minimal `main.cpp` that demonstrates how to initialize the runtime, cr
 
 **`main.cpp`:**
 ```cpp
-#include "proto.h"
+#include "protoCore.h"
 #include <iostream>
 
 int main() {
@@ -58,15 +58,15 @@ int main() {
 To build this, you would use a simple `CMakeLists.txt` file.
 
 ```cmake
-cproject(MyProtoApp CXX)
+project(MyProtoApp CXX)
 
-# Find the Proto library (assuming it was installed or is in a known path)
-find_library(PROTO_LIBRARY NAMES protoCore PATHS /path/to/protoCore/build)
+# Find the protoCore shared library (assuming it was installed or is in a known path)
+find_library(PROTOCORE_LIBRARY NAMES protoCore PATHS /path/to/protoCore/build)
 
 add_executable(my_app main.cpp)
 
-# Link your application against libproto.a
-target_link_libraries(my_app ${PROTO_LIBRARY})
+# Link your application against the protoCore shared library
+target_link_libraries(my_app ${PROTOCORE_LIBRARY})
 ```
 
 ### Key Concepts for Direct Integration

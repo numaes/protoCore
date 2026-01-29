@@ -1,12 +1,12 @@
-# Proto: A High-Performance, Embeddable Dynamic Object System for C++
+# protoCore: A High-Performance, Embeddable Dynamic Object System for C++
 
 [![Language](https://img.shields.io/badge/Language-C%2B%2B20-blue.svg)](https://isocpp.org/)
 [![Build System](https://img.shields.io/badge/Build-CMake-green.svg)](https://cmake.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Proto is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, prototype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications.**
+**protoCore** is the official name of the library. It is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, prototype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications. The library is built as a **shared library** for easy integration and distribution.
 
-It is designed for developers who need to script complex application behavior, configure systems dynamically, or build domain-specific languages without sacrificing the speed and control of C++. With Proto, you get an elegant API, automatic memory management, and a robust, immutable data model designed for elite concurrency.
+It is designed for developers who need to script complex application behavior, configure systems dynamically, or build domain-specific languages without sacrificing the speed and control of C++. With protoCore, you get an elegant API, automatic memory management, and a robust, immutable data model designed for elite concurrency.
 
 ## Project Status
 
@@ -102,16 +102,16 @@ int main() {
 
 ## Architectural Highlights
 
-Proto's performance and safety stem from a set of deeply integrated architectural decisions:
+protoCore's performance and safety stem from a set of deeply integrated architectural decisions:
 
-1.  **Immutable-First Object Model**: At its core, Proto is built around immutable data structures. Operations that "modify" collections like tuples or strings actually produce new versions, efficiently sharing the unchanged parts of the original (structural sharing). This design is the foundation of Proto's concurrency story, making parallel programming fundamentally safer.
+1.  **Immutable-First Object Model**: At its core, protoCore is built around immutable data structures. Operations that "modify" collections like tuples or strings actually produce new versions, efficiently sharing the unchanged parts of the original (structural sharing). This design is the foundation of protoCore's concurrency story, making parallel programming fundamentally safer.
 
-2.  **Hardware-Aware Memory Model**: Proto's memory architecture is meticulously designed to leverage the features of modern multi-core CPUs, resulting in elite performance:
-    *   **Hybrid Numeric System**: Proto features a sophisticated numeric system that maximizes efficiency.
+2.  **Hardware-Aware Memory Model**: protoCore's memory architecture is meticulously designed to leverage the features of modern multi-core CPUs, resulting in elite performance:
+    *   **Hybrid Numeric System**: protoCore features a sophisticated numeric system that maximizes efficiency.
         *   **Tagged Pointers**: Integers that fit within 56 bits (`SmallInteger`) are stored directly inside the 64-bit pointer. This provides extreme cache locality and avoids heap allocation entirely for the most common numeric values.
-        *   **Heap-Allocated Objects**: For numbers that exceed this range, Proto automatically and transparently promotes them to heap-allocated objects: `LargeInteger` for arbitrary-precision integers and `Double` for 64-bit floating-point numbers. This hybrid approach provides the best of both worlds: extreme speed for common cases and unlimited precision when needed.
+        *   **Heap-Allocated Objects**: For numbers that exceed this range, protoCore automatically and transparently promotes them to heap-allocated objects: `LargeInteger` for arbitrary-precision integers and `Double` for 64-bit floating-point numbers. This hybrid approach provides the best of both worlds: extreme speed for common cases and unlimited precision when needed.
     *   **Eliminating False Sharing**: All heap objects reside in 64-byte `Cell`s, perfectly aligning with the 64-byte cache lines of modern CPUs. This ensures that when different cores access different objects, they are guaranteed not to contend for the same cache line—a common and severe performance bottleneck in multithreaded applications.
-    *   **Concurrent Garbage Collector**: A dedicated GC thread works in parallel with the application, with extremely short "stop-the-world" pauses, making Proto suitable for interactive and soft real-time applications.
+    *   **Concurrent Garbage Collector**: A dedicated GC thread works in parallel with the application, with extremely short "stop-the-world" pauses, making protoCore suitable for interactive and soft real-time applications.
 
 ---
 
@@ -136,31 +136,41 @@ The project uses **CMake** for a modern, cross-platform build system.
     It is recommended to use a separate build directory:
     ```bash
     cmake -B build -S .
-    cmake --build build --target proto
+    cmake --build build --target protoCore
     ```
 
-This will produce the `libproto.a` static library, along with test and benchmark executables in the `build` directory.
+This will produce the **protoCore shared library** and test/benchmark executables in the `build` directory:
+
+| Platform | Library output |
+|----------|----------------|
+| Linux   | `libprotoCore.so` |
+| macOS   | `libprotoCore.dylib` |
+| Windows | `protoCore.dll` |
 
 ## Installation and Packaging
 
-Proto supports standard installation and multi-platform packaging using CMake and CPack.
+protoCore supports standard installation and multi-platform packaging using CMake and CPack.
 
 ### 1. Build
-To compile the library:
+To compile the shared library:
 ```bash
 cmake -B build -S .
-cmake --build build --target proto
+cmake --build build --target protoCore
 ```
 
 ### 2. Installation
 To install the library on your system (requires administrative privileges):
 ```bash
-sudo cmake --install build --component proto_lib
+sudo cmake --install build --component protoCore
 ```
 To install to a specific directory (staging):
 ```bash
-cmake --install build --component proto_lib --prefix ./dist
+cmake --install build --component protoCore --prefix ./dist
 ```
+
+Installed files:
+- **Library:** `${CMAKE_INSTALL_LIBDIR}/libprotoCore.so` (or `.dylib` / `.dll` on other platforms)
+- **Header:** `${CMAKE_INSTALL_INCLUDEDIR}/protoCore.h`
 
 ### 3. Packaging
 To generate installers or packages for your platform (.deb, .rpm, .zip, .nsis, etc.):
@@ -183,7 +193,7 @@ ctest --test-dir build --output-on-failure
 
 ### Running the Benchmarks
 
-The benchmarks provide insight into Proto's performance characteristics.
+The benchmarks provide insight into protoCore's performance characteristics.
 ```bash
 ./build/immutable_sharing_benchmark
 ./build/concurrent_append_benchmark

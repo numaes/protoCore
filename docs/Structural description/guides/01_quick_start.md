@@ -1,6 +1,6 @@
-# Quick Start: Building and Running Proto
+# Quick Start: Building and Running protoCore
 
-This guide will walk you through the process of downloading, building, and running the Proto library and its command-line interface.
+This guide will walk you through the process of downloading, building, and running the protoCore library (official name of the shared library) and its command-line interface.
 
 ## Prerequisites
 
@@ -28,19 +28,14 @@ The build process uses a standard CMake workflow.
     cd build
     ```
 
-3.  **Configure with CMake:**
-    Run CMake to generate the build files for your system.
+3.  **Configure and Build with CMake:**
+    Run CMake to generate the build files and compile the protoCore shared library.
     ```sh
-    cmake ..
+    cmake -B build -S ..
+    cmake --build build --target protoCore
     ```
 
-4.  **Compile the Code:**
-    Finally, run `make` to compile the library and all associated tools.
-    ```sh
-    make
-    ```
-
-If the build is successful, you will find the compiled `libproto.a` library and the `proto` executable inside the `build/` directory.
+If the build is successful, you will find the compiled **protoCore shared library** (`libprotoCore.so` on Linux, `libprotoCore.dylib` on macOS, `protoCore.dll` on Windows) and associated executables inside the `build/` directory.
 
 ## Running the Proto Executable
 

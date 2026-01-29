@@ -151,7 +151,7 @@ Coverage:   Comprehensive (numeric, collections, objects, GC, threading)
 - ✅ Thread safety verified
 - ✅ API stability confirmed
 - ✅ Documentation complete
-- ✅ Static library (libproto.a)
+- ✅ Shared library (libprotoCore.so / libprotoCore.dylib / protoCore.dll)
 - ✅ No external dependencies (except C++20)
 - ✅ MIT License (commercial-friendly)
 - ✅ Cross-platform build (CMake)

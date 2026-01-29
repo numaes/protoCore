@@ -374,7 +374,7 @@ The `DESIGN.md` document is exemplary:
 ### 6.2 Deployment Characteristics
 
 **Positive Attributes:**
-- ✅ Static library (libproto.a) - no runtime dependencies
+- ✅ Shared library (protoCore) - libprotoCore.so / .dylib / .dll
 - ✅ C++20 standard - modern, well-defined behavior
 - ✅ Cross-platform build (Linux, macOS, Windows support via CMake)
 - ✅ No external dependencies beyond C++ standard library
@@ -670,7 +670,7 @@ ProtoCore meets or exceeds the standards for:
 
 **Verification:**
 - ✅ All methods compile successfully
-- ✅ All symbols exported in libproto.a
+- ✅ All symbols exported in protoCore shared library
 - ✅ All 50/50 tests passing
 - ✅ No regressions
 
@@ -695,7 +695,7 @@ ProtoCore meets or exceeds the standards for:
 - `protoCore/core/ProtoContext.cpp` - Added `newBuffer` and `fromBuffer` methods
 
 **Verification:**
-- ✅ All symbols exported in libproto.a (verified with `nm`)
+- ✅ All symbols exported in protoCore shared library (verified with `nm`)
 - ✅ All 50/50 tests passing
 - ✅ Ready for protoJS Buffer module integration
 
