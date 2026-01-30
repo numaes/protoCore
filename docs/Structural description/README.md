@@ -25,6 +25,7 @@ Proto is designed for a wide range of developers and researchers:
 Ready to dive in? Our Quick Start guide will walk you through building the library and running your first "Hello, Proto!" application.
 
 *   **[Get started now!](./guides/01_quick_start.md)**
+*   **[Creating Modules](./guides/05_creating_modules.md)** — User guide for creating and registering custom modules (ModuleProvider, resolution chain, getImportModule).
 
 ## Testing
 
