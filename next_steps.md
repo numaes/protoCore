@@ -40,3 +40,7 @@ We are looking for passionate developers to join us in this ambitious journey. W
 
 ---
 
+**Documentation:** See [DOCUMENTATION.md](DOCUMENTATION.md) for the full index of protoCore documentation.
+
+---
+

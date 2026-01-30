@@ -1,7 +1,8 @@
 # Technical Analysis: ProtoCore
 
-**Date:** 2026-01-22
-**Project:** ProtoCore
+**Date:** 2026-01-22 · **Last updated:** January 2026  
+**Project:** ProtoCore  
+**See also:** [DOCUMENTATION.md](DOCUMENTATION.md) for full doc index.
 **Type:** Embeddable Dynamic Object System / Runtime
 **Language:** C++20
 

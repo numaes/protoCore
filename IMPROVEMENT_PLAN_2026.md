@@ -33,6 +33,7 @@ Maintain production quality and monitor system health
 **1.3 Documentation Maintenance**
 - Keep DESIGN.md updated with any architectural changes
 - Maintain README.md with accurate build instructions
+- Update [DOCUMENTATION.md](DOCUMENTATION.md) (unified doc index) when adding or removing docs
 - Update API documentation as needed
 
 **Timeline:** Ongoing  

@@ -701,7 +701,37 @@ ProtoCore meets or exceeds the standards for:
 
 **Impact:** Enables complete Buffer module functionality in protoJS Phase 3.
 
+### Unified Module Discovery and Provider System ✅
+
+**Status:** Implemented and integrated
+
+**Components:**
+- **ProviderRegistry** (singleton): Register and lookup `ModuleProvider` by alias or GUID; alias takes precedence. `getProviderForSpec("provider:alias")` resolves chain entries.
+- **ModuleProvider** (abstract): `tryLoad(logicalPath, ctx)` returns module or `PROTO_NONE`; `getGUID()`, `getAlias()` for identity.
+- **ProtoSpace resolution chain**: `getResolutionChain()` / `setResolutionChain(const ProtoObject*)` — chain is a `ProtoList` of path strings or `provider:alias` / `provider:GUID`. Platform-default chain (Linux, Windows, macOS) when not set.
+- **getImportModule(space, logicalPath, attrName2create)**: Cache-first lookup; short-circuit search along chain; returns wrapper object with attribute `attrName2create` pointing to module, or `PROTO_NONE`.
+- **SharedModuleCache**: Thread-safe (`std::shared_mutex`); key = logical path, value = loaded module; cached modules registered as GC roots via `space->moduleRoots`.
+- **FileSystemProvider**: Resolves path entries (e.g. `"."`) by joining base path and logical path; returns minimal module object when file exists.
+- **ProtoString::toUTF8String(ctx, out)**: Appends UTF-8 representation for resolution entry parsing.
+
+**Files added/modified:**
+- `headers/protoCore.h` — ModuleProvider, ProviderRegistry, getImportModule, ProtoSpace chain get/set, ProtoString::toUTF8String
+- `core/ProviderRegistry.cpp`, `core/ModuleCache.cpp`, `core/ModuleProvider.cpp`, `core/ModuleResolver.cpp`, `core/ProtoSpace.cpp`, `core/ProtoString.cpp`
+- `docs/MODULE_DISCOVERY.md` — Full specification and usage
+- `test/test_module_discovery.cpp` — Registry, chain, cache, toUTF8String tests
+
+**Verification:**
+- ✅ protoCore builds and all existing tests pass
+- ✅ New module discovery tests (registry, chain, cache, toUTF8String) pass
+- ✅ GC scans `moduleRoots` for loaded modules
+
+**Reference:** [docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md) for full specification, platform defaults, and examples.
+
 ---
 
 **ProtoCore Technical Audit 2026 - COMPLETE**  
 *Ready for production deployment with recommendation for broader adoption*
+
+---
+
+**Documentation index:** See [DOCUMENTATION.md](DOCUMENTATION.md) for a unified index of all protoCore documentation and references.

@@ -1,5 +1,7 @@
 # Welcome to Proto
 
+For a unified index of all protoCore documentation, see [DOCUMENTATION.md](../../DOCUMENTATION.md) in the repository root.
+
 Proto is a high-performance, low-latency C++ runtime library engineered for systems where predictable, real-time performance is paramount. It achieves this through a unique combination of architectural choices that eliminate common performance bottlenecks. By providing near-zero overhead for core operations like garbage collection and attribute access, Proto allows developers to build complex systems that remain fast and responsive under concurrent load.
 
 ## Key Features

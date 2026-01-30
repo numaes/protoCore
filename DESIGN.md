@@ -1,6 +1,6 @@
 # Proto: Architectural Design
 
-This document outlines the core architectural principles and design decisions behind the Proto library. It is intended for developers who wish to understand the "why" behind the code, contribute to the project, or learn from its design.
+This document outlines the core architectural principles and design decisions behind the Proto library. For a full list of documentation, see [DOCUMENTATION.md](DOCUMENTATION.md). It is intended for developers who wish to understand the "why" behind the code, contribute to the project, or learn from its design.
 
 ## Core Philosophy
 

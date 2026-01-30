@@ -240,14 +240,14 @@ Copyright (c) 2024 Gustavo Marino <gamarino@gmail.com>
 
 ## Documentation
 
-Comprehensive documentation is available:
+**Unified index:** [**DOCUMENTATION.md**](DOCUMENTATION.md) — Index of all protoCore documentation with references (entry points, module system, guides, architecture, testing, historical).
 
-- **`DESIGN.md`** - Detailed architectural design and implementation details
-- **`COMPREHENSIVE_TECHNICAL_AUDIT_2026.md`** - Complete technical audit and quality assessment
-- **`API_COMPLETENESS_AUDIT_2026.md`** - API completeness verification and implementation status
-- **`docs/TESTING.md`** - Testing guide (parallel execution, test caching, coverage, automated testing and CI)
-- **`docs/Structural description/guides/04_testing_user_guide.md`** - Short user guide for running tests and coverage
-- **`docs/`** - Generated API documentation (Doxygen/Sphinx)
+Main documents:
+- **`DESIGN.md`** — Architectural design and implementation rules
+- **`COMPREHENSIVE_TECHNICAL_AUDIT_2026.md`** — Technical audit and production readiness
+- **`docs/MODULE_DISCOVERY.md`** — Module system (resolution chain, providers, getImportModule)
+- **`docs/Structural description/`** — Guides, architecture, tutorials (quick start, building on proto, creating modules, testing)
+- **`docs/TESTING.md`** — Testing (CTest, coverage, CI)
 
 ### Real-World Reference Implementation
 
