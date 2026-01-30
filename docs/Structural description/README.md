@@ -26,6 +26,11 @@ Ready to dive in? Our Quick Start guide will walk you through building the libra
 
 *   **[Get started now!](./guides/01_quick_start.md)**
 
+## Testing
+
+*   **[Testing Guide](../TESTING.md)** - Full testing documentation (CTest, parallel runs, caching, coverage, CI)
+*   **[Testing User Guide](./guides/04_testing_user_guide.md)** - Short guide to run tests and generate coverage
+
 ## Diving Deeper
 
 Understand the core architectural decisions that make Proto unique.

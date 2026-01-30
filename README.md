@@ -186,10 +186,25 @@ After a successful build, all executables are located in the `build` directory.
 
 ### Running the Test Suite
 
-The project uses the **Google Test** framework. To run all tests:
+The project uses the **Google Test** framework with **CTest**. To run all tests in parallel (recommended):
 ```bash
-ctest --test-dir build --output-on-failure
+ctest --test-dir build -j$(nproc) --output-on-failure
 ```
+On systems without `nproc`, use a number (e.g. `-j4`). You can also use the helper script:
+```bash
+./scripts/run_tests.sh
+```
+For CI or a full configure/build/test run: `./scripts/ci_run_tests.sh`. See [docs/TESTING.md](docs/TESTING.md) for test caching, re-running failed tests, coverage, and [Testing User Guide](docs/Structural%20description/guides/04_testing_user_guide.md) for a short copy-paste guide.
+
+### Test Coverage
+
+To build with coverage instrumentation and generate an HTML report:
+```bash
+cmake -B build -S . -DCOVERAGE=ON
+cmake --build build --target protoCore proto_tests
+cmake --build build --target coverage
+```
+Open `build/coverage/index.html` in a browser. Requires **lcov** and **genhtml**. See [docs/TESTING.md](docs/TESTING.md) for details.
 
 ### Running the Benchmarks
 
@@ -230,6 +245,8 @@ Comprehensive documentation is available:
 - **`DESIGN.md`** - Detailed architectural design and implementation details
 - **`COMPREHENSIVE_TECHNICAL_AUDIT_2026.md`** - Complete technical audit and quality assessment
 - **`API_COMPLETENESS_AUDIT_2026.md`** - API completeness verification and implementation status
+- **`docs/TESTING.md`** - Testing guide (parallel execution, test caching, coverage, automated testing and CI)
+- **`docs/Structural description/guides/04_testing_user_guide.md`** - Short user guide for running tests and coverage
 - **`docs/`** - Generated API documentation (Doxygen/Sphinx)
 
 ### Real-World Reference Implementation

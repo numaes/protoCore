@@ -22,6 +22,12 @@ add_executable(proto_tests ${TEST_SOURCES})
 # 4. Link the test suite against the protoCore shared library and Google Test
 target_link_libraries(proto_tests PRIVATE protoCore gtest_main)
 
+# Coverage instrumentation when COVERAGE=ON (set in parent CMakeLists.txt)
+if(COVERAGE AND DEFINED COVERAGE_FLAGS)
+    target_compile_options(proto_tests PRIVATE ${COVERAGE_FLAGS})
+    target_link_options(proto_tests PRIVATE ${COVERAGE_FLAGS})
+endif()
+
 # 5. Include Google Test headers
 target_include_directories(proto_tests PRIVATE ${googletest_SOURCE_DIR}/googletest/include)
 

@@ -18,6 +18,13 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # Prefer explicit standard flags
 
+# Option: enable code coverage (gcov/lcov). Requires rebuild with -DCOVERAGE=ON.
+option(COVERAGE "Build with coverage instrumentation (gcov) for coverage reports" OFF)
+if(COVERAGE)
+    set(COVERAGE_FLAGS "--coverage")
+    message(STATUS "Coverage enabled: compiler/linker flags ${COVERAGE_FLAGS}")
+endif()
+
 # 3. Define the core protoCore shared library (official name)
 # Source files are listed explicitly to ensure robustness and prevent issues
 # where newly added files are not automatically detected by the build system.
@@ -62,6 +69,11 @@ target_include_directories(protoCore PUBLIC
 find_package(Threads REQUIRED)
 target_link_libraries(protoCore PUBLIC Threads::Threads)
 
+if(COVERAGE)
+    target_compile_options(protoCore PRIVATE ${COVERAGE_FLAGS})
+    target_link_options(protoCore PUBLIC ${COVERAGE_FLAGS})
+endif()
+
 message(STATUS "Configured protoCore shared library target: protoCore")
 
 # 4. Define the performance benchmark executables
@@ -77,6 +89,22 @@ message(STATUS "Configured benchmark: concurrent_append_benchmark")
 # The 'enable_testing()' command allows the use of ctest.
 enable_testing()
 add_subdirectory(test)
+
+# Custom target to generate coverage report (only when COVERAGE=ON).
+# Run: cmake --build build --target coverage
+# Requires: build configured with -DCOVERAGE=ON, and lcov/genhtml installed.
+if(COVERAGE)
+    set(COVERAGE_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/scripts/coverage.sh")
+    if(EXISTS "${COVERAGE_SCRIPT}")
+        add_custom_target(coverage
+            COMMAND "${COVERAGE_SCRIPT}" "${CMAKE_CURRENT_BINARY_DIR}"
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+            COMMENT "Running tests and generating coverage report"
+            USES_TERMINAL
+        )
+        message(STATUS "Coverage target added: run 'cmake --build build --target coverage' to generate report")
+    endif()
+endif()
 
 # 6. Installation rules for protoCore shared library
 set(PROTOCORE_INSTALL_COMPONENT "protoCore")
