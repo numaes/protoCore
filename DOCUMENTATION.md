@@ -12,6 +12,7 @@
 | [README.md](README.md) | Project overview, quick start, build, status, protoJS | First contact; build and run. |
 | [DESIGN.md](DESIGN.md) | Architectural design, public API vs internal, memory model, object model | Understand architecture and contribution rules. |
 | [COMPREHENSIVE_TECHNICAL_AUDIT_2026.md](COMPREHENSIVE_TECHNICAL_AUDIT_2026.md) | Full technical audit (architecture, implementation, tests, module system) | Current quality, metrics, and production readiness. |
+| [docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md) | **User guide: generating a module for Unified Module Discovery** (steps, links to full guide and spec) | Create and register a module for UMD. |
 
 ---
 
@@ -29,8 +30,9 @@
 
 | Document | Description | When to use |
 |----------|-------------|-------------|
+| [docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md) | **User guide: generating a module for Unified Module Discovery** — steps, quick reference, links to full guide and spec | How to generate/create a module for UMD. |
 | [docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md) | Unified Module Discovery: resolution chain, ProviderRegistry, getImportModule, SharedModuleCache, FileSystemProvider, platform defaults | Specification and usage of the module system. |
-| [docs/Structural description/guides/05_creating_modules.md](docs/Structural%20description/guides/05_creating_modules.md) | User guide: creating modules (ModuleProvider, registration, resolution chain, example) | Implement and register custom modules. |
+| [docs/Structural description/guides/05_creating_modules.md](docs/Structural%20description/guides/05_creating_modules.md) | Full user guide: creating modules (ModuleProvider, registration, resolution chain, Greeter example) | Implement and register custom modules (detailed). |
 
 ---
 
@@ -97,6 +99,6 @@ These documents describe completed one-off work. The canonical current state is 
 
 - **New contributor:** README → docs/Structural description/README.md → 01_quick_start → 03_contributing.
 - **Embedding protoCore:** README → DESIGN → docs/Structural description/guides/02_building_on_proto.
-- **Module system:** docs/MODULE_DISCOVERY.md → docs/Structural description/guides/05_creating_modules.md.
+- **Module system / generating a UMD module:** docs/USER_GUIDE_UMD_MODULES.md → docs/MODULE_DISCOVERY.md → docs/Structural description/guides/05_creating_modules.md.
 - **Quality and audit:** COMPREHENSIVE_TECHNICAL_AUDIT_2026.md.
 - **Testing:** docs/TESTING.md, docs/Structural description/guides/04_testing_user_guide.md.

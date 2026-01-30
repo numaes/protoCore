@@ -99,4 +99,5 @@ if (result != PROTO_NONE) {
 
 ## See also
 
+- **[User Guide: Generating a Module for UMD](USER_GUIDE_UMD_MODULES.md)** — Short user guide (steps, quick reference, links to full guide and spec).
 - **[User Guide: Creating Modules](Structural%20description/guides/05_creating_modules.md)** — Step-by-step guide to implementing a custom `ModuleProvider`, registering it, and loading modules with examples.
