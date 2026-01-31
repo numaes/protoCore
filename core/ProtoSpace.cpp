@@ -16,6 +16,26 @@
 namespace proto {
 
     namespace {
+        const ProtoList* buildDefaultResolutionChain(ProtoContext* ctx) {
+            const ProtoList* chain = ctx->newList();
+            if (!chain) return nullptr;
+#if defined(_WIN32)
+            const char* defaults[] = { ".", "C:\\Program Files\\proto\\lib" };
+            const int n = 2;
+#elif defined(__APPLE__)
+            const char* defaults[] = { ".", "/usr/local/lib/proto" };
+            const int n = 2;
+#else
+            const char* defaults[] = { ".", "/usr/lib/proto", "/usr/local/lib/proto" };
+            const int n = 3;
+#endif
+            for (int i = 0; i < n && chain; ++i) {
+                const ProtoObject* s = ctx->fromUTF8String(defaults[i]);
+                if (s) chain = chain->appendLast(ctx, s);
+            }
+            return chain;
+        }
+
         void gcThreadLoop(ProtoSpace* space) {
             std::unique_lock<std::mutex> lock(ProtoSpace::globalMutex);
             while (space->state != SPACE_STATE_ENDING) {
@@ -123,6 +143,10 @@ namespace proto {
                 addRootObj(space->threadPrototype);
                 addRootObj(space->rootObject);
 
+                for (const ProtoObject* mod : space->moduleRoots) {
+                    addRootObj(mod);
+                }
+
                 if (space->mutableRoot.load()) addRootObj(reinterpret_cast<const ProtoObject*>(space->mutableRoot.load()));
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
@@ -223,7 +247,8 @@ namespace proto {
         freeCells(nullptr),
         gcStarted(false),
         mainContext(nullptr),
-        nextMutableRef(1)
+        nextMutableRef(1),
+        resolutionChain_(nullptr)
     {
         // Initialize prototypes
         // Initialize prototypes
@@ -269,6 +294,8 @@ namespace proto {
         
         initStringInternMap(this);
 
+        this->resolutionChain_ = buildDefaultResolutionChain(this->rootContext);
+
         this->gcThread = std::make_unique<std::thread>(gcThreadLoop, this);
     }
 
@@ -284,6 +311,39 @@ namespace proto {
         }
         delete this->rootContext;
         freeStringInternMap(this);
+    }
+
+    const ProtoObject* ProtoSpace::getResolutionChain() const {
+        if (!resolutionChain_) {
+            ProtoSpace* self = const_cast<ProtoSpace*>(this);
+            self->resolutionChain_ = buildDefaultResolutionChain(self->rootContext);
+        }
+        return resolutionChain_ ? resolutionChain_->asObject(rootContext) : PROTO_NONE;
+    }
+
+    void ProtoSpace::setResolutionChain(const ProtoObject* newChain) {
+        if (!newChain || newChain == PROTO_NONE) {
+            resolutionChain_ = buildDefaultResolutionChain(rootContext);
+            return;
+        }
+        const ProtoList* list = newChain->asList(rootContext);
+        if (!list) {
+            resolutionChain_ = buildDefaultResolutionChain(rootContext);
+            return;
+        }
+        const unsigned long size = list->getSize(rootContext);
+        for (unsigned long i = 0; i < size; ++i) {
+            const ProtoObject* el = list->getAt(rootContext, static_cast<int>(i));
+            if (!el || !el->isString(rootContext)) {
+                resolutionChain_ = buildDefaultResolutionChain(rootContext);
+                return;
+            }
+        }
+        resolutionChain_ = list;
+    }
+
+    const ProtoObject* ProtoSpace::getImportModule(const char* logicalPath, const char* attrName2create) {
+        return getImportModuleImpl(this, logicalPath, attrName2create);
     }
 
     const ProtoThread* ProtoSpace::newThread(

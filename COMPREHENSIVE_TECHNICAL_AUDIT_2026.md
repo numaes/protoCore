@@ -715,7 +715,7 @@ ProtoCore meets or exceeds the standards for:
 - **ProtoString::toUTF8String(ctx, out)**: Appends UTF-8 representation for resolution entry parsing.
 
 **Files added/modified:**
-- `headers/protoCore.h` — ModuleProvider, ProviderRegistry, getImportModule, ProtoSpace chain get/set, ProtoString::toUTF8String
+- `headers/protoCore.h` — ModuleProvider, ProviderRegistry, ProtoSpace::getImportModule, ProtoSpace chain get/set, ProtoString::toUTF8String
 - `core/ProviderRegistry.cpp`, `core/ModuleCache.cpp`, `core/ModuleProvider.cpp`, `core/ModuleResolver.cpp`, `core/ProtoSpace.cpp`, `core/ProtoString.cpp`
 - `docs/MODULE_DISCOVERY.md` — Full specification and usage
 - `test/test_module_discovery.cpp` — Registry, chain, cache, toUTF8String tests

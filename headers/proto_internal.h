@@ -926,6 +926,9 @@ namespace proto {
     static_assert(sizeof(ProtoMultisetIteratorImplementation) <= 64, "ProtoMultisetIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(TupleDictionary) <= 64, "TupleDictionary exceeds 64 bytes!");
 
+    // UMD: internal implementation called by ProtoSpace::getImportModule
+    const ProtoObject* getImportModuleImpl(ProtoSpace* space, const char* logicalPath, const char* attrName2create);
+
     // String Interning Helpers
     void initStringInternMap(ProtoSpace* space);
     void freeStringInternMap(ProtoSpace* space);

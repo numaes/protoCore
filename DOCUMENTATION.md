@@ -31,7 +31,7 @@
 | Document | Description | When to use |
 |----------|-------------|-------------|
 | [docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md) | **User guide: generating a module for Unified Module Discovery** — steps, quick reference, links to full guide and spec | How to generate/create a module for UMD. |
-| [docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md) | Unified Module Discovery: resolution chain, ProviderRegistry, getImportModule, SharedModuleCache, FileSystemProvider, platform defaults | Specification and usage of the module system. |
+| [docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md) | Unified Module Discovery: resolution chain, ProviderRegistry, ProtoSpace::getImportModule, SharedModuleCache, FileSystemProvider, platform defaults | Specification and usage of the module system. |
 | [docs/Structural description/guides/05_creating_modules.md](docs/Structural%20description/guides/05_creating_modules.md) | Full user guide: creating modules (ModuleProvider, registration, resolution chain, Greeter example) | Implement and register custom modules (detailed). |
 
 ---

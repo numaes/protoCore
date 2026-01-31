@@ -246,7 +246,7 @@ Main documents:
 - **`DESIGN.md`** — Architectural design and implementation rules
 - **`COMPREHENSIVE_TECHNICAL_AUDIT_2026.md`** — Technical audit and production readiness
 - **`docs/USER_GUIDE_UMD_MODULES.md`** — User guide: generating a module for Unified Module Discovery
-- **`docs/MODULE_DISCOVERY.md`** — Module system (resolution chain, providers, getImportModule)
+- **`docs/MODULE_DISCOVERY.md`** — Module system (resolution chain, providers, ProtoSpace::getImportModule)
 - **`docs/Structural description/`** — Guides, architecture, tutorials (quick start, building on proto, creating modules, testing)
 - **`docs/TESTING.md`** — Testing (CTest, coverage, CI)
 

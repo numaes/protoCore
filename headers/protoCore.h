@@ -11,6 +11,8 @@
 #include <atomic>
 #include <condition_variable>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace proto
 {
@@ -39,6 +41,8 @@ namespace proto
     class ProtoObjectCell;
     class ProtoThread;
     class ProtoSpaceImplementation;
+    class ModuleProvider;
+    class ProviderRegistry;
 
     //! Useful constants.
     //! @warning They should be kept in sync with proto_internal.h!
@@ -272,6 +276,9 @@ namespace proto
         unsigned long getHash(ProtoContext* context) const;
         const ProtoString* isCell(ProtoContext* context) const;
         const Cell* asCell(ProtoContext* context) const;
+
+        /** Appends the UTF-8 representation of this string to \a out. */
+        void toUTF8String(ProtoContext* context, std::string& out) const;
     };
 
     //! ProtoExternalPointer - Represents a wrapper for external C++ pointers
@@ -286,6 +293,38 @@ namespace proto
         void* getPointer(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
+    };
+
+    /** Abstract base for module providers. Resolution chain entries "provider:alias" or "provider:GUID" delegate to a registered provider. */
+    class ModuleProvider
+    {
+    public:
+        virtual ~ModuleProvider() = default;
+        /** Attempt to load a module for \a logicalPath. Return the module object or PROTO_NONE. */
+        virtual const ProtoObject* tryLoad(const std::string& logicalPath, ProtoContext* ctx) = 0;
+        /** Obligatory unique identifier. */
+        virtual const std::string& getGUID() const = 0;
+        /** Optional alias (e.g. "odoo_db"). Lookup by alias takes precedence over GUID. */
+        virtual const std::string& getAlias() const = 0;
+    };
+
+    /** Singleton registry of ModuleProviders. Lookup by alias takes precedence over GUID. */
+    class ProviderRegistry
+    {
+    public:
+        static ProviderRegistry& instance();
+        ~ProviderRegistry();
+        void registerProvider(std::unique_ptr<ModuleProvider> provider);
+        ModuleProvider* findByAlias(const std::string& alias);
+        ModuleProvider* findByGUID(const std::string& guid);
+        /** Given "provider:alias" or "provider:GUID", return the provider (alias tried first). Returns nullptr if not found or format invalid. */
+        ModuleProvider* getProviderForSpec(const std::string& spec);
+        ProviderRegistry(const ProviderRegistry&) = delete;
+        ProviderRegistry& operator=(const ProviderRegistry&) = delete;
+    private:
+        ProviderRegistry();
+        struct Impl;
+        std::unique_ptr<Impl> impl;
     };
 
     class ProtoSparseListIterator
@@ -643,6 +682,13 @@ namespace proto
         const ProtoThread* getCurrentThread(ProtoContext* context);
         const ProtoThread* getThreadByName(ProtoContext* context, const ProtoString* threadName);
 
+        /** Returns the current resolution chain (ProtoList of ProtoString). Default is platform-dependent if not set. */
+        const ProtoObject* getResolutionChain() const;
+        /** Sets the resolution chain. \a newChain must be a ProtoList of ProtoString; if null or invalid, restores default chain. */
+        void setResolutionChain(const ProtoObject* newChain);
+        /** Resolve and load a module by \a logicalPath using this space's resolution chain. Returns a wrapper object with attribute \a attrName2create pointing to the module, or PROTO_NONE. Thread-safe; uses SharedModuleCache. */
+        const ProtoObject* getImportModule(const char* logicalPath, const char* attrName2create);
+
         /**
          * @brief Creates and starts a new managed thread within this ProtoSpace.
          * @param context The current ProtoContext from which the thread is being created.
@@ -686,6 +732,9 @@ namespace proto
         std::atomic<bool> stwFlag;
         std::atomic<int> parkedThreads;
         ProtoContext* mainContext;
+
+        const ProtoList* resolutionChain_;
+        std::vector<const ProtoObject*> moduleRoots;
 
         static std::mutex globalMutex;
     };
