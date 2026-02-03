@@ -103,7 +103,7 @@ TEST_F(ModuleDiscoveryTest, GetImportModule_NoProviderReturnsNone) {
     ASSERT_TRUE(result == PROTO_NONE || result == nullptr);
 }
 
-TEST_F(ModuleDiscoveryTest, DISABLED_GetImportModule_ProviderReturnsModule) {
+TEST_F(ModuleDiscoveryTest, GetImportModule_ProviderReturnsModule) {
     auto provider = std::make_unique<TestProvider>("guid-load", "load_alias", "my_module");
     ProviderRegistry::instance().registerProvider(std::move(provider));
 
@@ -124,7 +124,7 @@ TEST_F(ModuleDiscoveryTest, DISABLED_GetImportModule_ProviderReturnsModule) {
     ASSERT_NE(exports, nullptr);
 }
 
-TEST_F(ModuleDiscoveryTest, DISABLED_GetImportModule_CacheHit) {
+TEST_F(ModuleDiscoveryTest, GetImportModule_CacheHit) {
     auto provider = std::make_unique<TestProvider>("guid-cache", "cache_alias", "cached_mod");
     ProviderRegistry::instance().registerProvider(std::move(provider));
 

@@ -42,7 +42,7 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, const char* logicalPat
         std::string entryStr;
         entryObj->asString(ctx)->toUTF8String(ctx, entryStr);
 
-        if (entryStr.size() >= 8 && entryStr.compare(0, 8, "provider:") == 0) {
+        if (entryStr.size() >= 9 && entryStr.compare(0, 9, "provider:") == 0) {
             ModuleProvider* provider = ProviderRegistry::instance().getProviderForSpec(entryStr);
             if (provider) {
                 module = provider->tryLoad(key, ctx);

@@ -143,17 +143,17 @@ namespace proto {
                 return new(context) ProtoTupleImplementation(context, data, count);
             }
 
-            const unsigned long children_count = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
-            const ProtoTupleImplementation* indirect[TUPLE_SIZE] = {nullptr};
+            const unsigned long chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
             const ProtoObject* indirect_handles[TUPLE_SIZE] = {nullptr};
-            unsigned long child_height = 0;
 
-            for (unsigned long i = 0; i < children_count; ++i) {
-                const unsigned long child_start = start + i * TUPLE_SIZE;
-                const unsigned long child_end = std::min(child_start + TUPLE_SIZE, end);
-                const ProtoTupleImplementation* child_impl = fromListRecursive(context, list, child_start, child_end); // Recursive call returns implementation
+            for (unsigned long i = 0; i < TUPLE_SIZE; ++i) {
+                const unsigned long child_start = start + i * chunk_size;
+                if (child_start >= end) break;
+                const unsigned long child_end = std::min(child_start + chunk_size, end);
+                
+                const ProtoTupleImplementation* child_impl = fromListRecursive(context, list, child_start, child_end);
                 if (child_impl) {
-                    indirect_handles[i] = child_impl->implAsObject(context); // Convert to universal ProtoObject* handle
+                    indirect_handles[i] = child_impl->implAsObject(context);
                 }
             }
             return new(context) ProtoTupleImplementation(context, indirect_handles, count);
