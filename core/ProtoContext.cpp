@@ -319,6 +319,14 @@ namespace proto
         return (new(this) DoubleImplementation(this, value))->implAsObject(this);
     }
 
+    const ProtoObject* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method) {
+        return (new(this) ProtoMethodCell(this, self, method))->implAsObject(this);
+    }
+
+    const ProtoObject* ProtoContext::fromExternalPointer(void* pointer) {
+        return (new(this) ProtoExternalPointerImplementation(this, pointer, nullptr))->implAsObject(this);
+    }
+
     const ProtoObject* ProtoContext::fromUnicodeChar(unsigned int unicodeChar) {
         ProtoObjectPointer p{};
         p.unicodeChar.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
