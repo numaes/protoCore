@@ -11,6 +11,8 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <cstdint>
+#include <cstdlib>
 
 namespace proto {
 
@@ -278,6 +280,42 @@ namespace proto {
     
     const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const {
         return toImpl<const ProtoStringImplementation>(this)->implGetIterator(context)->asProtoStringIterator(context);
+    }
+
+    static void appendUTF8CodePoint(std::string& out, unsigned int codepoint) {
+        if (codepoint < 0x80u) {
+            out += static_cast<char>(codepoint);
+        } else if (codepoint < 0x800u) {
+            out += static_cast<char>(0xC0u | (codepoint >> 6));
+            out += static_cast<char>(0x80u | (codepoint & 0x3Fu));
+        } else if (codepoint < 0x10000u) {
+            out += static_cast<char>(0xE0u | (codepoint >> 12));
+            out += static_cast<char>(0x80u | ((codepoint >> 6) & 0x3Fu));
+            out += static_cast<char>(0x80u | (codepoint & 0x3Fu));
+        } else if (codepoint < 0x110000u) {
+            out += static_cast<char>(0xF0u | (codepoint >> 18));
+            out += static_cast<char>(0x80u | ((codepoint >> 12) & 0x3Fu));
+            out += static_cast<char>(0x80u | ((codepoint >> 6) & 0x3Fu));
+            out += static_cast<char>(0x80u | (codepoint & 0x3Fu));
+        }
+    }
+
+    void ProtoString::toUTF8String(ProtoContext* context, std::string& out) const {
+        out.clear();
+        const unsigned long size = getSize(context);
+        for (unsigned long i = 0; i < size; ++i) {
+            const ProtoObject* ch = getAt(context, static_cast<int>(i));
+            if (!ch) continue;
+            unsigned int codepoint = 0;
+            ProtoObjectPointer pa{};
+            pa.oid = ch;
+            if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
+                codepoint = static_cast<unsigned int>(pa.unicodeChar.unicodeValue & 0x1FFFFFu);
+            } else if (ch->isInteger(context)) {
+                codepoint = static_cast<unsigned int>(ch->asLong(context) & 0x1FFFFFu);
+            }
+            appendUTF8CodePoint(out, codepoint);
+        }
     }
 
     //=========================================================================
