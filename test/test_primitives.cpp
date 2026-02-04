@@ -39,9 +39,11 @@ TEST_F(PrimitivesTest, BooleanHandling) {
 }
 
 TEST_F(PrimitivesTest, NoneHandling) {
+    // PROTO_NONE is nullptr; do not call methods on it (undefined behavior).
     const proto::ProtoObject* n = PROTO_NONE;
-    ASSERT_TRUE(n->isNone(context));
-    ASSERT_FALSE(n->isInteger(context));
+    ASSERT_TRUE(n == PROTO_NONE);
+    const proto::ProtoObject* notNone = context->fromInteger(0);
+    ASSERT_FALSE(notNone->isNone(context));
 }
 
 TEST_F(PrimitivesTest, StringHandling) {

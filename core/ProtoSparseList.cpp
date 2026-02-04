@@ -185,6 +185,9 @@ namespace proto
         } else {
             // Node to delete found
             if (!previous || previous->isEmpty) {
+                if (!next || next->isEmpty) {
+                    return new(context) ProtoSparseListImplementation(context, 0, PROTO_NONE, nullptr, nullptr, true);
+                }
                 return next; // No left child, promote right child
             }
             if (!next || next->isEmpty) {
