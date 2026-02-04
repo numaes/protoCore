@@ -37,8 +37,12 @@ add_library(protoCore SHARED
     core/ProtoByteBuffer.cpp
     core/ProtoContext.cpp
     core/ProtoList.cpp
+    core/ModuleCache.cpp
+    core/ModuleProvider.cpp
+    core/ModuleResolver.cpp
     core/ProtoMethodCell.cpp
     core/ProtoObjectCell.cpp
+    core/ProviderRegistry.cpp
     core/ProtoSpace.cpp
     core/ProtoSparseList.cpp
     core/ProtoString.cpp
@@ -72,6 +76,14 @@ target_link_libraries(protoCore PUBLIC Threads::Threads)
 if(COVERAGE)
     target_compile_options(protoCore PRIVATE ${COVERAGE_FLAGS})
     target_link_options(protoCore PUBLIC ${COVERAGE_FLAGS})
+endif()
+
+# Option: trace globalMutex acquire/release in GC path (getFreeCells, gcThreadLoop, allocCell STW).
+# Use -DPROTO_GC_LOCK_TRACE=ON when configuring to diagnose intermittent benchmark hang.
+option(PROTO_GC_LOCK_TRACE "Trace GC path lock acquisition and release to stderr" OFF)
+if(PROTO_GC_LOCK_TRACE)
+    target_compile_definitions(protoCore PRIVATE PROTO_GC_LOCK_TRACE)
+    message(STATUS "GC lock tracing enabled (diagnostic)")
 endif()
 
 message(STATUS "Configured protoCore shared library target: protoCore")

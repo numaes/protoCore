@@ -38,12 +38,13 @@ namespace proto {
 
         void gcThreadLoop(ProtoSpace* space) {
             std::unique_lock<std::mutex> lock(ProtoSpace::globalMutex);
+            GC_LOCK_TRACE("gcLoop ACQ(init)");
             while (space->state != SPACE_STATE_ENDING) {
                 // Wait for a GC trigger or space ending
                 space->gcCV.wait(lock, [space] { 
                     return space->gcStarted || space->state == SPACE_STATE_ENDING; 
                 });
-                
+                GC_LOCK_TRACE("gcLoop ACQ(gcStarted)");
                 if (space->state == SPACE_STATE_ENDING) break;
                 
                 // --- PHASE 1: STOP THE WORLD ---
@@ -57,7 +58,7 @@ namespace proto {
                 space->gcCV.wait(lock, [space] {
                     return space->parkedThreads.load() >= space->runningThreads.load() || space->state == SPACE_STATE_ENDING;
                 });
-                
+                GC_LOCK_TRACE("gcLoop ACQ(parked)");
                 if (space->state == SPACE_STATE_ENDING) break;
 
                 // --- PHASE 2: COLLECT ROOTS ---
@@ -161,6 +162,7 @@ namespace proto {
                 // --- PHASE 3: RESUME THE WORLD ---
                 space->stwFlag.store(false);
                 space->stopTheWorldCV.notify_all();
+                GC_LOCK_TRACE("gcLoop REL(mark-sweep)");
                 lock.unlock(); // Allow threads to run while we mark and sweep
                 
                 // --- PHASE 4: MARK ---
@@ -201,10 +203,12 @@ namespace proto {
                     }
 
                     if (batchHead) {
+                        GC_LOCK_TRACE("gcLoop ACQ(freeList)");
                         std::lock_guard<std::mutex> freeLock(ProtoSpace::globalMutex);
                         batchTail->internalSetNextRaw(space->freeCells);
                         space->freeCells = batchHead;
                         space->freeCellsCount += batchCount;
+                        GC_LOCK_TRACE("gcLoop REL(freeList)");
                     }
 
                     DirtySegment* nextSeg = currentSeg->next;
@@ -212,6 +216,7 @@ namespace proto {
                     currentSeg = nextSeg;
                 }
 
+                GC_LOCK_TRACE("gcLoop ACQ(after-sweep)");
                 lock.lock(); // Re-acquire for next wait
                 space->gcStarted = false;
                 space->gcCV.notify_all();
@@ -361,6 +366,7 @@ namespace proto {
 
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
         std::unique_lock<std::mutex> lock(globalMutex);
+        GC_LOCK_TRACE("getFreeCells ACQ");
 
         // If we have free cells in the global list, return a batch (do not trigger GC here;
         // otherwise we could wake the GC thread and then leave without parking, causing a deadlock)
@@ -378,19 +384,23 @@ namespace proto {
             this->freeCells = current->getNext();
             current->setNext(nullptr);
             this->freeCellsCount -= count;
+            GC_LOCK_TRACE("getFreeCells REL(return batch)");
             return batchHead;
         }
 
-        // No free cells: trigger GC so it can run and possibly replenish; we will park so no deadlock
-        if (!this->gcStarted) {
-            this->gcStarted = true;
-            this->gcCV.notify_all();
-        }
-        // Participate in stop-the-world: park so GC can run, then wait until GC has finished
+        // No free cells: trigger GC only when the GC thread exists and we will park.
+        // Otherwise (e.g. during ProtoSpace ctor, before gcThread is created) we must not set
+        // gcStarted, or the GC thread would later wake and wait forever for parkedThreads.
         if (this->gcThread && std::this_thread::get_id() != this->gcThread->get_id()) {
+            if (!this->gcStarted) {
+                this->gcStarted = true;
+                this->gcCV.notify_all();
+            }
             this->parkedThreads++;
             this->gcCV.notify_all();
+            GC_LOCK_TRACE("getFreeCells REL(park)");
             this->gcCV.wait(lock, [this] { return !this->gcStarted.load(); });
+            GC_LOCK_TRACE("getFreeCells ACQ(wake)");
             this->parkedThreads--;
             // Re-check free list after GC may have replenished it
             if (this->freeCells) {
@@ -404,9 +414,11 @@ namespace proto {
                 this->freeCells = current->getNext();
                 current->setNext(nullptr);
                 this->freeCellsCount -= count;
+                GC_LOCK_TRACE("getFreeCells REL(return after GC)");
                 return batchHead;
             }
         }
+        // If gcThread was null (e.g. during ProtoSpace ctor), we did not set gcStarted; fall through to OS allocation.
 
         // No free cells, ask the OS
         Cell* newMemory = nullptr;
@@ -449,17 +461,20 @@ namespace proto {
         // Do not trigger GC here: we are about to return without parking, which would deadlock
         // (GC would wait for parkedThreads >= runningThreads forever). GC is already triggered
         // in the "no free cells" path when we park before allocating from the OS.
+        GC_LOCK_TRACE("getFreeCells REL(return OS)");
         return reinterpret_cast<Cell*>(newMemory);
     }
 
     void ProtoSpace::submitYoungGeneration(const Cell* cell) {
         if (!cell) return;
         
+        GC_LOCK_TRACE("submitYoung ACQ");
         std::lock_guard<std::mutex> lock(globalMutex);
         DirtySegment* segment = new DirtySegment(); // Note: This might need careful allocation if GC is running, but let's assume standard new is fine for now or allocate from a pool later.
         segment->cellChain = const_cast<Cell*>(cell);
         segment->next = this->dirtySegments;
         this->dirtySegments = segment;
+        GC_LOCK_TRACE("submitYoung REL");
     }
 
     void ProtoSpace::triggerGC() {

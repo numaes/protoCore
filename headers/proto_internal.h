@@ -18,6 +18,12 @@
 #include <vector>
 #include <functional>
 
+#ifdef PROTO_GC_LOCK_TRACE
+#define GC_LOCK_TRACE(msg) do { std::cerr << "[gc-lock] " << std::this_thread::get_id() << " " << (msg) << "\n"; } while(0)
+#else
+#define GC_LOCK_TRACE(msg) do {} while(0)
+#endif
+
 #define THREAD_CACHE_DEPTH 1024
 #define TUPLE_SIZE 4
 

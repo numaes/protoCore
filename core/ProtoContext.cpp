@@ -159,9 +159,12 @@ namespace proto
         if (this && this->space && this->space->stwFlag.load() && std::this_thread::get_id() != this->space->gcThread->get_id()) {
             this->space->parkedThreads++;
             {
+                GC_LOCK_TRACE("allocCell STW ACQ");
                 std::unique_lock<std::mutex> lock(ProtoSpace::globalMutex);
                 this->space->gcCV.notify_all();
                 this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+                GC_LOCK_TRACE("allocCell STW ACQ(wake)");
+                GC_LOCK_TRACE("allocCell STW REL");
             }
             this->space->parkedThreads--;
         }
@@ -323,8 +326,8 @@ namespace proto
         return (new(this) ProtoMethodCell(this, self, method))->implAsObject(this);
     }
 
-    const ProtoObject* ProtoContext::fromExternalPointer(void* pointer) {
-        return (new(this) ProtoExternalPointerImplementation(this, pointer, nullptr))->implAsObject(this);
+    const ProtoObject* ProtoContext::fromExternalPointer(void* pointer, void (*finalizer)(void*)) {
+        return (new(this) ProtoExternalPointerImplementation(this, pointer, finalizer))->implAsObject(this);
     }
 
     const ProtoObject* ProtoContext::fromUnicodeChar(unsigned int unicodeChar) {
