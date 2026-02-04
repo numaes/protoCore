@@ -144,8 +144,11 @@ namespace proto {
                 addRootObj(space->threadPrototype);
                 addRootObj(space->rootObject);
 
-                for (const ProtoObject* mod : space->moduleRoots) {
-                    addRootObj(mod);
+                {
+                    std::lock_guard<std::mutex> modLock(space->moduleRootsMutex);
+                    for (const ProtoObject* mod : space->moduleRoots) {
+                        addRootObj(mod);
+                    }
                 }
 
                 if (space->mutableRoot.load()) addRootObj(reinterpret_cast<const ProtoObject*>(space->mutableRoot.load()));
@@ -420,12 +423,12 @@ namespace proto {
         }
         // If gcThread was null (e.g. during ProtoSpace ctor), we did not set gcStarted; fall through to OS allocation.
 
-        // No free cells, ask the OS
+        // No free cells, ask the OS. Use a large chunk to reduce GC trigger frequency
+        // for allocation-heavy workloads (e.g. str_concat_loop); otherwise we would
+        // trigger GC very often and hit benchmark timeouts.
         Cell* newMemory = nullptr;
-        // The user specified a configurable amount of blocks to ask the OS
-        // Let's use maxAllocatedCellsPerContext or a similar configuration if available
-        // but here it seems we should allocate a "chunk"
-        int blocksToAllocate = this->blocksPerAllocation * 10; // For example
+        const int osAllocationMultiplier = 50;
+        int blocksToAllocate = this->blocksPerAllocation * osAllocationMultiplier;
         
         int result = posix_memalign(reinterpret_cast<void**>(&newMemory), 64, blocksToAllocate * sizeof(BigCell));
         if (result != 0) {

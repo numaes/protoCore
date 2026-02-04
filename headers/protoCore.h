@@ -545,7 +545,7 @@ namespace proto
         const ProtoObject* fromUnicodeChar(unsigned int unicodeChar);
         const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
         const ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
-        const ProtoObject* fromExternalPointer(void* pointer);
+        const ProtoObject* fromExternalPointer(void* pointer, void (*finalizer)(void*) = nullptr);
         const ProtoObject* fromBuffer(unsigned long length, char* buffer, bool freeOnExit = false);
         const ProtoObject* newBuffer(unsigned long length);
         const ProtoObject* fromBoolean(bool value);
@@ -735,6 +735,7 @@ namespace proto
 
         const ProtoList* resolutionChain_;
         std::vector<const ProtoObject*> moduleRoots;
+        std::mutex moduleRootsMutex;
 
         static std::mutex globalMutex;
     };

@@ -59,7 +59,7 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, const char* logicalPat
     sharedModuleCacheInsert(key, module);
 
     {
-        std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
+        std::lock_guard<std::mutex> lock(space->moduleRootsMutex);
         space->moduleRoots.push_back(module);
     }
 
