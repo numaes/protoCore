@@ -361,12 +361,9 @@ namespace proto {
 
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
         std::unique_lock<std::mutex> lock(globalMutex);
-        if (this->freeCellsCount < this->heapSize * 0.2 && !this->gcStarted) {
-            this->gcStarted = true;
-            this->gcCV.notify_all();
-        }
-        
-        // If we have free cells in the global list, return a batch
+
+        // If we have free cells in the global list, return a batch (do not trigger GC here;
+        // otherwise we could wake the GC thread and then leave without parking, causing a deadlock)
         if (this->freeCells) {
             Cell* batchHead = this->freeCells;
             Cell* current = batchHead;
@@ -382,6 +379,33 @@ namespace proto {
             current->setNext(nullptr);
             this->freeCellsCount -= count;
             return batchHead;
+        }
+
+        // No free cells: trigger GC so it can run and possibly replenish; we will park so no deadlock
+        if (!this->gcStarted) {
+            this->gcStarted = true;
+            this->gcCV.notify_all();
+        }
+        // Participate in stop-the-world: park so GC can run, then wait until GC has finished
+        if (this->gcThread && std::this_thread::get_id() != this->gcThread->get_id()) {
+            this->parkedThreads++;
+            this->gcCV.notify_all();
+            this->gcCV.wait(lock, [this] { return !this->gcStarted.load(); });
+            this->parkedThreads--;
+            // Re-check free list after GC may have replenished it
+            if (this->freeCells) {
+                Cell* batchHead = this->freeCells;
+                Cell* current = batchHead;
+                int count = 1;
+                while (current->getNext() && count < this->blocksPerAllocation) {
+                    current = current->getNext();
+                    count++;
+                }
+                this->freeCells = current->getNext();
+                current->setNext(nullptr);
+                this->freeCellsCount -= count;
+                return batchHead;
+            }
         }
 
         // No free cells, ask the OS
@@ -422,7 +446,9 @@ namespace proto {
             this->freeCellsCount += (blocksToAllocate - this->blocksPerAllocation);
         }
 
-        this->triggerGC();
+        // Do not trigger GC here: we are about to return without parking, which would deadlock
+        // (GC would wait for parkedThreads >= runningThreads forever). GC is already triggered
+        // in the "no free cells" path when we park before allocating from the OS.
         return reinterpret_cast<Cell*>(newMemory);
     }
 
