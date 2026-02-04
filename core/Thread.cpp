@@ -193,6 +193,12 @@ namespace proto {
     // ProtoThread API
     //=========================================================================
 
+    void ProtoThread::join(ProtoContext* /*context*/) {
+        auto* impl = toImpl<ProtoThreadImplementation>(this);
+        if (impl->extension && impl->extension->osThread && impl->extension->osThread->joinable())
+            impl->extension->osThread->join();
+    }
+
     const ProtoObject* ProtoThread::getName(ProtoContext* context) const {
         return reinterpret_cast<const ProtoObject*>(toImpl<const ProtoThreadImplementation>(this)->name);
     }
