@@ -363,13 +363,23 @@ namespace proto {
     ) {
         auto* c = context ? context : new ProtoContext(this, nullptr, nullptr, nullptr, args, kwargs);
         auto* newThreadImpl = new(c) ProtoThreadImplementation(c, name, this, mainFunction, args, kwargs);
-        this->runningThreads++;
+        // runningThreads is incremented in ProtoThreadImplementation constructor
         return newThreadImpl->asThread(c);
     }
 
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
         std::unique_lock<std::mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
+
+        // Larger batch when multiple threads run: fewer lock acquisitions per thread.
+        // Use at least 60k so one refill covers typical benchmark chunk (e.g. sum(range(50k))).
+        int batchSize = this->blocksPerAllocation;
+        if (this->runningThreads > 1) {
+            int scaled = this->blocksPerAllocation * static_cast<int>(this->runningThreads.load()) * 4;
+            if (scaled < 60000) scaled = 60000;
+            if (scaled > 65536) scaled = 65536;
+            batchSize = scaled;
+        }
 
         // If we have free cells in the global list, return a batch (do not trigger GC here;
         // otherwise we could wake the GC thread and then leave without parking, causing a deadlock)
@@ -378,8 +388,7 @@ namespace proto {
             Cell* current = batchHead;
             int count = 1;
 
-            // Try to get blocksPerAllocation (or as many as we have)
-            while (current->getNext() && count < this->blocksPerAllocation) {
+            while (current->getNext() && count < batchSize) {
                 current = current->getNext();
                 count++;
             }
@@ -391,10 +400,13 @@ namespace proto {
             return batchHead;
         }
 
-        // No free cells: trigger GC only when the GC thread exists and we will park.
-        // Otherwise (e.g. during ProtoSpace ctor, before gcThread is created) we must not set
-        // gcStarted, or the GC thread would later wake and wait forever for parkedThreads.
-        if (this->gcThread && std::this_thread::get_id() != this->gcThread->get_id()) {
+        // No free cells: trigger GC and park so the GC thread can run, unless multiple threads
+        // are running — then skip GC and allocate from OS to avoid stop-the-world (main thread
+        // is typically in join() and cannot park, so parking all workers would deadlock or
+        // serialize progress). With runningThreads > 1 we rely on larger OS allocation to
+        // keep the global list populated.
+        const bool multiThreaded = this->runningThreads > 1;
+        if (!multiThreaded && this->gcThread && std::this_thread::get_id() != this->gcThread->get_id()) {
             if (!this->gcStarted) {
                 this->gcStarted = true;
                 this->gcCV.notify_all();
@@ -410,7 +422,7 @@ namespace proto {
                 Cell* batchHead = this->freeCells;
                 Cell* current = batchHead;
                 int count = 1;
-                while (current->getNext() && count < this->blocksPerAllocation) {
+                while (current->getNext() && count < batchSize) {
                     current = current->getNext();
                     count++;
                 }
@@ -421,13 +433,18 @@ namespace proto {
                 return batchHead;
             }
         }
-        // If gcThread was null (e.g. during ProtoSpace ctor), we did not set gcStarted; fall through to OS allocation.
+        // Multi-threaded or gcThread null: fall through to OS allocation.
 
-        // No free cells, ask the OS. Use a large chunk to reduce GC trigger frequency
-        // for allocation-heavy workloads (e.g. str_concat_loop); otherwise we would
-        // trigger GC very often and hit benchmark timeouts.
+        // No free cells, ask the OS. Use a large chunk to reduce GC trigger frequency.
+        // When multiple threads run, allocate more so the global list stays populated and
+        // other threads rarely need to trigger GC (reduces stop-the-world pauses).
         Cell* newMemory = nullptr;
-        const int osAllocationMultiplier = 50;
+        int osAllocationMultiplier = 50;
+        if (this->runningThreads > 1) {
+            int mt = static_cast<int>(this->runningThreads.load());
+            if (mt > 8) mt = 8;
+            osAllocationMultiplier *= mt;
+        }
         int blocksToAllocate = this->blocksPerAllocation * osAllocationMultiplier;
         
         int result = posix_memalign(reinterpret_cast<void**>(&newMemory), 64, blocksToAllocate * sizeof(BigCell));
@@ -441,24 +458,24 @@ namespace proto {
         this->heapSize += blocksToAllocate;
 
         // Chain the newly allocated cells and add them to the global free list
-        // but we return the first blocksPerAllocation to the requesting thread
+        // but we return the first batchSize to the requesting thread
         BigCell* bigCellPtr = reinterpret_cast<BigCell*>(newMemory);
 
         // Batch to return
-        for (int i = 0; i < this->blocksPerAllocation - 1; ++i) {
+        for (int i = 0; i < batchSize - 1; ++i) {
             reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
         }
-        reinterpret_cast<Cell*>(&bigCellPtr[this->blocksPerAllocation - 1])->internalSetNextRaw(nullptr);
+        reinterpret_cast<Cell*>(&bigCellPtr[batchSize - 1])->internalSetNextRaw(nullptr);
 
         // Remaining go to global free list
-        if (blocksToAllocate > this->blocksPerAllocation) {
-            Cell* globalHead = reinterpret_cast<Cell*>(&bigCellPtr[this->blocksPerAllocation]);
-            for (int i = this->blocksPerAllocation; i < blocksToAllocate - 1; ++i) {
+        if (blocksToAllocate > batchSize) {
+            Cell* globalHead = reinterpret_cast<Cell*>(&bigCellPtr[batchSize]);
+            for (int i = batchSize; i < blocksToAllocate - 1; ++i) {
                 reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
             }
             reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->internalSetNextRaw(this->freeCells);
             this->freeCells = globalHead;
-            this->freeCellsCount += (blocksToAllocate - this->blocksPerAllocation);
+            this->freeCellsCount += (blocksToAllocate - batchSize);
         }
 
         // Do not trigger GC here: we are about to return without parking, which would deadlock
