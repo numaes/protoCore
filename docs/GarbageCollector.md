@@ -71,6 +71,10 @@ While the world is stopped, the GC identifies all root objects:
 - **Concurrent Allocation**: Threads can continue to allocate memory from the OS (growing the heap) even if a GC cycle is currently running. This ensures that a high allocation rate does not stall the entire system.
 - If no free cells are available and a GC cycle is not enough to satisfy the request, `ProtoSpace` allocates a new chunk of memory from the OS using `posix_memalign`.
 
+### OS allocation cap (16 MiB)
+
+Each request to the OS in `getFreeCells` is capped at **16 MiB** per call (`kMaxBytesPerOSAllocation` in `ProtoSpace.cpp`). The number of blocks requested is computed from `blocksPerAllocation` and the current policy (single-threaded vs multi-threaded batch size), then clamped so that `blocksToAllocate * sizeof(BigCell)` does not exceed 16 MiB. This limits the size of a single `posix_memalign` call and avoids excessively long critical sections when chaining cells under the global lock.
+
 ## How to use
 
 The GC is mostly automatic. However, threads must be "managed" by `ProtoSpace` to participate in the STW protocol. Use `ProtoThread` and its synchronization methods to ensure proper GC behavior in custom threading scenarios.

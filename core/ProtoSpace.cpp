@@ -12,10 +12,23 @@
 #include <unordered_set>
 #include <mutex>
 #include <condition_variable>
+#include <atomic>
+#include <cstdint>
 
 namespace proto {
 
     namespace {
+        /** Maximum bytes to request from the OS in a single getFreeCells allocation (16 MiB). */
+        constexpr unsigned long kMaxBytesPerOSAllocation = 16u * 1024u * 1024u;
+        /** Maximum number of blocks (BigCells) per OS request. */
+        constexpr int kMaxBlocksPerOSAllocation = static_cast<int>(kMaxBytesPerOSAllocation / sizeof(BigCell));
+
+        std::atomic<uint64_t> s_getFreeCellsCalls{0};
+        void diagPrintAllocCount() {
+            uint64_t n = s_getFreeCellsCalls.load();
+            if (n > 0)
+                std::cerr << "[proto-alloc-diag] getFreeCells total calls=" << n << std::endl;
+        }
         const ProtoList* buildDefaultResolutionChain(ProtoContext* ctx) {
             const ProtoList* chain = ctx->newList();
             if (!chain) return nullptr;
@@ -159,8 +172,7 @@ namespace proto {
 
                 // 6. Capture the heap snapshot (segments to process)
                 // This MUST be done during STW to ensure we only sweep what existed at root collection.
-                DirtySegment* segmentsToProcess = space->dirtySegments;
-                space->dirtySegments = nullptr;
+                DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
                 
                 // --- PHASE 3: RESUME THE WORLD ---
                 space->stwFlag.store(false);
@@ -247,7 +259,7 @@ namespace proto {
         runningThreads(1), // Main thread starts running
         stwFlag(false),
         parkedThreads(0),
-        blocksPerAllocation(1024),
+        blocksPerAllocation(8192),  // Larger default batch to reduce getFreeCells calls during script load (was 1024; 1151 calls observed for multithread benchmark)
         heapSize(0),
         freeCellsCount(0),
         gcSleepMilliseconds(10),
@@ -368,6 +380,11 @@ namespace proto {
     }
 
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
+        if (std::getenv("PROTO_ALLOC_DIAG")) {
+            s_getFreeCellsCalls++;
+            static std::once_flag once;
+            std::call_once(once, []{ std::atexit(diagPrintAllocCount); });
+        }
         std::unique_lock<std::mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
 
@@ -435,18 +452,21 @@ namespace proto {
         }
         // Multi-threaded or gcThread null: fall through to OS allocation.
 
-        // No free cells, ask the OS. Use a large chunk to reduce GC trigger frequency.
-        // When multiple threads run, allocate more so the global list stays populated and
-        // other threads rarely need to trigger GC (reduces stop-the-world pauses).
+        // No free cells, ask the OS.
+        // Cap each OS request at 16 MiB to avoid huge allocations and long critical sections.
+        // When multiple threads run: allocate only one batch (batchSize) so we hold the lock
+        // for minimal time. Single-threaded: use a larger multiplier but still capped at 16 MiB.
         Cell* newMemory = nullptr;
-        int osAllocationMultiplier = 50;
+        int blocksToAllocate;
         if (this->runningThreads > 1) {
-            int mt = static_cast<int>(this->runningThreads.load());
-            if (mt > 8) mt = 8;
-            osAllocationMultiplier *= mt;
+            blocksToAllocate = batchSize;
+        } else {
+            int osAllocationMultiplier = 50;
+            blocksToAllocate = this->blocksPerAllocation * osAllocationMultiplier;
         }
-        int blocksToAllocate = this->blocksPerAllocation * osAllocationMultiplier;
-        
+        if (blocksToAllocate > kMaxBlocksPerOSAllocation)
+            blocksToAllocate = kMaxBlocksPerOSAllocation;
+
         int result = posix_memalign(reinterpret_cast<void**>(&newMemory), 64, blocksToAllocate * sizeof(BigCell));
         if (result != 0) {
             if (this->outOfMemoryCallback)
@@ -487,14 +507,16 @@ namespace proto {
 
     void ProtoSpace::submitYoungGeneration(const Cell* cell) {
         if (!cell) return;
-        
-        GC_LOCK_TRACE("submitYoung ACQ");
-        std::lock_guard<std::mutex> lock(globalMutex);
-        DirtySegment* segment = new DirtySegment(); // Note: This might need careful allocation if GC is running, but let's assume standard new is fine for now or allocate from a pool later.
+        DirtySegment* segment = new DirtySegment();
         segment->cellChain = const_cast<Cell*>(cell);
-        segment->next = this->dirtySegments;
-        this->dirtySegments = segment;
-        GC_LOCK_TRACE("submitYoung REL");
+        // Lock-free push so threads do not contend on globalMutex on every context destroy.
+        segment->next = this->dirtySegments.load(std::memory_order_relaxed);
+        while (!this->dirtySegments.compare_exchange_weak(
+                segment->next, segment,
+                std::memory_order_release,
+                std::memory_order_relaxed)) {
+            // segment->next updated by compare_exchange_weak on failure
+        }
     }
 
     void ProtoSpace::triggerGC() {
