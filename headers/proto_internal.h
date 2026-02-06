@@ -19,7 +19,12 @@
 #include <functional>
 
 #ifdef PROTO_GC_LOCK_TRACE
-#define GC_LOCK_TRACE(msg) do { std::cerr << "[gc-lock] " << std::this_thread::get_id() << " " << (msg) << "\n"; } while(0)
+#include <chrono>
+#define GC_LOCK_TRACE(msg) do { \
+    auto t = std::chrono::steady_clock::now(); \
+    auto us = std::chrono::duration_cast<std::chrono::microseconds>(t.time_since_epoch()).count(); \
+    std::cerr << "[gc-lock] " << us << " " << std::this_thread::get_id() << " " << (msg) << "\n"; \
+} while(0)
 #else
 #define GC_LOCK_TRACE(msg) do {} while(0)
 #endif
@@ -151,6 +156,13 @@ namespace proto {
             unsigned long pointer_tag: 6;
             unsigned long hash: 58;
         } asHash;
+        /** Inline string: length (0..7) in low 3 bits; 7 chars at 7 bits each (bits 3..51). */
+        struct {
+            unsigned long pointer_tag: 6;
+            unsigned long embedded_type: 4;
+            unsigned long inline_len: 3;
+            unsigned long inline_chars: 49;
+        } inlineString;
     };
 
 #define POINTER_TAG_OBJECT 0
@@ -177,6 +189,17 @@ namespace proto {
 #define EMBEDDED_TYPE_SMALLINT 0
 #define EMBEDDED_TYPE_UNICODE_CHAR 2
 #define EMBEDDED_TYPE_BOOLEAN 3
+#define EMBEDDED_TYPE_INLINE_STRING 4
+
+/** Inline string: up to 7 UTF-32 code units in 54 bits. Length in bits 0-2; chars in 7-bit each at bits 3+7*i (0..6). */
+#define INLINE_STRING_MAX_LEN 7
+#define INLINE_STRING_LEN_BITS 3
+#define INLINE_STRING_CHAR_BITS 7
+
+    bool isInlineString(const ProtoObject* o);
+    unsigned long getProtoStringHash(ProtoContext* context, const ProtoObject* o);
+    /** Builds inline string (no allocation). codepoints must be 0..127, len 0..7. */
+    const ProtoObject* createInlineString(ProtoContext* context, int len, const unsigned int* codepoints);
 
 #define ITERATOR_NEXT_PREVIOUS 0
 #define ITERATOR_NEXT_THIS 1
@@ -549,6 +572,9 @@ namespace proto {
         ~ProtoTupleImplementation() override = default;
         static const ProtoTupleImplementation *
         tupleFromList(ProtoContext *context, const ProtoListImplementation *sourceList);
+        /** Builds a non-interned concat tuple for rope: slot[0]=left, slot[1]=right, actual_size=totalSize. O(1). */
+        static const ProtoTupleImplementation *
+        tupleConcat(ProtoContext *context, const ProtoObject *left, const ProtoObject *right, unsigned long totalSize);
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
         const ProtoTuple *asProtoTuple(ProtoContext *context) const;
@@ -846,9 +872,9 @@ namespace proto {
 
     class ProtoStringIteratorImplementation : public Cell {
     public:
-        const ProtoStringImplementation* base;
+        const ProtoObject* base;  /** String (inline or ProtoStringImplementation). */
         unsigned long currentIndex;
-        ProtoStringIteratorImplementation(ProtoContext* context, const ProtoStringImplementation* s, unsigned long i);
+        ProtoStringIteratorImplementation(ProtoContext* context, const ProtoObject* stringObj, unsigned long i);
         ~ProtoStringIteratorImplementation() override = default;
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context);

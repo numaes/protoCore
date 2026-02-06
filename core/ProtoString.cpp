@@ -17,28 +17,84 @@
 namespace proto {
 
     //=========================================================================
-    // ProtoStringIteratorImplementation
+    // Inline string helpers (tagged pointer; up to 7 UTF-32 chars in 54 bits)
+    //=========================================================================
+
+    bool isInlineString(const ProtoObject* o) {
+        if (!o) return false;
+        ProtoObjectPointer pa{};
+        pa.oid = o;
+        return pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING;
+    }
+
+    static unsigned long inlineStringLength(const ProtoObject* o) {
+        ProtoObjectPointer pa{};
+        pa.oid = o;
+        return pa.op.value & 7UL;
+    }
+
+    /** Returns 7-bit code unit at index i (0..6). */
+    static unsigned int inlineStringCharAt(const ProtoObject* o, int i) {
+        ProtoObjectPointer pa{};
+        pa.oid = o;
+        return static_cast<unsigned int>((pa.op.value >> (3 + 7 * i)) & 0x7F);
+    }
+
+    static unsigned long getProtoStringSize(ProtoContext* context, const ProtoObject* o) {
+        if (isInlineString(o)) return inlineStringLength(o);
+        return toImpl<const ProtoStringImplementation>(o)->implGetSize(context);
+    }
+
+    static const ProtoObject* getProtoStringGetAt(ProtoContext* context, const ProtoObject* o, int index) {
+        if (isInlineString(o)) {
+            const unsigned int cp = inlineStringCharAt(o, index);
+            return context->fromUnicodeChar(cp);
+        }
+        return toImpl<const ProtoStringImplementation>(o)->implGetAt(context, index);
+    }
+
+    const ProtoObject* createInlineString(ProtoContext* context, int len, const unsigned int* codepoints) {
+        unsigned long value = static_cast<unsigned long>(len & 7);
+        for (int i = 0; i < len && i < INLINE_STRING_MAX_LEN; ++i)
+            value |= (static_cast<unsigned long>(codepoints[i] & 0x7F) << (3 + 7 * i));
+        const uintptr_t ptr = POINTER_TAG_EMBEDDED_VALUE | (static_cast<uintptr_t>(EMBEDDED_TYPE_INLINE_STRING) << 6) | (value << 10);
+        return reinterpret_cast<const ProtoObject*>(ptr);
+    }
+
+    unsigned long getProtoStringHash(ProtoContext* context, const ProtoObject* o) {
+        if (isInlineString(o)) {
+            unsigned long h = 0;
+            const unsigned long len = inlineStringLength(o);
+            for (unsigned long i = 0; i < len; ++i)
+                h = (h * 31UL) + static_cast<unsigned long>(inlineStringCharAt(o, static_cast<int>(i)));
+            return h;
+        }
+        return toImpl<const ProtoStringImplementation>(o)->getHash(context);
+    }
+
+    //=========================================================================
+    // ProtoStringIteratorImplementation (base = string as ProtoObject*, inline or cell)
     //=========================================================================
 
     ProtoStringIteratorImplementation::ProtoStringIteratorImplementation(
         ProtoContext* context,
-        const ProtoStringImplementation* s,
+        const ProtoObject* stringObj,
         unsigned long i
-    ) : Cell(context), base(s), currentIndex(i)
+    ) : Cell(context), base(stringObj), currentIndex(i)
     {
     }
 
     int ProtoStringIteratorImplementation::implHasNext(ProtoContext* context) const {
         if (!this->base) return false;
-        return this->currentIndex < this->base->implGetSize(context);
+        return this->currentIndex < getProtoStringSize(context, this->base);
     }
 
     const ProtoObject* ProtoStringIteratorImplementation::implNext(ProtoContext* context) {
-        return this->base->implGetAt(context, this->currentIndex++);
+        return getProtoStringGetAt(context, this->base, static_cast<int>(this->currentIndex++));
     }
 
     const ProtoStringIteratorImplementation* ProtoStringIteratorImplementation::implAdvance(ProtoContext* context) const {
-        if (this->currentIndex < this->base->implGetSize(context)) {
+        if (this->base && this->currentIndex < getProtoStringSize(context, this->base)) {
             return new (context) ProtoStringIteratorImplementation(context, this->base, this->currentIndex + 1);
         }
         return this;
@@ -62,8 +118,9 @@ namespace proto {
             const Cell* cell
             )
     ) const {
-        if (this->base) {
-            method(context, self, this->base);
+        if (this->base && !isInlineString(this->base)) {
+            const Cell* c = this->base->asCell(context);
+            if (c) method(context, self, c);
         }
     }
 
@@ -91,6 +148,16 @@ namespace proto {
     }
 
     const ProtoObject* ProtoStringImplementation::implGetAt(ProtoContext* context, int index) const {
+        const unsigned long n = this->tuple->actual_size;
+        if (n == 2 && this->tuple->slot[0] && this->tuple->slot[1] &&
+            this->tuple->slot[0]->isString(context) && this->tuple->slot[1]->isString(context)) {
+            const unsigned long leftSize = getProtoStringSize(context, this->tuple->slot[0]);
+            if (index >= 0 && static_cast<unsigned long>(index) < leftSize)
+                return getProtoStringGetAt(context, this->tuple->slot[0], index);
+            const unsigned long rightSize = getProtoStringSize(context, this->tuple->slot[1]);
+            if (static_cast<unsigned long>(index) < leftSize + rightSize)
+                return getProtoStringGetAt(context, this->tuple->slot[1], index - static_cast<int>(leftSize));
+        }
         return this->tuple->implGetAt(context, index);
     }
 
@@ -103,17 +170,12 @@ namespace proto {
     }
 
     const ProtoStringImplementation* ProtoStringImplementation::implAppendLast(ProtoContext* context, const ProtoString* otherString) const {
-        const auto* otherTuple = toImpl<const ProtoStringImplementation>(otherString)->tuple;
-        // This is a simplified append. A real rope implementation would be more complex.
-        const ProtoList* l1 = this->tuple->implAsList(context);
-        const ProtoList* l2 = otherTuple->implAsList(context);
-        // This is not an efficient way to concatenate lists.
-        // A proper rope implementation would avoid this linear traversal.
-        const ProtoListIterator* it = l2->getIterator(context);
-        while(it->hasNext(context)){
-            l1 = l1->appendLast(context, it->next(context));
-        }
-        return new (context) ProtoStringImplementation(context, ProtoTupleImplementation::tupleFromList(context, toImpl<const ProtoListImplementation>(l1)));
+        const ProtoObject* leftObj = this->implAsObject(context);
+        const ProtoObject* rightObj = otherString->asObject(context);
+        const unsigned long leftSize = this->implGetSize(context);
+        const unsigned long rightSize = getProtoStringSize(context, rightObj);
+        const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, leftObj, rightObj, leftSize + rightSize);
+        return new (context) ProtoStringImplementation(context, concatTuple);
     }
 
     void ProtoStringImplementation::finalize(ProtoContext* context) const {}
@@ -149,7 +211,7 @@ namespace proto {
     }
 
     const ProtoStringIteratorImplementation* ProtoStringImplementation::implGetIterator(ProtoContext* context) const {
-        return new (context) ProtoStringIteratorImplementation(context, this, 0);
+        return new (context) ProtoStringIteratorImplementation(context, this->implAsObject(context), 0);
     }
 
     const ProtoString* ProtoStringImplementation::asProtoString(ProtoContext* context) const {
@@ -164,33 +226,52 @@ namespace proto {
     //=========================================================================
 
     unsigned long ProtoString::getSize(ProtoContext* context) const {
+        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
+        if (isInlineString(self)) return inlineStringLength(self);
         return toImpl<const ProtoStringImplementation>(this)->implGetSize(context);
     }
 
     const ProtoObject* ProtoString::getAt(ProtoContext* context, int index) const {
+        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
+        if (isInlineString(self)) return context->fromUnicodeChar(inlineStringCharAt(self, index));
         return toImpl<const ProtoStringImplementation>(this)->implGetAt(context, index);
     }
 
     const ProtoList* ProtoString::asList(ProtoContext* context) const {
+        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
+        if (isInlineString(self)) {
+            const unsigned long len = inlineStringLength(self);
+            const ProtoList* list = context->newList();
+            for (unsigned long i = 0; i < len; ++i)
+                list = list->appendLast(context, context->fromUnicodeChar(inlineStringCharAt(self, static_cast<int>(i))));
+            return list;
+        }
         return toImpl<const ProtoStringImplementation>(this)->implAsList(context);
     }
 
     const ProtoString* ProtoString::getSlice(ProtoContext* context, int start, int end) const {
-        const auto* tuple_impl = toImpl<const ProtoStringImplementation>(this)->tuple;
-        // This is a simplified slice. A real rope implementation would be more complex.
-        const ProtoList* list = tuple_impl->implAsList(context);
+        const unsigned long size = getSize(context);
+        if (start < 0) start = 0;
+        if (end > static_cast<int>(size)) end = static_cast<int>(size);
+        if (start >= end) return ProtoString::fromUTF8String(context, "");
         const ProtoList* sublist = context->newList();
-        for(int i = start; i < end; ++i) {
-            sublist = sublist->appendLast(context, list->getAt(context, i));
-        }
+        for (int i = start; i < end; ++i)
+            sublist = sublist->appendLast(context, getAt(context, i));
         return (new (context) ProtoStringImplementation(context, ProtoTupleImplementation::tupleFromList(context, toImpl<const ProtoListImplementation>(sublist))))->asProtoString(context);
     }
 
     int ProtoString::cmp_to_string(ProtoContext* context, const ProtoString* otherString) const {
+        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
+        if (isInlineString(self)) {
+            const unsigned long h = getProtoStringHash(context, self);
+            const unsigned long oh = getProtoStringHash(context, otherString->asObject(context));
+            return (h < oh) ? -1 : (h > oh) ? 1 : 0;
+        }
         return toImpl<const ProtoStringImplementation>(this)->implCompare(context, otherString);
     }
 
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
+        if (isInlineString(reinterpret_cast<const ProtoObject*>(this))) return reinterpret_cast<const ProtoObject*>(this);
         return toImpl<const ProtoStringImplementation>(this)->implAsObject(context);
     }
     
@@ -279,6 +360,8 @@ namespace proto {
     }
     
     const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const {
+        if (isInlineString(reinterpret_cast<const ProtoObject*>(this)))
+            return (new (context) ProtoStringIteratorImplementation(context, reinterpret_cast<const ProtoObject*>(this), 0))->asProtoStringIterator(context);
         return toImpl<const ProtoStringImplementation>(this)->implGetIterator(context)->asProtoStringIterator(context);
     }
 

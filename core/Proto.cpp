@@ -114,6 +114,12 @@ namespace proto
         const ProtoObject* currentObject = this;
         const unsigned long attr_hash = name->getHash(context);
         while (currentObject) {
+            ProtoObjectPointer pa_cur{};
+            pa_cur.oid = currentObject;
+            if (pa_cur.op.pointer_tag != POINTER_TAG_OBJECT) {
+                currentObject = currentObject->getPrototype(context);
+                continue;
+            }
             auto oc = toImpl<const ProtoObjectCell>(currentObject);
             const ProtoSparseListImplementation* attributes = oc->attributes;
 
@@ -240,7 +246,9 @@ namespace proto
     const ProtoString* ProtoObject::asString(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
-        return pa.op.pointer_tag == POINTER_TAG_STRING ? reinterpret_cast<const ProtoString*>(this) : nullptr;
+        if (pa.op.pointer_tag == POINTER_TAG_STRING) return reinterpret_cast<const ProtoString*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING) return reinterpret_cast<const ProtoString*>(this);
+        return nullptr;
     }
 
     ProtoMethod ProtoObject::asMethod(ProtoContext* context) const {
@@ -252,13 +260,17 @@ namespace proto
     bool ProtoObject::isNone(ProtoContext* context) const { return this == PROTO_NONE; }
     bool ProtoObject::isBoolean(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_BOOLEAN; }
     bool ProtoObject::isInteger(ProtoContext* context) const { return proto::isInteger(this); }
-    bool ProtoObject::isString(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_STRING; }
+    bool ProtoObject::isString(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_STRING || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING);
+    }
     bool ProtoObject::isMethod(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_METHOD; }
     bool ProtoObject::isTuple(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_TUPLE; }
     bool ProtoObject::isSet(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_SET; }
     bool ProtoObject::isMultiset(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_MULTISET; }
 
     unsigned long ProtoObject::getHash(ProtoContext* context) const {
+        if (isString(context) && isInlineString(this)) return getProtoStringHash(context, this);
         if (isCell(context)) return asCell(context)->getHash(context);
         return reinterpret_cast<uintptr_t>(this);
     }
@@ -280,6 +292,7 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag == POINTER_TAG_LIST) return reinterpret_cast<const ProtoList*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_STRING) return toImpl<const ProtoStringImplementation>(this)->implAsList(context);
+        if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING) return reinterpret_cast<const ProtoString*>(this)->asList(context);
         return nullptr;
     }
 
@@ -637,11 +650,22 @@ namespace proto
     // ProtoString API
     //=========================================================================
     const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* str) {
-        return toImpl<const ProtoStringImplementation>(context->fromUTF8String(str))->asProtoString(context);
+        const ProtoObject* o = context->fromUTF8String(str);
+        return o->asString(context);
     }
-    unsigned long ProtoString::getHash(ProtoContext* context) const { return toImpl<const ProtoStringImplementation>(this)->getHash(context); }
-    const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const { return toImpl<const ProtoStringImplementation>(this)->implAppendLast(context, other)->asProtoString(context); }
-    const Cell* ProtoString::asCell(ProtoContext* context) const { return toImpl<const ProtoStringImplementation>(this); }
+    unsigned long ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
+    const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : toImpl<const ProtoStringImplementation>(this); }
+    const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
+        if (isInlineString(reinterpret_cast<const ProtoObject*>(this))) {
+            const ProtoObject* leftObj = reinterpret_cast<const ProtoObject*>(this);
+            const ProtoObject* rightObj = other->asObject(context);
+            const unsigned long leftSize = getSize(context);
+            const unsigned long rightSize = other->getSize(context);
+            const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, leftObj, rightObj, leftSize + rightSize);
+            return (new (context) ProtoStringImplementation(context, concatTuple))->asProtoString(context);
+        }
+        return toImpl<const ProtoStringImplementation>(this)->implAppendLast(context, other)->asProtoString(context);
+    }
 
     //=========================================================================
     // ProtoTupleIterator API Implementation

@@ -226,6 +226,11 @@ namespace proto {
         return internedTuple;
     }
 
+    const ProtoTupleImplementation* ProtoTupleImplementation::tupleConcat(ProtoContext* context, const ProtoObject* left, const ProtoObject* right, unsigned long totalSize) {
+        const ProtoObject* slots[2] = { left, right };
+        return new(context) ProtoTupleImplementation(context, slots, totalSize);
+    }
+
     ProtoTupleImplementation::ProtoTupleImplementation(
         ProtoContext* context,
         const ProtoObject** slot_values,

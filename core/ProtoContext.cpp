@@ -218,8 +218,44 @@ namespace proto
 
     const ProtoObject* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
     {
-        const ProtoListImplementation* charList = new(this) ProtoListImplementation(this);
+        unsigned int codepoints[INLINE_STRING_MAX_LEN];
+        int count = 0;
         const unsigned char* s = (const unsigned char*)zeroTerminatedUtf8String;
+        bool allASCII = true;
+        while (*s && count <= INLINE_STRING_MAX_LEN) {
+            unsigned int unicodeChar;
+            int len;
+            if (*s < 0x80) {
+                unicodeChar = *s;
+                len = 1;
+            } else if ((*s & 0xE0) == 0xC0) {
+                unicodeChar = *s & 0x1F;
+                len = 2;
+            } else if ((*s & 0xF0) == 0xE0) {
+                unicodeChar = *s & 0x0F;
+                len = 3;
+            } else {
+                unicodeChar = *s & 0x07;
+                len = 4;
+            }
+            for (int i = 1; i < len; ++i) {
+                if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) {
+                    unicodeChar = *s;
+                    len = 1;
+                    break;
+                }
+                unicodeChar = (unicodeChar << 6) | (s[i] & 0x3F);
+            }
+            if (count < INLINE_STRING_MAX_LEN) codepoints[count] = unicodeChar;
+            if (unicodeChar >= 128u) allASCII = false;
+            ++count;
+            s += len;
+        }
+        if (count > 0 && count <= INLINE_STRING_MAX_LEN && allASCII && !*s) {
+            return createInlineString(this, count, codepoints);
+        }
+        const ProtoListImplementation* charList = new(this) ProtoListImplementation(this);
+        s = (const unsigned char*)zeroTerminatedUtf8String;
         while (*s) {
             unsigned int unicodeChar;
             int len;
@@ -232,11 +268,10 @@ namespace proto
             } else if ((*s & 0xF0) == 0xE0) {
                 unicodeChar = *s & 0x0F;
                 len = 3;
-            } else { // Assuming 4-byte character
+            } else {
                 unicodeChar = *s & 0x07;
                 len = 4;
             }
-
             for (int i = 1; i < len; ++i) {
                 if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) {
                     unicodeChar = *s;
