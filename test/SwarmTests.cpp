@@ -117,7 +117,7 @@ TEST(SwarmTest, GetRawPointerIfExternalBuffer) {
     void* raw = bufObj->getRawPointerIfExternalBuffer(ctx);
     ASSERT_NE(raw, nullptr);
 
-    const ProtoObject* listObj = ctx->newList();
+    const ProtoObject* listObj = ctx->newList()->asObject(ctx);
     void* rawList = listObj->getRawPointerIfExternalBuffer(ctx);
     EXPECT_EQ(rawList, nullptr);
 }
