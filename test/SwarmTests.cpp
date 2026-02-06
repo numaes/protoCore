@@ -20,6 +20,7 @@ constexpr unsigned long EXTERNAL_BUFFER_SIZE = 4096;
 }  // namespace
 
 /* Disabled: very large rope graph can trigger GC segfault; fix requires protoCore GC/rope handling (no hack). */
+/* Disabled: very large rope graph can trigger GC edge cases; re-enable after GC/rope hardening. */
 TEST(SwarmTest, DISABLED_OneMillionConcats) {
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;
@@ -43,6 +44,7 @@ TEST(SwarmTest, DISABLED_OneMillionConcats) {
 }
 
 /* Disabled: "Non-tuple object in tuple node slot" on very large rope; fix in protoCore string/tuple traversal (no hack). */
+/* Disabled: large rope traversal can hit "Non-tuple object in tuple node slot"; re-enable after string-tuple traversal fix. */
 TEST(SwarmTest, DISABLED_LargeRopeIndexAccess) {
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;
@@ -115,7 +117,7 @@ TEST(SwarmTest, GetRawPointerIfExternalBuffer) {
     void* raw = bufObj->getRawPointerIfExternalBuffer(ctx);
     ASSERT_NE(raw, nullptr);
 
-    const ProtoObject* listObj = ctx->newList()->asObject(ctx);
+    const ProtoObject* listObj = ctx->newList();
     void* rawList = listObj->getRawPointerIfExternalBuffer(ctx);
     EXPECT_EQ(rawList, nullptr);
 }
