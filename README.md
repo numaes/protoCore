@@ -31,6 +31,12 @@ It is designed for developers who need to script complex application behavior, c
 - ✅ **Documentation** - Full API documentation and technical specifications
 - ✅ **protoJS Runtime** - Complete JavaScript runtime built on protoCore (Phase 5 Complete)
 
+### Community & Open Review
+
+Beyond formal audits, this project is officially **open for Community Review and Suggestions**.
+
+We welcome architectural feedback, edge-case identification, and performance critiques. While the core vision is firm, the path to perfection is a collective effort of the "Swarm."
+
 ---
 
 ## Real-World Application: protoJS
@@ -112,6 +118,22 @@ protoCore's performance and safety stem from a set of deeply integrated architec
         *   **Heap-Allocated Objects**: For numbers that exceed this range, protoCore automatically and transparently promotes them to heap-allocated objects: `LargeInteger` for arbitrary-precision integers and `Double` for 64-bit floating-point numbers. This hybrid approach provides the best of both worlds: extreme speed for common cases and unlimited precision when needed.
     *   **Eliminating False Sharing**: All heap objects reside in 64-byte `Cell`s, perfectly aligning with the 64-byte cache lines of modern CPUs. This ensures that when different cores access different objects, they are guaranteed not to contend for the same cache line—a common and severe performance bottleneck in multithreaded applications.
     *   **Concurrent Garbage Collector**: A dedicated GC thread works in parallel with the application, with extremely short "stop-the-world" pauses, making protoCore suitable for interactive and soft real-time applications.
+
+---
+
+## The Swarm of One
+
+**The Swarm of One** is the transition from "Individual Contributor" to "System Architect": a single human architect orchestrating a swarm of specialized AI agents to tackle high-density infrastructure that previously required entire R&D departments.
+
+In protoCore, that infrastructure is low-level memory management: 64-byte cell alignment for cache-line efficiency, lock-free atomics, tagged pointers, and a concurrent GC with minimal stop-the-world pauses. Navigating these complexities—without sacrificing correctness or performance—is exactly where AI augmentation acted as a force multiplier: exploring design space, validating invariants, and keeping the codebase consistent across hundreds of cells and thousands of lines. The result is the democratization of high-level systems engineering: one architect, one vision, amplified.
+
+---
+
+## The Methodology: AI-Augmented Engineering
+
+These projects were built using **extensive AI-augmentation tools** to empower human vision and strategic design.
+
+This is not "AI-generated code" in the traditional sense; it is **AI-amplified architecture**. The vision, the constraints, and the trade-offs are human; the execution is accelerated by AI as a force multiplier for complex system design. We don't just use AI—we embrace it as the unavoidable present of software engineering.
 
 ---
 
@@ -261,3 +283,7 @@ We welcome contributions! This project is at a perfect stage for developers inte
 ## Acknowledgments
 
 ProtoCore is developed and maintained by Gustavo Marino. The project represents years of careful design and implementation focused on performance, safety, and developer experience.
+
+---
+
+**Don't just watch the shift. Lead it.** The tools are here, the barrier is gone, and the only limit is the clarity of your vision. Join the review, test the limits, and become part of the Swarm of One. Let's build the future of computing, one cell at a time.
