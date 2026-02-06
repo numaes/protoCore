@@ -29,6 +29,7 @@ namespace proto
     class ProtoTuple;
     class ProtoString;
     class ProtoExternalPointer;
+    class ProtoExternalBuffer;
     class ParentLink;
     class ProtoList;
     class ProtoListIterator;
@@ -131,6 +132,9 @@ namespace proto
         const ProtoMultisetIterator* asMultisetIterator(ProtoContext* context) const;
         const ProtoThread* asThread(ProtoContext* context) const;
         const ProtoExternalPointer* asExternalPointer(ProtoContext* context) const;
+        const ProtoExternalBuffer* asExternalBuffer(ProtoContext* context) const;
+        /** If this object is a ProtoExternalBuffer, returns the raw segment pointer; otherwise nullptr. Stable until the object is collected (no compaction). */
+        void* getRawPointerIfExternalBuffer(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
 
         //- Comparison
@@ -291,6 +295,16 @@ namespace proto
          * @return The wrapped void* pointer, or nullptr if invalid.
          */
         void* getPointer(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
+    };
+
+    /** Contiguous buffer (aligned_alloc). Lifecycle tied to descriptor; GC finalize frees segment (Shadow GC). */
+    class ProtoExternalBuffer
+    {
+    public:
+        void* getRawPointer(ProtoContext* context) const;
+        unsigned long getSize(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
     };
@@ -474,6 +488,8 @@ namespace proto
         unsigned long getHash(ProtoContext* context) const;
 
         void setCurrentContext(ProtoContext* context);
+        /** Returns the current execution context for this thread. O(1) thread-local read. */
+        ProtoContext* getCurrentContext() const;
         void setManaged();
         void setUnmanaged();
         void synchToGC();
@@ -562,6 +578,8 @@ namespace proto
         const ProtoSet* newSet();
         const ProtoMultiset* newMultiset();
         const ProtoObject* newObject(bool mutableObject = false);
+        /** Allocates a contiguous buffer (aligned_alloc). GC finalize frees it when descriptor is collected (Shadow GC). */
+        const ProtoObject* newExternalBuffer(unsigned long size);
 
         //- Memory Management
         Cell* allocCell();
@@ -709,7 +727,8 @@ namespace proto
 
         ProtoSparseList* threads;
         Cell* freeCells;
-        DirtySegment* dirtySegments;
+        /** Lock-free stack of dirty segments; GC drains under globalMutex. */
+        std::atomic<DirtySegment*> dirtySegments;
         unsigned int maxAllocatedCellsPerContext;
         int blocksPerAllocation;
         int heapSize;

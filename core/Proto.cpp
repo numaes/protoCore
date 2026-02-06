@@ -44,6 +44,7 @@ namespace proto
         case POINTER_TAG_MULTISET_ITERATOR: return context->space->multisetIteratorPrototype;
         case POINTER_TAG_BYTE_BUFFER: return context->space->bufferPrototype;
         case POINTER_TAG_EXTERNAL_POINTER: return context->space->pointerPrototype;
+        case POINTER_TAG_EXTERNAL_BUFFER: return context->space->pointerPrototype;
         case POINTER_TAG_METHOD: return context->space->methodPrototype;
         case POINTER_TAG_THREAD: return context->space->threadPrototype;
         case POINTER_TAG_LARGE_INTEGER: return context->space->largeIntegerPrototype;
@@ -286,6 +287,11 @@ namespace proto
     const ProtoStringIterator* ProtoObject::asStringIterator(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_STRING_ITERATOR ? reinterpret_cast<const ProtoStringIterator*>(this) : nullptr; }
     const ProtoSparseList* ProtoObject::asSparseList(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_SPARSE_LIST ? reinterpret_cast<const ProtoSparseList*>(this) : nullptr; }
     const ProtoExternalPointer* ProtoObject::asExternalPointer(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EXTERNAL_POINTER ? reinterpret_cast<const ProtoExternalPointer*>(this) : nullptr; }
+    const ProtoExternalBuffer* ProtoObject::asExternalBuffer(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EXTERNAL_BUFFER ? reinterpret_cast<const ProtoExternalBuffer*>(this) : nullptr; }
+    void* ProtoObject::getRawPointerIfExternalBuffer(ProtoContext* context) const {
+        const ProtoExternalBuffer* buf = asExternalBuffer(context);
+        return buf ? reinterpret_cast<const ProtoExternalBuffer*>(buf)->getRawPointer(context) : nullptr;
+    }
     const ProtoSparseListIterator* ProtoObject::asSparseListIterator(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_SPARSE_LIST_ITERATOR ? reinterpret_cast<const ProtoSparseListIterator*>(this) : nullptr; }
     const ProtoList* ProtoObject::asList(ProtoContext* context) const {
         ProtoObjectPointer pa{};
