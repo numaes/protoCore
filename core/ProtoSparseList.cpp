@@ -17,6 +17,7 @@ namespace proto
         : Cell(context), state(s), current(c), queue(q) {}
 
     int ProtoSparseListIteratorImplementation::implHasNext() const {
+        if (state == ITERATOR_NEXT_PREVIOUS && current && !current->isEmpty) return true;
         if (state == ITERATOR_NEXT_PREVIOUS && current && current->previous) return true;
         if (state == ITERATOR_NEXT_THIS && current && !current->isEmpty) return true;
         if (state == ITERATOR_NEXT_NEXT && current && current->next) return true;
@@ -29,7 +30,9 @@ namespace proto
     }
 
     const ProtoObject* ProtoSparseListIteratorImplementation::implNextValue() const {
-        return (state == ITERATOR_NEXT_THIS && current) ? current->value : PROTO_NONE;
+        if (state == ITERATOR_NEXT_THIS && current) return current->value;
+        if (state == ITERATOR_NEXT_PREVIOUS && current && !current->isEmpty) return current->value;
+        return PROTO_NONE;
     }
 
     const ProtoSparseListIteratorImplementation* ProtoSparseListIteratorImplementation::implAdvance(ProtoContext* context) const {

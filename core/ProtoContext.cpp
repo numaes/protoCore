@@ -323,6 +323,11 @@ namespace proto
         return (new(this) ProtoObjectCell(this, nullptr, attributes, mutableObject ? generate_mutable_ref(this) : 0))->asObject(this);
     }
 
+    const ProtoObject* ProtoContext::newExternalBuffer(unsigned long size)
+    {
+        return (new(this) ProtoExternalBufferImplementation(this, size))->implAsObject(this);
+    }
+
     const ProtoObject* ProtoContext::fromBoolean(bool value) {
         return value ? PROTO_TRUE : PROTO_FALSE;
     }

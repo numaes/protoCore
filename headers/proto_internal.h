@@ -56,6 +56,7 @@ namespace proto {
     class ProtoStringImplementation;
     class ProtoByteBufferImplementation;
     class ProtoExternalPointerImplementation;
+    class ProtoExternalBufferImplementation;
     class ProtoMethodCell;
     class ProtoThreadImplementation;
     class ProtoThreadExtension;
@@ -83,6 +84,7 @@ namespace proto {
         const ProtoStringIterator *stringIterator;
         const ProtoByteBuffer *byteBuffer;
         const ProtoExternalPointer *externalPointer;
+        const ProtoExternalBuffer *externalBuffer;
         const ProtoThread *thread;
         const ProtoSet *set;
         const ProtoSetIterator *setIterator;
@@ -102,6 +104,7 @@ namespace proto {
         const ProtoTupleIteratorImplementation* tupleIteratorImplementation;
         const ProtoByteBufferImplementation *byteBufferImplementation;
         const ProtoExternalPointerImplementation *externalPointerImplementation;
+        const ProtoExternalBufferImplementation *externalBufferImplementation;
         const ProtoThreadImplementation *threadImplementation;
         const ProtoSetImplementation *setImplementation;
         const ProtoSetIteratorImplementation *setIteratorImplementation;
@@ -185,6 +188,7 @@ namespace proto {
 #define POINTER_TAG_MULTISET 17
 #define POINTER_TAG_SET_ITERATOR 18
 #define POINTER_TAG_MULTISET_ITERATOR 19
+#define POINTER_TAG_EXTERNAL_BUFFER 20
 
 #define EMBEDDED_TYPE_SMALLINT 0
 #define EMBEDDED_TYPE_UNICODE_CHAR 2
@@ -263,6 +267,8 @@ namespace proto {
 
     template<> struct ExpectedTag<const ProtoExternalPointerImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_POINTER; };
     template<> struct ExpectedTag<ProtoExternalPointerImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_POINTER; };
+    template<> struct ExpectedTag<const ProtoExternalBufferImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_BUFFER; };
+    template<> struct ExpectedTag<ProtoExternalBufferImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_BUFFER; };
 
     template<> struct ExpectedTag<const ProtoListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_ITERATOR; };
     template<> struct ExpectedTag<ProtoListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_ITERATOR; };
@@ -899,6 +905,21 @@ namespace proto {
         unsigned long getHash(ProtoContext* context) const override;
     };
 
+    /** 64-byte header cell; segment allocated with aligned_alloc. Shadow GC: finalize() frees segment when cell is collected. */
+    class ProtoExternalBufferImplementation : public Cell {
+    public:
+        mutable void* segment;
+        unsigned long size;
+        ProtoExternalBufferImplementation(ProtoContext* context, unsigned long bufferSize);
+        ~ProtoExternalBufferImplementation() override;
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void* implGetRawPointer(ProtoContext* context) const;
+        unsigned long implGetSize(ProtoContext* context) const;
+        void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
+        void finalize(ProtoContext* context) const override;
+        unsigned long getHash(ProtoContext* context) const override;
+    };
+
     class TupleDictionary : public Cell {
     public:
         const ProtoTupleImplementation* key;
@@ -927,6 +948,7 @@ namespace proto {
             ProtoByteBufferImplementation byteBufferCell;
             ProtoMethodCell methodCell;
             ProtoExternalPointerImplementation externalPointerCell;
+            ProtoExternalBufferImplementation externalBufferCell;
             ProtoThreadImplementation threadCell;
             ProtoThreadExtension threadExtensionCell;
             LargeIntegerImplementation largeIntegerCell;
@@ -950,6 +972,7 @@ namespace proto {
     static_assert(sizeof(ProtoByteBufferImplementation) <= 64, "ProtoByteBufferImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMethodCell) <= 64, "ProtoMethodCell exceeds 64 bytes!");
     static_assert(sizeof(ProtoExternalPointerImplementation) <= 64, "ProtoExternalPointerImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoExternalBufferImplementation) <= 64, "ProtoExternalBufferImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoThreadImplementation) <= 64, "ProtoThreadImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoThreadExtension) <= 64, "ProtoThreadExtension exceeds 64 bytes!");
     static_assert(sizeof(LargeIntegerImplementation) <= 64, "LargeIntegerImplementation exceeds 64 bytes!");

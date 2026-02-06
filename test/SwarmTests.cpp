@@ -19,6 +19,7 @@ constexpr unsigned long EXTERNAL_BUFFER_SIZE = 4096;
 
 }  // namespace
 
+/* Disabled: very large rope graph can trigger GC segfault; fix requires protoCore GC/rope handling (no hack). */
 TEST(SwarmTest, DISABLED_OneMillionConcats) {
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;
@@ -41,6 +42,7 @@ TEST(SwarmTest, DISABLED_OneMillionConcats) {
     EXPECT_LT(ms, 120000);
 }
 
+/* Disabled: "Non-tuple object in tuple node slot" on very large rope; fix in protoCore string/tuple traversal (no hack). */
 TEST(SwarmTest, DISABLED_LargeRopeIndexAccess) {
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;

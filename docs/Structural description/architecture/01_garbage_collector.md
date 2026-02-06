@@ -38,6 +38,10 @@ This is the critical, synchronous part of the cycle. The GC pauses all applicati
 
 Once the root scan is complete, the application threads are resumed. The GC's background thread then begins the concurrent **mark phase**, traversing the object graph starting from the roots to find all live objects. Following that, the **sweep phase** reclaims the memory of any unmarked, unreachable objects.
 
+### External Buffers and Shadow GC
+
+Some cells own **external memory** that is not part of the normal heap (e.g. a contiguous segment allocated with `std::aligned_alloc`). Such cells implement **Shadow GC**: they do not expose references to other cells in `processReferences`, but they override `finalize()`. When the GC reclaims an unreachable cell, it calls `finalize()` before freeing the cell; the implementation frees the external segment and clears the pointer. **ProtoExternalBuffer** is the canonical example: a 64-byte header cell with a segment of configurable size; when the cell is collected, `finalize()` frees the segment so there is no leak. **Stable-address contract:** The raw pointer returned by `ProtoExternalBuffer::getRawPointer(context)` or `ProtoObject::getRawPointerIfExternalBuffer(context)` remains valid until the object is collected. Proto does not compact the heap, so the segment address does not change during the object's lifetime.
+
 ## Code Reference
 
 To see how this is implemented, you can look at the following key areas in the source code:

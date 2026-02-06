@@ -202,4 +202,12 @@ namespace proto {
     const ProtoObject* ProtoThread::getName(ProtoContext* context) const {
         return reinterpret_cast<const ProtoObject*>(toImpl<const ProtoThreadImplementation>(this)->name);
     }
+
+    void ProtoThread::setCurrentContext(ProtoContext* context) {
+        toImpl<ProtoThreadImplementation>(this)->implSetCurrentContext(context);
+    }
+
+    ProtoContext* ProtoThread::getCurrentContext() const {
+        return toImpl<const ProtoThreadImplementation>(this)->context;
+    }
 }

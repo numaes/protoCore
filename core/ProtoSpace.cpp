@@ -14,6 +14,11 @@
 #include <condition_variable>
 #include <atomic>
 #include <cstdint>
+#include <thread>
+#if defined(__linux__)
+#include <sys/syscall.h>
+#include <unistd.h>
+#endif
 
 namespace proto {
 
@@ -24,10 +29,22 @@ namespace proto {
         constexpr int kMaxBlocksPerOSAllocation = static_cast<int>(kMaxBytesPerOSAllocation / sizeof(BigCell));
 
         std::atomic<uint64_t> s_getFreeCellsCalls{0};
+        static long long diagCurrentTid() {
+#if defined(__linux__)
+            return static_cast<long long>(syscall(SYS_gettid));
+#else
+            return static_cast<long long>(std::hash<std::thread::id>{}(std::this_thread::get_id()));
+#endif
+        }
+        std::mutex s_diagTidsMutex;
+        std::unordered_set<long long> s_diagTids;
         void diagPrintAllocCount() {
             uint64_t n = s_getFreeCellsCalls.load();
-            if (n > 0)
-                std::cerr << "[proto-alloc-diag] getFreeCells total calls=" << n << std::endl;
+            if (n > 0) {
+                std::lock_guard<std::mutex> lock(s_diagTidsMutex);
+                std::cerr << "[proto-alloc-diag] getFreeCells total calls=" << n
+                          << " distinct_os_threads=" << s_diagTids.size() << std::endl;
+            }
         }
         const ProtoList* buildDefaultResolutionChain(ProtoContext* ctx) {
             const ProtoList* chain = ctx->newList();
@@ -382,6 +399,11 @@ namespace proto {
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
         if (std::getenv("PROTO_ALLOC_DIAG")) {
             s_getFreeCellsCalls++;
+            {
+                long long tid = diagCurrentTid();
+                std::lock_guard<std::mutex> lock(s_diagTidsMutex);
+                s_diagTids.insert(tid);
+            }
             static std::once_flag once;
             std::call_once(once, []{ std::atexit(diagPrintAllocCount); });
         }
@@ -452,11 +474,9 @@ namespace proto {
         }
         // Multi-threaded or gcThread null: fall through to OS allocation.
 
-        // No free cells, ask the OS.
-        // Cap each OS request at 16 MiB to avoid huge allocations and long critical sections.
-        // When multiple threads run: allocate only one batch (batchSize) so we hold the lock
-        // for minimal time. Single-threaded: use a larger multiplier but still capped at 16 MiB.
-        Cell* newMemory = nullptr;
+        // No free cells: allocate from OS. Do the expensive work (posix_memalign + chaining)
+        // outside the lock so other threads can make progress; only hold the lock to update
+        // the global free list. Otherwise 4 threads would serialize on one lock for ~50ms+ each.
         int blocksToAllocate;
         if (this->runningThreads > 1) {
             blocksToAllocate = batchSize;
@@ -467,6 +487,10 @@ namespace proto {
         if (blocksToAllocate > kMaxBlocksPerOSAllocation)
             blocksToAllocate = kMaxBlocksPerOSAllocation;
 
+        lock.unlock();
+        GC_LOCK_TRACE("getFreeCells REL(OS alloc)");
+
+        Cell* newMemory = nullptr;
         int result = posix_memalign(reinterpret_cast<void**>(&newMemory), 64, blocksToAllocate * sizeof(BigCell));
         if (result != 0) {
             if (this->outOfMemoryCallback)
@@ -475,34 +499,25 @@ namespace proto {
             exit(-1);
         }
 
-        this->heapSize += blocksToAllocate;
-
-        // Chain the newly allocated cells and add them to the global free list
-        // but we return the first batchSize to the requesting thread
         BigCell* bigCellPtr = reinterpret_cast<BigCell*>(newMemory);
-
-        // Batch to return
-        for (int i = 0; i < batchSize - 1; ++i) {
+        for (int i = 0; i < blocksToAllocate - 1; ++i) {
             reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
         }
+        reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->internalSetNextRaw(nullptr);
+        Cell* batchHead = reinterpret_cast<Cell*>(newMemory);
+        Cell* remainderHead = (blocksToAllocate > batchSize) ? reinterpret_cast<Cell*>(&bigCellPtr[batchSize]) : nullptr;
         reinterpret_cast<Cell*>(&bigCellPtr[batchSize - 1])->internalSetNextRaw(nullptr);
 
-        // Remaining go to global free list
-        if (blocksToAllocate > batchSize) {
-            Cell* globalHead = reinterpret_cast<Cell*>(&bigCellPtr[batchSize]);
-            for (int i = batchSize; i < blocksToAllocate - 1; ++i) {
-                reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
-            }
+        lock.lock();
+        GC_LOCK_TRACE("getFreeCells ACQ(OS done)");
+        this->heapSize += blocksToAllocate;
+        if (remainderHead) {
             reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->internalSetNextRaw(this->freeCells);
-            this->freeCells = globalHead;
+            this->freeCells = remainderHead;
             this->freeCellsCount += (blocksToAllocate - batchSize);
         }
-
-        // Do not trigger GC here: we are about to return without parking, which would deadlock
-        // (GC would wait for parkedThreads >= runningThreads forever). GC is already triggered
-        // in the "no free cells" path when we park before allocating from the OS.
         GC_LOCK_TRACE("getFreeCells REL(return OS)");
-        return reinterpret_cast<Cell*>(newMemory);
+        return batchHead;
     }
 
     void ProtoSpace::submitYoungGeneration(const Cell* cell) {

@@ -49,6 +49,7 @@ add_library(protoCore SHARED
     core/ProtoTuple.cpp
     core/Thread.cpp
     core/ProtoExternalPointer.cpp
+    core/ProtoExternalBuffer.cpp
     core/ProtoSet.cpp
     core/ProtoMultiset.cpp
     core/Integer.cpp

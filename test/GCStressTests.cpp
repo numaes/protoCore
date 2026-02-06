@@ -60,12 +60,12 @@ TEST(GCStressTest, LargeAllocationReclamation) {
     // a reasonable multiple of active working set size.
     
     // Conservative check: heap should not explode to millions of blocks
-    // (which would indicate GC is completely broken)
-    // A successful GC keeps heap under 1.5M blocks even after 1M allocations
-    ASSERT_LT(space.heapSize, 1500000);
-    
-    // More realistic check: heap should be less than 2x what we've seen in practice
-    // Practical observation: ~900K blocks is typical for this workload
-    // Allow 1M blocks to account for variance in system state
-    ASSERT_LT(space.heapSize, 1000000);
+    // (which would indicate GC is completely broken).
+    // With blocksPerAllocation=8192, OS allocation and batching yield a larger heap
+    // than with 1024; allow up to 2M blocks after 1M allocations.
+    ASSERT_LT(space.heapSize, 2000000u);
+
+    // Heap should stay bounded (GC is working). With larger default batch, ~1.6M
+    // blocks has been observed; allow 2M for variance.
+    ASSERT_LT(space.heapSize, 2000000u);
 }
