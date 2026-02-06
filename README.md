@@ -4,6 +4,8 @@
 [![Build System](https://img.shields.io/badge/Build-CMake-green.svg)](https://cmake.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+> **Complexity is no longer a barrier. Precision is no longer a luxury. Speed is no longer a matter of headcount. Welcome to the era of the Swarm of One.**
+
 **protoCore** is the official name of the library. It is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, prototype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications. The library is built as a **shared library** for easy integration and distribution.
 
 It is designed for developers who need to script complex application behavior, configure systems dynamically, or build domain-specific languages without sacrificing the speed and control of C++. With protoCore, you get an elegant API, automatic memory management, and a robust, immutable data model designed for elite concurrency.
@@ -123,9 +125,7 @@ protoCore's performance and safety stem from a set of deeply integrated architec
 
 ## The Swarm of One
 
-**The Swarm of One** is the transition from "Individual Contributor" to "System Architect": a single human architect orchestrating a swarm of specialized AI agents to tackle high-density infrastructure that previously required entire R&D departments.
-
-In protoCore, that infrastructure is low-level memory management: 64-byte cell alignment for cache-line efficiency, lock-free atomics, tagged pointers, and a concurrent GC with minimal stop-the-world pauses. Navigating these complexities—without sacrificing correctness or performance—is exactly where AI augmentation acted as a force multiplier: exploring design space, validating invariants, and keeping the codebase consistent across hundreds of cells and thousands of lines. The result is the democratization of high-level systems engineering: one architect, one vision, amplified.
+**The Swarm of One** represents the transition from "Individual Contributor" to "System Architect". It is the democratization of high-level engineering: a single human architect orchestrating a swarm of specialized AI agents to tackle high-density infrastructure—like lock-free atomics and 64-byte cell alignment—that previously required entire R&D departments. In protoCore, AI was our force multiplier to explore design spaces and validate invariants across thousands of lines of C++20 code. The vision is human; the execution is amplified.
 
 ---
 
@@ -286,4 +286,4 @@ ProtoCore is developed and maintained by Gustavo Marino. The project represents 
 
 ---
 
-**Don't just watch the shift. Lead it.** The tools are here, the barrier is gone, and the only limit is the clarity of your vision. Join the review, test the limits, and become part of the Swarm of One. Let's build the future of computing, one cell at a time.
+**Don't just watch the shift. Lead it.** The tools are here, the barrier is gone, and the only limit is the clarity of your vision. Join the review, test the limits, and become part of the Swarm of One. Let's build the future of computing, one cell at a time. **Think Different, As All We.**
