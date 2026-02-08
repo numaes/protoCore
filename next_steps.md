@@ -40,4 +40,15 @@ We are looking for passionate developers to join us in this ambitious journey. W
 
 ---
 
-**Documentation:** See [DOCUMENTATION.md](DOCUMENTATION.md) for the full index of protoCore documentation.---
+## Immediate Priorities (2026 Roadmap)
+
+Based on the [IMPROVEMENT_PLAN_2026.md](IMPROVEMENT_PLAN_2026.md), our immediate focus is on **Developer Experience**:
+
+1.  **Enhanced Documentation**: Creation of `GETTING_STARTED.md` and `API_REFERENCE.md`.
+2.  **Practical Examples**: Implementation of a comprehensive `examples/` directory.
+3.  **Build System Improvements**: Adding `install` targets and CMake export configurations.
+
+---
+
+**Documentation:** See [DOCUMENTATION.md](DOCUMENTATION.md) for the full index of protoCore documentation.
+---

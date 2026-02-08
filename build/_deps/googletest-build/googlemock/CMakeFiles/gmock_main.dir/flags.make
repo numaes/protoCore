@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -isystem /home/gamarino/Documentos/proyectos/protoCore/build/_deps/googletest-src/googlemock/include -isystem /home/gamarino/Documentos/proyectos/protoCore/build/_deps/googletest-src/googlemock -isystem /home/gamarino/Documentos/proyectos/protoCore/build/_deps/googletest-src/googletest/include -isystem /home/gamarino/Documentos/proyectos/protoCore/build/_deps/googletest-src/googletest
 
-CXX_FLAGS = -std=c++20 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
+CXX_FLAGS = -O3 -DNDEBUG -std=c++20 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 

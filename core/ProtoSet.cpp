@@ -43,11 +43,11 @@ namespace proto {
     }
 
     int ProtoSetIteratorImplementation::implHasNext(ProtoContext* context) const {
-        return iterator->implHasNext();
+        return iterator ? iterator->implHasNext() : false;
     }
 
     const ProtoObject* ProtoSetIteratorImplementation::implNext(ProtoContext* context) {
-        return iterator->implNextValue();
+        return iterator ? iterator->implNextValue() : PROTO_NONE;
     }
 
     const ProtoObject* ProtoSetIteratorImplementation::implAsObject(ProtoContext* context) const {

@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /home/gamarino/Documentos/proyectos/protoCore/build_check
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/proto.dir/all
+all: CMakeFiles/protoCore.dir/all
 all: CMakeFiles/immutable_sharing_benchmark.dir/all
 all: CMakeFiles/concurrent_append_benchmark.dir/all
 all: test/all
@@ -74,7 +74,7 @@ preinstall: test/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/proto.dir/clean
+clean: CMakeFiles/protoCore.dir/clean
 clean: CMakeFiles/immutable_sharing_benchmark.dir/clean
 clean: CMakeFiles/concurrent_append_benchmark.dir/clean
 clean: test/clean
@@ -149,36 +149,36 @@ test/clean: _deps/googletest-build/clean
 .PHONY : test/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/proto.dir
+# Target rules for target CMakeFiles/protoCore.dir
 
 # All Build rule for target.
-CMakeFiles/proto.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32 "Built target proto"
-.PHONY : CMakeFiles/proto.dir/all
+CMakeFiles/protoCore.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 "Built target protoCore"
+.PHONY : CMakeFiles/protoCore.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/proto.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 20
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/proto.dir/all
+CMakeFiles/protoCore.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 24
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/protoCore.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 0
-.PHONY : CMakeFiles/proto.dir/rule
+.PHONY : CMakeFiles/protoCore.dir/rule
 
 # Convenience name for target.
-proto: CMakeFiles/proto.dir/rule
-.PHONY : proto
+protoCore: CMakeFiles/protoCore.dir/rule
+.PHONY : protoCore
 
 # clean rule for target.
-CMakeFiles/proto.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/clean
-.PHONY : CMakeFiles/proto.dir/clean
+CMakeFiles/protoCore.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/clean
+.PHONY : CMakeFiles/protoCore.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/immutable_sharing_benchmark.dir
 
 # All Build rule for target.
-CMakeFiles/immutable_sharing_benchmark.dir/all: CMakeFiles/proto.dir/all
+CMakeFiles/immutable_sharing_benchmark.dir/all: CMakeFiles/protoCore.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/immutable_sharing_benchmark.dir/build.make CMakeFiles/immutable_sharing_benchmark.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/immutable_sharing_benchmark.dir/build.make CMakeFiles/immutable_sharing_benchmark.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=11,12 "Built target immutable_sharing_benchmark"
@@ -186,7 +186,7 @@ CMakeFiles/immutable_sharing_benchmark.dir/all: CMakeFiles/proto.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/immutable_sharing_benchmark.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 26
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/immutable_sharing_benchmark.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 0
 .PHONY : CMakeFiles/immutable_sharing_benchmark.dir/rule
@@ -204,7 +204,7 @@ CMakeFiles/immutable_sharing_benchmark.dir/clean:
 # Target rules for target CMakeFiles/concurrent_append_benchmark.dir
 
 # All Build rule for target.
-CMakeFiles/concurrent_append_benchmark.dir/all: CMakeFiles/proto.dir/all
+CMakeFiles/concurrent_append_benchmark.dir/all: CMakeFiles/protoCore.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/concurrent_append_benchmark.dir/build.make CMakeFiles/concurrent_append_benchmark.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/concurrent_append_benchmark.dir/build.make CMakeFiles/concurrent_append_benchmark.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=1,2 "Built target concurrent_append_benchmark"
@@ -212,7 +212,7 @@ CMakeFiles/concurrent_append_benchmark.dir/all: CMakeFiles/proto.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/concurrent_append_benchmark.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 26
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/concurrent_append_benchmark.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 0
 .PHONY : CMakeFiles/concurrent_append_benchmark.dir/rule
@@ -230,17 +230,17 @@ CMakeFiles/concurrent_append_benchmark.dir/clean:
 # Target rules for target test/CMakeFiles/proto_tests.dir
 
 # All Build rule for target.
-test/CMakeFiles/proto_tests.dir/all: CMakeFiles/proto.dir/all
+test/CMakeFiles/proto_tests.dir/all: CMakeFiles/protoCore.dir/all
 test/CMakeFiles/proto_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 test/CMakeFiles/proto_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=33,34,35,36,37,38,39,40,41,42,43 "Built target proto_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=37,38,39,40,41,42,43,44,45,46,47,48 "Built target proto_tests"
 .PHONY : test/CMakeFiles/proto_tests.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/proto_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 35
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 40
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/proto_tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 0
 .PHONY : test/CMakeFiles/proto_tests.dir/rule

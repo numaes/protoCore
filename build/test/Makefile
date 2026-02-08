@@ -65,6 +65,26 @@ CMAKE_BINARY_DIR = /home/gamarino/Documentos/proyectos/protoCore/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
+	cd /home/gamarino/Documentos/proyectos/protoCore/build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+.PHONY : package/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
+	cd /home/gamarino/Documentos/proyectos/protoCore/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/gamarino/Documentos/proyectos/protoCore/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+.PHONY : package_source/fast
+
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
@@ -97,7 +117,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\" \"protoCore\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -257,6 +277,30 @@ NumericTests.cpp.s:
 	cd /home/gamarino/Documentos/proyectos/protoCore/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/NumericTests.cpp.s
 .PHONY : NumericTests.cpp.s
 
+SwarmTests.o: SwarmTests.cpp.o
+.PHONY : SwarmTests.o
+
+# target to build an object file
+SwarmTests.cpp.o:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o
+.PHONY : SwarmTests.cpp.o
+
+SwarmTests.i: SwarmTests.cpp.i
+.PHONY : SwarmTests.i
+
+# target to preprocess a source file
+SwarmTests.cpp.i:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.i
+.PHONY : SwarmTests.cpp.i
+
+SwarmTests.s: SwarmTests.cpp.s
+.PHONY : SwarmTests.s
+
+# target to generate assembly for a file
+SwarmTests.cpp.s:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.s
+.PHONY : SwarmTests.cpp.s
+
 test_list.o: test_list.cpp.o
 .PHONY : test_list.o
 
@@ -280,6 +324,30 @@ test_list.s: test_list.cpp.s
 test_list.cpp.s:
 	cd /home/gamarino/Documentos/proyectos/protoCore/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/test_list.cpp.s
 .PHONY : test_list.cpp.s
+
+test_module_discovery.o: test_module_discovery.cpp.o
+.PHONY : test_module_discovery.o
+
+# target to build an object file
+test_module_discovery.cpp.o:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o
+.PHONY : test_module_discovery.cpp.o
+
+test_module_discovery.i: test_module_discovery.cpp.i
+.PHONY : test_module_discovery.i
+
+# target to preprocess a source file
+test_module_discovery.cpp.i:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.i
+.PHONY : test_module_discovery.cpp.i
+
+test_module_discovery.s: test_module_discovery.cpp.s
+.PHONY : test_module_discovery.s
+
+# target to generate assembly for a file
+test_module_discovery.cpp.s:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.s
+.PHONY : test_module_discovery.cpp.s
 
 test_object.o: test_object.cpp.o
 .PHONY : test_object.o
@@ -436,6 +504,8 @@ help:
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
+	@echo "... package"
+	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... proto_tests"
@@ -448,9 +518,15 @@ help:
 	@echo "... NumericTests.o"
 	@echo "... NumericTests.i"
 	@echo "... NumericTests.s"
+	@echo "... SwarmTests.o"
+	@echo "... SwarmTests.i"
+	@echo "... SwarmTests.s"
 	@echo "... test_list.o"
 	@echo "... test_list.i"
 	@echo "... test_list.s"
+	@echo "... test_module_discovery.o"
+	@echo "... test_module_discovery.i"
+	@echo "... test_module_discovery.s"
 	@echo "... test_object.o"
 	@echo "... test_object.i"
 	@echo "... test_object.s"

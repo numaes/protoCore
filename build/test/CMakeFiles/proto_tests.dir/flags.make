@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/gamarino/Documentos/proyectos/protoCore/headers -isystem /home/gamarino/Documentos/proyectos/protoCore/build/_deps/googletest-src/googletest/include -isystem /home/gamarino/Documentos/proyectos/protoCore/build/_deps/googletest-src/googletest
 
-CXX_FLAGS = -std=c++20
+CXX_FLAGS = -O3 -DNDEBUG -std=c++20
 

@@ -28,6 +28,7 @@ namespace proto
             case EMBEDDED_TYPE_SMALLINT: return context->space->smallIntegerPrototype;
             case EMBEDDED_TYPE_BOOLEAN: return context->space->booleanPrototype;
             case EMBEDDED_TYPE_UNICODE_CHAR: return context->space->unicodeCharPrototype;
+            case EMBEDDED_TYPE_INLINE_STRING: return context->space->stringPrototype;
             default: return context->space->objectPrototype; // Fallback for unknown embedded types
             }
         case POINTER_TAG_LIST: return context->space->listPrototype;
@@ -344,7 +345,12 @@ namespace proto
     const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const { return context->fromBoolean(getAttribute(context, name) != PROTO_NONE); }
     
     const ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const {
-        if (!isCell(context)) return context->newSparseList();
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) {
+            const ProtoObject* prototype = getPrototype(context);
+            return prototype ? prototype->getAttributes(context) : context->newSparseList();
+        }
         const auto* oc = toImpl<const ProtoObjectCell>(this);
         const ProtoSparseList* attrs = oc->attributes->asSparseList(context);
         if (oc->parent) {

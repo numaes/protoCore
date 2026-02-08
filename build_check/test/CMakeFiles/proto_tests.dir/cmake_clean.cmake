@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/proto_tests.dir/NumericTests.cpp.o.d"
   "CMakeFiles/proto_tests.dir/test_list.cpp.o"
   "CMakeFiles/proto_tests.dir/test_list.cpp.o.d"
+  "CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o"
+  "CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o.d"
   "CMakeFiles/proto_tests.dir/test_object.cpp.o"
   "CMakeFiles/proto_tests.dir/test_object.cpp.o.d"
   "CMakeFiles/proto_tests.dir/test_primitives.cpp.o"

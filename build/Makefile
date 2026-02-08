@@ -65,6 +65,26 @@ CMAKE_BINARY_DIR = /home/gamarino/Documentos/proyectos/protoCore/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
+	/usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+.PHONY : package/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/gamarino/Documentos/proyectos/protoCore/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+.PHONY : package_source/fast
+
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
@@ -97,7 +117,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\" \"protoCore\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -172,17 +192,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named proto
+# Target rules for targets named protoCore
 
 # Build rule for target.
-proto: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 proto
-.PHONY : proto
+protoCore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 protoCore
+.PHONY : protoCore
 
 # fast build rule for target.
-proto/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/build
-.PHONY : proto/fast
+protoCore/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/build
+.PHONY : protoCore/fast
 
 #=============================================================================
 # Target rules for targets named immutable_sharing_benchmark
@@ -280,7 +300,7 @@ core/Cell.o: core/Cell.cpp.o
 
 # target to build an object file
 core/Cell.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Cell.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Cell.cpp.o
 .PHONY : core/Cell.cpp.o
 
 core/Cell.i: core/Cell.cpp.i
@@ -288,7 +308,7 @@ core/Cell.i: core/Cell.cpp.i
 
 # target to preprocess a source file
 core/Cell.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Cell.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Cell.cpp.i
 .PHONY : core/Cell.cpp.i
 
 core/Cell.s: core/Cell.cpp.s
@@ -296,7 +316,7 @@ core/Cell.s: core/Cell.cpp.s
 
 # target to generate assembly for a file
 core/Cell.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Cell.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Cell.cpp.s
 .PHONY : core/Cell.cpp.s
 
 core/Double.o: core/Double.cpp.o
@@ -304,7 +324,7 @@ core/Double.o: core/Double.cpp.o
 
 # target to build an object file
 core/Double.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Double.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Double.cpp.o
 .PHONY : core/Double.cpp.o
 
 core/Double.i: core/Double.cpp.i
@@ -312,7 +332,7 @@ core/Double.i: core/Double.cpp.i
 
 # target to preprocess a source file
 core/Double.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Double.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Double.cpp.i
 .PHONY : core/Double.cpp.i
 
 core/Double.s: core/Double.cpp.s
@@ -320,7 +340,7 @@ core/Double.s: core/Double.cpp.s
 
 # target to generate assembly for a file
 core/Double.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Double.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Double.cpp.s
 .PHONY : core/Double.cpp.s
 
 core/Integer.o: core/Integer.cpp.o
@@ -328,7 +348,7 @@ core/Integer.o: core/Integer.cpp.o
 
 # target to build an object file
 core/Integer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Integer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Integer.cpp.o
 .PHONY : core/Integer.cpp.o
 
 core/Integer.i: core/Integer.cpp.i
@@ -336,7 +356,7 @@ core/Integer.i: core/Integer.cpp.i
 
 # target to preprocess a source file
 core/Integer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Integer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Integer.cpp.i
 .PHONY : core/Integer.cpp.i
 
 core/Integer.s: core/Integer.cpp.s
@@ -344,7 +364,7 @@ core/Integer.s: core/Integer.cpp.s
 
 # target to generate assembly for a file
 core/Integer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Integer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Integer.cpp.s
 .PHONY : core/Integer.cpp.s
 
 core/LargeInteger.o: core/LargeInteger.cpp.o
@@ -352,7 +372,7 @@ core/LargeInteger.o: core/LargeInteger.cpp.o
 
 # target to build an object file
 core/LargeInteger.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/LargeInteger.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o
 .PHONY : core/LargeInteger.cpp.o
 
 core/LargeInteger.i: core/LargeInteger.cpp.i
@@ -360,7 +380,7 @@ core/LargeInteger.i: core/LargeInteger.cpp.i
 
 # target to preprocess a source file
 core/LargeInteger.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/LargeInteger.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/LargeInteger.cpp.i
 .PHONY : core/LargeInteger.cpp.i
 
 core/LargeInteger.s: core/LargeInteger.cpp.s
@@ -368,15 +388,87 @@ core/LargeInteger.s: core/LargeInteger.cpp.s
 
 # target to generate assembly for a file
 core/LargeInteger.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/LargeInteger.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/LargeInteger.cpp.s
 .PHONY : core/LargeInteger.cpp.s
+
+core/ModuleCache.o: core/ModuleCache.cpp.o
+.PHONY : core/ModuleCache.o
+
+# target to build an object file
+core/ModuleCache.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleCache.cpp.o
+.PHONY : core/ModuleCache.cpp.o
+
+core/ModuleCache.i: core/ModuleCache.cpp.i
+.PHONY : core/ModuleCache.i
+
+# target to preprocess a source file
+core/ModuleCache.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleCache.cpp.i
+.PHONY : core/ModuleCache.cpp.i
+
+core/ModuleCache.s: core/ModuleCache.cpp.s
+.PHONY : core/ModuleCache.s
+
+# target to generate assembly for a file
+core/ModuleCache.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleCache.cpp.s
+.PHONY : core/ModuleCache.cpp.s
+
+core/ModuleProvider.o: core/ModuleProvider.cpp.o
+.PHONY : core/ModuleProvider.o
+
+# target to build an object file
+core/ModuleProvider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleProvider.cpp.o
+.PHONY : core/ModuleProvider.cpp.o
+
+core/ModuleProvider.i: core/ModuleProvider.cpp.i
+.PHONY : core/ModuleProvider.i
+
+# target to preprocess a source file
+core/ModuleProvider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleProvider.cpp.i
+.PHONY : core/ModuleProvider.cpp.i
+
+core/ModuleProvider.s: core/ModuleProvider.cpp.s
+.PHONY : core/ModuleProvider.s
+
+# target to generate assembly for a file
+core/ModuleProvider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleProvider.cpp.s
+.PHONY : core/ModuleProvider.cpp.s
+
+core/ModuleResolver.o: core/ModuleResolver.cpp.o
+.PHONY : core/ModuleResolver.o
+
+# target to build an object file
+core/ModuleResolver.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o
+.PHONY : core/ModuleResolver.cpp.o
+
+core/ModuleResolver.i: core/ModuleResolver.cpp.i
+.PHONY : core/ModuleResolver.i
+
+# target to preprocess a source file
+core/ModuleResolver.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.i
+.PHONY : core/ModuleResolver.cpp.i
+
+core/ModuleResolver.s: core/ModuleResolver.cpp.s
+.PHONY : core/ModuleResolver.s
+
+# target to generate assembly for a file
+core/ModuleResolver.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.s
+.PHONY : core/ModuleResolver.cpp.s
 
 core/ParentLink.o: core/ParentLink.cpp.o
 .PHONY : core/ParentLink.o
 
 # target to build an object file
 core/ParentLink.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ParentLink.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ParentLink.cpp.o
 .PHONY : core/ParentLink.cpp.o
 
 core/ParentLink.i: core/ParentLink.cpp.i
@@ -384,7 +476,7 @@ core/ParentLink.i: core/ParentLink.cpp.i
 
 # target to preprocess a source file
 core/ParentLink.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ParentLink.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ParentLink.cpp.i
 .PHONY : core/ParentLink.cpp.i
 
 core/ParentLink.s: core/ParentLink.cpp.s
@@ -392,7 +484,7 @@ core/ParentLink.s: core/ParentLink.cpp.s
 
 # target to generate assembly for a file
 core/ParentLink.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ParentLink.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ParentLink.cpp.s
 .PHONY : core/ParentLink.cpp.s
 
 core/Proto.o: core/Proto.cpp.o
@@ -400,7 +492,7 @@ core/Proto.o: core/Proto.cpp.o
 
 # target to build an object file
 core/Proto.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Proto.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Proto.cpp.o
 .PHONY : core/Proto.cpp.o
 
 core/Proto.i: core/Proto.cpp.i
@@ -408,7 +500,7 @@ core/Proto.i: core/Proto.cpp.i
 
 # target to preprocess a source file
 core/Proto.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Proto.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Proto.cpp.i
 .PHONY : core/Proto.cpp.i
 
 core/Proto.s: core/Proto.cpp.s
@@ -416,7 +508,7 @@ core/Proto.s: core/Proto.cpp.s
 
 # target to generate assembly for a file
 core/Proto.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Proto.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Proto.cpp.s
 .PHONY : core/Proto.cpp.s
 
 core/ProtoByteBuffer.o: core/ProtoByteBuffer.cpp.o
@@ -424,7 +516,7 @@ core/ProtoByteBuffer.o: core/ProtoByteBuffer.cpp.o
 
 # target to build an object file
 core/ProtoByteBuffer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoByteBuffer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o
 .PHONY : core/ProtoByteBuffer.cpp.o
 
 core/ProtoByteBuffer.i: core/ProtoByteBuffer.cpp.i
@@ -432,7 +524,7 @@ core/ProtoByteBuffer.i: core/ProtoByteBuffer.cpp.i
 
 # target to preprocess a source file
 core/ProtoByteBuffer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoByteBuffer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.i
 .PHONY : core/ProtoByteBuffer.cpp.i
 
 core/ProtoByteBuffer.s: core/ProtoByteBuffer.cpp.s
@@ -440,7 +532,7 @@ core/ProtoByteBuffer.s: core/ProtoByteBuffer.cpp.s
 
 # target to generate assembly for a file
 core/ProtoByteBuffer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoByteBuffer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.s
 .PHONY : core/ProtoByteBuffer.cpp.s
 
 core/ProtoContext.o: core/ProtoContext.cpp.o
@@ -448,7 +540,7 @@ core/ProtoContext.o: core/ProtoContext.cpp.o
 
 # target to build an object file
 core/ProtoContext.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoContext.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o
 .PHONY : core/ProtoContext.cpp.o
 
 core/ProtoContext.i: core/ProtoContext.cpp.i
@@ -456,7 +548,7 @@ core/ProtoContext.i: core/ProtoContext.cpp.i
 
 # target to preprocess a source file
 core/ProtoContext.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoContext.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoContext.cpp.i
 .PHONY : core/ProtoContext.cpp.i
 
 core/ProtoContext.s: core/ProtoContext.cpp.s
@@ -464,15 +556,39 @@ core/ProtoContext.s: core/ProtoContext.cpp.s
 
 # target to generate assembly for a file
 core/ProtoContext.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoContext.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoContext.cpp.s
 .PHONY : core/ProtoContext.cpp.s
+
+core/ProtoExternalBuffer.o: core/ProtoExternalBuffer.cpp.o
+.PHONY : core/ProtoExternalBuffer.o
+
+# target to build an object file
+core/ProtoExternalBuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o
+.PHONY : core/ProtoExternalBuffer.cpp.o
+
+core/ProtoExternalBuffer.i: core/ProtoExternalBuffer.cpp.i
+.PHONY : core/ProtoExternalBuffer.i
+
+# target to preprocess a source file
+core/ProtoExternalBuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.i
+.PHONY : core/ProtoExternalBuffer.cpp.i
+
+core/ProtoExternalBuffer.s: core/ProtoExternalBuffer.cpp.s
+.PHONY : core/ProtoExternalBuffer.s
+
+# target to generate assembly for a file
+core/ProtoExternalBuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.s
+.PHONY : core/ProtoExternalBuffer.cpp.s
 
 core/ProtoExternalPointer.o: core/ProtoExternalPointer.cpp.o
 .PHONY : core/ProtoExternalPointer.o
 
 # target to build an object file
 core/ProtoExternalPointer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoExternalPointer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o
 .PHONY : core/ProtoExternalPointer.cpp.o
 
 core/ProtoExternalPointer.i: core/ProtoExternalPointer.cpp.i
@@ -480,7 +596,7 @@ core/ProtoExternalPointer.i: core/ProtoExternalPointer.cpp.i
 
 # target to preprocess a source file
 core/ProtoExternalPointer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoExternalPointer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.i
 .PHONY : core/ProtoExternalPointer.cpp.i
 
 core/ProtoExternalPointer.s: core/ProtoExternalPointer.cpp.s
@@ -488,7 +604,7 @@ core/ProtoExternalPointer.s: core/ProtoExternalPointer.cpp.s
 
 # target to generate assembly for a file
 core/ProtoExternalPointer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoExternalPointer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.s
 .PHONY : core/ProtoExternalPointer.cpp.s
 
 core/ProtoList.o: core/ProtoList.cpp.o
@@ -496,7 +612,7 @@ core/ProtoList.o: core/ProtoList.cpp.o
 
 # target to build an object file
 core/ProtoList.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoList.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoList.cpp.o
 .PHONY : core/ProtoList.cpp.o
 
 core/ProtoList.i: core/ProtoList.cpp.i
@@ -504,7 +620,7 @@ core/ProtoList.i: core/ProtoList.cpp.i
 
 # target to preprocess a source file
 core/ProtoList.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoList.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoList.cpp.i
 .PHONY : core/ProtoList.cpp.i
 
 core/ProtoList.s: core/ProtoList.cpp.s
@@ -512,7 +628,7 @@ core/ProtoList.s: core/ProtoList.cpp.s
 
 # target to generate assembly for a file
 core/ProtoList.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoList.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoList.cpp.s
 .PHONY : core/ProtoList.cpp.s
 
 core/ProtoMethodCell.o: core/ProtoMethodCell.cpp.o
@@ -520,7 +636,7 @@ core/ProtoMethodCell.o: core/ProtoMethodCell.cpp.o
 
 # target to build an object file
 core/ProtoMethodCell.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoMethodCell.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o
 .PHONY : core/ProtoMethodCell.cpp.o
 
 core/ProtoMethodCell.i: core/ProtoMethodCell.cpp.i
@@ -528,7 +644,7 @@ core/ProtoMethodCell.i: core/ProtoMethodCell.cpp.i
 
 # target to preprocess a source file
 core/ProtoMethodCell.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoMethodCell.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.i
 .PHONY : core/ProtoMethodCell.cpp.i
 
 core/ProtoMethodCell.s: core/ProtoMethodCell.cpp.s
@@ -536,7 +652,7 @@ core/ProtoMethodCell.s: core/ProtoMethodCell.cpp.s
 
 # target to generate assembly for a file
 core/ProtoMethodCell.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoMethodCell.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.s
 .PHONY : core/ProtoMethodCell.cpp.s
 
 core/ProtoMultiset.o: core/ProtoMultiset.cpp.o
@@ -544,7 +660,7 @@ core/ProtoMultiset.o: core/ProtoMultiset.cpp.o
 
 # target to build an object file
 core/ProtoMultiset.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoMultiset.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o
 .PHONY : core/ProtoMultiset.cpp.o
 
 core/ProtoMultiset.i: core/ProtoMultiset.cpp.i
@@ -552,7 +668,7 @@ core/ProtoMultiset.i: core/ProtoMultiset.cpp.i
 
 # target to preprocess a source file
 core/ProtoMultiset.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoMultiset.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.i
 .PHONY : core/ProtoMultiset.cpp.i
 
 core/ProtoMultiset.s: core/ProtoMultiset.cpp.s
@@ -560,7 +676,7 @@ core/ProtoMultiset.s: core/ProtoMultiset.cpp.s
 
 # target to generate assembly for a file
 core/ProtoMultiset.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoMultiset.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.s
 .PHONY : core/ProtoMultiset.cpp.s
 
 core/ProtoObjectCell.o: core/ProtoObjectCell.cpp.o
@@ -568,7 +684,7 @@ core/ProtoObjectCell.o: core/ProtoObjectCell.cpp.o
 
 # target to build an object file
 core/ProtoObjectCell.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoObjectCell.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o
 .PHONY : core/ProtoObjectCell.cpp.o
 
 core/ProtoObjectCell.i: core/ProtoObjectCell.cpp.i
@@ -576,7 +692,7 @@ core/ProtoObjectCell.i: core/ProtoObjectCell.cpp.i
 
 # target to preprocess a source file
 core/ProtoObjectCell.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoObjectCell.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.i
 .PHONY : core/ProtoObjectCell.cpp.i
 
 core/ProtoObjectCell.s: core/ProtoObjectCell.cpp.s
@@ -584,7 +700,7 @@ core/ProtoObjectCell.s: core/ProtoObjectCell.cpp.s
 
 # target to generate assembly for a file
 core/ProtoObjectCell.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoObjectCell.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.s
 .PHONY : core/ProtoObjectCell.cpp.s
 
 core/ProtoSet.o: core/ProtoSet.cpp.o
@@ -592,7 +708,7 @@ core/ProtoSet.o: core/ProtoSet.cpp.o
 
 # target to build an object file
 core/ProtoSet.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSet.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o
 .PHONY : core/ProtoSet.cpp.o
 
 core/ProtoSet.i: core/ProtoSet.cpp.i
@@ -600,7 +716,7 @@ core/ProtoSet.i: core/ProtoSet.cpp.i
 
 # target to preprocess a source file
 core/ProtoSet.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSet.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSet.cpp.i
 .PHONY : core/ProtoSet.cpp.i
 
 core/ProtoSet.s: core/ProtoSet.cpp.s
@@ -608,7 +724,7 @@ core/ProtoSet.s: core/ProtoSet.cpp.s
 
 # target to generate assembly for a file
 core/ProtoSet.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSet.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSet.cpp.s
 .PHONY : core/ProtoSet.cpp.s
 
 core/ProtoSpace.o: core/ProtoSpace.cpp.o
@@ -616,7 +732,7 @@ core/ProtoSpace.o: core/ProtoSpace.cpp.o
 
 # target to build an object file
 core/ProtoSpace.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSpace.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o
 .PHONY : core/ProtoSpace.cpp.o
 
 core/ProtoSpace.i: core/ProtoSpace.cpp.i
@@ -624,7 +740,7 @@ core/ProtoSpace.i: core/ProtoSpace.cpp.i
 
 # target to preprocess a source file
 core/ProtoSpace.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSpace.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.i
 .PHONY : core/ProtoSpace.cpp.i
 
 core/ProtoSpace.s: core/ProtoSpace.cpp.s
@@ -632,7 +748,7 @@ core/ProtoSpace.s: core/ProtoSpace.cpp.s
 
 # target to generate assembly for a file
 core/ProtoSpace.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSpace.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.s
 .PHONY : core/ProtoSpace.cpp.s
 
 core/ProtoSparseList.o: core/ProtoSparseList.cpp.o
@@ -640,7 +756,7 @@ core/ProtoSparseList.o: core/ProtoSparseList.cpp.o
 
 # target to build an object file
 core/ProtoSparseList.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSparseList.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o
 .PHONY : core/ProtoSparseList.cpp.o
 
 core/ProtoSparseList.i: core/ProtoSparseList.cpp.i
@@ -648,7 +764,7 @@ core/ProtoSparseList.i: core/ProtoSparseList.cpp.i
 
 # target to preprocess a source file
 core/ProtoSparseList.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSparseList.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.i
 .PHONY : core/ProtoSparseList.cpp.i
 
 core/ProtoSparseList.s: core/ProtoSparseList.cpp.s
@@ -656,7 +772,7 @@ core/ProtoSparseList.s: core/ProtoSparseList.cpp.s
 
 # target to generate assembly for a file
 core/ProtoSparseList.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoSparseList.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.s
 .PHONY : core/ProtoSparseList.cpp.s
 
 core/ProtoString.o: core/ProtoString.cpp.o
@@ -664,7 +780,7 @@ core/ProtoString.o: core/ProtoString.cpp.o
 
 # target to build an object file
 core/ProtoString.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoString.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoString.cpp.o
 .PHONY : core/ProtoString.cpp.o
 
 core/ProtoString.i: core/ProtoString.cpp.i
@@ -672,7 +788,7 @@ core/ProtoString.i: core/ProtoString.cpp.i
 
 # target to preprocess a source file
 core/ProtoString.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoString.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoString.cpp.i
 .PHONY : core/ProtoString.cpp.i
 
 core/ProtoString.s: core/ProtoString.cpp.s
@@ -680,7 +796,7 @@ core/ProtoString.s: core/ProtoString.cpp.s
 
 # target to generate assembly for a file
 core/ProtoString.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoString.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoString.cpp.s
 .PHONY : core/ProtoString.cpp.s
 
 core/ProtoTuple.o: core/ProtoTuple.cpp.o
@@ -688,7 +804,7 @@ core/ProtoTuple.o: core/ProtoTuple.cpp.o
 
 # target to build an object file
 core/ProtoTuple.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoTuple.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o
 .PHONY : core/ProtoTuple.cpp.o
 
 core/ProtoTuple.i: core/ProtoTuple.cpp.i
@@ -696,7 +812,7 @@ core/ProtoTuple.i: core/ProtoTuple.cpp.i
 
 # target to preprocess a source file
 core/ProtoTuple.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoTuple.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.i
 .PHONY : core/ProtoTuple.cpp.i
 
 core/ProtoTuple.s: core/ProtoTuple.cpp.s
@@ -704,15 +820,39 @@ core/ProtoTuple.s: core/ProtoTuple.cpp.s
 
 # target to generate assembly for a file
 core/ProtoTuple.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/ProtoTuple.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.s
 .PHONY : core/ProtoTuple.cpp.s
+
+core/ProviderRegistry.o: core/ProviderRegistry.cpp.o
+.PHONY : core/ProviderRegistry.o
+
+# target to build an object file
+core/ProviderRegistry.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProviderRegistry.cpp.o
+.PHONY : core/ProviderRegistry.cpp.o
+
+core/ProviderRegistry.i: core/ProviderRegistry.cpp.i
+.PHONY : core/ProviderRegistry.i
+
+# target to preprocess a source file
+core/ProviderRegistry.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProviderRegistry.cpp.i
+.PHONY : core/ProviderRegistry.cpp.i
+
+core/ProviderRegistry.s: core/ProviderRegistry.cpp.s
+.PHONY : core/ProviderRegistry.s
+
+# target to generate assembly for a file
+core/ProviderRegistry.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProviderRegistry.cpp.s
+.PHONY : core/ProviderRegistry.cpp.s
 
 core/Thread.o: core/Thread.cpp.o
 .PHONY : core/Thread.o
 
 # target to build an object file
 core/Thread.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Thread.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Thread.cpp.o
 .PHONY : core/Thread.cpp.o
 
 core/Thread.i: core/Thread.cpp.i
@@ -720,7 +860,7 @@ core/Thread.i: core/Thread.cpp.i
 
 # target to preprocess a source file
 core/Thread.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Thread.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Thread.cpp.i
 .PHONY : core/Thread.cpp.i
 
 core/Thread.s: core/Thread.cpp.s
@@ -728,7 +868,7 @@ core/Thread.s: core/Thread.cpp.s
 
 # target to generate assembly for a file
 core/Thread.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/proto.dir/build.make CMakeFiles/proto.dir/core/Thread.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Thread.cpp.s
 .PHONY : core/Thread.cpp.s
 
 performance/concurrent_append_benchmark.o: performance/concurrent_append_benchmark.cpp.o
@@ -790,6 +930,8 @@ help:
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
+	@echo "... package"
+	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... concurrent_append_benchmark"
@@ -798,7 +940,7 @@ help:
 	@echo "... gtest"
 	@echo "... gtest_main"
 	@echo "... immutable_sharing_benchmark"
-	@echo "... proto"
+	@echo "... protoCore"
 	@echo "... proto_tests"
 	@echo "... core/Cell.o"
 	@echo "... core/Cell.i"
@@ -812,6 +954,15 @@ help:
 	@echo "... core/LargeInteger.o"
 	@echo "... core/LargeInteger.i"
 	@echo "... core/LargeInteger.s"
+	@echo "... core/ModuleCache.o"
+	@echo "... core/ModuleCache.i"
+	@echo "... core/ModuleCache.s"
+	@echo "... core/ModuleProvider.o"
+	@echo "... core/ModuleProvider.i"
+	@echo "... core/ModuleProvider.s"
+	@echo "... core/ModuleResolver.o"
+	@echo "... core/ModuleResolver.i"
+	@echo "... core/ModuleResolver.s"
 	@echo "... core/ParentLink.o"
 	@echo "... core/ParentLink.i"
 	@echo "... core/ParentLink.s"
@@ -824,6 +975,9 @@ help:
 	@echo "... core/ProtoContext.o"
 	@echo "... core/ProtoContext.i"
 	@echo "... core/ProtoContext.s"
+	@echo "... core/ProtoExternalBuffer.o"
+	@echo "... core/ProtoExternalBuffer.i"
+	@echo "... core/ProtoExternalBuffer.s"
 	@echo "... core/ProtoExternalPointer.o"
 	@echo "... core/ProtoExternalPointer.i"
 	@echo "... core/ProtoExternalPointer.s"
@@ -854,6 +1008,9 @@ help:
 	@echo "... core/ProtoTuple.o"
 	@echo "... core/ProtoTuple.i"
 	@echo "... core/ProtoTuple.s"
+	@echo "... core/ProviderRegistry.o"
+	@echo "... core/ProviderRegistry.i"
+	@echo "... core/ProviderRegistry.s"
 	@echo "... core/Thread.o"
 	@echo "... core/Thread.i"
 	@echo "... core/Thread.s"

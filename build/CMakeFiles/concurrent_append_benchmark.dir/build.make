@@ -92,7 +92,7 @@ concurrent_append_benchmark_EXTERNAL_OBJECTS =
 
 concurrent_append_benchmark: CMakeFiles/concurrent_append_benchmark.dir/performance/concurrent_append_benchmark.cpp.o
 concurrent_append_benchmark: CMakeFiles/concurrent_append_benchmark.dir/build.make
-concurrent_append_benchmark: libproto.a
+concurrent_append_benchmark: libprotoCore.so.1.0.0
 concurrent_append_benchmark: CMakeFiles/concurrent_append_benchmark.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable concurrent_append_benchmark"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/concurrent_append_benchmark.dir/link.txt --verbose=$(VERBOSE)
