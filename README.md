@@ -8,11 +8,14 @@
 
 **protoCore** is the official name of the library. It is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, prototype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications. The library is built as a **shared library** for easy integration and distribution.
 
+> [!WARNING]
+> This project is officially **open for Community Review and Suggestions**. It is **not production ready**. We welcome architectural feedback, edge-case identification, and performance critiques. 
+
 It is designed for developers who need to script complex application behavior, configure systems dynamically, or build domain-specific languages without sacrificing the speed and control of C++. With protoCore, you get an elegant API, automatic memory management, and a robust, immutable data model designed for elite concurrency.
 
 ## Project Status
 
-**✅ Production Ready** - ProtoCore is fully implemented and production-ready with comprehensive test coverage.
+**⚠️ Open for Review** - ProtoCore is in an advanced development stage and open for community review and suggestions. It is **not production ready**.
 
 ### Current Metrics
 
@@ -22,7 +25,7 @@ It is designed for developers who need to script complex application behavior, c
 | **Test Coverage** | **50/50 tests passing** (100% pass rate) ✅ |
 | **Code Quality** | A+ - Excellent organization and documentation |
 | **Architecture** | Exemplary - Hardware-aware design, GIL-free concurrency |
-| **Production Ready** | Yes - All systems operational |
+| **Production Ready** | **No** - Open for Community Review |
 
 ### Recent Improvements (2026)
 
