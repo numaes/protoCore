@@ -124,6 +124,8 @@ namespace proto {
     //=========================================================================
 
     namespace {
+        const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoTupleImplementation* newTuple);
+
         const ProtoTupleImplementation* fromListRecursive(
             ProtoContext* context,
             const ProtoList* list,
@@ -132,7 +134,7 @@ namespace proto {
         ) {
             const unsigned long count = end - start;
             if (count == 0) {
-                return new(context) ProtoTupleImplementation(context, nullptr, 0UL);
+                return internTuple(context, new(context) ProtoTupleImplementation(context, nullptr, 0UL));
             }
 
             if (count <= TUPLE_SIZE) {
@@ -140,7 +142,7 @@ namespace proto {
                 for (unsigned long i = 0; i < count; ++i) {
                     data[i] = list->getAt(context, start + i);
                 }
-                return new(context) ProtoTupleImplementation(context, data, count);
+                return internTuple(context, new(context) ProtoTupleImplementation(context, data, count));
             }
 
             const unsigned long chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
@@ -156,7 +158,7 @@ namespace proto {
                     indirect_handles[i] = child_impl->implAsObject(context);
                 }
             }
-            return new(context) ProtoTupleImplementation(context, indirect_handles, count);
+            return internTuple(context, new(context) ProtoTupleImplementation(context, indirect_handles, count));
         }
     }
 

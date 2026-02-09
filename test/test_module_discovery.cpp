@@ -99,7 +99,7 @@ TEST_F(ModuleDiscoveryTest, ResolutionChain_FirstEntryIsDotOnUnix) {
 }
 
 TEST_F(ModuleDiscoveryTest, GetImportModule_NoProviderReturnsNone) {
-    const ProtoObject* result = space.getImportModule("nonexistent_module_xyz", "exports");
+    const ProtoObject* result = space.getImportModule(ctx, "nonexistent_module_xyz", "exports");
     ASSERT_TRUE(result == PROTO_NONE || result == nullptr);
 }
 
@@ -113,7 +113,7 @@ TEST_F(ModuleDiscoveryTest, GetImportModule_ProviderReturnsModule) {
     ASSERT_NE(chain, nullptr);
     space.setResolutionChain(chain->asObject(ctx));
 
-    const ProtoObject* result = space.getImportModule("my_module", "exports");
+    const ProtoObject* result = space.getImportModule(ctx, "my_module", "exports");
     ASSERT_NE(result, PROTO_NONE);
     ASSERT_NE(result, nullptr);
 
@@ -133,9 +133,9 @@ TEST_F(ModuleDiscoveryTest, GetImportModule_CacheHit) {
     chain = chain->appendLast(ctx, ctx->fromUTF8String("provider:cache_alias"));
     space.setResolutionChain(chain->asObject(ctx));
 
-    const ProtoObject* first = space.getImportModule("cached_mod", "exports");
+    const ProtoObject* first = space.getImportModule(ctx, "cached_mod", "exports");
     ASSERT_NE(first, PROTO_NONE);
-    const ProtoObject* second = space.getImportModule("cached_mod", "exports");
+    const ProtoObject* second = space.getImportModule(ctx, "cached_mod", "exports");
     ASSERT_NE(second, PROTO_NONE);
 
     const ProtoString* key = ProtoString::fromUTF8String(ctx, "exports");

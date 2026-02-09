@@ -706,7 +706,7 @@ namespace proto
         /** Sets the resolution chain. \a newChain must be a ProtoList of ProtoString; if null or invalid, restores default chain. */
         void setResolutionChain(const ProtoObject* newChain);
         /** Resolve and load a module by \a logicalPath using this space's resolution chain. Returns a wrapper object with attribute \a attrName2create pointing to the module, or PROTO_NONE. Thread-safe; uses SharedModuleCache. */
-        const ProtoObject* getImportModule(const char* logicalPath, const char* attrName2create);
+        const ProtoObject* getImportModule(ProtoContext* context, const char* logicalPath, const char* attrName2create);
 
         /**
          * @brief Creates and starts a new managed thread within this ProtoSpace.

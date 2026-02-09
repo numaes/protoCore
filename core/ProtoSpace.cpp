@@ -379,8 +379,8 @@ namespace proto {
         resolutionChain_ = list;
     }
 
-    const ProtoObject* ProtoSpace::getImportModule(const char* logicalPath, const char* attrName2create) {
-        return getImportModuleImpl(this, logicalPath, attrName2create);
+    const ProtoObject* ProtoSpace::getImportModule(ProtoContext* context, const char* logicalPath, const char* attrName2create) {
+        return getImportModuleImpl(this, context, logicalPath, attrName2create);
     }
 
     const ProtoThread* ProtoSpace::newThread(

@@ -11,11 +11,11 @@
 
 namespace proto {
 
-const ProtoObject* getImportModuleImpl(ProtoSpace* space, const char* logicalPath, const char* attrName2create) {
-    if (!space || !logicalPath || !attrName2create) return PROTO_NONE;
+const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context, const char* logicalPath, const char* attrName2create) {
+    if (!space || !context || !logicalPath || !attrName2create) return PROTO_NONE;
 
     const std::string key(logicalPath);
-    ProtoContext* ctx = space->rootContext;
+    ProtoContext* ctx = context;
 
     const ProtoObject* cached = sharedModuleCacheGet(key);
     if (cached) {

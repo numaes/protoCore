@@ -319,8 +319,13 @@ namespace proto
 
     const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
+        unsigned long ref = mutableObject ? generate_mutable_ref(this) : 0;
         const auto* attributes = toImpl<const ProtoSparseListImplementation>(newSparseList());
-        return (new(this) ProtoObjectCell(this, nullptr, attributes, mutableObject ? generate_mutable_ref(this) : 0))->asObject(this);
+        const auto* result = (new(this) ProtoObjectCell(this, nullptr, attributes, ref))->asObject(this);
+        if (mutableObject && std::getenv("PROTO_ENV_DIAG")) {
+            std::cerr << "[proto-mutable-diag] newObject mutable ref=" << ref << " addr=" << result << "\n" << std::flush;
+        }
+        return result;
     }
 
     const ProtoObject* ProtoContext::newExternalBuffer(unsigned long size)

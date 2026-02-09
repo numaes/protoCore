@@ -65,8 +65,15 @@ namespace proto
 
     const ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const
     {
-        if (!this->isCell(context)) return PROTO_NONE;
-        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, toImpl<const ProtoObjectCell>(this)->parent, this), toImpl<const ProtoSparseListImplementation>(context->newSparseList()), isMutable ? generate_mutable_ref(context) : 0);
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) {
+             // If not an object, get its prototype and create a child of that
+             const ProtoObject* prototype = getPrototype(context);
+             return prototype ? prototype->newChild(context, isMutable) : PROTO_NONE;
+        }
+        auto* oc = toImpl<const ProtoObjectCell>(this);
+        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), toImpl<const ProtoSparseListImplementation>(context->newSparseList()), isMutable ? generate_mutable_ref(context) : 0);
         return newObject->asObject(context);
     }
 
@@ -135,12 +142,21 @@ namespace proto
                  ProtoSparseList* root = context->space->mutableRoot.load();
                  if (root != nullptr) {
                      const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                     const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                     if (storedState != PROTO_NONE) {
-                         auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                         attributes = storedOc->attributes;
-                         oc = storedOc;
-                     }
+                      const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                      if (std::getenv("PROTO_ENV_DIAG")) {
+                          std::cerr << "[proto-mutable-diag] getAttribute obj=" << this << " name=" << name << " ref=" << oc->mutable_ref << " root=" << root << " stored=" << storedState << "\n" << std::flush;
+                      }
+                      if (storedState != PROTO_NONE) {
+                          ProtoObjectPointer psa{};
+                          psa.oid = storedState;
+                          if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                              auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                              attributes = storedOc->attributes;
+                              oc = storedOc;
+                          }
+                      }
+                 } else if (std::getenv("PROTO_ENV_DIAG")) {
+                      std::cerr << "[proto-mutable-diag] getAttribute obj=" << this << " name=" << name << " ref=" << oc->mutable_ref << " root=NULL\n" << std::flush;
                  }
             }
 
@@ -163,6 +179,9 @@ namespace proto
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
     {
+        if (std::getenv("PROTO_ENV_DIAG")) {
+             std::cerr << "[proto-mutable-diag] setAttribute ENTRY obj=" << this << " name=" << name << " val=" << value << "\n" << std::flush;
+        }
         // 1. Invalidate Cache
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
@@ -177,8 +196,14 @@ namespace proto
 
         ProtoObjectPointer pa{};
         pa.oid = this;
+        if (std::getenv("PROTO_ENV_DIAG")) {
+             std::cerr << "[proto-mutable-diag] setAttribute tag=" << pa.op.pointer_tag << " obj=" << this << "\n" << std::flush;
+        }
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;
         auto* oc = toImpl<ProtoObjectCell>(this);
+        if (std::getenv("PROTO_ENV_DIAG")) {
+             std::cerr << "[proto-mutable-diag] setAttribute oc=" << oc << " ref=" << oc->mutable_ref << "\n" << std::flush;
+        }
 
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
@@ -280,7 +305,10 @@ namespace proto
     int ProtoObject::isCell(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
-        return pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE;
+        // In this runtime, "isCell" typically means "is it a ProtoObjectCell"
+        // (tag 0). Other cell types (methods, lists, etc.) should use their
+        // specific check methods or handles.
+        return pa.op.pointer_tag == POINTER_TAG_OBJECT;
     }
 
     const Cell* ProtoObject::asCell(ProtoContext* context) const {
