@@ -170,36 +170,53 @@ This will produce the **protoCore shared library** and test/benchmark executable
 
 ## Installation and Packaging
 
-protoCore supports standard installation and multi-platform packaging using CMake and CPack.
+protoCore supports standard installation and multi-platform packaging using **CMake** and **CPack**. Full step-by-step instructions for Linux (.deb, .rpm), macOS (.dmg, .tgz), and Windows (.exe, .zip) are in **[docs/INSTALLATION.md](docs/INSTALLATION.md)**.
 
-### 1. Build
+### Prerequisites
+
+- **C++20** compiler (GCC 10+, Clang 12+, or MSVC 2019+)
+- **CMake** 3.16+
+
+### Build
+
 To compile the shared library:
+
 ```bash
 cmake -B build -S .
 cmake --build build --target protoCore
 ```
 
-### 2. Installation
-To install the library on your system (requires administrative privileges):
+Output: `build/libprotoCore.so` (Linux), `build/libprotoCore.dylib` (macOS), or `build/protoCore.dll` (Windows).
+
+### Install
+
+**System install** (requires appropriate privileges):
+
 ```bash
 sudo cmake --install build --component protoCore
 ```
-To install to a specific directory (staging):
+
+**Staging install** (e.g. for packaging or local use):
+
 ```bash
 cmake --install build --component protoCore --prefix ./dist
 ```
 
 Installed files:
-- **Library:** `${CMAKE_INSTALL_LIBDIR}/libprotoCore.so` (or `.dylib` / `.dll` on other platforms)
-- **Header:** `${CMAKE_INSTALL_INCLUDEDIR}/protoCore.h`
 
-### 3. Packaging
-To generate installers or packages for your platform (.deb, .rpm, .zip, .nsis, etc.):
+- **Library:** `lib/libprotoCore.so` (or `.dylib` / `.dll` on other platforms)
+- **Header:** `include/protoCore.h`
+
+### Packages (CPack)
+
+To generate platform packages (e.g. .deb, .rpm on Linux; .dmg on macOS; .exe, .zip on Windows):
+
 ```bash
 cd build
 cpack
 ```
-This will generate the package files in the `build` directory.
+
+Package files appear in the `build` directory. Install with your system package manager (e.g. `sudo dpkg -i …` or `sudo rpm -i …`) or run the generated installer. See [docs/INSTALLATION.md](docs/INSTALLATION.md) for per-platform details and troubleshooting.
 
 ## Running Tests and Benchmarks
 

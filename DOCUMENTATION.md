@@ -10,6 +10,7 @@
 | Document | Description | When to use |
 |----------|-------------|-------------|
 | [README.md](README.md) | Project overview, quick start, build, status, protoJS | First contact; build and run. |
+| [docs/INSTALLATION.md](docs/INSTALLATION.md) | **Installation guide** — build, install, and package on Linux (.deb, .rpm), macOS (.dmg, .tgz), Windows (.exe, .zip); CPack usage | Install protoCore or create packages. |
 | [DESIGN.md](DESIGN.md) | Architectural design, public API vs internal, memory model, object model | Understand architecture and contribution rules. |
 | [COMPREHENSIVE_TECHNICAL_AUDIT_2026.md](COMPREHENSIVE_TECHNICAL_AUDIT_2026.md) | Full technical audit (architecture, implementation, tests, module system) | Current quality, metrics, and production readiness. |
 | [docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md) | **User guide: generating a module for Unified Module Discovery** (steps, links to full guide and spec) | Create and register a module for UMD. |
