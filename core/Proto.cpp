@@ -422,8 +422,12 @@ namespace proto
                 double d2 = other->asDouble(context);
                 return (d1 < d2) ? -1 : (d1 > d2) ? 1 : 0;
             }
+            return Integer::compare(context, this, other);
         }
-        return Integer::compare(context, this, other);
+        if (this->isString(context) && other->isString(context)) {
+            return this->asString(context)->cmp_to_string(context, other->asString(context));
+        }
+        return (this < other) ? -1 : (this > other) ? 1 : 0;
     }
     const ProtoObject* ProtoObject::bitwiseNot(ProtoContext* context) const { return Integer::bitwiseNot(context, this); }
     const ProtoObject* ProtoObject::bitwiseAnd(ProtoContext* context, const ProtoObject* other) const { return Integer::bitwiseAnd(context, this, other); }
@@ -695,8 +699,13 @@ namespace proto
         unsigned long size = getSize(context);
         for (unsigned long i = 0; i < size; ++i) {
             const ProtoObject* elem = getAt(context, i);
-            if (elem == value || Integer::compare(context, elem, value) == 0) {
+            if (elem == value) {
                 return true;
+            }
+            if (elem->isInteger(context) && value->isInteger(context)) {
+                if (Integer::compare(context, elem, value) == 0) return true;
+            } else if (elem->isString(context) && value->isString(context)) {
+                if (elem->asString(context)->cmp_to_string(context, value->asString(context)) == 0) return true;
             }
         }
         return false;

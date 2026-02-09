@@ -70,7 +70,12 @@ namespace proto {
 
     bool ProtoListImplementation::implHas(ProtoContext* context, const ProtoObject* targetValue) const {
         if (isEmpty) return false;
-        if (Integer::compare(context, value, targetValue) == 0) return true;
+        if (value == targetValue) return true;
+        if (value->isInteger(context) && targetValue->isInteger(context)) {
+            if (Integer::compare(context, value, targetValue) == 0) return true;
+        } else if (value->isString(context) && targetValue->isString(context)) {
+            if (value->asString(context)->cmp_to_string(context, targetValue->asString(context)) == 0) return true;
+        }
         if (previousNode && previousNode->implHas(context, targetValue)) return true;
         if (nextNode && nextNode->implHas(context, targetValue)) return true;
         return false;
