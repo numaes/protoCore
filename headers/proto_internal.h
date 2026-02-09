@@ -643,6 +643,8 @@ namespace proto {
         ProtoThreadExtension* extension;
         const ProtoString* name;
         ProtoSpace* space;
+        const ProtoList* args;
+        const ProtoSparseList* kwargs;
 
         ProtoThreadImplementation(ProtoContext *context, const ProtoString* name, ProtoSpace* space, ProtoMethod main, const ProtoList* args, const ProtoSparseList* kwargs);
         ~ProtoThreadImplementation() override;

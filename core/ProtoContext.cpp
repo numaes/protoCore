@@ -160,7 +160,7 @@ namespace proto
             this->space->parkedThreads++;
             {
                 GC_LOCK_TRACE("allocCell STW ACQ");
-                std::unique_lock<std::mutex> lock(ProtoSpace::globalMutex);
+                std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
                 this->space->gcCV.notify_all();
                 this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
                 GC_LOCK_TRACE("allocCell STW ACQ(wake)");

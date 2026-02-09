@@ -184,7 +184,7 @@ namespace proto {
         }
 
         const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoTupleImplementation* newTuple) {
-            std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             ProtoSpace* space = context->space;
             TupleDictionary* current = space->tupleRoot.load();
             TupleDictionary* parent = nullptr;

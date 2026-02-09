@@ -12,6 +12,7 @@
 #include <condition_variable>
 #include <memory>
 #include <string>
+#include <mutex>
 #include <vector>
 
 namespace proto
@@ -743,9 +744,9 @@ namespace proto
         std::atomic<bool> gcLock;
         std::thread::id mainThreadId;
         std::unique_ptr<std::thread> gcThread; // Usando unique_ptr
-        std::condition_variable stopTheWorldCV;
-        std::condition_variable restartTheWorldCV;
-        std::condition_variable gcCV;
+        std::condition_variable_any stopTheWorldCV;
+        std::condition_variable_any restartTheWorldCV;
+        std::condition_variable_any gcCV;
         std::atomic<bool> gcStarted;
         std::atomic<int> runningThreads;
         std::atomic<bool> stwFlag;
@@ -756,7 +757,7 @@ namespace proto
         std::vector<const ProtoObject*> moduleRoots;
         std::mutex moduleRootsMutex;
 
-        static std::mutex globalMutex;
+        static std::recursive_mutex globalMutex;
     };
 }
 

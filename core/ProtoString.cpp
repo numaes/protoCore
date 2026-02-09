@@ -440,7 +440,7 @@ namespace proto {
     }
 
     const ProtoStringImplementation* internString(ProtoContext* context, const ProtoStringImplementation* newString) {
-        std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
+        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
         StringInternSet* map = static_cast<StringInternSet*>(context->space->stringInternMap);
         if (!map) return newString; // Should not happen if initialized
 
