@@ -29,8 +29,6 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -51,11 +49,8 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -70,7 +65,6 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -84,7 +78,6 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -118,8 +111,6 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -142,20 +133,16 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -163,8 +150,6 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -176,14 +161,12 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -299,9 +282,7 @@ CMakeFiles/protoCore.dir/core/Cell.cpp.o: /home/gamarino/Documentos/proyectos/pr
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -344,8 +325,6 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -366,11 +345,8 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -385,7 +361,6 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -399,7 +374,6 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -433,8 +407,6 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -457,20 +429,16 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -478,8 +446,6 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -491,14 +457,12 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -614,9 +578,7 @@ CMakeFiles/protoCore.dir/core/Double.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -659,8 +621,6 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -681,11 +641,8 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -700,7 +657,6 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -714,7 +670,6 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -748,8 +703,6 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -772,20 +725,16 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -793,8 +742,6 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -806,14 +753,12 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -929,9 +874,7 @@ CMakeFiles/protoCore.dir/core/Integer.cpp.o: /home/gamarino/Documentos/proyectos
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -974,8 +917,6 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -996,11 +937,8 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -1015,7 +953,6 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -1029,7 +966,6 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -1063,8 +999,6 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -1087,20 +1021,16 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -1108,8 +1038,6 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -1121,14 +1049,12 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -1244,9 +1170,7 @@ CMakeFiles/protoCore.dir/core/LargeInteger.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -1876,8 +1800,6 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -1898,11 +1820,8 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -1917,7 +1836,6 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -1931,7 +1849,6 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -1965,8 +1882,6 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -1989,21 +1904,17 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/mutex \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -2011,8 +1922,6 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -2024,14 +1933,12 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -2147,9 +2054,7 @@ CMakeFiles/protoCore.dir/core/ModuleResolver.cpp.o: /home/gamarino/Documentos/pr
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -2192,8 +2097,6 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -2214,11 +2117,8 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -2233,7 +2133,6 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -2247,7 +2146,6 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -2281,8 +2179,6 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -2305,20 +2201,16 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -2326,8 +2218,6 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -2339,14 +2229,12 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -2462,9 +2350,7 @@ CMakeFiles/protoCore.dir/core/ParentLink.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -2507,8 +2393,6 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -2529,11 +2413,8 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -2548,7 +2429,6 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/random.h \
   /usr/include/c++/13/bits/random.tcc \
   /usr/include/c++/13/bits/range_access.h \
@@ -2565,7 +2445,6 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
   /usr/include/c++/13/bits/specfun.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -2600,8 +2479,6 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/cmath \
@@ -2625,21 +2502,17 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
   /usr/include/c++/13/numeric \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -2649,8 +2522,6 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/c++/13/random \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -2674,14 +2545,12 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -2807,10 +2676,8 @@ CMakeFiles/protoCore.dir/core/Proto.cpp.o: /home/gamarino/Documentos/proyectos/p
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/opt_random.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -2853,8 +2720,6 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -2875,11 +2740,8 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -2894,7 +2756,6 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -2908,7 +2769,6 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -2942,8 +2802,6 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -2966,20 +2824,16 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -2987,8 +2841,6 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -3000,14 +2852,12 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -3123,9 +2973,7 @@ CMakeFiles/protoCore.dir/core/ProtoByteBuffer.cpp.o: /home/gamarino/Documentos/p
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -3168,8 +3016,6 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -3190,11 +3036,8 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -3209,7 +3052,6 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -3223,7 +3065,6 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -3257,8 +3098,6 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -3281,20 +3120,16 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -3302,8 +3137,6 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -3315,14 +3148,12 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -3438,9 +3269,7 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -3483,8 +3312,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -3505,11 +3332,8 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -3524,7 +3348,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -3538,7 +3361,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -3572,8 +3394,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -3597,20 +3417,16 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -3618,8 +3434,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -3631,14 +3445,12 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -3758,9 +3570,7 @@ CMakeFiles/protoCore.dir/core/ProtoExternalBuffer.cpp.o: /home/gamarino/Document
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -3803,8 +3613,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -3825,11 +3633,8 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -3844,7 +3649,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -3858,7 +3662,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -3892,8 +3695,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -3916,20 +3717,16 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -3937,8 +3734,6 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -3950,14 +3745,12 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -4073,9 +3866,7 @@ CMakeFiles/protoCore.dir/core/ProtoExternalPointer.cpp.o: /home/gamarino/Documen
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -4118,8 +3909,6 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -4140,11 +3929,8 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -4159,7 +3945,6 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -4173,7 +3958,6 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -4207,8 +3991,6 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -4231,20 +4013,16 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -4252,8 +4030,6 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -4265,14 +4041,12 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -4388,9 +4162,7 @@ CMakeFiles/protoCore.dir/core/ProtoList.cpp.o: /home/gamarino/Documentos/proyect
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -4433,8 +4205,6 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -4455,11 +4225,8 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -4474,7 +4241,6 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -4488,7 +4254,6 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -4522,8 +4287,6 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -4546,20 +4309,16 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -4567,8 +4326,6 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -4580,14 +4337,12 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -4703,9 +4458,7 @@ CMakeFiles/protoCore.dir/core/ProtoMethodCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -4748,8 +4501,6 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -4770,11 +4521,8 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -4789,7 +4537,6 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -4803,7 +4550,6 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -4837,8 +4583,6 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -4861,20 +4605,16 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -4882,8 +4622,6 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -4895,14 +4633,12 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -5018,9 +4754,7 @@ CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.o: /home/gamarino/Documentos/pro
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -5063,8 +4797,6 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -5085,11 +4817,8 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -5104,7 +4833,6 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -5118,7 +4846,6 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -5152,8 +4879,6 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -5176,20 +4901,16 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -5197,8 +4918,6 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -5210,14 +4929,12 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -5333,9 +5050,7 @@ CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o: /home/gamarino/Documentos/p
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -5378,8 +5093,6 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -5400,11 +5113,8 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -5419,7 +5129,6 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -5433,7 +5142,6 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -5467,8 +5175,6 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -5491,20 +5197,16 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -5512,8 +5214,6 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -5525,14 +5225,12 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -5648,9 +5346,7 @@ CMakeFiles/protoCore.dir/core/ProtoSet.cpp.o: /home/gamarino/Documentos/proyecto
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -5693,8 +5389,6 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -5715,11 +5409,8 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -5734,7 +5425,6 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -5748,7 +5438,6 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -5783,8 +5472,6 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -5807,21 +5494,17 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/mutex \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -5829,8 +5512,6 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -5843,14 +5524,12 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
   /usr/include/c++/13/unordered_set \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -5966,9 +5645,7 @@ CMakeFiles/protoCore.dir/core/ProtoSpace.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -6011,8 +5688,6 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -6033,11 +5708,8 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -6052,7 +5724,6 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -6066,7 +5737,6 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -6100,8 +5770,6 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -6124,20 +5792,16 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -6145,8 +5809,6 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -6158,14 +5820,12 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -6281,9 +5941,7 @@ CMakeFiles/protoCore.dir/core/ProtoSparseList.cpp.o: /home/gamarino/Documentos/p
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -6326,8 +5984,6 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -6348,11 +6004,8 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -6367,7 +6020,6 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -6381,7 +6033,6 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -6416,8 +6067,6 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -6440,20 +6089,16 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -6461,8 +6106,6 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -6475,14 +6118,12 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
   /usr/include/c++/13/unordered_set \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -6598,9 +6239,7 @@ CMakeFiles/protoCore.dir/core/ProtoString.cpp.o: /home/gamarino/Documentos/proye
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -6643,8 +6282,6 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -6665,11 +6302,8 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -6684,7 +6318,6 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -6698,7 +6331,6 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -6732,8 +6364,6 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -6757,20 +6387,16 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -6778,8 +6404,6 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -6791,14 +6415,12 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -6918,9 +6540,7 @@ CMakeFiles/protoCore.dir/core/ProtoTuple.cpp.o: /home/gamarino/Documentos/proyec
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -7244,8 +6864,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -7266,11 +6884,8 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
   /usr/include/c++/13/bits/locale_facets.h \
   /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
@@ -7285,7 +6900,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
@@ -7299,7 +6913,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
@@ -7333,8 +6946,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
@@ -7357,20 +6968,16 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
-  /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -7378,8 +6985,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/semaphore \
-  /usr/include/c++/13/span \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -7391,14 +6996,12 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -7514,9 +7117,7 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -7544,9 +7145,13 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /home/gamarino/Documentos/proyectos/protoCore/core/ProtoObjectCell.cpp:
 
+/home/gamarino/Documentos/proyectos/protoCore/core/ProtoMethodCell.cpp:
+
 /usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
 
 /usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+
+/usr/include/strings.h:
 
 /usr/include/string.h:
 
@@ -7610,6 +7215,10 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/linux/stddef.h:
 
+/usr/include/c++/13/fstream:
+
+/usr/include/c++/13/bits/sstream.tcc:
+
 /usr/include/c++/13/bits/fstream.tcc:
 
 /usr/include/asm-generic/posix_types.h:
@@ -7618,7 +7227,13 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/shared_mutex:
 
+/usr/include/c++/13/bits/codecvt.h:
+
+/usr/include/c++/13/bits/stl_tree.h:
+
 /usr/include/c++/13/bits/stl_map.h:
+
+/home/gamarino/Documentos/proyectos/protoCore/core/LargeInteger.cpp:
 
 /home/gamarino/Documentos/proyectos/protoCore/core/Integer.cpp:
 
@@ -7642,11 +7257,7 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
-/usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h:
-
 /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h:
 
@@ -7688,31 +7299,31 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
+/usr/include/c++/13/debug/assertions.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/time_t.h:
+/home/gamarino/Documentos/proyectos/protoCore/core/Thread.cpp:
 
-/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
+/usr/include/x86_64-linux-gnu/bits/select-decl.h:
+
+/usr/include/c++/13/cstdlib:
+
+/usr/include/c++/13/cstdint:
+
+/home/gamarino/Documentos/proyectos/protoCore/core/ModuleProvider.cpp:
+
+/usr/include/c++/13/cstdio:
 
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
-/usr/include/asm-generic/types.h:
+/usr/include/c++/13/bits/predefined_ops.h:
 
-/usr/include/asm-generic/bitsperlong.h:
+/usr/include/asm-generic/int-ll64.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+/usr/include/c++/13/bits/ranges_cmp.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
-
-/home/gamarino/Documentos/proyectos/protoCore/core/ModuleProvider.cpp:
-
-/usr/include/c++/13/cstdio:
+/usr/include/c++/13/iosfwd:
 
 /usr/include/c++/13/concepts:
 
@@ -7720,29 +7331,19 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
+
 /usr/include/x86_64-linux-gnu/sys/syscall.h:
 
 /usr/include/c++/13/clocale:
 
-/usr/include/c++/13/cstdint:
-
-/usr/include/c++/13/cstdlib:
-
 /usr/include/c++/13/cctype:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
-
-/usr/include/c++/13/ext/atomicity.h:
 
 /usr/include/c++/13/pstl/glue_numeric_defs.h:
 
 /home/gamarino/Documentos/proyectos/protoCore/core/Proto.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
-
-/usr/include/c++/13/bits/unique_ptr.h:
 
 /usr/include/c++/13/bits/align.h:
 
@@ -7754,7 +7355,9 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/unordered_map.h:
 
-/usr/include/c++/13/locale:
+/usr/include/c++/13/bits/stl_vector.h:
+
+/usr/include/c++/13/bits/stl_tempbuf.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
@@ -7770,25 +7373,17 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/stl_algobase.h:
 
-/usr/include/c++/13/chrono:
-
 /usr/include/c++/13/bits/stl_algo.h:
 
 /usr/include/c++/13/cstddef:
 
+/usr/include/c++/13/bits/stl_pair.h:
+
+/usr/include/x86_64-linux-gnu/bits/errno.h:
+
 /usr/include/c++/13/bits/uses_allocator.h:
 
 /usr/include/c++/13/bits/postypes.h:
-
-/usr/include/strings.h:
-
-/usr/include/c++/13/iomanip:
-
-/usr/include/c++/13/bits/sstream.tcc:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types.h:
-
-/usr/include/c++/13/cwctype:
 
 /usr/include/c++/13/bits/shared_ptr_atomic.h:
 
@@ -7840,21 +7435,7 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/parse_numbers.h:
 
-/usr/include/c++/13/bits/ostream.tcc:
-
-/usr/include/c++/13/numbers:
-
-/usr/include/c++/13/bits/stl_uninitialized.h:
-
-/usr/include/c++/13/bits/new_allocator.h:
-
-/usr/include/c++/13/bits/uses_allocator_args.h:
-
-/usr/include/c++/13/bits/atomic_base.h:
-
-/usr/include/c++/13/bits/move.h:
-
-/usr/include/c++/13/bits/chrono_io.h:
+/usr/include/c++/13/bits/istream.tcc:
 
 /usr/include/c++/13/bits/exception_ptr.h:
 
@@ -7866,13 +7447,11 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/hashtable_policy.h:
 
-/usr/include/c++/13/optional:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
 /usr/include/c++/13/bits/vector.tcc:
-
-/home/gamarino/Documentos/proyectos/protoCore/core/ProtoMethodCell.cpp:
-
-/usr/include/c++/13/variant:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
@@ -7894,8 +7473,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/basic_string.h:
 
-/usr/include/libintl.h:
-
 /usr/include/c++/13/bits/chrono.h:
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
@@ -7906,13 +7483,21 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/locale_facets.h:
 
-/usr/include/c++/13/charconv:
-
 /usr/include/c++/13/backward/binders.h:
 
-/usr/include/c++/13/bits/basic_ios.tcc:
+/usr/include/c++/13/ext/aligned_buffer.h:
 
-/usr/include/c++/13/pstl/execution_defs.h:
+/usr/include/locale.h:
+
+/home/gamarino/Documentos/proyectos/protoCore/core/ProtoList.cpp:
+
+/usr/include/c++/13/bits/utility.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
+
+/usr/include/c++/13/ext/alloc_traits.h:
+
+/usr/include/c++/13/new:
 
 /home/gamarino/Documentos/proyectos/protoCore/core/ProtoExternalBuffer.cpp:
 
@@ -7920,29 +7505,13 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/concept_check.h:
 
-/usr/include/x86_64-linux-gnu/bits/long-double.h:
-
-/usr/include/c++/13/bits/algorithmfwd.h:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
-
-/usr/include/c++/13/bits/node_handle.h:
-
-/usr/include/c++/13/bits/functexcept.h:
-
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
-
 /usr/include/c++/13/cerrno:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-least.h:
 
-/usr/include/c++/13/bits/predefined_ops.h:
+/usr/include/c++/13/bits/unique_ptr.h:
 
-/usr/include/asm-generic/int-ll64.h:
-
-/usr/include/c++/13/bits/ranges_cmp.h:
-
-/usr/include/c++/13/iosfwd:
+/usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
 /usr/include/alloca.h:
 
@@ -7956,11 +7525,35 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/algorithm:
 
+/usr/include/c++/13/bits/functexcept.h:
+
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
 /usr/include/c++/13/bits/functional_hash.h:
 
 /usr/include/errno.h:
 
+/usr/include/c++/13/bits/uses_allocator_args.h:
+
+/usr/include/c++/13/bits/stl_uninitialized.h:
+
+/usr/include/c++/13/bits/new_allocator.h:
+
+/usr/include/c++/13/bits/atomic_base.h:
+
+/usr/include/c++/13/bits/algorithmfwd.h:
+
+/usr/include/x86_64-linux-gnu/bits/long-double.h:
+
 /home/gamarino/Documentos/proyectos/protoCore/headers/protoCore.h:
+
+/usr/include/x86_64-linux-gnu/sys/select.h:
+
+/usr/include/c++/13/cwchar:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types.h:
+
+/usr/include/c++/13/cwctype:
 
 /usr/include/c++/13/bits/hash_bytes.h:
 
@@ -7984,6 +7577,14 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/iterator_concepts.h:
 
+/home/gamarino/Documentos/proyectos/protoCore/core/ProtoMultiset.cpp:
+
+/usr/include/c++/13/ctime:
+
+/usr/include/c++/13/bits/basic_ios.tcc:
+
+/usr/include/c++/13/pstl/execution_defs.h:
+
 /usr/include/wchar.h:
 
 /usr/include/c++/13/bits/shared_ptr_base.h:
@@ -7991,18 +7592,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 /usr/include/c++/13/bits/basic_ios.h:
 
 /usr/include/x86_64-linux-gnu/bits/time64.h:
-
-/usr/include/c++/13/bits/stl_vector.h:
-
-/usr/include/c++/13/bits/stl_tempbuf.h:
-
-/usr/include/c++/13/bits/stl_tree.h:
-
-/usr/include/c++/13/bits/codecvt.h:
-
-/usr/include/c++/13/bits/istream.tcc:
-
-/usr/include/c++/13/bits/locale_conv.h:
 
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
@@ -8012,9 +7601,13 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/ostream:
 
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
 /usr/include/c++/13/bits/cpp_type_traits.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/c++/13/bits/move.h:
 
 /usr/include/c++/13/bits/cxxabi_forced.h:
 
@@ -8044,15 +7637,13 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/ios_base.h:
 
+/usr/include/c++/13/bits/ostream.tcc:
+
+/usr/include/c++/13/numbers:
+
 /usr/include/c++/13/bits/uniform_int_dist.h:
 
 /usr/include/c++/13/bits/locale_classes.tcc:
-
-/usr/include/x86_64-linux-gnu/bits/confname.h:
-
-/usr/include/c++/13/bits/locale_facets_nonio.h:
-
-/usr/include/c++/13/bits/locale_facets_nonio.tcc:
 
 /usr/include/c++/13/bits/ranges_algo.h:
 
@@ -8064,37 +7655,9 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/bits/memoryfwd.h:
 
-/home/gamarino/Documentos/proyectos/protoCore/core/ProtoMultiset.cpp:
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/c++/13/ctime:
-
-/usr/include/x86_64-linux-gnu/sys/select.h:
-
-/usr/include/c++/13/cwchar:
-
-/usr/include/c++/13/debug/assertions.h:
-
-/home/gamarino/Documentos/proyectos/protoCore/core/Thread.cpp:
-
-/usr/include/x86_64-linux-gnu/bits/select-decl.h:
-
-/usr/include/c++/13/bits/stl_pair.h:
-
-/usr/include/x86_64-linux-gnu/bits/errno.h:
-
-/usr/include/c++/13/ext/aligned_buffer.h:
-
-/usr/include/locale.h:
-
-/home/gamarino/Documentos/proyectos/protoCore/core/ProtoList.cpp:
-
-/usr/include/c++/13/bits/utility.h:
-
-/usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
-
-/usr/include/c++/13/ext/alloc_traits.h:
-
-/usr/include/c++/13/new:
+/usr/include/c++/13/bits/node_handle.h:
 
 /usr/include/c++/13/ext/concurrence.h:
 
@@ -8106,23 +7669,15 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/ext/numeric_traits.h:
 
+/usr/include/asm-generic/types.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
 /usr/include/c++/13/ext/string_conversions.h:
 
 /usr/include/c++/13/ext/type_traits.h:
-
-/usr/include/c++/13/fstream:
-
-/usr/include/c++/13/format:
-
-/usr/include/x86_64-linux-gnu/bits/statx.h:
-
-/usr/include/unistd.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
 /usr/include/c++/13/functional:
 
@@ -8140,10 +7695,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/c++/13/istream:
 
-/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
-
-/usr/include/c++/13/limits:
-
 /usr/include/c++/13/exception:
 
 /usr/include/c++/13/pstl/glue_memory_defs.h:
@@ -8151,14 +7702,6 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
 /usr/include/c++/13/pstl/pstl_config.h:
-
-/home/gamarino/Documentos/proyectos/protoCore/core/LargeInteger.cpp:
-
-/usr/include/c++/13/span:
-
-/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
-
-/usr/include/c++/13/sstream:
 
 /usr/include/c++/13/stdexcept:
 
@@ -8242,6 +7785,16 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/stdlib.h:
 
+/usr/include/x86_64-linux-gnu/bits/statx.h:
+
+/usr/include/unistd.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
 /usr/include/c++/13/tr1/riemann_zeta.tcc:
 
 /usr/include/x86_64-linux-gnu/asm/unistd.h:
@@ -8262,9 +7815,17 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
+/usr/include/c++/13/limits:
+
+/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
+
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
+
+/usr/include/c++/13/sstream:
+
+/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
@@ -8308,17 +7869,9 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 
 /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h:
 
-/usr/include/c++/13/bits/quoted_string.h:
-
 /usr/include/x86_64-linux-gnu/bits/stdio2.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
 
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
 
@@ -8343,3 +7896,19 @@ CMakeFiles/protoCore.dir/core/Thread.cpp.o: /home/gamarino/Documentos/proyectos/
 /usr/include/c++/13/bits/charconv.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
+/usr/include/c++/13/ext/atomicity.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/time_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:

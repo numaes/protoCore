@@ -758,6 +758,7 @@ namespace proto {
         const ProtoSparseList *asSparseList(ProtoContext *context) const;
 
         const ProtoSparseListIteratorImplementation *implGetIterator(ProtoContext *context) const;
+        const ProtoSparseListIteratorImplementation *implGetIteratorWithQueue(ProtoContext *context, const ProtoSparseListIteratorImplementation* queue) const;
         void processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const override;
     };
 

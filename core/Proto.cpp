@@ -89,7 +89,10 @@ namespace proto
             if (current == prototype) return PROTO_TRUE;
             ProtoObjectPointer pa{};
             pa.oid = current;
-            if (pa.op.pointer_tag != POINTER_TAG_OBJECT) break;
+            if (pa.op.pointer_tag != POINTER_TAG_OBJECT) {
+                current = current->getPrototype(context);
+                continue;
+            }
             auto oc = toImpl<const ProtoObjectCell>(current);
             if (oc->parent) current = oc->parent->getObject(context);
             else break;
@@ -114,7 +117,7 @@ namespace proto
         }
 
         const ProtoObject* currentObject = this;
-        const unsigned long attr_hash = name->getHash(context);
+        const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
 
         while (currentObject) {
 
@@ -152,7 +155,6 @@ namespace proto
             if (oc->parent) currentObject = oc->parent->getObject(context);
             else currentObject = nullptr;
         }
-
         if (context->space->attributeNotFoundGetCallback) {
             return (*context->space->attributeNotFoundGetCallback)(context, this, name);
         }
@@ -193,7 +195,7 @@ namespace proto
 
              // 3. Create new state with updated attribute
              auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
-             const auto* newAttributes = currentOc->attributes->implSetAt(context, name->getHash(context), value);
+             const auto* newAttributes = currentOc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
              auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, oc->mutable_ref))->asObject(context);
 
              // 4. Update mutableRoot (Compare and Swap Loop)
@@ -214,12 +216,14 @@ namespace proto
         }
 
         // Handle Immutable Objects (Copy-on-Write)
-        const auto* newAttributes = oc->attributes->implSetAt(context, name->getHash(context), value);
+        const auto* newAttributes = oc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
         return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
     }
 
     const ProtoList* ProtoObject::getParents(ProtoContext* context) const {
-        if (!isCell(context)) return context->newList();
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return context->newList();
         const auto* oc = toImpl<const ProtoObjectCell>(this);
         const ProtoList* parents = context->newList();
         const ParentLinkImplementation* p = oc->parent;
@@ -231,7 +235,9 @@ namespace proto
     }
 
     const ProtoObject* ProtoObject::addParent(ProtoContext* context, const ProtoObject* newParent) const {
-        if (!isCell(context) || !newParent->isCell(context)) return this;
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT || !newParent->isCell(context)) return this;
         const auto* oc = toImpl<const ProtoObjectCell>(this);
         
         // Handle Mutable Objects
@@ -403,7 +409,22 @@ namespace proto
     const ProtoObject* ProtoObject::multiply(ProtoContext* context, const ProtoObject* other) const { return Integer::multiply(context, this, other); }
     const ProtoObject* ProtoObject::divide(ProtoContext* context, const ProtoObject* other) const { return Integer::divide(context, this, other); }
     const ProtoObject* ProtoObject::modulo(ProtoContext* context, const ProtoObject* other) const { return Integer::modulo(context, this, other); }
-    int ProtoObject::compare(ProtoContext* context, const ProtoObject* other) const { return Integer::compare(context, this, other); }
+    int ProtoObject::compare(ProtoContext* context, const ProtoObject* other) const {
+        if (this->isString(context) && other->isString(context)) {
+            return this->asString(context)->cmp_to_string(context, other->asString(context));
+        }
+        // Only perform double comparison if both are some kind of number
+        bool thisIsNum = this->isDouble(context) || this->isInteger(context);
+        bool otherIsNum = other->isDouble(context) || other->isInteger(context);
+        if (thisIsNum && otherIsNum) {
+            if (this->isDouble(context) || other->isDouble(context)) {
+                double d1 = this->asDouble(context);
+                double d2 = other->asDouble(context);
+                return (d1 < d2) ? -1 : (d1 > d2) ? 1 : 0;
+            }
+        }
+        return Integer::compare(context, this, other);
+    }
     const ProtoObject* ProtoObject::bitwiseNot(ProtoContext* context) const { return Integer::bitwiseNot(context, this); }
     const ProtoObject* ProtoObject::bitwiseAnd(ProtoContext* context, const ProtoObject* other) const { return Integer::bitwiseAnd(context, this, other); }
     const ProtoObject* ProtoObject::bitwiseOr(ProtoContext* context, const ProtoObject* other) const { return Integer::bitwiseOr(context, this, other); }
@@ -419,15 +440,30 @@ namespace proto
             const ProtoObject* prototype = getPrototype(context);
             return prototype ? prototype->getAttributes(context) : context->newSparseList();
         }
-        const auto* oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseList* attrs = oc->attributes->asSparseList(context);
+        auto oc = toImpl<const ProtoObjectCell>(this);
+        const ProtoSparseListImplementation* attributes = oc->attributes;
+
+        if (oc->mutable_ref > 0) {
+            ProtoSparseList* root = context->space->mutableRoot.load();
+            if (root != nullptr) {
+                const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                if (storedState != PROTO_NONE) {
+                    auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                    attributes = storedOc->attributes;
+                    oc = storedOc;
+                }
+            }
+        }
+
+        const ProtoSparseList* attrs = attributes->asSparseList(context);
         if (oc->parent) {
             const ProtoObject* parentObj = oc->parent->getObject(context);
             if (parentObj) {
                 const ProtoSparseList* parentAttrs = parentObj->getAttributes(context);
                 // Merge parent attributes with own attributes
                 const ProtoSparseListIterator* it = parentAttrs->getIterator(context);
-                while (it->hasNext(context)) {
+                while (it && it->hasNext(context)) {
                     unsigned long key = it->nextKey(context);
                     const ProtoObject* value = it->nextValue(context);
                     if (!attrs->has(context, key)) {
@@ -441,15 +477,45 @@ namespace proto
     }
     
     const ProtoSparseList* ProtoObject::getOwnAttributes(ProtoContext* context) const {
-        if (!isCell(context)) return context->newSparseList();
-        const auto* oc = toImpl<const ProtoObjectCell>(this);
-        return oc->attributes->asSparseList(context);
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return context->newSparseList();
+        auto oc = toImpl<const ProtoObjectCell>(this);
+        const ProtoSparseListImplementation* attributes = oc->attributes;
+
+        if (oc->mutable_ref > 0) {
+            ProtoSparseList* root = context->space->mutableRoot.load();
+            if (root != nullptr) {
+                const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                if (storedState != PROTO_NONE) {
+                    auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                    attributes = storedOc->attributes;
+                }
+            }
+        }
+        return attributes->asSparseList(context);
     }
     
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
-        if (!isCell(context)) return PROTO_FALSE;
-        const auto* oc = toImpl<const ProtoObjectCell>(this);
-        return context->fromBoolean(oc->attributes->implHas(context, name->getHash(context)));
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return PROTO_FALSE;
+        auto oc = toImpl<const ProtoObjectCell>(this);
+        const ProtoSparseListImplementation* attributes = oc->attributes;
+
+        if (oc->mutable_ref > 0) {
+            ProtoSparseList* root = context->space->mutableRoot.load();
+            if (root != nullptr) {
+                const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                if (storedState != PROTO_NONE) {
+                    auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                    attributes = storedOc->attributes;
+                }
+            }
+        }
+        return context->fromBoolean(attributes->implHas(context, reinterpret_cast<uintptr_t>(name)));
     }
     
     const ProtoObject* ProtoObject::divmod(ProtoContext* context, const ProtoObject* other) const {
@@ -653,7 +719,10 @@ namespace proto
     int ProtoSparseListIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoSparseListIteratorImplementation>(this)->implHasNext(); }
     unsigned long ProtoSparseListIterator::nextKey(ProtoContext* context) const { return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextKey(); }
     const ProtoObject* ProtoSparseListIterator::nextValue(ProtoContext* context) const { return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextValue(); }
-    const ProtoSparseListIterator* ProtoSparseListIterator::advance(ProtoContext* context) { return reinterpret_cast<const ProtoSparseListIterator*>(toImpl<ProtoSparseListIteratorImplementation>(this)->implAdvance(context)); }
+    const ProtoSparseListIterator* ProtoSparseListIterator::advance(ProtoContext* context) {
+        const auto* nextImpl = toImpl<const ProtoSparseListIteratorImplementation>(this)->implAdvance(context);
+        return nextImpl ? reinterpret_cast<const ProtoSparseListIterator*>(nextImpl->implAsObject(context)) : nullptr;
+    }
     const ProtoObject* ProtoSparseListIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoSparseListIteratorImplementation>(this)->implAsObject(context); }
 
 

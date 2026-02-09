@@ -17,12 +17,7 @@ namespace proto
         : Cell(context), state(s), current(c), queue(q) {}
 
     int ProtoSparseListIteratorImplementation::implHasNext() const {
-        if (state == ITERATOR_NEXT_PREVIOUS && current && !current->isEmpty) return true;
-        if (state == ITERATOR_NEXT_PREVIOUS && current && current->previous) return true;
-        if (state == ITERATOR_NEXT_THIS && current && !current->isEmpty) return true;
-        if (state == ITERATOR_NEXT_NEXT && current && current->next) return true;
-        if (queue) return queue->implHasNext();
-        return false;
+        return state == ITERATOR_NEXT_THIS && current && !current->isEmpty;
     }
 
     unsigned long ProtoSparseListIteratorImplementation::implNextKey() const {
@@ -30,22 +25,17 @@ namespace proto
     }
 
     const ProtoObject* ProtoSparseListIteratorImplementation::implNextValue() const {
-        if (state == ITERATOR_NEXT_THIS && current) return current->value;
-        if (state == ITERATOR_NEXT_PREVIOUS && current && !current->isEmpty) return current->value;
-        return PROTO_NONE;
+        return (state == ITERATOR_NEXT_THIS && current) ? current->value : PROTO_NONE;
     }
 
     const ProtoSparseListIteratorImplementation* ProtoSparseListIteratorImplementation::implAdvance(ProtoContext* context) const {
-        if (state == ITERATOR_NEXT_PREVIOUS) {
-            return new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_THIS, current, queue);
-        }
         if (state == ITERATOR_NEXT_THIS) {
-            if (current && current->next) return current->next->implGetIterator(context);
-            if (queue) return queue->implAdvance(context);
-            return nullptr;
-        }
-        if (state == ITERATOR_NEXT_NEXT && queue) {
-            return queue->implAdvance(context);
+            // After yielding 'current', we should descend into 'current->next' (if any)
+            // and then continue with the 'queue'.
+            if (current && current->next && !current->next->isEmpty) {
+                return current->next->implGetIteratorWithQueue(context, queue);
+            }
+            return queue;
         }
         return nullptr;
     }
@@ -215,14 +205,18 @@ namespace proto
 
 
     const ProtoSparseListIteratorImplementation* ProtoSparseListImplementation::implGetIterator(ProtoContext* context) const {
-        const auto* node = this;
-        const ProtoSparseListIteratorImplementation* queue = nullptr;
+        return implGetIteratorWithQueue(context, nullptr);
+    }
+
+    const ProtoSparseListIteratorImplementation* ProtoSparseListImplementation::implGetIteratorWithQueue(ProtoContext* context, const ProtoSparseListIteratorImplementation* queue) const {
+        if (isEmpty) return queue;
+        const ProtoSparseListImplementation* node = this;
+        const ProtoSparseListIteratorImplementation* stack = queue;
         while (node && !node->isEmpty) {
-            queue = new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_NEXT, node, queue);
+            stack = new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_THIS, node, stack);
             node = node->previous;
         }
-        if (queue) return new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_PREVIOUS, queue->current, queue->queue);
-        return nullptr;
+        return stack;
     }
 
     void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
