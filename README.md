@@ -209,14 +209,14 @@ Installed files:
 
 ### Packages (CPack)
 
-To generate platform packages (e.g. .deb, .rpm on Linux; .dmg on macOS; .exe, .zip on Windows):
+To generate platform packages (e.g. .deb on Debian/Ubuntu, .rpm on Fedora when `rpmbuild` is installed; .dmg on macOS; .exe, .zip on Windows):
 
 ```bash
 cd build
 cpack
 ```
 
-Package files appear in the `build` directory. Install with your system package manager (e.g. `sudo dpkg -i …` or `sudo rpm -i …`) or run the generated installer. See [docs/INSTALLATION.md](docs/INSTALLATION.md) for per-platform details and troubleshooting.
+Only packages for the **current OS** are generated (e.g. on Debian, CPack builds TGZ and DEB only, not RPM), so `cpack` does not fail when tools for other formats are missing. Package files appear in the `build` directory. Install with your system package manager (e.g. `sudo dpkg -i …` or `sudo rpm -i …`) or run the generated installer. See [docs/INSTALLATION.md](docs/INSTALLATION.md) for per-platform details and troubleshooting.
 
 ## Running Tests and Benchmarks
 

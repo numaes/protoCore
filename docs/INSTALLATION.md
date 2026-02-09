@@ -190,9 +190,12 @@ protoJS looks for `libprotoCore.so` (or `.dylib` / `.dll`) in the protoCore `bui
 
 ## Packaging Summary (CPack)
 
-| Platform | Generators | Typical output |
-|----------|------------|----------------|
-| Linux    | TGZ, DEB, RPM | `.tar.gz`, `.deb`, `.rpm` |
+CPack is configured to **generate only packages for the current OS**, so it does not fail when tools for other formats are missing (e.g. on Debian/Ubuntu, RPM is not built unless `rpmbuild` is installed; on Fedora/RHEL, DEB is not built unless `dpkg` is available).
+
+| Platform | Generators (when tools present) | Typical output |
+|----------|----------------------------------|----------------|
+| Linux (Debian/Ubuntu) | TGZ, DEB | `.tar.gz`, `.deb` |
+| Linux (Fedora/RHEL, with rpmbuild) | TGZ, RPM | `.tar.gz`, `.rpm` |
 | macOS    | TGZ, DragNDrop | `.tar.gz`, `.dmg` |
 | Windows  | ZIP, NSIS | `.zip`, `.exe` |
 

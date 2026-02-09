@@ -140,13 +140,24 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 
-# Generator selection
+# Generator selection: only enable packages for the current OS so cpack does not fail
+# when tools for other formats (e.g. rpmbuild) are not installed.
 if(WIN32)
     set(CPACK_GENERATOR "ZIP;NSIS")
 elseif(APPLE)
     set(CPACK_GENERATOR "TGZ;DragNDrop")
 else()
-    set(CPACK_GENERATOR "TGZ;DEB;RPM")
+    set(CPACK_GENERATOR "TGZ")
+    find_program(DPKG_EXECUTABLE dpkg)
+    find_program(RPMBUILD_EXECUTABLE rpmbuild)
+    if(DPKG_EXECUTABLE)
+        list(APPEND CPACK_GENERATOR "DEB")
+        message(STATUS "CPack: DEB generator enabled (dpkg found)")
+    endif()
+    if(RPMBUILD_EXECUTABLE)
+        list(APPEND CPACK_GENERATOR "RPM")
+        message(STATUS "CPack: RPM generator enabled (rpmbuild found)")
+    endif()
 endif()
 
 # Only pack the library component by default
