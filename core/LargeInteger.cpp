@@ -110,9 +110,9 @@ namespace proto
      // Internal Helper Implementations
      //================================================================================
 
-     bool isSmallInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid = obj; return p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT; }
-     bool isLargeInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
-     bool isInteger(const ProtoObject* obj) { return isSmallInteger(obj) || isLargeInteger(obj); }
+     bool isSmallInteger(const ProtoObject* obj) { if (!obj) return false; ProtoObjectPointer p; p.oid = obj; return p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT; }
+     bool isLargeInteger(const ProtoObject* obj) { if (!obj) return false; ProtoObjectPointer p; p.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
+     bool isInteger(const ProtoObject* obj) { if (!obj) return false; return isSmallInteger(obj) || isLargeInteger(obj); }
 
      static TempBignum toTempBignum(const ProtoObject* obj) {
          TempBignum temp;

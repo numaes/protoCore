@@ -58,7 +58,7 @@ namespace proto
             context,
             newParentLink,
             this->attributes,
-            this->mutable_ref
+            0 // Snapshot or child object should not have a mutable_ref by default
         );
     }
 

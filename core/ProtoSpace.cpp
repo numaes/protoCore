@@ -173,6 +173,7 @@ namespace proto {
                 addRootObj(space->timedeltaPrototype);
                 addRootObj(space->threadPrototype);
                 addRootObj(space->rootObject);
+                if (space->literalData) addRootObj(space->literalData->asObject(space->rootContext));
 
                 {
                     std::lock_guard<std::mutex> modLock(space->moduleRootsMutex);
@@ -330,6 +331,7 @@ namespace proto {
         this->mutableRoot = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext));
         
         initStringInternMap(this);
+        this->literalData = const_cast<ProtoString*>(ProtoString::fromUTF8String(this->rootContext, "__data__"));
 
         this->resolutionChain_ = buildDefaultResolutionChain(this->rootContext);
 

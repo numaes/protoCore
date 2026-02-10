@@ -305,6 +305,9 @@ CPACK_SOURCE_TZ:BOOL=ON
 //Enable to build ZIP source packages
 CPACK_SOURCE_ZIP:BOOL=OFF
 
+//Path to a program.
+DPKG_EXECUTABLE:FILEPATH=/usr/bin/dpkg
+
 //Directory under which to collect all populated content
 FETCHCONTENT_BASE_DIR:PATH=/home/gamarino/Documentos/proyectos/protoCore/build/_deps
 
@@ -344,6 +347,9 @@ Proto_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 Proto_SOURCE_DIR:STATIC=/home/gamarino/Documentos/proyectos/protoCore
+
+//Path to a program.
+RPMBUILD_EXECUTABLE:FILEPATH=RPMBUILD_EXECUTABLE-NOTFOUND
 
 //Value Computed by CMake
 gmock_BINARY_DIR:STATIC=/home/gamarino/Documentos/proyectos/protoCore/build/_deps/googletest-build/googlemock
