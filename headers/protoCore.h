@@ -635,6 +635,7 @@ namespace proto
         ProtoObject* setIteratorPrototype{};
         ProtoObject* multisetPrototype{};
         ProtoObject* multisetIteratorPrototype{};
+        ProtoObject* rangeIteratorPrototype{};
 
         // --- Cached Literals ---
         ProtoString* literalData;
@@ -757,7 +758,7 @@ namespace proto
         std::vector<const ProtoObject*> moduleRoots;
         std::mutex moduleRootsMutex;
 
-        static std::recursive_mutex globalMutex;
+        static std::mutex globalMutex;
     };
 }
 

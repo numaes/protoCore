@@ -24,7 +24,7 @@ namespace proto {
             }
             context->space->runningThreads--;
             {
-                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
                 unsigned long threadId = reinterpret_cast<uintptr_t>(context->thread);
                 auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(context->space->threads);
                 context->space->threads = const_cast<ProtoSparseList*>(threadsImpl->implRemoveAt(context, threadId)->asSparseList(context));
@@ -108,7 +108,7 @@ namespace proto {
         this->context = new ProtoContext(space, nullptr, nullptr, nullptr, args, kwargs);
         this->context->thread = (ProtoThread*)this->asThread(context);
         {
-            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
             unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(context));
             auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(space->threads);
             space->threads = const_cast<ProtoSparseList*>(threadsImpl->implSetAt(context, threadId, (const ProtoObject*)this->asThread(context))->asSparseList(context));
@@ -118,7 +118,7 @@ namespace proto {
     }
 
     ProtoThreadImplementation::~ProtoThreadImplementation() {
-        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
         unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(this->context));
         auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(space->threads);
         space->threads = const_cast<ProtoSparseList*>(threadsImpl->implRemoveAt(this->context, threadId)->asSparseList(this->context));
@@ -169,7 +169,7 @@ namespace proto {
         if (this->space->stwFlag.load()) {
             this->space->parkedThreads++;
             {
-                std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                std::unique_lock<std::mutex> lock(ProtoSpace::globalMutex);
                 this->space->gcCV.notify_all(); // Notify GC that a thread parked
                 this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
             }

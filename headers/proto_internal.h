@@ -54,6 +54,7 @@ namespace proto {
     class ProtoMultisetIteratorImplementation;
     class ProtoTupleImplementation;
     class ProtoStringImplementation;
+    class ProtoRangeIteratorImplementation;
     class ProtoByteBufferImplementation;
     class ProtoExternalPointerImplementation;
     class ProtoExternalBufferImplementation;
@@ -100,6 +101,7 @@ namespace proto {
         const ProtoListIteratorImplementation *listIteratorImplementation;
         const ProtoTupleImplementation *tupleImplementation;
         const ProtoStringImplementation *stringImplementation;
+        const ProtoRangeIteratorImplementation *rangeIteratorImplementation;
         const ProtoStringIteratorImplementation* stringIteratorImplementation;
         const ProtoTupleIteratorImplementation* tupleIteratorImplementation;
         const ProtoByteBufferImplementation *byteBufferImplementation;
@@ -189,6 +191,7 @@ namespace proto {
 #define POINTER_TAG_SET_ITERATOR 18
 #define POINTER_TAG_MULTISET_ITERATOR 19
 #define POINTER_TAG_EXTERNAL_BUFFER 20
+#define POINTER_TAG_RANGE_ITERATOR 21
 
 #define EMBEDDED_TYPE_SMALLINT 0
 #define EMBEDDED_TYPE_UNICODE_CHAR 2
@@ -255,6 +258,9 @@ namespace proto {
 
     template<> struct ExpectedTag<const ProtoThreadImplementation> { static constexpr unsigned long value = POINTER_TAG_THREAD; };
     template<> struct ExpectedTag<ProtoThreadImplementation> { static constexpr unsigned long value = POINTER_TAG_THREAD; };
+    
+    template<> struct ExpectedTag<const ProtoRangeIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_RANGE_ITERATOR; };
+    template<> struct ExpectedTag<ProtoRangeIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_RANGE_ITERATOR; };
 
     template<> struct ExpectedTag<const DoubleImplementation> { static constexpr unsigned long value = POINTER_TAG_DOUBLE; };
     template<> struct ExpectedTag<DoubleImplementation> { static constexpr unsigned long value = POINTER_TAG_DOUBLE; };
@@ -411,6 +417,31 @@ namespace proto {
         inline void internalSetNextRaw(Cell* n) {
             // Even in raw mode, we should ensure the pointer part is clean if it carries flags
             next_and_flags.store(reinterpret_cast<uintptr_t>(n) & ~0x3FUL);
+        }
+    };
+
+    class ProtoRangeIteratorImplementation final : public Cell {
+    public:
+        long long current;
+        long long stop;
+        long long step;
+
+        ProtoRangeIteratorImplementation(ProtoContext* context, long long start, long long stop, long long step)
+            : Cell(context), current(start), stop(stop), step(step) {}
+
+        const ProtoObject* implAsObject(ProtoContext* context) const override {
+            ProtoObjectPointer p{};
+            p.rangeIteratorImplementation = this;
+            p.op.pointer_tag = POINTER_TAG_RANGE_ITERATOR;
+            return p.oid;
+        }
+
+        const ProtoObject* implNext(ProtoContext* context) {
+            bool done = (step > 0 && current >= stop) || (step < 0 && current <= stop);
+            if (done) return PROTO_NONE;
+            long long val = current;
+            current += step;
+            return context->fromInteger(val);
         }
     };
 

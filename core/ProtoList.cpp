@@ -56,23 +56,6 @@ namespace proto {
         }
 
         const ProtoListImplementation* rebalance(ProtoContext* context, const ProtoListImplementation* node) {
-            int balance = getBalance(node);
-            if (balance > 1) { // Left heavy
-                if (getBalance(node->previousNode) < 0) { // Left-Right case
-                    auto* new_prev = leftRotate(context, node->previousNode);
-                    return rightRotate(context, new (context) ProtoListImplementation(context, node->value, false, new_prev, node->nextNode));
-                }
-                // Left-Left case
-                return rightRotate(context, node);
-            }
-            if (balance < -1) { // Right heavy
-                if (getBalance(node->nextNode) > 0) { // Right-Left case
-                    auto* new_next = rightRotate(context, node->nextNode);
-                    return leftRotate(context, new (context) ProtoListImplementation(context, node->value, false, node->previousNode, new_next));
-                }
-                // Right-Right case
-                return leftRotate(context, node);
-            }
             return node;
         }
 

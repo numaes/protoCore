@@ -50,6 +50,7 @@ namespace proto
         case POINTER_TAG_THREAD: return context->space->threadPrototype;
         case POINTER_TAG_LARGE_INTEGER: return context->space->largeIntegerPrototype;
         case POINTER_TAG_DOUBLE: return context->space->doublePrototype;
+        case POINTER_TAG_RANGE_ITERATOR: return context->space->rangeIteratorPrototype;
         default: return context->space->objectPrototype; // Default for unknown tags
         }
     }
