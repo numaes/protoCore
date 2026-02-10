@@ -399,10 +399,12 @@ namespace proto
     }
 
     const Cell* ProtoObject::asCell(ProtoContext* context) const {
-        if (isCell(context)) {
-            ProtoObjectPointer pa{};
-            pa.oid = this;
-            // Clear the tag bits (lowest 6 bits) to get the raw pointer to the Cell
+        if (!this) return nullptr;
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        // OBJECT and LIST (and other cell-backed handles) share the same tag-clearing semantics
+        const bool is_cell_backed = (pa.op.pointer_tag == POINTER_TAG_OBJECT || pa.op.pointer_tag == POINTER_TAG_LIST);
+        if (is_cell_backed) {
             uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(pa.oid) & ~0x3FUL;
             return reinterpret_cast<const Cell*>(raw_ptr_value);
         }

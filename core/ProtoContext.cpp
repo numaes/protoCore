@@ -141,10 +141,10 @@ namespace proto
 
         if (this->returnValue && this->previous)
         {
-            if (this->returnValue->isCell(this)) {
-                auto* cell = const_cast<Cell*>(this->returnValue->asCell(this));
-                auto returnReference = new(this->previous) ReturnReference(this->previous, cell);
-                this->previous->addCell2Context(returnReference);
+            Cell* cell = const_cast<Cell*>(this->returnValue->asCell(this));
+            if (cell != nullptr) {
+                (void) new(this->previous) ReturnReference(this->previous, cell);
+                // Cell constructor already registers with context via addCell2Context
             }
         }
         // Free the C-style array for automatic variables.
