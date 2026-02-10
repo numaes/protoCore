@@ -69,7 +69,7 @@ namespace proto
         const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
         //- Attributes
-        const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name) const;
+        const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks = true) const;
         const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const;
@@ -637,7 +637,7 @@ namespace proto
         ProtoObject* multisetIteratorPrototype{};
 
         // --- Cached Literals ---
-        ProtoString* literalGetAttribute;
+        ProtoString* literalData;
         ProtoString* literalSetAttribute;
         ProtoString* literalCallMethod;
 

@@ -36,6 +36,46 @@ namespace proto {
             return node->height;
         }
 
+        int getBalance(const ProtoListImplementation* node) {
+            if (!node || node->isEmpty) return 0;
+            return get_node_height(node->previousNode) - get_node_height(node->nextNode);
+        }
+
+        const ProtoListImplementation* rightRotate(ProtoContext* context, const ProtoListImplementation* y) {
+            const ProtoListImplementation* x = y->previousNode;
+            const ProtoListImplementation* T2 = x ? x->nextNode : nullptr;
+            auto* new_y = new (context) ProtoListImplementation(context, y->value, false, T2, y->nextNode);
+            return new (context) ProtoListImplementation(context, x->value, false, x->previousNode, new_y);
+        }
+
+        const ProtoListImplementation* leftRotate(ProtoContext* context, const ProtoListImplementation* x) {
+            const ProtoListImplementation* y = x->nextNode;
+            const ProtoListImplementation* T2 = y ? y->previousNode : nullptr;
+            auto* new_x = new (context) ProtoListImplementation(context, x->value, false, x->previousNode, T2);
+            return new (context) ProtoListImplementation(context, y->value, false, new_x, y->nextNode);
+        }
+
+        const ProtoListImplementation* rebalance(ProtoContext* context, const ProtoListImplementation* node) {
+            int balance = getBalance(node);
+            if (balance > 1) { // Left heavy
+                if (getBalance(node->previousNode) < 0) { // Left-Right case
+                    auto* new_prev = leftRotate(context, node->previousNode);
+                    return rightRotate(context, new (context) ProtoListImplementation(context, node->value, false, new_prev, node->nextNode));
+                }
+                // Left-Left case
+                return rightRotate(context, node);
+            }
+            if (balance < -1) { // Right heavy
+                if (getBalance(node->nextNode) > 0) { // Right-Left case
+                    auto* new_next = rightRotate(context, node->nextNode);
+                    return leftRotate(context, new (context) ProtoListImplementation(context, node->value, false, node->previousNode, new_next));
+                }
+                // Right-Right case
+                return leftRotate(context, node);
+            }
+            return node;
+        }
+
     } // end anonymous namespace
 
     //=========================================================================
@@ -90,14 +130,14 @@ namespace proto {
 
         if (index < left_size) {
             const ProtoListImplementation* new_prev = previousNode->implSetAt(context, index, newValue);
-            return new (context) ProtoListImplementation(context, value, false, new_prev, nextNode);
+            return rebalance(context, new (context) ProtoListImplementation(context, value, false, new_prev, nextNode));
         }
         if (index == left_size) {
-            return new (context) ProtoListImplementation(context, newValue, false, previousNode, nextNode);
+            return rebalance(context, new (context) ProtoListImplementation(context, newValue, false, previousNode, nextNode));
         }
 
         const ProtoListImplementation* new_next = nextNode->implSetAt(context, index - left_size - 1, newValue);
-        return new (context) ProtoListImplementation(context, value, false, previousNode, new_next);
+        return rebalance(context, new (context) ProtoListImplementation(context, value, false, previousNode, new_next));
     }
 
     const ProtoListImplementation* ProtoListImplementation::implInsertAt(ProtoContext* context, int index, const ProtoObject* newValue) const {
@@ -111,12 +151,12 @@ namespace proto {
             const ProtoListImplementation* new_prev = previousNode
                 ? previousNode->implInsertAt(context, index, newValue)
                 : new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
-            return new (context) ProtoListImplementation(context, value, false, new_prev, nextNode);
+            return rebalance(context, new (context) ProtoListImplementation(context, value, false, new_prev, nextNode));
         } else {
             const ProtoListImplementation* new_next = nextNode
                 ? nextNode->implInsertAt(context, index - left_size - 1, newValue)
                 : new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
-            return new (context) ProtoListImplementation(context, value, false, previousNode, new_next);
+            return rebalance(context, new (context) ProtoListImplementation(context, value, false, previousNode, new_next));
         }
     }
 
@@ -135,7 +175,7 @@ namespace proto {
         if (index < left_size) {
             const ProtoListImplementation* new_prev = previousNode->implRemoveAt(context, index);
             if (new_prev && new_prev->size == 0) new_prev = nullptr;
-            return new (context) ProtoListImplementation(context, value, false, new_prev, nextNode);
+            return rebalance(context, new (context) ProtoListImplementation(context, value, false, new_prev, nextNode));
         }
         else if (index == left_size) {
             // Remove current value
@@ -143,20 +183,20 @@ namespace proto {
                 // Became empty
                 return new (context) ProtoListImplementation(context, nullptr, true, nullptr, nullptr);
             }
-            if (!previousNode) return nextNode;
-            if (!nextNode) return previousNode;
+            if (!previousNode) return rebalance(context, nextNode);
+            if (!nextNode) return rebalance(context, previousNode);
 
             // Both exist. Promote from left.
             const ProtoObject* new_val = previousNode->implGetAt(context, previousNode->size - 1);
             const ProtoListImplementation* new_prev = previousNode->implRemoveAt(context, previousNode->size - 1);
             if (new_prev && new_prev->size == 0) new_prev = nullptr;
-            return new (context) ProtoListImplementation(context, new_val, false, new_prev, nextNode);
+            return rebalance(context, new (context) ProtoListImplementation(context, new_val, false, new_prev, nextNode));
         }
         else {
             // index > left_size
             const ProtoListImplementation* new_next = nextNode->implRemoveAt(context, index - left_size - 1);
             if (new_next && new_next->size == 0) new_next = nullptr;
-            return new (context) ProtoListImplementation(context, value, false, previousNode, new_next);
+            return rebalance(context, new (context) ProtoListImplementation(context, value, false, previousNode, new_next));
         }
     }
 
