@@ -40,9 +40,7 @@ We are looking for passionate developers to join us in this ambitious journey. W
 
 ---
 
-## Immediate Priorities (2026 Roadmap)
-
-Based on the [IMPROVEMENT_PLAN_2026.md](IMPROVEMENT_PLAN_2026.md), our immediate focus is on **Developer Experience**:
+## Immediate Priorities (2026 Roadmap)Based on the [IMPROVEMENT_PLAN_2026.md](IMPROVEMENT_PLAN_2026.md), our immediate focus is on **Developer Experience**:
 
 1.  **Enhanced Documentation**: Creation of `GETTING_STARTED.md` and `API_REFERENCE.md`.
 2.  **Practical Examples**: Implementation of a comprehensive `examples/` directory.

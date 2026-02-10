@@ -144,7 +144,9 @@ namespace proto
                      const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                       const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
                       if (std::getenv("PROTO_ENV_DIAG")) {
-                          std::cerr << "[proto-mutable-diag] getAttribute obj=" << this << " name=" << name << " ref=" << oc->mutable_ref << " root=" << root << " stored=" << storedState << "\n" << std::flush;
+                          if (std::getenv("PROTO_ENV_DIAG")) {
+                              std::cerr << "[proto-mutable-diag] getAttribute obj=" << this << " name=" << name << " ref=" << oc->mutable_ref << " root=" << root << " stored=" << storedState << "\n" << std::flush;
+                          }
                       }
                       if (storedState != PROTO_NONE) {
                           ProtoObjectPointer psa{};
@@ -156,7 +158,9 @@ namespace proto
                           }
                       }
                  } else if (std::getenv("PROTO_ENV_DIAG")) {
-                      std::cerr << "[proto-mutable-diag] getAttribute obj=" << this << " name=" << name << " ref=" << oc->mutable_ref << " root=NULL\n" << std::flush;
+                      if (std::getenv("PROTO_ENV_DIAG")) {
+                          std::cerr << "[proto-mutable-diag] getAttribute obj=" << this << " name=" << name << " ref=" << oc->mutable_ref << " root=NULL\n" << std::flush;
+                      }
                  }
             }
 
@@ -180,7 +184,9 @@ namespace proto
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
     {
         if (std::getenv("PROTO_ENV_DIAG")) {
-             std::cerr << "[proto-mutable-diag] setAttribute ENTRY obj=" << this << " name=" << name << " val=" << value << "\n" << std::flush;
+             if (std::getenv("PROTO_ENV_DIAG")) {
+                 std::cerr << "[proto-mutable-diag] setAttribute ENTRY obj=" << this << " name=" << name << " val=" << value << "\n" << std::flush;
+             }
         }
         // 1. Invalidate Cache
         if (context->thread) {
