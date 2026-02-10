@@ -91,7 +91,10 @@ namespace proto
 
     const ProtoObject* ProtoObject::isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const
     {
+        const ParentLinkImplementation* plStack[64];
+        int plPtr = 0;
         const ProtoObject* current = this;
+
         while (current) {
             if (current == prototype) return PROTO_TRUE;
             ProtoObjectPointer pa{};
@@ -101,8 +104,38 @@ namespace proto
                 continue;
             }
             auto oc = toImpl<const ProtoObjectCell>(current);
-            if (oc->parent) current = oc->parent->getObject(context);
-            else break;
+            
+            // Handle Mutable Objects
+            if (oc->mutable_ref > 0) {
+                 ProtoSparseList* root = context->space->mutableRoot.load();
+                 if (root != nullptr) {
+                      const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                      const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                      if (storedState != PROTO_NONE) {
+                          ProtoObjectPointer psa{};
+                          psa.oid = storedState;
+                          if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                              oc = toImpl<const ProtoObjectCell>(storedState);
+                          }
+                      }
+                 }
+            }
+            
+            if (oc->parent) {
+                const ParentLinkImplementation* sibling = oc->parent->getParent(context);
+                while (sibling && plPtr < 64) {
+                    plStack[plPtr++] = sibling;
+                    sibling = sibling->getParent(context);
+                }
+                current = oc->parent->getObject(context);
+            } else {
+                if (plPtr > 0) {
+                    const ParentLinkImplementation* top = plStack[--plPtr];
+                    current = top->getObject(context);
+                } else {
+                    current = nullptr;
+                }
+            }
         }
         return PROTO_FALSE;
     }
@@ -126,6 +159,9 @@ namespace proto
         const ProtoObject* currentObject = this;
         const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
 
+        const ParentLinkImplementation* plStack[64];
+        int plPtr = 0;
+
         while (currentObject) {
 
             ProtoObjectPointer pa_cur{};
@@ -141,13 +177,8 @@ namespace proto
             if (oc->mutable_ref > 0) {
                  ProtoSparseList* root = context->space->mutableRoot.load();
                  if (root != nullptr) {
-                     const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                      const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                       const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                      if (std::getenv("PROTO_ENV_DIAG")) {
-                          if (std::getenv("PROTO_ENV_DIAG")) {
-                              std::cerr << "[proto-mutable-diag] getAttribute obj=" << this << " name=" << name << " ref=" << oc->mutable_ref << " root=" << root << " stored=" << storedState << "\n" << std::flush;
-                          }
-                      }
                       if (storedState != PROTO_NONE) {
                           ProtoObjectPointer psa{};
                           psa.oid = storedState;
@@ -156,10 +187,6 @@ namespace proto
                               attributes = storedOc->attributes;
                               oc = storedOc;
                           }
-                      }
-                 } else if (std::getenv("PROTO_ENV_DIAG")) {
-                      if (std::getenv("PROTO_ENV_DIAG")) {
-                          std::cerr << "[proto-mutable-diag] getAttribute obj=" << this << " name=" << name << " ref=" << oc->mutable_ref << " root=NULL\n" << std::flush;
                       }
                  }
             }
@@ -172,8 +199,24 @@ namespace proto
                 }
                 return result;
             }
-            if (oc->parent) currentObject = oc->parent->getObject(context);
-            else currentObject = nullptr;
+            
+            // Multiple inheritance support:
+            // Follow first parent vertically, push siblings to stack for later.
+            if (oc->parent) {
+                const ParentLinkImplementation* sibling = oc->parent->getParent(context);
+                while (sibling && plPtr < 64) {
+                    plStack[plPtr++] = sibling;
+                    sibling = sibling->getParent(context);
+                }
+                currentObject = oc->parent->getObject(context);
+            } else {
+                if (plPtr > 0) {
+                    const ParentLinkImplementation* top = plStack[--plPtr];
+                    currentObject = top->getObject(context);
+                } else {
+                    currentObject = nullptr;
+                }
+            }
         }
         if (context->space->attributeNotFoundGetCallback) {
             return (*context->space->attributeNotFoundGetCallback)(context, this, name);
@@ -183,11 +226,6 @@ namespace proto
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
     {
-        if (std::getenv("PROTO_ENV_DIAG")) {
-             if (std::getenv("PROTO_ENV_DIAG")) {
-                 std::cerr << "[proto-mutable-diag] setAttribute ENTRY obj=" << this << " name=" << name << " val=" << value << "\n" << std::flush;
-             }
-        }
         // 1. Invalidate Cache
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);

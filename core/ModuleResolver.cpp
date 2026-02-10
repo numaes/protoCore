@@ -20,6 +20,9 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
     const ProtoObject* cached = sharedModuleCacheGet(key);
     if (cached) {
         const ProtoObject* wrapper = ctx->newObject(false);
+    if (space->objectPrototype) {
+        wrapper = wrapper->addParent(ctx, space->objectPrototype);
+    }
         if (!wrapper) return PROTO_NONE;
         const ProtoString* attrName = ProtoString::fromUTF8String(ctx, attrName2create);
         if (!attrName) return PROTO_NONE;

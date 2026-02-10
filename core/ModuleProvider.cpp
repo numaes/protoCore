@@ -63,6 +63,9 @@ const ProtoObject* FileSystemProvider::tryLoad(const std::string& logicalPath, P
         if (!pathStr) return PROTO_NONE;
         const ProtoObject* pathObj = pathStr->asObject(ctx);
         const ProtoObject* module = ctx->newObject(false);
+        if (ctx->space->objectPrototype) {
+            module = module->addParent(ctx, ctx->space->objectPrototype);
+        }
         if (!module) return PROTO_NONE;
         const ProtoString* keyPath = ProtoString::fromUTF8String(ctx, "path");
         if (!keyPath) return PROTO_NONE;
