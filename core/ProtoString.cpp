@@ -148,9 +148,11 @@ namespace proto {
     }
 
     const ProtoObject* ProtoStringImplementation::implGetAt(ProtoContext* context, int index) const {
-        const unsigned long n = this->tuple->actual_size;
-        if (n == 2 && this->tuple->slot[0] && this->tuple->slot[1] &&
-            this->tuple->slot[0]->isString(context) && this->tuple->slot[1]->isString(context)) {
+        // A rope node (concat) always has exactly 2 children in slots 0 and 1, and these children are strings.
+        // We check this structure instead of relying on the total character count 'actual_size'.
+        if (this->tuple->slot[0] && this->tuple->slot[1] && 
+            this->tuple->slot[0]->isString(context) && this->tuple->slot[1]->isString(context) &&
+            this->tuple->slot[2] == nullptr && this->tuple->slot[3] == nullptr) {
             const unsigned long leftSize = getProtoStringSize(context, this->tuple->slot[0]);
             if (index >= 0 && static_cast<unsigned long>(index) < leftSize)
                 return getProtoStringGetAt(context, this->tuple->slot[0], index);

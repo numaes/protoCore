@@ -229,7 +229,7 @@ namespace proto {
     }
 
     const ProtoTupleImplementation* ProtoTupleImplementation::tupleConcat(ProtoContext* context, const ProtoObject* left, const ProtoObject* right, unsigned long totalSize) {
-        const ProtoObject* slots[2] = { left, right };
+        const ProtoObject* slots[TUPLE_SIZE] = { left, right, nullptr, nullptr };
         return new(context) ProtoTupleImplementation(context, slots, totalSize);
     }
 
@@ -353,6 +353,10 @@ namespace proto {
 
     const ProtoObject* ProtoTuple::asObject(ProtoContext* context) const {
         return toImpl<const ProtoTupleImplementation>(this)->implAsObject(context);
+    }
+
+    const ProtoList* ProtoTuple::asList(ProtoContext* context) const {
+        return toImpl<const ProtoTupleImplementation>(this)->implAsList(context);
     }
 
     const ProtoObject* ProtoTuple::getSlice(ProtoContext* context, int start, int end) const {
