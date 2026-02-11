@@ -44,9 +44,7 @@ We are looking for passionate developers to join us in this ambitious journey. W
 
 1.  **Enhanced Documentation**: Creation of `GETTING_STARTED.md` and `API_REFERENCE.md`.
 2.  **Practical Examples**: Implementation of a comprehensive `examples/` directory.
-3.  **Build System Improvements**: Adding `install` targets and CMake export configurations.
-
----
+3.  **Build System Improvements**: Adding `install` targets and CMake export configurations.---
 
 **Documentation:** See [DOCUMENTATION.md](DOCUMENTATION.md) for the full index of protoCore documentation.
 ---
