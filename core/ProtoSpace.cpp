@@ -109,6 +109,10 @@ namespace proto {
                         if (currentCtx->closureLocals) {
                             addRootObj(reinterpret_cast<const ProtoObject*>(currentCtx->closureLocals));
                         }
+                        // Roots: Return value
+                        if (currentCtx->returnValue) {
+                            addRootObj(currentCtx->returnValue);
+                        }
                         // Roots: Young generation (pinned objects allocated in this context)
                         // These are safe from collection because they are not in captured segments.
                         // We scan their references to find pointers to older objects, but we don't

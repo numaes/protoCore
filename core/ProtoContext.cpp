@@ -52,23 +52,30 @@ namespace proto
             // This is the root context, it doesn't have a parent thread yet.
             this->thread = nullptr;
         }
+        // Step 2: Allocate and INITIALIZE storage for local variables BEFORE registration.
+        if (localNames) {
+            automaticLocalsCount = localNames->getSize(this);
+            if (automaticLocalsCount > 0) {
+                const ProtoObject** temp = new const ProtoObject*[automaticLocalsCount];
+                for (unsigned int i = 0; i < automaticLocalsCount; ++i) {
+                    temp[i] = PROTO_NONE;
+                }
+                this->automaticLocals = temp;
+            }
+        }
+        
+        // This allocation could trigger GC, but we are not registered yet and have no 
+        // objects on our stack yet, so it's safe.
+        closureLocals = this->newSparseList();
+
+        // Step 3: Register context as reachable by GC.
+        // This MUST be done after automaticLocals and closureLocals are initialized,
+        // but before we bind arguments which could also trigger allocations.
         if (this->thread) {
             toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this);
         } else if (this->space) {
             this->space->mainContext = this;
         }
-
-        // Step 2: Allocate storage for local variables.
-        if (localNames) {
-            automaticLocalsCount = localNames->getSize(this);
-            if (automaticLocalsCount > 0) {
-                automaticLocals = new const ProtoObject*[automaticLocalsCount];
-                for (unsigned int i = 0; i < automaticLocalsCount; ++i) {
-                    automaticLocals[i] = PROTO_NONE;
-                }
-            }
-        }
-        closureLocals = this->newSparseList();
 
         // Step 3: Argument to Parameter Binding
         if (!parameterNames) return; // Nothing more to do if there are no parameters.
