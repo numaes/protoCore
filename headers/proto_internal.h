@@ -197,6 +197,7 @@ namespace proto {
 #define EMBEDDED_TYPE_UNICODE_CHAR 2
 #define EMBEDDED_TYPE_BOOLEAN 3
 #define EMBEDDED_TYPE_INLINE_STRING 4
+#define EMBEDDED_TYPE_NONE 5
 
 /** Inline string: up to 7 UTF-32 code units in 54 bits. Length in bits 0-2; chars in 7-bit each at bits 3+7*i (0..6). */
 #define INLINE_STRING_MAX_LEN 7

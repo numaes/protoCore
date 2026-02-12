@@ -102,7 +102,7 @@ namespace proto {
     }
 
     const ProtoObject* ProtoListImplementation::implGetAt(ProtoContext* context, int index) const {
-        if (isEmpty) return PROTO_NONE;
+        if (isEmpty) return nullptr;
         const unsigned long left_size = previousNode ? previousNode->size : 0;
         if (index < left_size) {
             return previousNode->implGetAt(context, index);

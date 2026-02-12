@@ -51,7 +51,7 @@ namespace proto
     //! @warning They should be kept in sync with proto_internal.h!
     #define PROTO_TRUE ((const proto::ProtoObject*)  1217UL) // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 1
     #define PROTO_FALSE ((const proto::ProtoObject*) 193UL)  // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 0
-    #define PROTO_NONE ((const proto::ProtoObject*) nullptr)
+    #define PROTO_NONE ((const proto::ProtoObject*)  321UL)  // Tag: EMBEDDED_VALUE (1), Type: NONE (5), Value: 0
 
     typedef const ProtoObject*(*ProtoMethod)(
         ProtoContext* context,

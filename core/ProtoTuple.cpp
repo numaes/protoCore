@@ -248,7 +248,7 @@ namespace proto {
     const ProtoObject* ProtoTupleImplementation::implGetAt(ProtoContext* context, int index) const
     {
         if (index < 0 || (unsigned long)index >= actual_size) {
-            return PROTO_NONE; // Index out of bounds
+            return nullptr; // Index out of bounds
         }
 
         if (actual_size <= TUPLE_SIZE) { // This is a leaf node

@@ -25,7 +25,7 @@ namespace proto
     }
 
     const ProtoObject* ProtoSparseListIteratorImplementation::implNextValue() const {
-        return (state == ITERATOR_NEXT_THIS && current) ? current->value : PROTO_NONE;
+        return (state == ITERATOR_NEXT_THIS && current) ? current->value : nullptr;
     }
 
     const ProtoSparseListIteratorImplementation* ProtoSparseListIteratorImplementation::implAdvance(ProtoContext* context) const {
@@ -111,12 +111,12 @@ namespace proto
     ProtoSparseListImplementation::ProtoSparseListImplementation(ProtoContext* context, unsigned long k, const ProtoObject* v, const ProtoSparseListImplementation* p, const ProtoSparseListImplementation* n, bool empty)
         : Cell(context), key(k), value(v), previous(p), next(n),
           hash(empty ? 0 : k ^ (v ? v->getHash(context) : 0) ^ (p ? p->hash : 0) ^ (n ? n->hash : 0)),
-          size(empty ? 0 : (v != PROTO_NONE) + get_node_size(p) + get_node_size(n)),
+          size(empty ? 0 : (v != nullptr) + get_node_size(p) + get_node_size(n)),
           height(empty ? 0 : 1 + std::max(get_node_height(p), get_node_height(n))),
           isEmpty(empty) {}
 
     bool ProtoSparseListImplementation::implHas(ProtoContext* context, unsigned long offset) const {
-        return implGetAt(context, offset) != PROTO_NONE;
+        return implGetAt(context, offset) != nullptr;
     }
 
     const ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext* context, unsigned long offset) const {
@@ -126,11 +126,11 @@ namespace proto
             else if (offset > node->key) node = node->next;
             else return node->value;
         }
-        return PROTO_NONE;
+        return nullptr;
     }
 
     const ProtoSparseListImplementation* ProtoSparseListImplementation::implSetAt(ProtoContext* context, unsigned long offset, const ProtoObject* newValue) const {
-        if (newValue == PROTO_NONE) {
+        if (newValue == nullptr) {
             return implRemoveAt(context, offset);
         }
 
@@ -179,7 +179,7 @@ namespace proto
             // Node to delete found
             if (!previous || previous->isEmpty) {
                 if (!next || next->isEmpty) {
-                    return new(context) ProtoSparseListImplementation(context, 0, PROTO_NONE, nullptr, nullptr, true);
+                    return new(context) ProtoSparseListImplementation(context, 0, nullptr, nullptr, nullptr, true);
                 }
                 return next; // No left child, promote right child
             }
@@ -197,7 +197,7 @@ namespace proto
 
         if (!newNode) {
             // This can happen if the last node is removed. Return an empty list.
-            return new(context) ProtoSparseListImplementation(context, 0, PROTO_NONE, nullptr, nullptr, true);
+            return new(context) ProtoSparseListImplementation(context, 0, nullptr, nullptr, nullptr, true);
         }
 
         return rebalance(context, newNode);

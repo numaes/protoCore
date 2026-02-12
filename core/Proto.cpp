@@ -118,7 +118,7 @@ namespace proto
                  if (root != nullptr) {
                       const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                       const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                      if (storedState != PROTO_NONE && storedState != current) {
+                      if (storedState != nullptr && storedState != current) {
                           ProtoObjectPointer psa{};
                           psa.oid = storedState;
                           if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
@@ -155,7 +155,7 @@ namespace proto
 
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks) const
     {
-        if (!this) return PROTO_NONE;
+        if (!this) return nullptr;
         if (std::getenv("PROTO_ENV_DIAG")) {
             std::string n;
             if (name) name->toUTF8String(context, n);
@@ -186,7 +186,7 @@ namespace proto
             if (++iterationCount > 50) {
                  fprintf(stderr, "[proto-diag] Infinite loop detected in getAttribute for object %p\n", this);
                  fflush(stderr);
-                 return PROTO_NONE;
+                 return nullptr;
             }
 
             ProtoObjectPointer pa_cur{};
@@ -204,7 +204,7 @@ namespace proto
                  if (root != nullptr) {
                       const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                       const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                      if (storedState != PROTO_NONE && storedState != currentObject) {
+                      if (storedState != nullptr && storedState != currentObject) {
                           ProtoObjectPointer psa{};
                           psa.oid = storedState;
                           if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
@@ -252,7 +252,7 @@ namespace proto
         if (callbacks && context->space->attributeNotFoundGetCallback) {
             return (*context->space->attributeNotFoundGetCallback)(context, this, name);
         }
-        return PROTO_NONE;
+        return nullptr;
     }
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
@@ -275,6 +275,11 @@ namespace proto
              std::cerr << "[proto-mutable-diag] setAttribute tag=" << pa.op.pointer_tag << " obj=" << this << "\n" << std::flush;
         }
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;
+        if (value == nullptr) {
+            auto* oc = toImpl<ProtoObjectCell>(this);
+            const auto* newAttributes = oc->attributes->implRemoveAt(context, reinterpret_cast<uintptr_t>(name));
+            return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, oc->mutable_ref))->asObject(context);
+        }
         auto* oc = toImpl<ProtoObjectCell>(this);
         if (std::getenv("PROTO_ENV_DIAG")) {
              std::cerr << "[proto-mutable-diag] setAttribute oc=" << oc << " ref=" << oc->mutable_ref << "\n" << std::flush;
@@ -288,7 +293,7 @@ namespace proto
              if (root != nullptr) {
                  const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(root);
                  const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
-                 if (storedState != PROTO_NONE) {
+                 if (storedState != nullptr) {
                       currentObjState = storedState;
                  }
              }
@@ -339,7 +344,7 @@ namespace proto
              if (root != nullptr) {
                   const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                   const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                  if (storedState != PROTO_NONE && storedState != this) {
+                  if (storedState != nullptr && storedState != this) {
                       ProtoObjectPointer psa{};
                       psa.oid = storedState;
                       if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
@@ -372,7 +377,7 @@ namespace proto
              if (root != nullptr) {
                  const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(root);
                  const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
-                 if (storedState != PROTO_NONE) {
+                 if (storedState != nullptr) {
                       currentObjState = storedState;
                  }
              }
@@ -629,7 +634,7 @@ namespace proto
     const ProtoObject* ProtoObject::shiftLeft(ProtoContext* context, int amount) const { return Integer::shiftLeft(context, this, amount); }
     const ProtoObject* ProtoObject::shiftRight(ProtoContext* context, int amount) const { return Integer::shiftRight(context, this, amount); }
 
-    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const { return context->fromBoolean(getAttribute(context, name) != PROTO_NONE); }
+    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const { return context->fromBoolean(getAttribute(context, name) != nullptr); }
     
     const ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const {
         ProtoObjectPointer pa{};
@@ -646,7 +651,7 @@ namespace proto
             if (root != nullptr) {
                 const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                 const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                if (storedState != PROTO_NONE) {
+                if (storedState != nullptr) {
                     auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
                     attributes = storedOc->attributes;
                     oc = storedOc;
@@ -686,7 +691,7 @@ namespace proto
             if (root != nullptr) {
                 const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                 const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                if (storedState != PROTO_NONE) {
+                if (storedState != nullptr) {
                     auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
                     attributes = storedOc->attributes;
                 }
@@ -707,7 +712,7 @@ namespace proto
             if (root != nullptr) {
                 const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                 const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                if (storedState != PROTO_NONE) {
+                if (storedState != nullptr) {
                     auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
                     attributes = storedOc->attributes;
                 }
