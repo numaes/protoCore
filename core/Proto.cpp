@@ -332,6 +332,23 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return context->newList();
         const auto* oc = toImpl<const ProtoObjectCell>(this);
+        
+        // Handle Mutable Objects
+        if (oc->mutable_ref > 0) {
+             ProtoSparseList* root = context->space->mutableRoot.load();
+             if (root != nullptr) {
+                  const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                  const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                  if (storedState != PROTO_NONE && storedState != this) {
+                      ProtoObjectPointer psa{};
+                      psa.oid = storedState;
+                      if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                          oc = toImpl<const ProtoObjectCell>(storedState);
+                      }
+                  }
+             }
+        }
+
         const ProtoList* parents = context->newList();
         const ParentLinkImplementation* p = oc->parent;
         while (p) {
