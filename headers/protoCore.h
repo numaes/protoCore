@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 #include <mutex>
+#include <thread>
 #include <vector>
 
 namespace proto
@@ -758,7 +759,8 @@ namespace proto
         std::vector<const ProtoObject*> moduleRoots;
         std::mutex moduleRootsMutex;
 
-        static std::mutex globalMutex;
+        /** @brief Global reentrant mutex for protecting space-wide metadata (interning, thread registry, GC state). */
+        static std::recursive_mutex globalMutex;
     };
 }
 

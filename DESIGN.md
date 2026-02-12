@@ -101,6 +101,12 @@ The GC is designed to minimize application pauses.
 *   **Concurrent Mark and Sweep**: Once the roots are identified, the marking and sweeping phases can run concurrently while the application threads resume execution. The immutable nature of the data structures is critical here, as it guarantees that the object graph will not be modified during the concurrent marking phase.
 *   **Implicit Generational Collection**: The `ProtoContext` object, which represents a function's scope, tracks all new cells allocated within it. When a context is destroyed (i.e., a function returns), it provides its list of newly-allocated cells to the `ProtoSpace`. This acts as a highly efficient, implicit form of generational GC, as most objects are short-lived and can be identified for collection very quickly.
 
+### Concurrency Primitives: Recursive Locking
+
+To prevent deadlocks during complex operations (e.g., allocation triggering GC, which then needs to access global metadata), ProtoCore utilizes a **Global Reentrant Mutex** (`globalMutex`).
+*   **Reentrancy**: The `std::recursive_mutex` allows a single thread to acquire the same lock multiple times without deadlocking. This is essential for the hybrid execution model where high-level operations (like interning or thread creation) may trigger low-level memory management tasks that also require the global lock.
+*   **Granularity**: While the system avoids a GIL, the `globalMutex` protects specific global registries (String Interning, Tuple Dictionary, Thread List) and orchestrates the Stop-The-World phase.
+
 ---
 
 ## 2. The Data Model: Immutable and Efficient

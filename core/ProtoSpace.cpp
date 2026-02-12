@@ -67,7 +67,7 @@ namespace proto {
         }
 
         void gcThreadLoop(ProtoSpace* space) {
-            std::unique_lock<std::mutex> lock(ProtoSpace::globalMutex);
+            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             GC_LOCK_TRACE("gcLoop ACQ(init)");
             while (space->state != SPACE_STATE_ENDING) {
                 // Wait for a GC trigger or space ending
@@ -238,7 +238,7 @@ namespace proto {
 
                     if (batchHead) {
                         GC_LOCK_TRACE("gcLoop ACQ(freeList)");
-                        std::lock_guard<std::mutex> freeLock(ProtoSpace::globalMutex);
+                        std::lock_guard<std::recursive_mutex> freeLock(ProtoSpace::globalMutex);
                         batchTail->internalSetNextRaw(space->freeCells);
                         space->freeCells = batchHead;
                         space->freeCellsCount += batchCount;
@@ -258,7 +258,7 @@ namespace proto {
         }
     }
     
-    std::mutex ProtoSpace::globalMutex;
+    std::recursive_mutex ProtoSpace::globalMutex;
 
     ProtoSpace::ProtoSpace() :
         state(SPACE_STATE_RUNNING),
@@ -343,7 +343,7 @@ namespace proto {
 
     ProtoSpace::~ProtoSpace() {
         {
-            std::lock_guard<std::mutex> lock(globalMutex);
+            std::lock_guard<std::recursive_mutex> lock(globalMutex);
             this->state = SPACE_STATE_ENDING;
             this->gcCV.notify_all();
             this->stopTheWorldCV.notify_all();
@@ -412,7 +412,7 @@ namespace proto {
             static std::once_flag once;
             std::call_once(once, []{ std::atexit(diagPrintAllocCount); });
         }
-        std::unique_lock<std::mutex> lock(globalMutex);
+        std::unique_lock<std::recursive_mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
 
         // Larger batch when multiple threads run: fewer lock acquisitions per thread.
