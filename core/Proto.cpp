@@ -168,6 +168,9 @@ namespace proto
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
                 cache = threadImpl->extension->attributeCache;
+                if (context->thread && (reinterpret_cast<uintptr_t>(context->thread) & 0x3F) == 48) {
+                    fprintf(stderr, "FATAL: CORRUPTION DETECTED during getAttribute of %p! thread=%p\n", name, context->thread);
+                }
                 hash_idx = (reinterpret_cast<uintptr_t>(this) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
                 if (cache[hash_idx].object == this && cache[hash_idx].name == name) {
                     return cache[hash_idx].result;
@@ -415,19 +418,14 @@ namespace proto
     int ProtoObject::isCell(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
-        // In this runtime, "isCell" typically means "is it a ProtoObjectCell"
-        // (tag 0). Other cell types (methods, lists, etc.) should use their
-        // specific check methods or handles.
-        return pa.op.pointer_tag == POINTER_TAG_OBJECT;
+        return pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE;
     }
 
     const Cell* ProtoObject::asCell(ProtoContext* context) const {
         if (!this) return nullptr;
         ProtoObjectPointer pa{};
         pa.oid = this;
-        // OBJECT and LIST (and other cell-backed handles) share the same tag-clearing semantics
-        const bool is_cell_backed = (pa.op.pointer_tag == POINTER_TAG_OBJECT || pa.op.pointer_tag == POINTER_TAG_LIST);
-        if (is_cell_backed) {
+        if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE) {
             uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(pa.oid) & ~0x3FUL;
             return reinterpret_cast<const Cell*>(raw_ptr_value);
         }

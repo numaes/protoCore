@@ -138,7 +138,9 @@ namespace proto
      */
     ProtoContext::~ProtoContext()
     {
-        if (this->space && !this->thread) {
+        if (this->thread) {
+            toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this->previous);
+        } else if (this->space) {
             this->space->mainContext = this->previous;
         }
 
