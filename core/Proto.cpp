@@ -29,6 +29,8 @@ namespace proto
             case EMBEDDED_TYPE_BOOLEAN: return context->space->booleanPrototype;
             case EMBEDDED_TYPE_UNICODE_CHAR: return context->space->unicodeCharPrototype;
             case EMBEDDED_TYPE_INLINE_STRING: return context->space->stringPrototype;
+            case 5: // EMBEDDED_TYPE_NONE (Sync with proto_internal.h)
+                return context->space->nonePrototype;
             default: return context->space->objectPrototype; // Fallback for unknown embedded types
             }
         case POINTER_TAG_LIST: return context->space->listPrototype;
@@ -156,11 +158,6 @@ namespace proto
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks) const
     {
         if (!this) return nullptr;
-        if (std::getenv("PROTO_ENV_DIAG")) {
-            std::string n;
-            if (name) name->toUTF8String(context, n);
-            std::cerr << "[getAttribute] obj=" << this << " name=" << n << " callbacks=" << callbacks << "\n" << std::flush;
-        }
         // 1. Inline Cache Lookup
         AttributeCacheEntry* cache = nullptr;
         unsigned long hash_idx = 0;
@@ -252,9 +249,6 @@ namespace proto
                 }
             }
         }
-        if (callbacks && context->space->attributeNotFoundGetCallback) {
-            return (*context->space->attributeNotFoundGetCallback)(context, this, name);
-        }
         return PROTO_NONE;
     }
 
@@ -274,9 +268,6 @@ namespace proto
 
         ProtoObjectPointer pa{};
         pa.oid = this;
-        if (std::getenv("PROTO_ENV_DIAG")) {
-             std::cerr << "[proto-mutable-diag] setAttribute tag=" << pa.op.pointer_tag << " obj=" << this << "\n" << std::flush;
-        }
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;
         if (value == nullptr) {
             auto* oc = toImpl<ProtoObjectCell>(this);
@@ -284,9 +275,6 @@ namespace proto
             return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, oc->mutable_ref))->asObject(context);
         }
         auto* oc = toImpl<ProtoObjectCell>(this);
-        if (std::getenv("PROTO_ENV_DIAG")) {
-             std::cerr << "[proto-mutable-diag] setAttribute oc=" << oc << " ref=" << oc->mutable_ref << "\n" << std::flush;
-        }
 
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
@@ -632,7 +620,70 @@ namespace proto
     const ProtoObject* ProtoObject::shiftLeft(ProtoContext* context, int amount) const { return Integer::shiftLeft(context, this, amount); }
     const ProtoObject* ProtoObject::shiftRight(ProtoContext* context, int amount) const { return Integer::shiftRight(context, this, amount); }
 
-    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const { return context->fromBoolean(getAttribute(context, name) != PROTO_NONE); }
+    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const
+    {
+        if (!this) return PROTO_FALSE;
+
+        const ProtoObject* currentObject = this;
+        const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
+
+        const ParentLinkImplementation* plStack[64];
+        int plPtr = 0;
+        int iterationCount = 0;
+
+        while (currentObject) {
+            if (++iterationCount > 50) return PROTO_FALSE;
+
+            ProtoObjectPointer pa_cur{};
+            pa_cur.oid = currentObject;
+            if (pa_cur.op.pointer_tag != POINTER_TAG_OBJECT) {
+                currentObject = currentObject->getPrototype(context);
+                continue;
+            }
+            auto oc = toImpl<const ProtoObjectCell>(currentObject);
+            const ProtoSparseListImplementation* attributes = oc->attributes;
+
+            // Support for Mutable Objects
+            if (oc->mutable_ref > 0) {
+                 ProtoSparseList* root = context->space->mutableRoot.load();
+                 if (root != nullptr) {
+                      const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                      const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                      if (storedState != nullptr && storedState != currentObject) {
+                          ProtoObjectPointer psa{};
+                          psa.oid = storedState;
+                          if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                              auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                              attributes = storedOc->attributes;
+                              oc = storedOc;
+                          }
+                      }
+                 }
+            }
+
+            if (attributes->implHas(context, attr_hash)) {
+                return PROTO_TRUE;
+            }
+
+            // Multiple inheritance support:
+            if (oc->parent) {
+                const ParentLinkImplementation* sibling = oc->parent->getParent(context);
+                while (sibling && plPtr < 64) {
+                    plStack[plPtr++] = sibling;
+                    sibling = sibling->getParent(context);
+                }
+                currentObject = oc->parent->getObject(context);
+            } else {
+                if (plPtr > 0) {
+                    const ParentLinkImplementation* top = plStack[--plPtr];
+                    currentObject = top->getObject(context);
+                } else {
+                    currentObject = nullptr;
+                }
+            }
+        }
+        return PROTO_FALSE;
+    }
     
     const ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const {
         ProtoObjectPointer pa{};
@@ -802,7 +853,10 @@ namespace proto
     // ProtoList API Implementation
     //=========================================================================
     unsigned long ProtoList::getSize(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->size; }
-    const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const { return toImpl<const ProtoListImplementation>(this)->implGetAt(context, index); }
+    const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const {
+        const ProtoObject* result = toImpl<const ProtoListImplementation>(this)->implGetAt(context, index);
+        return result ? result : PROTO_NONE;
+    }
     const ProtoObject* ProtoList::getFirst(ProtoContext* context) const {
         unsigned long size = getSize(context);
         if (size == 0) return PROTO_NONE;
