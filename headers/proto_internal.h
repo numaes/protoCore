@@ -439,7 +439,7 @@ namespace proto {
 
         const ProtoObject* implNext(ProtoContext* context) {
             bool done = (step > 0 && current >= stop) || (step < 0 && current <= stop);
-            if (done) return PROTO_NONE;
+            if (done) return nullptr;
             long long val = current;
             current += step;
             return context->fromInteger(val);
