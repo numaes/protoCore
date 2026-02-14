@@ -44,6 +44,7 @@ namespace proto
     // Internal magnitude-only arithmetic helpers
     static TempBignum internal_add_mag(const TempBignum& left, const TempBignum& right);
     static TempBignum internal_sub_mag(const TempBignum& left, const TempBignum& right);
+    static TempBignum internal_multiply_mag(const TempBignum& left, const TempBignum& right);
     static int internal_compare_mag(const TempBignum& left, const TempBignum& right);
     static std::pair<TempBignum, TempBignum> internal_divmod_mag(TempBignum u, TempBignum v);
 
@@ -332,17 +333,8 @@ namespace proto
             return context->fromInteger(0);
         }
 
-        TempBignum result;
+        TempBignum result = internal_multiply_mag(l, r);
         result.is_negative = l.is_negative != r.is_negative;
-
-        // Simple multiplication for now, needs proper Karatsuba or similar for large numbers
-        // For now, assume single-digit multiplication is sufficient for most tests.
-        // This is a placeholder for a full bignum multiplication.
-        unsigned __int128 product_128 = (unsigned __int128)l.magnitude[0] * r.magnitude[0];
-        result.magnitude.push_back(static_cast<unsigned long>(product_128));
-        if ((product_128 >> 64) > 0) {
-            result.magnitude.push_back(static_cast<unsigned long>(product_128 >> 64));
-        }
 
         result.normalize();
         return fromTempBignum(context, result);
@@ -617,6 +609,28 @@ namespace proto
             unsigned __int128 diff = l_digit - r_digit - borrow;
             result.magnitude[i] = static_cast<unsigned long>(diff);
             borrow = (diff >> 127) ? 1 : 0; // Check if MSB of 128-bit diff is set
+        }
+        result.normalize();
+        return result;
+    }
+
+    static TempBignum internal_multiply_mag(const TempBignum& left, const TempBignum& right) {
+        TempBignum result;
+        if (left.magnitude.empty() || right.magnitude.empty()) return result;
+
+        result.magnitude.resize(left.magnitude.size() + right.magnitude.size(), 0);
+
+        for (size_t i = 0; i < left.magnitude.size(); ++i) {
+            unsigned __int128 carry = 0;
+            for (size_t j = 0; j < right.magnitude.size(); ++j) {
+                unsigned __int128 prod = (unsigned __int128)left.magnitude[i] * right.magnitude[j] +
+                                         result.magnitude[i + j] + carry;
+                result.magnitude[i + j] = static_cast<unsigned long>(prod);
+                carry = prod >> 64;
+            }
+            if (carry > 0) {
+                result.magnitude[i + right.magnitude.size()] = static_cast<unsigned long>(carry);
+            }
         }
         result.normalize();
         return result;

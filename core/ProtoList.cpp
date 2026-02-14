@@ -276,4 +276,19 @@ namespace proto {
             callback(context, callback_data, (const Cell*)base);
         }
     }
+    const ProtoList* ProtoList::multiply(ProtoContext* context, const ProtoObject* count) const {
+        if (!count->isInteger(context)) return nullptr;
+        long long n = count->asLong(context);
+        if (n <= 0) return context->newList();
+        if (n == 1) return const_cast<ProtoList*>(this);
+
+        const ProtoList* result = context->newList();
+        unsigned long self_size = getSize(context);
+        for (long long i = 0; i < n; ++i) {
+            for (unsigned long j = 0; j < self_size; ++j) {
+                result = result->appendLast(context, getAt(context, static_cast<int>(j)));
+            }
+        }
+        return result;
+    }
 }

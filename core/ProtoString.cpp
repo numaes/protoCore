@@ -403,6 +403,40 @@ namespace proto {
         }
     }
 
+    const ProtoString* ProtoString::multiply(ProtoContext* context, const ProtoObject* count) const {
+        if (!count->isInteger(context)) return nullptr;
+        long long n = count->asLong(context);
+        if (n <= 0) return ProtoString::fromUTF8String(context, "");
+        if (n == 1) return const_cast<ProtoString*>(this);
+
+        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
+        const ProtoObject* acc = nullptr;
+        const ProtoObject* current = self;
+        unsigned long current_size = getSize(context);
+        unsigned long acc_size = 0;
+
+        unsigned long ucount = static_cast<unsigned long>(n);
+        while (ucount > 0) {
+            if (ucount & 1) {
+                if (!acc) {
+                    acc = current;
+                    acc_size = current_size;
+                } else {
+                    const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, acc, current, acc_size + current_size);
+                    acc = (new (context) ProtoStringImplementation(context, concatTuple))->implAsObject(context);
+                    acc_size += current_size;
+                }
+            }
+            ucount >>= 1;
+            if (ucount > 0) {
+                const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, current, current, current_size + current_size);
+                current = (new (context) ProtoStringImplementation(context, concatTuple))->implAsObject(context);
+                current_size += current_size;
+            }
+        }
+        return reinterpret_cast<const ProtoString*>(acc);
+    }
+
     //=========================================================================
     // String Interning Implementation
     //=========================================================================
@@ -452,5 +486,10 @@ namespace proto {
         }
         map->insert(newString);
         return newString;
+    }
+    const ProtoObject* ProtoString::modulo(ProtoContext* context, const ProtoObject* other) const {
+        // TODO: Implement string formatting (%)
+        // For now, return PROTO_NONE to avoid the "Objects are not integer types for modulo" crash.
+        return PROTO_NONE;
     }
 }

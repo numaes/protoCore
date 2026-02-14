@@ -591,9 +591,55 @@ namespace proto
 
     const ProtoObject* ProtoObject::add(ProtoContext* context, const ProtoObject* other) const { return Integer::add(context, this, other); }
     const ProtoObject* ProtoObject::subtract(ProtoContext* context, const ProtoObject* other) const { return Integer::subtract(context, this, other); }
-    const ProtoObject* ProtoObject::multiply(ProtoContext* context, const ProtoObject* other) const { return Integer::multiply(context, this, other); }
+    const ProtoObject* ProtoObject::multiply(ProtoContext* context, const ProtoObject* other) const {
+        const ProtoString* s1 = this->asString(context);
+        if (s1) {
+            const ProtoString* res = s1->multiply(context, other);
+            return res ? res->asObject(context) : Integer::multiply(context, this, other);
+        }
+        const ProtoString* s2 = other->asString(context);
+        if (s2) {
+            const ProtoString* res = s2->multiply(context, this);
+            return res ? res->asObject(context) : Integer::multiply(context, this, other);
+        }
+
+        const ProtoList* l1 = this->asList(context);
+        if (l1) {
+            const ProtoList* res = l1->multiply(context, other);
+            if (res) {
+                ProtoObject* wrapper = const_cast<ProtoObject*>(context->newObject(true));
+                if (context->space->listPrototype) {
+                    wrapper = const_cast<ProtoObject*>(wrapper->addParent(context, context->space->listPrototype));
+                }
+                const ProtoString* dataName = context->space->literalData;
+                return wrapper->setAttribute(context, dataName, res->asObject(context));
+            }
+            return Integer::multiply(context, this, other);
+        }
+        const ProtoList* l2 = other->asList(context);
+        if (l2) {
+            const ProtoList* res = l2->multiply(context, this);
+            if (res) {
+                ProtoObject* wrapper = const_cast<ProtoObject*>(context->newObject(true));
+                if (context->space->listPrototype) {
+                    wrapper = const_cast<ProtoObject*>(wrapper->addParent(context, context->space->listPrototype));
+                }
+                const ProtoString* dataName = context->space->literalData;
+                return wrapper->setAttribute(context, dataName, res->asObject(context));
+            }
+            return Integer::multiply(context, this, other);
+        }
+
+        return Integer::multiply(context, this, other);
+    }
     const ProtoObject* ProtoObject::divide(ProtoContext* context, const ProtoObject* other) const { return Integer::divide(context, this, other); }
-    const ProtoObject* ProtoObject::modulo(ProtoContext* context, const ProtoObject* other) const { return Integer::modulo(context, this, other); }
+    const ProtoObject* ProtoObject::modulo(ProtoContext* context, const ProtoObject* other) const {
+        const ProtoString* s = this->asString(context);
+        if (s) {
+            return s->modulo(context, other);
+        }
+        return Integer::modulo(context, this, other);
+    }
     int ProtoObject::compare(ProtoContext* context, const ProtoObject* other) const {
         if (this->isString(context) && other->isString(context)) {
             return this->asString(context)->cmp_to_string(context, other->asString(context));

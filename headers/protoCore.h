@@ -194,6 +194,7 @@ namespace proto
         const ProtoList* removeLast(ProtoContext* context) const;
         const ProtoList* removeAt(ProtoContext* context, int index) const;
         const ProtoList* removeSlice(ProtoContext* context, int from, int to) const;
+        const ProtoList* multiply(ProtoContext* context, const ProtoObject* count) const;
 
         //- Conversion
         const ProtoObject* asObject(ProtoContext* context) const;
@@ -274,6 +275,8 @@ namespace proto
         const ProtoString* removeLast(ProtoContext* context, int count) const;
         const ProtoString* removeAt(ProtoContext* context, int index) const;
         const ProtoString* removeSlice(ProtoContext* context, int from, int to) const;
+        const ProtoString* multiply(ProtoContext* context, const ProtoObject* count) const;
+        const ProtoObject* modulo(ProtoContext* context, const ProtoObject* other) const;
 
         //- Conversion
         const ProtoObject* asObject(ProtoContext* context) const;
