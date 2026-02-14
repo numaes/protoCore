@@ -255,7 +255,7 @@ namespace proto
         if (callbacks && context->space->attributeNotFoundGetCallback) {
             return (*context->space->attributeNotFoundGetCallback)(context, this, name);
         }
-        return nullptr;
+        return PROTO_NONE;
     }
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
@@ -632,7 +632,7 @@ namespace proto
     const ProtoObject* ProtoObject::shiftLeft(ProtoContext* context, int amount) const { return Integer::shiftLeft(context, this, amount); }
     const ProtoObject* ProtoObject::shiftRight(ProtoContext* context, int amount) const { return Integer::shiftRight(context, this, amount); }
 
-    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const { return context->fromBoolean(getAttribute(context, name) != nullptr); }
+    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const { return context->fromBoolean(getAttribute(context, name) != PROTO_NONE); }
     
     const ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const {
         ProtoObjectPointer pa{};
@@ -912,7 +912,10 @@ namespace proto
     // ProtoSparseList API Implementation
     //=========================================================================
     bool ProtoSparseList::has(ProtoContext* context, unsigned long offset) const { return toImpl<const ProtoSparseListImplementation>(this)->implHas(context, offset); }
-    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, unsigned long offset) const { return toImpl<const ProtoSparseListImplementation>(this)->implGetAt(context, offset); }
+    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, unsigned long offset) const {
+        const ProtoObject* result = toImpl<const ProtoSparseListImplementation>(this)->implGetAt(context, offset);
+        return result ? result : PROTO_NONE;
+    }
     const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const { return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context); }
     const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long offset) const { return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, offset)->asSparseList(context); }
     unsigned long ProtoSparseList::getSize(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->size; }
@@ -966,7 +969,7 @@ namespace proto
         const auto* current_list = impl->list;
         unsigned long hash = value->getHash(context);
         const ProtoObject* existing = current_list->getAt(context, hash);
-        long long count = existing ? existing->asLong(context) : 0;
+        long long count = (existing && existing != PROTO_NONE) ? existing->asLong(context) : 0;
         
         const auto* new_list = current_list->setAt(context, hash, context->fromInteger(count + 1));
         return (new (context) ProtoMultisetImplementation(context, new_list, impl->size + 1))->asProtoMultiset(context);
@@ -975,7 +978,7 @@ namespace proto
     const ProtoObject* ProtoMultiset::count(ProtoContext* context, const ProtoObject* value) const {
         const auto* current_list = toImpl<const ProtoMultisetImplementation>(this)->list;
         const ProtoObject* existing = current_list->getAt(context, value->getHash(context));
-        return existing ? existing : context->fromInteger(0);
+        return (existing && existing != PROTO_NONE) ? existing : context->fromInteger(0);
     }
 
     const ProtoMultiset* ProtoMultiset::remove(ProtoContext* context, const ProtoObject* value) const {
@@ -983,7 +986,7 @@ namespace proto
         const auto* current_list = impl->list;
         unsigned long hash = value->getHash(context);
         const ProtoObject* existing = current_list->getAt(context, hash);
-        if (!existing) return this;
+        if (!existing || existing == PROTO_NONE) return this;
         
         long long count = existing->asLong(context);
         const ProtoSparseList* new_list;
