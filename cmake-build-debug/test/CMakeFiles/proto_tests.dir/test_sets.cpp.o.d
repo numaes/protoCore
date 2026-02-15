@@ -307,8 +307,8 @@ test/CMakeFiles/proto_tests.dir/test_sets.cpp.o: \
  /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
  /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest_prod.h \
  /home/gamarino/Documentos/proyectos/protoCore/test/../headers/protoCore.h \
+ /usr/include/c++/13/thread \
  /home/gamarino/Documentos/proyectos/protoCore/test/../headers/proto_internal.h \
  /home/gamarino/Documentos/proyectos/protoCore/test/../headers/protoCore.h \
- /usr/include/c++/13/thread /usr/include/c++/13/algorithm \
- /usr/include/c++/13/bits/ranges_algo.h \
+ /usr/include/c++/13/algorithm /usr/include/c++/13/bits/ranges_algo.h \
  /usr/include/c++/13/pstl/glue_algorithm_defs.h

@@ -173,6 +173,7 @@ namespace proto {
 
             unsigned long h1 = t1->getHash(context);
             unsigned long h2 = t2->getHash(context);
+            
             if (h1 < h2) return -1;
             if (h1 > h2) return 1;
 
@@ -305,21 +306,15 @@ namespace proto {
 
     unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
         unsigned long current_hash = 0;
-        // Combine hashes of all elements in the slot
+        // Combine hashes of all elements in the slot in a non-commutative way
         for (int i = 0; i < TUPLE_SIZE; ++i) {
             if (slot[i]) {
-                current_hash ^= slot[i]->getHash(context);
+                current_hash = (current_hash * 31) + slot[i]->getHash(context);
             }
         }
-        // For interning, the hash must also depend on the structure and size.
-        // We can combine the current_hash with the actual_size.
-        // A simple way is to shift and XOR, or use a prime multiplier.
-        // Let's use a simple combination for now.
-        current_hash = (current_hash << 1) ^ actual_size;
-
-        // If this is an internal node, the hash of its children (which are also tuples)
-        // is already incorporated into the slot[i]->getHash(context) call.
-        // So, the current logic is fine for a rope structure.
+        // Incorporate actual_size to distinguish tuples of different logical lengths
+        // that share physical prefixes.
+        current_hash = (current_hash * 31) + actual_size;
 
         return current_hash;
     }

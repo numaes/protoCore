@@ -492,7 +492,29 @@ namespace proto
     }
 
     unsigned long ProtoObject::getHash(ProtoContext* context) const {
+        if (!this) return 0;
+
+        ProtoObjectPointer pa{}; pa.oid = this;
+        // If it's a wrapper object, we must extract the underlying value to hash it correctly.
+        if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
+            if (isString(context)) {
+                const ProtoString* s = asString(context);
+                if (s) {
+                    const ProtoObject* so = s->asObject(context);
+                    if (so != this) return so->getHash(context);
+                }
+            }
+            if (isTuple(context)) {
+                const ProtoTuple* t = asTuple(context);
+                if (t) {
+                    const ProtoObject* to = t->asObject(context);
+                    if (to != this) return to->getHash(context);
+                }
+            }
+        }
+
         if (isString(context) && isInlineString(this)) return getProtoStringHash(context, this);
+        
         if (isCell(context)) return asCell(context)->getHash(context);
         return reinterpret_cast<uintptr_t>(this);
     }

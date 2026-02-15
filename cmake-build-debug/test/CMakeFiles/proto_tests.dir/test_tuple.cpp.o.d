@@ -306,4 +306,5 @@ test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o: \
  /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest-typed-test.h \
  /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
  /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest_prod.h \
- /home/gamarino/Documentos/proyectos/protoCore/test/../headers/protoCore.h
+ /home/gamarino/Documentos/proyectos/protoCore/test/../headers/protoCore.h \
+ /usr/include/c++/13/thread
