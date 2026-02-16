@@ -94,7 +94,7 @@ namespace proto {
 
                 if (current->isString(context)) {
                     const ProtoStringImplementation* sImpl = toImpl<const ProtoStringImplementation>(current);
-                    stack[top] = sImpl->tuple->asObject(context);
+                    stack[top] = sImpl->tuple->implAsObject(context);
                     // Reset idx for the tuple node we just moved to
                     idx = 0; 
                     continue;
@@ -123,7 +123,7 @@ namespace proto {
     private:
         unsigned int extractCodePoint(const ProtoObject* obj) const {
             ProtoObjectPointer pa{}; pa.oid = obj;
-            if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBED_TYPE_UNICODE_CHAR) {
+            if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
                 return static_cast<unsigned int>(pa.unicodeChar.unicodeValue & 0x1FFFFFu);
             } else if (obj && obj->isInteger(context)) {
                 return static_cast<unsigned int>(obj->asLong(context) & 0x1FFFFFu);
