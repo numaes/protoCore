@@ -330,7 +330,7 @@ namespace proto
     {
         unsigned long ref = mutableObject ? generate_mutable_ref(this) : 0;
         const auto* attributes = toImpl<const ProtoSparseListImplementation>(newSparseList());
-        const auto* result = (new(this) ProtoObjectCell(this, nullptr, attributes, ref))->asObject(this);
+        const ProtoObject* result = (new(this) ProtoObjectCell(this, nullptr, attributes, ref))->asObject(this);
         return result;
     }
 

@@ -76,8 +76,10 @@ namespace proto
              return prototype ? prototype->newChild(context, isMutable) : PROTO_NONE;
         }
         auto* oc = toImpl<const ProtoObjectCell>(this);
-        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), toImpl<const ProtoSparseListImplementation>(context->newSparseList()), isMutable ? generate_mutable_ref(context) : 0);
-        return newObject->asObject(context);
+        unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
+        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), toImpl<const ProtoSparseListImplementation>(context->newSparseList()), ref);
+        const ProtoObject* result = newObject->asObject(context);
+        return result;
     }
 
     const ProtoObject* ProtoObject::call(ProtoContext* context, const ParentLink* nextParent, const ProtoString* method, const ProtoObject* self, const ProtoList* positionalParameters, const ProtoSparseList* keywordParametersDict) const
@@ -322,7 +324,8 @@ namespace proto
 
         // Handle Immutable Objects (Copy-on-Write)
         const auto* newAttributes = oc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
-        return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
+        const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
+        return result;
     }
 
     const ProtoList* ProtoObject::getParents(ProtoContext* context) const {
@@ -711,7 +714,13 @@ namespace proto
                 continue;
             }
             auto oc = toImpl<const ProtoObjectCell>(currentObject);
+            if (!oc) {
+                return PROTO_FALSE;
+            }
             const ProtoSparseListImplementation* attributes = oc->attributes;
+            if (!attributes) {
+                return PROTO_FALSE;
+            }
 
             // Support for Mutable Objects
             if (oc->mutable_ref > 0) {
