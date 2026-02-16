@@ -192,7 +192,9 @@ namespace proto
             ProtoObjectPointer pa_cur{};
             pa_cur.oid = currentObject;
             if (pa_cur.op.pointer_tag != POINTER_TAG_OBJECT) {
-                currentObject = currentObject->getPrototype(context);
+                const ProtoObject* nextProto = currentObject->getPrototype(context);
+                if (nextProto == currentObject) break; // Robustness: circular tag-based prototype (e.g. None -> None)
+                currentObject = nextProto;
                 continue;
             }
             auto oc = toImpl<const ProtoObjectCell>(currentObject);

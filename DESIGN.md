@@ -113,7 +113,7 @@ To prevent deadlocks during complex operations (e.g., allocation triggering GC, 
 
 All core collection types in Proto are implemented as persistent, immutable data structures, backed by self-balancing AVL trees. This provides efficient structural sharing and guarantees O(log n) performance for most operations.
 
-*   **`ProtoTuple` & `ProtoString`**: These are implemented as **ropes**, a tree structure where leaves are small, fixed-size arrays of data. This makes operations like concatenation, slicing, and insertion extremely efficient, even for very large strings and tuples, as it avoids massive data copies by simply creating new tree nodes that point to existing, shared data.
+*   **`ProtoTuple` & `ProtoString`**: These are implemented as **ropes**, a tree structure where leaves are small, fixed-size arrays of data. This makes operations like concatenation, slicing, and insertion extremely efficient, even for very large strings and tuples, as it avoids massive data copies by simply creating new tree nodes that point to existing, shared data. **String comparison** is lexicographical and optimized for ropes using a stack-based iterator to achieve $O(N)$ performance.
 *   **`ProtoList` & `ProtoSparseList`**: These are also backed by balanced trees, ensuring that operations at any point in the collection (beginning, middle, or end) have consistent, logarithmic time complexity.
 *   **Interning for Tuples & Strings**: To conserve memory and speed up equality checks, all **Tuples** and **Strings** are interned. This means distinct objects with identical content share the same memory address.
     *   **Tuples**: Managed by a global `tupleRoot` dictionary (BST).

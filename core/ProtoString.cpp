@@ -61,6 +61,107 @@ namespace proto {
         return reinterpret_cast<const ProtoObject*>(ptr);
     }
 
+    /** Helper for O(N) rope traversal without repeated descent. */
+    class RopeCharacterIterator {
+        static constexpr int MAX_DEPTH = 64;
+        const ProtoObject* stack[MAX_DEPTH];
+        int slotIndex[MAX_DEPTH];
+        int top = -1;
+        ProtoContext* context;
+
+    public:
+        RopeCharacterIterator(ProtoContext* ctx, const ProtoObject* obj) : context(ctx) {
+            if (obj && !isInlineString(obj)) push(obj);
+        }
+
+        void push(const ProtoObject* obj) {
+            if (top + 1 >= MAX_DEPTH) std::abort();
+            stack[++top] = obj;
+            slotIndex[top] = 0;
+        }
+
+        unsigned int next() {
+            while (top >= 0) {
+                const ProtoObject* current = stack[top];
+                int& idx = slotIndex[top];
+
+                if (isInlineString(current)) {
+                    if (idx < (int)inlineStringLength(current)) {
+                        return inlineStringCharAt(current, idx++);
+                    }
+                    top--; continue;
+                }
+
+                if (current->isString(context)) {
+                    const ProtoStringImplementation* sImpl = toImpl<const ProtoStringImplementation>(current);
+                    stack[top] = sImpl->tuple->asObject(context);
+                    // Reset idx for the tuple node we just moved to
+                    idx = 0; 
+                    continue;
+                }
+
+                if (current->isTuple(context)) {
+                    const ProtoTupleImplementation* tImpl = toImpl<const ProtoTupleImplementation>(current);
+                    if (idx < TUPLE_SIZE) {
+                        const ProtoObject* child = tImpl->slot[idx++];
+                        if (child) {
+                            if (child->isString(context) || child->isTuple(context)) {
+                                push(child);
+                            } else {
+                                return extractCodePoint(child);
+                            }
+                        }
+                        continue;
+                    }
+                    top--; continue;
+                }
+                top--;
+            }
+            return 0;
+        }
+
+    private:
+        unsigned int extractCodePoint(const ProtoObject* obj) const {
+            ProtoObjectPointer pa{}; pa.oid = obj;
+            if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBED_TYPE_UNICODE_CHAR) {
+                return static_cast<unsigned int>(pa.unicodeChar.unicodeValue & 0x1FFFFFu);
+            } else if (obj && obj->isInteger(context)) {
+                return static_cast<unsigned int>(obj->asLong(context) & 0x1FFFFFu);
+            }
+            return 0;
+        }
+    };
+
+    static int compareStrings(ProtoContext* context, const ProtoObject* s1, const ProtoObject* s2) {
+        if (s1 == s2) return 0;
+        
+        const unsigned long len1 = getProtoStringSize(context, s1);
+        const unsigned long len2 = getProtoStringSize(context, s2);
+        const unsigned long minLen = std::min(len1, len2);
+
+        if (isInlineString(s1) && isInlineString(s2)) {
+            for (unsigned long i = 0; i < minLen; ++i) {
+                unsigned int cp1 = inlineStringCharAt(s1, static_cast<int>(i));
+                unsigned int cp2 = inlineStringCharAt(s2, static_cast<int>(i));
+                if (cp1 < cp2) return -1;
+                if (cp1 > cp2) return 1;
+            }
+        } else {
+            RopeCharacterIterator it1(context, s1);
+            RopeCharacterIterator it2(context, s2);
+            for (unsigned long i = 0; i < minLen; ++i) {
+                unsigned int cp1 = isInlineString(s1) ? inlineStringCharAt(s1, static_cast<int>(i)) : it1.next();
+                unsigned int cp2 = isInlineString(s2) ? inlineStringCharAt(s2, static_cast<int>(i)) : it2.next();
+                if (cp1 < cp2) return -1;
+                if (cp1 > cp2) return 1;
+            }
+        }
+        
+        if (len1 < len2) return -1;
+        if (len1 > len2) return 1;
+        return 0;
+    }
+
     unsigned long getProtoStringHash(ProtoContext* context, const ProtoObject* o) {
         if (isInlineString(o)) {
             unsigned long h = 0;
@@ -208,8 +309,7 @@ namespace proto {
     }
 
     int ProtoStringImplementation::implCompare(ProtoContext* context, const ProtoString* other) const {
-        // This is a simplified comparison.
-        return this->getHash(context) - other->getHash(context);
+        return compareStrings(context, this->implAsObject(context), other->asObject(context));
     }
 
     const ProtoStringIteratorImplementation* ProtoStringImplementation::implGetIterator(ProtoContext* context) const {
@@ -263,13 +363,7 @@ namespace proto {
     }
 
     int ProtoString::cmp_to_string(ProtoContext* context, const ProtoString* otherString) const {
-        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
-        if (isInlineString(self)) {
-            const unsigned long h = getProtoStringHash(context, self);
-            const unsigned long oh = getProtoStringHash(context, otherString->asObject(context));
-            return (h < oh) ? -1 : (h > oh) ? 1 : 0;
-        }
-        return toImpl<const ProtoStringImplementation>(this)->implCompare(context, otherString);
+        return compareStrings(context, this->asObject(context), otherString->asObject(context));
     }
 
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {

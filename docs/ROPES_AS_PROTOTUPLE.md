@@ -35,3 +35,7 @@ ProtoTuple already has `processReferences` that visits slot references. Concat t
 
 - **fromUTF8String**: If decoded length ≤ 7 and all code points in 0..127, build inline representation and return (no cell, no intern). Otherwise build leaf tuple as today, then intern and return.
 - **appendLast**: Create concat tuple with left = this, right = other, size = sum; wrap in ProtoStringImplementation and return.
+38: 
+39: ## Comparison
+40: 
+41: String comparison is lexicographical (Unicode code point by code point) and optimized for rope structures. Instead of repeatedly descending the tree for each character ($O(N \log N)$), it uses a `RopeCharacterIterator` that maintains a traversal stack, achieving $O(N)$ performance for full string comparisons. Use `compareStrings(context, s1, s2)` for efficient comparison.
