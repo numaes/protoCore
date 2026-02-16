@@ -37,7 +37,7 @@ ProtoCore employs a sophisticated memory management strategy:
 
 The library implements persistent data structures to support efficient copy-on-write semantics:
 
-*   **Ropes**: Used for `ProtoString` and `ProtoTuple` to enable efficient concatenation and slicing without massive copying.
+*   **Ropes**: Used for `ProtoString` and `ProtoTuple` to enable efficient concatenation and slicing without massive copying. `ProtoString` comparison is lexicographical and optimized for $O(N)$ traversal.
 *   **Balanced Trees**: Used for `ProtoList` and `ProtoSparseList` to guarantee O(log n) operations.
 *   **Interning**: Tuples and Strings are interned explicitly to allow O(1) identity comparison for unique values.
 *   **Sets & Multisets**: Implemented efficiently over hash-mapped SparseLists (Multisets use value counts).
