@@ -79,7 +79,9 @@ namespace proto
 
         //- Inheritance
         const ProtoList* getParents(ProtoContext* context) const;
+        int hasParent(ProtoContext* context, const ProtoObject* target) const;
         const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent) const;
+        const ProtoObject* addParentInternal(ProtoContext* context, const ProtoObject* newParent) const;
         const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 
         //- Execution

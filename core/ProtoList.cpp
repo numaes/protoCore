@@ -113,13 +113,39 @@ namespace proto {
         return nextNode->implGetAt(context, index - left_size - 1);
     }
 
-    bool ProtoListImplementation::implHas(ProtoContext* context, const ProtoObject* targetValue) const {
+    bool ProtoListImplementation::implHas(proto::ProtoContext* context, const proto::ProtoObject* targetValue) const {
+        if (!targetValue) return false;
+        const bool diag = std::getenv("PROTO_ENV_DIAG") != nullptr;
+        
         if (isEmpty) return false;
-        if (value == targetValue) return true;
+        
+        if (diag) {
+            std::string tStr = "?";
+            if (targetValue->isString(context)) targetValue->asString(context)->toUTF8String(context, tStr);
+            else if (targetValue->isInteger(context)) tStr = std::to_string(targetValue->asLong(context));
+            
+            std::string vStr = "?";
+            if (value && value->isString(context)) value->asString(context)->toUTF8String(context, vStr);
+            else if (value && value->isInteger(context)) vStr = std::to_string(value->asLong(context));
+            
+            fprintf(stderr, "[proto-diag] ProtoList::implHas: node=%p size=%lu empty=%d target='%s' value='%s' prev=%p next=%p\n", 
+                this, size, isEmpty, tStr.c_str(), vStr.c_str(), previousNode, nextNode);
+        }
+
+        if (value == targetValue) {
+            if (diag) fprintf(stderr, "[proto-diag] ProtoList::implHas: FOUND via pointer equality\n");
+            return true;
+        }
         if (value->isInteger(context) && targetValue->isInteger(context)) {
-            if (Integer::compare(context, value, targetValue) == 0) return true;
+            if (value->asLong(context) == targetValue->asLong(context)) {
+                if (diag) fprintf(stderr, "[proto-diag] ProtoList::implHas: FOUND via integer comparison\n");
+                return true;
+            }
         } else if (value->isString(context) && targetValue->isString(context)) {
-            if (value->asString(context)->cmp_to_string(context, targetValue->asString(context)) == 0) return true;
+            if (value->asString(context)->cmp_to_string(context, targetValue->asString(context)) == 0) {
+                if (diag) fprintf(stderr, "[proto-diag] ProtoList::implHas: FOUND via string comparison\n");
+                return true;
+            }
         }
         if (previousNode && previousNode->implHas(context, targetValue)) return true;
         if (nextNode && nextNode->implHas(context, targetValue)) return true;
