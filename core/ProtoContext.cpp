@@ -41,6 +41,8 @@ namespace proto
         lastAllocatedCell(nullptr),
         allocatedCellsCount(0),
         returnValue(PROTO_NONE),
+        currentFileName(nullptr),
+        currentLineNumber(0),
         freeCells(nullptr)
     {
         // Step 1: Inherit essential services from the parent context.

@@ -103,8 +103,6 @@ namespace proto
 
         while (current) {
             if (++iterationCount > 50) {
-                 fprintf(stderr, "[proto-diag] Infinite loop detected in isInstanceOf for object %p prototype %p\n", this, prototype);
-                 fflush(stderr);
                  return PROTO_FALSE;
             }
             if (current == prototype) return PROTO_TRUE;
@@ -137,8 +135,6 @@ namespace proto
                 int sibCount = 0;
                 while (sibling && plPtr < 64) {
                     if (++sibCount > 100) {
-                        fprintf(stderr, "[proto-diag] Circular siblings in isInstanceOf for object %p\n", current);
-                        fflush(stderr);
                         break;
                     }
                     plStack[plPtr++] = sibling;
@@ -161,12 +157,6 @@ namespace proto
     {
         if (!this) return nullptr;
 
-        const bool diag = std::getenv("PROTO_ENV_DIAG") != nullptr;
-        std::string nstr_debug;
-        if (diag) {
-            name->toUTF8String(context, nstr_debug);
-        }
-
         // Attribute Cache Setup
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
@@ -183,8 +173,6 @@ namespace proto
 
         while (currentPointer) {
             if (++iterationCount > 500) {
-                 fprintf(stderr, "[proto-diag] Infinite loop detected in getAttribute for object %p (chain too long)\n", this);
-                 fflush(stderr);
                  return PROTO_NONE;
             }
 
@@ -212,10 +200,15 @@ namespace proto
             if (cache) {
                 hash_idx = (reinterpret_cast<uintptr_t>(currentPointer) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
                 if (cache[hash_idx].object == currentPointer && cache[hash_idx].name == name) {
-                    if (diag && (nstr_debug == "added_by_meta" || nstr_debug == "__keys__")) {
-                        fprintf(stderr, "[proto-diag] getAttribute: CACHE HIT for '%s' in %p -> %p\n", nstr_debug.c_str(), currentPointer, cache[hash_idx].result);
+                    const auto* result = cache[hash_idx].result;
+                    if (name) {
+                        std::string ns;
+                        name->toUTF8String(context, ns);
+                        if (ns == "_splitext" || ns == "genericpath") {
+                             fprintf(stderr, "DEBUG: getAttribute CACHE obj=%p name=%s hash=%p res=%p\n", (void*)currentPointer, ns.c_str(), (void*)attr_hash, (void*)result);
+                        }
                     }
-                    return cache[hash_idx].result;
+                    return result;
                 }
             }
 
@@ -224,8 +217,12 @@ namespace proto
                 auto ocValue = toImpl<const ProtoObjectCell>(currentValue);
                 if (ocValue->attributes->implHas(context, attr_hash)) {
                     const auto* result = ocValue->attributes->implGetAt(context, attr_hash);
-                    if (diag && (nstr_debug == "added_by_meta" || nstr_debug == "__keys__")) {
-                        fprintf(stderr, "[proto-diag] getAttribute: FOUND '%s' in state %p of %p -> %p\n", nstr_debug.c_str(), currentValue, currentPointer, result);
+                    if (name) {
+                        std::string ns;
+                        name->toUTF8String(context, ns);
+                        if (ns == "_splitext" || ns == "genericpath") {
+                             fprintf(stderr, "DEBUG: getAttribute obj=%p name=%s hash=%p res=%p\n", (void*)currentPointer, ns.c_str(), (void*)attr_hash, (void*)result);
+                        }
                     }
                     // Update Cache
                     if (cache) {
@@ -257,10 +254,6 @@ namespace proto
                 currentPointer = nextProto;
             }
         }
-
-        if (diag && (nstr_debug == "added_by_meta" || nstr_debug == "__keys__")) {
-             fprintf(stderr, "[proto-diag] getAttribute: NOT FOUND '%s' in %p linear chain\n", nstr_debug.c_str(), this);
-        }
         return PROTO_NONE;
     }
 
@@ -281,16 +274,10 @@ namespace proto
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;
-        if (value == nullptr) {
-            auto* oc = toImpl<ProtoObjectCell>(this);
-            const auto* newAttributes = oc->attributes->implRemoveAt(context, reinterpret_cast<uintptr_t>(name));
-            return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, oc->mutable_ref))->asObject(context);
-        }
         auto* oc = toImpl<ProtoObjectCell>(this);
 
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
-             const bool diag = std::getenv("PROTO_ENV_DIAG") != nullptr;
              // 1. Get current object state
              const ProtoObject* currentObjState = this; 
              ProtoSparseList* root = context->space->mutableRoot.load();
@@ -313,8 +300,6 @@ namespace proto
              int casIteration = 0;
              while(true) {
                  if (++casIteration > 100) {
-                     fprintf(stderr, "[proto-diag] CAS loop infinite in setAttribute for object %p\n", this);
-                     fflush(stderr);
                      break;
                  }
                  ProtoSparseList* oldRoot = context->space->mutableRoot.load();
@@ -401,8 +386,6 @@ namespace proto
              int casIteration = 0;
              while(true) {
                  if (++casIteration > 100) {
-                     fprintf(stderr, "[proto-diag] CAS loop infinite in addParentInternal for object %p\n", this);
-                     fflush(stderr);
                      break;
                  }
                  ProtoSparseList* oldRoot = context->space->mutableRoot.load();
@@ -428,14 +411,8 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT || !newParent->isCell(context)) return this;
         
-        const bool diag = std::getenv("PROTO_ENV_DIAG") != nullptr;
-        
         const ProtoObject* result = this;
         const ProtoList* mroOfNew = newParent->getParents(context);
-        
-        if (diag) {
-            fprintf(stderr, "[proto-diag] Linearizing addParent: adding %p to %p\n", newParent, this);
-        }
 
         // Add ancestors of newParent that are not in 'this' chain
         // We add them in reverse order to maintain 'newParent parent chain order' after prepending
@@ -443,7 +420,6 @@ namespace proto
             for (int i = static_cast<int>(mroOfNew->getSize(context)) - 1; i >= 0; --i) {
                 const ProtoObject* ancestor = mroOfNew->getAt(context, i);
                 if (ancestor != newParent && !result->hasParent(context, ancestor)) {
-                    if (diag) fprintf(stderr, "[proto-diag]   - adding missing ancestor %p\n", ancestor);
                     result = result->addParentInternal(context, ancestor);
                 }
             }

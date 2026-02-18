@@ -406,16 +406,6 @@ namespace proto {
     }
 
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
-        if (std::getenv("PROTO_ALLOC_DIAG")) {
-            s_getFreeCellsCalls++;
-            {
-                long long tid = diagCurrentTid();
-                std::lock_guard<std::mutex> lock(s_diagTidsMutex);
-                s_diagTids.insert(tid);
-            }
-            static std::once_flag once;
-            std::call_once(once, []{ std::atexit(diagPrintAllocCount); });
-        }
         std::unique_lock<std::recursive_mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
 
