@@ -310,15 +310,7 @@ namespace proto
             if (cache) {
                 hash_idx = (reinterpret_cast<uintptr_t>(currentPointer) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
                 if (cache[hash_idx].object == currentPointer && cache[hash_idx].name == name) {
-                    const auto* result = cache[hash_idx].result;
-                    if (name) {
-                        std::string ns;
-                        name->toUTF8String(context, ns);
-                        if (ns == "_splitext" || ns == "genericpath") {
-                             fprintf(stderr, "DEBUG: getAttribute CACHE obj=%p name=%s hash=%p res=%p\n", (void*)currentPointer, ns.c_str(), (void*)attr_hash, (void*)result);
-                        }
-                    }
-                    return result;
+                    return cache[hash_idx].result;
                 }
             }
 
@@ -327,13 +319,6 @@ namespace proto
                 auto ocValue = toImpl<const ProtoObjectCell>(currentValue);
                 if (ocValue->attributes->implHas(context, attr_hash)) {
                     const auto* result = ocValue->attributes->implGetAt(context, attr_hash);
-                    if (name) {
-                        std::string ns;
-                        name->toUTF8String(context, ns);
-                        if (ns == "_splitext" || ns == "genericpath") {
-                             fprintf(stderr, "DEBUG: getAttribute obj=%p name=%s hash=%p res=%p\n", (void*)currentPointer, ns.c_str(), (void*)attr_hash, (void*)result);
-                        }
-                    }
                     // Update Cache
                     if (cache) {
                         cache[hash_idx] = {currentPointer, result, name};

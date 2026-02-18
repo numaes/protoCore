@@ -32,7 +32,6 @@ const ProtoObject* main_test_function(
     const ProtoList* positionalParameters,
     const ProtoSparseList* keywordParametersDict
 ) {
-    std::cout << "Running all tests..." << std::endl;
     test_primitives(*c);
     test_list_operations(*c);
     test_tuple_operations(*c);
@@ -40,7 +39,6 @@ const ProtoObject* main_test_function(
     test_sparse_list_operations(*c);
     test_prototypes_and_inheritance(*c);
     test_gc_stress(*c);
-    std::cout << "All tests passed!" << std::endl;
     return PROTO_NONE;
 }
 

@@ -576,19 +576,7 @@ namespace proto {
 
         auto it = map->find(newString);
         if (it != map->end()) {
-            std::string s;
-            newString->asProtoString(context)->toUTF8String(context, s);
-            if (s == "_splitext" || s == "genericpath") {
-                fprintf(stderr, "DEBUG: internString HIT for %s. Reusing: %p (incoming was %p)\n", s.c_str(), (void*)*it, (void*)newString);
-            }
             return *it;
-        }
-        
-        // Debugging intern misses for suspected strings
-        std::string s;
-        newString->asProtoString(context)->toUTF8String(context, s);
-        if (s == "_splitext" || s == "genericpath") {
-            fprintf(stderr, "DEBUG: internString MISS for %s. New pointer: %p\n", s.c_str(), (void*)newString);
         }
 
         map->insert(newString);

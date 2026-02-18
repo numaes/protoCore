@@ -11,8 +11,8 @@ TEST(GCStressTest, LargeAllocationReclamation) {
 
     unsigned long initialHeap = space.heapSize;
     unsigned long initialFree = space.freeCellsCount;
-
-    std::cout << "Initial Heap Size: " << initialHeap << " blocks" << std::endl;
+    (void)initialHeap;
+    (void)initialFree;
 
     // Perform massive allocations that should trigger GC multiple times
     // Allocation threshold is 20% free. 
@@ -34,9 +34,6 @@ TEST(GCStressTest, LargeAllocationReclamation) {
     for(int i=0; i<5; ++i) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-
-    std::cout << "Final Heap Size: " << space.heapSize << " blocks" << std::endl;
-    std::cout << "Final Free Cells: " << space.freeCellsCount << " blocks" << std::endl;
 
     // We created 1,000,000 objects (200 * 5000).
     // 

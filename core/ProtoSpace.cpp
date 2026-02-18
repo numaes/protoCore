@@ -39,12 +39,9 @@ namespace proto {
         std::mutex s_diagTidsMutex;
         std::unordered_set<long long> s_diagTids;
         void diagPrintAllocCount() {
-            uint64_t n = s_getFreeCellsCalls.load();
-            if (n > 0) {
-                std::lock_guard<std::mutex> lock(s_diagTidsMutex);
-                std::cerr << "[proto-alloc-diag] getFreeCells total calls=" << n
-                          << " distinct_os_threads=" << s_diagTids.size() << std::endl;
-            }
+            (void)s_getFreeCellsCalls;
+            (void)s_diagTidsMutex;
+            (void)s_diagTids;
         }
         const ProtoList* buildDefaultResolutionChain(ProtoContext* ctx) {
             const ProtoList* chain = ctx->newList();
