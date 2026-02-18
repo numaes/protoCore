@@ -13,6 +13,9 @@
 
 namespace proto
 {
+    unsigned long generate_mutable_ref(ProtoContext* context) {
+        return context->space->nextMutableRef++;
+    }
 
     /**
      * @class ProtoContext

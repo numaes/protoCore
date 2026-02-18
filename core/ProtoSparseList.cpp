@@ -235,4 +235,26 @@ namespace proto
     const ProtoSparseList* ProtoSparseListImplementation::asSparseList(ProtoContext* context) const {
         return reinterpret_cast<const ProtoSparseList*>(implAsObject(context));
     }
+
+    // ProtoSparseList / ProtoSparseListIterator external API trampolines
+    bool ProtoSparseList::has(ProtoContext* context, unsigned long offset) const { return toImpl<const ProtoSparseListImplementation>(this)->implHas(context, offset); }
+    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, unsigned long offset) const {
+        const ProtoObject* result = toImpl<const ProtoSparseListImplementation>(this)->implGetAt(context, offset);
+        return result ? result : PROTO_NONE;
+    }
+    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const { return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context); }
+    const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long offset) const { return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, offset)->asSparseList(context); }
+    unsigned long ProtoSparseList::getSize(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->size; }
+    const ProtoObject* ProtoSparseList::asObject(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->implAsObject(context); }
+    const ProtoSparseListIterator* ProtoSparseList::getIterator(ProtoContext* context) const { const auto* impl = toImpl<const ProtoSparseListImplementation>(this)->implGetIterator(context); return impl ? reinterpret_cast<const ProtoSparseListIterator*>(impl->implAsObject(context)) : nullptr; }
+
+    int ProtoSparseListIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implHasNext(); }
+    unsigned long ProtoSparseListIterator::nextKey(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextKey(); }
+    const ProtoObject* ProtoSparseListIterator::nextValue(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextValue(); }
+    const ProtoSparseListIterator* ProtoSparseListIterator::advance(ProtoContext* context) {
+        if (!this) return nullptr;
+        const auto* nextImpl = toImpl<const ProtoSparseListIteratorImplementation>(this)->implAdvance(context);
+        return nextImpl ? reinterpret_cast<const ProtoSparseListIterator*>(nextImpl->implAsObject(context)) : nullptr;
+    }
+    const ProtoObject* ProtoSparseListIterator::asObject(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implAsObject(context); }
 }

@@ -39,10 +39,10 @@ This mutability model is the single most important enabler for Proto's fast garb
 
 ## Code Reference
 
-The `setAttribute` function in `Proto.cpp` perfectly illustrates the lock-free update pattern.
+The `setAttribute` function in `ProtoObject.cpp` perfectly illustrates the lock-free update pattern.
 
 ```cpp
-// Illustrative snippet from Proto.cpp
+// Illustrative snippet from ProtoObject.cpp
 void Proto::setAttribute(const ProtoObject target, const ProtoObject key, const ProtoObject value) {
     // Loop until the atomic update succeeds
     while (true) {

@@ -368,4 +368,38 @@ namespace proto {
         const ProtoList* sublist = list->getSlice(context, start, end);
         return context->newTupleFromList(sublist)->asObject(context);
     }
+
+    const ProtoObject* ProtoTuple::getFirst(ProtoContext* context) const {
+        unsigned long size = getSize(context);
+        if (size == 0) return PROTO_NONE;
+        return getAt(context, 0);
+    }
+
+    const ProtoObject* ProtoTuple::getLast(ProtoContext* context) const {
+        unsigned long size = getSize(context);
+        if (size == 0) return PROTO_NONE;
+        return getAt(context, size - 1);
+    }
+
+    bool ProtoTuple::has(ProtoContext* context, const ProtoObject* value) const {
+        unsigned long size = getSize(context);
+        for (unsigned long i = 0; i < size; ++i) {
+            const ProtoObject* elem = getAt(context, i);
+            if (elem == value) {
+                return true;
+            }
+            if (elem->isInteger(context) && value->isInteger(context)) {
+                if (Integer::compare(context, elem, value) == 0) return true;
+            } else if (elem->isString(context) && value->isString(context)) {
+                if (elem->asString(context)->cmp_to_string(context, value->asString(context)) == 0) return true;
+            }
+        }
+        return false;
+    }
+
+    // ProtoTupleIterator external API trampolines
+    int ProtoTupleIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoTupleIteratorImplementation>(this)->implHasNext(context); }
+    const ProtoObject* ProtoTupleIterator::next(ProtoContext* context) { return toImpl<ProtoTupleIteratorImplementation>(this)->implNext(context); }
+    const ProtoTupleIterator* ProtoTupleIterator::advance(ProtoContext* context) { return toImpl<ProtoTupleIteratorImplementation>(this)->implAdvance(context)->asProtoTupleIterator(context); }
+    const ProtoObject* ProtoTupleIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoTupleIteratorImplementation>(this)->implAsObject(context); }
 }

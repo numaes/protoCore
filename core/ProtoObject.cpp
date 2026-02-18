@@ -1,19 +1,129 @@
 /*
- * Proto.cpp
+ * ProtoObject.cpp
  *
- *  Created on: 2020-5-1
+ *  Created on: Aug 6, 2017
  *      Author: gamarino
+ *
+ *  This file implements ProtoObjectCell (internal representation of a standard Proto object)
+ *  and the ProtoObject external API (trampolines to implementation types).
  */
 
 #include "../headers/proto_internal.h"
-#include <random>
 
 namespace proto
 {
-    unsigned long generate_mutable_ref(ProtoContext* context) {
-        return context->space->nextMutableRef++;
+    /**
+     * @class ProtoObjectCell
+     * @brief The internal implementation of a standard, user-creatable object.
+     *
+     * This class is the concrete representation of a dynamic object in Proto.
+     * It combines the two key aspects of the object model: its own attributes
+     * and its link to a prototype chain for inheritance.
+     */
+
+    /**
+     * @brief Constructs a new object cell.
+     * @param context The current execution context.
+     * @param parent A pointer to the `ParentLink` that forms the head of the prototype chain.
+     * @param attributes A `ProtoSparseList` holding the object's own key-value attributes.
+     * @param mutable_ref A non-zero ID if this object is a mutable reference, otherwise 0.
+     */
+    ProtoObjectCell::ProtoObjectCell(
+        ProtoContext* context,
+        const ParentLinkImplementation* parent,
+        const ProtoSparseListImplementation* attributes,
+        const unsigned long mutable_ref
+    ) : Cell(context), parent(parent), mutable_ref(mutable_ref),
+        attributes(attributes ? attributes : new(context) ProtoSparseListImplementation(context, 0, PROTO_NONE, nullptr, nullptr, true))
+    {
     }
 
+    /**
+     * @brief Creates a new object that inherits from the current one.
+     * This is a key part of the immutable API. It returns a new `ProtoObjectCell`
+     * whose prototype chain includes the `newParentToAdd`.
+     * @param context The current execution context.
+     * @param newParentToAdd The object to be added as the immediate parent of the new object.
+     * @return A new `ProtoObjectCell` instance.
+     */
+    const ProtoObjectCell* ProtoObjectCell::addParent(
+        ProtoContext* context, const ProtoObject* newParentToAdd) const
+    {
+        const auto* newParentLink = new(context) ParentLinkImplementation(
+            context,
+            this->parent,
+            newParentToAdd
+        );
+
+        return new(context) ProtoObjectCell(
+            context,
+            newParentLink,
+            this->attributes,
+            0 // Snapshot or child object should not have a mutable_ref by default
+        );
+    }
+
+    /**
+     * @brief Converts this internal implementation object into its public API handle.
+     * This method sets the correct type tag on a `ProtoObjectPointer` union to create
+     * a valid `ProtoObject*` that can be returned to the user.
+     */
+    const ProtoObject* ProtoObjectCell::asObject(ProtoContext* context) const
+    {
+        ProtoObjectPointer p{};
+        p.objectCellImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_OBJECT;
+        return p.oid;
+    }
+
+    /**
+     * @brief Finalizer for the ProtoObjectCell.
+     * This object holds no external resources, so the finalizer is empty.
+     */
+    void ProtoObjectCell::finalize(ProtoContext* context) const
+    {
+    };
+
+    /**
+     * @brief Informs the GC about the cells this object holds references to.
+     * An object cell holds references to its parent link chain and its own
+     * attribute list. Both must be reported to the GC to prevent them from
+     * being prematurely collected.
+     */
+    void ProtoObjectCell::processReferences(
+        ProtoContext* context,
+        void* self,
+        void (*method)(
+            ProtoContext* context,
+            void* self,
+            const Cell* cell
+        )
+    ) const
+    {
+        // Report the head of the prototype chain.
+        if (this->parent)
+        {
+            method(context, self, this->parent);
+        }
+
+        // Report the attribute list.
+        if (this->attributes)
+        {
+            method(context, self, this->attributes);
+        }
+    }
+
+    const ProtoObject* ProtoObjectCell::implAsObject(ProtoContext* context) const
+    {
+        ProtoObjectPointer p{};
+        p.objectCellImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_OBJECT;
+        return p.oid;
+    }
+
+    //=========================================================================
+    // ProtoObject external API (trampolines to ProtoObjectCell and other impl types)
+    //=========================================================================
     const ProtoObject* ProtoObject::getPrototype(ProtoContext* context) const
     {
         ProtoObjectPointer pa{};
@@ -155,7 +265,7 @@ namespace proto
 
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks) const
     {
-        if (!this) return nullptr;
+        if (!this || !name) return nullptr;
 
         // Attribute Cache Setup
         AttributeCacheEntry* cache = nullptr;
@@ -259,6 +369,7 @@ namespace proto
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
     {
+        if (!this || !name) return this;
         // 1. Invalidate Cache
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
@@ -952,282 +1063,4 @@ namespace proto
         return Integer::bitwiseXor(context, this, other);
     }
 
-
-    //=========================================================================
-    // ProtoList API Implementation
-    //=========================================================================
-    unsigned long ProtoList::getSize(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->size; }
-    const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const {
-        const ProtoObject* result = toImpl<const ProtoListImplementation>(this)->implGetAt(context, index);
-        return result ? result : PROTO_NONE;
-    }
-    const ProtoObject* ProtoList::getFirst(ProtoContext* context) const {
-        unsigned long size = getSize(context);
-        if (size == 0) return PROTO_NONE;
-        return getAt(context, 0);
-    }
-    const ProtoObject* ProtoList::getLast(ProtoContext* context) const {
-        unsigned long size = getSize(context);
-        if (size == 0) return PROTO_NONE;
-        return getAt(context, size - 1);
-    }
-    bool ProtoList::has(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implHas(context, value); }
-    const ProtoList* ProtoList::setAt(ProtoContext* context, int index, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implSetAt(context, index, value)->asProtoList(context); }
-    const ProtoList* ProtoList::insertAt(ProtoContext* context, int index, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implInsertAt(context, index, value)->asProtoList(context); }
-    const ProtoList* ProtoList::appendFirst(ProtoContext* context, const ProtoObject* value) const { return insertAt(context, 0, value); }
-    const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context); }
-    const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* other) const {
-        const ProtoList* result = const_cast<ProtoList*>(this);
-        const ProtoListIterator* it = other->getIterator(context);
-        while (it->hasNext(context)) {
-            result = result->appendLast(context, it->next(context));
-        }
-        return result;
-    }
-    const ProtoList* ProtoList::splitFirst(ProtoContext* context, int index) const {
-        unsigned long size = getSize(context);
-        if (index <= 0) return context->newList();
-        if (index >= (int)size) return const_cast<ProtoList*>(this);
-        return getSlice(context, 0, index);
-    }
-    const ProtoList* ProtoList::splitLast(ProtoContext* context, int index) const {
-        unsigned long size = getSize(context);
-        if (index <= 0) return context->newList();
-        if (index >= (int)size) return const_cast<ProtoList*>(this);
-        return getSlice(context, size - index, size);
-    }
-    const ProtoList* ProtoList::removeFirst(ProtoContext* context) const {
-        unsigned long size = getSize(context);
-        if (size == 0) return const_cast<ProtoList*>(this);
-        return removeAt(context, 0);
-    }
-    const ProtoList* ProtoList::removeLast(ProtoContext* context) const {
-        unsigned long size = getSize(context);
-        if (size == 0) return const_cast<ProtoList*>(this);
-        return removeAt(context, size - 1);
-    }
-    const ProtoList* ProtoList::removeAt(ProtoContext* context, int index) const { return toImpl<const ProtoListImplementation>(this)->implRemoveAt(context, index)->asProtoList(context); }
-    const ProtoList* ProtoList::removeSlice(ProtoContext* context, int from, int to) const {
-        const ProtoList* result = const_cast<ProtoList*>(this);
-        // Remove from end to start to preserve indices
-        for (int i = to - 1; i >= from; --i) {
-            result = result->removeAt(context, i);
-        }
-        return result;
-    }
-    const ProtoList* ProtoList::getSlice(ProtoContext* context, int start, int end) const {
-        const ProtoList* list = context->newList();
-        for (int i = start; i < end; ++i) {
-            list = list->appendLast(context, getAt(context, i));
-        }
-        return list;
-    }
-    const ProtoObject* ProtoList::asObject(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->implAsObject(context); }
-    const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context); }
-    unsigned long ProtoList::getHash(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->getHash(context); }
-
-    //=========================================================================
-    // ProtoListIterator API Implementation
-    //=========================================================================
-    int ProtoListIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoListIteratorImplementation>(this)->implHasNext(); }
-    const ProtoObject* ProtoListIterator::next(ProtoContext* context) const { return toImpl<const ProtoListIteratorImplementation>(this)->implNext(context); }
-    const ProtoListIterator* ProtoListIterator::advance(ProtoContext* context) const { return toImpl<const ProtoListIteratorImplementation>(this)->implAdvance(context)->asProtoListIterator(context); }
-    const ProtoObject* ProtoListIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoListIteratorImplementation>(this)->implAsObject(context); }
-
-
-    //=========================================================================
-    // ProtoTuple API Implementation
-    //=========================================================================
-    const ProtoObject* ProtoTuple::getFirst(ProtoContext* context) const {
-        unsigned long size = getSize(context);
-        if (size == 0) return PROTO_NONE;
-        return getAt(context, 0);
-    }
-    
-    const ProtoObject* ProtoTuple::getLast(ProtoContext* context) const {
-        unsigned long size = getSize(context);
-        if (size == 0) return PROTO_NONE;
-        return getAt(context, size - 1);
-    }
-    
-    bool ProtoTuple::has(ProtoContext* context, const ProtoObject* value) const {
-        unsigned long size = getSize(context);
-        for (unsigned long i = 0; i < size; ++i) {
-            const ProtoObject* elem = getAt(context, i);
-            if (elem == value) {
-                return true;
-            }
-            if (elem->isInteger(context) && value->isInteger(context)) {
-                if (Integer::compare(context, elem, value) == 0) return true;
-            } else if (elem->isString(context) && value->isString(context)) {
-                if (elem->asString(context)->cmp_to_string(context, value->asString(context)) == 0) return true;
-            }
-        }
-        return false;
-    }
-
-    //=========================================================================
-    // ProtoSparseList API Implementation
-    //=========================================================================
-    bool ProtoSparseList::has(ProtoContext* context, unsigned long offset) const { return toImpl<const ProtoSparseListImplementation>(this)->implHas(context, offset); }
-    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, unsigned long offset) const {
-        const ProtoObject* result = toImpl<const ProtoSparseListImplementation>(this)->implGetAt(context, offset);
-        return result ? result : PROTO_NONE;
-    }
-    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const { return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context); }
-    const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long offset) const { return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, offset)->asSparseList(context); }
-    unsigned long ProtoSparseList::getSize(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->size; }
-    const ProtoObject* ProtoSparseList::asObject(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->implAsObject(context); }
-    const ProtoSparseListIterator* ProtoSparseList::getIterator(ProtoContext* context) const { const auto* impl = toImpl<const ProtoSparseListImplementation>(this)->implGetIterator(context); return impl ? reinterpret_cast<const ProtoSparseListIterator*>(impl->implAsObject(context)) : nullptr; }
-
-    //=========================================================================
-    // ProtoSparseListIterator API Implementation
-    //=========================================================================
-    int ProtoSparseListIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoSparseListIteratorImplementation>(this)->implHasNext(); }
-    unsigned long ProtoSparseListIterator::nextKey(ProtoContext* context) const { return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextKey(); }
-    const ProtoObject* ProtoSparseListIterator::nextValue(ProtoContext* context) const { return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextValue(); }
-    const ProtoSparseListIterator* ProtoSparseListIterator::advance(ProtoContext* context) {
-        const auto* nextImpl = toImpl<const ProtoSparseListIteratorImplementation>(this)->implAdvance(context);
-        return nextImpl ? reinterpret_cast<const ProtoSparseListIterator*>(nextImpl->implAsObject(context)) : nullptr;
-    }
-    const ProtoObject* ProtoSparseListIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoSparseListIteratorImplementation>(this)->implAsObject(context); }
-
-
-    //=========================================================================
-    // ProtoSet API Implementation
-    //=========================================================================
-    const ProtoSet* ProtoSet::add(ProtoContext* context, const ProtoObject* value) const {
-        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
-        const auto* new_list = current_list->setAt(context, value->getHash(context), value);
-        return (new (context) ProtoSetImplementation(context, new_list, new_list->getSize(context)))->asProtoSet(context);
-    }
-
-    const ProtoObject* ProtoSet::has(ProtoContext* context, const ProtoObject* value) const {
-        return toImpl<const ProtoSetImplementation>(this)->list->has(context, value->getHash(context)) ? PROTO_TRUE : PROTO_FALSE;
-    }
-
-    const ProtoSet* ProtoSet::remove(ProtoContext* context, const ProtoObject* value) const {
-        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
-        const auto* new_list = toImpl<const ProtoSparseListImplementation>(current_list)->implRemoveAt(context, value->getHash(context));
-        return (new (context) ProtoSetImplementation(context, new_list->asSparseList(context), (unsigned long)new_list->size))->asProtoSet(context);
-    }
-
-    unsigned long ProtoSet::getSize(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->size; }
-    const ProtoObject* ProtoSet::asObject(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->implAsObject(context); }
-    const ProtoSetIterator* ProtoSet::getIterator(ProtoContext* context) const {
-        const auto* list_iterator = toImpl<const ProtoSetImplementation>(this)->list->getIterator(context);
-        return (new (context) ProtoSetIteratorImplementation(context, toImpl<const ProtoSparseListIteratorImplementation>(list_iterator)))->asSetIterator(context);
-    }
-
-    //=========================================================================
-    // ProtoMultiset API Implementation
-    //=========================================================================
-    const ProtoMultiset* ProtoMultiset::add(ProtoContext* context, const ProtoObject* value) const {
-        const auto* impl = toImpl<const ProtoMultisetImplementation>(this);
-        const auto* current_list = impl->list;
-        unsigned long hash = value->getHash(context);
-        const ProtoObject* existing = current_list->getAt(context, hash);
-        long long count = (existing && existing != PROTO_NONE) ? existing->asLong(context) : 0;
-        
-        const auto* new_list = current_list->setAt(context, hash, context->fromInteger(count + 1));
-        return (new (context) ProtoMultisetImplementation(context, new_list, impl->size + 1))->asProtoMultiset(context);
-    }
-
-    const ProtoObject* ProtoMultiset::count(ProtoContext* context, const ProtoObject* value) const {
-        const auto* current_list = toImpl<const ProtoMultisetImplementation>(this)->list;
-        const ProtoObject* existing = current_list->getAt(context, value->getHash(context));
-        return (existing && existing != PROTO_NONE) ? existing : context->fromInteger(0);
-    }
-
-    const ProtoMultiset* ProtoMultiset::remove(ProtoContext* context, const ProtoObject* value) const {
-        const auto* impl = toImpl<const ProtoMultisetImplementation>(this);
-        const auto* current_list = impl->list;
-        unsigned long hash = value->getHash(context);
-        const ProtoObject* existing = current_list->getAt(context, hash);
-        if (!existing || existing == PROTO_NONE) return this;
-        
-        long long count = existing->asLong(context);
-        const ProtoSparseList* new_list;
-        if (count > 1) {
-             new_list = current_list->setAt(context, hash, context->fromInteger(count - 1));
-        } else {
-             new_list = current_list->removeAt(context, hash);
-        }
-        return (new (context) ProtoMultisetImplementation(context, new_list, impl->size - 1))->asProtoMultiset(context);
-    }
-    unsigned long ProtoMultiset::getSize(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->size; }
-    const ProtoObject* ProtoMultiset::asObject(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->implAsObject(context); }
-    const ProtoMultisetIterator* ProtoMultiset::getIterator(ProtoContext* context) const {
-        const auto* list_iterator = toImpl<const ProtoMultisetImplementation>(this)->list->getIterator(context);
-        return (new (context) ProtoMultisetIteratorImplementation(context, toImpl<const ProtoSparseListIteratorImplementation>(list_iterator)))->asMultisetIterator(context);
-    }
-
-    //=========================================================================
-    // ProtoString API
-    //=========================================================================
-    const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* str) {
-        const ProtoObject* o = context->fromUTF8String(str);
-        if (!o || o == PROTO_NONE) return nullptr;
-        
-        ProtoObjectPointer pa{};
-        pa.oid = o;
-        if (pa.op.pointer_tag == POINTER_TAG_STRING || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING)) {
-            return reinterpret_cast<const ProtoString*>(o);
-        }
-        return o->asString(context);
-    }
-    unsigned long ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
-    const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : toImpl<const ProtoStringImplementation>(this); }
-    const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
-        if (isInlineString(reinterpret_cast<const ProtoObject*>(this))) {
-            const ProtoObject* leftObj = reinterpret_cast<const ProtoObject*>(this);
-            const ProtoObject* rightObj = other->asObject(context);
-            const unsigned long leftSize = getSize(context);
-            const unsigned long rightSize = other->getSize(context);
-            const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, leftObj, rightObj, leftSize + rightSize);
-            return (new (context) ProtoStringImplementation(context, concatTuple))->asProtoString(context);
-        }
-        return toImpl<const ProtoStringImplementation>(this)->implAppendLast(context, other)->asProtoString(context);
-    }
-
-    //=========================================================================
-    // ProtoTupleIterator API Implementation
-    //=========================================================================
-    int ProtoTupleIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoTupleIteratorImplementation>(this)->implHasNext(context); }
-    const ProtoObject* ProtoTupleIterator::next(ProtoContext* context) { return toImpl<ProtoTupleIteratorImplementation>(this)->implNext(context); }
-    const ProtoTupleIterator* ProtoTupleIterator::advance(ProtoContext* context) { return toImpl<ProtoTupleIteratorImplementation>(this)->implAdvance(context)->asProtoTupleIterator(context); }
-    const ProtoObject* ProtoTupleIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoTupleIteratorImplementation>(this)->implAsObject(context); }
-
-    //=========================================================================
-    // ProtoStringIterator API Implementation
-    //=========================================================================
-    int ProtoStringIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoStringIteratorImplementation>(this)->implHasNext(context); }
-    const ProtoObject* ProtoStringIterator::next(ProtoContext* context) { return toImpl<ProtoStringIteratorImplementation>(this)->implNext(context); }
-    const ProtoStringIterator* ProtoStringIterator::advance(ProtoContext* context) { return toImpl<ProtoStringIteratorImplementation>(this)->implAdvance(context)->asProtoStringIterator(context); }
-    const ProtoObject* ProtoStringIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoStringIteratorImplementation>(this)->implAsObject(context); }
-
-    //=========================================================================
-    // ProtoSetIterator API Implementation
-    //=========================================================================
-    int ProtoSetIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoSetIteratorImplementation>(this)->implHasNext(context); }
-    const ProtoObject* ProtoSetIterator::next(ProtoContext* context) const { return const_cast<ProtoSetIteratorImplementation*>(toImpl<const ProtoSetIteratorImplementation>(this))->implNext(context); }
-    const ProtoSetIterator* ProtoSetIterator::advance(ProtoContext* context) const {
-        const auto* impl = toImpl<const ProtoSetIteratorImplementation>(this);
-        const ProtoSparseListIteratorImplementation* advanced = const_cast<ProtoSparseListIteratorImplementation*>(impl->iterator)->implAdvance(context);
-        return (new (context) ProtoSetIteratorImplementation(context, advanced))->asSetIterator(context);
-    }
-    const ProtoObject* ProtoSetIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoSetIteratorImplementation>(this)->implAsObject(context); }
-
-    //=========================================================================
-    // ProtoMultisetIterator API Implementation
-    //=========================================================================
-    int ProtoMultisetIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoMultisetIteratorImplementation>(this)->implHasNext(context); }
-    const ProtoObject* ProtoMultisetIterator::next(ProtoContext* context) const { return const_cast<ProtoMultisetIteratorImplementation*>(toImpl<const ProtoMultisetIteratorImplementation>(this))->implNext(context); }
-    const ProtoMultisetIterator* ProtoMultisetIterator::advance(ProtoContext* context) const {
-        const auto* impl = toImpl<const ProtoMultisetIteratorImplementation>(this);
-        const ProtoSparseListIteratorImplementation* advanced = const_cast<ProtoSparseListIteratorImplementation*>(impl->iterator)->implAdvance(context);
-        return (new (context) ProtoMultisetIteratorImplementation(context, advanced))->asMultisetIterator(context);
-    }
-    const ProtoObject* ProtoMultisetIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoMultisetIteratorImplementation>(this)->implAsObject(context); }
-
-}
+} // namespace proto

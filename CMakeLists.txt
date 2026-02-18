@@ -33,7 +33,6 @@ add_library(protoCore SHARED
     core/Double.cpp
     core/LargeInteger.cpp
     core/ParentLink.cpp
-    core/Proto.cpp
     core/ProtoByteBuffer.cpp
     core/ProtoContext.cpp
     core/ProtoList.cpp
@@ -41,7 +40,7 @@ add_library(protoCore SHARED
     core/ModuleProvider.cpp
     core/ModuleResolver.cpp
     core/ProtoMethodCell.cpp
-    core/ProtoObjectCell.cpp
+    core/ProtoObject.cpp
     core/ProviderRegistry.cpp
     core/ProtoSpace.cpp
     core/ProtoSparseList.cpp

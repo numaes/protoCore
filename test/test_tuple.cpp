@@ -78,3 +78,23 @@ TEST_F(TupleTest, GetSlice) {
     const proto::ProtoTuple* slice2 = (const proto::ProtoTuple*)tuple->getSlice(context, 2, 5);
     ASSERT_EQ(slice, slice2);
 }
+
+TEST_F(TupleTest, EmptyTupleGetFirstGetLast) {
+    const proto::ProtoTuple* tuple = context->newTuple();
+    ASSERT_EQ(tuple->getSize(context), 0);
+    ASSERT_EQ(tuple->getFirst(context), PROTO_NONE);
+    ASSERT_EQ(tuple->getLast(context), PROTO_NONE);
+}
+
+TEST_F(TupleTest, TupleHas) {
+    const proto::ProtoList* list = context->newList();
+    list = list->appendLast(context, context->fromInteger(10));
+    list = list->appendLast(context, context->fromInteger(20));
+    const proto::ProtoTuple* tuple = context->newTupleFromList(list);
+    const proto::ProtoObject* ten = context->fromInteger(10);
+    const proto::ProtoObject* twenty = context->fromInteger(20);
+    const proto::ProtoObject* ninety = context->fromInteger(90);
+    ASSERT_TRUE(tuple->has(context, ten));
+    ASSERT_TRUE(tuple->has(context, twenty));
+    ASSERT_FALSE(tuple->has(context, ninety));
+}

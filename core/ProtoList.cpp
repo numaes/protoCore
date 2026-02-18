@@ -284,6 +284,83 @@ namespace proto {
             callback(context, callback_data, (const Cell*)base);
         }
     }
+
+    // ProtoList / ProtoListIterator external API trampolines
+    unsigned long ProtoList::getSize(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->size; }
+    const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const {
+        const ProtoObject* result = toImpl<const ProtoListImplementation>(this)->implGetAt(context, index);
+        return result ? result : PROTO_NONE;
+    }
+    const ProtoObject* ProtoList::getFirst(ProtoContext* context) const {
+        unsigned long size = getSize(context);
+        if (size == 0) return PROTO_NONE;
+        return getAt(context, 0);
+    }
+    const ProtoObject* ProtoList::getLast(ProtoContext* context) const {
+        unsigned long size = getSize(context);
+        if (size == 0) return PROTO_NONE;
+        return getAt(context, size - 1);
+    }
+    bool ProtoList::has(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implHas(context, value); }
+    const ProtoList* ProtoList::setAt(ProtoContext* context, int index, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implSetAt(context, index, value)->asProtoList(context); }
+    const ProtoList* ProtoList::insertAt(ProtoContext* context, int index, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implInsertAt(context, index, value)->asProtoList(context); }
+    const ProtoList* ProtoList::appendFirst(ProtoContext* context, const ProtoObject* value) const { return insertAt(context, 0, value); }
+    const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context); }
+    const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* other) const {
+        const ProtoList* result = const_cast<ProtoList*>(this);
+        const ProtoListIterator* it = other->getIterator(context);
+        while (it->hasNext(context)) {
+            result = result->appendLast(context, it->next(context));
+        }
+        return result;
+    }
+    const ProtoList* ProtoList::splitFirst(ProtoContext* context, int index) const {
+        unsigned long size = getSize(context);
+        if (index <= 0) return context->newList();
+        if (index >= (int)size) return const_cast<ProtoList*>(this);
+        return getSlice(context, 0, index);
+    }
+    const ProtoList* ProtoList::splitLast(ProtoContext* context, int index) const {
+        unsigned long size = getSize(context);
+        if (index <= 0) return context->newList();
+        if (index >= (int)size) return const_cast<ProtoList*>(this);
+        return getSlice(context, size - index, size);
+    }
+    const ProtoList* ProtoList::removeFirst(ProtoContext* context) const {
+        unsigned long size = getSize(context);
+        if (size == 0) return const_cast<ProtoList*>(this);
+        return removeAt(context, 0);
+    }
+    const ProtoList* ProtoList::removeLast(ProtoContext* context) const {
+        unsigned long size = getSize(context);
+        if (size == 0) return const_cast<ProtoList*>(this);
+        return removeAt(context, size - 1);
+    }
+    const ProtoList* ProtoList::removeAt(ProtoContext* context, int index) const { return toImpl<const ProtoListImplementation>(this)->implRemoveAt(context, index)->asProtoList(context); }
+    const ProtoList* ProtoList::removeSlice(ProtoContext* context, int from, int to) const {
+        const ProtoList* result = const_cast<ProtoList*>(this);
+        // Remove from end to start to preserve indices
+        for (int i = to - 1; i >= from; --i) {
+            result = result->removeAt(context, i);
+        }
+        return result;
+    }
+    const ProtoList* ProtoList::getSlice(ProtoContext* context, int start, int end) const {
+        const ProtoList* list = context->newList();
+        for (int i = start; i < end; ++i) {
+            list = list->appendLast(context, getAt(context, i));
+        }
+        return list;
+    }
+    const ProtoObject* ProtoList::asObject(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->implAsObject(context); }
+    const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context); }
+    unsigned long ProtoList::getHash(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->getHash(context); }
+
+    int ProtoListIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoListIteratorImplementation>(this)->implHasNext(); }
+    const ProtoObject* ProtoListIterator::next(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoListIteratorImplementation>(this)->implNext(context); }
+    const ProtoListIterator* ProtoListIterator::advance(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoListIteratorImplementation>(this)->implAdvance(context)->asProtoListIterator(context); }
+    const ProtoObject* ProtoListIterator::asObject(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoListIteratorImplementation>(this)->implAsObject(context); }
+
     const ProtoList* ProtoList::multiply(ProtoContext* context, const ProtoObject* count) const {
         if (!count->isInteger(context)) return nullptr;
         long long n = count->asLong(context);

@@ -60,4 +60,39 @@ namespace proto {
     void ProtoSetIteratorImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
         if (iterator) method(context, self, iterator);
     }
+
+    // ProtoSet / ProtoSetIterator external API trampolines
+    const ProtoSet* ProtoSet::add(ProtoContext* context, const ProtoObject* value) const {
+        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
+        const auto* new_list = current_list->setAt(context, value->getHash(context), value);
+        return (new (context) ProtoSetImplementation(context, new_list, new_list->getSize(context)))->asProtoSet(context);
+    }
+
+    const ProtoObject* ProtoSet::has(ProtoContext* context, const ProtoObject* value) const {
+        return toImpl<const ProtoSetImplementation>(this)->list->has(context, value->getHash(context)) ? PROTO_TRUE : PROTO_FALSE;
+    }
+
+    const ProtoSet* ProtoSet::remove(ProtoContext* context, const ProtoObject* value) const {
+        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
+        const auto* new_list = toImpl<const ProtoSparseListImplementation>(current_list)->implRemoveAt(context, value->getHash(context));
+        return (new (context) ProtoSetImplementation(context, new_list->asSparseList(context), (unsigned long)new_list->size))->asProtoSet(context);
+    }
+
+    unsigned long ProtoSet::getSize(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->size; }
+    const ProtoObject* ProtoSet::asObject(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->implAsObject(context); }
+    const ProtoSetIterator* ProtoSet::getIterator(ProtoContext* context) const {
+        const auto* list_iterator = toImpl<const ProtoSetImplementation>(this)->list->getIterator(context);
+        if (!list_iterator) return nullptr;
+        return (new (context) ProtoSetIteratorImplementation(context, toImpl<const ProtoSparseListIteratorImplementation>(list_iterator)))->asSetIterator(context);
+    }
+
+    int ProtoSetIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSetIteratorImplementation>(this)->implHasNext(context); }
+    const ProtoObject* ProtoSetIterator::next(ProtoContext* context) const { if (!this) return nullptr; return const_cast<ProtoSetIteratorImplementation*>(toImpl<const ProtoSetIteratorImplementation>(this))->implNext(context); }
+    const ProtoSetIterator* ProtoSetIterator::advance(ProtoContext* context) const {
+        if (!this) return nullptr;
+        const auto* impl = toImpl<const ProtoSetIteratorImplementation>(this);
+        const ProtoSparseListIteratorImplementation* advanced = const_cast<ProtoSparseListIteratorImplementation*>(impl->iterator)->implAdvance(context);
+        return (new (context) ProtoSetIteratorImplementation(context, advanced))->asSetIterator(context);
+    }
+    const ProtoObject* ProtoSetIterator::asObject(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoSetIteratorImplementation>(this)->implAsObject(context); }
 }

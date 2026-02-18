@@ -29,59 +29,59 @@ A comprehensive audit of `protoCore.h` has been completed, verifying that all de
 1. ✅ `getAttributes(ProtoContext* context) const`
    - Returns all attributes including inherited ones
    - Merges parent attributes with own attributes
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 2. ✅ `getOwnAttributes(ProtoContext* context) const`
    - Returns only object's own attributes (not inherited)
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 3. ✅ `hasOwnAttribute(ProtoContext* context, const ProtoString* name) const`
    - Checks if object has own attribute (not inherited)
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **Type Checking:**
 4. ✅ `isFloat(ProtoContext* context) const`
    - Alias for isDouble (Float and Double are same in protoCore)
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 5. ✅ `isDate(ProtoContext* context) const`
    - Checks if object is a Date embedded value
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 6. ✅ `isTimestamp(ProtoContext* context) const`
    - Checks if object is a Timestamp embedded value
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 7. ✅ `isTimeDelta(ProtoContext* context) const`
    - Checks if object is a TimeDelta embedded value
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **Type Conversion:**
 8. ✅ `asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day) const`
    - Extracts date components from embedded date value
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 9. ✅ `asTimestamp(ProtoContext* context) const`
    - Extracts timestamp value from embedded timestamp
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 10. ✅ `asTimeDelta(ProtoContext* context) const`
     - Extracts timedelta value from embedded timedelta
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **Arithmetic Operations:**
 11. ✅ `negate(ProtoContext* context) const`
     - Returns negated value (subtract from zero)
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 12. ✅ `abs(ProtoContext* context) const`
     - Returns absolute value (for integers and doubles)
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 13. ✅ `bitwiseXor(ProtoContext* context, const ProtoObject* other) const`
     - Bitwise XOR operation
     - Delegates to Integer::bitwiseXor
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 ---
 
@@ -90,45 +90,45 @@ A comprehensive audit of `protoCore.h` has been completed, verifying that all de
 **Accessors:**
 1. ✅ `getFirst(ProtoContext* context) const`
    - Returns first element (or PROTO_NONE if empty)
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 2. ✅ `getLast(ProtoContext* context) const`
    - Returns last element (or PROTO_NONE if empty)
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **Modifiers:**
 3. ✅ `appendFirst(ProtoContext* context, const ProtoObject* value) const`
    - Inserts value at beginning (delegates to insertAt)
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 4. ✅ `extend(ProtoContext* context, const ProtoList* other) const`
    - Appends all elements from other list
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 5. ✅ `splitFirst(ProtoContext* context, int index) const`
    - Returns first N elements as new list
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 6. ✅ `splitLast(ProtoContext* context, int index) const`
    - Returns last N elements as new list
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 7. ✅ `removeFirst(ProtoContext* context) const`
    - Removes first element
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 8. ✅ `removeLast(ProtoContext* context) const`
    - Removes last element
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 9. ✅ `removeSlice(ProtoContext* context, int from, int to) const`
    - Removes range of elements
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **Utilities:**
 10. ✅ `getHash(ProtoContext* context) const`
     - Returns hash value (delegates to implementation)
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 ---
 
@@ -189,16 +189,16 @@ A comprehensive audit of `protoCore.h` has been completed, verifying that all de
 **Accessors:**
 1. ✅ `getFirst(ProtoContext* context) const`
    - Returns first element (or PROTO_NONE if empty)
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 2. ✅ `getLast(ProtoContext* context) const`
    - Returns last element (or PROTO_NONE if empty)
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **Search:**
 3. ✅ `has(ProtoContext* context, const ProtoObject* value) const`
    - Checks if tuple contains value
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 ---
 
@@ -207,67 +207,67 @@ A comprehensive audit of `protoCore.h` has been completed, verifying that all de
 **ProtoListIterator:**
 1. ✅ `asObject(ProtoContext* context) const`
    - Converts iterator to ProtoObject handle
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **ProtoTupleIterator:**
 2. ✅ `hasNext(ProtoContext* context) const`
    - Checks if iterator has more elements
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 3. ✅ `next(ProtoContext* context)`
    - Returns next element and advances
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 4. ✅ `advance(ProtoContext* context)`
    - Returns new iterator at next position
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 5. ✅ `asObject(ProtoContext* context) const`
    - Converts iterator to ProtoObject handle
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **ProtoStringIterator:**
 6. ✅ `hasNext(ProtoContext* context) const`
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 7. ✅ `next(ProtoContext* context)`
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 8. ✅ `advance(ProtoContext* context)`
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 9. ✅ `asObject(ProtoContext* context) const`
-   - Location: `core/Proto.cpp`
+   - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **ProtoSparseListIterator:**
 10. ✅ `asObject(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **ProtoSetIterator:**
 11. ✅ `hasNext(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 12. ✅ `next(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 13. ✅ `advance(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 14. ✅ `asObject(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 **ProtoMultisetIterator:**
 15. ✅ `hasNext(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 16. ✅ `next(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 17. ✅ `advance(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 18. ✅ `asObject(ProtoContext* context) const`
-    - Location: `core/Proto.cpp`
+    - Location: `core/ (type-specific: ProtoObject.cpp, ProtoList.cpp, etc.)`
 
 ---
 
@@ -275,7 +275,7 @@ A comprehensive audit of `protoCore.h` has been completed, verifying that all de
 
 ### Files Modified
 
-1. **core/Proto.cpp** (+200 lines)
+1. **core/ProtoObject.cpp** and type-specific trampoline files (ProtoList.cpp, ProtoTuple.cpp, ProtoSparseList.cpp, ProtoSet.cpp, ProtoMultiset.cpp, ProtoString.cpp)
    - Added 13 ProtoObject methods
    - Added 9 ProtoList methods
    - Added 3 ProtoTuple methods

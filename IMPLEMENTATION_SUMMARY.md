@@ -25,11 +25,11 @@ const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
 ---
 
 ### 2. ProtoObject::asSparseList(ProtoContext*) const
-**Location:** `headers/protoCore.h` (line 121) and `core/Proto.cpp` (line 275)
+**Location:** `headers/protoCore.h` and `core/ProtoObject.cpp` (trampolines per type)
 
 **Purpose:** Type-safe conversion to ProtoSparseList
 
-**Status:** Already existed in implementation (line 275 in Proto.cpp)
+**Status:** Already existed in implementation (ProtoObject.cpp)
 
 **Added:** 
 - Forward declaration of ProtoExternalPointer in protoCore.h to fix declaration order issues
@@ -70,7 +70,7 @@ void* ProtoExternalPointer::getPointer(ProtoContext* context) const {
 ---
 
 ### 5. ProtoObject::asExternalPointer(ProtoContext*) const (Bonus)
-**Location:** `headers/protoCore.h` (line 128) and `core/Proto.cpp` (line 276)
+**Location:** `headers/protoCore.h` and `core/ProtoObject.cpp`
 
 **Purpose:** Type-safe conversion from ProtoObject to ProtoExternalPointer
 
@@ -117,7 +117,7 @@ const ProtoExternalPointer* ProtoObject::asExternalPointer(ProtoContext* context
 - Added `getHash()` method implementation
 - All delegate to ProtoExternalPointerImplementation counterparts
 
-### Proto.cpp
+### ProtoObject.cpp and type-specific trampolines
 - Added `asExternalPointer()` method implementation
 - Follows the same type-conversion pattern as other as* methods
 

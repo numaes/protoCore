@@ -599,4 +599,35 @@ namespace proto {
         // For now, return PROTO_NONE to avoid the "Objects are not integer types for modulo" crash.
         return PROTO_NONE;
     }
+
+    // ProtoString / ProtoStringIterator external API trampolines (from public API)
+    const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* str) {
+        const ProtoObject* o = context->fromUTF8String(str);
+        if (!o || o == PROTO_NONE) return nullptr;
+
+        ProtoObjectPointer pa{};
+        pa.oid = o;
+        if (pa.op.pointer_tag == POINTER_TAG_STRING || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING)) {
+            return reinterpret_cast<const ProtoString*>(o);
+        }
+        return o->asString(context);
+    }
+    unsigned long ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
+    const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : toImpl<const ProtoStringImplementation>(this); }
+    const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
+        if (isInlineString(reinterpret_cast<const ProtoObject*>(this))) {
+            const ProtoObject* leftObj = reinterpret_cast<const ProtoObject*>(this);
+            const ProtoObject* rightObj = other->asObject(context);
+            const unsigned long leftSize = getSize(context);
+            const unsigned long rightSize = other->getSize(context);
+            const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, leftObj, rightObj, leftSize + rightSize);
+            return (new (context) ProtoStringImplementation(context, concatTuple))->asProtoString(context);
+        }
+        return toImpl<const ProtoStringImplementation>(this)->implAppendLast(context, other)->asProtoString(context);
+    }
+
+    int ProtoStringIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoStringIteratorImplementation>(this)->implHasNext(context); }
+    const ProtoObject* ProtoStringIterator::next(ProtoContext* context) { return toImpl<ProtoStringIteratorImplementation>(this)->implNext(context); }
+    const ProtoStringIterator* ProtoStringIterator::advance(ProtoContext* context) { return toImpl<ProtoStringIteratorImplementation>(this)->implAdvance(context)->asProtoStringIterator(context); }
+    const ProtoObject* ProtoStringIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoStringIteratorImplementation>(this)->implAsObject(context); }
 }

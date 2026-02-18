@@ -663,7 +663,7 @@ ProtoCore meets or exceeds the standards for:
 - Iterators: 5 methods (asObject for all iterator types, hasNext/next/advance for TupleIterator and StringIterator)
 
 **Files Modified:**
-- `core/Proto.cpp` (+200 lines)
+- `core/ProtoObject.cpp` and type-specific trampoline files (ProtoList.cpp, ProtoTuple.cpp, etc.)
 - `core/ProtoString.cpp` (+100 lines)
 - `core/ProtoTuple.cpp` (+10 lines)
 - `headers/proto_internal.h` (+2 lines)

@@ -80,3 +80,20 @@ TEST_F(ListTest, GetSlice) {
     ASSERT_EQ(slice->getAt(context, 1)->asLong(context), 3);
     ASSERT_EQ(slice->getAt(context, 2)->asLong(context), 4);
 }
+
+TEST_F(ListTest, EmptyListGetFirstGetLast) {
+    const proto::ProtoList* list = context->newList();
+    ASSERT_EQ(list->getSize(context), 0);
+    ASSERT_EQ(list->getFirst(context), PROTO_NONE);
+    ASSERT_EQ(list->getLast(context), PROTO_NONE);
+}
+
+TEST_F(ListTest, ListIteratorExhaustion) {
+    const proto::ProtoList* list = context->newList();
+    list = list->appendLast(context, context->fromInteger(1));
+    const proto::ProtoListIterator* it = list->getIterator(context);
+    ASSERT_TRUE(it->hasNext(context));
+    ASSERT_NE(it->next(context), nullptr);
+    it = it->advance(context);
+    ASSERT_FALSE(it->hasNext(context));
+}
