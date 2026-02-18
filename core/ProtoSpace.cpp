@@ -184,6 +184,29 @@ namespace proto {
                     }
                 }
 
+                // Scan Tuple Interner Tree
+                auto scanTupleInternTree = [&](auto self, const TupleDictionary* node) -> void {
+                    if (!node) return;
+                    if (node->key) addRootObj(reinterpret_cast<const ProtoObject*>(node->key));
+                    if (node->previous) self(self, node->previous);
+                    if (node->next) self(self, node->next);
+                    // The node itself is a Cell, it must be added to workList to be reachable/marked
+                    workList.push_back(node);
+                };
+                scanTupleInternTree(scanTupleInternTree, space->tupleRoot.load());
+
+                // Scan String Interner Map
+                if (space->stringInternMap) {
+                    auto* internSet = static_cast<StringInternSet*>(space->stringInternMap);
+                    for (const ProtoStringImplementation* sImpl : *internSet) {
+                        if (sImpl) {
+                            workList.push_back(sImpl);
+                            // Also ensure its dependencies are marked (though sImpl->processReferences should handle it,
+                            // we add it to workList so it's marked as a root).
+                        }
+                    }
+                }
+
                 if (space->mutableRoot.load()) addRootObj(reinterpret_cast<const ProtoObject*>(space->mutableRoot.load()));
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
@@ -282,8 +305,12 @@ namespace proto {
         parkedThreads(0),
         blocksPerAllocation(8192),  // Larger default batch to reduce getFreeCells calls during script load (was 1024; 1151 calls observed for multithread benchmark)
         heapSize(0),
+        maxHeapSize(0),
         freeCellsCount(0),
         gcSleepMilliseconds(10),
+        blockOnNoMemory(0),
+        tupleRoot(nullptr),
+        stringInternMap(nullptr),
         dirtySegments(nullptr),
         freeCells(nullptr),
         gcStarted(false),

@@ -538,28 +538,6 @@ namespace proto {
 #include <unordered_set>
 
 namespace proto {
-    struct StringInternHash {
-        std::size_t operator()(const ProtoStringImplementation* s) const {
-            // Context is not easily available here for getHash...
-            // But getHash implementation for String just delegates to tuple->getHash(context).
-            // We need context to compute hash OR assume hash is cached/stable?
-            // Tuple hash is computed from content.
-            // Problem: unordered_set calls hasher without context.
-            // But s->tuple pointer is stable and unique for unique content (because Tuple is interned).
-            // So we can just hash the tuple POINTER!
-            return std::hash<const void*>{}(s->tuple);
-        }
-    };
-
-    struct StringInternEqual {
-        bool operator()(const ProtoStringImplementation* a, const ProtoStringImplementation* b) const {
-            // Since tuples are interned, identical strings MUST share the same tuple pointer.
-            return a->tuple == b->tuple;
-        }
-    };
-
-    using StringInternSet = std::unordered_set<const ProtoStringImplementation*, StringInternHash, StringInternEqual>;
-
     void initStringInternMap(ProtoSpace* space) {
         space->stringInternMap = new StringInternSet();
     }

@@ -10,6 +10,7 @@
 
 #include "protoCore.h"
 #include <thread>
+#include <unordered_set>
 #include <memory>
 #include <string>
 #include <algorithm>
@@ -599,6 +600,20 @@ namespace proto {
         int implCompare(ProtoContext* context, const ProtoString* other) const;
         const ProtoStringIteratorImplementation* implGetIterator(ProtoContext* context) const;
     };
+
+    struct StringInternHash {
+        size_t operator()(const ProtoStringImplementation* s) const {
+            return std::hash<const void*>{}(s->tuple);
+        }
+    };
+
+    struct StringInternEqual {
+        bool operator()(const ProtoStringImplementation* a, const ProtoStringImplementation* b) const {
+            return a->tuple == b->tuple;
+        }
+    };
+
+    using StringInternSet = std::unordered_set<const ProtoStringImplementation*, StringInternHash, StringInternEqual>;
 
     class ProtoTupleImplementation : public Cell {
     public:

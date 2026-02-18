@@ -192,7 +192,14 @@ namespace proto {
             TupleDictionary* current = space->tupleRoot.load();
             TupleDictionary* parent = nullptr;
             
+            if (std::getenv("PROTO_ENV_DIAG")) {
+                std::cerr << "TUPLE_INTERN: interning raw=" << (void*)newTuple << std::endl;
+            }
+
             while (current) {
+                if (std::getenv("PROTO_ENV_DIAG")) {
+                    std::cerr << "TUPLE_INTERN: comparing against key=" << (void*)current->key << " node=" << (void*)current << std::endl;
+                }
                 int cmp = compareTuples(context, newTuple, current->key);
                 if (cmp == 0) {
                     return current->key; // Found existing tuple
@@ -206,10 +213,16 @@ namespace proto {
             }
 
             // Not found, insert new node
+            if (std::getenv("PROTO_ENV_DIAG")) {
+                std::cerr << "TUPLE_INTERN: inserting new=" << (void*)newTuple << " under parent=" << (void*)parent << std::endl;
+            }
             TupleDictionary* newNode = new(context) TupleDictionary(context, newTuple, nullptr, nullptr);
             if (!parent) {
                 space->tupleRoot.store(newNode);
             } else {
+                if (std::getenv("PROTO_ENV_DIAG")) {
+                    std::cerr << "TUPLE_INTERN: re-comparing against parent->key=" << (void*)parent->key << std::endl;
+                }
                 int cmp = compareTuples(context, newTuple, parent->key);
                 if (cmp < 0) {
                     parent->previous = newNode;
@@ -240,6 +253,9 @@ namespace proto {
         unsigned long size
     ) : Cell(context), actual_size(size){
         if (slot_values) {
+            // We MUST NOT copy more than TUPLE_SIZE pointers.
+            // If size > TUPLE_SIZE, this is an internal node where slots contain child tuples.
+            // These child tuples are already prepared in slot_values.
             std::memcpy(this->slot, slot_values, TUPLE_SIZE * sizeof(ProtoObject*));
         } else {
             std::memset(this->slot, 0, TUPLE_SIZE * sizeof(ProtoObject*));
