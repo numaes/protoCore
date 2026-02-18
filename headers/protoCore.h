@@ -540,6 +540,8 @@ namespace proto
         ProtoContext* previous;
         ProtoSpace* space;
         ProtoThread* thread;
+        char* currentFileName;
+        int currentLineNumber;
         
         // Variables that can be captured by closures, managed by the GC.
         const ProtoSparseList* closureLocals;
