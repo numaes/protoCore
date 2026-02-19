@@ -567,6 +567,12 @@ namespace proto
         return pa.op.pointer_tag == POINTER_TAG_METHOD ? toImpl<const ProtoMethodCell>(this)->method : nullptr;
     }
 
+    const ProtoObject* ProtoObject::asMethodSelf(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_METHOD ? toImpl<const ProtoMethodCell>(this)->implGetSelf(context) : nullptr;
+    }
+
     bool ProtoObject::isNone(ProtoContext* context) const { return this == PROTO_NONE; }
     bool ProtoObject::isBoolean(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_BOOLEAN; }
     bool ProtoObject::isInteger(ProtoContext* context) const { return proto::isInteger(this); }

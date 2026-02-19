@@ -140,6 +140,7 @@ namespace proto
         /** If this object is a ProtoExternalBuffer, returns the raw segment pointer; otherwise nullptr. Stable until the object is collected (no compaction). */
         void* getRawPointerIfExternalBuffer(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
+        const ProtoObject* asMethodSelf(ProtoContext* context) const;
 
         //- Comparison
         int compare(ProtoContext* context, const ProtoObject* other) const;
