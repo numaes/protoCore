@@ -413,6 +413,9 @@ namespace proto {
     }
 
     const ProtoObject* ProtoSpace::getImportModule(ProtoContext* context, const char* logicalPath, const char* attrName2create) {
+        if (std::getenv("PROTO_RESOLVE_DIAG")) {
+            fprintf(stderr, "TRACE: getImportModule(%s)\n", logicalPath);
+        }
         return getImportModuleImpl(this, context, logicalPath, attrName2create);
     }
 
@@ -518,7 +521,9 @@ namespace proto {
         if (result != 0) {
             if (this->outOfMemoryCallback)
                 (this->outOfMemoryCallback(nullptr));
-            std::cerr << "NO MORE MEMORY!!: " << result << std::endl;
+            if (std::getenv("PROTO_ENV_DIAG")) {
+                std::cerr << "NO MORE MEMORY!!: " << result << std::endl;
+            }
             exit(-1);
         }
 

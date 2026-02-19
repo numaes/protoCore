@@ -20,7 +20,9 @@ namespace proto {
             try {
                 method(context, reinterpret_cast<const ProtoObject*>(context->thread), nullptr, args, kwargs);
             } catch (const std::exception& e) {
-                std::cerr << "Uncaught exception in thread: " << e.what() << std::endl;
+                if (std::getenv("PROTO_THREAD_DIAG")) {
+                    std::cerr << "Uncaught exception in thread: " << e.what() << std::endl;
+                }
             }
             context->space->runningThreads--;
             {

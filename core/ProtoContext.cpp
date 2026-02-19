@@ -212,7 +212,9 @@ namespace proto
         {
             if (this && this->space->outOfMemoryCallback)
                 (this->space->outOfMemoryCallback(this));
-            std::cerr << "NO MORE MEMORY!!: " << std::endl;
+            if (std::getenv("PROTO_ENV_DIAG")) {
+                std::cerr << "NO MORE MEMORY!!: " << std::endl;
+            }
             exit(-1);
         }
     }

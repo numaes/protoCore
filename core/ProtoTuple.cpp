@@ -192,14 +192,7 @@ namespace proto {
             TupleDictionary* current = space->tupleRoot.load();
             TupleDictionary* parent = nullptr;
             
-            if (std::getenv("PROTO_ENV_DIAG")) {
-                std::cerr << "TUPLE_INTERN: interning raw=" << (void*)newTuple << std::endl;
-            }
-
             while (current) {
-                if (std::getenv("PROTO_ENV_DIAG")) {
-                    std::cerr << "TUPLE_INTERN: comparing against key=" << (void*)current->key << " node=" << (void*)current << std::endl;
-                }
                 int cmp = compareTuples(context, newTuple, current->key);
                 if (cmp == 0) {
                     return current->key; // Found existing tuple
@@ -213,16 +206,10 @@ namespace proto {
             }
 
             // Not found, insert new node
-            if (std::getenv("PROTO_ENV_DIAG")) {
-                std::cerr << "TUPLE_INTERN: inserting new=" << (void*)newTuple << " under parent=" << (void*)parent << std::endl;
-            }
             TupleDictionary* newNode = new(context) TupleDictionary(context, newTuple, nullptr, nullptr);
             if (!parent) {
                 space->tupleRoot.store(newNode);
             } else {
-                if (std::getenv("PROTO_ENV_DIAG")) {
-                    std::cerr << "TUPLE_INTERN: re-comparing against parent->key=" << (void*)parent->key << std::endl;
-                }
                 int cmp = compareTuples(context, newTuple, parent->key);
                 if (cmp < 0) {
                     parent->previous = newNode;

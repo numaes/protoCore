@@ -64,9 +64,26 @@ On Linux, typical system paths are `/usr/local/lib` and `/usr/local/include` whe
 
 ## Linux
 
-### Option A: Install from package (.deb or .rpm)
+### Option A: Clean TGZ (runtime only, recommended for distribution)
 
-Packages are generated with **CPack** after a successful build.
+To create a **minimal package** containing only the shared library and public header (no test frameworks):
+
+```bash
+cmake -B build -S .
+cmake --build build --target protoCore
+cmake --build build --target package_protocore_only
+```
+
+This produces `build/protoCore-<version>-Linux.tar.gz` with layout:
+
+- `protoCore-<version>-Linux/include/protoCore.h`
+- `protoCore-<version>-Linux/lib/libprotoCore.so.<soversion>`
+
+Use this for distribution or embedding; GTest/GMock are not included.
+
+### Option B: Install from package (.deb or .rpm)
+
+Packages are generated with **CPack** after a successful build. Only the **protoCore** component is packed (no test frameworks).
 
 1. **Build and package:**
 
@@ -74,8 +91,10 @@ Packages are generated with **CPack** after a successful build.
    cmake -B build -S .
    cmake --build build --target protoCore
    cd build
-   cpack
+   cpack -G TGZ
    ```
+
+   For a minimal TGZ you can instead use the `package_protocore_only` target (see Option A).
 
    This produces, among others:
 
@@ -104,7 +123,7 @@ Packages are generated with **CPack** after a successful build.
    sudo rpm -e protoCore        # Fedora/RHEL
    ```
 
-### Option B: Build and install from source
+### Option C: Build and install from source (Linux)
 
 See **Building from Source** and **Installing the Built Library** above. After install, you may need to run `sudo ldconfig` (Linux) so the dynamic linker finds the library.
 

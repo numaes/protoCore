@@ -159,10 +159,28 @@ else()
     endif()
 endif()
 
-# Only pack the library component by default
+# Pack only the runtime library and public header (no test frameworks)
 set(CPACK_COMPONENTS_ALL protoCore)
-
+# Ensure component-based install is used when packaging
+set(CPACK_COMPONENT_PROTOCORE_DISPLAY_NAME "protoCore runtime")
+set(CPACK_COMPONENT_PROTOCORE_DESCRIPTION "Shared library and public header for embedding")
 include(CPack)
+
+# Optional: custom target to create a clean TGZ with only protoCore (no test frameworks)
+# Copies built library and public header into a staging dir and tars it (avoids install manifest).
+set(PACKAGE_STAGING_DIR "${CMAKE_BINARY_DIR}/package_staging")
+set(PACKAGE_TOP_DIR "protoCore-${PROJECT_VERSION}-Linux")
+add_custom_target(package_protocore_only
+    COMMAND ${CMAKE_COMMAND} -E rm -rf "${PACKAGE_STAGING_DIR}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${PACKAGE_STAGING_DIR}/${PACKAGE_TOP_DIR}/include"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${PACKAGE_STAGING_DIR}/${PACKAGE_TOP_DIR}/lib"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:protoCore>" "${PACKAGE_STAGING_DIR}/${PACKAGE_TOP_DIR}/lib/"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/headers/protoCore.h" "${PACKAGE_STAGING_DIR}/${PACKAGE_TOP_DIR}/include/"
+    COMMAND tar czf "${CMAKE_BINARY_DIR}/protoCore-${PROJECT_VERSION}-Linux.tar.gz" -C "${PACKAGE_STAGING_DIR}" "${PACKAGE_TOP_DIR}"
+    COMMAND ${CMAKE_COMMAND} -E echo "Created ${CMAKE_BINARY_DIR}/protoCore-${PROJECT_VERSION}-Linux.tar.gz"
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+    COMMENT "Create TGZ with only protoCore runtime and header"
+)
 
 # 8. User-friendly message on completion
 message(STATUS "protoCore project configured successfully. Use 'cmake --build <build_dir>' to build protoCore, 'ctest' to run tests, and 'cpack' for packaging.")

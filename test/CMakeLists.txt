@@ -3,12 +3,14 @@
 # Set the policy for FetchContent to avoid the timestamp warning
 cmake_policy(SET CMP0135 NEW)
 
-# 1. Fetch Google Test
+# 1. Fetch Google Test (test-only dependency; do not install with the library package)
 include(FetchContent)
 FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
 )
+# Disable GTest/GMock install rules so packaging only includes protoCore
+set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 
 # Make googletest available
 FetchContent_MakeAvailable(googletest)
