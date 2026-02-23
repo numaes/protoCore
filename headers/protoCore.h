@@ -583,6 +583,7 @@ namespace proto
         //- Factory methods for complex types
         const ProtoList* newList();
         const ProtoTuple* newTuple();
+        const ProtoTuple* newTuple(const std::vector<const ProtoObject*>& elements);
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);
         const ProtoSparseList* newSparseList();
         const ProtoSet* newSet();

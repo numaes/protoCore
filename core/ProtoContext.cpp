@@ -10,6 +10,7 @@
 #include <vector>
 #include <cstdlib>
 #include <iostream>
+#include <cstring>
 
 namespace proto
 {
@@ -204,6 +205,7 @@ namespace proto
         }
 
         if (newCell) {
+            std::memset(newCell, 0, 64);
             if (this)
                 this->allocatedCellsCount++;
             return newCell;
@@ -311,6 +313,11 @@ namespace proto
     const ProtoTuple* ProtoContext::newTuple()
     {
         return (new(this) ProtoTupleImplementation(this, nullptr, 0))->asProtoTuple(this);
+    }
+
+    const ProtoTuple* ProtoContext::newTuple(const std::vector<const ProtoObject*>& elements)
+    {
+        return ProtoTupleImplementation::tupleFromVector(this, elements)->asProtoTuple(this);
     }
 
     const ProtoTuple* ProtoContext::newTupleFromList(const ProtoList* sourceList)

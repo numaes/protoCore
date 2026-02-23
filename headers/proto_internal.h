@@ -300,7 +300,7 @@ namespace proto {
     // The new, safe toImpl implementation (non-const)
     template<typename Impl, typename Api>
     inline Impl *toImpl(Api *ptr) {
-        if (reinterpret_cast<const ProtoObject*>(ptr) == PROTO_NONE) {
+        if (!ptr || reinterpret_cast<const ProtoObject*>(ptr) == PROTO_NONE) {
             return nullptr;
         }
 
@@ -342,7 +342,7 @@ namespace proto {
     // Overload for const pointers
     template<typename Impl, typename Api>
     inline const Impl *toImpl(const Api *ptr) {
-        if (reinterpret_cast<const ProtoObject*>(ptr) == PROTO_NONE) {
+        if (!ptr || reinterpret_cast<const ProtoObject*>(ptr) == PROTO_NONE) {
             return nullptr;
         }
 
@@ -623,6 +623,8 @@ namespace proto {
         ProtoTupleImplementation(ProtoContext *context, const ProtoObject **slot_values,
                                  unsigned long size);
         ~ProtoTupleImplementation() override = default;
+        static const ProtoTupleImplementation *
+        tupleFromVector(ProtoContext *context, const std::vector<const ProtoObject *>& source);
         static const ProtoTupleImplementation *
         tupleFromList(ProtoContext *context, const ProtoListImplementation *sourceList);
         /** Builds a non-interned concat tuple for rope: slot[0]=left, slot[1]=right, actual_size=totalSize. O(1). */
