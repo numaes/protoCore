@@ -97,10 +97,24 @@ test/CMakeFiles/proto_tests.dir/GCStressTests.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/proto_tests.dir/GCStressTests.cpp.s"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gamarino/Documentos/proyectos/protoCore/test/GCStressTests.cpp -o CMakeFiles/proto_tests.dir/GCStressTests.cpp.s
 
+test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
+test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/MultipleInheritanceTests.cpp
+test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o"
+	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o -MF CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o.d -o CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/MultipleInheritanceTests.cpp
+
+test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.i"
+	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gamarino/Documentos/proyectos/protoCore/test/MultipleInheritanceTests.cpp > CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.i
+
+test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.s"
+	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gamarino/Documentos/proyectos/protoCore/test/MultipleInheritanceTests.cpp -o CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.s
+
 test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/NumericTests.cpp
 test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o -MF CMakeFiles/proto_tests.dir/NumericTests.cpp.o.d -o CMakeFiles/proto_tests.dir/NumericTests.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/NumericTests.cpp
 
 test/CMakeFiles/proto_tests.dir/NumericTests.cpp.i: cmake_force
@@ -114,7 +128,7 @@ test/CMakeFiles/proto_tests.dir/NumericTests.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/SwarmTests.cpp
 test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o -MF CMakeFiles/proto_tests.dir/SwarmTests.cpp.o.d -o CMakeFiles/proto_tests.dir/SwarmTests.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/SwarmTests.cpp
 
 test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.i: cmake_force
@@ -128,7 +142,7 @@ test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/test_list.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/test_list.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/test_list.cpp
 test/CMakeFiles/proto_tests.dir/test_list.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object test/CMakeFiles/proto_tests.dir/test_list.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object test/CMakeFiles/proto_tests.dir/test_list.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/test_list.cpp.o -MF CMakeFiles/proto_tests.dir/test_list.cpp.o.d -o CMakeFiles/proto_tests.dir/test_list.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/test_list.cpp
 
 test/CMakeFiles/proto_tests.dir/test_list.cpp.i: cmake_force
@@ -142,7 +156,7 @@ test/CMakeFiles/proto_tests.dir/test_list.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/test_module_discovery.cpp
 test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o -MF CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o.d -o CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/test_module_discovery.cpp
 
 test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.i: cmake_force
@@ -156,7 +170,7 @@ test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/test_object.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/test_object.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/test_object.cpp
 test/CMakeFiles/proto_tests.dir/test_object.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object test/CMakeFiles/proto_tests.dir/test_object.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object test/CMakeFiles/proto_tests.dir/test_object.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/test_object.cpp.o -MF CMakeFiles/proto_tests.dir/test_object.cpp.o.d -o CMakeFiles/proto_tests.dir/test_object.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/test_object.cpp
 
 test/CMakeFiles/proto_tests.dir/test_object.cpp.i: cmake_force
@@ -170,7 +184,7 @@ test/CMakeFiles/proto_tests.dir/test_object.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/test_primitives.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/test_primitives.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/test_primitives.cpp
 test/CMakeFiles/proto_tests.dir/test_primitives.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object test/CMakeFiles/proto_tests.dir/test_primitives.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object test/CMakeFiles/proto_tests.dir/test_primitives.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/test_primitives.cpp.o -MF CMakeFiles/proto_tests.dir/test_primitives.cpp.o.d -o CMakeFiles/proto_tests.dir/test_primitives.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/test_primitives.cpp
 
 test/CMakeFiles/proto_tests.dir/test_primitives.cpp.i: cmake_force
@@ -184,7 +198,7 @@ test/CMakeFiles/proto_tests.dir/test_primitives.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/test_proto.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/test_proto.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/test_proto.cpp
 test/CMakeFiles/proto_tests.dir/test_proto.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object test/CMakeFiles/proto_tests.dir/test_proto.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object test/CMakeFiles/proto_tests.dir/test_proto.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/test_proto.cpp.o -MF CMakeFiles/proto_tests.dir/test_proto.cpp.o.d -o CMakeFiles/proto_tests.dir/test_proto.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/test_proto.cpp
 
 test/CMakeFiles/proto_tests.dir/test_proto.cpp.i: cmake_force
@@ -198,7 +212,7 @@ test/CMakeFiles/proto_tests.dir/test_proto.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/test_sets.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/test_sets.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/test_sets.cpp
 test/CMakeFiles/proto_tests.dir/test_sets.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object test/CMakeFiles/proto_tests.dir/test_sets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object test/CMakeFiles/proto_tests.dir/test_sets.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/test_sets.cpp.o -MF CMakeFiles/proto_tests.dir/test_sets.cpp.o.d -o CMakeFiles/proto_tests.dir/test_sets.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/test_sets.cpp
 
 test/CMakeFiles/proto_tests.dir/test_sets.cpp.i: cmake_force
@@ -212,7 +226,7 @@ test/CMakeFiles/proto_tests.dir/test_sets.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/test_sparselist.cpp
 test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.o -MF CMakeFiles/proto_tests.dir/test_sparselist.cpp.o.d -o CMakeFiles/proto_tests.dir/test_sparselist.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/test_sparselist.cpp
 
 test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.i: cmake_force
@@ -226,7 +240,7 @@ test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.s: cmake_force
 test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o: test/CMakeFiles/proto_tests.dir/flags.make
 test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o: /home/gamarino/Documentos/proyectos/protoCore/test/test_tuple.cpp
 test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o: test/CMakeFiles/proto_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o -MF CMakeFiles/proto_tests.dir/test_tuple.cpp.o.d -o CMakeFiles/proto_tests.dir/test_tuple.cpp.o -c /home/gamarino/Documentos/proyectos/protoCore/test/test_tuple.cpp
 
 test/CMakeFiles/proto_tests.dir/test_tuple.cpp.i: cmake_force
@@ -241,6 +255,7 @@ test/CMakeFiles/proto_tests.dir/test_tuple.cpp.s: cmake_force
 proto_tests_OBJECTS = \
 "CMakeFiles/proto_tests.dir/ContextTests.cpp.o" \
 "CMakeFiles/proto_tests.dir/GCStressTests.cpp.o" \
+"CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o" \
 "CMakeFiles/proto_tests.dir/NumericTests.cpp.o" \
 "CMakeFiles/proto_tests.dir/SwarmTests.cpp.o" \
 "CMakeFiles/proto_tests.dir/test_list.cpp.o" \
@@ -257,6 +272,7 @@ proto_tests_EXTERNAL_OBJECTS =
 
 test/proto_tests: test/CMakeFiles/proto_tests.dir/ContextTests.cpp.o
 test/proto_tests: test/CMakeFiles/proto_tests.dir/GCStressTests.cpp.o
+test/proto_tests: test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o
 test/proto_tests: test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o
 test/proto_tests: test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o
 test/proto_tests: test/CMakeFiles/proto_tests.dir/test_list.cpp.o
@@ -272,7 +288,7 @@ test/proto_tests: libprotoCore.so.1.0.0
 test/proto_tests: lib/libgtest_main.a
 test/proto_tests: lib/libgtest.a
 test/proto_tests: test/CMakeFiles/proto_tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable proto_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable proto_tests"
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/proto_tests.dir/link.txt --verbose=$(VERBOSE)
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test && /usr/bin/cmake -D TEST_TARGET=proto_tests -D TEST_EXECUTABLE=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test/proto_tests -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=proto_tests_TESTS -D CTEST_FILE=/home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/test/proto_tests[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
 

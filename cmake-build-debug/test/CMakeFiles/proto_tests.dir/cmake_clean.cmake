@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/proto_tests.dir/ContextTests.cpp.o.d"
   "CMakeFiles/proto_tests.dir/GCStressTests.cpp.o"
   "CMakeFiles/proto_tests.dir/GCStressTests.cpp.o.d"
+  "CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o"
+  "CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o.d"
   "CMakeFiles/proto_tests.dir/NumericTests.cpp.o"
   "CMakeFiles/proto_tests.dir/NumericTests.cpp.o.d"
   "CMakeFiles/proto_tests.dir/SwarmTests.cpp.o"

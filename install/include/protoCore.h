@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 #include <mutex>
+#include <thread>
 #include <vector>
 
 namespace proto
@@ -50,7 +51,7 @@ namespace proto
     //! @warning They should be kept in sync with proto_internal.h!
     #define PROTO_TRUE ((const proto::ProtoObject*)  1217UL) // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 1
     #define PROTO_FALSE ((const proto::ProtoObject*) 193UL)  // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 0
-    #define PROTO_NONE ((const proto::ProtoObject*) nullptr)
+    #define PROTO_NONE ((const proto::ProtoObject*)  321UL)  // Tag: EMBEDDED_VALUE (1), Type: NONE (5), Value: 0
 
     typedef const ProtoObject*(*ProtoMethod)(
         ProtoContext* context,
@@ -69,7 +70,7 @@ namespace proto
         const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
         //- Attributes
-        const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name) const;
+        const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks = true) const;
         const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const;
@@ -78,7 +79,9 @@ namespace proto
 
         //- Inheritance
         const ProtoList* getParents(ProtoContext* context) const;
+        int hasParent(ProtoContext* context, const ProtoObject* target) const;
         const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent) const;
+        const ProtoObject* addParentInternal(ProtoContext* context, const ProtoObject* newParent) const;
         const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 
         //- Execution
@@ -137,6 +140,7 @@ namespace proto
         /** If this object is a ProtoExternalBuffer, returns the raw segment pointer; otherwise nullptr. Stable until the object is collected (no compaction). */
         void* getRawPointerIfExternalBuffer(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
+        const ProtoObject* asMethodSelf(ProtoContext* context) const;
 
         //- Comparison
         int compare(ProtoContext* context, const ProtoObject* other) const;
@@ -193,6 +197,7 @@ namespace proto
         const ProtoList* removeLast(ProtoContext* context) const;
         const ProtoList* removeAt(ProtoContext* context, int index) const;
         const ProtoList* removeSlice(ProtoContext* context, int from, int to) const;
+        const ProtoList* multiply(ProtoContext* context, const ProtoObject* count) const;
 
         //- Conversion
         const ProtoObject* asObject(ProtoContext* context) const;
@@ -273,6 +278,8 @@ namespace proto
         const ProtoString* removeLast(ProtoContext* context, int count) const;
         const ProtoString* removeAt(ProtoContext* context, int index) const;
         const ProtoString* removeSlice(ProtoContext* context, int from, int to) const;
+        const ProtoString* multiply(ProtoContext* context, const ProtoObject* count) const;
+        const ProtoObject* modulo(ProtoContext* context, const ProtoObject* other) const;
 
         //- Conversion
         const ProtoObject* asObject(ProtoContext* context) const;
@@ -534,6 +541,8 @@ namespace proto
         ProtoContext* previous;
         ProtoSpace* space;
         ProtoThread* thread;
+        char* currentFileName;
+        int currentLineNumber;
         
         // Variables that can be captured by closures, managed by the GC.
         const ProtoSparseList* closureLocals;
@@ -635,9 +644,10 @@ namespace proto
         ProtoObject* setIteratorPrototype{};
         ProtoObject* multisetPrototype{};
         ProtoObject* multisetIteratorPrototype{};
+        ProtoObject* rangeIteratorPrototype{};
 
         // --- Cached Literals ---
-        ProtoString* literalGetAttribute;
+        ProtoString* literalData;
         ProtoString* literalSetAttribute;
         ProtoString* literalCallMethod;
 
@@ -757,6 +767,7 @@ namespace proto
         std::vector<const ProtoObject*> moduleRoots;
         std::mutex moduleRootsMutex;
 
+        /** @brief Global reentrant mutex for protecting space-wide metadata (interning, thread registry, GC state). */
         static std::recursive_mutex globalMutex;
     };
 }

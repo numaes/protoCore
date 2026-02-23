@@ -310,5 +310,7 @@ test/CMakeFiles/proto_tests.dir/test_sets.cpp.o: \
  /usr/include/c++/13/thread \
  /home/gamarino/Documentos/proyectos/protoCore/test/../headers/proto_internal.h \
  /home/gamarino/Documentos/proyectos/protoCore/test/../headers/protoCore.h \
- /usr/include/c++/13/algorithm /usr/include/c++/13/bits/ranges_algo.h \
+ /usr/include/c++/13/unordered_set \
+ /usr/include/c++/13/bits/unordered_set.h /usr/include/c++/13/algorithm \
+ /usr/include/c++/13/bits/ranges_algo.h \
  /usr/include/c++/13/pstl/glue_algorithm_defs.h

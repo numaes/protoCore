@@ -868,7 +868,17 @@ namespace proto
             }
 
             if (attributes->implHas(context, attr_hash)) {
+                if (std::getenv("PROTO_RESOLVE_DIAG")) {
+                    fprintf(stderr, "DEBUG: hasAttribute TRUE on %p\n", (void*)currentObject);
+                }
                 return PROTO_TRUE;
+            }
+            if (std::getenv("PROTO_RESOLVE_DIAG")) {
+                std::string s;
+                name->toUTF8String(context, s);
+                if (s == "add_argument_group") {
+                    fprintf(stderr, "DEBUG: hasAttribute FALSE on %p (obj=%p parent=%p)\n", (void*)currentObject, (void*)this, (void*)oc->parent);
+                }
             }
 
             // Multiple inheritance support:

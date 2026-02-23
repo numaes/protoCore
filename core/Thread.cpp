@@ -219,4 +219,8 @@ namespace proto {
     ProtoContext* ProtoThread::getCurrentContext() const {
         return toImpl<const ProtoThreadImplementation>(this)->context;
     }
+
+    void ProtoThread::synchToGC() {
+        toImpl<ProtoThreadImplementation>(this)->implSynchToGC();
+    }
 }

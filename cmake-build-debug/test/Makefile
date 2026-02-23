@@ -117,7 +117,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\" \"protoCore\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"protoCore\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -252,6 +252,30 @@ GCStressTests.s: GCStressTests.cpp.s
 GCStressTests.cpp.s:
 	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/GCStressTests.cpp.s
 .PHONY : GCStressTests.cpp.s
+
+MultipleInheritanceTests.o: MultipleInheritanceTests.cpp.o
+.PHONY : MultipleInheritanceTests.o
+
+# target to build an object file
+MultipleInheritanceTests.cpp.o:
+	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o
+.PHONY : MultipleInheritanceTests.cpp.o
+
+MultipleInheritanceTests.i: MultipleInheritanceTests.cpp.i
+.PHONY : MultipleInheritanceTests.i
+
+# target to preprocess a source file
+MultipleInheritanceTests.cpp.i:
+	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.i
+.PHONY : MultipleInheritanceTests.cpp.i
+
+MultipleInheritanceTests.s: MultipleInheritanceTests.cpp.s
+.PHONY : MultipleInheritanceTests.s
+
+# target to generate assembly for a file
+MultipleInheritanceTests.cpp.s:
+	cd /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.s
+.PHONY : MultipleInheritanceTests.cpp.s
 
 NumericTests.o: NumericTests.cpp.o
 .PHONY : NumericTests.o
@@ -515,6 +539,9 @@ help:
 	@echo "... GCStressTests.o"
 	@echo "... GCStressTests.i"
 	@echo "... GCStressTests.s"
+	@echo "... MultipleInheritanceTests.o"
+	@echo "... MultipleInheritanceTests.i"
+	@echo "... MultipleInheritanceTests.s"
 	@echo "... NumericTests.o"
 	@echo "... NumericTests.i"
 	@echo "... NumericTests.s"

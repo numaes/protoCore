@@ -16,6 +16,7 @@ include(GNUInstallDirs)
 # 2. Set the C++ standard to C++20
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_compile_options(-fno-delete-null-pointer-checks)
 set(CMAKE_CXX_EXTENSIONS OFF) # Prefer explicit standard flags
 
 # Option: enable code coverage (gcov/lcov). Requires rebuild with -DCOVERAGE=ON.

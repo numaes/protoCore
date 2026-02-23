@@ -160,61 +160,129 @@ namespace proto {
             }
             return internTuple(context, new(context) ProtoTupleImplementation(context, indirect_handles, count));
         }
+
+        const ProtoTupleImplementation* fromVectorRecursive(
+            ProtoContext* context,
+            const std::vector<const ProtoObject*>& vec,
+            unsigned long start,
+            unsigned long end
+        ) {
+            const unsigned long count = end - start;
+            if (count == 0) {
+                return internTuple(context, new(context) ProtoTupleImplementation(context, nullptr, 0UL));
+            }
+
+            if (count <= TUPLE_SIZE) {
+                const ProtoObject* data[TUPLE_SIZE] = {nullptr};
+                for (unsigned long i = 0; i < count; ++i) {
+                    data[i] = vec[start + i];
+                }
+                return internTuple(context, new(context) ProtoTupleImplementation(context, data, count));
+            }
+
+            const unsigned long chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
+            const ProtoObject* indirect_handles[TUPLE_SIZE] = {nullptr};
+
+            for (unsigned long i = 0; i < TUPLE_SIZE; ++i) {
+                const unsigned long child_start = start + i * chunk_size;
+                if (child_start >= end) break;
+                const unsigned long child_end = std::min(child_start + chunk_size, end);
+                
+                const ProtoTupleImplementation* child_impl = fromVectorRecursive(context, vec, child_start, child_end);
+                if (child_impl) {
+                    indirect_handles[i] = child_impl->implAsObject(context);
+                }
+            }
+            return internTuple(context, new(context) ProtoTupleImplementation(context, indirect_handles, count));
+        }
     }
 
     namespace {
         // Compare two tuples for identity equality of their contents
         int compareTuples(ProtoContext* context, const ProtoTupleImplementation* t1, const ProtoTupleImplementation* t2) {
             if (t1 == t2) return 0;
+            
+            static thread_local std::vector<std::pair<const ProtoTupleImplementation*, const ProtoTupleImplementation*>> recursionStack;
+            for (const auto& pair : recursionStack) {
+                if ((pair.first == t1 && pair.second == t2) || (pair.first == t2 && pair.second == t1)) {
+                    return 0; // Assume equal for recursive cycle
+                }
+            }
+            recursionStack.push_back({t1, t2});
+            
             unsigned long s1 = t1->implGetSize(context);
             unsigned long s2 = t2->implGetSize(context);
-            if (s1 < s2) return -1;
-            if (s1 > s2) return 1;
+            if (s1 < s2) { recursionStack.pop_back(); return -1; }
+            if (s1 > s2) { recursionStack.pop_back(); return 1; }
 
             unsigned long h1 = t1->getHash(context);
             unsigned long h2 = t2->getHash(context);
             
-            if (h1 < h2) return -1;
-            if (h1 > h2) return 1;
+            if (h1 < h2) { recursionStack.pop_back(); return -1; }
+            if (h1 > h2) { recursionStack.pop_back(); return 1; }
 
             for (unsigned long i = 0; i < s1; ++i) {
                 const ProtoObject* o1 = t1->implGetAt(context, i);
                 const ProtoObject* o2 = t2->implGetAt(context, i);
-                if (o1 < o2) return -1;
-                if (o1 > o2) return 1;
+                if (o1 < o2) { recursionStack.pop_back(); return -1; }
+                if (o1 > o2) { recursionStack.pop_back(); return 1; }
             }
+            recursionStack.pop_back();
             return 0;
         }
 
         const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoTupleImplementation* newTuple) {
-            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             ProtoSpace* space = context->space;
-            TupleDictionary* current = space->tupleRoot.load();
-            TupleDictionary* parent = nullptr;
             
-            while (current) {
-                int cmp = compareTuples(context, newTuple, current->key);
-                if (cmp == 0) {
-                    return current->key; // Found existing tuple
-                }
-                parent = current;
-                if (cmp < 0) {
-                    current = current->previous;
-                } else {
-                    current = current->next;
+            // Fast path: search existing tuples under lock.
+            {
+                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                TupleDictionary* current = space->tupleRoot.load();
+                while (current) {
+                    int cmp = compareTuples(context, newTuple, current->key);
+                    if (cmp == 0) {
+                        return current->key; // Found existing tuple
+                    }
+                    if (cmp < 0) {
+                        current = current->previous;
+                    } else {
+                        current = current->next;
+                    }
                 }
             }
 
-            // Not found, insert new node
+            // Not found, insert new node using an allocation that might GC
             TupleDictionary* newNode = new(context) TupleDictionary(context, newTuple, nullptr, nullptr);
-            if (!parent) {
-                space->tupleRoot.store(newNode);
-            } else {
-                int cmp = compareTuples(context, newTuple, parent->key);
-                if (cmp < 0) {
-                    parent->previous = newNode;
+            
+            // Reacquire lock to link the node, checking if someone else inserted it meanwhile
+            {
+                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                TupleDictionary* current = space->tupleRoot.load();
+                TupleDictionary* parent = nullptr;
+                
+                while (current) {
+                    int cmp = compareTuples(context, newTuple, current->key);
+                    if (cmp == 0) {
+                        // Someone else inserted it! We leak the `newNode` as garbage, but we won't memory leak thanks to GC.
+                        return current->key; 
+                    }
+                    parent = current;
+                    if (cmp < 0) {
+                        current = current->previous;
+                    } else {
+                        current = current->next;
+                    }
+                }
+                
+                if (!parent) {
+                    space->tupleRoot.store(newNode);
                 } else {
-                    parent->next = newNode;
+                    int cmp = compareTuples(context, newTuple, parent->key);
+                    if (cmp < 0) {
+                        parent->previous = newNode;
+                    } else {
+                        parent->next = newNode;
+                    }
                 }
             }
             return newTuple;
@@ -226,6 +294,12 @@ namespace proto {
         const ProtoTupleImplementation* internedTuple = internTuple(context, rawTuple);
         // If interned came back different, rawTuple is redundant (garbage) but not easily deletable here due to GC.
         // It will be collected eventually as it's not referenced by anyone.
+        return internedTuple;
+    }
+
+    const ProtoTupleImplementation* ProtoTupleImplementation::tupleFromVector(ProtoContext* context, const std::vector<const ProtoObject*>& source) {
+        const ProtoTupleImplementation* rawTuple = fromVectorRecursive(context, source, 0, source.size());
+        const ProtoTupleImplementation* internedTuple = internTuple(context, rawTuple);
         return internedTuple;
     }
 
@@ -308,6 +382,16 @@ namespace proto {
     }
 
     unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
+        // Prevent infinite recursion for recursive tuples
+        static thread_local std::vector<const ProtoTupleImplementation*> recursionStack;
+        for (const auto* tup : recursionStack) {
+            if (tup == this) {
+                return 0; // Return a default hash for recursive references
+            }
+        }
+        
+        recursionStack.push_back(this);
+        
         unsigned long current_hash = 0;
         // Combine hashes of all elements in the slot in a non-commutative way
         for (int i = 0; i < TUPLE_SIZE; ++i) {
@@ -319,6 +403,8 @@ namespace proto {
         // that share physical prefixes.
         current_hash = (current_hash * 31) + actual_size;
 
+        recursionStack.pop_back();
+        
         return current_hash;
     }
 

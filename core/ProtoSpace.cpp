@@ -350,12 +350,12 @@ namespace proto {
         this->threadPrototype = this->objectPrototype;
         this->rootObject = this->objectPrototype; // Root object can be the base object prototype
 
-        this->listIteratorPrototype = this->objectPrototype;
-        this->tupleIteratorPrototype = this->objectPrototype;
-        this->stringIteratorPrototype = this->objectPrototype;
-        this->sparseListIteratorPrototype = this->objectPrototype;
-        this->setIteratorPrototype = this->objectPrototype;
-        this->multisetIteratorPrototype = this->objectPrototype;
+        this->listIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
+        this->tupleIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
+        this->stringIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
+        this->sparseListIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
+        this->setIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
+        this->multisetIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
 
         // Initialize mutableRoot
         auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);

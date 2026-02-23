@@ -14,6 +14,8 @@ set(CPACK_BUILD_SOURCE_DIRS "/home/gamarino/Documentos/proyectos/protoCore;/home
 set(CPACK_CMAKE_GENERATOR "Unix Makefiles")
 set(CPACK_COMPONENTS_ALL "protoCore")
 set(CPACK_COMPONENTS_ALL_SET_BY_USER "TRUE")
+set(CPACK_COMPONENT_PROTOCORE_DESCRIPTION "Shared library and public header for embedding")
+set(CPACK_COMPONENT_PROTOCORE_DISPLAY_NAME "protoCore runtime")
 set(CPACK_COMPONENT_UNSPECIFIED_HIDDEN "TRUE")
 set(CPACK_COMPONENT_UNSPECIFIED_REQUIRED "TRUE")
 set(CPACK_DEFAULT_PACKAGE_DESCRIPTION_FILE "/usr/share/cmake-3.28/Templates/CPack.GenericDescription.txt")

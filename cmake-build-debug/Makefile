@@ -117,7 +117,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\" \"protoCore\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"protoCore\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -229,6 +229,19 @@ concurrent_append_benchmark: cmake_check_build_system
 concurrent_append_benchmark/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/concurrent_append_benchmark.dir/build.make CMakeFiles/concurrent_append_benchmark.dir/build
 .PHONY : concurrent_append_benchmark/fast
+
+#=============================================================================
+# Target rules for targets named package_protocore_only
+
+# Build rule for target.
+package_protocore_only: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 package_protocore_only
+.PHONY : package_protocore_only
+
+# fast build rule for target.
+package_protocore_only/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/package_protocore_only.dir/build.make CMakeFiles/package_protocore_only.dir/build
+.PHONY : package_protocore_only/fast
 
 #=============================================================================
 # Target rules for targets named proto_tests
@@ -487,30 +500,6 @@ core/ParentLink.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ParentLink.cpp.s
 .PHONY : core/ParentLink.cpp.s
 
-core/Proto.o: core/Proto.cpp.o
-.PHONY : core/Proto.o
-
-# target to build an object file
-core/Proto.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Proto.cpp.o
-.PHONY : core/Proto.cpp.o
-
-core/Proto.i: core/Proto.cpp.i
-.PHONY : core/Proto.i
-
-# target to preprocess a source file
-core/Proto.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Proto.cpp.i
-.PHONY : core/Proto.cpp.i
-
-core/Proto.s: core/Proto.cpp.s
-.PHONY : core/Proto.s
-
-# target to generate assembly for a file
-core/Proto.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/Proto.cpp.s
-.PHONY : core/Proto.cpp.s
-
 core/ProtoByteBuffer.o: core/ProtoByteBuffer.cpp.o
 .PHONY : core/ProtoByteBuffer.o
 
@@ -679,29 +668,29 @@ core/ProtoMultiset.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoMultiset.cpp.s
 .PHONY : core/ProtoMultiset.cpp.s
 
-core/ProtoObjectCell.o: core/ProtoObjectCell.cpp.o
-.PHONY : core/ProtoObjectCell.o
+core/ProtoObject.o: core/ProtoObject.cpp.o
+.PHONY : core/ProtoObject.o
 
 # target to build an object file
-core/ProtoObjectCell.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.o
-.PHONY : core/ProtoObjectCell.cpp.o
+core/ProtoObject.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObject.cpp.o
+.PHONY : core/ProtoObject.cpp.o
 
-core/ProtoObjectCell.i: core/ProtoObjectCell.cpp.i
-.PHONY : core/ProtoObjectCell.i
+core/ProtoObject.i: core/ProtoObject.cpp.i
+.PHONY : core/ProtoObject.i
 
 # target to preprocess a source file
-core/ProtoObjectCell.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.i
-.PHONY : core/ProtoObjectCell.cpp.i
+core/ProtoObject.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObject.cpp.i
+.PHONY : core/ProtoObject.cpp.i
 
-core/ProtoObjectCell.s: core/ProtoObjectCell.cpp.s
-.PHONY : core/ProtoObjectCell.s
+core/ProtoObject.s: core/ProtoObject.cpp.s
+.PHONY : core/ProtoObject.s
 
 # target to generate assembly for a file
-core/ProtoObjectCell.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObjectCell.cpp.s
-.PHONY : core/ProtoObjectCell.cpp.s
+core/ProtoObject.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/core/ProtoObject.cpp.s
+.PHONY : core/ProtoObject.cpp.s
 
 core/ProtoSet.o: core/ProtoSet.cpp.o
 .PHONY : core/ProtoSet.o
@@ -934,6 +923,7 @@ help:
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... package_protocore_only"
 	@echo "... concurrent_append_benchmark"
 	@echo "... gmock"
 	@echo "... gmock_main"
@@ -966,9 +956,6 @@ help:
 	@echo "... core/ParentLink.o"
 	@echo "... core/ParentLink.i"
 	@echo "... core/ParentLink.s"
-	@echo "... core/Proto.o"
-	@echo "... core/Proto.i"
-	@echo "... core/Proto.s"
 	@echo "... core/ProtoByteBuffer.o"
 	@echo "... core/ProtoByteBuffer.i"
 	@echo "... core/ProtoByteBuffer.s"
@@ -990,9 +977,9 @@ help:
 	@echo "... core/ProtoMultiset.o"
 	@echo "... core/ProtoMultiset.i"
 	@echo "... core/ProtoMultiset.s"
-	@echo "... core/ProtoObjectCell.o"
-	@echo "... core/ProtoObjectCell.i"
-	@echo "... core/ProtoObjectCell.s"
+	@echo "... core/ProtoObject.o"
+	@echo "... core/ProtoObject.i"
+	@echo "... core/ProtoObject.s"
 	@echo "... core/ProtoSet.o"
 	@echo "... core/ProtoSet.i"
 	@echo "... core/ProtoSet.s"
