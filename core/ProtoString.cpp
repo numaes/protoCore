@@ -71,7 +71,7 @@ namespace proto {
 
     public:
         RopeCharacterIterator(ProtoContext* ctx, const ProtoObject* obj) : context(ctx) {
-            if (obj && !isInlineString(obj)) push(obj);
+            if (obj) push(obj);
         }
 
         void push(const ProtoObject* obj) {
@@ -89,15 +89,17 @@ namespace proto {
                     if (idx < (int)inlineStringLength(current)) {
                         return inlineStringCharAt(current, idx++);
                     }
-                    top--; continue;
+                    top--; continue; // exhausted this inline string
                 }
 
                 if (current->isString(context)) {
                     const ProtoStringImplementation* sImpl = toImpl<const ProtoStringImplementation>(current);
-                    stack[top] = sImpl->tuple->implAsObject(context);
-                    // Reset idx for the tuple node we just moved to
-                    idx = 0; 
-                    continue;
+                    if (idx == 0) {
+                        idx = 1; // Mark that we've expanded it
+                        push(sImpl->tuple->implAsObject(context));
+                        continue;
+                    }
+                    top--; continue; // already expanded
                 }
 
                 if (current->isTuple(context)) {
@@ -113,11 +115,76 @@ namespace proto {
                         }
                         continue;
                     }
-                    top--; continue;
+                    top--; continue; // exhausted this tuple node
+                }
+                
+                // Fallback for non-tuple/string objects or unknowns
+                if (idx == 0) {
+                    idx = 1;
+                    return extractCodePoint(current);
                 }
                 top--;
             }
-            return 0;
+            return 0; // End of iteration
+        }
+
+        bool hasNext(ProtoContext* ctx) const {
+            if (top < 0) return false;
+            
+            // Perform a state-preserving lookahead by simulating exactly one successful `next()` logic pass
+            int tempTop = top;
+            int tempSlotIndex[MAX_DEPTH];
+            const ProtoObject* tempStack[MAX_DEPTH];
+            for(int i=0; i<=top; ++i) {
+                tempSlotIndex[i] = slotIndex[i];
+                tempStack[i] = stack[i];
+            }
+            
+            while (tempTop >= 0) {
+                const ProtoObject* current = tempStack[tempTop];
+                int& idx = tempSlotIndex[tempTop];
+
+                if (isInlineString(current)) {
+                    if (idx < (int)inlineStringLength(current)) return true;
+                    tempTop--; continue;
+                }
+
+                if (current->isString(ctx)) {
+                    if (idx == 0) {
+                        idx = 1;
+                        tempTop++;
+                        // Avoid modifying the real stack frame, just simulate pushing tuple
+                        if (tempTop >= MAX_DEPTH) return false;
+                        tempStack[tempTop] = toImpl<const ProtoStringImplementation>(current)->tuple->implAsObject(ctx);
+                        tempSlotIndex[tempTop] = 0;
+                        continue;
+                    }
+                    tempTop--; continue;
+                }
+
+                if (current->isTuple(ctx)) {
+                    const ProtoTupleImplementation* tImpl = toImpl<const ProtoTupleImplementation>(current);
+                    if (idx < TUPLE_SIZE) {
+                        const ProtoObject* child = tImpl->slot[idx++];
+                        if (child) {
+                            if (child->isString(ctx) || child->isTuple(ctx)) {
+                                tempTop++;
+                                if (tempTop >= MAX_DEPTH) return false;
+                                tempStack[tempTop] = child;
+                                tempSlotIndex[tempTop] = 0;
+                            } else {
+                                return true;
+                            }
+                        }
+                        continue;
+                    }
+                    tempTop--; continue;
+                }
+                
+                if (idx == 0) return true;
+                tempTop--;
+            }
+            return false;
         }
 
     private:
@@ -340,15 +407,12 @@ namespace proto {
     }
 
     const ProtoList* ProtoString::asList(ProtoContext* context) const {
-        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
-        if (isInlineString(self)) {
-            const unsigned long len = inlineStringLength(self);
-            const ProtoList* list = context->newList();
-            for (unsigned long i = 0; i < len; ++i)
-                list = list->appendLast(context, context->fromUnicodeChar(inlineStringCharAt(self, static_cast<int>(i))));
-            return list;
+        const ProtoList* list = context->newList();
+        RopeCharacterIterator it(context, reinterpret_cast<const ProtoObject*>(this));
+        while (it.hasNext(context)) {
+            list = list->appendLast(context, context->fromUnicodeChar(it.next()));
         }
-        return toImpl<const ProtoStringImplementation>(this)->implAsList(context);
+        return list;
     }
 
     const ProtoString* ProtoString::getSlice(ProtoContext* context, int start, int end) const {
@@ -359,7 +423,7 @@ namespace proto {
         const ProtoList* sublist = context->newList();
         for (int i = start; i < end; ++i)
             sublist = sublist->appendLast(context, getAt(context, i));
-        return (new (context) ProtoStringImplementation(context, ProtoTupleImplementation::tupleFromList(context, toImpl<const ProtoListImplementation>(sublist))))->asProtoString(context);
+        return ProtoString::create(context, sublist);
     }
 
     int ProtoString::cmp_to_string(ProtoContext* context, const ProtoString* otherString) const {
@@ -374,15 +438,13 @@ namespace proto {
     const ProtoString* ProtoString::setAt(ProtoContext* context, int index, const ProtoObject* character) const {
         const ProtoList* list = asList(context);
         const ProtoList* newList = list->setAt(context, index, character);
-        const ProtoTuple* tuple = context->newTupleFromList(newList);
-        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+        return ProtoString::create(context, newList);
     }
     
     const ProtoString* ProtoString::insertAt(ProtoContext* context, int index, const ProtoObject* character) const {
         const ProtoList* list = asList(context);
         const ProtoList* newList = list->insertAt(context, index, character);
-        const ProtoTuple* tuple = context->newTupleFromList(newList);
-        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+        return ProtoString::create(context, newList);
     }
     
     const ProtoString* ProtoString::setAtString(ProtoContext* context, int index, const ProtoString* otherString) const {
@@ -395,8 +457,7 @@ namespace proto {
         while (it->hasNext(context) && i < (int)list->getSize(context)) {
             newList = newList->setAt(context, i++, it->next(context));
         }
-        const ProtoTuple* tuple = context->newTupleFromList(newList);
-        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+        return ProtoString::create(context, newList);
     }
     
     const ProtoString* ProtoString::insertAtString(ProtoContext* context, int index, const ProtoString* otherString) const {
@@ -408,8 +469,7 @@ namespace proto {
         while (it->hasNext(context)) {
             newList = newList->insertAt(context, i++, it->next(context));
         }
-        const ProtoTuple* tuple = context->newTupleFromList(newList);
-        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+        return ProtoString::create(context, newList);
     }
     
     const ProtoString* ProtoString::splitFirst(ProtoContext* context, int count) const {
@@ -444,15 +504,13 @@ namespace proto {
         const ProtoList* list = asList(context);
         const ProtoList* newList = list->removeAt(context, index);
         // Convert list back to string - simplified approach
-        const ProtoTuple* tuple = context->newTupleFromList(newList);
-        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+        return ProtoString::create(context, newList);
     }
     
     const ProtoString* ProtoString::removeSlice(ProtoContext* context, int from, int to) const {
         const ProtoList* list = asList(context);
         const ProtoList* newList = list->removeSlice(context, from, to);
-        const ProtoTuple* tuple = context->newTupleFromList(newList);
-        return (new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+        return ProtoString::create(context, newList);
     }
     
     const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const {
@@ -503,32 +561,9 @@ namespace proto {
         if (n <= 0) return ProtoString::fromUTF8String(context, "");
         if (n == 1) return const_cast<ProtoString*>(this);
 
-        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
-        const ProtoObject* acc = nullptr;
-        const ProtoObject* current = self;
-        unsigned long current_size = getSize(context);
-        unsigned long acc_size = 0;
-
-        unsigned long ucount = static_cast<unsigned long>(n);
-        while (ucount > 0) {
-            if (ucount & 1) {
-                if (!acc) {
-                    acc = current;
-                    acc_size = current_size;
-                } else {
-                    const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, acc, current, acc_size + current_size);
-                    acc = (new (context) ProtoStringImplementation(context, concatTuple))->implAsObject(context);
-                    acc_size += current_size;
-                }
-            }
-            ucount >>= 1;
-            if (ucount > 0) {
-                const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, current, current, current_size + current_size);
-                current = (new (context) ProtoStringImplementation(context, concatTuple))->implAsObject(context);
-                current_size += current_size;
-            }
-        }
-        return reinterpret_cast<const ProtoString*>(acc);
+        const ProtoList* list = this->asList(context);
+        const ProtoList* multipliedList = list->multiply(context, count);
+        return ProtoString::create(context, multipliedList);
     }
 
     //=========================================================================
@@ -567,6 +602,37 @@ namespace proto {
     }
 
     // ProtoString / ProtoStringIterator external API trampolines (from public API)
+    const ProtoString* ProtoString::create(ProtoContext* context, const ProtoList* list) {
+        if (!list) return nullptr;
+        unsigned long size = list->getSize(context);
+        
+        if (size <= INLINE_STRING_MAX_LEN) {
+            unsigned int codepoints[INLINE_STRING_MAX_LEN];
+            bool allASCII = true;
+            for (unsigned long i = 0; i < size; ++i) {
+                const ProtoObject* charObj = list->getAt(context, static_cast<int>(i));
+                unsigned int cp = 0;
+                ProtoObjectPointer pa{}; pa.oid = charObj;
+                if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
+                    cp = static_cast<unsigned int>(pa.unicodeChar.unicodeValue & 0x1FFFFFu);
+                } else if (charObj && charObj->isInteger(context)) {
+                    cp = static_cast<unsigned int>(charObj->asLong(context) & 0x1FFFFFu);
+                } else if (charObj && charObj->isString(context)) {
+                    RopeCharacterIterator it(context, charObj);
+                    cp = it.next();
+                }
+                codepoints[i] = cp;
+                if (cp >= 128u) allASCII = false;
+            }
+            if (allASCII) {
+                return reinterpret_cast<const ProtoString*>(createInlineString(context, size, codepoints));
+            }
+        }
+        
+        const ProtoTuple* tuple = context->newTupleFromList(list);
+        return internString(context, new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+    }
+
     const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* str) {
         const ProtoObject* o = context->fromUTF8String(str);
         if (!o || o == PROTO_NONE) return nullptr;
@@ -581,15 +647,9 @@ namespace proto {
     unsigned long ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
     const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : toImpl<const ProtoStringImplementation>(this); }
     const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
-        if (isInlineString(reinterpret_cast<const ProtoObject*>(this))) {
-            const ProtoObject* leftObj = reinterpret_cast<const ProtoObject*>(this);
-            const ProtoObject* rightObj = other->asObject(context);
-            const unsigned long leftSize = getSize(context);
-            const unsigned long rightSize = other->getSize(context);
-            const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, leftObj, rightObj, leftSize + rightSize);
-            return (new (context) ProtoStringImplementation(context, concatTuple))->asProtoString(context);
-        }
-        return toImpl<const ProtoStringImplementation>(this)->implAppendLast(context, other)->asProtoString(context);
+        const ProtoList* leftList = this->asList(context);
+        const ProtoList* rightList = other->asList(context);
+        return ProtoString::create(context, leftList->extend(context, rightList));
     }
 
     int ProtoStringIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoStringIteratorImplementation>(this)->implHasNext(context); }

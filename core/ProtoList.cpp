@@ -311,6 +311,7 @@ namespace proto {
         const ProtoListIterator* it = other->getIterator(context);
         while (it->hasNext(context)) {
             result = result->appendLast(context, it->next(context));
+            it = it->advance(context);
         }
         return result;
     }
