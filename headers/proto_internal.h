@@ -367,22 +367,54 @@ namespace proto {
             std::abort();
         }
 
-        // Clear the tag bits (lower 6 bits) to get the raw pointer to the Cell
-        uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~0x3FUL;
-
-        // Check for 64-byte alignment (lowest 6 bits should be 0)
-        if ((raw_ptr_value & 0x3FUL) != 0) {
-            std::cerr << "Error: toImpl conversion resulted in an unaligned pointer for type "
-                      << getTypeName<const Impl>() << ". Raw pointer value: 0x" << std::hex << raw_ptr_value << std::dec
-                      << ". Expected 64-byte alignment." << std::endl;
+        // Check for 64-byte alignment of the original pointer when tag is OBJECT
+        if (actual_tag == POINTER_TAG_OBJECT && (reinterpret_cast<uintptr_t>(p.oid) & 0x3FUL) != 0) {
+            std::cerr << "Error: toImpl conversion found an unaligned pointer for type "
+                      << getTypeName<const Impl>() << ". Pointer value: 0x" << std::hex << (uintptr_t)p.oid << std::dec
+                      << ". Expected 64-byte alignment for tag 0." << std::endl;
             std::abort();
         }
+
+        // Clear the tag bits (lower 6 bits) to get the raw pointer to the Cell
+        uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~0x3FUL;
 
         return reinterpret_cast<const Impl *>(raw_ptr_value);
     }
 
     unsigned long generate_mutable_ref(ProtoContext* context);
     bool isInteger(const ProtoObject* obj);
+    bool isObject(const ProtoObject* obj);
+    bool isCell(const ProtoObject* obj);
+
+    enum class CellType {
+        None,
+        Object,
+        List,
+        Tuple,
+        String,
+        SparseList,
+        Method,
+        ExternalPointer,
+        ExternalBuffer,
+        Thread,
+        LargeInteger,
+        Double,
+        Set,
+        Multiset,
+        MethodCell,
+        SparseListIterator,
+        ListIterator,
+        TupleIterator,
+        StringIterator,
+        RangeIterator,
+        SetIterator,
+        MultisetIterator,
+        ReturnReference,
+        ParentLink,
+        ThreadExtension,
+        ByteBuffer,
+        TupleDictionary
+    };
 
     class Cell {
     public:
@@ -391,6 +423,9 @@ namespace proto {
         explicit Cell(ProtoContext *context, Cell *n = nullptr);
 
         virtual ~Cell() = default;
+
+        virtual CellType getType() const { return CellType::None; }
+
 
         virtual void finalize(ProtoContext *context) const {}
 
@@ -428,6 +463,8 @@ namespace proto {
         long long stop;
         long long step;
 
+        CellType getType() const override { return CellType::RangeIterator; }
+
         ProtoRangeIteratorImplementation(ProtoContext* context, long long start, long long stop, long long step)
             : Cell(context), current(start), stop(stop), step(step) {}
 
@@ -452,6 +489,8 @@ namespace proto {
         const ParentLinkImplementation *parent;
         const ProtoObject *object;
 
+        CellType getType() const override { return CellType::ParentLink; }
+
         ParentLinkImplementation(ProtoContext *context, const ParentLinkImplementation *parent, const ProtoObject *object);
 
         ~ParentLinkImplementation() override = default;
@@ -471,6 +510,8 @@ namespace proto {
         const ParentLinkImplementation *parent;
         const ProtoSparseListImplementation *attributes;
         const unsigned long mutable_ref;
+
+        CellType getType() const override { return CellType::Object; }
 
         ProtoObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
                         const ProtoSparseListImplementation *attributes, unsigned long mutable_ref);
@@ -493,6 +534,8 @@ namespace proto {
     public:
         const ProtoObject *self;
         ProtoMethod method;
+
+        CellType getType() const override { return CellType::MethodCell; }
 
         ProtoMethodCell(ProtoContext *context, const ProtoObject *selfObject, ProtoMethod methodTarget);
 
@@ -517,6 +560,8 @@ namespace proto {
     public:
         double doubleValue;
 
+        CellType getType() const override { return CellType::Double; }
+
         DoubleImplementation(ProtoContext *context, double val);
 
         ~DoubleImplementation() override = default;
@@ -538,6 +583,8 @@ namespace proto {
         unsigned long long digits[DIGIT_COUNT];
         LargeIntegerImplementation *next;
 
+        CellType getType() const override { return CellType::LargeInteger; }
+
         LargeIntegerImplementation(ProtoContext *context);
 
         ~LargeIntegerImplementation() override = default;
@@ -557,6 +604,8 @@ namespace proto {
         char *buffer;
         unsigned long size;
         bool freeOnExit;
+
+        CellType getType() const override { return CellType::ByteBuffer; }
 
         ProtoByteBufferImplementation(ProtoContext *context, char *buffer, unsigned long size, bool freeOnExit);
 
@@ -585,6 +634,8 @@ namespace proto {
     class ProtoStringImplementation : public Cell {
     public:
         const ProtoTupleImplementation *tuple;
+
+        CellType getType() const override { return CellType::String; }
 
         ProtoStringImplementation(ProtoContext *context, const ProtoTupleImplementation *tuple);
         ~ProtoStringImplementation() override = default;
@@ -620,6 +671,8 @@ namespace proto {
         const ProtoObject *slot[TUPLE_SIZE];
         unsigned long actual_size : 63; // The actual number of elements this node (or its children) represents
 
+        CellType getType() const override { return CellType::Tuple; }
+
         ProtoTupleImplementation(ProtoContext *context, const ProtoObject **slot_values,
                                  unsigned long size);
         ~ProtoTupleImplementation() override = default;
@@ -646,6 +699,8 @@ namespace proto {
         const ProtoSparseList *list;
         unsigned long size;
 
+        CellType getType() const override { return CellType::Set; }
+
         ProtoSetImplementation(ProtoContext *context, const ProtoSparseList *list, unsigned long size);
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
@@ -658,6 +713,8 @@ namespace proto {
     public:
         const ProtoSparseList *list;
         unsigned long size;
+
+        CellType getType() const override { return CellType::Multiset; }
 
         ProtoMultisetImplementation(ProtoContext *context, const ProtoSparseList *list, unsigned long size);
 
@@ -679,6 +736,8 @@ namespace proto {
         Cell* freeCells;
         AttributeCacheEntry* attributeCache;
 
+        CellType getType() const override { return CellType::ThreadExtension; }
+
         ProtoThreadExtension(ProtoContext* context);
         ~ProtoThreadExtension() override;
         void finalize(ProtoContext* context) const;
@@ -688,6 +747,7 @@ namespace proto {
 
     class ProtoThreadImplementation : public Cell {
     public:
+        CellType getType() const override { return CellType::Thread; }
         ProtoContext *context;
         ProtoThreadExtension* extension;
         const ProtoString* name;
@@ -713,6 +773,8 @@ namespace proto {
     public:
         Cell *returnValue;
 
+        CellType getType() const override { return CellType::ReturnReference; }
+
         ReturnReference(ProtoContext *context, Cell *rv);
 
         void
@@ -730,6 +792,8 @@ namespace proto {
         const unsigned long size;
         const unsigned char height;
         const bool isEmpty;
+
+        CellType getType() const override { return CellType::List; }
 
         explicit ProtoListImplementation(ProtoContext *context,
                                          const ProtoObject *v = nullptr,
@@ -763,6 +827,8 @@ namespace proto {
         const ProtoListImplementation *base;
         unsigned long currentIndex;
 
+        CellType getType() const override { return CellType::ListIterator; }
+
         ProtoListIteratorImplementation(ProtoContext *context, const ProtoListImplementation *b, unsigned long index);
 
         int implHasNext() const;
@@ -790,6 +856,7 @@ namespace proto {
         unsigned long height: 8;
         unsigned long isEmpty: 1;
 
+        CellType getType() const override { return CellType::SparseList; }
 
         ProtoSparseListImplementation(ProtoContext *context, unsigned long k, const ProtoObject *v,
                                       const ProtoSparseListImplementation *p, const ProtoSparseListImplementation *n,
@@ -821,6 +888,8 @@ namespace proto {
         const ProtoSparseListImplementation *current;
         const ProtoSparseListIteratorImplementation *queue;
     public:
+        CellType getType() const override { return CellType::SparseListIterator; }
+
         ProtoSparseListIteratorImplementation(ProtoContext *context, int s, const ProtoSparseListImplementation *c,
                                               const ProtoSparseListIteratorImplementation *q);
 
@@ -883,6 +952,9 @@ namespace proto {
     class ProtoSetIteratorImplementation : public Cell {
     public:
         const ProtoSparseListIteratorImplementation* iterator;
+
+        CellType getType() const override { return CellType::SetIterator; }
+
         ProtoSetIteratorImplementation(ProtoContext* context, const ProtoSparseListIteratorImplementation* it);
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context);
@@ -899,6 +971,9 @@ namespace proto {
     class ProtoMultisetIteratorImplementation : public Cell {
     public:
         const ProtoSparseListIteratorImplementation* iterator;
+
+        CellType getType() const override { return CellType::MultisetIterator; }
+
         ProtoMultisetIteratorImplementation(ProtoContext* context, const ProtoSparseListIteratorImplementation* it);
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context);
@@ -916,6 +991,9 @@ namespace proto {
     public:
         const ProtoTupleImplementation* base;
         int currentIndex;
+
+        CellType getType() const override { return CellType::TupleIterator; }
+
         ProtoTupleIteratorImplementation(ProtoContext* context, const ProtoTupleImplementation* t, int i);
         ~ProtoTupleIteratorImplementation() override = default;
         int implHasNext(ProtoContext* context) const;
@@ -932,6 +1010,9 @@ namespace proto {
     public:
         const ProtoObject* base;  /** String (inline or ProtoStringImplementation). */
         unsigned long currentIndex;
+
+        CellType getType() const override { return CellType::StringIterator; }
+
         ProtoStringIteratorImplementation(ProtoContext* context, const ProtoObject* stringObj, unsigned long i);
         ~ProtoStringIteratorImplementation() override = default;
         int implHasNext(ProtoContext* context) const;
@@ -948,6 +1029,9 @@ namespace proto {
     public:
         void* pointer;
         void (*finalizer)(void*);
+
+        CellType getType() const override { return CellType::ExternalPointer; }
+
         ProtoExternalPointerImplementation(ProtoContext* context, void* p, void (*f)(void*));
         ~ProtoExternalPointerImplementation() override;
         const ProtoObject* implAsObject(ProtoContext* context) const override;
@@ -962,6 +1046,9 @@ namespace proto {
     public:
         mutable void* segment;
         unsigned long size;
+
+        CellType getType() const override { return CellType::ExternalBuffer; }
+
         ProtoExternalBufferImplementation(ProtoContext* context, unsigned long bufferSize);
         ~ProtoExternalBufferImplementation() override;
         const ProtoObject* implAsObject(ProtoContext* context) const override;
@@ -974,6 +1061,7 @@ namespace proto {
 
     class TupleDictionary : public Cell {
     public:
+        CellType getType() const override { return CellType::TupleDictionary; }
         const ProtoTupleImplementation* key;
         TupleDictionary* previous;
         TupleDictionary* next;

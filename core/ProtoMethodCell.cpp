@@ -42,9 +42,9 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, const Cell* cell)
     ) const
     {
-        if (this->self && this->self->isCell(context))
+        if (ProtoObject::isCellPointer(this->self))
         {
-            method(context, target, this->self->asCell(context));
+            method(context, target, ProtoObject::asCellPointer(this->self));
         }
     };
 

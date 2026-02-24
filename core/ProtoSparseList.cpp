@@ -220,7 +220,7 @@ namespace proto
     }
 
     void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (value && value->isCell(context)) method(context, self, value->asCell(context));
+        if (ProtoObject::isCellPointer(value)) method(context, self, ProtoObject::asCellPointer(value));
         if (previous) method(context, self, previous);
         if (next) method(context, self, next);
     }

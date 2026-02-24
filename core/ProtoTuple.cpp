@@ -370,8 +370,8 @@ namespace proto {
     void ProtoTupleImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
         // Process references for all elements in the slot array
         for (int i = 0; i < TUPLE_SIZE; ++i) {
-            if (slot[i] && slot[i]->isCell(context)) {
-                method(context, self, slot[i]->asCell(context));
+            if (ProtoObject::isCellPointer(slot[i])) {
+                method(context, self, ProtoObject::asCellPointer(slot[i]));
             }
         }
         // If this is an internal node, the 'slot' elements are themselves tuples,

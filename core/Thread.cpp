@@ -70,14 +70,14 @@ namespace proto {
             )
     ) const {
         for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
-            if (this->attributeCache[i].object && this->attributeCache[i].object->isCell(context)) {
-                method(context, self, this->attributeCache[i].object->asCell(context));
+            if (ProtoObject::isCellPointer(this->attributeCache[i].object)) {
+                method(context, self, ProtoObject::asCellPointer(this->attributeCache[i].object));
             }
-            if (this->attributeCache[i].result && this->attributeCache[i].result->isCell(context)) {
-                method(context, self, this->attributeCache[i].result->asCell(context));
+            if (ProtoObject::isCellPointer(this->attributeCache[i].result)) {
+                method(context, self, ProtoObject::asCellPointer(this->attributeCache[i].result));
             }
-            if (this->attributeCache[i].name && reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name)->isCell(context)) {
-                method(context, self, reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name)->asCell(context));
+            if (ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name))) {
+                method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name)));
             }
         }
     }

@@ -98,6 +98,8 @@ namespace proto
         unsigned long getHash(ProtoContext* context) const;
         int isCell(ProtoContext* context) const;
         const Cell* asCell(ProtoContext* context) const;
+        static bool isCellPointer(const ProtoObject* obj);
+        static const Cell* asCellPointer(const ProtoObject* obj);
 
         bool isBoolean(ProtoContext* context) const;
         bool isInteger(ProtoContext* context) const;

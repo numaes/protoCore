@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/gamarino/Documentos/proyectos/protoCore/headers -isystem /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/_deps/googletest-src/googletest/include -isystem /home/gamarino/Documentos/proyectos/protoCore/cmake-build-debug/_deps/googletest-src/googletest
 
-CXX_FLAGS = -g -std=c++20
+CXX_FLAGS = -g -std=c++20 -fno-delete-null-pointer-checks
 

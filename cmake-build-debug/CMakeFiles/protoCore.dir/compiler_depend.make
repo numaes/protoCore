@@ -2706,6 +2706,7 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
+  /usr/include/c++/13/cstring \
   /usr/include/c++/13/ctime \
   /usr/include/c++/13/cwchar \
   /usr/include/c++/13/cwctype \
@@ -2767,6 +2768,8 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: /home/gamarino/Documentos/proy
   /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
+  /usr/include/string.h \
+  /usr/include/strings.h \
   /usr/include/syscall.h \
   /usr/include/time.h \
   /usr/include/unistd.h \

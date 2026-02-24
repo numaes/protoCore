@@ -228,4 +228,5 @@ CMakeFiles/protoCore.dir/core/ProtoContext.cpp.o: \
  /usr/include/c++/13/bits/istream.tcc /usr/include/c++/13/functional \
  /usr/include/c++/13/bits/std_function.h \
  /usr/include/c++/13/unordered_map \
- /usr/include/c++/13/bits/unordered_map.h /usr/include/c++/13/array
+ /usr/include/c++/13/bits/unordered_map.h /usr/include/c++/13/array \
+ /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h

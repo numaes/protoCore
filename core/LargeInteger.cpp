@@ -113,6 +113,30 @@ namespace proto
      bool isSmallInteger(const ProtoObject* obj) { if (!obj) return false; ProtoObjectPointer p; p.oid = obj; return p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT; }
      bool isLargeInteger(const ProtoObject* obj) { if (!obj) return false; ProtoObjectPointer p; p.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
      bool isInteger(const ProtoObject* obj) { if (!obj) return false; return isSmallInteger(obj) || isLargeInteger(obj); }
+     bool isCell(const ProtoObject* obj) {
+         if (!obj) return false;
+         ProtoObjectPointer pa{}; pa.oid = obj;
+         switch (pa.op.pointer_tag) {
+             case POINTER_TAG_OBJECT:
+             case POINTER_TAG_LIST:
+              case POINTER_TAG_METHOD:
+             case POINTER_TAG_LARGE_INTEGER:
+             case POINTER_TAG_DOUBLE:
+             case POINTER_TAG_STRING:
+             case POINTER_TAG_BYTE_BUFFER:
+             case POINTER_TAG_TUPLE:
+             case POINTER_TAG_SET:
+                 return true;
+             default:
+                 return false;
+         }
+     }
+     bool isObject(const ProtoObject* obj) {
+         if (!obj) return false;
+         ProtoObjectPointer pa{}; pa.oid = obj;
+         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return false;
+         return toImpl<const Cell>(obj)->getType() == CellType::Object;
+     }
 
      static TempBignum toTempBignum(const ProtoObject* obj) {
          TempBignum temp;

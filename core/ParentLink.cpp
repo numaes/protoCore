@@ -59,9 +59,9 @@ namespace proto
         }
 
         // Report the prototype object this link represents.
-        if (this->object && this->object->isCell(context))
+        if (ProtoObject::isCellPointer(this->object))
         {
-            method(context, self, this->object->asCell(context));
+            method(context, self, ProtoObject::asCellPointer(this->object));
         }
     }
 

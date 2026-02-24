@@ -91,8 +91,8 @@ namespace proto {
                 // --- PHASE 2: COLLECT ROOTS ---
                 std::vector<const Cell*> workList;
                 auto addRootObj = [&](const ProtoObject* obj) {
-                    if (obj && obj->isCell(space->rootContext)) {
-                        workList.push_back(obj->asCell(space->rootContext));
+                    if (ProtoObject::isCellPointer(obj)) {
+                        workList.push_back(ProtoObject::asCellPointer(obj));
                     }
                 };
 
@@ -130,7 +130,7 @@ namespace proto {
                 if (space->threads) {
                     std::vector<const ProtoSparseListImplementation*> stack;
                     const ProtoObject* rootObj = reinterpret_cast<const ProtoObject*>(space->threads);
-                    if (rootObj && rootObj->isCell(space->rootContext)) {
+                    if (ProtoObject::isCellPointer(rootObj)) {
                         stack.push_back(toImpl<const ProtoSparseListImplementation>(rootObj));
                     }
                     while (!stack.empty()) {

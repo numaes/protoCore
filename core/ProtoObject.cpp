@@ -131,7 +131,14 @@ namespace proto
 
         switch (pa.op.pointer_tag)
         {
-        case POINTER_TAG_OBJECT: return context->space->objectPrototype;
+        case POINTER_TAG_OBJECT: {
+            auto* oc = toImpl<const ProtoObjectCell>(this);
+            if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
+                 auto* pl = toImpl<const ParentLinkImplementation>(oc->parent);
+                 if (pl->getType() == CellType::ParentLink) return pl->getObject(context);
+            }
+            return context->space->objectPrototype;
+        }
         case POINTER_TAG_EMBEDDED_VALUE:
             switch (pa.op.embedded_type)
             {
@@ -139,8 +146,7 @@ namespace proto
             case EMBEDDED_TYPE_BOOLEAN: return context->space->booleanPrototype;
             case EMBEDDED_TYPE_UNICODE_CHAR: return context->space->unicodeCharPrototype;
             case EMBEDDED_TYPE_INLINE_STRING: return context->space->stringPrototype;
-            case 5: // EMBEDDED_TYPE_NONE (Sync with proto_internal.h)
-                return context->space->nonePrototype;
+            case EMBEDDED_TYPE_NONE: return context->space->nonePrototype;
             default: return context->space->objectPrototype; // Fallback for unknown embedded types
             }
         case POINTER_TAG_LIST: return context->space->listPrototype;
@@ -208,12 +214,18 @@ namespace proto
     {
         const ParentLinkImplementation* plStack[64];
         int plPtr = 0;
-        const ProtoObject* current = this;
+        const ProtoObject* current = this->getPrototype(context);
         int iterationCount = 0;
 
         while (current) {
             if (++iterationCount > 50) {
+                 if (std::getenv("PROTO_RESOLVE_DIAG")) {
+                     fprintf(stderr, "DEBUG: isInstanceOf TOO MANY ITERATIONS\n");
+                 }
                  return PROTO_FALSE;
+            }
+            if (std::getenv("PROTO_RESOLVE_DIAG")) {
+                fprintf(stderr, "DEBUG: isInstanceOf checking current=%p vs prototype=%p\n", (void*)current, (void*)prototype);
             }
             if (current == prototype) return PROTO_TRUE;
             ProtoObjectPointer pa{};
@@ -240,21 +252,35 @@ namespace proto
                  }
             }
             
-            if (oc->parent) {
-                const ParentLinkImplementation* sibling = oc->parent->getParent(context);
-                int sibCount = 0;
-                while (sibling && plPtr < 64) {
-                    if (++sibCount > 100) {
-                        break;
+            if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
+                auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
+                if (pl->getType() == CellType::ParentLink) {
+                    const ParentLinkImplementation* sibling = pl->getParent(context);
+                    int sibCount = 0;
+                    while (sibling && plPtr < 64 && ((uintptr_t)sibling & 0x3F) == 0) {
+                        auto sl = toImpl<const ParentLinkImplementation>(sibling);
+                        if (sl->getType() != CellType::ParentLink) break;
+                        if (++sibCount > 100) break;
+                        plStack[plPtr++] = sibling;
+                        sibling = sl->getParent(context);
                     }
-                    plStack[plPtr++] = sibling;
-                    sibling = sibling->getParent(context);
+                    current = pl->getObject(context);
+                } else {
+                    current = nullptr;
                 }
-                current = oc->parent->getObject(context);
             } else {
                 if (plPtr > 0) {
                     const ParentLinkImplementation* top = plStack[--plPtr];
-                    current = top->getObject(context);
+                    if (top && ((uintptr_t)top & 0x3F) == 0) {
+                        auto tl = toImpl<const ParentLinkImplementation>(top);
+                        if (tl->getType() == CellType::ParentLink) {
+                            current = tl->getObject(context);
+                        } else {
+                            current = nullptr;
+                        }
+                    } else {
+                        current = nullptr;
+                    }
                 } else {
                     current = nullptr;
                 }
@@ -286,23 +312,32 @@ namespace proto
                  return PROTO_NONE;
             }
 
+            if (std::getenv("PROTO_RESOLVE_DIAG")) {
+                fprintf(stderr, "DEBUG: getAttribute iter=%d obj=%p name=%p\n", iterationCount, (void*)currentPointer, (void*)name);
+            }
+
             // Resolve current state for the current pointer
             const ProtoObject* currentValue = currentPointer;
             ProtoObjectPointer pa_cur{};
             pa_cur.oid = currentPointer;
             
             if (pa_cur.op.pointer_tag == POINTER_TAG_OBJECT) {
-                auto oc = toImpl<const ProtoObjectCell>(currentPointer);
-                if (oc->mutable_ref > 0) {
-                    ProtoSparseList* root = context->space->mutableRoot.load();
-                    if (root != nullptr) {
-                        const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                        const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                        if (storedState != nullptr) {
-                            currentValue = storedState;
+                if (proto::isObject(currentPointer)) {
+                    auto oc = toImpl<const ProtoObjectCell>(currentPointer);
+                    if (oc->mutable_ref > 0) {
+                        ProtoSparseList* root = context->space->mutableRoot.load();
+                        if (root != nullptr) {
+                            const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                            const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                            if (storedState != nullptr) {
+                                currentValue = storedState;
+                            }
                         }
                     }
                 }
+            }
+            else {
+                currentPointer = this->getPrototype(context);   
             }
 
             // Check Cache using currentPointer (the handle)
@@ -315,7 +350,7 @@ namespace proto
             }
 
             // Check OWN Attributes in currentValue
-            if (pa_cur.op.pointer_tag == POINTER_TAG_OBJECT) {
+            if (proto::isObject(currentValue)) {
                 auto ocValue = toImpl<const ProtoObjectCell>(currentValue);
                 if (ocValue->attributes->implHas(context, attr_hash)) {
                     const auto* result = ocValue->attributes->implGetAt(context, attr_hash);
@@ -332,12 +367,32 @@ namespace proto
                     currentLink = ocValue->parent;
                 } else {
                     // We are already in the middle of a ParentLink chain. Move to next link.
-                    currentLink = currentLink->getParent(context);
+                    if (currentLink && ((uintptr_t)currentLink & 0x3F) == 0) {
+                        auto cl = toImpl<const ParentLinkImplementation>(currentLink);
+                        if (cl->getType() == CellType::ParentLink) {
+                            currentLink = cl->getParent(context);
+                        } else {
+                            currentLink = nullptr;
+                        }
+                    } else {
+                        currentLink = nullptr;
+                    }
                 }
 
-                if (currentLink) {
-                    currentPointer = currentLink->getObject(context);
+                if (currentLink && ((uintptr_t)currentLink & 0x3F) == 0) {
+                    if (std::getenv("PROTO_RESOLVE_DIAG")) {
+                        fprintf(stderr, "DEBUG: getAttribute currentLink=%p\n", (void*)currentLink);
+                    }
+                    auto cl = toImpl<const ParentLinkImplementation>(currentLink);
+                    if (cl->getType() == CellType::ParentLink) {
+                        currentPointer = cl->getObject(context);
+                    } else {
+                        currentPointer = nullptr;
+                    }
                 } else {
+                    if (currentLink && std::getenv("PROTO_RESOLVE_DIAG")) {
+                         fprintf(stderr, "DEBUG: getAttribute BAD currentLink=%p\n", (void*)currentLink);
+                    }
                     currentPointer = nullptr;
                 }
             } else {
@@ -355,6 +410,7 @@ namespace proto
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
     {
         if (!this || !name) return this;
+
         // 1. Invalidate Cache
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
@@ -367,9 +423,7 @@ namespace proto
             }
         }
 
-        ProtoObjectPointer pa{};
-        pa.oid = this;
-        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;
+        if (!proto::isObject(this)) return this;
         auto* oc = toImpl<ProtoObjectCell>(this);
 
         // Handle Mutable Objects
@@ -386,6 +440,10 @@ namespace proto
              }
 
              // 2. Create new state with updated attribute
+             if (!proto::isObject(currentObjState)) {
+                 // Corruption detected or inconsistent state
+                 return this;
+             }
              auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
              const auto* newAttributes = currentOc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
              
@@ -414,15 +472,13 @@ namespace proto
         }
 
         // Handle Immutable Objects (Copy-on-Write)
-        const auto* newAttributes = oc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
+        const auto* newAttributes = oc->attributes->implSetAt(context, (uintptr_t)name, value);
         const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         return result;
     }
 
     const ProtoList* ProtoObject::getParents(ProtoContext* context) const {
-        ProtoObjectPointer pa{};
-        pa.oid = this;
-        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return context->newList();
+        if (!proto::isObject(this)) return context->newList();
         const auto* oc = toImpl<const ProtoObjectCell>(this);
         
         // Handle Mutable Objects
@@ -443,9 +499,12 @@ namespace proto
 
         const ProtoList* parents = context->newList();
         const ParentLinkImplementation* p = oc->parent;
-        while (p) {
-            parents = parents->appendLast(context, p->getObject(context));
-            p = p->getParent(context);
+        while (p && ((uintptr_t)p & 0x3F) == 0) {
+            auto pl = toImpl<const ParentLinkImplementation>(p);
+            if (pl->getType() != CellType::ParentLink) break;
+            
+            parents = parents->appendLast(context, pl->getObject(context));
+            p = pl->getParent(context);
         }
         return parents;
     }
@@ -505,7 +564,7 @@ namespace proto
     const ProtoObject* ProtoObject::addParent(ProtoContext* context, const ProtoObject* newParent) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
-        if (pa.op.pointer_tag != POINTER_TAG_OBJECT || !newParent->isCell(context)) return this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT || !ProtoObject::isCellPointer(newParent)) return this;
         
         const ProtoObject* result = this;
         const ProtoList* mroOfNew = newParent->getParents(context);
@@ -530,20 +589,26 @@ namespace proto
     }
 
     int ProtoObject::isCell(ProtoContext* context) const {
-        ProtoObjectPointer pa{};
-        pa.oid = this;
-        return pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE;
+        return ProtoObject::isCellPointer(this);
     }
 
     const Cell* ProtoObject::asCell(ProtoContext* context) const {
-        if (!this) return nullptr;
+        return ProtoObject::asCellPointer(this);
+    }
+
+    bool ProtoObject::isCellPointer(const ProtoObject* obj) {
+        if (!obj) return false;
         ProtoObjectPointer pa{};
-        pa.oid = this;
-        if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE) {
-            uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(pa.oid) & ~0x3FUL;
-            return reinterpret_cast<const Cell*>(raw_ptr_value);
-        }
-        return nullptr;
+        pa.oid = obj;
+        return pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE;
+    }
+
+    const Cell* ProtoObject::asCellPointer(const ProtoObject* obj) {
+        if (!ProtoObject::isCellPointer(obj)) return nullptr;
+        ProtoObjectPointer pa{};
+        pa.oid = obj;
+        uintptr_t raw = reinterpret_cast<uintptr_t>(pa.voidPointer) & ~0x3FUL;
+        return reinterpret_cast<const Cell*>(raw);
     }
 
     const ProtoString* ProtoObject::asString(ProtoContext* context) const {
@@ -882,17 +947,33 @@ namespace proto
             }
 
             // Multiple inheritance support:
-            if (oc->parent) {
-                const ParentLinkImplementation* sibling = oc->parent->getParent(context);
-                while (sibling && plPtr < 64) {
-                    plStack[plPtr++] = sibling;
-                    sibling = sibling->getParent(context);
+            if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
+                auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
+                if (pl->getType() == CellType::ParentLink) {
+                    const ParentLinkImplementation* sibling = pl->getParent(context);
+                    while (sibling && plPtr < 64 && ((uintptr_t)sibling & 0x3F) == 0) {
+                        auto sl = toImpl<const ParentLinkImplementation>(sibling);
+                        if (sl->getType() != CellType::ParentLink) break;
+                        plStack[plPtr++] = sibling;
+                        sibling = sl->getParent(context);
+                    }
+                    currentObject = pl->getObject(context);
+                } else {
+                    currentObject = nullptr;
                 }
-                currentObject = oc->parent->getObject(context);
             } else {
                 if (plPtr > 0) {
                     const ParentLinkImplementation* top = plStack[--plPtr];
-                    currentObject = top->getObject(context);
+                    if (top && ((uintptr_t)top & 0x3F) == 0) {
+                        auto tl = toImpl<const ParentLinkImplementation>(top);
+                        if (tl->getType() == CellType::ParentLink) {
+                            currentObject = tl->getObject(context);
+                        } else {
+                            currentObject = nullptr;
+                        }
+                    } else {
+                        currentObject = nullptr;
+                    }
                 } else {
                     currentObject = nullptr;
                 }
@@ -925,10 +1006,12 @@ namespace proto
         }
 
         const ProtoSparseList* attrs = attributes->asSparseList(context);
-        if (oc->parent) {
-            const ProtoObject* parentObj = oc->parent->getObject(context);
-            if (parentObj) {
-                const ProtoSparseList* parentAttrs = parentObj->getAttributes(context);
+        if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
+            auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
+            if (pl->getType() == CellType::ParentLink) {
+                const ProtoObject* parentObj = pl->getObject(context);
+                if (parentObj) {
+                    const ProtoSparseList* parentAttrs = parentObj->getAttributes(context);
                 // Merge parent attributes with own attributes
                 const ProtoSparseListIterator* it = parentAttrs->getIterator(context);
                 while (it && it->hasNext(context)) {
@@ -938,6 +1021,7 @@ namespace proto
                         attrs = attrs->setAt(context, key, value);
                     }
                     it = const_cast<ProtoSparseListIterator*>(it)->advance(context);
+                }
                 }
             }
         }

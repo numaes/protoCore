@@ -214,7 +214,7 @@ namespace proto {
     }
 
     void ProtoListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (value && value->isCell(context)) method(context, self, value->asCell(context));
+        if (ProtoObject::isCellPointer(value)) method(context, self, ProtoObject::asCellPointer(value));
         if (previousNode) method(context, self, previousNode);
         if (nextNode) method(context, self, nextNode);
     }
