@@ -22,7 +22,8 @@ file(GLOB TEST_SOURCES "*.cpp")
 add_executable(proto_tests ${TEST_SOURCES})
 
 # 4. Link the test suite against the protoCore shared library and Google Test
-target_link_libraries(proto_tests PRIVATE protoCore gtest_main)
+# Link gtest before gtest_main so that gtest symbols are available to gtest_main.
+target_link_libraries(proto_tests PRIVATE protoCore gtest gtest_main)
 
 # Coverage instrumentation when COVERAGE=ON (set in parent CMakeLists.txt)
 if(COVERAGE AND DEFINED COVERAGE_FLAGS)

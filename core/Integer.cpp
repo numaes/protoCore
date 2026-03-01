@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <string> // For std::stoll
+#include <utility> // For std::move
 
 namespace proto
 {
@@ -647,11 +648,11 @@ namespace proto
             return {TempBignum(), TempBignum()};
         }
         if (internal_compare_mag(u, v) < 0) { // u < v => q=0, r=u
-            return {TempBignum(), u};
+            return {TempBignum(), std::move(u)};
         }
         if (internal_compare_mag(u, v) == 0) { // u == v => q=1, r=0
             TempBignum one; one.magnitude.push_back(1); one.normalize();
-            return {one, TempBignum()};
+            return {std::move(one), TempBignum()};
         }
 
         // Single digit divisor optimization
@@ -659,16 +660,16 @@ namespace proto
             TempBignum q;
             unsigned __int128 rem = 0;
             q.magnitude.resize(u.magnitude.size());
-            for (int i = u.magnitude.size() - 1; i >= 0; --i) {
-                unsigned __int128 current = (rem << 64) | u.magnitude[i];
-                q.magnitude[i] = static_cast<unsigned long>(current / v.magnitude[0]);
+            for (int i = static_cast<int>(u.magnitude.size()) - 1; i >= 0; --i) {
+                unsigned __int128 current = (rem << 64) | u.magnitude[static_cast<size_t>(i)];
+                q.magnitude[static_cast<size_t>(i)] = static_cast<unsigned long>(current / v.magnitude[0]);
                 rem = current % v.magnitude[0];
             }
             TempBignum r;
             if (rem > 0) r.magnitude.push_back(static_cast<unsigned long>(rem));
             q.normalize();
             r.normalize();
-            return {q, r};
+            return {std::move(q), std::move(r)};
         }
 
         // Full multi-digit division (simplified Knuth's Algorithm D)
@@ -730,7 +731,7 @@ namespace proto
         }
         quotient.normalize();
         remainder.normalize();
-        return {quotient, remainder};
+        return {std::move(quotient), std::move(remainder)};
     }
 
 } // namespace proto

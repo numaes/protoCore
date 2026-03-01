@@ -316,8 +316,7 @@ namespace proto
             charList = charList->implAppendLast(this, fromUnicodeChar(unicodeChar));
             s += len;
         }
-        const auto newString = new(this) ProtoStringImplementation(this, ProtoTupleImplementation::tupleFromList(this, charList));
-        return internString(this, newString)->implAsObject(this);
+        return ProtoString::create(this, charList->asProtoList(this))->asObject(this);
     }
 
     const ProtoList* ProtoContext::newList()

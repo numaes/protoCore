@@ -652,20 +652,6 @@ namespace proto {
         const ProtoStringIteratorImplementation* implGetIterator(ProtoContext* context) const;
     };
 
-    struct StringInternHash {
-        size_t operator()(const ProtoStringImplementation* s) const {
-            return std::hash<const void*>{}(s->tuple);
-        }
-    };
-
-    struct StringInternEqual {
-        bool operator()(const ProtoStringImplementation* a, const ProtoStringImplementation* b) const {
-            return a->tuple == b->tuple;
-        }
-    };
-
-    using StringInternSet = std::unordered_set<const ProtoStringImplementation*, StringInternHash, StringInternEqual>;
-
     class ProtoTupleImplementation : public Cell {
     public:
         const ProtoObject *slot[TUPLE_SIZE];
@@ -693,6 +679,67 @@ namespace proto {
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
         unsigned long getHash(ProtoContext* context) const override;
     };
+
+    struct StringInternHash {
+        static size_t hashTupleElements(const ProtoTupleImplementation* t) {
+            size_t h = 0;
+            for (int i = 0; i < TUPLE_SIZE; ++i) {
+                const ProtoObject* obj = t->slot[i];
+                if (!obj) continue;
+                
+                ProtoObjectPointer pa{};
+                pa.oid = obj;
+                if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
+                    h = (h * 31) + (pa.unicodeChar.unicodeValue & 0x1FFFFFu);
+                } else if (pa.op.pointer_tag == POINTER_TAG_TUPLE) {
+                    h = (h * 31) + hashTupleElements(toImpl<const ProtoTupleImplementation>(obj));
+                } else if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_SMALLINT) {
+                    h = (h * 31) + (pa.si.smallInteger & 0x1FFFFFu);
+                }
+            }
+            return h;
+        }
+
+        size_t operator()(const ProtoStringImplementation* s) const {
+            if (!s || !s->tuple) return 0;
+            return hashTupleElements(s->tuple);
+        }
+    };
+
+    struct StringInternEqual {
+        static bool equalTuples(const ProtoTupleImplementation* ta, const ProtoTupleImplementation* tb) {
+            if (ta == tb) return true;
+            if (!ta || !tb) return false;
+            
+            for (int i = 0; i < TUPLE_SIZE; ++i) {
+                const ProtoObject* oa = ta->slot[i];
+                const ProtoObject* ob = tb->slot[i];
+                if (oa == ob) continue;
+                if (!oa || !ob) return false;
+                
+                ProtoObjectPointer pa{}, pb{};
+                pa.oid = oa; pb.oid = ob;
+                if (pa.op.pointer_tag != pb.op.pointer_tag) return false;
+                
+                if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) {
+                    if (pa.op.value != pb.op.value) return false;
+                } else if (pa.op.pointer_tag == POINTER_TAG_TUPLE) {
+                    if (!equalTuples(toImpl<const ProtoTupleImplementation>(oa), toImpl<const ProtoTupleImplementation>(ob))) return false;
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        bool operator()(const ProtoStringImplementation* a, const ProtoStringImplementation* b) const {
+             if (a == b) return true;
+             if (!a || !b) return false;
+             return equalTuples(a->tuple, b->tuple);
+        }
+    };
+
+    using StringInternSet = std::unordered_set<const ProtoStringImplementation*, StringInternHash, StringInternEqual>;
 
     class ProtoSetImplementation : public Cell {
     public:

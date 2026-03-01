@@ -258,6 +258,7 @@ namespace proto
     class ProtoString
     {
     public:
+        static const ProtoString* create(ProtoContext* context, const ProtoList* list);
         static const ProtoString* fromUTF8String(ProtoContext* context, const char* zeroTerminatedUtf8String);
 
         int cmp_to_string(ProtoContext* context, const ProtoString* otherString) const;
