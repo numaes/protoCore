@@ -47,7 +47,8 @@ namespace proto
         returnValue(PROTO_NONE),
         currentFileName(nullptr),
         currentLineNumber(0),
-        freeCells(nullptr)
+        freeCells(nullptr),
+        pendingRoot(nullptr)
     {
         // Step 1: Inherit essential services from the parent context.
         // This must be done first so that this context can allocate objects.
@@ -164,6 +165,7 @@ namespace proto
         }
         // Any unfreed cells from the local batch must be returned to the space
         if (this->freeCells && this->space) {
+            while (lock.test_and_set(std::memory_order_acquire)) {}
             std::lock_guard<std::recursive_mutex> freeLock(ProtoSpace::globalMutex);
             Cell* batchTail = this->freeCells;
             int count = 1;
@@ -175,6 +177,7 @@ namespace proto
             this->space->freeCells = this->freeCells;
             this->space->freeCellsCount += count;
             this->freeCells = nullptr;
+            lock.clear(std::memory_order_release);
         }
 
         // Free the C-style array for automatic variables.
@@ -203,6 +206,7 @@ namespace proto
         if (this && this->thread) {
             newCell = toImpl<ProtoThreadImplementation>(this->thread)->implAllocCell(this);
         } else if (this) {
+            while (lock.test_and_set(std::memory_order_acquire)) {}
             // Local context pool check
             if (this->freeCells) {
                 newCell = this->freeCells;
@@ -213,6 +217,7 @@ namespace proto
                     this->freeCells = newCell->getNext();
                 }
             }
+            lock.clear(std::memory_order_release);
         } else {
              // Absolute fall back (rare or error)
              int result = posix_memalign(reinterpret_cast<void**>(&newCell), 64, sizeof(BigCell));
@@ -241,8 +246,14 @@ namespace proto
      */
     void ProtoContext::addCell2Context(Cell* cell)
     {
-        cell->setNext(this->lastAllocatedCell);
-        this->lastAllocatedCell = cell;
+        if (this) {
+            while (lock.test_and_set(std::memory_order_acquire)) {}
+            cell->setNext(this->lastAllocatedCell);
+            this->lastAllocatedCell = cell;
+            lock.clear(std::memory_order_release);
+        } else {
+            cell->setNext(nullptr);
+        }
     }
 
     //=========================================================================
@@ -288,6 +299,7 @@ namespace proto
             return createInlineString(this, count, codepoints);
         }
         const ProtoListImplementation* charList = new(this) ProtoListImplementation(this);
+        this->pendingRoot = const_cast<ProtoListImplementation*>(charList);
         s = (const unsigned char*)zeroTerminatedUtf8String;
         while (*s) {
             unsigned int unicodeChar;
@@ -314,9 +326,12 @@ namespace proto
                 unicodeChar = (unicodeChar << 6) | (s[i] & 0x3F);
             }
             charList = charList->implAppendLast(this, fromUnicodeChar(unicodeChar));
+            this->pendingRoot = const_cast<ProtoListImplementation*>(charList);
             s += len;
         }
-        return ProtoString::create(this, charList->asProtoList(this))->asObject(this);
+        const ProtoObject* result = ProtoString::create(this, charList->asProtoList(this))->asObject(this);
+        this->pendingRoot = nullptr;
+        return result;
     }
 
     const ProtoList* ProtoContext::newList()

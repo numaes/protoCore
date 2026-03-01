@@ -602,6 +602,11 @@ namespace proto
         Cell* lastAllocatedCell;
         unsigned long allocatedCellsCount;
         Cell* freeCells;
+        Cell* pendingRoot;
+        std::atomic_flag lock{ATOMIC_FLAG_INIT};
+        
+        ProtoContext(const ProtoContext&) = delete;
+        ProtoContext& operator=(const ProtoContext&) = delete;
     };
 
     /**

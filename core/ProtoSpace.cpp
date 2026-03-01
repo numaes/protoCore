@@ -110,17 +110,31 @@ namespace proto {
                         if (currentCtx->returnValue) {
                             addRootObj(currentCtx->returnValue);
                         }
+                        // Roots: Pending Root
+                        if (currentCtx->pendingRoot) {
+                            workList.push_back(currentCtx->pendingRoot);
+                        }
                         // Roots: Young generation (pinned objects allocated in this context)
                         // These are safe from collection because they are not in captured segments.
                         // We scan their references to find pointers to older objects, but we don't
                         // mark the young objects themselves yet. This allows them to be collected
                         // in the very first GC cycle after they are promoted to DirtySegments.
-                        Cell* youngCell = currentCtx->lastAllocatedCell;
-                        while (youngCell) {
-                            youngCell->processReferences(space->rootContext, &workList, [](ProtoContext* ctx, void* self, const Cell* ref) {
-                                static_cast<std::vector<const Cell*>*>(self)->push_back(ref);
-                            });
-                            youngCell = youngCell->getNext();
+                        Cell* youngCell = nullptr;
+                        while (currentCtx->lock.test_and_set(std::memory_order_acquire)) {}
+                        youngCell = currentCtx->lastAllocatedCell;
+                        currentCtx->lastAllocatedCell = nullptr;
+                        currentCtx->allocatedCellsCount = 0;
+                        currentCtx->lock.clear(std::memory_order_release);
+
+                        if (youngCell) {
+                            Cell* scanCell = youngCell;
+                            while (scanCell) {
+                                scanCell->processReferences(space->rootContext, &workList, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                                    static_cast<std::vector<const Cell*>*>(self)->push_back(ref);
+                                });
+                                scanCell = scanCell->getNext();
+                            }
+                            space->submitYoungGeneration(youngCell);
                         }
                         currentCtx = currentCtx->previous;
                     }
@@ -426,7 +440,7 @@ namespace proto {
         const ProtoList* args,
         const ProtoSparseList* kwargs
     ) {
-        auto* c = context ? context : new ProtoContext(this, nullptr, nullptr, nullptr, args, kwargs);
+        auto* c = new ProtoContext(this, nullptr, nullptr, nullptr, args, kwargs);
         auto* newThreadImpl = new(c) ProtoThreadImplementation(c, name, this, mainFunction, args, kwargs);
         // runningThreads is incremented in ProtoThreadImplementation constructor
         return newThreadImpl->asThread(c);

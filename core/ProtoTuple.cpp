@@ -247,6 +247,7 @@ namespace proto {
 
             // Not found, insert new node using an allocation that might GC
             TupleDictionary* newNode = new(context) TupleDictionary(context, newTuple, nullptr, nullptr);
+            context->pendingRoot = newNode;
             
             // Reacquire lock to link the node, checking if someone else inserted it meanwhile
             {
@@ -258,6 +259,7 @@ namespace proto {
                     int cmp = compareTuples(context, newTuple, current->key);
                     if (cmp == 0) {
                         // Someone else inserted it! We leak the `newNode` as garbage, but we won't memory leak thanks to GC.
+                        context->pendingRoot = nullptr;
                         return current->key; 
                     }
                     parent = current;
@@ -279,6 +281,7 @@ namespace proto {
                     }
                 }
             }
+            context->pendingRoot = nullptr;
             return newTuple;
         }
     }

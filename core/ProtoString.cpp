@@ -630,7 +630,13 @@ namespace proto {
         }
         
         const ProtoTuple* tuple = context->newTupleFromList(list);
-        return internString(context, new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple)))->asProtoString(context);
+        ProtoStringImplementation* pendingStr = new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple));
+        context->pendingRoot = pendingStr;
+        
+        const ProtoStringImplementation* interned = internString(context, pendingStr);
+        context->pendingRoot = nullptr;
+        
+        return interned->asProtoString(context);
     }
 
     const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* str) {
