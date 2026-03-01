@@ -190,6 +190,7 @@ namespace proto {
                 addRootObj(space->threadPrototype);
                 addRootObj(space->rootObject);
                 if (space->literalData) addRootObj(space->literalData->asObject(space->rootContext));
+                if (space->resolutionChain_) addRootObj(space->resolutionChain_->asObject(space->rootContext));
 
                 {
                     std::lock_guard<std::mutex> modLock(space->moduleRootsMutex);
