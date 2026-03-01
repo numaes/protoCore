@@ -286,7 +286,7 @@ namespace proto
                 }
             }
         }
-        return PROTO_FALSE;
+        return PROTO_NONE;
     }
 
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks) const
@@ -404,7 +404,7 @@ namespace proto
                 currentPointer = nextProto;
             }
         }
-        return PROTO_NONE;
+        return nullptr;
     }
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const

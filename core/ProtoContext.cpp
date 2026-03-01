@@ -162,6 +162,21 @@ namespace proto
                 // Cell constructor already registers with context via addCell2Context
             }
         }
+        // Any unfreed cells from the local batch must be returned to the space
+        if (this->freeCells && this->space) {
+            std::lock_guard<std::recursive_mutex> freeLock(ProtoSpace::globalMutex);
+            Cell* batchTail = this->freeCells;
+            int count = 1;
+            while (batchTail->getNext()) {
+                batchTail = batchTail->getNext();
+                count++;
+            }
+            batchTail->internalSetNextRaw(this->space->freeCells);
+            this->space->freeCells = this->freeCells;
+            this->space->freeCellsCount += count;
+            this->freeCells = nullptr;
+        }
+
         // Free the C-style array for automatic variables.
         delete[] automaticLocals;
     }

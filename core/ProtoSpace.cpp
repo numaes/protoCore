@@ -465,40 +465,15 @@ namespace proto {
             return batchHead;
         }
 
-        // No free cells: trigger GC and park so the GC thread can run, unless multiple threads
-        // are running — then skip GC and allocate from OS to avoid stop-the-world (main thread
-        // is typically in join() and cannot park, so parking all workers would deadlock or
-        // serialize progress). With runningThreads > 1 we rely on larger OS allocation to
-        // keep the global list populated.
-        const bool multiThreaded = this->runningThreads > 1;
-        if (!multiThreaded && this->gcThread && std::this_thread::get_id() != this->gcThread->get_id()) {
+        // No free cells: trigger GC but DO NOT park. We will allocate from the OS directly
+        // to avoid deadlocks where the gc thread is waiting for STW but some threads are stuck in wait().
+        if (this->gcThread && std::this_thread::get_id() != this->gcThread->get_id()) {
             if (!this->gcStarted) {
                 this->gcStarted = true;
                 this->gcCV.notify_all();
             }
-            this->parkedThreads++;
-            this->gcCV.notify_all();
-            GC_LOCK_TRACE("getFreeCells REL(park)");
-            this->gcCV.wait(lock, [this] { return !this->gcStarted.load(); });
-            GC_LOCK_TRACE("getFreeCells ACQ(wake)");
-            this->parkedThreads--;
-            // Re-check free list after GC may have replenished it
-            if (this->freeCells) {
-                Cell* batchHead = this->freeCells;
-                Cell* current = batchHead;
-                int count = 1;
-                while (current->getNext() && count < batchSize) {
-                    current = current->getNext();
-                    count++;
-                }
-                this->freeCells = current->getNext();
-                current->setNext(nullptr);
-                this->freeCellsCount -= count;
-                GC_LOCK_TRACE("getFreeCells REL(return after GC)");
-                return batchHead;
-            }
         }
-        // Multi-threaded or gcThread null: fall through to OS allocation.
+        // Fall through to OS allocation.
 
         // No free cells: allocate from OS. Do the expensive work (posix_memalign + chaining)
         // outside the lock so other threads can make progress; only hold the lock to update

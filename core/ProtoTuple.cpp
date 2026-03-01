@@ -215,12 +215,6 @@ namespace proto {
             if (s1 < s2) { recursionStack.pop_back(); return -1; }
             if (s1 > s2) { recursionStack.pop_back(); return 1; }
 
-            unsigned long h1 = t1->getHash(context);
-            unsigned long h2 = t2->getHash(context);
-            
-            if (h1 < h2) { recursionStack.pop_back(); return -1; }
-            if (h1 > h2) { recursionStack.pop_back(); return 1; }
-
             for (unsigned long i = 0; i < s1; ++i) {
                 const ProtoObject* o1 = t1->implGetAt(context, i);
                 const ProtoObject* o2 = t2->implGetAt(context, i);
@@ -382,30 +376,7 @@ namespace proto {
     }
 
     unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
-        // Prevent infinite recursion for recursive tuples
-        static thread_local std::vector<const ProtoTupleImplementation*> recursionStack;
-        for (const auto* tup : recursionStack) {
-            if (tup == this) {
-                return 0; // Return a default hash for recursive references
-            }
-        }
-        
-        recursionStack.push_back(this);
-        
-        unsigned long current_hash = 0;
-        // Combine hashes of all elements in the slot in a non-commutative way
-        for (int i = 0; i < TUPLE_SIZE; ++i) {
-            if (slot[i]) {
-                current_hash = (current_hash * 31) + slot[i]->getHash(context);
-            }
-        }
-        // Incorporate actual_size to distinguish tuples of different logical lengths
-        // that share physical prefixes.
-        current_hash = (current_hash * 31) + actual_size;
-
-        recursionStack.pop_back();
-        
-        return current_hash;
+        return reinterpret_cast<uintptr_t>(this);
     }
 
     const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const {
