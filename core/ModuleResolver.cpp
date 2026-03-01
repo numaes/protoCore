@@ -19,10 +19,18 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
 
     const ProtoObject* cached = sharedModuleCacheGet(key);
     if (cached) {
+        {
+            std::lock_guard<std::mutex> lock(space->moduleRootsMutex);
+            // Ensure the cached module is rooted in this space
+            if (std::find(space->moduleRoots.begin(), space->moduleRoots.end(), cached) == space->moduleRoots.end()) {
+                space->moduleRoots.push_back(cached);
+            }
+        }
+        
         const ProtoObject* wrapper = ctx->newObject(false);
-    if (space->objectPrototype) {
-        wrapper = wrapper->addParent(ctx, space->objectPrototype);
-    }
+        if (space->objectPrototype) {
+            wrapper = wrapper->addParent(ctx, space->objectPrototype);
+        }
         if (!wrapper) return PROTO_NONE;
         const ProtoString* attrName = ProtoString::fromUTF8String(ctx, attrName2create);
         if (!attrName) return PROTO_NONE;
