@@ -407,8 +407,7 @@ namespace proto
         return nullptr;
     }
 
-    const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
-    {
+    const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const {
         if (!this || !name) return this;
 
         // 1. Invalidate Cache
@@ -518,6 +517,8 @@ namespace proto
     }
 
     const ProtoObject* ProtoObject::addParentInternal(ProtoContext* context, const ProtoObject* newParent) const {
+        if (!isCell(context)) return this;
+        
         const auto* oc = toImpl<const ProtoObjectCell>(this);
         
         // Handle Mutable Objects

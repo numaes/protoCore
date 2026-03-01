@@ -110,20 +110,19 @@ namespace proto {
                         if (currentCtx->returnValue) {
                             addRootObj(currentCtx->returnValue);
                         }
-                        // Roots: Pending Root
+                        // Push pending root
                         if (currentCtx->pendingRoot) {
                             workList.push_back(currentCtx->pendingRoot);
                         }
+                        
                         // Roots: Young generation (pinned objects allocated in this context)
                         // These are safe from collection because they are not in captured segments.
                         // We scan their references to find pointers to older objects, but we don't
-                        // mark the young objects themselves yet. This allows them to be collected
-                        // in the very first GC cycle after they are promoted to DirtySegments.
+                        // mark the young objects themselves yet. They will be submitted to the GC
+                        // only at the end of the method execution (ProtoContext destructor).
                         Cell* youngCell = nullptr;
                         while (currentCtx->lock.test_and_set(std::memory_order_acquire)) {}
                         youngCell = currentCtx->lastAllocatedCell;
-                        currentCtx->lastAllocatedCell = nullptr;
-                        currentCtx->allocatedCellsCount = 0;
                         currentCtx->lock.clear(std::memory_order_release);
 
                         if (youngCell) {
@@ -134,7 +133,6 @@ namespace proto {
                                 });
                                 scanCell = scanCell->getNext();
                             }
-                            space->submitYoungGeneration(youngCell);
                         }
                         currentCtx = currentCtx->previous;
                     }
@@ -206,7 +204,7 @@ namespace proto {
                     if (node->previous) self(self, node->previous);
                     if (node->next) self(self, node->next);
                     // The node itself is a Cell, it must be added to workList to be reachable/marked
-                    workList.push_back(node);
+                    if (reinterpret_cast<uintptr_t>(node) & 1) { std::cerr << "CRITICAL TAGGED node: " << node << "\n"; std::abort(); } workList.push_back(node);
                 };
                 scanTupleInternTree(scanTupleInternTree, space->tupleRoot.load());
 
@@ -215,7 +213,7 @@ namespace proto {
                     auto* internSet = static_cast<StringInternSet*>(space->stringInternMap);
                     for (const ProtoStringImplementation* sImpl : *internSet) {
                         if (sImpl) {
-                            workList.push_back(sImpl);
+                            if (reinterpret_cast<uintptr_t>(sImpl) & 1) { std::cerr << "CRITICAL TAGGED sImpl: " << sImpl << "\n"; std::abort(); } workList.push_back(sImpl);
                             // Also ensure its dependencies are marked (though sImpl->processReferences should handle it,
                             // we add it to workList so it's marked as a root).
                         }
@@ -246,6 +244,10 @@ namespace proto {
                     if (!cell->isMarked()) {
                         const_cast<Cell*>(cell)->mark();
                         cell->processReferences(space->rootContext, &workList, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                            if (reinterpret_cast<uintptr_t>(ref) & 1) {
+                                std::cerr << "CRITICAL TAGGED POINTER 2: " << ref << std::endl;
+                                std::abort();
+                            }
                             static_cast<std::vector<const Cell*>*>(self)->push_back(ref);
                         });
                     }
