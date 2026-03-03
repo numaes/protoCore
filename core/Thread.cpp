@@ -136,17 +136,20 @@ namespace proto {
             const Cell* cell
             )
     ) const {
-        if (this->extension) {
-            method(context, self, this->extension);
+        if (this->extension && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->extension))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->extension)));
         }
         if (this->name) {
-            method(context, self, this->name->asCell(context));
+            const Cell* c = this->name->asCell(context);
+            if (c && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(c))) method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(c)));
         }
         if (this->args) {
-            method(context, self, this->args->asObject(context)->asCell(context));
+            const Cell* c = this->args->asObject(context)->asCell(context);
+            if (c && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(c))) method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(c)));
         }
         if (this->kwargs) {
-            method(context, self, this->kwargs->asObject(context)->asCell(context));
+            const Cell* c = this->kwargs->asObject(context)->asCell(context);
+            if (c && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(c))) method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(c)));
         }
     }
 

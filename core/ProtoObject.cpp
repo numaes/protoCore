@@ -101,15 +101,15 @@ namespace proto
     ) const
     {
         // Report the head of the prototype chain.
-        if (this->parent)
+        if (this->parent && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->parent)))
         {
-            method(context, self, this->parent);
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->parent)));
         }
 
         // Report the attribute list.
-        if (this->attributes)
+        if (this->attributes && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->attributes)))
         {
-            method(context, self, this->attributes);
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->attributes)));
         }
     }
 

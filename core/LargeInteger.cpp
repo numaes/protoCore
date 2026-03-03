@@ -89,8 +89,8 @@ namespace proto
     void LargeIntegerImplementation::processReferences(
         ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
     {
-        if (next) {
-            method(context, self, toImpl<Cell>(next));
+        if (next && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(next))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(toImpl<Cell>(next))));
         }
     }
 

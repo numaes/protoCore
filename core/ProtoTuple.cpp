@@ -41,14 +41,14 @@ namespace proto {
             const Cell* cell
         )
     ) const {
-        if (this->key) {
-            method(context, self, this->key);
+        if (this->key && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->key))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->key)));
         }
-        if (this->previous) {
-            method(context, self, this->previous);
+        if (this->previous && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->previous))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->previous)));
         }
-        if (this->next) {
-            method(context, self, this->next);
+        if (this->next && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->next))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->next)));
         }
     }
 
@@ -102,8 +102,8 @@ namespace proto {
             const Cell* cell
             )
     ) const {
-        if (this->base) {
-            method(context, self, this->base);
+        if (this->base && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->base))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->base)));
         }
     }
 

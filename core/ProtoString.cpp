@@ -288,7 +288,9 @@ namespace proto {
     ) const {
         if (this->base && !isInlineString(this->base)) {
             const Cell* c = this->base->asCell(context);
-            if (c) method(context, self, c);
+            if (c && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(c))) {
+                method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(c)));
+            }
         }
     }
 
@@ -359,8 +361,8 @@ namespace proto {
             const Cell* cell
             )
     ) const {
-        if (this->tuple) {
-            method(context, self, this->tuple);
+        if (this->tuple && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->tuple))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->tuple)));
         }
     }
 

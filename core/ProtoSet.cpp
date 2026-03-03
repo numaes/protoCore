@@ -18,7 +18,12 @@ namespace proto {
     }
 
     void ProtoSetImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (list) method(context, self, reinterpret_cast<const ProtoObject*>(list)->asCell(context));
+        if (list) {
+            const Cell* c = reinterpret_cast<const ProtoObject*>(list)->asCell(context);
+            if (c && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(c))) {
+                method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(c)));
+            }
+        }
     }
 
     const ProtoObject* ProtoSetImplementation::implAsObject(ProtoContext* context) const {
@@ -58,7 +63,9 @@ namespace proto {
     }
 
     void ProtoSetIteratorImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (iterator) method(context, self, iterator);
+        if (iterator && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(iterator))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(iterator)));
+        }
     }
 
     // ProtoSet / ProtoSetIterator external API trampolines

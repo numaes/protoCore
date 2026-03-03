@@ -215,8 +215,12 @@ namespace proto {
 
     void ProtoListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
         if (ProtoObject::isCellPointer(value)) method(context, self, ProtoObject::asCellPointer(value));
-        if (previousNode) method(context, self, previousNode);
-        if (nextNode) method(context, self, nextNode);
+        if (previousNode && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(previousNode))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(previousNode)));
+        }
+        if (nextNode && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(nextNode))) {
+            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(nextNode)));
+        }
     }
 
     const ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context) const {
@@ -280,8 +284,8 @@ namespace proto {
     }
 
     void ProtoListIteratorImplementation::processReferences(ProtoContext* context, void* callback_data, void (*callback)(ProtoContext*, void*, const Cell*)) const {
-        if (base) {
-            callback(context, callback_data, (const Cell*)base);
+        if (base && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(base))) {
+            callback(context, callback_data, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(base)));
         }
     }
 
