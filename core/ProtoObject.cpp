@@ -427,35 +427,34 @@ namespace proto
 
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
-             // 1. Get current object state
-             const ProtoObject* currentObjState = this; 
-             ProtoSparseList* root = context->space->mutableRoot.load();
-             if (root != nullptr) {
-                 const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(root);
-                 const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
-                 if (storedState != nullptr) {
-                      currentObjState = storedState;
-                 }
-             }
-
-             // 2. Create new state with updated attribute
-             if (!proto::isObject(currentObjState)) {
-                 // Corruption detected or inconsistent state
-                 return this;
-             }
-             auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
-             const auto* newAttributes = currentOc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
-             
-             // CRITICAL: newState MUST have mutable_ref = 0 to avoid infinite loop during lookup
-             auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
-
-             // 4. Update mutableRoot (Compare and Swap Loop)
              int casIteration = 0;
              while(true) {
                  if (++casIteration > 100) {
-                     break;
+                     break; // Give up
                  }
+                 
+                 // 1. Get current object state from the latest root
+                 const ProtoObject* currentObjState = this; 
                  ProtoSparseList* oldRoot = context->space->mutableRoot.load();
+                 if (oldRoot != nullptr) {
+                     const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(oldRoot);
+                     const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
+                     if (storedState != nullptr) {
+                          currentObjState = storedState;
+                     }
+                 }
+                 
+                 // 2. Create new state with updated attribute
+                 if (!proto::isObject(currentObjState)) {
+                     return this; // Corruption detected or inconsistent state
+                 }
+                 auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+                 const auto* newAttributes = currentOc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
+                 
+                 // CRITICAL: newState MUST have mutable_ref = 0 to avoid infinite loop during lookup
+                 auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
+
+                 // 3. Update mutableRoot (Compare and Swap Loop)
                  const auto* oldRootImpl = (oldRoot == nullptr) ? 
                      toImpl<const ProtoSparseListImplementation>(context->newSparseList()) :
                      toImpl<const ProtoSparseListImplementation>(oldRoot);
@@ -523,28 +522,28 @@ namespace proto
         
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
-             // 1. Get current object state
-             const ProtoObject* currentObjState = this; 
-             ProtoSparseList* root = context->space->mutableRoot.load();
-             if (root != nullptr) {
-                 const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(root);
-                 const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
-                 if (storedState != nullptr) {
-                      currentObjState = storedState;
-                 }
-             }
-
-             // 2. Create new state with added parent
-             auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
-             auto* newState = currentOc->addParent(context, newParent)->asObject(context);
-
-             // 3. Update mutableRoot (Compare and Swap Loop)
              int casIteration = 0;
              while(true) {
                  if (++casIteration > 100) {
-                     break;
+                     break; // Give up
                  }
+
+                 // 1. Get current object state from the latest root
+                 const ProtoObject* currentObjState = this; 
                  ProtoSparseList* oldRoot = context->space->mutableRoot.load();
+                 if (oldRoot != nullptr) {
+                     const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(oldRoot);
+                     const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
+                     if (storedState != nullptr) {
+                          currentObjState = storedState;
+                     }
+                 }
+
+                 // 2. Create new state with added parent
+                 auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+                 auto* newState = currentOc->addParent(context, newParent)->asObject(context);
+
+                 // 3. Update mutableRoot (Compare and Swap Loop)
                  const auto* oldRootImpl = (oldRoot == nullptr) ? 
                      toImpl<const ProtoSparseListImplementation>(context->newSparseList()) :
                      toImpl<const ProtoSparseListImplementation>(oldRoot);
