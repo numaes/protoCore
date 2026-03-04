@@ -29,6 +29,13 @@ namespace proto
      * @param parent A pointer to the previous link in the chain (the next prototype to check).
      * @param object The actual prototype object this link represents.
      */
+#include <unordered_map>
+#include <mutex>
+#include <execinfo.h>
+#include <stdlib.h>
+std::unordered_map<const ParentLinkImplementation*, const ParentLinkImplementation*> dbg_parentLinks;
+std::mutex dbg_mutex;
+
     ParentLinkImplementation::ParentLinkImplementation(
         ProtoContext* context,
         const ParentLinkImplementation* parent,
@@ -59,6 +66,12 @@ namespace proto
         }
 
         // Report the prototype object this link represents.
+        if (this->object) {
+            if (reinterpret_cast<uintptr_t>(this->object) & 1) {
+                std::cerr << "BINGO! Tagged pointer in this->object: " << this->object 
+                          << " isCellPointer=" << ProtoObject::isCellPointer(this->object) << "\n";
+            }
+        }
         if (this->object && ProtoObject::isCellPointer(this->object))
         {
             method(context, self, ProtoObject::asCellPointer(this->object));
