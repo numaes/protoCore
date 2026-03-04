@@ -127,9 +127,13 @@ namespace proto {
 
                         if (youngCell) {
                             Cell* scanCell = youngCell;
+                            struct GCLambdaState { std::vector<const Cell*>* wl; const Cell* parent; const char* phase; } state = {&workList, scanCell, "Phase2(Young)"};
                             while (scanCell) {
-                                scanCell->processReferences(space->rootContext, &workList, [](ProtoContext* ctx, void* self, const Cell* ref) {
-                                    static_cast<std::vector<const Cell*>*>(self)->push_back(ref);
+                                state.parent = scanCell;
+                                scanCell->processReferences(space->rootContext, &state, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                                    auto* s = static_cast<GCLambdaState*>(self);
+                                    if (reinterpret_cast<uintptr_t>(ref) & 1) { std::cerr << "CRITICAL TAGGED POINTER 2 (Y): " << ref << " from parent " << s->parent << " type " << (int)s->parent->getType() << std::endl; std::abort(); }
+                                    s->wl->push_back(ref);
                                 });
                                 scanCell = scanCell->getNext();
                             }
@@ -243,12 +247,14 @@ namespace proto {
 
                     if (!cell->isMarked()) {
                         const_cast<Cell*>(cell)->mark();
-                        cell->processReferences(space->rootContext, &workList, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                        struct GCLambdaState { std::vector<const Cell*>* wl; const Cell* parent; } state = {&workList, cell};
+                        cell->processReferences(space->rootContext, &state, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                            auto* s = static_cast<GCLambdaState*>(self);
                             if (reinterpret_cast<uintptr_t>(ref) & 1) {
-                                std::cerr << "CRITICAL TAGGED POINTER 2: " << ref << std::endl;
+                                std::cerr << "CRITICAL TAGGED POINTER 2: " << ref << " from parent " << s->parent << " type " << (int)s->parent->getType() << std::endl;
                                 std::abort();
                             }
-                            static_cast<std::vector<const Cell*>*>(self)->push_back(ref);
+                            s->wl->push_back(ref);
                         });
                     }
                 }

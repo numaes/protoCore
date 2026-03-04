@@ -53,9 +53,9 @@ namespace proto
     ) const
     {
         // Report the link to the next parent in the chain.
-        if (this->parent && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->parent)))
+        if (this->parent)
         {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->parent)));
+            method(context, self, this->parent);
         }
 
         // Report the prototype object this link represents.

@@ -48,11 +48,11 @@ namespace proto
     }
 
     void ProtoSparseListIteratorImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (current && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(current))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(current)));
+        if (current) {
+            method(context, self, current);
         }
-        if (queue && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(queue))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(queue)));
+        if (queue) {
+            method(context, self, queue);
         }
     }
 
@@ -225,11 +225,11 @@ namespace proto
 
     void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
         if (ProtoObject::isCellPointer(value)) method(context, self, ProtoObject::asCellPointer(value));
-        if (previous && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(previous))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(previous)));
+        if (previous) {
+            method(context, self, previous);
         }
-        if (next && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(next))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(next)));
+        if (next) {
+            method(context, self, next);
         }
     }
 

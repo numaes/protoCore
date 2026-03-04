@@ -20,8 +20,8 @@ namespace proto {
     void ProtoMultisetImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
         if (list) {
             const Cell* c = reinterpret_cast<const ProtoObject*>(list)->asCell(context);
-            if (c && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(c))) {
-                method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(c)));
+            if (c) {
+                method(context, self, c);
             }
         }
     }
@@ -63,8 +63,8 @@ namespace proto {
     }
 
     void ProtoMultisetIteratorImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (iterator && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(iterator))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(iterator)));
+        if (iterator) {
+            method(context, self, iterator);
         }
     }
 
