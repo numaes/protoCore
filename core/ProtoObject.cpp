@@ -336,9 +336,6 @@ namespace proto
                     }
                 }
             }
-            else {
-                currentPointer = this->getPrototype(context);   
-            }
 
             // Check Cache using currentPointer (the handle)
             unsigned long hash_idx = 0;
