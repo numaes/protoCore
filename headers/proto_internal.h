@@ -704,6 +704,49 @@ namespace proto {
         const ProtoStringIteratorImplementation* implGetIterator(ProtoContext* context) const;
     };
 
+    // ---- SymbolTable ----------------------------------------------------------
+    // 64-shard concurrent interning table. Replaces TupleDictionary for strings.
+    // Strong symbols (from literals) are never collected.
+    // Weak symbols (auto-interned) are removed by GC sweep before cell reclaim.
+    class SymbolTable {
+    public:
+        static constexpr int SHARD_COUNT = 64;
+
+        struct Bucket {
+            uint64_t           content_hash;
+            const ProtoObject* symbol;          // POINTER_TAG_SYMBOL pointer
+            bool               is_strong;
+            Bucket*            next;
+        };
+
+        struct Shard {
+            std::mutex  mutex;
+            Bucket*     head = nullptr;
+        };
+
+        Shard shards[SHARD_COUNT];
+
+        SymbolTable()  = default;
+        ~SymbolTable();
+
+        const ProtoObject* intern(ProtoContext* ctx,
+                                   const ProtoObject* strObj,
+                                   bool is_strong = false);
+
+        void removeWeak(uint64_t content_hash, const ProtoObject* symbol);
+
+        static bool isSymbol(const ProtoObject* obj);
+
+    private:
+        int shardIndex(uint64_t hash) const {
+            return static_cast<int>((hash >> 58) & (SHARD_COUNT - 1));
+        }
+        static bool contentEqual(ProtoContext* ctx,
+                                  const ProtoObject* a, const ProtoObject* b);
+        static const ProtoStringImplementation* normalizeForSymbol(ProtoContext* ctx,
+                                                                    const ProtoObject* strObj);
+    };
+
     // ---- StringLeafNode -------------------------------------------------------
     // 64-byte Cell. Stores up to 32 bytes of UTF-8 content in one contiguous chunk.
     // Layout (64 bytes total):

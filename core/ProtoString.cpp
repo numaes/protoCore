@@ -138,6 +138,9 @@ namespace proto {
         return pa.inlineString.inline_byte_count;
     }
 
+    // Forward declaration — defined later in the AVL helpers section.
+    static const ProtoStringImplementation* getImpl(const ProtoObject* obj);
+
     /** Returns the Unicode codepoint at index i for an inline ASCII string (0..127). */
     static unsigned int inlineStringCharAt(const ProtoObject* o, int i) {
         ProtoObjectPointer pa{};
@@ -156,7 +159,7 @@ namespace proto {
             }
             return chars;
         }
-        return static_cast<unsigned long>(toImpl<const ProtoStringImplementation>(o)->implGetSize());
+        return static_cast<unsigned long>(getImpl(o)->implGetSize());
     }
 
     static const ProtoObject* getProtoStringGetAt(ProtoContext* context, const ProtoObject* o, int index) {
@@ -164,7 +167,7 @@ namespace proto {
             const unsigned int cp = inlineStringCharAt(o, index);
             return context->fromUnicodeChar(cp);
         }
-        return toImpl<const ProtoStringImplementation>(o)->implGetAt(context, index);
+        return getImpl(o)->implGetAt(context, index);
     }
 
     const ProtoObject* createInlineString(ProtoContext* context, int len, const unsigned int* codepoints) {
@@ -206,13 +209,17 @@ namespace proto {
     // Helpers for ProtoString public operations (AVL-based)
     // =========================================================================
 
-    /** Unwrap any ProtoString* to its ProtoStringImplementation (for POINTER_TAG_STRING or POINTER_TAG_SYMBOL). */
+    /** Unwrap any ProtoString* to its ProtoStringImplementation (for POINTER_TAG_STRING or POINTER_TAG_SYMBOL).
+     *  Bypasses toImpl's strict single-tag check because both POINTER_TAG_STRING and POINTER_TAG_SYMBOL
+     *  use the same underlying ProtoStringImplementation layout; only the tag differs. */
     static const ProtoStringImplementation* getImpl(const ProtoObject* obj) {
         if (!obj) return nullptr;
         ProtoObjectPointer pa{}; pa.oid = obj;
         unsigned long tag = pa.op.pointer_tag;
         if (tag == POINTER_TAG_STRING || tag == POINTER_TAG_SYMBOL) {
-            return toImpl<const ProtoStringImplementation>(obj);
+            // Manually clear the lower 6 tag bits to obtain the raw Cell pointer.
+            uintptr_t raw = reinterpret_cast<uintptr_t>(obj) & ~static_cast<uintptr_t>(0x3F);
+            return reinterpret_cast<const ProtoStringImplementation*>(raw);
         }
         return nullptr;
     }
@@ -332,10 +339,10 @@ namespace proto {
                 }
 
                 if (current->isString(context)) {
-                    const ProtoStringImplementation* sImpl = toImpl<const ProtoStringImplementation>(current);
+                    const ProtoStringImplementation* sImpl = getImpl(current);
                     if (idx == 0) {
                         idx = 1;
-                        if (sImpl->avl_root) push(sImpl->avl_root);
+                        if (sImpl && sImpl->avl_root) push(sImpl->avl_root);
                         continue;
                     }
                     top--; continue;
@@ -415,7 +422,8 @@ namespace proto {
                 if (current->isString(ctx)) {
                     if (idx == 0) {
                         idx = 1;
-                        const ProtoObject* root = toImpl<const ProtoStringImplementation>(current)->avl_root;
+                        const ProtoStringImplementation* sImpl = getImpl(current);
+                        const ProtoObject* root = sImpl ? sImpl->avl_root : nullptr;
                         if (root) {
                             tempTop++;
                             if (tempTop >= MAX_DEPTH) return false;
@@ -523,7 +531,7 @@ namespace proto {
                 h = (h * 31UL) + static_cast<unsigned long>(inlineStringCharAt(o, static_cast<int>(i)));
             return h;
         }
-        return toImpl<const ProtoStringImplementation>(o)->getHash(context);
+        return getImpl(o)->getHash(context);
     }
 
     //=========================================================================
@@ -585,8 +593,8 @@ namespace proto {
         // leaf that contains charIndex.
         if (this->currentLeaf == nullptr ||
             static_cast<uint32_t>(this->leafBytePos) >= static_cast<uint32_t>(this->currentLeaf->byte_count)) {
-            const ProtoStringImplementation* sImpl = toImpl<const ProtoStringImplementation>(this->base);
-            locateLeaf(sImpl->avl_root);
+            const ProtoStringImplementation* sImpl = getImpl(this->base);
+            locateLeaf(sImpl ? sImpl->avl_root : nullptr);
         }
 
         if (!this->currentLeaf) {
@@ -915,8 +923,13 @@ namespace proto {
     }
 
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
-        if (isInlineString(reinterpret_cast<const ProtoObject*>(this))) return reinterpret_cast<const ProtoObject*>(this);
-        return toImpl<const ProtoStringImplementation>(this)->implAsObject(context);
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
+        if (isInlineString(self)) return self;
+        // For both POINTER_TAG_STRING and POINTER_TAG_SYMBOL the tagged pointer
+        // already IS the canonical object handle — return it directly.
+        ProtoObjectPointer pa{}; pa.oid = self;
+        if (pa.op.pointer_tag == POINTER_TAG_STRING || pa.op.pointer_tag == POINTER_TAG_SYMBOL) return self;
+        return getImpl(self)->implAsObject(context);
     }
 
     const ProtoString* ProtoString::setAt(ProtoContext* context, int index, const ProtoObject* character) const {
@@ -1014,7 +1027,7 @@ namespace proto {
     const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const {
         if (isInlineString(reinterpret_cast<const ProtoObject*>(this)))
             return (new (context) ProtoStringIteratorImplementation(context, reinterpret_cast<const ProtoObject*>(this), 0))->asProtoStringIterator(context);
-        return toImpl<const ProtoStringImplementation>(this)->implGetIterator(context)->asProtoStringIterator(context);
+        return getImpl(reinterpret_cast<const ProtoObject*>(this))->implGetIterator(context)->asProtoStringIterator(context);
     }
 
     static void appendUTF8CodePoint(std::string& out, unsigned int codepoint) {
@@ -1151,8 +1164,45 @@ namespace proto {
         }
         return o->asString(context);
     }
+    const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const char* utf8) {
+        if (!utf8) utf8 = "";
+        size_t len = std::strlen(utf8);
+
+        // Short ASCII paths can live as inline strings — they already guarantee
+        // pointer equality without SymbolTable involvement.
+        if (len <= INLINE_STRING_MAX_BYTES) {
+            // Verify the bytes are pure ASCII (no multi-byte sequences that could
+            // exceed codepoint count). If so, create an inline string directly.
+            bool allAscii = true;
+            for (size_t i = 0; i < len; ++i) {
+                if (static_cast<unsigned char>(utf8[i]) >= 0x80u) { allAscii = false; break; }
+            }
+            if (allAscii) {
+                const ProtoObject* inl = createInlineStringUTF8(
+                    ctx,
+                    reinterpret_cast<const uint8_t*>(utf8),
+                    static_cast<uint8_t>(len));
+                return reinterpret_cast<const ProtoString*>(inl);
+            }
+        }
+
+        // General path: build a ProtoStringImplementation, intern it as a symbol.
+        const ProtoStringImplementation* impl =
+            ProtoStringImplementation::fromUTF8Bytes(
+                ctx,
+                reinterpret_cast<const uint8_t*>(utf8),
+                len);
+        const ProtoObject* str_obj = impl->implAsObject(ctx);
+        const ProtoObject* sym = ctx->space->symbolTable->intern(ctx, str_obj, /*is_strong=*/true);
+        return reinterpret_cast<const ProtoString*>(sym);
+    }
+
+    const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const std::string& s) {
+        return ProtoString::createSymbol(ctx, s.c_str());
+    }
+
     unsigned long ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
-    const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : toImpl<const ProtoStringImplementation>(this); }
+    const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : getImpl(reinterpret_cast<const ProtoObject*>(this)); }
     const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
         auto* self     = reinterpret_cast<const ProtoObject*>(this);
         auto* otherObj = reinterpret_cast<const ProtoObject*>(other);

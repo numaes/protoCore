@@ -591,3 +591,45 @@ TEST_F(StringTest, InlineStringTwoByte) {
     auto* s = reinterpret_cast<const ProtoString*>(obj);
     EXPECT_EQ(s->getSize(c), 1u);
 }
+
+// ---- Task 10: SymbolTable tests ---------------------------------------------
+
+class SymbolTest : public ::testing::Test {
+protected:
+    proto::ProtoSpace space;
+    proto::ProtoContext ctx{&space};
+    ProtoContext* c = &ctx;
+};
+
+TEST_F(SymbolTest, SameSymbolSamePointer) {
+    // Two calls with identical content must return pointer-equal results.
+    auto* s1 = ProtoString::createSymbol(c, "hello world!!");
+    auto* s2 = ProtoString::createSymbol(c, "hello world!!");
+    EXPECT_EQ(s1, s2);
+}
+
+TEST_F(SymbolTest, DifferentSymbolsDifferentPointers) {
+    auto* s1 = ProtoString::createSymbol(c, "hello world!!");
+    auto* s2 = ProtoString::createSymbol(c, "world hello!!");
+    EXPECT_NE(s1, s2);
+}
+
+TEST_F(SymbolTest, SymbolEqualsStringByContent) {
+    // A symbol and a non-interned string with the same content must compare equal.
+    auto* sym = ProtoString::createSymbol(c, "hello world!!");
+    auto* str = ProtoString::fromUTF8String(c, "hello world!!");
+    EXPECT_EQ(sym->cmp_to_string(c, str), 0);
+}
+
+TEST_F(SymbolTest, NonInternedStringNotSymbol) {
+    // A regular (non-interned) string longer than 6 bytes must not be a symbol.
+    auto* str = ProtoString::fromUTF8String(c, "hello world!!");
+    auto* obj = reinterpret_cast<const ProtoObject*>(str);
+    EXPECT_FALSE(SymbolTable::isSymbol(obj));
+}
+
+TEST_F(SymbolTest, SymbolIsSymbol) {
+    auto* sym = ProtoString::createSymbol(c, "hello world!!");
+    auto* obj = reinterpret_cast<const ProtoObject*>(sym);
+    EXPECT_TRUE(SymbolTable::isSymbol(obj));
+}

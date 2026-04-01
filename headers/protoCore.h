@@ -18,6 +18,8 @@
 
 namespace proto
 {
+    class SymbolTable;  // forward declaration for 64-shard interning table
+
     // Forward declarations
     class ProtoStringIterator;
     class ProtoTupleIterator;
@@ -260,6 +262,11 @@ namespace proto
     public:
         static const ProtoString* create(ProtoContext* context, const ProtoList* list);
         static const ProtoString* fromUTF8String(ProtoContext* context, const char* zeroTerminatedUtf8String);
+
+        /** Creates or retrieves an interned symbol for the given UTF-8 string. Symbols with the same
+         *  content share a unique pointer identity. Strong symbols (created here) are never GC-collected. */
+        static const ProtoString* createSymbol(ProtoContext* context, const char* zeroTerminatedUtf8);
+        static const ProtoString* createSymbol(ProtoContext* context, const std::string& s);
 
         int cmp_to_string(ProtoContext* context, const ProtoString* otherString) const;
 
@@ -758,6 +765,7 @@ namespace proto
         int blockOnNoMemory;
         std::atomic<TupleDictionary*> tupleRoot;
         void* stringInternMap;
+        SymbolTable* symbolTable{};
         std::atomic<bool> mutableLock;
         std::atomic<bool> threadsLock;
         std::atomic<bool> gcLock;

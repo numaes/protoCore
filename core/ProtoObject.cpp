@@ -641,7 +641,7 @@ namespace proto
     bool ProtoObject::isString(ProtoContext* context) const {
         if (!this) return false;
         ProtoObjectPointer pa{}; pa.oid = this;
-        if (pa.op.pointer_tag == POINTER_TAG_STRING || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING)) return true;
+        if (pa.op.pointer_tag == POINTER_TAG_STRING || pa.op.pointer_tag == POINTER_TAG_SYMBOL || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING)) return true;
         
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
             const proto::ProtoString* dataName = context->space->literalData;

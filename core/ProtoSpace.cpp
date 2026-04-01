@@ -384,6 +384,7 @@ namespace proto {
         auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);
         this->mutableRoot = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext));
         
+        symbolTable = new SymbolTable();
         initStringInternMap(this);
         this->literalData = const_cast<ProtoString*>(ProtoString::fromUTF8String(this->rootContext, "__data__"));
 
@@ -404,6 +405,8 @@ namespace proto {
         }
         delete this->rootContext;
         freeStringInternMap(this);
+        delete symbolTable;
+        symbolTable = nullptr;
     }
 
     const ProtoObject* ProtoSpace::getResolutionChain() const {
