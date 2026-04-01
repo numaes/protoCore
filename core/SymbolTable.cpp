@@ -71,63 +71,58 @@ const ProtoStringImplementation* SymbolTable::normalizeForSymbol(
 
 // ---------------------------------------------------------------------------
 // intern — return the canonical symbol for strObj, inserting if absent.
+//
+// Allocation (normalizeForSymbol / implAsSymbol) is performed BEFORE acquiring
+// the shard lock to avoid a lock-order inversion with the GC global lock:
+//
+//   Thread A: holds shard.mutex → triggers allocation → waits for globalMutex
+//   GC thread: holds globalMutex → calls removeWeak → waits for shard.mutex
+//              → DEADLOCK
+//
+// The double-checked locking pattern below avoids this by performing all
+// potentially-allocating work outside the critical section.  A re-check
+// inside the lock handles the race where two threads intern the same string
+// concurrently.
 // ---------------------------------------------------------------------------
 const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
                                         const ProtoObject* strObj,
                                         bool is_strong) {
     if (!strObj) return strObj;
 
-    // Already a symbol — return as-is.
-    {
-        ProtoObjectPointer pa{};
-        pa.oid = strObj;
-        if (pa.op.pointer_tag == POINTER_TAG_SYMBOL) return strObj;
-        // Embedded values (inline strings, small integers, etc.) cannot be
-        // interned as symbols — return unchanged.
-        if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) return strObj;
-    }
-
-    // Compute hash for shard selection.
     ProtoObjectPointer pa{};
     pa.oid = strObj;
-    uint64_t hash = 0;
-    if (pa.op.pointer_tag == POINTER_TAG_STRING) {
-        const ProtoStringImplementation* impl =
-            reinterpret_cast<const ProtoStringImplementation*>(pa.stringImplementation);
-        hash = impl->implGetHash();
-    } else {
-        // Inline or other string form — derive hash from UTF-8 content.
-        std::string utf8;
-        reinterpret_cast<const ProtoString*>(strObj)->toUTF8String(ctx, utf8);
-        // FNV-1a over the UTF-8 bytes to produce a stable hash.
-        hash = 14695981039346656037ULL;
-        for (unsigned char c : utf8) {
-            hash ^= static_cast<uint64_t>(c);
-            hash *= 1099511628211ULL;
-        }
-    }
+    if (pa.op.pointer_tag == POINTER_TAG_SYMBOL) return strObj;
+    // Embedded values (inline strings, small integers, etc.) cannot be
+    // interned as symbols — return unchanged.
+    if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) return strObj;
 
+    // Normalize and create the symbol candidate BEFORE acquiring the lock.
+    // normalizeForSymbol may allocate Cells; doing so without holding
+    // shard.mutex prevents the deadlock described above.
+    const ProtoStringImplementation* normalized = normalizeForSymbol(ctx, strObj);
+    const ProtoObject* symbol_candidate = reinterpret_cast<const ProtoObject*>(
+        normalized->implAsSymbol(ctx));
+    uint64_t hash = normalized->implGetHash();
     int shard_idx = shardIndex(hash);
     Shard& shard = shards[shard_idx];
 
-    std::lock_guard<std::mutex> lock(shard.mutex);
+    {
+        std::lock_guard<std::mutex> lock(shard.mutex);
 
-    // Search existing buckets for a content-equal symbol.
-    for (Bucket* b = shard.head; b; b = b->next) {
-        if (b->content_hash == hash &&
-            contentEqual(ctx, b->symbol, strObj)) {
-            return b->symbol;
+        // Re-check: another thread may have interned the same string while
+        // we were normalizing above.  If so, return the existing symbol and
+        // let the GC collect symbol_candidate.
+        for (Bucket* b = shard.head; b; b = b->next) {
+            if (b->content_hash == hash &&
+                contentEqual(ctx, b->symbol, strObj))
+                return b->symbol;
         }
+
+        // Not found — insert the pre-built candidate.
+        Bucket* bucket = new Bucket{ hash, symbol_candidate, is_strong, shard.head };
+        shard.head = bucket;
+        return symbol_candidate;
     }
-
-    // Not found — create a new symbol and insert into the shard.
-    const ProtoStringImplementation* normalized = normalizeForSymbol(ctx, strObj);
-    const ProtoObject* symbol = reinterpret_cast<const ProtoObject*>(
-        normalized->implAsSymbol(ctx));
-
-    Bucket* bucket = new Bucket{ hash, symbol, is_strong, shard.head };
-    shard.head = bucket;
-    return symbol;
 }
 
 // ---------------------------------------------------------------------------
@@ -139,7 +134,7 @@ void SymbolTable::removeWeak(uint64_t content_hash, const ProtoObject* symbol) {
     std::lock_guard<std::mutex> lock(shard.mutex);
     Bucket** prev = &shard.head;
     for (Bucket* b = shard.head; b; b = b->next) {
-        if (b->symbol == symbol && !b->is_strong) {
+        if (b->content_hash == content_hash && b->symbol == symbol && !b->is_strong) {
             *prev = b->next;
             delete b;
             return;

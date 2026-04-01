@@ -739,7 +739,7 @@ namespace proto {
 
     private:
         int shardIndex(uint64_t hash) const {
-            return static_cast<int>((hash >> 58) & (SHARD_COUNT - 1));
+            return static_cast<int>(hash & (SHARD_COUNT - 1));
         }
         static bool contentEqual(ProtoContext* ctx,
                                   const ProtoObject* a, const ProtoObject* b);
