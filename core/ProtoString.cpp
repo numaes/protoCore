@@ -232,25 +232,41 @@ namespace proto {
         if (!root) {
             return createInlineStringUTF8(ctx, nullptr, 0);
         }
-        uint32_t totalBytes = StringInternalNode::byteCount(root);
-        if (totalBytes <= INLINE_STRING_MAX_BYTES) {
-            // Collect all bytes from the AVL tree into a small buffer
-            uint8_t buf[INLINE_STRING_MAX_BYTES];
-            uint32_t totalChars = StringInternalNode::charCount(root);
-            uint32_t pos = 0;
-            for (uint32_t i = 0; i < totalChars && pos < totalBytes; ++i) {
-                uint32_t cp = 0;
-                strCharAt(root, i, &cp);
-                if (cp < 0x80u) {
-                    buf[pos++] = static_cast<uint8_t>(cp);
-                } else if (cp < 0x800u && pos + 1 < INLINE_STRING_MAX_BYTES) {
-                    buf[pos++] = static_cast<uint8_t>(0xC0u | (cp >> 6));
-                    buf[pos++] = static_cast<uint8_t>(0x80u | (cp & 0x3Fu));
-                } else {
-                    break; // Shouldn't happen if totalBytes <= 6, but safety
-                }
+        // For a leaf node, copy raw UTF-8 bytes directly — no decode/re-encode needed.
+        // This correctly handles all codepoint widths (1-4 bytes).
+        if (StringLeafNode::isStringLeafNode(root)) {
+            auto* leaf = StringLeafNode::fromObject(root);
+            if (leaf->byte_count <= INLINE_STRING_MAX_BYTES) {
+                return createInlineStringUTF8(ctx, leaf->utf8_payload, leaf->byte_count);
             }
-            return createInlineStringUTF8(ctx, buf, static_cast<uint8_t>(pos));
+        } else {
+            // Internal node: collect codepoints and re-encode only when the byte count fits.
+            uint32_t totalBytes = StringInternalNode::byteCount(root);
+            if (totalBytes <= INLINE_STRING_MAX_BYTES) {
+                uint8_t buf[INLINE_STRING_MAX_BYTES];
+                uint32_t pos = 0;
+                uint32_t totalChars = StringInternalNode::charCount(root);
+                for (uint32_t i = 0; i < totalChars; ++i) {
+                    uint32_t cp = 0;
+                    strCharAt(root, i, &cp);
+                    if (cp < 0x80u) {
+                        buf[pos++] = static_cast<uint8_t>(cp);
+                    } else if (cp < 0x800u) {
+                        buf[pos++] = static_cast<uint8_t>(0xC0u | (cp >> 6));
+                        buf[pos++] = static_cast<uint8_t>(0x80u | (cp & 0x3Fu));
+                    } else if (cp < 0x10000u) {
+                        buf[pos++] = static_cast<uint8_t>(0xE0u | (cp >> 12));
+                        buf[pos++] = static_cast<uint8_t>(0x80u | ((cp >> 6) & 0x3Fu));
+                        buf[pos++] = static_cast<uint8_t>(0x80u | (cp & 0x3Fu));
+                    } else {
+                        buf[pos++] = static_cast<uint8_t>(0xF0u | (cp >> 18));
+                        buf[pos++] = static_cast<uint8_t>(0x80u | ((cp >> 12) & 0x3Fu));
+                        buf[pos++] = static_cast<uint8_t>(0x80u | ((cp >> 6) & 0x3Fu));
+                        buf[pos++] = static_cast<uint8_t>(0x80u | (cp & 0x3Fu));
+                    }
+                }
+                return createInlineStringUTF8(ctx, buf, static_cast<uint8_t>(pos));
+            }
         }
         auto* pendingStr = new(ctx) ProtoStringImplementation(ctx, root);
         ctx->pendingRoot = const_cast<ProtoStringImplementation*>(pendingStr);
@@ -740,6 +756,7 @@ namespace proto {
         const ProtoObject* root = getRoot(context, self);
         uint32_t sz = StringInternalNode::charCount(root);
         const ProtoList* list = context->newList();
+        // TODO(Task 8): O(N log N) — replace with StringCodepointIterator for O(N) traversal
         for (uint32_t i = 0; i < sz; ++i) {
             uint32_t cp = 0;
             strCharAt(root, i, &cp);
@@ -763,21 +780,8 @@ namespace proto {
     int ProtoString::cmp_to_string(ProtoContext* context, const ProtoString* otherString) const {
         auto* a = reinterpret_cast<const ProtoObject*>(this);
         auto* b = reinterpret_cast<const ProtoObject*>(otherString);
-        if (a == b) return 0;
-        const ProtoObject* ra = getRoot(context, a);
-        const ProtoObject* rb = getRoot(context, b);
-        uint32_t sa = StringInternalNode::charCount(ra);
-        uint32_t sb = StringInternalNode::charCount(rb);
-        uint32_t min_len = std::min(sa, sb);
-        for (uint32_t i = 0; i < min_len; ++i) {
-            uint32_t ca = 0, cb = 0;
-            strCharAt(ra, i, &ca);
-            strCharAt(rb, i, &cb);
-            if (ca != cb) return (ca < cb) ? -1 : 1;
-        }
-        if (sa < sb) return -1;
-        if (sa > sb) return 1;
-        return 0;
+        // TODO(Task 8): O(N log N) — replace with StringCodepointIterator for O(N) traversal
+        return compareStrings(context, a, b);
     }
 
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
@@ -907,6 +911,7 @@ namespace proto {
         uint32_t sz = StringInternalNode::charCount(root);
         out.clear();
         out.reserve(sz);
+        // TODO(Task 8): O(N log N) — replace with StringCodepointIterator for O(N) traversal
         for (uint32_t i = 0; i < sz; ++i) {
             uint32_t cp = 0;
             strCharAt(root, i, &cp);
