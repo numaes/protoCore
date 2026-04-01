@@ -11,10 +11,100 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <cassert>
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
 
 namespace proto {
+
+    // =========================================================================
+    // UTF-8 utilities
+    // =========================================================================
+
+    static uint32_t utf8SeqLen(uint8_t lead) {
+        if (lead < 0x80) return 1;
+        if (lead < 0xE0) return 2;
+        if (lead < 0xF0) return 3;
+        return 4;
+    }
+
+    static uint32_t decodeCodepoint(const uint8_t* p) {
+        const uint8_t lead = p[0];
+        if (lead < 0x80) return lead;
+        if (lead < 0xE0) return static_cast<uint32_t>((lead & 0x1Fu) << 6u)  | (p[1] & 0x3Fu);
+        if (lead < 0xF0) return static_cast<uint32_t>((lead & 0x0Fu) << 12u) | (static_cast<uint32_t>(p[1] & 0x3Fu) << 6u)  | (p[2] & 0x3Fu);
+        return               static_cast<uint32_t>((lead & 0x07u) << 18u) | (static_cast<uint32_t>(p[1] & 0x3Fu) << 12u) | (static_cast<uint32_t>(p[2] & 0x3Fu) << 6u) | (p[3] & 0x3Fu);
+    }
+
+    static uint64_t fnv1a(const uint8_t* data, size_t len) {
+        uint64_t h = 14695981039346656037ULL;
+        for (size_t i = 0; i < len; ++i)
+            h = (h ^ data[i]) * 1099511628211ULL;
+        return h;
+    }
+
+    // =========================================================================
+    // StringLeafNode
+    // =========================================================================
+
+    StringLeafNode::StringLeafNode(ProtoContext* ctx,
+                                   const uint8_t* bytes, uint8_t byte_cnt,
+                                   uint16_t char_cnt, bool partial)
+        : Cell(ctx)
+        , byte_count(byte_cnt)
+        , _pad_char_count(0)
+        , char_count(char_cnt)
+        , flags(partial ? 1u : 0u)
+        , _pad{}
+        , content_hash(computeHash(bytes, byte_cnt))
+    {
+        std::memcpy(utf8_payload, bytes, byte_cnt);
+    }
+
+    uint64_t StringLeafNode::computeHash(const uint8_t* bytes, uint8_t len) {
+        return fnv1a(bytes, len);
+    }
+
+    uint32_t StringLeafNode::charToByteOffset(uint32_t char_index) const {
+        uint32_t byte_pos = 0;
+        uint32_t char_pos = 0;
+        while (char_pos < char_index && byte_pos < static_cast<uint32_t>(byte_count)) {
+            byte_pos += utf8SeqLen(utf8_payload[byte_pos]);
+            ++char_pos;
+        }
+        return byte_pos;
+    }
+
+    uint32_t StringLeafNode::codepointAt(uint32_t byte_pos) const {
+        return decodeCodepoint(utf8_payload + byte_pos);
+    }
+
+    const ProtoObject* StringLeafNode::asObject() const {
+        ProtoObjectPointer pa{};
+        pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        pa.op.pointer_tag = POINTER_TAG_STRING_LEAF_NODE;
+        return pa.oid;
+    }
+
+    const StringLeafNode* StringLeafNode::fromObject(const ProtoObject* obj) {
+        ProtoObjectPointer pa{};
+        pa.oid = obj;
+        assert(pa.op.pointer_tag == POINTER_TAG_STRING_LEAF_NODE);
+        pa.op.pointer_tag = 0;
+        return reinterpret_cast<const StringLeafNode*>(pa.oid);
+    }
+
+    bool StringLeafNode::isStringLeafNode(const ProtoObject* obj) {
+        if (!obj) return false;
+        ProtoObjectPointer pa{};
+        pa.oid = obj;
+        return pa.op.pointer_tag == POINTER_TAG_STRING_LEAF_NODE;
+    }
+
+    const ProtoObject* StringLeafNode::implAsObject(ProtoContext* /*context*/) const {
+        return asObject();
+    }
 
     //=========================================================================
     // Inline string helpers (tagged pointer; up to 7 UTF-32 chars in 54 bits)

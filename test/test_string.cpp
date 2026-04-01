@@ -95,9 +95,54 @@ TEST_F(StringTest, StringTupleInterningConcatenation) {
     const ProtoString* a = ctx->fromUTF8String("1234")->asString(ctx);
     const ProtoString* b = ctx->fromUTF8String("5678")->asString(ctx);
     const ProtoString* ab = a->appendLast(ctx, b);
-    
+
     const ProtoObject* directString = ctx->fromUTF8String("12345678");
-    
+
     // Must map to the exact same pointer through interning!
     EXPECT_EQ(ab->asObject(ctx), directString);
+}
+
+// ===== StringAVLTest ========================================================
+// Tests for the new AVL-based string implementation.
+// These tests use internal classes directly via proto_internal.h.
+
+class StringAVLTest : public ::testing::Test {
+protected:
+    ProtoSpace space;
+    ProtoContext ctx{&space};
+    ProtoContext* c = &ctx;
+};
+
+TEST_F(StringAVLTest, LeafNodeASCII) {
+    const uint8_t bytes[] = {'h','e','l','l','o'};
+    auto* leaf = new(c) proto::StringLeafNode(c, bytes, 5, 5, false);
+    EXPECT_EQ(leaf->byte_count, 5);
+    EXPECT_EQ(leaf->char_count, 5);
+    EXPECT_FALSE(leaf->isPartial());
+    EXPECT_EQ(leaf->codepointAt(0), (uint32_t)'h');
+    EXPECT_EQ(leaf->codepointAt(leaf->charToByteOffset(4)), (uint32_t)'o');
+}
+
+TEST_F(StringAVLTest, LeafNodeUTF8TwoByte) {
+    // U+00E9 (é) = 0xC3 0xA9
+    const uint8_t bytes[] = {0xC3, 0xA9, 'x'};
+    auto* leaf = new(c) proto::StringLeafNode(c, bytes, 3, 2, false);
+    EXPECT_EQ(leaf->byte_count, 3);
+    EXPECT_EQ(leaf->char_count, 2);
+    EXPECT_EQ(leaf->codepointAt(0), 0x00E9u);  // é
+    EXPECT_EQ(leaf->codepointAt(leaf->charToByteOffset(1)), (uint32_t)'x');
+}
+
+TEST_F(StringAVLTest, LeafNodePartialFlag) {
+    const uint8_t bytes[] = {'a'};
+    auto* leaf = new(c) proto::StringLeafNode(c, bytes, 1, 1, true);
+    EXPECT_TRUE(leaf->isPartial());
+}
+
+TEST_F(StringAVLTest, LeafNodeHashDiffers) {
+    const uint8_t b1[] = {'a','b'};
+    const uint8_t b2[] = {'a','c'};
+    auto* l1 = new(c) proto::StringLeafNode(c, b1, 2, 2);
+    auto* l2 = new(c) proto::StringLeafNode(c, b2, 2, 2);
+    EXPECT_NE(l1->content_hash, l2->content_hash);
 }
