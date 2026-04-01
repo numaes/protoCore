@@ -634,6 +634,51 @@ TEST_F(SymbolTest, SymbolIsSymbol) {
     EXPECT_TRUE(SymbolTable::isSymbol(obj));
 }
 
+// ---- Task 14: Buffer boundary tests for fromUTF8Buffer ----------------------
+
+TEST_F(StringTest, BufferBoundaryCleanUTF8) {
+    const char* src = "hello world";
+    uint8_t rem[4]; uint8_t rem_cnt;
+    auto* s = ProtoString::fromUTF8Buffer(
+        c, reinterpret_cast<const uint8_t*>(src), 11,
+        nullptr, 0, rem, &rem_cnt);
+    EXPECT_EQ(rem_cnt, 0u);
+    std::string out; s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hello world");
+}
+
+TEST_F(StringTest, BufferBoundarySplitTwoByte) {
+    // é = 0xC3 0xA9 — split between the two bytes of the sequence
+    const uint8_t buf1[] = {'a', 0xC3};
+    const uint8_t buf2[] = {0xA9, 'b'};
+    uint8_t rem[4]; uint8_t rem_cnt;
+
+    auto* s1 = ProtoString::fromUTF8Buffer(c, buf1, 2, nullptr, 0, rem, &rem_cnt);
+    EXPECT_EQ(rem_cnt, 1u);
+    EXPECT_EQ(rem[0], 0xC3u);
+    std::string out1; s1->toUTF8String(c, out1);
+    EXPECT_EQ(out1, "a");
+
+    auto* s2 = ProtoString::fromUTF8Buffer(c, buf2, 2, rem, rem_cnt, rem, &rem_cnt);
+    EXPECT_EQ(rem_cnt, 0u);
+    std::string out2; s2->toUTF8String(c, out2);
+    EXPECT_EQ(out2, "\xC3\xA9" "b");
+}
+
+TEST_F(StringTest, BufferBoundarySplitThreeByte) {
+    // U+4E2D 中 = 0xE4 0xB8 0xAD — split after the lead byte
+    const uint8_t buf1[] = {0xE4};
+    const uint8_t buf2[] = {0xB8, 0xAD};
+    uint8_t rem[4]; uint8_t rem_cnt;
+
+    ProtoString::fromUTF8Buffer(c, buf1, 1, nullptr, 0, rem, &rem_cnt);
+    EXPECT_EQ(rem_cnt, 1u);
+
+    auto* s = ProtoString::fromUTF8Buffer(c, buf2, 2, rem, rem_cnt, rem, &rem_cnt);
+    EXPECT_EQ(rem_cnt, 0u);
+    EXPECT_EQ(s->getSize(c), 1u);
+}
+
 TEST_F(SymbolTest, AutoInternOnSetAttribute) {
     // "myLongKey" is 9 bytes — exceeds INLINE_STRING_MAX_BYTES (6), so it goes
     // through ProtoStringImplementation (heap allocation, POINTER_TAG_STRING).

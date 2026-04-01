@@ -1475,34 +1475,55 @@ namespace proto {
                                                     uint8_t pending_count,
                                                     uint8_t* out_remainder,
                                                     uint8_t* out_remainder_count) {
-        // Find the last complete UTF-8 boundary within buf[0..len).
-        // Walk back from the end to skip continuation bytes (0x80..0xBF), then
-        // check whether the found lead byte introduces a sequence that is fully
-        // present in the buffer.
-        size_t valid_end = len;
-        while (valid_end > 0 && (buf[valid_end - 1] & 0xC0u) == 0x80u)
+        // Build the combined byte stream: pending bytes from previous call + new buffer.
+        // Walk it to find the last complete codepoint boundary.
+        std::vector<uint8_t> combined;
+        combined.reserve(pending_count + len);
+        if (pending_count)
+            combined.insert(combined.end(), pending, pending + pending_count);
+        combined.insert(combined.end(), buf, buf + len);
+
+        // Find the last complete UTF-8 boundary in the combined stream by
+        // walking backwards from the end to skip trailing continuation bytes,
+        // then verifying the lead byte introduces a fully-present sequence.
+        size_t comb_len = combined.size();
+        size_t valid_end = comb_len;
+        while (valid_end > 0 && (combined[valid_end - 1] & 0xC0u) == 0x80u)
             --valid_end;
 
         if (valid_end > 0) {
-            uint8_t lead = buf[valid_end - 1];
-            int expected = (lead < 0xE0u) ? 2 : (lead < 0xF0u) ? 3 : 4;
-            int have = static_cast<int>(len) - static_cast<int>(valid_end - 1);
-            if (have < expected)
-                --valid_end;  // drop the incomplete lead byte from the valid range
+            uint8_t lead = combined[valid_end - 1];
+            int expected;
+            if (lead < 0x80u)       expected = 1;  // single-byte ASCII
+            else if (lead < 0xE0u)  expected = 2;  // 2-byte lead (0xC0..0xDF)
+            else if (lead < 0xF0u)  expected = 3;  // 3-byte lead (0xE0..0xEF)
+            else                    expected = 4;  // 4-byte lead (0xF0..0xF7)
+            // Number of bytes available starting at the lead byte position.
+            int have = static_cast<int>(comb_len) - static_cast<int>(valid_end - 1);
+            if (have < expected) {
+                // Incomplete sequence: exclude the lead byte from the valid range.
+                --valid_end;
+            } else {
+                // Complete sequence: advance valid_end to just past the sequence.
+                valid_end = (valid_end - 1) + static_cast<size_t>(expected);
+            }
         }
 
-        // Combine any bytes left over from the previous call with the newly
-        // decoded complete portion.
-        std::vector<uint8_t> full;
-        full.reserve(pending_count + valid_end);
-        if (pending_count)
-            full.insert(full.end(), pending, pending + pending_count);
-        full.insert(full.end(), buf, buf + valid_end);
+        // Split: full decoded portion and incomplete trailing bytes.
+        std::vector<uint8_t> full(combined.begin(), combined.begin() + valid_end);
 
-        // Record the trailing incomplete sequence for the next call.
-        *out_remainder_count = static_cast<uint8_t>(len - valid_end);
-        if (*out_remainder_count)
-            std::memcpy(out_remainder, buf + valid_end, *out_remainder_count);
+        // The remainder is the tail of the combined stream that was not decoded.
+        // It comes entirely from the new buffer (pending bytes always complete with buf).
+        size_t remainder_start = (valid_end >= pending_count)
+                                     ? valid_end - pending_count
+                                     : 0;
+        // All bytes in combined[valid_end..comb_len) originate from buf.
+        size_t remainder_in_buf = comb_len - valid_end;
+        *out_remainder_count = static_cast<uint8_t>(remainder_in_buf);
+        if (remainder_in_buf)
+            std::memcpy(out_remainder, buf + (len - remainder_in_buf), remainder_in_buf);
+
+        (void)remainder_start;  // silence unused-variable warning
 
         if (full.empty())
             return reinterpret_cast<const ProtoString*>(
