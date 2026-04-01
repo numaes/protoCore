@@ -559,3 +559,35 @@ TEST_F(StringPublicAPITest, CmpToStringConsistency) {
     EXPECT_GT(b->cmp_to_string(c, a), 0);
     EXPECT_EQ(a->cmp_to_string(c, a), 0);
 }
+
+// ---- Task 9: createInlineStringUTF8 tests -----------------------------------
+
+TEST_F(StringTest, InlineStringASCII) {
+    auto* s = ProtoString::fromUTF8String(c, "hi");
+    auto* obj = reinterpret_cast<const ProtoObject*>(s);
+    EXPECT_TRUE(isInlineString(obj));
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hi");
+}
+
+TEST_F(StringTest, InlineStringMaxSixBytes) {
+    auto* s = ProtoString::fromUTF8String(c, "abcdef");
+    auto* obj = reinterpret_cast<const ProtoObject*>(s);
+    EXPECT_TRUE(isInlineString(obj));
+}
+
+TEST_F(StringTest, SevenBytesNotInline) {
+    auto* s = ProtoString::fromUTF8String(c, "abcdefg");
+    auto* obj = reinterpret_cast<const ProtoObject*>(s);
+    EXPECT_FALSE(isInlineString(obj));
+}
+
+TEST_F(StringTest, InlineStringTwoByte) {
+    // é = U+00E9 = 0xC3 0xA9 (2 UTF-8 bytes, 1 codepoint)
+    const uint8_t bytes[] = {0xC3, 0xA9};
+    auto* obj = createInlineStringUTF8(c, bytes, 2);
+    EXPECT_TRUE(isInlineString(obj));
+    auto* s = reinterpret_cast<const ProtoString*>(obj);
+    EXPECT_EQ(s->getSize(c), 1u);
+}
