@@ -853,4 +853,71 @@ namespace proto {
         if (right && ProtoObject::isCellPointer(right))
             method(context, self, ProtoObject::asCellPointer(right));
     }
+
+    // =========================================================================
+    // AVL primitives
+    // =========================================================================
+
+    static const ProtoObject* makeInternal(ProtoContext* ctx,
+                                            const ProtoObject* l,
+                                            const ProtoObject* r) {
+        return (new(ctx) StringInternalNode(ctx, l, r))->asObject();
+    }
+
+    static const ProtoObject* rotateRight(ProtoContext* ctx, const ProtoObject* y) {
+        const auto* yn = StringInternalNode::fromObject(y);
+        const auto* xn = StringInternalNode::fromObject(yn->left);
+        const ProtoObject* new_y = makeInternal(ctx, xn->right, yn->right);
+        return makeInternal(ctx, xn->left, new_y);
+    }
+
+    static const ProtoObject* rotateLeft(ProtoContext* ctx, const ProtoObject* x) {
+        const auto* xn = StringInternalNode::fromObject(x);
+        const auto* yn = StringInternalNode::fromObject(xn->right);
+        const ProtoObject* new_x = makeInternal(ctx, xn->left, yn->left);
+        return makeInternal(ctx, new_x, yn->right);
+    }
+
+    static const ProtoObject* avlRebalance(ProtoContext* ctx, const ProtoObject* node) {
+        if (!StringInternalNode::isStringInternalNode(node)) return node;
+        const int bal = StringInternalNode::balance(node);
+        const auto* n = StringInternalNode::fromObject(node);
+
+        if (bal > 1) {
+            if (StringInternalNode::balance(n->left) >= 0)
+                return rotateRight(ctx, node);                               // LL case
+            const ProtoObject* new_left = rotateLeft(ctx, n->left);
+            return rotateRight(ctx, makeInternal(ctx, new_left, n->right));  // LR case
+        }
+        if (bal < -1) {
+            if (StringInternalNode::balance(n->right) <= 0)
+                return rotateLeft(ctx, node);                                // RR case
+            const ProtoObject* new_right = rotateRight(ctx, n->right);
+            return rotateLeft(ctx, makeInternal(ctx, n->left, new_right));   // RL case
+        }
+        return node;
+    }
+
+    const ProtoObject* strConcat(ProtoContext* ctx,
+                                  const ProtoObject* a,
+                                  const ProtoObject* b) {
+        if (!a) return b;
+        if (!b) return a;
+
+        const int ha = StringInternalNode::nodeHeight(a);
+        const int hb = StringInternalNode::nodeHeight(b);
+
+        if (std::abs(ha - hb) <= 1)
+            return makeInternal(ctx, a, b);
+
+        if (ha > hb + 1) {
+            const auto* an = StringInternalNode::fromObject(a);
+            const ProtoObject* new_right = strConcat(ctx, an->right, b);
+            return avlRebalance(ctx, makeInternal(ctx, an->left, new_right));
+        } else {
+            const auto* bn = StringInternalNode::fromObject(b);
+            const ProtoObject* new_left = strConcat(ctx, a, bn->left);
+            return avlRebalance(ctx, makeInternal(ctx, new_left, bn->right));
+        }
+    }
 }

@@ -174,3 +174,45 @@ TEST_F(StringAVLTest, InternalNodeBalanceLeaves) {
     EXPECT_EQ(proto::StringInternalNode::nodeHeight(node->asObject()), 1);
     EXPECT_EQ(proto::StringInternalNode::balance(node->asObject()), 0);
 }
+
+// Forward declaration for strConcat (defined in namespace proto in ProtoString.cpp)
+namespace proto {
+    const ProtoObject* strConcat(ProtoContext* ctx,
+                                  const ProtoObject* a,
+                                  const ProtoObject* b);
+}
+
+TEST_F(StringAVLTest, ConcatTwoLeaves) {
+    const uint8_t b1[] = {'a','b'};
+    const uint8_t b2[] = {'c','d'};
+    auto* l1 = new(c) proto::StringLeafNode(c, b1, 2, 2);
+    auto* l2 = new(c) proto::StringLeafNode(c, b2, 2, 2);
+
+    const ProtoObject* result = proto::strConcat(c, l1->asObject(), l2->asObject());
+    EXPECT_EQ(proto::StringInternalNode::charCount(result), 4u);
+    EXPECT_EQ(proto::StringInternalNode::nodeHeight(result), 1);
+}
+
+TEST_F(StringAVLTest, ConcatBalancesOnImbalance) {
+    const uint8_t b[] = {'x'};
+    auto* l = new(c) proto::StringLeafNode(c, b, 1, 1);
+    const ProtoObject* acc = l->asObject();
+    for (int i = 0; i < 7; ++i) {
+        auto* li = new(c) proto::StringLeafNode(c, b, 1, 1);
+        acc = proto::strConcat(c, acc, li->asObject());
+    }
+    // 8 leaves: balanced AVL height should be <= 3 (log2(8))
+    EXPECT_LE(proto::StringInternalNode::nodeHeight(acc), 3);
+}
+
+TEST_F(StringAVLTest, ConcatNullLeft) {
+    const uint8_t b[] = {'a'};
+    auto* l = new(c) proto::StringLeafNode(c, b, 1, 1);
+    EXPECT_EQ(proto::strConcat(c, nullptr, l->asObject()), l->asObject());
+}
+
+TEST_F(StringAVLTest, ConcatNullRight) {
+    const uint8_t b[] = {'a'};
+    auto* l = new(c) proto::StringLeafNode(c, b, 1, 1);
+    EXPECT_EQ(proto::strConcat(c, l->asObject(), nullptr), l->asObject());
+}
