@@ -261,9 +261,13 @@ namespace proto
     {
     public:
         static const ProtoString* create(ProtoContext* context, const ProtoList* list);
-        static const ProtoString* fromUTF8String(ProtoContext* context, const char* zeroTerminatedUtf8String);
 
-        /** Convenience alias for fromUTF8String. */
+        // @deprecated Use fromUTF8() instead
+        [[deprecated("Use fromUTF8 instead")]]
+        static const ProtoString* fromUTF8String(ProtoContext* context,
+                                                  const char* zeroTerminatedUtf8String);
+
+        /** Creates a ProtoString from a zero-terminated UTF-8 C string. */
         static const ProtoString* fromUTF8(ProtoContext* context, const char* zeroTerminatedUtf8);
 
         /** Creates a ProtoString from a std::string (UTF-8 encoded). */

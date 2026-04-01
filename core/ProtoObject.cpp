@@ -219,13 +219,7 @@ namespace proto
 
         while (current) {
             if (++iterationCount > 50) {
-                 if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                     fprintf(stderr, "DEBUG: isInstanceOf TOO MANY ITERATIONS\n");
-                 }
                  return PROTO_FALSE;
-            }
-            if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                fprintf(stderr, "DEBUG: isInstanceOf checking current=%p vs prototype=%p\n", (void*)current, (void*)prototype);
             }
             if (current == prototype) return PROTO_TRUE;
             ProtoObjectPointer pa{};
@@ -293,14 +287,16 @@ namespace proto
     {
         if (!this || !name) return nullptr;
 
-        // Auto-intern the key if it is a non-interned heap String so that the
-        // pointer used for lookup matches the canonical symbol stored during setAttribute.
+        // Look up the canonical symbol for this key without inserting.
+        // If the key was never interned, it was never used as an attribute key,
+        // so the attribute cannot exist — return nullptr immediately.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
-                const ProtoObject* sym = context->space->symbolTable->intern(
-                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                const ProtoObject* sym = context->space->symbolTable->lookupByContent(
+                    context, reinterpret_cast<const ProtoObject*>(name));
+                if (!sym) return nullptr;
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
         }
@@ -322,10 +318,6 @@ namespace proto
         while (currentPointer) {
             if (++iterationCount > 500) {
                  return PROTO_NONE;
-            }
-
-            if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                fprintf(stderr, "DEBUG: getAttribute iter=%d obj=%p name=%p\n", iterationCount, (void*)currentPointer, (void*)name);
             }
 
             // Resolve current state for the current pointer
@@ -389,9 +381,6 @@ namespace proto
                 }
 
                 if (currentLink && ((uintptr_t)currentLink & 0x3F) == 0) {
-                    if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                        fprintf(stderr, "DEBUG: getAttribute currentLink=%p\n", (void*)currentLink);
-                    }
                     auto cl = toImpl<const ParentLinkImplementation>(currentLink);
                     if (cl->getType() == CellType::ParentLink) {
                         currentPointer = cl->getObject(context);
@@ -399,9 +388,6 @@ namespace proto
                         currentPointer = nullptr;
                     }
                 } else {
-                    if (currentLink && std::getenv("PROTO_RESOLVE_DIAG")) {
-                         fprintf(stderr, "DEBUG: getAttribute BAD currentLink=%p\n", (void*)currentLink);
-                    }
                     currentPointer = nullptr;
                 }
             } else {
@@ -911,13 +897,16 @@ namespace proto
     {
         if (!this) return PROTO_FALSE;
 
-        // Auto-intern the key to ensure pointer consistency with keys stored by setAttribute.
+        // Look up the canonical symbol for this key without inserting.
+        // If the key was never interned, it was never used as an attribute key,
+        // so the attribute cannot exist — return PROTO_FALSE immediately.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
-                const ProtoObject* sym = context->space->symbolTable->intern(
-                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                const ProtoObject* sym = context->space->symbolTable->lookupByContent(
+                    context, reinterpret_cast<const ProtoObject*>(name));
+                if (!sym) return PROTO_FALSE;
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
         }
@@ -966,17 +955,7 @@ namespace proto
             }
 
             if (attributes->implHas(context, attr_hash)) {
-                if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                    fprintf(stderr, "DEBUG: hasAttribute TRUE on %p\n", (void*)currentObject);
-                }
                 return PROTO_TRUE;
-            }
-            if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                std::string s;
-                name->toUTF8String(context, s);
-                if (s == "add_argument_group") {
-                    fprintf(stderr, "DEBUG: hasAttribute FALSE on %p (obj=%p parent=%p)\n", (void*)currentObject, (void*)this, (void*)oc->parent);
-                }
             }
 
             // Multiple inheritance support:
@@ -1083,13 +1062,16 @@ namespace proto
     }
     
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
-        // Auto-intern the key to ensure pointer consistency with keys stored by setAttribute.
+        // Look up the canonical symbol for this key without inserting.
+        // If the key was never interned, it was never used as an attribute key,
+        // so the attribute cannot exist — return PROTO_FALSE immediately.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
-                const ProtoObject* sym = context->space->symbolTable->intern(
-                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                const ProtoObject* sym = context->space->symbolTable->lookupByContent(
+                    context, reinterpret_cast<const ProtoObject*>(name));
+                if (!sym) return PROTO_FALSE;
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
         }

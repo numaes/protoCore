@@ -126,6 +126,38 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
 }
 
 // ---------------------------------------------------------------------------
+// lookupByContent — read-only lookup; returns nullptr if not yet interned.
+//
+// Unlike intern(), this method never allocates and never modifies the table.
+// It is safe to call on hot read paths (getAttribute, hasAttribute, etc.)
+// because a string that has never been stored as an attribute key cannot
+// possibly exist in the attribute sparse list, so returning nullptr is
+// equivalent to "attribute not found".
+// ---------------------------------------------------------------------------
+const ProtoObject* SymbolTable::lookupByContent(ProtoContext* ctx,
+                                                  const ProtoObject* strObj) const {
+    if (!strObj) return nullptr;
+    ProtoObjectPointer pa{}; pa.oid = strObj;
+    if (pa.op.pointer_tag == POINTER_TAG_SYMBOL) return strObj;
+    if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) return strObj;
+
+    auto* impl = reinterpret_cast<const ProtoStringImplementation*>(
+        toImpl<const ProtoStringImplementation>(strObj));
+    if (!impl) return nullptr;
+    uint64_t hash = impl->implGetHash();
+    int shard_idx = shardIndex(hash);
+    const Shard& shard = shards[shard_idx];
+
+    std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(shard.mutex));
+    for (const Bucket* b = shard.head; b; b = b->next) {
+        if (b->content_hash == hash &&
+            contentEqual(ctx, b->symbol, strObj))
+            return b->symbol;
+    }
+    return nullptr;
+}
+
+// ---------------------------------------------------------------------------
 // removeWeak — called by GC sweep to evict a collected weak symbol.
 // ---------------------------------------------------------------------------
 void SymbolTable::removeWeak(uint64_t content_hash, const ProtoObject* symbol) {

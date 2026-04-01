@@ -1155,15 +1155,8 @@ namespace proto {
     }
 
     const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* str) {
-        const ProtoObject* o = context->fromUTF8String(str);
-        if (!o || o == PROTO_NONE) return nullptr;
-
-        ProtoObjectPointer pa{};
-        pa.oid = o;
-        if (pa.op.pointer_tag == POINTER_TAG_STRING || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING)) {
-            return reinterpret_cast<const ProtoString*>(o);
-        }
-        return o->asString(context);
+        // Deprecated: delegates to fromUTF8.
+        return ProtoString::fromUTF8(context, str);
     }
     const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const char* utf8) {
         if (!utf8) utf8 = "";
@@ -1454,12 +1447,22 @@ namespace proto {
 
     const ProtoString* ProtoString::fromUTF8(ProtoContext* context,
                                               const char* zeroTerminatedUtf8) {
-        return ProtoString::fromUTF8String(context, zeroTerminatedUtf8);
+        const ProtoObject* o = context->fromUTF8String(zeroTerminatedUtf8);
+        if (!o || o == PROTO_NONE) return nullptr;
+
+        ProtoObjectPointer pa{};
+        pa.oid = o;
+        if (pa.op.pointer_tag == POINTER_TAG_STRING ||
+            (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE &&
+             pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING)) {
+            return reinterpret_cast<const ProtoString*>(o);
+        }
+        return o->asString(context);
     }
 
     const ProtoString* ProtoString::fromStdString(ProtoContext* context,
                                                    const std::string& s) {
-        return ProtoString::fromUTF8String(context, s.c_str());
+        return ProtoString::fromUTF8(context, s.c_str());
     }
 
     std::string ProtoString::toStdString(ProtoContext* context) const {
@@ -1512,18 +1515,11 @@ namespace proto {
         // Split: full decoded portion and incomplete trailing bytes.
         std::vector<uint8_t> full(combined.begin(), combined.begin() + valid_end);
 
-        // The remainder is the tail of the combined stream that was not decoded.
-        // It comes entirely from the new buffer (pending bytes always complete with buf).
-        size_t remainder_start = (valid_end >= pending_count)
-                                     ? valid_end - pending_count
-                                     : 0;
         // All bytes in combined[valid_end..comb_len) originate from buf.
         size_t remainder_in_buf = comb_len - valid_end;
         *out_remainder_count = static_cast<uint8_t>(remainder_in_buf);
         if (remainder_in_buf)
             std::memcpy(out_remainder, buf + (len - remainder_in_buf), remainder_in_buf);
-
-        (void)remainder_start;  // silence unused-variable warning
 
         if (full.empty())
             return reinterpret_cast<const ProtoString*>(

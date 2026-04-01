@@ -733,6 +733,11 @@ namespace proto {
                                    const ProtoObject* strObj,
                                    bool is_strong = false);
 
+        // Read-only lookup — returns existing symbol if found, nullptr if not interned.
+        // Does NOT insert into the table. Safe to call on hot read paths.
+        const ProtoObject* lookupByContent(ProtoContext* ctx,
+                                            const ProtoObject* strObj) const;
+
         void removeWeak(uint64_t content_hash, const ProtoObject* symbol);
 
         static bool isSymbol(const ProtoObject* obj);
