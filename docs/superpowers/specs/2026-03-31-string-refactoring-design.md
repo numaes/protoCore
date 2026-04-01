@@ -333,16 +333,21 @@ the core library. A `GraphemeClusterIterator` can be layered on top of
 
 ---
 
-## 9. Creation API
+## 9. Public API Changes (protoCore.h)
+
+### 9.1 Creation: The Only Point of Distinction
+
+The caller decides at creation time whether to produce an interned Symbol or a
+non-interned String. After creation all operations on `const ProtoString*` are
+identical regardless of internal representation.
+
+**Non-interned String** — for text processing, file content, temporary strings:
 
 ```cpp
-// From null-terminated UTF-8 (C interop)
+// Rename of existing fromUTF8String — non-interned result
 static const ProtoString* fromUTF8(ProtoContext*, const char* utf8);
 
-// From sized C++ string literal (static strings, zero-copy candidate)
-static const ProtoString* fromLiteral(ProtoContext*, const char* utf8, size_t byte_len);
-
-// From raw buffer — handles UTF-8 boundary between consecutive chunks
+// From raw buffer with UTF-8 boundary handling (new)
 struct BufferResult {
     const ProtoString* string;
     uint8_t  remainder[3];       // incomplete UTF-8 bytes at buffer end (0–3)
@@ -352,14 +357,62 @@ static BufferResult fromUTF8Buffer(ProtoContext*,
                                    const uint8_t* buf, size_t len,
                                    const uint8_t* pending, uint8_t pending_count);
 
-// From collections of Unicode codepoints
-static const ProtoString* fromCodepointList(ProtoContext*, const ProtoList*);
+// Existing — keep as non-interned (from ProtoList of codepoints)
+static const ProtoString* create(ProtoContext*, const ProtoList* codepoints);
+
+// New — from ProtoTuple of codepoints, non-interned
 static const ProtoString* fromCodepointTuple(ProtoContext*, const ProtoTuple*);
 
-// STL interop (copy semantics — protoCore owns its cells)
+// STL interop — copy semantics, non-interned
 static const ProtoString* fromStdString(ProtoContext*, const std::string&);
-std::string                toStdString  (ProtoContext*) const;
+std::string                toStdString (ProtoContext*) const;
 ```
+
+**Interned Symbol** — for identifiers, attribute keys, constant strings:
+
+```cpp
+// From null-terminated UTF-8 — interns and returns unique pointer
+static const ProtoString* createSymbol(ProtoContext*, const char* utf8);
+
+// From ProtoList of codepoints — interns result
+static const ProtoString* createSymbol(ProtoContext*, const ProtoList* codepoints);
+
+// From STL string — interns result
+static const ProtoString* createSymbol(ProtoContext*, const std::string&);
+```
+
+All existing operations (`getAt`, `appendLast`, `getSlice`, `cmp_to_string`, etc.)
+remain unchanged in signature. They accept and return `const ProtoString*` without
+exposing the internal kind.
+
+`getHash` returns the pointer value for Embedded and Symbol (O(1)), and the
+`subtree_hash` from the AVL root for non-interned Strings (O(1), precomputed).
+
+### 9.2 ProtoSpace Changes
+
+`ProtoSpace` gains a `SymbolTable` member that replaces string interning via
+`TupleDictionary`. The sharded design (Section 6.1) lives here.
+
+```cpp
+// In ProtoSpace — replaces TupleDictionary string path:
+SymbolTable* symbolTable{};          // initialized in ProtoSpace constructor
+
+// Cached literals — explicitly created as Symbols during ProtoSpace init:
+ProtoString* literalData;            // existing — becomes Symbol
+ProtoString* literalSetAttribute;    // existing — becomes Symbol
+ProtoString* literalCallMethod;      // existing — becomes Symbol
+```
+
+`newThread` takes a `const ProtoString* name` — this name is interned automatically
+(auto-interning path in `setAttribute` handles it if stored as an object attribute;
+for the thread name specifically, the caller should pass a Symbol or the runtime
+interns it on storage).
+
+No other changes to `ProtoSpace`'s public method signatures.
+
+### 9.3 Removed
+
+- `fromUTF8String` — replaced by `fromUTF8` (non-interned) and `createSymbol` (interned).
 
 `fromUTF8Buffer` detects incomplete UTF-8 sequences at the buffer boundary by scanning
 backwards from the end (at most 3 bytes). The remainder is returned to the caller and
@@ -409,7 +462,7 @@ processed in the sweep phase before cell reclamation.
 | File | Change |
 |------|--------|
 | `headers/proto_internal.h` | Add `StringLeafNode`, `StringInternalNode`, `StringNode`; add `POINTER_TAG_SYMBOL`, `POINTER_TAG_STRING`; extend `EMBEDDED_TYPE_INLINE_STRING` encoding |
-| `headers/protoCore.h` | No changes to public API signatures; `ProtoString` opaque handle unchanged |
+| `headers/protoCore.h` | Add `createSymbol` overloads; add `fromUTF8`, `fromUTF8Buffer`, `fromCodepointTuple`, `fromStdString`, `toStdString`; deprecate `fromUTF8String`; add `SymbolTable* symbolTable` to `ProtoSpace` |
 | `core/ProtoString.cpp` | Full rewrite — replace rope/tuple structure with AVL implementation |
 | `core/ProtoSpace.cpp` | Add `SymbolTable` member; register as GC root; replace `TupleDictionary` interning for strings |
 | `core/ProtoObject.cpp` | Update `setAttribute` to invoke `intern()` on non-interned String keys |
