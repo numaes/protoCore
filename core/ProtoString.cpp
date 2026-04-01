@@ -930,6 +930,7 @@ namespace proto {
     static SplitResult splitLeaf(ProtoContext* ctx,
                                   const StringLeafNode* leaf,
                                   uint32_t char_index) {
+        assert(char_index <= static_cast<uint32_t>(leaf->char_count) && "splitLeaf: char_index out of range");
         uint32_t byte_split = leaf->charToByteOffset(char_index);
 
         const StringLeafNode* l = (byte_split > 0)
