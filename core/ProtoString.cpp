@@ -577,9 +577,10 @@ namespace proto {
         }
 
         // Decode the next codepoint from the current leaf's UTF-8 payload.
+        assert(this->leafBytePos < this->currentLeaf->byte_count);
         const uint32_t seqLen = utf8SeqLen(this->currentLeaf->utf8_payload[this->leafBytePos]);
         const uint32_t cp = decodeCodepoint(this->currentLeaf->utf8_payload + this->leafBytePos);
-        this->leafBytePos = static_cast<uint16_t>(this->leafBytePos + seqLen);
+        this->leafBytePos = static_cast<uint8_t>(this->leafBytePos + seqLen);
         this->charIndex++;
         return context->fromUnicodeChar(cp);
     }
@@ -603,7 +604,7 @@ namespace proto {
                 const StringLeafNode* leaf = StringLeafNode::fromObject(node);
                 // remaining is the codepoint index within this leaf.
                 this->currentLeaf = leaf;
-                this->leafBytePos = static_cast<uint16_t>(leaf->charToByteOffset(remaining));
+                this->leafBytePos = static_cast<uint8_t>(leaf->charToByteOffset(remaining));
                 return;
             } else {
                 // Unknown node type — stop traversal.
@@ -616,6 +617,9 @@ namespace proto {
         this->leafBytePos = 0;
     }
 
+    // Note: each call to implAdvance() is O(log N) — it allocates a new iterator with a cleared
+    // leaf cache, forcing a fresh AVL descent on the next implNext() call.  Use the mutable
+    // nextCodepoint() path (implNext on a reused iterator) for O(N) full traversal instead.
     const ProtoStringIteratorImplementation* ProtoStringIteratorImplementation::implAdvance(ProtoContext* context) const {
         if (this->base && this->charIndex < this->totalSize) {
             return new (context) ProtoStringIteratorImplementation(context, this->base, this->charIndex + 1);

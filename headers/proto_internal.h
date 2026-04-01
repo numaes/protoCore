@@ -1167,9 +1167,11 @@ namespace proto {
         //   totalSize     4 bytes — cached codepoint count, enables O(1) implHasNext()
         //   charIndex     4 bytes — current codepoint position
         //   currentLeaf*  8 bytes — active StringLeafNode* (nullptr = needs descent)
-        //   leafBytePos   2 bytes — byte offset within currentLeaf->utf8_payload
-        //   _pad         14 bytes — explicit padding to reach 64 bytes
-        //   Total: 16 + 8 + 4 + 4 + 8 + 2 + 14 = 56... pad to 64: remaining 8 more bytes covered by alignment
+        //   leafBytePos   1 byte  — byte offset within currentLeaf->utf8_payload
+        //                           uint8_t is sufficient: utf8_payload is 32 bytes and
+        //                           byte_count is already uint8_t, so max value is 32.
+        //   _pad         15 bytes — explicit padding to reach 64 bytes
+        //   Total: 16 + 8 + 4 + 4 + 8 + 1 + 15 = 56... pad to 64: remaining 8 more bytes covered by alignment
         //
         // Traversal strategy: O(1) amortized per codepoint.
         //   - Within a leaf: decode UTF-8 at leafBytePos, advance leafBytePos and charIndex. O(1).
@@ -1181,8 +1183,8 @@ namespace proto {
         uint32_t                 totalSize;    // Cached total codepoint count.
         uint32_t                 charIndex;    // Current codepoint position.
         const StringLeafNode*    currentLeaf;  // Active leaf, or nullptr when descent is needed.
-        uint16_t                 leafBytePos;  // Byte offset within currentLeaf->utf8_payload.
-        uint8_t                  _pad[14];     // Explicit padding — do not use.
+        uint8_t                  leafBytePos;  // Byte offset within currentLeaf->utf8_payload (max 32).
+        uint8_t                  _pad[15];     // Explicit padding — do not use.
 
         CellType getType() const override { return CellType::StringIterator; }
 
