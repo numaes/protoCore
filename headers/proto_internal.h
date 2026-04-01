@@ -105,6 +105,8 @@ namespace proto {
         const ProtoTupleImplementation *tupleImplementation;
         const ProtoStringImplementation *stringImplementation;
         const ProtoStringImplementation *symbolImplementation;  // POINTER_TAG_SYMBOL — same impl class, distinguished only by pointer tag
+        const StringLeafNode *stringLeafNode;                   // POINTER_TAG_STRING_LEAF_NODE
+        const StringInternalNode *stringInternalNode;           // POINTER_TAG_STRING_INTERNAL_NODE
         const ProtoRangeIteratorImplementation *rangeIteratorImplementation;
         const ProtoStringIteratorImplementation* stringIteratorImplementation;
         const ProtoTupleIteratorImplementation* tupleIteratorImplementation;

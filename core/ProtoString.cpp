@@ -22,6 +22,7 @@ namespace proto {
     // UTF-8 utilities
     // =========================================================================
 
+    // Precondition: 'lead' is the first byte of a valid UTF-8 sequence (not a continuation byte).
     static uint32_t utf8SeqLen(uint8_t lead) {
         if (lead < 0x80) return 1;
         if (lead < 0xE0) return 2;
@@ -86,17 +87,13 @@ namespace proto {
 
     const ProtoObject* StringLeafNode::asObject() const {
         ProtoObjectPointer pa{};
-        pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        pa.stringLeafNode = this;
         pa.op.pointer_tag = POINTER_TAG_STRING_LEAF_NODE;
         return pa.oid;
     }
 
     const StringLeafNode* StringLeafNode::fromObject(const ProtoObject* obj) {
-        ProtoObjectPointer pa{};
-        pa.oid = obj;
-        assert(pa.op.pointer_tag == POINTER_TAG_STRING_LEAF_NODE);
-        pa.op.pointer_tag = 0;
-        return reinterpret_cast<const StringLeafNode*>(pa.oid);
+        return toImpl<const StringLeafNode>(obj);
     }
 
     bool StringLeafNode::isStringLeafNode(const ProtoObject* obj) {
