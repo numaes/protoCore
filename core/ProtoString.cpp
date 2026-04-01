@@ -57,8 +57,11 @@ namespace proto {
     const ProtoObject* strConcat(ProtoContext* ctx,
                                   const ProtoObject* a,
                                   const ProtoObject* b);
+    struct SplitResult { const ProtoObject* left; const ProtoObject* right; };
+    SplitResult strSplit(ProtoContext* ctx, const ProtoObject* node, uint32_t char_index);
     void strCharAt(const ProtoObject* node, uint32_t index, uint32_t* out);
     static void appendUTF8CodePoint(std::string& out, unsigned int codepoint);
+    const ProtoStringImplementation* internString(ProtoContext* context, const ProtoStringImplementation* newString);
 
     // =========================================================================
     // StringLeafNode
@@ -170,6 +173,90 @@ namespace proto {
         pa.inlineString.inline_utf8_bytes = packed;
         pa.inlineString.reserved = 0;
         return reinterpret_cast<const ProtoObject*>(pa.oid);
+    }
+
+    const ProtoObject* createInlineStringUTF8(ProtoContext* /*context*/,
+                                               const uint8_t* bytes,
+                                               uint8_t byte_count) {
+        assert(byte_count <= INLINE_STRING_MAX_BYTES);
+        ProtoObjectPointer pa{};
+        pa.oid = nullptr;
+        pa.inlineString.pointer_tag       = POINTER_TAG_EMBEDDED_VALUE;
+        pa.inlineString.embedded_type     = EMBEDDED_TYPE_INLINE_STRING;
+        pa.inlineString.inline_byte_count = byte_count;
+        unsigned long packed = 0;
+        for (uint8_t i = 0; i < byte_count; ++i)
+            packed |= (static_cast<unsigned long>(bytes[i]) << (i * 8u));
+        pa.inlineString.inline_utf8_bytes = packed;
+        pa.inlineString.reserved = 0;
+        return pa.oid;
+    }
+
+    // =========================================================================
+    // Helpers for ProtoString public operations (AVL-based)
+    // =========================================================================
+
+    /** Unwrap any ProtoString* to its ProtoStringImplementation (for POINTER_TAG_STRING or POINTER_TAG_SYMBOL). */
+    static const ProtoStringImplementation* getImpl(const ProtoObject* obj) {
+        if (!obj) return nullptr;
+        ProtoObjectPointer pa{}; pa.oid = obj;
+        unsigned long tag = pa.op.pointer_tag;
+        if (tag == POINTER_TAG_STRING || tag == POINTER_TAG_SYMBOL) {
+            return toImpl<const ProtoStringImplementation>(obj);
+        }
+        return nullptr;
+    }
+
+    /** Materialize any string representation to its AVL root node. */
+    static const ProtoObject* getRoot(ProtoContext* ctx, const ProtoObject* strObj) {
+        if (!strObj) return nullptr;
+        if (isInlineString(strObj)) {
+            unsigned long bc = inlineStringByteCount(strObj);
+            if (bc == 0) return nullptr;
+            uint8_t bytes[INLINE_STRING_MAX_BYTES];
+            for (unsigned long i = 0; i < bc; ++i)
+                bytes[i] = inlineStringByte(strObj, i);
+            uint16_t chars = 0;
+            for (unsigned long i = 0; i < bc; ) {
+                i += utf8SeqLen(bytes[i]);
+                ++chars;
+            }
+            return (new(ctx) StringLeafNode(ctx, bytes, static_cast<uint8_t>(bc), chars))->asObject();
+        }
+        auto* impl = getImpl(strObj);
+        return impl ? impl->avl_root : nullptr;
+    }
+
+    /** Wrap an AVL root back to the best ProtoString representation (inline if small enough, interned otherwise). */
+    static const ProtoObject* wrapRoot(ProtoContext* ctx, const ProtoObject* root) {
+        if (!root) {
+            return createInlineStringUTF8(ctx, nullptr, 0);
+        }
+        uint32_t totalBytes = StringInternalNode::byteCount(root);
+        if (totalBytes <= INLINE_STRING_MAX_BYTES) {
+            // Collect all bytes from the AVL tree into a small buffer
+            uint8_t buf[INLINE_STRING_MAX_BYTES];
+            uint32_t totalChars = StringInternalNode::charCount(root);
+            uint32_t pos = 0;
+            for (uint32_t i = 0; i < totalChars && pos < totalBytes; ++i) {
+                uint32_t cp = 0;
+                strCharAt(root, i, &cp);
+                if (cp < 0x80u) {
+                    buf[pos++] = static_cast<uint8_t>(cp);
+                } else if (cp < 0x800u && pos + 1 < INLINE_STRING_MAX_BYTES) {
+                    buf[pos++] = static_cast<uint8_t>(0xC0u | (cp >> 6));
+                    buf[pos++] = static_cast<uint8_t>(0x80u | (cp & 0x3Fu));
+                } else {
+                    break; // Shouldn't happen if totalBytes <= 6, but safety
+                }
+            }
+            return createInlineStringUTF8(ctx, buf, static_cast<uint8_t>(pos));
+        }
+        auto* pendingStr = new(ctx) ProtoStringImplementation(ctx, root);
+        ctx->pendingRoot = const_cast<ProtoStringImplementation*>(pendingStr);
+        const ProtoStringImplementation* interned = internString(ctx, pendingStr);
+        ctx->pendingRoot = nullptr;
+        return interned->implAsObject(ctx);
     }
 
     /** Helper for O(N) rope traversal without repeated descent. */
@@ -453,6 +540,43 @@ namespace proto {
     }
 
 
+    // ===== Content hash for interning (structure-independent) ===================
+
+    /** Compute FNV-1a over all leaf bytes in left-to-right order.
+     *  This produces the same hash regardless of AVL tree structure. */
+    uint64_t computeContentHash(const ProtoObject* node) {
+        if (!node) return 14695981039346656037ULL;  // FNV offset basis
+        if (StringLeafNode::isStringLeafNode(node)) {
+            auto* leaf = StringLeafNode::fromObject(node);
+            return fnv1a(leaf->utf8_payload, leaf->byte_count);
+        }
+        if (StringInternalNode::isStringInternalNode(node)) {
+            // In-order traversal: collect all leaf bytes sequentially
+            // Use a stack-based approach to avoid recursion
+            struct Frame { const ProtoObject* n; };
+            Frame stack[64];
+            int top = 0;
+            stack[top++] = {node};
+            uint64_t h = 14695981039346656037ULL;
+            while (top > 0) {
+                const ProtoObject* cur = stack[--top].n;
+                if (!cur) continue;
+                if (StringLeafNode::isStringLeafNode(cur)) {
+                    auto* leaf = StringLeafNode::fromObject(cur);
+                    for (uint8_t i = 0; i < leaf->byte_count; ++i)
+                        h = (h ^ leaf->utf8_payload[i]) * 1099511628211ULL;
+                } else if (StringInternalNode::isStringInternalNode(cur)) {
+                    auto* n = StringInternalNode::fromObject(cur);
+                    // Push right first so left is processed first (stack is LIFO)
+                    stack[top++] = {n->right};
+                    stack[top++] = {n->left};
+                }
+            }
+            return h;
+        }
+        return 14695981039346656037ULL;
+    }
+
     // ===== ProtoStringImplementation (wraps AVL root) ==========================
 
     ProtoStringImplementation::ProtoStringImplementation(ProtoContext* ctx,
@@ -588,124 +712,171 @@ namespace proto {
     //=========================================================================
 
     unsigned long ProtoString::getSize(ProtoContext* context) const {
-        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
-        if (isInlineString(self)) return inlineStringLength(self);
-        return static_cast<unsigned long>(toImpl<const ProtoStringImplementation>(this)->implGetSize());
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
+        if (isInlineString(self)) {
+            unsigned long bc = inlineStringByteCount(self);
+            unsigned long chars = 0;
+            for (unsigned long i = 0; i < bc; ) {
+                i += utf8SeqLen(inlineStringByte(self, i));
+                ++chars;
+            }
+            return chars;
+        }
+        auto* impl = getImpl(self);
+        return impl ? static_cast<unsigned long>(impl->implGetSize()) : 0;
     }
 
     const ProtoObject* ProtoString::getAt(ProtoContext* context, int index) const {
-        const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
-        if (isInlineString(self)) return context->fromUnicodeChar(inlineStringCharAt(self, index));
-        return toImpl<const ProtoStringImplementation>(this)->implGetAt(context, index);
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
+        const ProtoObject* root = getRoot(context, self);
+        if (!root) return nullptr;
+        uint32_t cp = 0;
+        strCharAt(root, static_cast<uint32_t>(index), &cp);
+        return context->fromUnicodeChar(cp);
     }
 
     const ProtoList* ProtoString::asList(ProtoContext* context) const {
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
+        const ProtoObject* root = getRoot(context, self);
+        uint32_t sz = StringInternalNode::charCount(root);
         const ProtoList* list = context->newList();
-        RopeCharacterIterator it(context, reinterpret_cast<const ProtoObject*>(this));
-        while (it.hasNext(context)) {
-            list = list->appendLast(context, context->fromUnicodeChar(it.next()));
+        for (uint32_t i = 0; i < sz; ++i) {
+            uint32_t cp = 0;
+            strCharAt(root, i, &cp);
+            list = list->appendLast(context, context->fromUnicodeChar(cp));
         }
         return list;
     }
 
-    const ProtoString* ProtoString::getSlice(ProtoContext* context, int start, int end) const {
+    const ProtoString* ProtoString::getSlice(ProtoContext* context, int from, int to) const {
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
         const unsigned long size = getSize(context);
-        if (start < 0) start = 0;
-        if (end > static_cast<int>(size)) end = static_cast<int>(size);
-        if (start >= end) return ProtoString::fromUTF8String(context, "");
-        const ProtoList* sublist = context->newList();
-        for (int i = start; i < end; ++i)
-            sublist = sublist->appendLast(context, getAt(context, i));
-        return ProtoString::create(context, sublist);
+        if (from < 0) from = 0;
+        if (to > static_cast<int>(size)) to = static_cast<int>(size);
+        if (from >= to) return ProtoString::fromUTF8String(context, "");
+        const ProtoObject* root = getRoot(context, self);
+        auto [_, right] = strSplit(context, root, static_cast<uint32_t>(from));
+        auto [mid, __]  = strSplit(context, right, static_cast<uint32_t>(to - from));
+        return reinterpret_cast<const ProtoString*>(wrapRoot(context, mid));
     }
 
     int ProtoString::cmp_to_string(ProtoContext* context, const ProtoString* otherString) const {
-        return compareStrings(context, this->asObject(context), otherString->asObject(context));
+        auto* a = reinterpret_cast<const ProtoObject*>(this);
+        auto* b = reinterpret_cast<const ProtoObject*>(otherString);
+        if (a == b) return 0;
+        const ProtoObject* ra = getRoot(context, a);
+        const ProtoObject* rb = getRoot(context, b);
+        uint32_t sa = StringInternalNode::charCount(ra);
+        uint32_t sb = StringInternalNode::charCount(rb);
+        uint32_t min_len = std::min(sa, sb);
+        for (uint32_t i = 0; i < min_len; ++i) {
+            uint32_t ca = 0, cb = 0;
+            strCharAt(ra, i, &ca);
+            strCharAt(rb, i, &cb);
+            if (ca != cb) return (ca < cb) ? -1 : 1;
+        }
+        if (sa < sb) return -1;
+        if (sa > sb) return 1;
+        return 0;
     }
 
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
         if (isInlineString(reinterpret_cast<const ProtoObject*>(this))) return reinterpret_cast<const ProtoObject*>(this);
         return toImpl<const ProtoStringImplementation>(this)->implAsObject(context);
     }
-    
+
     const ProtoString* ProtoString::setAt(ProtoContext* context, int index, const ProtoObject* character) const {
-        const ProtoList* list = asList(context);
-        const ProtoList* newList = list->setAt(context, index, character);
-        return ProtoString::create(context, newList);
+        // Remove the character at index, then insert the new one
+        return removeAt(context, index)->insertAt(context, index, character);
     }
-    
+
     const ProtoString* ProtoString::insertAt(ProtoContext* context, int index, const ProtoObject* character) const {
-        const ProtoList* list = asList(context);
-        const ProtoList* newList = list->insertAt(context, index, character);
-        return ProtoString::create(context, newList);
+        // Encode character to a single-codepoint string, then use insertAtString
+        unsigned int cp = 0;
+        ProtoObjectPointer pa{}; pa.oid = character;
+        if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
+            cp = static_cast<unsigned int>(pa.unicodeChar.unicodeValue & 0x1FFFFFu);
+        } else if (character && character->isInteger(context)) {
+            cp = static_cast<unsigned int>(character->asLong(context) & 0x1FFFFFu);
+        }
+        uint8_t buf[4];
+        uint8_t len = 0;
+        if (cp < 0x80u)         { buf[0] = static_cast<uint8_t>(cp); len = 1; }
+        else if (cp < 0x800u)   { buf[0] = 0xC0u | (cp >> 6); buf[1] = 0x80u | (cp & 0x3Fu); len = 2; }
+        else if (cp < 0x10000u) { buf[0] = 0xE0u | (cp >> 12); buf[1] = 0x80u | ((cp >> 6) & 0x3Fu); buf[2] = 0x80u | (cp & 0x3Fu); len = 3; }
+        else                    { buf[0] = 0xF0u | (cp >> 18); buf[1] = 0x80u | ((cp >> 12) & 0x3Fu); buf[2] = 0x80u | ((cp >> 6) & 0x3Fu); buf[3] = 0x80u | (cp & 0x3Fu); len = 4; }
+
+        auto* charLeaf = new(context) StringLeafNode(context, buf, len, 1);
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
+        const ProtoObject* root = getRoot(context, self);
+        auto [left, right] = strSplit(context, root, static_cast<uint32_t>(index));
+        const ProtoObject* result = strConcat(context, strConcat(context, left, charLeaf->asObject()), right);
+        return reinterpret_cast<const ProtoString*>(wrapRoot(context, result));
     }
-    
+
     const ProtoString* ProtoString::setAtString(ProtoContext* context, int index, const ProtoString* otherString) const {
-        // Convert to list, replace range, convert back
-        const ProtoList* list = asList(context);
-        const ProtoList* otherList = otherString->asList(context);
-        const ProtoListIterator* it = otherList->getIterator(context);
-        const ProtoList* newList = list;
-        int i = index;
-        while (it->hasNext(context) && i < (int)list->getSize(context)) {
-            newList = newList->setAt(context, i++, it->next(context));
-        }
-        return ProtoString::create(context, newList);
+        // Replace characters starting at index with those from otherString
+        unsigned long otherLen = otherString->getSize(context);
+        const ProtoString* removed = removeSlice(context, index, index + static_cast<int>(otherLen));
+        return removed->insertAtString(context, index, otherString);
     }
-    
+
     const ProtoString* ProtoString::insertAtString(ProtoContext* context, int index, const ProtoString* otherString) const {
-        const ProtoList* list = asList(context);
-        const ProtoList* otherList = otherString->asList(context);
-        const ProtoListIterator* it = otherList->getIterator(context);
-        const ProtoList* newList = list;
-        int i = index;
-        while (it->hasNext(context)) {
-            newList = newList->insertAt(context, i++, it->next(context));
-        }
-        return ProtoString::create(context, newList);
+        auto* self     = reinterpret_cast<const ProtoObject*>(this);
+        auto* charsObj = reinterpret_cast<const ProtoObject*>(otherString);
+        const ProtoObject* root = getRoot(context, self);
+        auto [left, right] = strSplit(context, root, static_cast<uint32_t>(index));
+        const ProtoObject* result = strConcat(context,
+                                               strConcat(context, left, getRoot(context, charsObj)),
+                                               right);
+        return reinterpret_cast<const ProtoString*>(wrapRoot(context, result));
     }
-    
+
     const ProtoString* ProtoString::splitFirst(ProtoContext* context, int count) const {
         unsigned long size = getSize(context);
         if (count <= 0) return ProtoString::fromUTF8String(context, "");
-        if (count >= (int)size) return const_cast<ProtoString*>(this);
+        if (count >= static_cast<int>(size)) return const_cast<ProtoString*>(this);
         return getSlice(context, 0, count);
     }
-    
+
     const ProtoString* ProtoString::splitLast(ProtoContext* context, int count) const {
         unsigned long size = getSize(context);
         if (count <= 0) return ProtoString::fromUTF8String(context, "");
-        if (count >= (int)size) return const_cast<ProtoString*>(this);
-        return getSlice(context, size - count, size);
+        if (count >= static_cast<int>(size)) return const_cast<ProtoString*>(this);
+        return getSlice(context, static_cast<int>(size) - count, static_cast<int>(size));
     }
-    
+
     const ProtoString* ProtoString::removeFirst(ProtoContext* context, int count) const {
         unsigned long size = getSize(context);
         if (count <= 0) return const_cast<ProtoString*>(this);
-        if (count >= (int)size) return ProtoString::fromUTF8String(context, "");
-        return getSlice(context, count, size);
+        if (count >= static_cast<int>(size)) return ProtoString::fromUTF8String(context, "");
+        return getSlice(context, count, static_cast<int>(size));
     }
-    
+
     const ProtoString* ProtoString::removeLast(ProtoContext* context, int count) const {
         unsigned long size = getSize(context);
         if (count <= 0) return const_cast<ProtoString*>(this);
-        if (count >= (int)size) return ProtoString::fromUTF8String(context, "");
-        return getSlice(context, 0, size - count);
+        if (count >= static_cast<int>(size)) return ProtoString::fromUTF8String(context, "");
+        return getSlice(context, 0, static_cast<int>(size) - count);
     }
-    
+
     const ProtoString* ProtoString::removeAt(ProtoContext* context, int index) const {
-        const ProtoList* list = asList(context);
-        const ProtoList* newList = list->removeAt(context, index);
-        // Convert list back to string - simplified approach
-        return ProtoString::create(context, newList);
+        return removeSlice(context, index, index + 1);
     }
-    
+
     const ProtoString* ProtoString::removeSlice(ProtoContext* context, int from, int to) const {
-        const ProtoList* list = asList(context);
-        const ProtoList* newList = list->removeSlice(context, from, to);
-        return ProtoString::create(context, newList);
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
+        const unsigned long size = getSize(context);
+        if (from < 0) from = 0;
+        if (to > static_cast<int>(size)) to = static_cast<int>(size);
+        if (from >= to) return const_cast<ProtoString*>(this);
+        const ProtoObject* root = getRoot(context, self);
+        auto [left, rest]  = strSplit(context, root, static_cast<uint32_t>(from));
+        auto [_,    right] = strSplit(context, rest, static_cast<uint32_t>(to - from));
+        return reinterpret_cast<const ProtoString*>(
+            wrapRoot(context, strConcat(context, left, right)));
     }
-    
+
     const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const {
         if (isInlineString(reinterpret_cast<const ProtoObject*>(this)))
             return (new (context) ProtoStringIteratorImplementation(context, reinterpret_cast<const ProtoObject*>(this), 0))->asProtoStringIterator(context);
@@ -731,20 +902,15 @@ namespace proto {
     }
 
     void ProtoString::toUTF8String(ProtoContext* context, std::string& out) const {
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
+        const ProtoObject* root = getRoot(context, self);
+        uint32_t sz = StringInternalNode::charCount(root);
         out.clear();
-        const unsigned long size = getSize(context);
-        for (unsigned long i = 0; i < size; ++i) {
-            const ProtoObject* ch = getAt(context, static_cast<int>(i));
-            if (!ch) continue;
-            unsigned int codepoint = 0;
-            ProtoObjectPointer pa{};
-            pa.oid = ch;
-            if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
-                codepoint = static_cast<unsigned int>(pa.unicodeChar.unicodeValue & 0x1FFFFFu);
-            } else if (ch->isInteger(context)) {
-                codepoint = static_cast<unsigned int>(ch->asLong(context) & 0x1FFFFFu);
-            }
-            appendUTF8CodePoint(out, codepoint);
+        out.reserve(sz);
+        for (uint32_t i = 0; i < sz; ++i) {
+            uint32_t cp = 0;
+            strCharAt(root, i, &cp);
+            appendUTF8CodePoint(out, cp);
         }
     }
 
@@ -754,9 +920,13 @@ namespace proto {
         if (n <= 0) return ProtoString::fromUTF8String(context, "");
         if (n == 1) return const_cast<ProtoString*>(this);
 
-        const ProtoList* list = this->asList(context);
-        const ProtoList* multipliedList = list->multiply(context, count);
-        return ProtoString::create(context, multipliedList);
+        auto* self = reinterpret_cast<const ProtoObject*>(this);
+        const ProtoObject* root = getRoot(context, self);
+        const ProtoObject* result = root;
+        for (long long i = 1; i < n; ++i) {
+            result = strConcat(context, result, root);
+        }
+        return reinterpret_cast<const ProtoString*>(wrapRoot(context, result));
     }
 
     //=========================================================================
@@ -851,9 +1021,21 @@ namespace proto {
     unsigned long ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
     const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : toImpl<const ProtoStringImplementation>(this); }
     const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
-        const ProtoList* leftList = this->asList(context);
-        const ProtoList* rightList = other->asList(context);
-        return ProtoString::create(context, leftList->extend(context, rightList));
+        auto* self     = reinterpret_cast<const ProtoObject*>(this);
+        auto* otherObj = reinterpret_cast<const ProtoObject*>(other);
+        const ProtoObject* root = strConcat(context,
+                                             getRoot(context, self),
+                                             getRoot(context, otherObj));
+        return reinterpret_cast<const ProtoString*>(wrapRoot(context, root));
+    }
+
+    const ProtoString* ProtoString::appendFirst(ProtoContext* context, const ProtoString* other) const {
+        auto* self     = reinterpret_cast<const ProtoObject*>(this);
+        auto* otherObj = reinterpret_cast<const ProtoObject*>(other);
+        const ProtoObject* root = strConcat(context,
+                                             getRoot(context, otherObj),
+                                             getRoot(context, self));
+        return reinterpret_cast<const ProtoString*>(wrapRoot(context, root));
     }
 
     int ProtoStringIterator::hasNext(ProtoContext* context) const { return toImpl<const ProtoStringIteratorImplementation>(this)->implHasNext(context); }
@@ -1020,8 +1202,6 @@ namespace proto {
     }
 
     // ===== AVL split primitive ================================================
-
-    struct SplitResult { const ProtoObject* left; const ProtoObject* right; };
 
     static SplitResult splitLeaf(ProtoContext* ctx,
                                   const StringLeafNode* leaf,

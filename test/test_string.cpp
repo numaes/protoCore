@@ -303,3 +303,178 @@ TEST_F(StringAVLTest, StringImplLargeFromUTF8) {
     EXPECT_EQ(s->implGetSize(), 100u);
     EXPECT_LE(proto::StringInternalNode::nodeHeight(s->avl_root), 2);
 }
+
+// ===== ProtoString Public API Tests (Task 7) =================================
+
+class StringPublicAPITest : public ::testing::Test {
+protected:
+    ProtoSpace space;
+    ProtoContext ctx{&space};
+    ProtoContext* c = &ctx;
+
+    const ProtoString* str(const char* s) {
+        return ProtoString::fromUTF8String(c, s);
+    }
+};
+
+TEST_F(StringPublicAPITest, GetSize) {
+    EXPECT_EQ(str("hello")->getSize(c), 5u);
+    EXPECT_EQ(str("")->getSize(c), 0u);
+    EXPECT_EQ(str("hello world")->getSize(c), 11u);
+}
+
+TEST_F(StringPublicAPITest, GetAt) {
+    auto* s = str("hello");
+    auto* ch = s->getAt(c, 0);
+    ASSERT_NE(ch, nullptr);
+    ProtoObjectPointer pa{}; pa.oid = ch;
+    EXPECT_EQ(pa.unicodeChar.unicodeValue, static_cast<unsigned long>('h'));
+}
+
+TEST_F(StringPublicAPITest, GetAtLastChar) {
+    auto* s = str("hello");
+    auto* ch = s->getAt(c, 4);
+    ASSERT_NE(ch, nullptr);
+    ProtoObjectPointer pa{}; pa.oid = ch;
+    EXPECT_EQ(pa.unicodeChar.unicodeValue, static_cast<unsigned long>('o'));
+}
+
+TEST_F(StringPublicAPITest, AppendLast) {
+    auto* s = str("hello")->appendLast(c, str(" world"));
+    EXPECT_EQ(s->getSize(c), 11u);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hello world");
+}
+
+TEST_F(StringPublicAPITest, AppendFirst) {
+    auto* s = str("world")->appendFirst(c, str("hello "));
+    EXPECT_EQ(s->getSize(c), 11u);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hello world");
+}
+
+TEST_F(StringPublicAPITest, GetSlice) {
+    auto* s = str("hello world")->getSlice(c, 6, 11);
+    EXPECT_EQ(s->getSize(c), 5u);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "world");
+}
+
+TEST_F(StringPublicAPITest, GetSliceFromBeginning) {
+    auto* s = str("hello world")->getSlice(c, 0, 5);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hello");
+}
+
+TEST_F(StringPublicAPITest, RemoveAt) {
+    auto* s = str("hello")->removeAt(c, 1);
+    EXPECT_EQ(s->getSize(c), 4u);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hllo");
+}
+
+TEST_F(StringPublicAPITest, RemoveSlice) {
+    auto* s = str("hello world")->removeSlice(c, 5, 6);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "helloworld");
+}
+
+TEST_F(StringPublicAPITest, InsertAtString) {
+    auto* s = str("hllo")->insertAtString(c, 1, str("e"));
+    EXPECT_EQ(s->getSize(c), 5u);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hello");
+}
+
+TEST_F(StringPublicAPITest, InsertAt) {
+    auto* s = str("hllo");
+    // Create unicode char for 'e'
+    auto* e_char = c->fromUnicodeChar('e');
+    auto* result = s->insertAt(c, 1, e_char);
+    EXPECT_EQ(result->getSize(c), 5u);
+    std::string out;
+    result->toUTF8String(c, out);
+    EXPECT_EQ(out, "hello");
+}
+
+TEST_F(StringPublicAPITest, CmpToString) {
+    EXPECT_EQ(str("abc")->cmp_to_string(c, str("abc")), 0);
+    EXPECT_LT(str("abc")->cmp_to_string(c, str("abd")), 0);
+    EXPECT_GT(str("abd")->cmp_to_string(c, str("abc")), 0);
+}
+
+TEST_F(StringPublicAPITest, CmpToStringDifferentLengths) {
+    EXPECT_LT(str("abc")->cmp_to_string(c, str("abcd")), 0);
+    EXPECT_GT(str("abcd")->cmp_to_string(c, str("abc")), 0);
+}
+
+TEST_F(StringPublicAPITest, ToUTF8RoundTrip) {
+    std::string out;
+    str("hello world")->toUTF8String(c, out);
+    EXPECT_EQ(out, "hello world");
+}
+
+TEST_F(StringPublicAPITest, ToUTF8RoundTripShort) {
+    std::string out;
+    str("hi")->toUTF8String(c, out);
+    EXPECT_EQ(out, "hi");
+}
+
+TEST_F(StringPublicAPITest, EmptyStringOperations) {
+    auto* empty = str("");
+    EXPECT_EQ(empty->getSize(c), 0u);
+    auto* result = empty->appendLast(c, str("x"));
+    EXPECT_EQ(result->getSize(c), 1u);
+}
+
+TEST_F(StringPublicAPITest, SplitFirst) {
+    auto* s = str("hello")->splitFirst(c, 3);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hel");
+}
+
+TEST_F(StringPublicAPITest, SplitLast) {
+    auto* s = str("hello")->splitLast(c, 3);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "llo");
+}
+
+TEST_F(StringPublicAPITest, RemoveFirst) {
+    auto* s = str("hello")->removeFirst(c, 2);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "llo");
+}
+
+TEST_F(StringPublicAPITest, RemoveLast) {
+    auto* s = str("hello")->removeLast(c, 2);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hel");
+}
+
+TEST_F(StringPublicAPITest, Multiply) {
+    auto* count = c->fromInteger(3);
+    auto* s = str("ab")->multiply(c, count);
+    EXPECT_EQ(s->getSize(c), 6u);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "ababab");
+}
+
+TEST_F(StringPublicAPITest, SetAt) {
+    auto* x_char = c->fromUnicodeChar('x');
+    auto* s = str("hello")->setAt(c, 1, x_char);
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "hxllo");
+}

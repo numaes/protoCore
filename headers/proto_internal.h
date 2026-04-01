@@ -824,10 +824,13 @@ namespace proto {
         unsigned long getHash(ProtoContext* context) const override;
     };
 
+    /** Compute a structure-independent content hash over all leaf bytes. Defined in ProtoString.cpp. */
+    uint64_t computeContentHash(const ProtoObject* node);
+
     struct StringInternHash {
         size_t operator()(const ProtoStringImplementation* s) const {
             if (!s) return 0;
-            return static_cast<size_t>(s->implGetHash());
+            return static_cast<size_t>(computeContentHash(s->avl_root));
         }
     };
 
@@ -835,11 +838,10 @@ namespace proto {
         bool operator()(const ProtoStringImplementation* a, const ProtoStringImplementation* b) const {
             if (a == b) return true;
             if (!a || !b) return false;
-            if (a->implGetHash() != b->implGetHash()) return false;
             if (a->implGetSize() != b->implGetSize()) return false;
-            // Byte-level equality via AVL hash comparison is sufficient for interning.
-            // Two strings are considered equal if they have the same size and hash.
-            return true;
+            uint64_t ha = computeContentHash(a->avl_root);
+            uint64_t hb = computeContentHash(b->avl_root);
+            return ha == hb;
         }
     };
 
