@@ -293,6 +293,18 @@ namespace proto
     {
         if (!this || !name) return nullptr;
 
+        // Auto-intern the key if it is a non-interned heap String so that the
+        // pointer used for lookup matches the canonical symbol stored during setAttribute.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->intern(
+                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
+
         // Attribute Cache Setup
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
@@ -406,6 +418,19 @@ namespace proto
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const {
         if (!this || !name) return this;
+
+        // Auto-intern the key if it is a non-interned heap String (POINTER_TAG_STRING).
+        // This ensures that the canonical symbol pointer is stored in the attribute
+        // sparse list, so lookups using createSymbol() keys find the value by pointer.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->intern(
+                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
 
         // 1. Invalidate Cache
         if (context->thread) {
@@ -886,6 +911,17 @@ namespace proto
     {
         if (!this) return PROTO_FALSE;
 
+        // Auto-intern the key to ensure pointer consistency with keys stored by setAttribute.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->intern(
+                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
+
         const ProtoObject* currentObject = this;
         const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
 
@@ -1047,6 +1083,17 @@ namespace proto
     }
     
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
+        // Auto-intern the key to ensure pointer consistency with keys stored by setAttribute.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->intern(
+                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
+
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return PROTO_FALSE;

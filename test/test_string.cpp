@@ -633,3 +633,20 @@ TEST_F(SymbolTest, SymbolIsSymbol) {
     auto* obj = reinterpret_cast<const ProtoObject*>(sym);
     EXPECT_TRUE(SymbolTable::isSymbol(obj));
 }
+
+TEST_F(SymbolTest, AutoInternOnSetAttribute) {
+    // "myLongKey" is 9 bytes — exceeds INLINE_STRING_MAX_BYTES (6), so it goes
+    // through ProtoStringImplementation (heap allocation, POINTER_TAG_STRING).
+    // After setAttribute auto-interns it, a lookup with the matching symbol
+    // (POINTER_TAG_SYMBOL) must find the stored value.
+    auto* obj = c->newObject();
+    auto* non_interned_key = ProtoString::fromUTF8String(c, "myLongKey");
+
+    auto* val = c->space->objectPrototype;
+    auto* obj2 = obj->setAttribute(c, non_interned_key, val);
+
+    // Retrieve with a freshly-created symbol that has identical content.
+    auto* sym_key = ProtoString::createSymbol(c, "myLongKey");
+    auto* retrieved = obj2->getAttribute(c, sym_key);
+    EXPECT_EQ(retrieved, val);
+}
