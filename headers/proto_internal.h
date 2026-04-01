@@ -1161,12 +1161,32 @@ namespace proto {
 
     class ProtoStringIteratorImplementation : public Cell {
     public:
-        const ProtoObject* base;  /** String (inline or ProtoStringImplementation). */
-        unsigned long currentIndex;
+        // Cell layout (64 bytes total):
+        //   Cell base (vtable 8 + next_and_flags 8) = 16 bytes
+        //   base*         8 bytes — root string ProtoObject* (inline or ProtoStringImplementation)
+        //   totalSize     4 bytes — cached codepoint count, enables O(1) implHasNext()
+        //   charIndex     4 bytes — current codepoint position
+        //   currentLeaf*  8 bytes — active StringLeafNode* (nullptr = needs descent)
+        //   leafBytePos   2 bytes — byte offset within currentLeaf->utf8_payload
+        //   _pad         14 bytes — explicit padding to reach 64 bytes
+        //   Total: 16 + 8 + 4 + 4 + 8 + 2 + 14 = 56... pad to 64: remaining 8 more bytes covered by alignment
+        //
+        // Traversal strategy: O(1) amortized per codepoint.
+        //   - Within a leaf: decode UTF-8 at leafBytePos, advance leafBytePos and charIndex. O(1).
+        //   - Leaf boundary: descend AVL tree using charIndex to locate the next leaf. O(log N)
+        //     but amortised over the leaf's codepoints (~10-32 chars), giving O(1) amortised overall.
+        //   - implHasNext(): charIndex < totalSize — always O(1).
+
+        const ProtoObject*       base;         // Root string (inline or ProtoStringImplementation).
+        uint32_t                 totalSize;    // Cached total codepoint count.
+        uint32_t                 charIndex;    // Current codepoint position.
+        const StringLeafNode*    currentLeaf;  // Active leaf, or nullptr when descent is needed.
+        uint16_t                 leafBytePos;  // Byte offset within currentLeaf->utf8_payload.
+        uint8_t                  _pad[14];     // Explicit padding — do not use.
 
         CellType getType() const override { return CellType::StringIterator; }
 
-        ProtoStringIteratorImplementation(ProtoContext* context, const ProtoObject* stringObj, unsigned long i);
+        ProtoStringIteratorImplementation(ProtoContext* context, const ProtoObject* stringObj, uint32_t i);
         ~ProtoStringIteratorImplementation() override = default;
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context);
@@ -1176,6 +1196,13 @@ namespace proto {
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
         unsigned long getHash(ProtoContext* context) const;
+
+    private:
+        /** Descend the AVL tree rooted at avl_root to find the leaf containing
+         *  codepoint at position charIndex, then set currentLeaf and leafBytePos.
+         *  Called once per leaf boundary — O(log N) — amortised O(1) per codepoint.
+         */
+        void locateLeaf(const ProtoObject* avl_root);
     };
 
     class ProtoExternalPointerImplementation : public Cell {

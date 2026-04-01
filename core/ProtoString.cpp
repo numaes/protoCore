@@ -515,29 +515,110 @@ namespace proto {
     }
 
     //=========================================================================
-    // ProtoStringIteratorImplementation (base = string as ProtoObject*, inline or cell)
+    // ProtoStringIteratorImplementation
+    //
+    // O(1) amortised per-codepoint traversal using cached leaf state.
+    //
+    // Strategy:
+    //   - totalSize is cached at construction → implHasNext() is always O(1).
+    //   - currentLeaf tracks the active StringLeafNode; leafBytePos tracks the
+    //     byte offset within that leaf's utf8_payload.  Within a leaf every
+    //     next() call is pure O(1) UTF-8 decode with no tree traversal.
+    //   - When a leaf is exhausted (or on the very first next() call after
+    //     construction), locateLeaf() descends the AVL tree from the root to
+    //     find the leaf that contains charIndex.  This descent is O(log N), but
+    //     because a leaf holds up to 32 bytes (≈10–32 codepoints) the amortised
+    //     cost per codepoint is O(log N / leafSize) ≈ O(1).
+    //   - Inline strings (all ASCII, ≤6 bytes) are handled without any tree
+    //     descent: inlineStringCharAt() decodes them in O(1).
     //=========================================================================
 
     ProtoStringIteratorImplementation::ProtoStringIteratorImplementation(
         ProtoContext* context,
         const ProtoObject* stringObj,
-        unsigned long i
-    ) : Cell(context), base(stringObj), currentIndex(i)
+        uint32_t i
+    ) : Cell(context)
+      , base(stringObj)
+      , totalSize(stringObj ? static_cast<uint32_t>(getProtoStringSize(context, stringObj)) : 0u)
+      , charIndex(i)
+      , currentLeaf(nullptr)
+      , leafBytePos(0u)
     {
+        std::memset(_pad, 0, sizeof(_pad));
     }
 
-    int ProtoStringIteratorImplementation::implHasNext(ProtoContext* context) const {
-        if (!this->base) return false;
-        return this->currentIndex < getProtoStringSize(context, this->base);
+    // O(1): totalSize was cached at construction; no tree traversal needed.
+    int ProtoStringIteratorImplementation::implHasNext(ProtoContext* /*context*/) const {
+        return this->base && this->charIndex < this->totalSize;
     }
 
     const ProtoObject* ProtoStringIteratorImplementation::implNext(ProtoContext* context) {
-        return getProtoStringGetAt(context, this->base, static_cast<int>(this->currentIndex++));
+        if (!this->base || this->charIndex >= this->totalSize) return nullptr;
+
+        // Fast path: inline string — ASCII-only, no tree involved.
+        if (isInlineString(this->base)) {
+            const unsigned int cp = inlineStringCharAt(this->base, static_cast<int>(this->charIndex));
+            this->charIndex++;
+            return context->fromUnicodeChar(cp);
+        }
+
+        // AVL string: if currentLeaf is exhausted or not yet set, descend to the
+        // leaf that contains charIndex.
+        if (this->currentLeaf == nullptr ||
+            static_cast<uint32_t>(this->leafBytePos) >= static_cast<uint32_t>(this->currentLeaf->byte_count)) {
+            const ProtoStringImplementation* sImpl = toImpl<const ProtoStringImplementation>(this->base);
+            locateLeaf(sImpl->avl_root);
+        }
+
+        if (!this->currentLeaf) {
+            // Fallback: should not happen for a well-formed string; return null.
+            this->charIndex++;
+            return nullptr;
+        }
+
+        // Decode the next codepoint from the current leaf's UTF-8 payload.
+        const uint32_t seqLen = utf8SeqLen(this->currentLeaf->utf8_payload[this->leafBytePos]);
+        const uint32_t cp = decodeCodepoint(this->currentLeaf->utf8_payload + this->leafBytePos);
+        this->leafBytePos = static_cast<uint16_t>(this->leafBytePos + seqLen);
+        this->charIndex++;
+        return context->fromUnicodeChar(cp);
+    }
+
+    void ProtoStringIteratorImplementation::locateLeaf(const ProtoObject* node) {
+        // Descend the AVL tree to find the leaf that contains codepoint at charIndex.
+        // Tracks how many codepoints precede the current subtree so that we can
+        // compute the correct intra-leaf byte offset.
+        uint32_t remaining = this->charIndex;
+
+        while (node) {
+            if (StringInternalNode::isStringInternalNode(node)) {
+                const StringInternalNode* n = StringInternalNode::fromObject(node);
+                if (remaining < n->left_chars) {
+                    node = n->left;
+                } else {
+                    remaining -= n->left_chars;
+                    node = n->right;
+                }
+            } else if (StringLeafNode::isStringLeafNode(node)) {
+                const StringLeafNode* leaf = StringLeafNode::fromObject(node);
+                // remaining is the codepoint index within this leaf.
+                this->currentLeaf = leaf;
+                this->leafBytePos = static_cast<uint16_t>(leaf->charToByteOffset(remaining));
+                return;
+            } else {
+                // Unknown node type — stop traversal.
+                break;
+            }
+        }
+
+        // Could not locate a leaf (e.g., empty AVL tree).
+        this->currentLeaf = nullptr;
+        this->leafBytePos = 0;
     }
 
     const ProtoStringIteratorImplementation* ProtoStringIteratorImplementation::implAdvance(ProtoContext* context) const {
-        if (this->base && this->currentIndex < getProtoStringSize(context, this->base)) {
-            return new (context) ProtoStringIteratorImplementation(context, this->base, this->currentIndex + 1);
+        if (this->base && this->charIndex < this->totalSize) {
+            return new (context) ProtoStringIteratorImplementation(context, this->base, this->charIndex + 1);
         }
         return this;
     }
@@ -549,7 +630,7 @@ namespace proto {
         return p.oid;
     }
 
-    void ProtoStringIteratorImplementation::finalize(ProtoContext* context) const {}
+    void ProtoStringIteratorImplementation::finalize(ProtoContext* /*context*/) const {}
 
     void ProtoStringIteratorImplementation::processReferences(
         ProtoContext* context,
@@ -560,18 +641,23 @@ namespace proto {
             const Cell* cell
             )
     ) const {
+        // Mark the root string object.
         if (this->base && !isInlineString(this->base)) {
             const Cell* c = this->base->asCell(context);
             if (c && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(c))) {
                 method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(c)));
             }
         }
+        // Mark the cached leaf so the GC does not collect it while the iterator is live.
+        if (this->currentLeaf) {
+            method(context, self, this->currentLeaf);
+        }
     }
 
-    unsigned long ProtoStringIteratorImplementation::getHash(ProtoContext* context) const {
+    unsigned long ProtoStringIteratorImplementation::getHash(ProtoContext* /*context*/) const {
         return reinterpret_cast<uintptr_t>(this);
     }
-    
+
     const ProtoStringIterator* ProtoStringIteratorImplementation::asProtoStringIterator(ProtoContext* context) const {
         ProtoObjectPointer p;
         p.stringIteratorImplementation = this;

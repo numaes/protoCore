@@ -8,15 +8,21 @@ class StringTest : public ::testing::Test {
 protected:
     ProtoSpace* space;
     ProtoContext* ctx;
+    ProtoContext* c;  // Alias used by iterator and public-API style tests.
 
     void SetUp() override {
         space = new ProtoSpace();
         ctx = new ProtoContext(space);
+        c = ctx;
     }
 
     void TearDown() override {
         delete ctx;
         delete space;
+    }
+
+    const ProtoString* str(const char* s) {
+        return ProtoString::fromUTF8String(c, s);
     }
 };
 
@@ -481,7 +487,7 @@ TEST_F(StringPublicAPITest, SetAt) {
 
 // ---- Iterator tests (Task 8) ------------------------------------------------
 
-TEST_F(StringPublicAPITest, IteratorForward) {
+TEST_F(StringTest, IteratorForward) {
     auto* s = str("abc");
     // next() is mutable — it returns current value and advances the index.
     auto* it = const_cast<ProtoStringIterator*>(s->getIterator(c));
@@ -501,7 +507,7 @@ TEST_F(StringPublicAPITest, IteratorForward) {
     EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, (uint32_t)'c');
 }
 
-TEST_F(StringPublicAPITest, IteratorMultibyte) {
+TEST_F(StringTest, IteratorMultibyte) {
     // e-acute (U+00E9) + a-grave (U+00E0)
     auto* s = str("\xC3\xA9\xC3\xA0");
     auto* it = const_cast<ProtoStringIterator*>(s->getIterator(c));
@@ -516,7 +522,7 @@ TEST_F(StringPublicAPITest, IteratorMultibyte) {
     EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, 0x00E0u);
 }
 
-TEST_F(StringPublicAPITest, IteratorLargeString) {
+TEST_F(StringTest, IteratorLargeString) {
     std::string src(200, 'x');
     auto* s = ProtoString::fromUTF8String(c, src.c_str());
     auto* it = const_cast<ProtoStringIterator*>(s->getIterator(c));
