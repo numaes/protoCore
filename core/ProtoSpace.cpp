@@ -224,6 +224,21 @@ namespace proto {
                     }
                 }
 
+                // Mark all strong symbols in SymbolTable as GC roots.
+                // Strong symbols are permanent literals (e.g. cached attribute names) that must
+                // survive every GC cycle. Inline symbols (embedded-value pointer representation)
+                // carry no Cell and require no marking; only heap-allocated symbol Cells are added.
+                if (space->symbolTable) {
+                    for (int si = 0; si < SymbolTable::SHARD_COUNT; ++si) {
+                        std::lock_guard<std::mutex> shardLock(space->symbolTable->shards[si].mutex);
+                        for (SymbolTable::Bucket* b = space->symbolTable->shards[si].head; b; b = b->next) {
+                            if (b->is_strong) {
+                                addRootObj(b->symbol);
+                            }
+                        }
+                    }
+                }
+
                 if (space->mutableRoot.load()) addRootObj(reinterpret_cast<const ProtoObject*>(space->mutableRoot.load()));
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
@@ -386,7 +401,9 @@ namespace proto {
         
         symbolTable = new SymbolTable();
         initStringInternMap(this);
-        this->literalData = const_cast<ProtoString*>(ProtoString::fromUTF8String(this->rootContext, "__data__"));
+        this->literalData         = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "__data__"));
+        this->literalSetAttribute = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "setAttribute"));
+        this->literalCallMethod   = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "callMethod"));
 
         this->resolutionChain_ = buildDefaultResolutionChain(this->rootContext);
 
