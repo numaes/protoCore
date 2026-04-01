@@ -866,6 +866,7 @@ namespace proto {
 
     static const ProtoObject* rotateRight(ProtoContext* ctx, const ProtoObject* y) {
         const auto* yn = StringInternalNode::fromObject(y);
+        assert(StringInternalNode::isStringInternalNode(yn->left) && "rotateRight: left child must be InternalNode");
         const auto* xn = StringInternalNode::fromObject(yn->left);
         const ProtoObject* new_y = makeInternal(ctx, xn->right, yn->right);
         return makeInternal(ctx, xn->left, new_y);
@@ -873,6 +874,7 @@ namespace proto {
 
     static const ProtoObject* rotateLeft(ProtoContext* ctx, const ProtoObject* x) {
         const auto* xn = StringInternalNode::fromObject(x);
+        assert(StringInternalNode::isStringInternalNode(xn->right) && "rotateLeft: right child must be InternalNode");
         const auto* yn = StringInternalNode::fromObject(xn->right);
         const ProtoObject* new_x = makeInternal(ctx, xn->left, yn->left);
         return makeInternal(ctx, new_x, yn->right);
