@@ -227,10 +227,6 @@ namespace proto {
                                                const uint8_t* bytes,
                                                uint8_t byte_count);
 
-    // Retained for backward compatibility during transition
-#define INLINE_STRING_MAX_LEN 6
-#define INLINE_STRING_LEN_BITS 3
-
     bool isInlineString(const ProtoObject* o);
     unsigned long getProtoStringHash(ProtoContext* context, const ProtoObject* o);
     /** Builds inline string (no allocation). codepoints must be 0..127, len 0..6. */
@@ -692,21 +688,34 @@ namespace proto {
     };
 
     // ---- StringLeafNode -------------------------------------------------------
-    // 64-byte Cell. Stores up to 44 bytes of UTF-8 content in one contiguous chunk.
+    // 64-byte Cell. Stores up to 32 bytes of UTF-8 content in one contiguous chunk.
     // Layout (64 bytes total):
     //   Cell base (vtable 8 + next_and_flags 8) = 16 bytes
-    //   byte_count (1) + flags (1) + char_count (2) = 4 bytes (no padding)
-    //   utf8_payload[44] = 44 bytes
+    //   byte_count  (1) : bytes used in utf8_payload (0..32)
+    //   [implicit padding 1 byte for char_count alignment]
+    //   char_count  (2) : Unicode codepoints in this leaf
+    //   flags       (1) : bit 0 = is_partial
+    //   _pad        (3) : explicit padding to 8-byte-align content_hash
+    //   content_hash(8) : FNV-1a of utf8_payload[0..byte_count)
+    //   utf8_payload(32): UTF-8 bytes
+    //   Total: 16 + 1+1+2+1+3+8+32 = 64 bytes
+    //
+    // NOTE: The spec §3.1 specifies utf8_payload[48] assuming a zero-size Cell base,
+    // but Cell carries a vtable pointer (8) and next_and_flags (8) = 16 bytes, leaving
+    // only 32 bytes for the payload. content_hash is present as a real field per spec.
     class StringLeafNode final : public Cell {
     public:
-        uint8_t  byte_count;
-        uint8_t  flags;
-        uint16_t char_count;
-        uint8_t  utf8_payload[44];
+        uint8_t  byte_count;                   // bytes used in utf8_payload (0..32)
+        // 1 byte implicit padding for char_count alignment
+        uint16_t char_count;                   // Unicode codepoints in this leaf
+        uint8_t  flags;                        // bit 0: is_partial
+        uint8_t  _pad[3];                      // explicit padding to 8-byte-align content_hash
+        uint64_t content_hash;                 // FNV-1a of utf8_payload[0..byte_count)
+        uint8_t  utf8_payload[32];
 
-        static constexpr uint8_t MAX_PAYLOAD        = 44;
-        static constexpr uint8_t PARTIAL_THRESHOLD  = 11;
-        static constexpr uint8_t MERGE_FILL         = 22;
+        static constexpr uint8_t MAX_PAYLOAD        = 32;
+        static constexpr uint8_t PARTIAL_THRESHOLD  = 8;
+        static constexpr uint8_t MERGE_FILL         = 16;
 
         StringLeafNode(ProtoContext* ctx,
                        const uint8_t* bytes, uint8_t byte_cnt,

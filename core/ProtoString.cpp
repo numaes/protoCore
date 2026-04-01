@@ -55,7 +55,7 @@ namespace proto {
 
     const ProtoObject* createInlineString(ProtoContext* context, int len, const unsigned int* codepoints) {
         unsigned long value = static_cast<unsigned long>(len & 7);
-        for (int i = 0; i < len && i < INLINE_STRING_MAX_LEN; ++i)
+        for (int i = 0; i < len && i < INLINE_STRING_MAX_BYTES; ++i)
             value |= (static_cast<unsigned long>(codepoints[i] & 0x7F) << (3 + 7 * i));
         const uintptr_t ptr = POINTER_TAG_EMBEDDED_VALUE | (static_cast<uintptr_t>(EMBEDDED_TYPE_INLINE_STRING) << 6) | (value << 10);
         return reinterpret_cast<const ProtoObject*>(ptr);
@@ -608,8 +608,8 @@ namespace proto {
         if (!list) return nullptr;
         unsigned long size = list->getSize(context);
         
-        if (size <= INLINE_STRING_MAX_LEN) {
-            unsigned int codepoints[INLINE_STRING_MAX_LEN];
+        if (size <= INLINE_STRING_MAX_BYTES) {
+            unsigned int codepoints[INLINE_STRING_MAX_BYTES];
             bool allASCII = true;
             for (unsigned long i = 0; i < size; ++i) {
                 const ProtoObject* charObj = list->getAt(context, static_cast<int>(i));

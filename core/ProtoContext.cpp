@@ -262,11 +262,11 @@ namespace proto
 
     const ProtoObject* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
     {
-        unsigned int codepoints[INLINE_STRING_MAX_LEN];
+        unsigned int codepoints[INLINE_STRING_MAX_BYTES];
         int count = 0;
         const unsigned char* s = (const unsigned char*)zeroTerminatedUtf8String;
         bool allASCII = true;
-        while (*s && count <= INLINE_STRING_MAX_LEN) {
+        while (*s && count <= INLINE_STRING_MAX_BYTES) {
             unsigned int unicodeChar;
             int len;
             if (*s < 0x80) {
@@ -290,12 +290,12 @@ namespace proto
                 }
                 unicodeChar = (unicodeChar << 6) | (s[i] & 0x3F);
             }
-            if (count < INLINE_STRING_MAX_LEN) codepoints[count] = unicodeChar;
+            if (count < INLINE_STRING_MAX_BYTES) codepoints[count] = unicodeChar;
             if (unicodeChar >= 128u) allASCII = false;
             ++count;
             s += len;
         }
-        if (count > 0 && count <= INLINE_STRING_MAX_LEN && allASCII && !*s) {
+        if (count > 0 && count <= INLINE_STRING_MAX_BYTES && allASCII && !*s) {
             return createInlineString(this, count, codepoints);
         }
         const ProtoListImplementation* charList = new(this) ProtoListImplementation(this);
