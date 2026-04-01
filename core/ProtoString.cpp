@@ -146,7 +146,16 @@ namespace proto {
     }
 
     static unsigned long getProtoStringSize(ProtoContext* /*context*/, const ProtoObject* o) {
-        if (isInlineString(o)) return inlineStringLength(o);
+        if (isInlineString(o)) {
+            // Count Unicode codepoints, not raw bytes.
+            unsigned long bc = inlineStringByteCount(o);
+            unsigned long chars = 0;
+            for (unsigned long i = 0; i < bc; ) {
+                i += utf8SeqLen(inlineStringByte(o, i));
+                ++chars;
+            }
+            return chars;
+        }
         return static_cast<unsigned long>(toImpl<const ProtoStringImplementation>(o)->implGetSize());
     }
 
@@ -179,6 +188,7 @@ namespace proto {
                                                const uint8_t* bytes,
                                                uint8_t byte_count) {
         assert(byte_count <= INLINE_STRING_MAX_BYTES);
+        assert(!byte_count || bytes != nullptr);
         ProtoObjectPointer pa{};
         pa.oid = nullptr;
         pa.inlineString.pointer_tag       = POINTER_TAG_EMBEDDED_VALUE;
@@ -307,8 +317,16 @@ namespace proto {
                 int& idx = slotIndex[top];
 
                 if (isInlineString(current)) {
-                    if (idx < (int)inlineStringLength(current)) {
-                        return inlineStringCharAt(current, idx++);
+                    // idx tracks the current byte position within the inline UTF-8 payload.
+                    uint8_t lead = inlineStringByte(current, static_cast<unsigned long>(idx));
+                    unsigned long bc = inlineStringByteCount(current);
+                    if (static_cast<unsigned long>(idx) < bc) {
+                        uint8_t raw[4] = {0, 0, 0, 0};
+                        uint32_t seqLen = utf8SeqLen(lead);
+                        for (uint32_t b = 0; b < seqLen && static_cast<unsigned long>(idx) + b < bc; ++b)
+                            raw[b] = inlineStringByte(current, static_cast<unsigned long>(idx) + b);
+                        idx += static_cast<int>(seqLen);
+                        return static_cast<unsigned int>(decodeCodepoint(raw));
                     }
                     top--; continue;
                 }
@@ -389,7 +407,8 @@ namespace proto {
                 int& idx = tempSlotIndex[tempTop];
 
                 if (isInlineString(current)) {
-                    if (idx < (int)inlineStringLength(current)) return true;
+                    // idx is a byte position; check against byte count.
+                    if (idx < (int)inlineStringByteCount(current)) return true;
                     tempTop--; continue;
                 }
 
@@ -475,29 +494,22 @@ namespace proto {
 
     static int compareStrings(ProtoContext* context, const ProtoObject* s1, const ProtoObject* s2) {
         if (s1 == s2) return 0;
-        
+
         const unsigned long len1 = getProtoStringSize(context, s1);
         const unsigned long len2 = getProtoStringSize(context, s2);
         const unsigned long minLen = std::min(len1, len2);
 
-        if (isInlineString(s1) && isInlineString(s2)) {
-            for (unsigned long i = 0; i < minLen; ++i) {
-                unsigned int cp1 = inlineStringCharAt(s1, static_cast<int>(i));
-                unsigned int cp2 = inlineStringCharAt(s2, static_cast<int>(i));
-                if (cp1 < cp2) return -1;
-                if (cp1 > cp2) return 1;
-            }
-        } else {
-            RopeCharacterIterator it1(context, s1);
-            RopeCharacterIterator it2(context, s2);
-            for (unsigned long i = 0; i < minLen; ++i) {
-                unsigned int cp1 = isInlineString(s1) ? inlineStringCharAt(s1, static_cast<int>(i)) : it1.next();
-                unsigned int cp2 = isInlineString(s2) ? inlineStringCharAt(s2, static_cast<int>(i)) : it2.next();
-                if (cp1 < cp2) return -1;
-                if (cp1 > cp2) return 1;
-            }
+        // Use RopeCharacterIterator for both sides to ensure correct UTF-8 decoding
+        // regardless of whether strings are inline (potentially multi-byte) or rope-based.
+        RopeCharacterIterator it1(context, s1);
+        RopeCharacterIterator it2(context, s2);
+        for (unsigned long i = 0; i < minLen; ++i) {
+            unsigned int cp1 = it1.next();
+            unsigned int cp2 = it2.next();
+            if (cp1 < cp2) return -1;
+            if (cp1 > cp2) return 1;
         }
-        
+
         if (len1 < len2) return -1;
         if (len1 > len2) return 1;
         return 0;
@@ -555,11 +567,18 @@ namespace proto {
     const ProtoObject* ProtoStringIteratorImplementation::implNext(ProtoContext* context) {
         if (!this->base || this->charIndex >= this->totalSize) return nullptr;
 
-        // Fast path: inline string — ASCII-only, no tree involved.
+        // Fast path: inline string — decode UTF-8 from the inline payload.
+        // leafBytePos is repurposed here as the byte offset within the inline payload.
         if (isInlineString(this->base)) {
-            const unsigned int cp = inlineStringCharAt(this->base, static_cast<int>(this->charIndex));
+            uint8_t raw[4] = {0, 0, 0, 0};
+            unsigned long bc = inlineStringByteCount(this->base);
+            uint8_t lead = inlineStringByte(this->base, static_cast<unsigned long>(this->leafBytePos));
+            uint32_t seqLen = utf8SeqLen(lead);
+            for (uint32_t b = 0; b < seqLen && static_cast<unsigned long>(this->leafBytePos) + b < bc; ++b)
+                raw[b] = inlineStringByte(this->base, static_cast<unsigned long>(this->leafBytePos) + b);
+            this->leafBytePos = static_cast<uint8_t>(this->leafBytePos + seqLen);
             this->charIndex++;
-            return context->fromUnicodeChar(cp);
+            return context->fromUnicodeChar(decodeCodepoint(raw));
         }
 
         // AVL string: if currentLeaf is exhausted or not yet set, descend to the

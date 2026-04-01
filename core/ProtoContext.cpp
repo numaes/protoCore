@@ -296,6 +296,9 @@ namespace proto
             s += len;
         }
         if (count > 0 && count <= INLINE_STRING_MAX_BYTES && allASCII && !*s) {
+            // ASCII-only path: uses createInlineString (codepoint array).
+            // For multi-byte UTF-8 inline strings, use createInlineStringUTF8 directly
+            // or go through ProtoString creation which routes via wrapRoot.
             return createInlineString(this, count, codepoints);
         }
         const ProtoListImplementation* charList = new(this) ProtoListImplementation(this);
