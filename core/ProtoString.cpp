@@ -50,6 +50,17 @@ namespace proto {
     }
 
     // =========================================================================
+    // Forward declarations for AVL primitives and UTF-8 output helper.
+    // These are defined later in the file but are needed by
+    // ProtoStringImplementation methods and RopeCharacterIterator.
+    // =========================================================================
+    const ProtoObject* strConcat(ProtoContext* ctx,
+                                  const ProtoObject* a,
+                                  const ProtoObject* b);
+    void strCharAt(const ProtoObject* node, uint32_t index, uint32_t* out);
+    static void appendUTF8CodePoint(std::string& out, unsigned int codepoint);
+
+    // =========================================================================
     // StringLeafNode
     // =========================================================================
 
@@ -131,9 +142,9 @@ namespace proto {
         return static_cast<unsigned int>((pa.inlineString.inline_utf8_bytes >> (static_cast<unsigned>(i) * 8u)) & 0xFFu);
     }
 
-    static unsigned long getProtoStringSize(ProtoContext* context, const ProtoObject* o) {
+    static unsigned long getProtoStringSize(ProtoContext* /*context*/, const ProtoObject* o) {
         if (isInlineString(o)) return inlineStringLength(o);
-        return toImpl<const ProtoStringImplementation>(o)->implGetSize(context);
+        return static_cast<unsigned long>(toImpl<const ProtoStringImplementation>(o)->implGetSize());
     }
 
     static const ProtoObject* getProtoStringGetAt(ProtoContext* context, const ProtoObject* o, int index) {
@@ -196,10 +207,33 @@ namespace proto {
                     const ProtoStringImplementation* sImpl = toImpl<const ProtoStringImplementation>(current);
                     if (idx == 0) {
                         idx = 1; // Mark that we've expanded it
-                        push(sImpl->tuple->implAsObject(context));
+                        if (sImpl->avl_root) push(sImpl->avl_root);
                         continue;
                     }
                     top--; continue; // already expanded
+                }
+
+                if (StringLeafNode::isStringLeafNode(current)) {
+                    const StringLeafNode* leaf = StringLeafNode::fromObject(current);
+                    // idx tracks the current codepoint position within this leaf.
+                    if (idx < static_cast<int>(leaf->char_count)) {
+                        uint32_t cp = 0;
+                        strCharAt(current, static_cast<uint32_t>(idx), &cp);
+                        ++idx;
+                        return static_cast<unsigned int>(cp);
+                    }
+                    top--; continue;
+                }
+
+                if (StringInternalNode::isStringInternalNode(current)) {
+                    const StringInternalNode* node = StringInternalNode::fromObject(current);
+                    if (idx == 0) {
+                        idx = 1;
+                        if (node->right) push(node->right);
+                        if (node->left)  push(node->left);
+                        continue;
+                    }
+                    top--; continue;
                 }
 
                 if (current->isTuple(context)) {
@@ -252,14 +286,27 @@ namespace proto {
                 if (current->isString(ctx)) {
                     if (idx == 0) {
                         idx = 1;
-                        tempTop++;
-                        // Avoid modifying the real stack frame, just simulate pushing tuple
-                        if (tempTop >= MAX_DEPTH) return false;
-                        tempStack[tempTop] = toImpl<const ProtoStringImplementation>(current)->tuple->implAsObject(ctx);
-                        tempSlotIndex[tempTop] = 0;
+                        const ProtoObject* root = toImpl<const ProtoStringImplementation>(current)->avl_root;
+                        if (root) {
+                            tempTop++;
+                            if (tempTop >= MAX_DEPTH) return false;
+                            tempStack[tempTop] = root;
+                            tempSlotIndex[tempTop] = 0;
+                        }
                         continue;
                     }
                     tempTop--; continue;
+                }
+
+                if (StringLeafNode::isStringLeafNode(current)) {
+                    const StringLeafNode* leaf = StringLeafNode::fromObject(current);
+                    if (idx < static_cast<int>(leaf->char_count)) return true;
+                    tempTop--; continue;
+                }
+
+                if (StringInternalNode::isStringInternalNode(current)) {
+                    // An internal node always has children — so there are more codepoints.
+                    return true;
                 }
 
                 if (current->isTuple(ctx)) {
@@ -406,75 +453,126 @@ namespace proto {
     }
 
 
-    //=========================================================================
-    // ProtoStringImplementation
-    //=========================================================================
+    // ===== ProtoStringImplementation (wraps AVL root) ==========================
 
-    ProtoStringImplementation::ProtoStringImplementation(
-        ProtoContext* context,
-        const ProtoTupleImplementation* baseTuple
-    ) : Cell(context), tuple(baseTuple)
-    {
+    ProtoStringImplementation::ProtoStringImplementation(ProtoContext* ctx,
+                                                          const ProtoObject* root)
+        : Cell(ctx), avl_root(root) {}
+
+    uint32_t ProtoStringImplementation::implGetSize() const {
+        return StringInternalNode::charCount(avl_root);
     }
 
-    const ProtoObject* ProtoStringImplementation::implGetAt(ProtoContext* context, int index) const {
-        // A rope node (concat) always has exactly 2 children in slots 0 and 1, and these children are strings.
-        // We check this structure instead of relying on the total character count 'actual_size'.
-        if (this->tuple->slot[0] && this->tuple->slot[1] && 
-            this->tuple->slot[0]->isString(context) && this->tuple->slot[1]->isString(context) &&
-            this->tuple->slot[2] == nullptr && this->tuple->slot[3] == nullptr) {
-            const unsigned long leftSize = getProtoStringSize(context, this->tuple->slot[0]);
-            if (index >= 0 && static_cast<unsigned long>(index) < leftSize)
-                return getProtoStringGetAt(context, this->tuple->slot[0], index);
-            const unsigned long rightSize = getProtoStringSize(context, this->tuple->slot[1]);
-            if (static_cast<unsigned long>(index) < leftSize + rightSize)
-                return getProtoStringGetAt(context, this->tuple->slot[1], index - static_cast<int>(leftSize));
+    uint64_t ProtoStringImplementation::implGetHash() const {
+        return StringInternalNode::subtreeHash(avl_root);
+    }
+
+    const ProtoObject* ProtoStringImplementation::implAsObject(ProtoContext* /*ctx*/) const {
+        ProtoObjectPointer pa{};
+        pa.stringImplementation = this;
+        pa.op.pointer_tag = POINTER_TAG_STRING;
+        return pa.oid;
+    }
+
+    const ProtoString* ProtoStringImplementation::asProtoString(ProtoContext* /*ctx*/) const {
+        ProtoObjectPointer p{};
+        p.stringImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_STRING;
+        return p.string;
+    }
+
+    const ProtoStringImplementation* ProtoStringImplementation::implAsSymbol(ProtoContext* /*ctx*/) const {
+        ProtoObjectPointer pa{};
+        pa.symbolImplementation = this;
+        pa.op.pointer_tag = POINTER_TAG_SYMBOL;
+        return reinterpret_cast<const ProtoStringImplementation*>(pa.oid);
+    }
+
+    // Build a balanced AVL tree from a contiguous UTF-8 byte array.
+    static const ProtoObject* buildAVL(ProtoContext* ctx,
+                                        const uint8_t* bytes, size_t len) {
+        if (len == 0) return nullptr;
+
+        // Count Unicode codepoints in this segment.
+        uint16_t char_cnt = 0;
+        for (size_t i = 0; i < len; ) {
+            i += utf8SeqLen(bytes[i]);
+            ++char_cnt;
         }
-        return this->tuple->implGetAt(context, index);
+
+        if (len <= StringLeafNode::MAX_PAYLOAD) {
+            return (new(ctx) StringLeafNode(ctx,
+                bytes, static_cast<uint8_t>(len), char_cnt))->asObject();
+        }
+
+        // Split roughly in half at a codepoint boundary.
+        size_t mid_byte = len / 2;
+        // Back up to a lead byte if we landed in the middle of a multibyte sequence.
+        while (mid_byte > 0 && (bytes[mid_byte] & 0xC0u) == 0x80u) --mid_byte;
+
+        const ProtoObject* left  = buildAVL(ctx, bytes, mid_byte);
+        const ProtoObject* right = buildAVL(ctx, bytes + mid_byte, len - mid_byte);
+        return strConcat(ctx, left, right);
     }
 
-    unsigned long ProtoStringImplementation::implGetSize(ProtoContext* context) const {
-        return this->tuple->implGetSize(context);
+    const ProtoStringImplementation* ProtoStringImplementation::fromUTF8Bytes(
+            ProtoContext* ctx, const uint8_t* bytes, size_t len) {
+        return new(ctx) ProtoStringImplementation(ctx, buildAVL(ctx, bytes, len));
     }
-
-    const ProtoList* ProtoStringImplementation::implAsList(ProtoContext* context) const {
-        return this->tuple->implAsList(context);
-    }
-
-    const ProtoStringImplementation* ProtoStringImplementation::implAppendLast(ProtoContext* context, const ProtoString* otherString) const {
-        const ProtoObject* leftObj = this->implAsObject(context);
-        const ProtoObject* rightObj = otherString->asObject(context);
-        const unsigned long leftSize = this->implGetSize(context);
-        const unsigned long rightSize = getProtoStringSize(context, rightObj);
-        const ProtoTupleImplementation* concatTuple = ProtoTupleImplementation::tupleConcat(context, leftObj, rightObj, leftSize + rightSize);
-        return new (context) ProtoStringImplementation(context, concatTuple);
-    }
-
-    void ProtoStringImplementation::finalize(ProtoContext* context) const {}
 
     void ProtoStringImplementation::processReferences(
         ProtoContext* context,
         void* self,
-        void (*method)(
-            ProtoContext* context,
-            void* self,
-            const Cell* cell
-            )
+        void (*method)(ProtoContext*, void*, const Cell*)
     ) const {
-        if (this->tuple && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->tuple))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->tuple)));
+        if (avl_root && ProtoObject::isCellPointer(avl_root)) {
+            method(context, self, ProtoObject::asCellPointer(avl_root));
         }
     }
 
-    const ProtoObject* ProtoStringImplementation::implAsObject(ProtoContext* context) const {
-        ProtoObjectPointer p{};
-        p.stringImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_STRING;
-        return p.oid;
+    // Legacy compatibility: O(n) character access via AVL charAt.
+    const ProtoObject* ProtoStringImplementation::implGetAt(ProtoContext* context, int index) const {
+        if (!avl_root || index < 0) return nullptr;
+        uint32_t cp = 0;
+        strCharAt(avl_root, static_cast<uint32_t>(index), &cp);
+        return context->fromUnicodeChar(cp);
     }
 
-    unsigned long ProtoStringImplementation::getHash(ProtoContext* context) const {
-        return this->tuple ? this->tuple->getHash(context) : 0;
+    // Legacy compatibility: size via AVL charCount.
+    unsigned long ProtoStringImplementation::implGetSizeCompat(ProtoContext* /*context*/) const {
+        return static_cast<unsigned long>(implGetSize());
+    }
+
+    // Legacy compatibility: convert to list of unicode char objects.
+    const ProtoList* ProtoStringImplementation::implAsList(ProtoContext* context) const {
+        const ProtoList* list = context->newList();
+        const uint32_t size = implGetSize();
+        for (uint32_t i = 0; i < size; ++i) {
+            uint32_t cp = 0;
+            strCharAt(avl_root, i, &cp);
+            list = list->appendLast(context, context->fromUnicodeChar(cp));
+        }
+        return list;
+    }
+
+    // Legacy compatibility: append via AVL concat.
+    const ProtoStringImplementation* ProtoStringImplementation::implAppendLast(
+            ProtoContext* context, const ProtoString* otherString) const {
+        // Build a temporary AVL from the other string's characters.
+        std::string utf8;
+        otherString->toUTF8String(context, utf8);
+        const ProtoObject* otherRoot = buildAVL(
+            context,
+            reinterpret_cast<const uint8_t*>(utf8.data()),
+            utf8.size());
+        return new(context) ProtoStringImplementation(context,
+            strConcat(context, avl_root, otherRoot));
+    }
+
+    void ProtoStringImplementation::finalize(ProtoContext* /*context*/) const {}
+
+    unsigned long ProtoStringImplementation::getHash(ProtoContext* /*context*/) const {
+        return static_cast<unsigned long>(implGetHash());
     }
 
     int ProtoStringImplementation::implCompare(ProtoContext* context, const ProtoString* other) const {
@@ -482,14 +580,7 @@ namespace proto {
     }
 
     const ProtoStringIteratorImplementation* ProtoStringImplementation::implGetIterator(ProtoContext* context) const {
-        return new (context) ProtoStringIteratorImplementation(context, this->implAsObject(context), 0);
-    }
-
-    const ProtoString* ProtoStringImplementation::asProtoString(ProtoContext* context) const {
-        ProtoObjectPointer p;
-        p.stringImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_STRING;
-        return p.string;
+        return new(context) ProtoStringIteratorImplementation(context, this->implAsObject(context), 0);
     }
 
     //=========================================================================
@@ -499,7 +590,7 @@ namespace proto {
     unsigned long ProtoString::getSize(ProtoContext* context) const {
         const ProtoObject* self = reinterpret_cast<const ProtoObject*>(this);
         if (isInlineString(self)) return inlineStringLength(self);
-        return toImpl<const ProtoStringImplementation>(this)->implGetSize(context);
+        return static_cast<unsigned long>(toImpl<const ProtoStringImplementation>(this)->implGetSize());
     }
 
     const ProtoObject* ProtoString::getAt(ProtoContext* context, int index) const {
@@ -706,38 +797,43 @@ namespace proto {
     // ProtoString / ProtoStringIterator external API trampolines (from public API)
     const ProtoString* ProtoString::create(ProtoContext* context, const ProtoList* list) {
         if (!list) return nullptr;
-        unsigned long size = list->getSize(context);
-        
-        if (size <= INLINE_STRING_MAX_BYTES) {
-            unsigned int codepoints[INLINE_STRING_MAX_BYTES];
-            bool allASCII = true;
-            for (unsigned long i = 0; i < size; ++i) {
-                const ProtoObject* charObj = list->getAt(context, static_cast<int>(i));
-                unsigned int cp = 0;
-                ProtoObjectPointer pa{}; pa.oid = charObj;
-                if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
-                    cp = static_cast<unsigned int>(pa.unicodeChar.unicodeValue & 0x1FFFFFu);
-                } else if (charObj && charObj->isInteger(context)) {
-                    cp = static_cast<unsigned int>(charObj->asLong(context) & 0x1FFFFFu);
-                } else if (charObj && charObj->isString(context)) {
-                    RopeCharacterIterator it(context, charObj);
-                    cp = it.next();
-                }
-                codepoints[i] = cp;
-                if (cp >= 128u) allASCII = false;
+        const unsigned long size = list->getSize(context);
+
+        // Collect codepoints from the list.
+        std::string utf8;
+        unsigned int codepoints[INLINE_STRING_MAX_BYTES];
+        bool allASCII = (size <= INLINE_STRING_MAX_BYTES);
+
+        for (unsigned long i = 0; i < size; ++i) {
+            const ProtoObject* charObj = list->getAt(context, static_cast<int>(i));
+            unsigned int cp = 0;
+            ProtoObjectPointer pa{}; pa.oid = charObj;
+            if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
+                cp = static_cast<unsigned int>(pa.unicodeChar.unicodeValue & 0x1FFFFFu);
+            } else if (charObj && charObj->isInteger(context)) {
+                cp = static_cast<unsigned int>(charObj->asLong(context) & 0x1FFFFFu);
+            } else if (charObj && charObj->isString(context)) {
+                RopeCharacterIterator it(context, charObj);
+                cp = it.next();
             }
-            if (allASCII) {
-                return reinterpret_cast<const ProtoString*>(createInlineString(context, size, codepoints));
-            }
+            if (i < INLINE_STRING_MAX_BYTES) codepoints[i] = cp;
+            if (cp >= 128u) allASCII = false;
+            appendUTF8CodePoint(utf8, cp);
         }
-        
-        const ProtoTuple* tuple = context->newTupleFromList(list);
-        ProtoStringImplementation* pendingStr = new (context) ProtoStringImplementation(context, toImpl<const ProtoTupleImplementation>(tuple));
-        context->pendingRoot = pendingStr;
-        
+
+        if (allASCII && size <= INLINE_STRING_MAX_BYTES) {
+            return reinterpret_cast<const ProtoString*>(createInlineString(context, static_cast<int>(size), codepoints));
+        }
+
+        const ProtoStringImplementation* pendingStr = ProtoStringImplementation::fromUTF8Bytes(
+            context,
+            reinterpret_cast<const uint8_t*>(utf8.data()),
+            utf8.size());
+        context->pendingRoot = const_cast<ProtoStringImplementation*>(pendingStr);
+
         const ProtoStringImplementation* interned = internString(context, pendingStr);
         context->pendingRoot = nullptr;
-        
+
         return interned->asProtoString(context);
     }
 

@@ -279,3 +279,27 @@ TEST_F(StringAVLTest, CharAtInTree) {
     proto::strCharAt(tree, 3, &cp); EXPECT_EQ(cp, (uint32_t)'d');
     proto::strCharAt(tree, 4, &cp); EXPECT_EQ(cp, (uint32_t)'e');
 }
+
+TEST_F(StringAVLTest, StringImplFromUTF8) {
+    const char* src = "hello";
+    auto* s = proto::ProtoStringImplementation::fromUTF8Bytes(
+        c, reinterpret_cast<const uint8_t*>(src), 5);
+    ASSERT_NE(s, nullptr);
+    EXPECT_EQ(s->implGetSize(), 5u);
+}
+
+TEST_F(StringAVLTest, StringImplHashIsRootHash) {
+    const char* src = "abc";
+    auto* s = proto::ProtoStringImplementation::fromUTF8Bytes(
+        c, reinterpret_cast<const uint8_t*>(src), 3);
+    EXPECT_EQ(s->implGetHash(),
+              proto::StringInternalNode::subtreeHash(s->avl_root));
+}
+
+TEST_F(StringAVLTest, StringImplLargeFromUTF8) {
+    std::string long_str(100, 'a');
+    auto* s = proto::ProtoStringImplementation::fromUTF8Bytes(
+        c, reinterpret_cast<const uint8_t*>(long_str.data()), long_str.size());
+    EXPECT_EQ(s->implGetSize(), 100u);
+    EXPECT_LE(proto::StringInternalNode::nodeHeight(s->avl_root), 2);
+}
