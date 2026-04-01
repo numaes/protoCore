@@ -765,11 +765,92 @@ namespace proto {
     const ProtoStringIterator* ProtoStringIterator::advance(ProtoContext* context) { return toImpl<ProtoStringIteratorImplementation>(this)->implAdvance(context)->asProtoStringIterator(context); }
     const ProtoObject* ProtoStringIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoStringIteratorImplementation>(this)->implAsObject(context); }
 
-    // ---- StringInternalNode GC reference tracing (stub — full impl in Task 3) ----
+    // =========================================================================
+    // StringInternalNode
+    // =========================================================================
+
+    StringInternalNode::StringInternalNode(ProtoContext* ctx,
+                                           const ProtoObject* l,
+                                           const ProtoObject* r)
+        : Cell(ctx)
+        , left(l)
+        , right(r)
+        , total_chars(charCount(l) + charCount(r))
+        , left_chars(charCount(l))
+        , total_bytes(byteCount(l) + byteCount(r))
+        , _pad_align(0)
+        , subtree_hash(hashCombine(subtreeHash(l), subtreeHash(r)))
+        , height(static_cast<uint8_t>(1 + std::max(nodeHeight(l), nodeHeight(r))))
+        , _pad{}
+    {}
+
+    int StringInternalNode::nodeHeight(const ProtoObject* n) {
+        if (!n) return 0;
+        if (StringLeafNode::isStringLeafNode(n)) return 0;   // leaves have height 0
+        if (isStringInternalNode(n))
+            return static_cast<int>(fromObject(n)->height);
+        return 0;
+    }
+
+    int StringInternalNode::balance(const ProtoObject* n) {
+        if (!n || !isStringInternalNode(n)) return 0;
+        const auto* node = fromObject(n);
+        return nodeHeight(node->left) - nodeHeight(node->right);
+    }
+
+    uint64_t StringInternalNode::subtreeHash(const ProtoObject* n) {
+        if (!n) return 0;
+        if (StringLeafNode::isStringLeafNode(n))
+            return StringLeafNode::fromObject(n)->content_hash;
+        if (isStringInternalNode(n))
+            return fromObject(n)->subtree_hash;
+        return 0;
+    }
+
+    uint32_t StringInternalNode::charCount(const ProtoObject* n) {
+        if (!n) return 0;
+        if (StringLeafNode::isStringLeafNode(n))
+            return StringLeafNode::fromObject(n)->char_count;
+        if (isStringInternalNode(n))
+            return fromObject(n)->total_chars;
+        return 0;
+    }
+
+    uint32_t StringInternalNode::byteCount(const ProtoObject* n) {
+        if (!n) return 0;
+        if (StringLeafNode::isStringLeafNode(n))
+            return StringLeafNode::fromObject(n)->byte_count;
+        if (isStringInternalNode(n))
+            return fromObject(n)->total_bytes;
+        return 0;
+    }
+
+    const ProtoObject* StringInternalNode::asObject() const {
+        ProtoObjectPointer pa{};
+        pa.stringInternalNode = this;
+        pa.op.pointer_tag = POINTER_TAG_STRING_INTERNAL_NODE;
+        return pa.oid;
+    }
+
+    const StringInternalNode* StringInternalNode::fromObject(const ProtoObject* obj) {
+        return toImpl<const StringInternalNode>(obj);
+    }
+
+    bool StringInternalNode::isStringInternalNode(const ProtoObject* obj) {
+        if (!obj) return false;
+        ProtoObjectPointer pa{}; pa.oid = obj;
+        return pa.op.pointer_tag == POINTER_TAG_STRING_INTERNAL_NODE;
+    }
+
+    const ProtoObject* StringInternalNode::implAsObject(ProtoContext* /*context*/) const {
+        return asObject();
+    }
+
     void StringInternalNode::processReferences(ProtoContext* context, void* self,
                                                void (*method)(ProtoContext*, void*, const Cell*)) const {
-        // TODO (Task 3): trace left and right subtrees through the GC visitor.
-        // Placeholder to satisfy vtable; nodes are not yet allocated in production paths.
-        (void)context; (void)self; (void)method;
+        if (left && ProtoObject::isCellPointer(left))
+            method(context, self, ProtoObject::asCellPointer(left));
+        if (right && ProtoObject::isCellPointer(right))
+            method(context, self, ProtoObject::asCellPointer(right));
     }
 }

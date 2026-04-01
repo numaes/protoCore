@@ -146,3 +146,31 @@ TEST_F(StringAVLTest, LeafNodeHashDiffers) {
     auto* l2 = new(c) proto::StringLeafNode(c, b2, 2, 2);
     EXPECT_NE(l1->content_hash, l2->content_hash);
 }
+
+TEST_F(StringAVLTest, InternalNodeCharsAndHash) {
+    const uint8_t b1[] = {'a','b','c'};
+    const uint8_t b2[] = {'d','e'};
+    auto* l1 = new(c) proto::StringLeafNode(c, b1, 3, 3);
+    auto* l2 = new(c) proto::StringLeafNode(c, b2, 2, 2);
+    auto* node = new(c) proto::StringInternalNode(c, l1->asObject(), l2->asObject());
+
+    EXPECT_EQ(node->total_chars, 5u);
+    EXPECT_EQ(node->left_chars,  3u);
+    EXPECT_EQ(node->total_bytes, 5u);
+    EXPECT_EQ(node->height,      1u);
+
+    // Hash must be deterministic: two nodes with the same children yield the same subtree_hash.
+    auto* node2 = new(c) proto::StringInternalNode(c, l1->asObject(), l2->asObject());
+    EXPECT_EQ(node->subtree_hash, node2->subtree_hash);
+    // And it must differ from either leaf hash alone.
+    EXPECT_NE(node->subtree_hash, l1->content_hash);
+    EXPECT_NE(node->subtree_hash, l2->content_hash);
+}
+
+TEST_F(StringAVLTest, InternalNodeBalanceLeaves) {
+    const uint8_t b[] = {'x'};
+    auto* l = new(c) proto::StringLeafNode(c, b, 1, 1);
+    auto* node = new(c) proto::StringInternalNode(c, l->asObject(), l->asObject());
+    EXPECT_EQ(proto::StringInternalNode::nodeHeight(node->asObject()), 1);
+    EXPECT_EQ(proto::StringInternalNode::balance(node->asObject()), 0);
+}
