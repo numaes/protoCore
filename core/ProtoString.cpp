@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <vector>
 
 namespace proto {
 
@@ -1446,4 +1447,102 @@ namespace proto {
             *out = 0;
         }
     }
+
+    // =========================================================================
+    // Public API additions (Task 13)
+    // =========================================================================
+
+    const ProtoString* ProtoString::fromUTF8(ProtoContext* context,
+                                              const char* zeroTerminatedUtf8) {
+        return ProtoString::fromUTF8String(context, zeroTerminatedUtf8);
+    }
+
+    const ProtoString* ProtoString::fromStdString(ProtoContext* context,
+                                                   const std::string& s) {
+        return ProtoString::fromUTF8String(context, s.c_str());
+    }
+
+    std::string ProtoString::toStdString(ProtoContext* context) const {
+        std::string out;
+        toUTF8String(context, out);
+        return out;
+    }
+
+    const ProtoString* ProtoString::fromUTF8Buffer(ProtoContext* context,
+                                                    const uint8_t* buf,
+                                                    size_t len,
+                                                    const uint8_t* pending,
+                                                    uint8_t pending_count,
+                                                    uint8_t* out_remainder,
+                                                    uint8_t* out_remainder_count) {
+        // Find the last complete UTF-8 boundary within buf[0..len).
+        // Walk back from the end to skip continuation bytes (0x80..0xBF), then
+        // check whether the found lead byte introduces a sequence that is fully
+        // present in the buffer.
+        size_t valid_end = len;
+        while (valid_end > 0 && (buf[valid_end - 1] & 0xC0u) == 0x80u)
+            --valid_end;
+
+        if (valid_end > 0) {
+            uint8_t lead = buf[valid_end - 1];
+            int expected = (lead < 0xE0u) ? 2 : (lead < 0xF0u) ? 3 : 4;
+            int have = static_cast<int>(len) - static_cast<int>(valid_end - 1);
+            if (have < expected)
+                --valid_end;  // drop the incomplete lead byte from the valid range
+        }
+
+        // Combine any bytes left over from the previous call with the newly
+        // decoded complete portion.
+        std::vector<uint8_t> full;
+        full.reserve(pending_count + valid_end);
+        if (pending_count)
+            full.insert(full.end(), pending, pending + pending_count);
+        full.insert(full.end(), buf, buf + valid_end);
+
+        // Record the trailing incomplete sequence for the next call.
+        *out_remainder_count = static_cast<uint8_t>(len - valid_end);
+        if (*out_remainder_count)
+            std::memcpy(out_remainder, buf + valid_end, *out_remainder_count);
+
+        if (full.empty())
+            return reinterpret_cast<const ProtoString*>(
+                createInlineStringUTF8(context, nullptr, 0));
+        if (full.size() <= INLINE_STRING_MAX_BYTES)
+            return reinterpret_cast<const ProtoString*>(
+                createInlineStringUTF8(context, full.data(),
+                                       static_cast<uint8_t>(full.size())));
+        auto* impl = ProtoStringImplementation::fromUTF8Bytes(
+            context, full.data(), full.size());
+        return reinterpret_cast<const ProtoString*>(impl->implAsObject(context));
+    }
+
+    const ProtoString* ProtoString::fromCodepointTuple(ProtoContext* context,
+                                                        const ProtoTuple* tuple) {
+        unsigned long sz = tuple->getSize(context);
+        std::string utf8;
+        utf8.reserve(sz * 3);
+        for (unsigned long i = 0; i < sz; ++i) {
+            const ProtoObject* ch = tuple->getAt(context, static_cast<int>(i));
+            ProtoObjectPointer pa{};
+            pa.oid = ch;
+            uint32_t cp = static_cast<uint32_t>(pa.unicodeChar.unicodeValue);
+            if (cp < 0x80u) {
+                utf8 += static_cast<char>(cp);
+            } else if (cp < 0x800u) {
+                utf8 += static_cast<char>(0xC0u | (cp >> 6u));
+                utf8 += static_cast<char>(0x80u | (cp & 0x3Fu));
+            } else if (cp < 0x10000u) {
+                utf8 += static_cast<char>(0xE0u | (cp >> 12u));
+                utf8 += static_cast<char>(0x80u | ((cp >> 6u) & 0x3Fu));
+                utf8 += static_cast<char>(0x80u | (cp & 0x3Fu));
+            } else {
+                utf8 += static_cast<char>(0xF0u | (cp >> 18u));
+                utf8 += static_cast<char>(0x80u | ((cp >> 12u) & 0x3Fu));
+                utf8 += static_cast<char>(0x80u | ((cp >> 6u) & 0x3Fu));
+                utf8 += static_cast<char>(0x80u | (cp & 0x3Fu));
+            }
+        }
+        return ProtoString::fromUTF8String(context, utf8.c_str());
+    }
+
 }
