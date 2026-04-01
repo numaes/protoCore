@@ -30,14 +30,14 @@ namespace proto {
     static unsigned long inlineStringLength(const ProtoObject* o) {
         ProtoObjectPointer pa{};
         pa.oid = o;
-        return pa.op.value & 7UL;
+        return pa.inlineString.inline_byte_count;
     }
 
-    /** Returns 7-bit code unit at index i (0..6). */
+    /** Returns the Unicode codepoint at index i for an inline ASCII string (0..127). */
     static unsigned int inlineStringCharAt(const ProtoObject* o, int i) {
         ProtoObjectPointer pa{};
         pa.oid = o;
-        return static_cast<unsigned int>((pa.op.value >> (3 + 7 * i)) & 0x7F);
+        return static_cast<unsigned int>((pa.inlineString.inline_utf8_bytes >> (static_cast<unsigned>(i) * 8u)) & 0xFFu);
     }
 
     static unsigned long getProtoStringSize(ProtoContext* context, const ProtoObject* o) {
@@ -54,11 +54,20 @@ namespace proto {
     }
 
     const ProtoObject* createInlineString(ProtoContext* context, int len, const unsigned int* codepoints) {
-        unsigned long value = static_cast<unsigned long>(len & 7);
-        for (int i = 0; i < len && i < INLINE_STRING_MAX_BYTES; ++i)
-            value |= (static_cast<unsigned long>(codepoints[i] & 0x7F) << (3 + 7 * i));
-        const uintptr_t ptr = POINTER_TAG_EMBEDDED_VALUE | (static_cast<uintptr_t>(EMBEDDED_TYPE_INLINE_STRING) << 6) | (value << 10);
-        return reinterpret_cast<const ProtoObject*>(ptr);
+        // Pack ASCII codepoints as UTF-8 bytes (one byte each) into the inline_utf8_bytes field.
+        // Layout: pointer_tag(6) | embedded_type(4) | inline_byte_count(3) | inline_utf8_bytes(48) | reserved(3)
+        ProtoObjectPointer pa{};
+        pa.oid = nullptr;
+        pa.inlineString.pointer_tag   = POINTER_TAG_EMBEDDED_VALUE;
+        pa.inlineString.embedded_type = EMBEDDED_TYPE_INLINE_STRING;
+        const int byte_count = (len < INLINE_STRING_MAX_BYTES) ? len : INLINE_STRING_MAX_BYTES;
+        pa.inlineString.inline_byte_count = static_cast<unsigned long>(byte_count);
+        unsigned long packed = 0;
+        for (int i = 0; i < byte_count; ++i)
+            packed |= (static_cast<unsigned long>(codepoints[i] & 0xFF) << (static_cast<unsigned>(i) * 8u));
+        pa.inlineString.inline_utf8_bytes = packed;
+        pa.inlineString.reserved = 0;
+        return reinterpret_cast<const ProtoObject*>(pa.oid);
     }
 
     /** Helper for O(N) rope traversal without repeated descent. */
@@ -664,4 +673,12 @@ namespace proto {
     const ProtoObject* ProtoStringIterator::next(ProtoContext* context) { return toImpl<ProtoStringIteratorImplementation>(this)->implNext(context); }
     const ProtoStringIterator* ProtoStringIterator::advance(ProtoContext* context) { return toImpl<ProtoStringIteratorImplementation>(this)->implAdvance(context)->asProtoStringIterator(context); }
     const ProtoObject* ProtoStringIterator::asObject(ProtoContext* context) const { return toImpl<const ProtoStringIteratorImplementation>(this)->implAsObject(context); }
+
+    // ---- StringInternalNode GC reference tracing (stub — full impl in Task 3) ----
+    void StringInternalNode::processReferences(ProtoContext* context, void* self,
+                                               void (*method)(ProtoContext*, void*, const Cell*)) const {
+        // TODO (Task 3): trace left and right subtrees through the GC visitor.
+        // Placeholder to satisfy vtable; nodes are not yet allocated in production paths.
+        (void)context; (void)self; (void)method;
+    }
 }

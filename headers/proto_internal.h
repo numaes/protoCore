@@ -104,7 +104,7 @@ namespace proto {
         const ProtoListIteratorImplementation *listIteratorImplementation;
         const ProtoTupleImplementation *tupleImplementation;
         const ProtoStringImplementation *stringImplementation;
-        const ProtoStringImplementation *symbolImplementation;  // POINTER_TAG_SYMBOL
+        const ProtoStringImplementation *symbolImplementation;  // POINTER_TAG_SYMBOL — same impl class, distinguished only by pointer tag
         const ProtoRangeIteratorImplementation *rangeIteratorImplementation;
         const ProtoStringIteratorImplementation* stringIteratorImplementation;
         const ProtoTupleIteratorImplementation* tupleIteratorImplementation;
@@ -165,7 +165,7 @@ namespace proto {
             unsigned long pointer_tag: 6;
             unsigned long hash: 58;
         } asHash;
-        /** Inline string UTF-8: byte_count (0..6) in bits 10..8; up to 6 UTF-8 bytes in bits 58..11. */
+        /** Inline string UTF-8: byte_count (0..6) in bits 12..10; up to 6 UTF-8 bytes in bits 60..13. */
         struct {
             unsigned long pointer_tag: 6;
             unsigned long embedded_type: 4;
@@ -448,7 +448,9 @@ namespace proto {
         ParentLink,
         ThreadExtension,
         ByteBuffer,
-        TupleDictionary
+        TupleDictionary,
+        StringLeafNode,
+        StringInternalNode
     };
 
     class Cell {
@@ -691,13 +693,13 @@ namespace proto {
     // 64-byte Cell. Stores up to 32 bytes of UTF-8 content in one contiguous chunk.
     // Layout (64 bytes total):
     //   Cell base (vtable 8 + next_and_flags 8) = 16 bytes
-    //   byte_count  (1) : bytes used in utf8_payload (0..32)
-    //   [implicit padding 1 byte for char_count alignment]
-    //   char_count  (2) : Unicode codepoints in this leaf
-    //   flags       (1) : bit 0 = is_partial
-    //   _pad        (3) : explicit padding to 8-byte-align content_hash
-    //   content_hash(8) : FNV-1a of utf8_payload[0..byte_count)
-    //   utf8_payload(32): UTF-8 bytes
+    //   byte_count      (1) : bytes used in utf8_payload (0..32)
+    //   _pad_char_count (1) : explicit alignment padding
+    //   char_count      (2) : Unicode codepoints in this leaf
+    //   flags           (1) : bit 0 = is_partial
+    //   _pad            (3) : explicit padding to 8-byte-align content_hash
+    //   content_hash    (8) : FNV-1a of utf8_payload[0..byte_count)
+    //   utf8_payload   (32) : UTF-8 bytes
     //   Total: 16 + 1+1+2+1+3+8+32 = 64 bytes
     //
     // NOTE: The spec §3.1 specifies utf8_payload[48] assuming a zero-size Cell base,
@@ -706,7 +708,7 @@ namespace proto {
     class StringLeafNode final : public Cell {
     public:
         uint8_t  byte_count;                   // bytes used in utf8_payload (0..32)
-        // 1 byte implicit padding for char_count alignment
+        uint8_t  _pad_char_count;              // explicit alignment padding
         uint16_t char_count;                   // Unicode codepoints in this leaf
         uint8_t  flags;                        // bit 0: is_partial
         uint8_t  _pad[3];                      // explicit padding to 8-byte-align content_hash
@@ -729,8 +731,10 @@ namespace proto {
         static const StringLeafNode* fromObject(const ProtoObject* obj);
         static bool isStringLeafNode(const ProtoObject* obj);
 
-        CellType getType() const override { return CellType::None; }
+        CellType getType() const override { return CellType::StringLeafNode; }
         const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override {}
 
     private:
         static uint64_t computeHash(const uint8_t* bytes, uint8_t len);
@@ -770,8 +774,10 @@ namespace proto {
         static uint32_t charCount(const ProtoObject* n);
         static uint32_t byteCount(const ProtoObject* n);
 
-        CellType getType() const override { return CellType::None; }
+        CellType getType() const override { return CellType::StringInternalNode; }
         const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override;
     };
     static_assert(sizeof(StringInternalNode) == 64, "StringInternalNode must be exactly one 64-byte Cell");
 
