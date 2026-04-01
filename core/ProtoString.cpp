@@ -922,4 +922,68 @@ namespace proto {
             return avlRebalance(ctx, makeInternal(ctx, new_left, bn->right));
         }
     }
+
+    // ===== AVL split primitive ================================================
+
+    struct SplitResult { const ProtoObject* left; const ProtoObject* right; };
+
+    static SplitResult splitLeaf(ProtoContext* ctx,
+                                  const StringLeafNode* leaf,
+                                  uint32_t char_index) {
+        uint32_t byte_split = leaf->charToByteOffset(char_index);
+
+        const StringLeafNode* l = (byte_split > 0)
+            ? new(ctx) StringLeafNode(ctx, leaf->utf8_payload,
+                                       static_cast<uint8_t>(byte_split),
+                                       static_cast<uint16_t>(char_index), /*partial=*/true)
+            : nullptr;
+
+        uint8_t right_bytes = leaf->byte_count - static_cast<uint8_t>(byte_split);
+        const StringLeafNode* r = (right_bytes > 0)
+            ? new(ctx) StringLeafNode(ctx, leaf->utf8_payload + byte_split, right_bytes,
+                                       static_cast<uint16_t>(leaf->char_count - char_index), /*partial=*/true)
+            : nullptr;
+
+        return { l ? l->asObject() : nullptr, r ? r->asObject() : nullptr };
+    }
+
+    SplitResult strSplit(ProtoContext* ctx,
+                         const ProtoObject* node,
+                         uint32_t char_index) {
+        if (!node)                                              return {nullptr, nullptr};
+        uint32_t total = StringInternalNode::charCount(node);
+        if (char_index == 0)                                   return {nullptr, node};
+        if (char_index >= total)                               return {node, nullptr};
+
+        if (StringLeafNode::isStringLeafNode(node))
+            return splitLeaf(ctx, StringLeafNode::fromObject(node), char_index);
+
+        const auto* n = StringInternalNode::fromObject(node);
+        if (char_index <= n->left_chars) {
+            auto [ll, lr] = strSplit(ctx, n->left, char_index);
+            return { ll, strConcat(ctx, lr, n->right) };
+        } else {
+            auto [rl, rr] = strSplit(ctx, n->right, char_index - n->left_chars);
+            return { strConcat(ctx, n->left, rl), rr };
+        }
+    }
+
+    void strCharAt(const ProtoObject* node, uint32_t index, uint32_t* out) {
+        while (StringInternalNode::isStringInternalNode(node)) {
+            const auto* n = StringInternalNode::fromObject(node);
+            if (index < n->left_chars) {
+                node = n->left;
+            } else {
+                index -= n->left_chars;
+                node = n->right;
+            }
+        }
+        if (StringLeafNode::isStringLeafNode(node)) {
+            const auto* leaf = StringLeafNode::fromObject(node);
+            uint32_t byte_pos = leaf->charToByteOffset(index);
+            *out = leaf->codepointAt(byte_pos);
+        } else {
+            *out = 0;
+        }
+    }
 }

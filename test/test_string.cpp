@@ -216,3 +216,66 @@ TEST_F(StringAVLTest, ConcatNullRight) {
     auto* l = new(c) proto::StringLeafNode(c, b, 1, 1);
     EXPECT_EQ(proto::strConcat(c, l->asObject(), nullptr), l->asObject());
 }
+
+// Forward declarations for Task 5
+namespace proto {
+    struct SplitResult { const ProtoObject* left; const ProtoObject* right; };
+    SplitResult strSplit(ProtoContext* ctx, const ProtoObject* node, uint32_t char_index);
+    void strCharAt(const ProtoObject* node, uint32_t index, uint32_t* out_codepoint);
+}
+
+TEST_F(StringAVLTest, SplitLeafInMiddle) {
+    const uint8_t b[] = {'h','e','l','l','o'};
+    auto* leaf = new(c) proto::StringLeafNode(c, b, 5, 5);
+    auto [left, right] = proto::strSplit(c, leaf->asObject(), 2);
+
+    ASSERT_NE(left, nullptr);
+    ASSERT_NE(right, nullptr);
+    EXPECT_EQ(proto::StringInternalNode::charCount(left),  2u);
+    EXPECT_EQ(proto::StringInternalNode::charCount(right), 3u);
+}
+
+TEST_F(StringAVLTest, SplitAtZero) {
+    const uint8_t b[] = {'a','b'};
+    auto* l = new(c) proto::StringLeafNode(c, b, 2, 2);
+    auto [left, right] = proto::strSplit(c, l->asObject(), 0);
+    EXPECT_EQ(left, nullptr);
+    EXPECT_EQ(proto::StringInternalNode::charCount(right), 2u);
+}
+
+TEST_F(StringAVLTest, SplitAtEnd) {
+    const uint8_t b[] = {'a','b'};
+    auto* l = new(c) proto::StringLeafNode(c, b, 2, 2);
+    auto [left, right] = proto::strSplit(c, l->asObject(), 2);
+    EXPECT_EQ(proto::StringInternalNode::charCount(left), 2u);
+    EXPECT_EQ(right, nullptr);
+}
+
+TEST_F(StringAVLTest, SplitTreeReconstitutesViaConcat) {
+    const uint8_t b[] = {'a','b','c','d','e','f'};
+    auto* leaf = new(c) proto::StringLeafNode(c, b, 6, 6);
+    auto [left, right] = proto::strSplit(c, leaf->asObject(), 3);
+    const ProtoObject* rejoined = proto::strConcat(c, left, right);
+    EXPECT_EQ(proto::StringInternalNode::charCount(rejoined), 6u);
+
+    // Verify content roundtrip via strCharAt (hash may differ due to tree structure)
+    uint32_t cp;
+    proto::strCharAt(rejoined, 0, &cp); EXPECT_EQ(cp, (uint32_t)'a');
+    proto::strCharAt(rejoined, 2, &cp); EXPECT_EQ(cp, (uint32_t)'c');
+    proto::strCharAt(rejoined, 3, &cp); EXPECT_EQ(cp, (uint32_t)'d');
+    proto::strCharAt(rejoined, 5, &cp); EXPECT_EQ(cp, (uint32_t)'f');
+}
+
+TEST_F(StringAVLTest, CharAtInTree) {
+    const uint8_t b1[] = {'a','b','c'};
+    const uint8_t b2[] = {'d','e'};
+    auto* l1 = new(c) proto::StringLeafNode(c, b1, 3, 3);
+    auto* l2 = new(c) proto::StringLeafNode(c, b2, 2, 2);
+    const ProtoObject* tree = proto::strConcat(c, l1->asObject(), l2->asObject());
+
+    uint32_t cp;
+    proto::strCharAt(tree, 0, &cp); EXPECT_EQ(cp, (uint32_t)'a');
+    proto::strCharAt(tree, 2, &cp); EXPECT_EQ(cp, (uint32_t)'c');
+    proto::strCharAt(tree, 3, &cp); EXPECT_EQ(cp, (uint32_t)'d');
+    proto::strCharAt(tree, 4, &cp); EXPECT_EQ(cp, (uint32_t)'e');
+}
