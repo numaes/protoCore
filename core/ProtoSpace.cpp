@@ -191,7 +191,7 @@ namespace proto {
                 addRootObj(space->timedeltaPrototype);
                 addRootObj(space->threadPrototype);
                 addRootObj(space->rootObject);
-                if (space->literalData) addRootObj(space->literalData->asObject(space->rootContext));
+                // literalData is a strong Symbol — covered by the SymbolTable sweep below
                 if (space->resolutionChain_) addRootObj(space->resolutionChain_->asObject(space->rootContext));
 
                 {
