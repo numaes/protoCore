@@ -478,3 +478,78 @@ TEST_F(StringPublicAPITest, SetAt) {
     s->toUTF8String(c, out);
     EXPECT_EQ(out, "hxllo");
 }
+
+// ---- Iterator tests (Task 8) ------------------------------------------------
+
+TEST_F(StringPublicAPITest, IteratorForward) {
+    auto* s = str("abc");
+    // next() is mutable — it returns current value and advances the index.
+    auto* it = const_cast<ProtoStringIterator*>(s->getIterator(c));
+    ASSERT_TRUE(it->hasNext(c));
+    auto* a = it->next(c);
+    ASSERT_TRUE(it->hasNext(c));
+    auto* b = it->next(c);
+    ASSERT_TRUE(it->hasNext(c));
+    auto* c_obj = it->next(c);
+    EXPECT_FALSE(it->hasNext(c));
+    // Verify codepoint values via the unicode char objects
+    ProtoObjectPointer pa{}; pa.oid = a;
+    EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, (uint32_t)'a');
+    pa.oid = b;
+    EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, (uint32_t)'b');
+    pa.oid = c_obj;
+    EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, (uint32_t)'c');
+}
+
+TEST_F(StringPublicAPITest, IteratorMultibyte) {
+    // e-acute (U+00E9) + a-grave (U+00E0)
+    auto* s = str("\xC3\xA9\xC3\xA0");
+    auto* it = const_cast<ProtoStringIterator*>(s->getIterator(c));
+    ASSERT_TRUE(it->hasNext(c));
+    auto* ch1 = it->next(c);
+    ASSERT_TRUE(it->hasNext(c));
+    auto* ch2 = it->next(c);
+    EXPECT_FALSE(it->hasNext(c));
+    ProtoObjectPointer pa{}; pa.oid = ch1;
+    EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, 0x00E9u);
+    pa.oid = ch2;
+    EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, 0x00E0u);
+}
+
+TEST_F(StringPublicAPITest, IteratorLargeString) {
+    std::string src(200, 'x');
+    auto* s = ProtoString::fromUTF8String(c, src.c_str());
+    auto* it = const_cast<ProtoStringIterator*>(s->getIterator(c));
+    int count = 0;
+    while (it->hasNext(c)) {
+        it->next(c);
+        ++count;
+    }
+    EXPECT_EQ(count, 200);
+}
+
+TEST_F(StringPublicAPITest, ToUTF8StringMultibyte) {
+    // Verifies O(N) toUTF8String with multibyte codepoints (uses RopeCharacterIterator)
+    auto* s = str("\xC3\xA9\xC3\xA0");  // e-acute + a-grave
+    std::string out;
+    s->toUTF8String(c, out);
+    EXPECT_EQ(out, "\xC3\xA9\xC3\xA0");
+}
+
+TEST_F(StringPublicAPITest, AsListMultibyte) {
+    auto* s = str("\xC3\xA9\xC3\xA0");  // e-acute + a-grave
+    auto* list = s->asList(c);
+    EXPECT_EQ(list->getSize(c), 2u);
+    ProtoObjectPointer pa{}; pa.oid = list->getAt(c, 0);
+    EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, 0x00E9u);
+    pa.oid = list->getAt(c, 1);
+    EXPECT_EQ(pa.unicodeChar.unicodeValue & 0x1FFFFFu, 0x00E0u);
+}
+
+TEST_F(StringPublicAPITest, CmpToStringConsistency) {
+    auto* a = str("abc");
+    auto* b = str("abd");
+    EXPECT_LT(a->cmp_to_string(c, b), 0);
+    EXPECT_GT(b->cmp_to_string(c, a), 0);
+    EXPECT_EQ(a->cmp_to_string(c, a), 0);
+}

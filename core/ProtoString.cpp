@@ -275,11 +275,18 @@ namespace proto {
         return interned->implAsObject(ctx);
     }
 
-    /** Helper for O(N) rope traversal without repeated descent. */
+    /** O(N) rope/AVL traversal: iterates codepoints without repeated descent.
+     *
+     *  For StringLeafNode entries the iterator tracks the *byte* position
+     *  within the leaf's utf8_payload and decodes UTF-8 inline, giving
+     *  true O(1) amortized cost per codepoint (no charToByteOffset scan).
+     *
+     *  For legacy Tuple-based rope nodes the behaviour is unchanged.
+     */
     class RopeCharacterIterator {
         static constexpr int MAX_DEPTH = 64;
         const ProtoObject* stack[MAX_DEPTH];
-        int slotIndex[MAX_DEPTH];
+        int slotIndex[MAX_DEPTH];     // For leaves: byte offset; for others: state index.
         int top = -1;
         ProtoContext* context;
 
@@ -303,26 +310,26 @@ namespace proto {
                     if (idx < (int)inlineStringLength(current)) {
                         return inlineStringCharAt(current, idx++);
                     }
-                    top--; continue; // exhausted this inline string
+                    top--; continue;
                 }
 
                 if (current->isString(context)) {
                     const ProtoStringImplementation* sImpl = toImpl<const ProtoStringImplementation>(current);
                     if (idx == 0) {
-                        idx = 1; // Mark that we've expanded it
+                        idx = 1;
                         if (sImpl->avl_root) push(sImpl->avl_root);
                         continue;
                     }
-                    top--; continue; // already expanded
+                    top--; continue;
                 }
 
                 if (StringLeafNode::isStringLeafNode(current)) {
                     const StringLeafNode* leaf = StringLeafNode::fromObject(current);
-                    // idx tracks the current codepoint position within this leaf.
-                    if (idx < static_cast<int>(leaf->char_count)) {
-                        uint32_t cp = 0;
-                        strCharAt(current, static_cast<uint32_t>(idx), &cp);
-                        ++idx;
+                    // idx tracks the current *byte* position within utf8_payload.
+                    uint32_t bytePos = static_cast<uint32_t>(idx);
+                    if (bytePos < static_cast<uint32_t>(leaf->byte_count)) {
+                        uint32_t cp = decodeCodepoint(leaf->utf8_payload + bytePos);
+                        idx += static_cast<int>(utf8SeqLen(leaf->utf8_payload[bytePos]));
                         return static_cast<unsigned int>(cp);
                     }
                     top--; continue;
@@ -352,9 +359,9 @@ namespace proto {
                         }
                         continue;
                     }
-                    top--; continue; // exhausted this tuple node
+                    top--; continue;
                 }
-                
+
                 // Fallback for non-tuple/string objects or unknowns
                 if (idx == 0) {
                     idx = 1;
@@ -367,8 +374,8 @@ namespace proto {
 
         bool hasNext(ProtoContext* ctx) const {
             if (top < 0) return false;
-            
-            // Perform a state-preserving lookahead by simulating exactly one successful `next()` logic pass
+
+            // State-preserving lookahead
             int tempTop = top;
             int tempSlotIndex[MAX_DEPTH];
             const ProtoObject* tempStack[MAX_DEPTH];
@@ -376,7 +383,7 @@ namespace proto {
                 tempSlotIndex[i] = slotIndex[i];
                 tempStack[i] = stack[i];
             }
-            
+
             while (tempTop >= 0) {
                 const ProtoObject* current = tempStack[tempTop];
                 int& idx = tempSlotIndex[tempTop];
@@ -403,13 +410,30 @@ namespace proto {
 
                 if (StringLeafNode::isStringLeafNode(current)) {
                     const StringLeafNode* leaf = StringLeafNode::fromObject(current);
-                    if (idx < static_cast<int>(leaf->char_count)) return true;
+                    if (static_cast<uint32_t>(idx) < static_cast<uint32_t>(leaf->byte_count)) return true;
                     tempTop--; continue;
                 }
 
                 if (StringInternalNode::isStringInternalNode(current)) {
-                    // An internal node always has children — so there are more codepoints.
-                    return true;
+                    if (idx == 0) {
+                        // Not yet expanded — children exist, so more codepoints remain.
+                        const StringInternalNode* node = StringInternalNode::fromObject(current);
+                        idx = 1;
+                        if (node->right) {
+                            tempTop++;
+                            if (tempTop >= MAX_DEPTH) return false;
+                            tempStack[tempTop] = node->right;
+                            tempSlotIndex[tempTop] = 0;
+                        }
+                        if (node->left) {
+                            tempTop++;
+                            if (tempTop >= MAX_DEPTH) return false;
+                            tempStack[tempTop] = node->left;
+                            tempSlotIndex[tempTop] = 0;
+                        }
+                        continue;
+                    }
+                    tempTop--; continue;
                 }
 
                 if (current->isTuple(ctx)) {
@@ -430,7 +454,7 @@ namespace proto {
                     }
                     tempTop--; continue;
                 }
-                
+
                 if (idx == 0) return true;
                 tempTop--;
             }
@@ -754,12 +778,10 @@ namespace proto {
     const ProtoList* ProtoString::asList(ProtoContext* context) const {
         auto* self = reinterpret_cast<const ProtoObject*>(this);
         const ProtoObject* root = getRoot(context, self);
-        uint32_t sz = StringInternalNode::charCount(root);
         const ProtoList* list = context->newList();
-        // TODO(Task 8): O(N log N) — replace with StringCodepointIterator for O(N) traversal
-        for (uint32_t i = 0; i < sz; ++i) {
-            uint32_t cp = 0;
-            strCharAt(root, i, &cp);
+        RopeCharacterIterator it(context, root);
+        while (it.hasNext(context)) {
+            uint32_t cp = it.next();
             list = list->appendLast(context, context->fromUnicodeChar(cp));
         }
         return list;
@@ -780,7 +802,6 @@ namespace proto {
     int ProtoString::cmp_to_string(ProtoContext* context, const ProtoString* otherString) const {
         auto* a = reinterpret_cast<const ProtoObject*>(this);
         auto* b = reinterpret_cast<const ProtoObject*>(otherString);
-        // TODO(Task 8): O(N log N) — replace with StringCodepointIterator for O(N) traversal
         return compareStrings(context, a, b);
     }
 
@@ -910,12 +931,10 @@ namespace proto {
         const ProtoObject* root = getRoot(context, self);
         uint32_t sz = StringInternalNode::charCount(root);
         out.clear();
-        out.reserve(sz);
-        // TODO(Task 8): O(N log N) — replace with StringCodepointIterator for O(N) traversal
-        for (uint32_t i = 0; i < sz; ++i) {
-            uint32_t cp = 0;
-            strCharAt(root, i, &cp);
-            appendUTF8CodePoint(out, cp);
+        out.reserve(sz);  // approximate — at least one byte per codepoint
+        RopeCharacterIterator it(context, root);
+        while (it.hasNext(context)) {
+            appendUTF8CodePoint(out, it.next());
         }
     }
 
