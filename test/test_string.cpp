@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include <thread>
+#include <vector>
 #include "protoCore.h"
 #include "proto_internal.h"
 
@@ -694,4 +696,24 @@ TEST_F(SymbolTest, AutoInternOnSetAttribute) {
     auto* sym_key = ProtoString::createSymbol(c, "myLongKey");
     auto* retrieved = obj2->getAttribute(c, sym_key);
     EXPECT_EQ(retrieved, val);
+}
+
+TEST_F(SymbolTest, ConcurrentInternSamePointer) {
+    // 8 threads all trying to intern "sharedKey" simultaneously
+    // must all receive the same pointer
+    const int NTHREADS = 8;
+    std::vector<const ProtoString*> results(NTHREADS, nullptr);
+    std::vector<std::thread> threads;
+
+    for (int i = 0; i < NTHREADS; ++i) {
+        threads.emplace_back([&, i]() {
+            proto::ProtoContext thread_ctx{&space};
+            results[i] = ProtoString::createSymbol(&thread_ctx, "sharedKey");
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    for (int i = 1; i < NTHREADS; ++i)
+        EXPECT_EQ(results[0], results[i])
+            << "Thread " << i << " got a different pointer";
 }
