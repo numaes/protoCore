@@ -572,6 +572,8 @@ ProtoCore is currently integrated with:
 - ✅ True concurrency without GIL
 - ✅ Excellent cache locality
 
+For a more in-depth comparison with modern parallel runtimes (Pony, BEAM, Clojure), see the [RUNTIME_STRATEGY_2026.md](RUNTIME_STRATEGY_2026.md).
+
 ---
 
 ## 11. Recommendations
@@ -693,7 +695,7 @@ ProtoCore meets or exceeds the standards for:
 1. **Continue Integration** - ProtoJS integration fully operational
 2. **Monitor Usage** - Collect feedback from real-world deployments
 3. **Maintain Quality** - Preserve current high standards
-4. **Plan Enhancements** - Consider improvements from recommendation section
+4. **Plan Enhancements** - Consider improvements from the [RUNTIME_STRATEGY_2026.md](RUNTIME_STRATEGY_2026.md) roadmap
 5. **Document Success** - Create case studies for adoption
 
 ---
