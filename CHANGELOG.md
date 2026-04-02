@@ -3,6 +3,11 @@
 All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
+### Added
+- **String Handling Refactor**: Introduced **Inline Strings** (up to 7 characters) stored directly in `ProtoObject*` tagged pointers.
+- Optimized hybrid data model for `ProtoString` (Inline + Rope).
+- Enhanced `RopeCharacterIterator` and `ProtoStringIteratorImplementation` for performance.
+- Direct bitwise comparison and hashing for inline strings.
 
 ### Fixed
 

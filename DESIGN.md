@@ -81,8 +81,12 @@ The memory management system is a cornerstone of Proto's performance.
 
 To avoid the overhead of heap allocation for simple values, Proto uses **tagged pointers**. A 64-bit `ProtoObject*` is not just a pointer; it's a "handle" that can represent either a heap object or an immediate value. The lowest bits of the address are used as a tag:
 
-*   **If the tag indicates a pointer**, the remaining bits are the memory address of a `Cell` on the heap.
-*   **If the tag indicates an embedded value**, the remaining bits store the value directly (e.g., a 56-bit integer, a boolean).
+*   **If the tag indicates a pointer**, the remaining bits are the memory address of a `Cell` on the heap (e.g., Objects, Lists, SparseLists).
+*   **If the tag indicates an embedded value**, the remaining bits store the value directly (e.g., a 56-bit integer, a boolean, or an **Inline String**).
+
+#### Inline Strings (SmallString Optimization)
+
+Strings up to **7 characters** (using 7-bit ASCII/UTF-32 code units) are stored directly within the 64-bit `ProtoObject*` handle. This uses the `POINTER_TAG_EMBEDDED_VALUE` (1) with the `EMBEDDED_TYPE_INLINE_STRING` (4) discriminator. The layout provides 49 bits for character data and 3 bits for length, enabling extreme performance for short identifiers and symbols by eliminating heap allocation and reducing function call overhead.
 
 This is the single most important optimization for scalar operations, as it makes them as fast as primitive C++ types and avoids triggering the garbage collector.
 
@@ -113,11 +117,15 @@ To prevent deadlocks during complex operations (e.g., allocation triggering GC, 
 
 All core collection types in Proto are implemented as persistent, immutable data structures, backed by self-balancing AVL trees. This provides efficient structural sharing and guarantees O(log n) performance for most operations.
 
-*   **`ProtoTuple` & `ProtoString`**: These are implemented as **ropes**, a tree structure where leaves are small, fixed-size arrays of data. This makes operations like concatenation, slicing, and insertion extremely efficient, even for very large strings and tuples, as it avoids massive data copies by simply creating new tree nodes that point to existing, shared data. **String comparison** is lexicographical and optimized for ropes using a stack-based iterator to achieve $O(N)$ performance.
-*   **`ProtoList` & `ProtoSparseList`**: These are also backed by balanced trees, ensuring that operations at any point in the collection (beginning, middle, or end) have consistent, logarithmic time complexity.
-*   **Interning for Tuples & Strings**: To conserve memory and speed up equality checks, all **Tuples** and **Strings** are interned. This means distinct objects with identical content share the same memory address.
-    *   **Tuples**: Managed by a global `tupleRoot` dictionary (BST).
-    *   **Strings**: Managed by a global `stringInternMap` (Hash Set). Since Strings are implemented as wrappers around Tuples, checking string equality often reduces to checking pointer equality of the underlying interned tuple.
+* **`ProtoTuple` & `ProtoString`**: These are implemented using a hybrid data model:
+  * **Inline Strings**: Short strings (up to 7 chars) are stored directly in the `ProtoObject*` handle (see Memory Model).
+  * **Rope Strings**: Longer strings and tuples are implemented as **ropes**, a tree structure where leaves are small, fixed-size arrays of data. This makes operations like concatenation, slicing, and insertion extremely efficient, as it avoids massive data copies by simply creating new tree nodes that point to shared data.
+  * **Performance**: String comparison is lexicographical and optimized for both representations. It uses a stack-based iterator for $O(N)$ rope traversal and direct bit manipulation for inline strings.
+
+* **Interning for Tuples & Strings**: To conserve memory and speed up equality checks, distinct objects with identical content share the same memory address.
+  * **Tuples**: Managed by a global `tupleRoot` dictionary (BST).
+  * **Strings**: Only rope-based strings (`ProtoStringImplementation`) are managed by a global `stringInternMap` (Hash Set). Since rope strings are wrappers around Tuples, checking string equality often reduces to checking pointer equality of the underlying interned tuple.
+  * **Inline String Identity**: Because inline strings are immediate values, equality is naturally handled via pointer comparison, skipping the interning map entirely for significant performance gains.
 
 *   **Sets & Multisets**:
     *   **`ProtoSet`**: Implemented using a `ProtoSparseList` where keys are the hash of elements and values are the elements themselves.

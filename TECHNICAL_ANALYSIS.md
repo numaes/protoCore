@@ -22,7 +22,7 @@ The project is built upon four pillars:
 
 ProtoCore employs a sophisticated memory management strategy:
 
-*   **Tagged Pointers (`ProtoObject*`)**: A 64-bit handle that can represent either an immediate value (SmallInteger, Boolean) or a pointer to a heap-allocated `Cell`. This avoids allocation for common scalar values.
+*   **Tagged Pointers (`ProtoObject*`)**: A 64-bit handle that can represent either an immediate value (SmallInteger, Boolean, **Inline String**) or a pointer to a heap-allocated `Cell`. This avoids allocation for common scalar values and short strings.
 *   **Cell-Based Heap**: All heap objects are stored in fixed-size 64-byte `Cell`s. This alignment matches standard CPU cache lines, eliminating false sharing between threads.
 *   **Per-Thread Arenas**: Each thread allocates from a local pool, requiring no locks for the vast majority of allocations.
 *   **Garbage Collection**: A concurrent Mark-and-Sweep collector with a dedicated GC thread. It uses a "stop-the-world" pause only for scanning roots, followed by concurrent marking/sweeping. It also employs an implicit generational approach by tracking new allocations per `ProtoContext`.
@@ -37,9 +37,9 @@ ProtoCore employs a sophisticated memory management strategy:
 
 The library implements persistent data structures to support efficient copy-on-write semantics:
 
-*   **Ropes**: Used for `ProtoString` and `ProtoTuple` to enable efficient concatenation and slicing without massive copying. `ProtoString` comparison is lexicographical and optimized for $O(N)$ traversal.
+*   **Hybrid Strings**: `ProtoString` utilizes a hybrid model. Short strings (up to 7 characters) are inlined directly in the tagged pointer. Longer strings use **Ropes** (backed by `ProtoTupleImplementation`) to enable efficient concatenation and slicing without massive copying.
 *   **Balanced Trees**: Used for `ProtoList` and `ProtoSparseList` to guarantee O(log n) operations.
-*   **Interning**: Tuples and Strings are interned explicitly to allow O(1) identity comparison for unique values.
+*   **Interning**: Tuples and Rope Strings are interned explicitly to allow O(1) identity comparison. Inline strings skip interning as their identity is guaranteed by bitwise equality in the handle.
 *   **Sets & Multisets**: Implemented efficiently over hash-mapped SparseLists (Multisets use value counts).
 
 ## 3. Codebase Structure
