@@ -1,6 +1,6 @@
 # Technical Analysis: ProtoCore
 
-**Date:** 2026-01-22 · **Last updated:** January 2026  
+**Date:** 2026-01-22 · **Last updated:** April 2026  
 **Project:** ProtoCore  
 **See also:** [DOCUMENTATION.md](DOCUMENTATION.md) for full doc index.
 **Type:** Embeddable Dynamic Object System / Runtime
@@ -37,9 +37,12 @@ ProtoCore employs a sophisticated memory management strategy:
 
 The library implements persistent data structures to support efficient copy-on-write semantics:
 
-*   **Hybrid Strings**: `ProtoString` utilizes a hybrid model. Short strings (up to 7 characters) are inlined directly in the tagged pointer. Longer strings use **Ropes** (backed by `ProtoTupleImplementation`) to enable efficient concatenation and slicing without massive copying.
-*   **Balanced Trees**: Used for `ProtoList` and `ProtoSparseList` to guarantee O(log n) operations.
-*   **Interning**: Tuples and Rope Strings are interned explicitly to allow O(1) identity comparison. Inline strings skip interning as their identity is guaranteed by bitwise equality in the handle.
+*   **Three-Tier Strings**: `ProtoString` uses a three-tier architecture sharing a uniform public API:
+    *   **Embedded** (≤6 UTF-8 bytes): stored directly in the tagged pointer — zero heap allocation, O(1) equality via pointer compare.
+    *   **Symbol** (`POINTER_TAG_SYMBOL`): interned via a 64-shard `SymbolTable` (per-shard mutexes). Equal content always returns the same pointer, enabling O(1) equality for attribute keys and identifiers.
+    *   **String** (`POINTER_TAG_STRING`): non-interned, heap-allocated. Backed by a persistent AVL tree (`StringLeafNode` / `StringInternalNode`). All operations compose from `strConcat` (O(log N)) and `strSplit` (O(log N)); full traversal is O(N) via byte-offset iterator.
+*   **Balanced Trees**: Used for `ProtoList`, `ProtoSparseList`, and heap `ProtoString` to guarantee O(log N) structural operations.
+*   **Interning**: Tuples are interned via the global `tupleRoot` dictionary (BST). Strings are interned as Symbols via the `SymbolTable`. Embedded (inline) strings need no interning — pointer equality is content equality by construction.
 *   **Sets & Multisets**: Implemented efficiently over hash-mapped SparseLists (Multisets use value counts).
 
 ## 3. Codebase Structure
@@ -59,13 +62,15 @@ The project follows a clean separation between public API and internal implement
 ### 3.2 Key Classes
 
 *   **Runtime**:
-    *   `ProtoSpace`: The global runtime environment (GC, interning, thread list).
+    *   `ProtoSpace`: The global runtime environment (GC, interning, thread list, `SymbolTable`).
     *   `ProtoContext`: Per-thread execution state (call stack, local memory arena).
     *   `ProtoThread`: New OS thread wrapper.
+    *   `SymbolTable`: 64-shard concurrent string interning table (fine-grained per-shard mutexes).
 *   **Types**:
     *   `ProtoObject`: Base handle.
     *   `ProtoList`, `ProtoTuple`, `ProtoString`: Collection types.
     *   `SmallInteger`, `LargeInteger`, `Double`: Numeric hierarchy.
+    *   `StringLeafNode`, `StringInternalNode`: Internal AVL tree cells for heap strings (64 bytes each).
 
 ## 4. Build System
 

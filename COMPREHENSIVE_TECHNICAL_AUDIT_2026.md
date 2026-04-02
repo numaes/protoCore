@@ -287,9 +287,17 @@ public:
 4. ✅ Tuple interning (deduplication)
 5. ✅ Structural sharing (memory efficiency)
 6. ✅ Concurrent GC (minimal pauses)
+7. ✅ Inline strings ≤6 UTF-8 bytes (zero heap allocation; O(1) equality via pointer compare)
+8. ✅ Symbol interning via 64-shard `SymbolTable` (fine-grained per-shard mutexes; no global lock contention on string paths)
+9. ✅ O(1) amortized string iteration (leaf-caching iterator; `hasNext()` is a single field compare)
+10. ✅ Read-only attribute lookups use non-inserting `lookupByContent()` (no allocation side effects on hot paths)
 
 **Performance Characteristics:**
 - Integer operations: ~nanoseconds (tagged, no allocation)
+- String operations (≤6 UTF-8 bytes): O(1), zero heap allocation
+- String concat/split (heap): O(log N) via AVL primitives; full traversal O(N)
+- String equality (Symbol vs. Symbol): O(1) pointer compare
+- String equality (mixed content): O(K) where K = common prefix length
 - Collection operations: O(log N) typical
 - Memory overhead: ~64 bytes per object (aligned Cell)
 - GC pause time: <1ms typical
@@ -457,9 +465,21 @@ ProtoCore is currently integrated with:
 - Tagged pointer overhead: Negligible (~0%)
 
 **Collection Operations:**
-- List append: O(log N) - structural sharing
-- Tuple creation: O(N) - but often interned (O(1) after)
-- SparseList access: O(1) average - hash-based
+- List append: O(log N) — structural sharing
+- Tuple creation: O(N) — but often interned (O(1) after)
+- SparseList access: O(1) average — hash-based
+
+**String Operations:**
+- Inline (≤6 UTF-8 bytes): O(1) create/compare — zero heap allocation, pointer equality
+- Symbol interning (`createSymbol`): O(N) first call; O(1) subsequent (same pointer)
+- Symbol equality: O(1) pointer compare
+- Heap string concat (`strConcat`): O(log |h(a)−h(b)| + 1) — AVL rebalance
+- Heap string split (`strSplit`): O(log N) — AVL traversal
+- Heap string charAt: O(log N) — uses `left_chars` field for direct descent
+- Full iteration (`RopeCharacterIterator`): O(N) total, O(1) amortized per codepoint
+- `hasNext()` on public iterator: O(1) — single field compare
+- `setAttribute` key interning: O(log N) first use; O(1) lookup thereafter
+- `getAttribute` key lookup: O(log N) worst-case (non-inserting `lookupByContent`)
 
 **Memory Usage:**
 - Per-object overhead: 64 bytes (Cell size)
