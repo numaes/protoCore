@@ -99,6 +99,22 @@ add_executable(concurrent_append_benchmark performance/concurrent_append_benchma
 target_link_libraries(concurrent_append_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: concurrent_append_benchmark")
 
+add_executable(list_benchmark performance/list_benchmark.cpp)
+target_link_libraries(list_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: list_benchmark")
+
+add_executable(object_access_benchmark performance/object_access_benchmark.cpp)
+target_link_libraries(object_access_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: object_access_benchmark")
+
+add_executable(sparse_list_benchmark performance/sparse_list_benchmark.cpp)
+target_link_libraries(sparse_list_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: sparse_list_benchmark")
+
+add_executable(string_concat_benchmark performance/string_concat_benchmark.cpp)
+target_link_libraries(string_concat_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: string_concat_benchmark")
+
 # 5. Configure the test suite
 # The 'enable_testing()' command allows the use of ctest.
 enable_testing()
