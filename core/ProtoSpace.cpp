@@ -191,7 +191,7 @@ namespace proto {
                 addRootObj(space->timedeltaPrototype);
                 addRootObj(space->threadPrototype);
                 addRootObj(space->rootObject);
-                if (space->literalData) addRootObj(space->literalData->asObject(space->rootContext));
+                // literalData is a strong Symbol — covered by the SymbolTable sweep below
                 if (space->resolutionChain_) addRootObj(space->resolutionChain_->asObject(space->rootContext));
 
                 {
@@ -220,6 +220,21 @@ namespace proto {
                             if (reinterpret_cast<uintptr_t>(sImpl) & 1) { std::cerr << "CRITICAL TAGGED sImpl: " << sImpl << "\n"; std::abort(); } workList.push_back(sImpl);
                             // Also ensure its dependencies are marked (though sImpl->processReferences should handle it,
                             // we add it to workList so it's marked as a root).
+                        }
+                    }
+                }
+
+                // Mark all strong symbols in SymbolTable as GC roots.
+                // Strong symbols are permanent literals (e.g. cached attribute names) that must
+                // survive every GC cycle. Inline symbols (embedded-value pointer representation)
+                // carry no Cell and require no marking; only heap-allocated symbol Cells are added.
+                if (space->symbolTable) {
+                    for (int si = 0; si < SymbolTable::SHARD_COUNT; ++si) {
+                        std::lock_guard<std::mutex> shardLock(space->symbolTable->shards[si].mutex);
+                        for (SymbolTable::Bucket* b = space->symbolTable->shards[si].head; b; b = b->next) {
+                            if (b->is_strong) {
+                                addRootObj(b->symbol);
+                            }
                         }
                     }
                 }
@@ -384,8 +399,11 @@ namespace proto {
         auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);
         this->mutableRoot = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext));
         
+        symbolTable = new SymbolTable();
         initStringInternMap(this);
-        this->literalData = const_cast<ProtoString*>(ProtoString::fromUTF8String(this->rootContext, "__data__"));
+        this->literalData         = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "__data__"));
+        this->literalSetAttribute = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "setAttribute"));
+        this->literalCallMethod   = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "callMethod"));
 
         this->resolutionChain_ = buildDefaultResolutionChain(this->rootContext);
 
@@ -404,6 +422,8 @@ namespace proto {
         }
         delete this->rootContext;
         freeStringInternMap(this);
+        delete symbolTable;
+        symbolTable = nullptr;
     }
 
     const ProtoObject* ProtoSpace::getResolutionChain() const {

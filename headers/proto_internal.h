@@ -55,6 +55,8 @@ namespace proto {
     class ProtoMultisetIteratorImplementation;
     class ProtoTupleImplementation;
     class ProtoStringImplementation;
+    class StringLeafNode;
+    class StringInternalNode;
     class ProtoRangeIteratorImplementation;
     class ProtoByteBufferImplementation;
     class ProtoExternalPointerImplementation;
@@ -102,6 +104,9 @@ namespace proto {
         const ProtoListIteratorImplementation *listIteratorImplementation;
         const ProtoTupleImplementation *tupleImplementation;
         const ProtoStringImplementation *stringImplementation;
+        const ProtoStringImplementation *symbolImplementation;  // POINTER_TAG_SYMBOL — same impl class, distinguished only by pointer tag
+        const StringLeafNode *stringLeafNode;                   // POINTER_TAG_STRING_LEAF_NODE
+        const StringInternalNode *stringInternalNode;           // POINTER_TAG_STRING_INTERNAL_NODE
         const ProtoRangeIteratorImplementation *rangeIteratorImplementation;
         const ProtoStringIteratorImplementation* stringIteratorImplementation;
         const ProtoTupleIteratorImplementation* tupleIteratorImplementation;
@@ -162,12 +167,13 @@ namespace proto {
             unsigned long pointer_tag: 6;
             unsigned long hash: 58;
         } asHash;
-        /** Inline string: length (0..7) in low 3 bits; 7 chars at 7 bits each (bits 3..51). */
+        /** Inline string UTF-8: byte_count (0..6) in bits 12..10; up to 6 UTF-8 bytes in bits 60..13. */
         struct {
             unsigned long pointer_tag: 6;
             unsigned long embedded_type: 4;
-            unsigned long inline_len: 3;
-            unsigned long inline_chars: 49;
+            unsigned long inline_byte_count: 3;   // 0..6 bytes
+            unsigned long inline_utf8_bytes: 48;  // 6 bytes packed (LSB = first byte)
+            unsigned long reserved: 3;
         } inlineString;
     };
 
@@ -193,6 +199,9 @@ namespace proto {
 #define POINTER_TAG_MULTISET_ITERATOR 19
 #define POINTER_TAG_EXTERNAL_BUFFER 20
 #define POINTER_TAG_RANGE_ITERATOR 21
+#define POINTER_TAG_SYMBOL            22   // Interned ProtoStringImplementation
+#define POINTER_TAG_STRING_LEAF_NODE  23   // StringLeafNode (internal AVL leaf)
+#define POINTER_TAG_STRING_INTERNAL_NODE 24 // StringInternalNode (internal AVL node)
 
 #define EMBEDDED_TYPE_SMALLINT 0
 #define EMBEDDED_TYPE_UNICODE_CHAR 2
@@ -200,14 +209,29 @@ namespace proto {
 #define EMBEDDED_TYPE_INLINE_STRING 4
 #define EMBEDDED_TYPE_NONE 5
 
-/** Inline string: up to 7 UTF-32 code units in 54 bits. Length in bits 0-2; chars in 7-bit each at bits 3+7*i (0..6). */
-#define INLINE_STRING_MAX_LEN 7
-#define INLINE_STRING_LEN_BITS 3
-#define INLINE_STRING_CHAR_BITS 7
+#define INLINE_STRING_MAX_BYTES 6       // max UTF-8 bytes in embedded pointer
+#define INLINE_STRING_BYTE_COUNT_BITS 3
+
+    /** Returns byte count of an inline string pointer (0..6). */
+    inline unsigned long inlineStringByteCount(const ProtoObject* o) {
+        ProtoObjectPointer pa{}; pa.oid = o;
+        return pa.inlineString.inline_byte_count;
+    }
+
+    /** Reads the i-th byte of an inline string (0-indexed, i < inlineStringByteCount). */
+    inline uint8_t inlineStringByte(const ProtoObject* o, unsigned long i) {
+        ProtoObjectPointer pa{}; pa.oid = o;
+        return static_cast<uint8_t>((pa.inlineString.inline_utf8_bytes >> (i * 8)) & 0xFF);
+    }
+
+    /** Creates an inline string from up to 6 UTF-8 bytes. bytes must be valid UTF-8. */
+    const ProtoObject* createInlineStringUTF8(ProtoContext* context,
+                                               const uint8_t* bytes,
+                                               uint8_t byte_count);
 
     bool isInlineString(const ProtoObject* o);
     unsigned long getProtoStringHash(ProtoContext* context, const ProtoObject* o);
-    /** Builds inline string (no allocation). codepoints must be 0..127, len 0..7. */
+    /** Builds inline string (no allocation). codepoints must be 0..127, len 0..6. */
     const ProtoObject* createInlineString(ProtoContext* context, int len, const unsigned int* codepoints);
 
 #define ITERATOR_NEXT_PREVIOUS 0
@@ -295,6 +319,19 @@ namespace proto {
 
     template<> struct ExpectedTag<const ProtoStringIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING_ITERATOR; };
     template<> struct ExpectedTag<ProtoStringIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING_ITERATOR; };
+
+    template<> struct ExpectedTag<const StringLeafNode> {
+        static constexpr unsigned long value = POINTER_TAG_STRING_LEAF_NODE;
+    };
+    template<> struct ExpectedTag<StringLeafNode> {
+        static constexpr unsigned long value = POINTER_TAG_STRING_LEAF_NODE;
+    };
+    template<> struct ExpectedTag<const StringInternalNode> {
+        static constexpr unsigned long value = POINTER_TAG_STRING_INTERNAL_NODE;
+    };
+    template<> struct ExpectedTag<StringInternalNode> {
+        static constexpr unsigned long value = POINTER_TAG_STRING_INTERNAL_NODE;
+    };
 
 
     // The new, safe toImpl implementation (non-const)
@@ -413,7 +450,9 @@ namespace proto {
         ParentLink,
         ThreadExtension,
         ByteBuffer,
-        TupleDictionary
+        TupleDictionary,
+        StringLeafNode,
+        StringInternalNode
     };
 
     class Cell {
@@ -631,26 +670,179 @@ namespace proto {
         char *implGetBuffer(ProtoContext *context) const;
     };
 
-    class ProtoStringImplementation : public Cell {
+    class ProtoStringImplementation final : public Cell {
     public:
-        const ProtoTupleImplementation *tuple;
+        const ProtoObject* avl_root;  // StringLeafNode, StringInternalNode, or nullptr (empty)
 
         CellType getType() const override { return CellType::String; }
 
-        ProtoStringImplementation(ProtoContext *context, const ProtoTupleImplementation *tuple);
+        explicit ProtoStringImplementation(ProtoContext* ctx, const ProtoObject* root);
         ~ProtoStringImplementation() override = default;
-        const ProtoObject *implAsObject(ProtoContext *context) const override;
-        const ProtoString *asProtoString(ProtoContext *context) const;
-        unsigned long getHash(ProtoContext *context) const override;
+
+        // New AVL-based core API
+        uint32_t implGetSize()  const;
+        uint64_t implGetHash()  const;
+
+        const ProtoObject* implAsObject(ProtoContext* ctx) const override;
+        const ProtoString* asProtoString(ProtoContext* ctx) const;
+        const ProtoStringImplementation* implAsSymbol(ProtoContext* ctx) const;
+
+        static const ProtoStringImplementation* fromUTF8Bytes(ProtoContext* ctx,
+                                                               const uint8_t* bytes,
+                                                               size_t len);
+
+        // Legacy compatibility methods (used by RopeCharacterIterator and ProtoString public API)
+        unsigned long getHash(ProtoContext* context) const override;
         const ProtoObject* implGetAt(ProtoContext* context, int index) const;
-        unsigned long implGetSize(ProtoContext* context) const;
+        unsigned long implGetSizeCompat(ProtoContext* context) const;
         const ProtoList* implAsList(ProtoContext* context) const;
         const ProtoStringImplementation* implAppendLast(ProtoContext* context, const ProtoString* otherString) const;
         void finalize(ProtoContext* context) const;
-        void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override;
         int implCompare(ProtoContext* context, const ProtoString* other) const;
         const ProtoStringIteratorImplementation* implGetIterator(ProtoContext* context) const;
     };
+
+    // ---- SymbolTable ----------------------------------------------------------
+    // 64-shard concurrent interning table. Replaces TupleDictionary for strings.
+    // Strong symbols (from literals) are never collected.
+    // Weak symbols (auto-interned) are removed by GC sweep before cell reclaim.
+    class SymbolTable {
+    public:
+        static constexpr int SHARD_COUNT = 64;
+
+        struct Bucket {
+            uint64_t           content_hash;
+            const ProtoObject* symbol;          // POINTER_TAG_SYMBOL pointer
+            bool               is_strong;
+            Bucket*            next;
+        };
+
+        struct Shard {
+            std::mutex  mutex;
+            Bucket*     head = nullptr;
+        };
+
+        Shard shards[SHARD_COUNT];
+
+        SymbolTable()  = default;
+        ~SymbolTable();
+
+        const ProtoObject* intern(ProtoContext* ctx,
+                                   const ProtoObject* strObj,
+                                   bool is_strong = false);
+
+        // Read-only lookup — returns existing symbol if found, nullptr if not interned.
+        // Does NOT insert into the table. Safe to call on hot read paths.
+        const ProtoObject* lookupByContent(ProtoContext* ctx,
+                                            const ProtoObject* strObj) const;
+
+        void removeWeak(uint64_t content_hash, const ProtoObject* symbol);
+
+        static bool isSymbol(const ProtoObject* obj);
+
+    private:
+        int shardIndex(uint64_t hash) const {
+            return static_cast<int>(hash & (SHARD_COUNT - 1));
+        }
+        static bool contentEqual(ProtoContext* ctx,
+                                  const ProtoObject* a, const ProtoObject* b);
+        static const ProtoStringImplementation* normalizeForSymbol(ProtoContext* ctx,
+                                                                    const ProtoObject* strObj);
+    };
+
+    // ---- StringLeafNode -------------------------------------------------------
+    // 64-byte Cell. Stores up to 32 bytes of UTF-8 content in one contiguous chunk.
+    // Layout (64 bytes total):
+    //   Cell base (vtable 8 + next_and_flags 8) = 16 bytes
+    //   byte_count      (1) : bytes used in utf8_payload (0..32)
+    //   _pad_char_count (1) : explicit alignment padding
+    //   char_count      (2) : Unicode codepoints in this leaf
+    //   flags           (1) : bit 0 = is_partial
+    //   _pad            (3) : explicit padding to 8-byte-align content_hash
+    //   content_hash    (8) : FNV-1a of utf8_payload[0..byte_count)
+    //   utf8_payload   (32) : UTF-8 bytes
+    //   Total: 16 + 1+1+2+1+3+8+32 = 64 bytes
+    //
+    // NOTE: The spec §3.1 specifies utf8_payload[48] assuming a zero-size Cell base,
+    // but Cell carries a vtable pointer (8) and next_and_flags (8) = 16 bytes, leaving
+    // only 32 bytes for the payload. content_hash is present as a real field per spec.
+    class StringLeafNode final : public Cell {
+    public:
+        uint8_t  byte_count;                   // bytes used in utf8_payload (0..32)
+        uint8_t  _pad_char_count;              // explicit alignment padding
+        uint16_t char_count;                   // Unicode codepoints in this leaf
+        uint8_t  flags;                        // bit 0: is_partial
+        uint8_t  _pad[3];                      // explicit padding to 8-byte-align content_hash
+        uint64_t content_hash;                 // FNV-1a of utf8_payload[0..byte_count)
+        uint8_t  utf8_payload[32];
+
+        static constexpr uint8_t MAX_PAYLOAD        = 32;
+        static constexpr uint8_t PARTIAL_THRESHOLD  = 8;
+        static constexpr uint8_t MERGE_FILL         = 16;
+
+        StringLeafNode(ProtoContext* ctx,
+                       const uint8_t* bytes, uint8_t byte_cnt,
+                       uint16_t char_cnt, bool partial = false);
+
+        bool isPartial() const { return (flags & 1) != 0; }
+        uint32_t charToByteOffset(uint32_t char_index) const;
+        uint32_t codepointAt(uint32_t byte_pos) const;
+
+        const ProtoObject* asObject() const;
+        static const StringLeafNode* fromObject(const ProtoObject* obj);
+        static bool isStringLeafNode(const ProtoObject* obj);
+
+        CellType getType() const override { return CellType::StringLeafNode; }
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override {}
+
+    private:
+        static uint64_t computeHash(const uint8_t* bytes, uint8_t len);
+    };
+    static_assert(sizeof(StringLeafNode) == 64, "StringLeafNode must be exactly one 64-byte Cell");
+
+    // ---- StringInternalNode ---------------------------------------------------
+    // 64-byte Cell. AVL internal node for the string tree.
+    // Layout (64 bytes total):
+    //   Cell base (vtable 8 + next_and_flags 8) = 16 bytes
+    //   left (8) + right (8) = 16 bytes
+    //   total_chars (4) + left_chars (4) + total_bytes (4) + implicit pad (4) = 16 bytes
+    //   subtree_hash (8) = 8 bytes
+    //   height (1) + _pad[7] (7) = 8 bytes
+    class StringInternalNode final : public Cell {
+    public:
+        const ProtoObject* left;
+        const ProtoObject* right;
+        uint32_t total_chars;
+        uint32_t left_chars;
+        uint32_t total_bytes;
+        uint32_t _pad_align;        // explicit pad to 8-byte-align subtree_hash
+        uint64_t subtree_hash;
+        uint8_t  height;
+        uint8_t  _pad[7];
+
+        StringInternalNode(ProtoContext* ctx,
+                           const ProtoObject* l, const ProtoObject* r);
+
+        const ProtoObject* asObject() const;
+        static const StringInternalNode* fromObject(const ProtoObject* obj);
+        static bool isStringInternalNode(const ProtoObject* obj);
+
+        static int      nodeHeight(const ProtoObject* n);
+        static int      balance(const ProtoObject* n);
+        static uint64_t subtreeHash(const ProtoObject* n);
+        static uint32_t charCount(const ProtoObject* n);
+        static uint32_t byteCount(const ProtoObject* n);
+
+        CellType getType() const override { return CellType::StringInternalNode; }
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override;
+    };
+    static_assert(sizeof(StringInternalNode) == 64, "StringInternalNode must be exactly one 64-byte Cell");
 
     class ProtoTupleImplementation : public Cell {
     public:
@@ -680,62 +872,24 @@ namespace proto {
         unsigned long getHash(ProtoContext* context) const override;
     };
 
-    struct StringInternHash {
-        static size_t hashTupleElements(const ProtoTupleImplementation* t) {
-            size_t h = 0;
-            for (int i = 0; i < TUPLE_SIZE; ++i) {
-                const ProtoObject* obj = t->slot[i];
-                if (!obj) continue;
-                
-                ProtoObjectPointer pa{};
-                pa.oid = obj;
-                if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
-                    h = (h * 31) + (pa.unicodeChar.unicodeValue & 0x1FFFFFu);
-                } else if (pa.op.pointer_tag == POINTER_TAG_TUPLE) {
-                    h = (h * 31) + hashTupleElements(toImpl<const ProtoTupleImplementation>(obj));
-                } else if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_SMALLINT) {
-                    h = (h * 31) + (pa.si.smallInteger & 0x1FFFFFu);
-                }
-            }
-            return h;
-        }
+    /** Compute a structure-independent content hash over all leaf bytes. Defined in ProtoString.cpp. */
+    uint64_t computeContentHash(const ProtoObject* node);
 
+    struct StringInternHash {
         size_t operator()(const ProtoStringImplementation* s) const {
-            if (!s || !s->tuple) return 0;
-            return hashTupleElements(s->tuple);
+            if (!s) return 0;
+            return static_cast<size_t>(computeContentHash(s->avl_root));
         }
     };
 
     struct StringInternEqual {
-        static bool equalTuples(const ProtoTupleImplementation* ta, const ProtoTupleImplementation* tb) {
-            if (ta == tb) return true;
-            if (!ta || !tb) return false;
-            
-            for (int i = 0; i < TUPLE_SIZE; ++i) {
-                const ProtoObject* oa = ta->slot[i];
-                const ProtoObject* ob = tb->slot[i];
-                if (oa == ob) continue;
-                if (!oa || !ob) return false;
-                
-                ProtoObjectPointer pa{}, pb{};
-                pa.oid = oa; pb.oid = ob;
-                if (pa.op.pointer_tag != pb.op.pointer_tag) return false;
-                
-                if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) {
-                    if (pa.op.value != pb.op.value) return false;
-                } else if (pa.op.pointer_tag == POINTER_TAG_TUPLE) {
-                    if (!equalTuples(toImpl<const ProtoTupleImplementation>(oa), toImpl<const ProtoTupleImplementation>(ob))) return false;
-                } else {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         bool operator()(const ProtoStringImplementation* a, const ProtoStringImplementation* b) const {
-             if (a == b) return true;
-             if (!a || !b) return false;
-             return equalTuples(a->tuple, b->tuple);
+            if (a == b) return true;
+            if (!a || !b) return false;
+            if (a->implGetSize() != b->implGetSize()) return false;
+            uint64_t ha = computeContentHash(a->avl_root);
+            uint64_t hb = computeContentHash(b->avl_root);
+            return ha == hb;
         }
     };
 
@@ -1055,12 +1209,34 @@ namespace proto {
 
     class ProtoStringIteratorImplementation : public Cell {
     public:
-        const ProtoObject* base;  /** String (inline or ProtoStringImplementation). */
-        unsigned long currentIndex;
+        // Cell layout (64 bytes total):
+        //   Cell base (vtable 8 + next_and_flags 8) = 16 bytes
+        //   base*         8 bytes — root string ProtoObject* (inline or ProtoStringImplementation)
+        //   totalSize     4 bytes — cached codepoint count, enables O(1) implHasNext()
+        //   charIndex     4 bytes — current codepoint position
+        //   currentLeaf*  8 bytes — active StringLeafNode* (nullptr = needs descent)
+        //   leafBytePos   1 byte  — byte offset within currentLeaf->utf8_payload
+        //                           uint8_t is sufficient: utf8_payload is 32 bytes and
+        //                           byte_count is already uint8_t, so max value is 32.
+        //   _pad         15 bytes — explicit padding to reach 64 bytes
+        //   Total: 16 + 8 + 4 + 4 + 8 + 1 + 15 = 56... pad to 64: remaining 8 more bytes covered by alignment
+        //
+        // Traversal strategy: O(1) amortized per codepoint.
+        //   - Within a leaf: decode UTF-8 at leafBytePos, advance leafBytePos and charIndex. O(1).
+        //   - Leaf boundary: descend AVL tree using charIndex to locate the next leaf. O(log N)
+        //     but amortised over the leaf's codepoints (~10-32 chars), giving O(1) amortised overall.
+        //   - implHasNext(): charIndex < totalSize — always O(1).
+
+        const ProtoObject*       base;         // Root string (inline or ProtoStringImplementation).
+        uint32_t                 totalSize;    // Cached total codepoint count.
+        uint32_t                 charIndex;    // Current codepoint position.
+        const StringLeafNode*    currentLeaf;  // Active leaf, or nullptr when descent is needed.
+        uint8_t                  leafBytePos;  // Byte offset within currentLeaf->utf8_payload (max 32).
+        uint8_t                  _pad[15];     // Explicit padding — do not use.
 
         CellType getType() const override { return CellType::StringIterator; }
 
-        ProtoStringIteratorImplementation(ProtoContext* context, const ProtoObject* stringObj, unsigned long i);
+        ProtoStringIteratorImplementation(ProtoContext* context, const ProtoObject* stringObj, uint32_t i);
         ~ProtoStringIteratorImplementation() override = default;
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context);
@@ -1070,6 +1246,13 @@ namespace proto {
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
         unsigned long getHash(ProtoContext* context) const;
+
+    private:
+        /** Descend the AVL tree rooted at avl_root to find the leaf containing
+         *  codepoint at position charIndex, then set currentLeaf and leafBytePos.
+         *  Called once per leaf boundary — O(log N) — amortised O(1) per codepoint.
+         */
+        void locateLeaf(const ProtoObject* avl_root);
     };
 
     class ProtoExternalPointerImplementation : public Cell {

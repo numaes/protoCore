@@ -18,6 +18,8 @@
 
 namespace proto
 {
+    class SymbolTable;  // forward declaration for 64-shard interning table
+
     // Forward declarations
     class ProtoStringIterator;
     class ProtoTupleIterator;
@@ -259,7 +261,48 @@ namespace proto
     {
     public:
         static const ProtoString* create(ProtoContext* context, const ProtoList* list);
-        static const ProtoString* fromUTF8String(ProtoContext* context, const char* zeroTerminatedUtf8String);
+
+        // @deprecated Use fromUTF8() instead
+        [[deprecated("Use fromUTF8 instead")]]
+        static const ProtoString* fromUTF8String(ProtoContext* context,
+                                                  const char* zeroTerminatedUtf8String);
+
+        /** Creates a ProtoString from a zero-terminated UTF-8 C string. */
+        static const ProtoString* fromUTF8(ProtoContext* context, const char* zeroTerminatedUtf8);
+
+        /** Creates a ProtoString from a std::string (UTF-8 encoded). */
+        static const ProtoString* fromStdString(ProtoContext* context, const std::string& s);
+
+        /**
+         * Decodes a chunk of raw UTF-8 bytes, handling incomplete multi-byte sequences
+         * that span buffer boundaries.
+         *
+         * @param context       The current execution context.
+         * @param buf           Pointer to the incoming byte buffer.
+         * @param len           Number of bytes in \a buf.
+         * @param pending       Bytes saved from the previous call that form the start of an
+         *                      incomplete sequence, or nullptr if none.
+         * @param pending_count Number of bytes in \a pending (0..3).
+         * @param out_remainder Output buffer (minimum 4 bytes) that receives any trailing
+         *                      incomplete sequence from \a buf that was not yet decoded.
+         * @param out_remainder_count Number of bytes written to \a out_remainder.
+         * @return The decoded ProtoString for the complete codepoints in this chunk.
+         */
+        static const ProtoString* fromUTF8Buffer(ProtoContext* context,
+                                                  const uint8_t* buf, size_t len,
+                                                  const uint8_t* pending,
+                                                  uint8_t pending_count,
+                                                  uint8_t* out_remainder,
+                                                  uint8_t* out_remainder_count);
+
+        /** Builds a ProtoString from a ProtoTuple of Unicode codepoint objects. */
+        static const ProtoString* fromCodepointTuple(ProtoContext* context,
+                                                      const ProtoTuple* tuple);
+
+        /** Creates or retrieves an interned symbol for the given UTF-8 string. Symbols with the same
+         *  content share a unique pointer identity. Strong symbols (created here) are never GC-collected. */
+        static const ProtoString* createSymbol(ProtoContext* context, const char* zeroTerminatedUtf8);
+        static const ProtoString* createSymbol(ProtoContext* context, const std::string& s);
 
         int cmp_to_string(ProtoContext* context, const ProtoString* otherString) const;
 
@@ -294,6 +337,9 @@ namespace proto
 
         /** Appends the UTF-8 representation of this string to \a out. */
         void toUTF8String(ProtoContext* context, std::string& out) const;
+
+        /** Returns the UTF-8 content of this string as a std::string. */
+        std::string toStdString(ProtoContext* context) const;
     };
 
     //! ProtoExternalPointer - Represents a wrapper for external C++ pointers
@@ -758,6 +804,7 @@ namespace proto
         int blockOnNoMemory;
         std::atomic<TupleDictionary*> tupleRoot;
         void* stringInternMap;
+        SymbolTable* symbolTable{};
         std::atomic<bool> mutableLock;
         std::atomic<bool> threadsLock;
         std::atomic<bool> gcLock;

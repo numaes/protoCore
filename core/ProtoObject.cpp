@@ -219,13 +219,7 @@ namespace proto
 
         while (current) {
             if (++iterationCount > 50) {
-                 if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                     fprintf(stderr, "DEBUG: isInstanceOf TOO MANY ITERATIONS\n");
-                 }
                  return PROTO_FALSE;
-            }
-            if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                fprintf(stderr, "DEBUG: isInstanceOf checking current=%p vs prototype=%p\n", (void*)current, (void*)prototype);
             }
             if (current == prototype) return PROTO_TRUE;
             ProtoObjectPointer pa{};
@@ -293,6 +287,20 @@ namespace proto
     {
         if (!this || !name) return nullptr;
 
+        // Look up the canonical symbol for this key without inserting.
+        // If the key was never interned, it was never used as an attribute key,
+        // so the attribute cannot exist — return nullptr immediately.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->lookupByContent(
+                    context, reinterpret_cast<const ProtoObject*>(name));
+                if (!sym) return nullptr;
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
+
         // Attribute Cache Setup
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
@@ -310,10 +318,6 @@ namespace proto
         while (currentPointer) {
             if (++iterationCount > 500) {
                  return PROTO_NONE;
-            }
-
-            if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                fprintf(stderr, "DEBUG: getAttribute iter=%d obj=%p name=%p\n", iterationCount, (void*)currentPointer, (void*)name);
             }
 
             // Resolve current state for the current pointer
@@ -377,9 +381,6 @@ namespace proto
                 }
 
                 if (currentLink && ((uintptr_t)currentLink & 0x3F) == 0) {
-                    if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                        fprintf(stderr, "DEBUG: getAttribute currentLink=%p\n", (void*)currentLink);
-                    }
                     auto cl = toImpl<const ParentLinkImplementation>(currentLink);
                     if (cl->getType() == CellType::ParentLink) {
                         currentPointer = cl->getObject(context);
@@ -387,9 +388,6 @@ namespace proto
                         currentPointer = nullptr;
                     }
                 } else {
-                    if (currentLink && std::getenv("PROTO_RESOLVE_DIAG")) {
-                         fprintf(stderr, "DEBUG: getAttribute BAD currentLink=%p\n", (void*)currentLink);
-                    }
                     currentPointer = nullptr;
                 }
             } else {
@@ -406,6 +404,19 @@ namespace proto
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const {
         if (!this || !name) return this;
+
+        // Auto-intern the key if it is a non-interned heap String (POINTER_TAG_STRING).
+        // This ensures that the canonical symbol pointer is stored in the attribute
+        // sparse list, so lookups using createSymbol() keys find the value by pointer.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->intern(
+                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
 
         // 1. Invalidate Cache
         if (context->thread) {
@@ -641,7 +652,7 @@ namespace proto
     bool ProtoObject::isString(ProtoContext* context) const {
         if (!this) return false;
         ProtoObjectPointer pa{}; pa.oid = this;
-        if (pa.op.pointer_tag == POINTER_TAG_STRING || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING)) return true;
+        if (pa.op.pointer_tag == POINTER_TAG_STRING || pa.op.pointer_tag == POINTER_TAG_SYMBOL || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING)) return true;
         
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
             const proto::ProtoString* dataName = context->space->literalData;
@@ -886,6 +897,20 @@ namespace proto
     {
         if (!this) return PROTO_FALSE;
 
+        // Look up the canonical symbol for this key without inserting.
+        // If the key was never interned, it was never used as an attribute key,
+        // so the attribute cannot exist — return PROTO_FALSE immediately.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->lookupByContent(
+                    context, reinterpret_cast<const ProtoObject*>(name));
+                if (!sym) return PROTO_FALSE;
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
+
         const ProtoObject* currentObject = this;
         const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
 
@@ -930,17 +955,7 @@ namespace proto
             }
 
             if (attributes->implHas(context, attr_hash)) {
-                if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                    fprintf(stderr, "DEBUG: hasAttribute TRUE on %p\n", (void*)currentObject);
-                }
                 return PROTO_TRUE;
-            }
-            if (std::getenv("PROTO_RESOLVE_DIAG")) {
-                std::string s;
-                name->toUTF8String(context, s);
-                if (s == "add_argument_group") {
-                    fprintf(stderr, "DEBUG: hasAttribute FALSE on %p (obj=%p parent=%p)\n", (void*)currentObject, (void*)this, (void*)oc->parent);
-                }
             }
 
             // Multiple inheritance support:
@@ -1047,6 +1062,20 @@ namespace proto
     }
     
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
+        // Look up the canonical symbol for this key without inserting.
+        // If the key was never interned, it was never used as an attribute key,
+        // so the attribute cannot exist — return PROTO_FALSE immediately.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->lookupByContent(
+                    context, reinterpret_cast<const ProtoObject*>(name));
+                if (!sym) return PROTO_FALSE;
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
+
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return PROTO_FALSE;
