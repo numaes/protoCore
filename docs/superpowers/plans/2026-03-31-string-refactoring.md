@@ -1,6 +1,6 @@
 # ProtoCore String Refactoring — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Replace the rope/tuple string implementation with a three-tier AVL system: embedded UTF-8 in pointers, interned Symbols (`POINTER_TAG_SYMBOL`), and non-interned GC-managed Strings (`POINTER_TAG_STRING`), all sharing a uniform public API.
 
@@ -45,7 +45,7 @@ cmake --build build -j$(nproc)
 **Files:**
 - Modify: `headers/proto_internal.h`
 
-- [ ] **Step 1: Add new pointer tags after line 195 (`POINTER_TAG_RANGE_ITERATOR 21`)**
+- [x] **Step 1: Add new pointer tags after line 195 (`POINTER_TAG_RANGE_ITERATOR 21`)**
 
 ```cpp
 // After: #define POINTER_TAG_RANGE_ITERATOR 21
@@ -54,7 +54,7 @@ cmake --build build -j$(nproc)
 #define POINTER_TAG_STRING_INTERNAL_NODE 24 // StringInternalNode (internal AVL node)
 ```
 
-- [ ] **Step 2: Replace the `inlineString` bitfield struct in `ProtoObjectPointer` union**
+- [x] **Step 2: Replace the `inlineString` bitfield struct in `ProtoObjectPointer` union**
 
 Find and replace the existing `inlineString` struct (around line 166):
 ```cpp
@@ -78,7 +78,7 @@ struct {
 } inlineString;
 ```
 
-- [ ] **Step 3: Update INLINE_STRING constants and helper functions (after line 206)**
+- [x] **Step 3: Update INLINE_STRING constants and helper functions (after line 206)**
 
 ```cpp
 // REPLACE:
@@ -108,7 +108,7 @@ const ProtoObject* createInlineStringUTF8(ProtoContext* context,
                                            uint8_t byte_count);
 ```
 
-- [ ] **Step 4: Add `StringLeafNode` class declaration in `proto_internal.h`, after `ProtoStringImplementation` forward declaration**
+- [x] **Step 4: Add `StringLeafNode` class declaration in `proto_internal.h`, after `ProtoStringImplementation` forward declaration**
 
 ```cpp
 class StringLeafNode;
@@ -154,7 +154,7 @@ private:
 static_assert(sizeof(StringLeafNode) == 64, "StringLeafNode must be exactly one 64-byte Cell");
 ```
 
-- [ ] **Step 5: Add `StringInternalNode` class declaration immediately after `StringLeafNode`**
+- [x] **Step 5: Add `StringInternalNode` class declaration immediately after `StringLeafNode`**
 
 ```cpp
 // ---- StringInternalNode ---------------------------------------------------
@@ -189,7 +189,7 @@ public:
 static_assert(sizeof(StringInternalNode) == 64, "StringInternalNode must be exactly one 64-byte Cell");
 ```
 
-- [ ] **Step 6: Add `ExpectedTag` specializations for the two new cell types, after line 278 in proto_internal.h**
+- [x] **Step 6: Add `ExpectedTag` specializations for the two new cell types, after line 278 in proto_internal.h**
 
 ```cpp
 template<> struct ExpectedTag<const StringLeafNode> {
@@ -212,14 +212,14 @@ Also add the `ProtoStringImplementation` (symbol variant) — `POINTER_TAG_SYMBO
 const ProtoStringImplementation *symbolImplementation;  // POINTER_TAG_SYMBOL
 ```
 
-- [ ] **Step 7: Build to verify header compiles cleanly**
+- [x] **Step 7: Build to verify header compiles cleanly**
 
 ```bash
 cmake --build build -j$(nproc) 2>&1 | head -40
 ```
 Expected: zero errors. Warnings about unused variables in unchanged files are acceptable.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add headers/proto_internal.h
@@ -233,7 +233,7 @@ git commit -m "feat(strings): add StringLeafNode, StringInternalNode declaration
 **Files:**
 - Modify: `core/ProtoString.cpp` (add at the top, before existing ProtoStringImplementation code)
 
-- [ ] **Step 1: Write failing tests in `test/test_string.cpp`**
+- [x] **Step 1: Write failing tests in `test/test_string.cpp`**
 
 Add a new test suite at the end of the file:
 
@@ -283,14 +283,14 @@ TEST_F(StringAVLTest, LeafNodeHashDiffers) {
 }
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringAVLTest*" 2>&1 | tail -20
 ```
 Expected: compilation error — `StringLeafNode` constructor undefined.
 
-- [ ] **Step 3: Implement `StringLeafNode` at the top of `core/ProtoString.cpp`**
+- [x] **Step 3: Implement `StringLeafNode` at the top of `core/ProtoString.cpp`**
 
 Add after existing includes:
 
@@ -380,14 +380,14 @@ bool StringLeafNode::isStringLeafNode(const ProtoObject* obj) {
 } // namespace proto
 ```
 
-- [ ] **Step 4: Run tests — they should pass now**
+- [x] **Step 4: Run tests — they should pass now**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringAVLTest.Leaf*"
 ```
 Expected: 4 tests PASSED.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/ProtoString.cpp test/test_string.cpp
@@ -402,7 +402,7 @@ git commit -m "feat(strings): implement StringLeafNode with UTF-8 support and FN
 - Modify: `core/ProtoString.cpp`
 - Modify: `test/test_string.cpp`
 
-- [ ] **Step 1: Add failing tests**
+- [x] **Step 1: Add failing tests**
 
 ```cpp
 TEST_F(StringAVLTest, InternalNodeCharsAndHash) {
@@ -430,13 +430,13 @@ TEST_F(StringAVLTest, InternalNodeBalanceLeaves) {
 }
 ```
 
-- [ ] **Step 2: Run tests to verify failure (missing constructor)**
+- [x] **Step 2: Run tests to verify failure (missing constructor)**
 
 ```bash
 cmake --build build -j$(nproc) 2>&1 | grep "error:" | head -10
 ```
 
-- [ ] **Step 3: Implement `StringInternalNode` in `core/ProtoString.cpp` after `StringLeafNode` code**
+- [x] **Step 3: Implement `StringInternalNode` in `core/ProtoString.cpp` after `StringLeafNode` code**
 
 ```cpp
 // ===== StringInternalNode =================================================
@@ -512,14 +512,14 @@ bool StringInternalNode::isStringInternalNode(const ProtoObject* obj) {
 
 Also add `hashCombine` to the utility section as a free function visible in namespace scope (it's already defined above — just make sure it's accessible here).
 
-- [ ] **Step 4: Run tests**
+- [x] **Step 4: Run tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringAVLTest.Internal*"
 ```
 Expected: 2 tests PASSED.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/ProtoString.cpp test/test_string.cpp
@@ -534,7 +534,7 @@ git commit -m "feat(strings): implement StringInternalNode with O(1) derived fie
 - Modify: `core/ProtoString.cpp`
 - Modify: `test/test_string.cpp`
 
-- [ ] **Step 1: Add failing tests**
+- [x] **Step 1: Add failing tests**
 
 ```cpp
 // Free function declarations needed for tests:
@@ -577,13 +577,13 @@ TEST_F(StringAVLTest, ConcatNullRight) {
 }
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 ```bash
 cmake --build build -j$(nproc) 2>&1 | grep "error:" | head -5
 ```
 
-- [ ] **Step 3: Implement `rebalance` and `strConcat` in `core/ProtoString.cpp`**
+- [x] **Step 3: Implement `rebalance` and `strConcat` in `core/ProtoString.cpp`**
 
 Add after the `StringInternalNode` implementation:
 
@@ -657,14 +657,14 @@ const ProtoObject* strConcat(ProtoContext* ctx,
 
 Declare `strConcat` in the anonymous internal scope so tests can access it. Add a forward declaration at the top of the cpp file or in a small internal header if needed.
 
-- [ ] **Step 4: Run tests**
+- [x] **Step 4: Run tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringAVLTest.Concat*"
 ```
 Expected: 4 tests PASSED.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/ProtoString.cpp test/test_string.cpp
@@ -679,7 +679,7 @@ git commit -m "feat(strings): implement AVL rebalance and strConcat primitive"
 - Modify: `core/ProtoString.cpp`
 - Modify: `test/test_string.cpp`
 
-- [ ] **Step 1: Add failing tests**
+- [x] **Step 1: Add failing tests**
 
 ```cpp
 // Declarations needed:
@@ -741,13 +741,13 @@ TEST_F(StringAVLTest, CharAtInTree) {
 }
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 ```bash
 cmake --build build -j$(nproc) 2>&1 | grep "error:" | head -5
 ```
 
-- [ ] **Step 3: Implement `strSplit` and `strCharAt` in `core/ProtoString.cpp`**
+- [x] **Step 3: Implement `strSplit` and `strCharAt` in `core/ProtoString.cpp`**
 
 ```cpp
 struct SplitResult { const ProtoObject* left; const ProtoObject* right; };
@@ -811,21 +811,21 @@ void strCharAt(const ProtoObject* node, uint32_t index, uint32_t* out) {
 }
 ```
 
-- [ ] **Step 4: Run tests**
+- [x] **Step 4: Run tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringAVLTest.Split*:StringAVLTest.CharAt*"
 ```
 Expected: 6 tests PASSED.
 
-- [ ] **Step 5: Run all existing tests to confirm no regressions**
+- [x] **Step 5: Run all existing tests to confirm no regressions**
 
 ```bash
 ctest --test-dir build -j$(nproc) --output-on-failure
 ```
 Expected: all previously passing tests still pass.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add core/ProtoString.cpp test/test_string.cpp
@@ -840,7 +840,7 @@ git commit -m "feat(strings): implement strSplit and strCharAt on AVL tree"
 - Modify: `core/ProtoString.cpp` — rewrite `ProtoStringImplementation` class methods
 - Modify: `headers/proto_internal.h` — update `ProtoStringImplementation` class declaration
 
-- [ ] **Step 1: Update `ProtoStringImplementation` class in `proto_internal.h`**
+- [x] **Step 1: Update `ProtoStringImplementation` class in `proto_internal.h`**
 
 Find the existing `ProtoStringImplementation` class and replace its body:
 
@@ -867,7 +867,7 @@ public:
 };
 ```
 
-- [ ] **Step 2: Add failing tests for ProtoStringImplementation**
+- [x] **Step 2: Add failing tests for ProtoStringImplementation**
 
 ```cpp
 TEST_F(StringAVLTest, StringImplFromUTF8) {
@@ -896,7 +896,7 @@ TEST_F(StringAVLTest, StringImplLargeFromUTF8) {
 }
 ```
 
-- [ ] **Step 3: Implement `ProtoStringImplementation` in `core/ProtoString.cpp`**
+- [x] **Step 3: Implement `ProtoStringImplementation` in `core/ProtoString.cpp`**
 
 Replace the existing `ProtoStringImplementation` constructor and methods with:
 
@@ -960,14 +960,14 @@ const ProtoStringImplementation* ProtoStringImplementation::fromUTF8Bytes(
 }
 ```
 
-- [ ] **Step 4: Run tests**
+- [x] **Step 4: Run tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringAVLTest.StringImpl*"
 ```
 Expected: 3 tests PASSED.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/ProtoString.cpp headers/proto_internal.h test/test_string.cpp
@@ -981,7 +981,7 @@ git commit -m "feat(strings): rewrite ProtoStringImplementation to wrap AVL root
 **Files:**
 - Modify: `core/ProtoString.cpp` — rewrite all `ProtoString::*` methods
 
-- [ ] **Step 1: Add tests for core operations**
+- [x] **Step 1: Add tests for core operations**
 
 ```cpp
 class StringTest : public ::testing::Test {
@@ -1054,7 +1054,7 @@ TEST_F(StringTest, ToUTF8RoundTripMultibyte) {
 }
 ```
 
-- [ ] **Step 2: Implement all `ProtoString::*` methods in `core/ProtoString.cpp`**
+- [x] **Step 2: Implement all `ProtoString::*` methods in `core/ProtoString.cpp`**
 
 Replace the entire section of `ProtoString::` method implementations with the following.
 All methods follow the same pattern: unwrap to `ProtoStringImplementation`, operate on
@@ -1267,20 +1267,20 @@ unsigned long ProtoString::getSize(ProtoContext* ctx) const {
 }
 ```
 
-- [ ] **Step 3: Run tests**
+- [x] **Step 3: Run tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringTest.*"
 ```
 Expected: all StringTest tests PASSED.
 
-- [ ] **Step 4: Run full suite for regressions**
+- [x] **Step 4: Run full suite for regressions**
 
 ```bash
 ctest --test-dir build -j$(nproc) --output-on-failure
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/ProtoString.cpp headers/proto_internal.h test/test_string.cpp
@@ -1295,7 +1295,7 @@ git commit -m "feat(strings): rewrite ProtoString public operations using AVL sp
 - Modify: `headers/proto_internal.h` — update `ProtoStringIteratorImplementation`
 - Modify: `core/ProtoString.cpp` — implement iterator
 
-- [ ] **Step 1: Add failing tests**
+- [x] **Step 1: Add failing tests**
 
 ```cpp
 TEST_F(StringTest, IteratorForward) {
@@ -1327,7 +1327,7 @@ TEST_F(StringTest, IteratorLargeString) {
 }
 ```
 
-- [ ] **Step 2: Update `ProtoStringIteratorImplementation` declaration in `proto_internal.h`**
+- [x] **Step 2: Update `ProtoStringIteratorImplementation` declaration in `proto_internal.h`**
 
 Find the existing declaration and replace it:
 
@@ -1363,7 +1363,7 @@ private:
 };
 ```
 
-- [ ] **Step 3: Implement iterator in `core/ProtoString.cpp`**
+- [x] **Step 3: Implement iterator in `core/ProtoString.cpp`**
 
 ```cpp
 // ===== StringCodepointIterator =============================================
@@ -1427,20 +1427,20 @@ const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const
 
 Also update `ProtoStringIterator::hasNext` and `ProtoStringIterator::next` (or equivalent public methods) in `core/ProtoString.cpp` to delegate to `ProtoStringIteratorImplementation`.
 
-- [ ] **Step 4: Run tests**
+- [x] **Step 4: Run tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringTest.Iterator*"
 ```
 Expected: 3 tests PASSED.
 
-- [ ] **Step 5: Run full suite**
+- [x] **Step 5: Run full suite**
 
 ```bash
 ctest --test-dir build -j$(nproc) --output-on-failure
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add core/ProtoString.cpp headers/proto_internal.h test/test_string.cpp
@@ -1455,7 +1455,7 @@ git commit -m "feat(strings): implement stack-based StringCodepointIterator on A
 - Modify: `core/ProtoString.cpp`
 - Modify: `test/test_string.cpp`
 
-- [ ] **Step 1: Add tests**
+- [x] **Step 1: Add tests**
 
 ```cpp
 TEST_F(StringTest, InlineStringASCII) {
@@ -1491,7 +1491,7 @@ TEST_F(StringTest, InlineStringTwoByte) {
 }
 ```
 
-- [ ] **Step 2: Implement `createInlineStringUTF8` in `core/ProtoString.cpp`**
+- [x] **Step 2: Implement `createInlineStringUTF8` in `core/ProtoString.cpp`**
 
 ```cpp
 const ProtoObject* createInlineStringUTF8(ProtoContext* ctx,
@@ -1529,14 +1529,14 @@ const ProtoString* ProtoString::fromUTF8(ProtoContext* context, const char* utf8
 }
 ```
 
-- [ ] **Step 3: Run tests**
+- [x] **Step 3: Run tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringTest.Inline*:StringTest.SevenBytes*"
 ```
 Expected: 4 tests PASSED.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add core/ProtoString.cpp test/test_string.cpp
@@ -1552,7 +1552,7 @@ git commit -m "feat(strings): implement createInlineStringUTF8 with 6-byte embed
 - Modify: `headers/proto_internal.h` — add `SymbolTable` class declaration
 - Modify: `test/test_string.cpp`
 
-- [ ] **Step 1: Add `SymbolTable` declaration to `proto_internal.h`**
+- [x] **Step 1: Add `SymbolTable` declaration to `proto_internal.h`**
 
 After the `ProtoStringImplementation` class:
 
@@ -1605,7 +1605,7 @@ private:
 };
 ```
 
-- [ ] **Step 2: Add failing tests**
+- [x] **Step 2: Add failing tests**
 
 ```cpp
 class SymbolTest : public ::testing::Test {
@@ -1659,7 +1659,7 @@ TEST_F(SymbolTest, AutoInternOnSetAttribute) {
 }
 ```
 
-- [ ] **Step 3: Implement `core/SymbolTable.cpp`**
+- [x] **Step 3: Implement `core/SymbolTable.cpp`**
 
 ```cpp
 #include "proto_internal.h"
@@ -1761,11 +1761,11 @@ void SymbolTable::removeWeak(uint64_t content_hash, const ProtoObject* symbol) {
 } // namespace proto
 ```
 
-- [ ] **Step 4: Add `SymbolTable.cpp` to `CMakeLists.txt`**
+- [x] **Step 4: Add `SymbolTable.cpp` to `CMakeLists.txt`**
 
 In `protoCore/CMakeLists.txt`, find `add_library(protoCore SHARED ...` and add `core/SymbolTable.cpp` to the list.
 
-- [ ] **Step 5: Implement `ProtoString::createSymbol` in `core/ProtoString.cpp`**
+- [x] **Step 5: Implement `ProtoString::createSymbol` in `core/ProtoString.cpp`**
 
 ```cpp
 const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const char* utf8) {
@@ -1799,14 +1799,14 @@ const ProtoString* ProtoString::createSymbol(ProtoContext* ctx,
 }
 ```
 
-- [ ] **Step 6: Run tests**
+- [x] **Step 6: Run tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="SymbolTest.*"
 ```
 Expected: 5 tests PASSED (skip AutoIntern test if ProtoObject accessor not yet available).
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add core/SymbolTable.cpp core/ProtoString.cpp headers/proto_internal.h \
@@ -1822,7 +1822,7 @@ git commit -m "feat(strings): implement SymbolTable with 64-shard interning and 
 - Modify: `headers/protoCore.h` — add `symbolTable` to `ProtoSpace`
 - Modify: `core/ProtoSpace.cpp` — init SymbolTable, register as GC root, init literal Symbols
 
-- [ ] **Step 1: Add `symbolTable` member to `ProtoSpace` in `headers/protoCore.h`**
+- [x] **Step 1: Add `symbolTable` member to `ProtoSpace` in `headers/protoCore.h`**
 
 Find the `ProtoSpace` class and add after existing members:
 
@@ -1838,7 +1838,7 @@ Since `SymbolTable` is defined in `proto_internal.h`, add a forward declaration 
 namespace proto { class SymbolTable; }
 ```
 
-- [ ] **Step 2: Init SymbolTable in `ProtoSpace` constructor in `core/ProtoSpace.cpp`**
+- [x] **Step 2: Init SymbolTable in `ProtoSpace` constructor in `core/ProtoSpace.cpp`**
 
 Find the `ProtoSpace::ProtoSpace()` constructor and add:
 
@@ -1853,7 +1853,7 @@ delete symbolTable;
 symbolTable = nullptr;
 ```
 
-- [ ] **Step 3: Init cached literals as Symbols**
+- [x] **Step 3: Init cached literals as Symbols**
 
 Find where `literalData`, `literalSetAttribute`, and `literalCallMethod` are initialized.
 Change each to use `ProtoString::createSymbol`:
@@ -1867,7 +1867,7 @@ literalSetAttribute = ProtoString::createSymbol(rootContext, "setAttribute");
 literalCallMethod   = ProtoString::createSymbol(rootContext, "callMethod");
 ```
 
-- [ ] **Step 4: Register SymbolTable shards as GC roots in `analyzeUsedCells` or equivalent**
+- [x] **Step 4: Register SymbolTable shards as GC roots in `analyzeUsedCells` or equivalent**
 
 Find the GC marking pass (likely in `ProtoSpace.cpp` or `gcThreadLoop`). Add:
 
@@ -1889,14 +1889,14 @@ for (int i = 0; i < SymbolTable::SHARD_COUNT; ++i) {
 }
 ```
 
-- [ ] **Step 5: Build and run full test suite**
+- [x] **Step 5: Build and run full test suite**
 
 ```bash
 cmake --build build -j$(nproc) && ctest --test-dir build -j$(nproc) --output-on-failure
 ```
 Expected: all tests pass.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add headers/protoCore.h core/ProtoSpace.cpp
@@ -1911,7 +1911,7 @@ git commit -m "feat(strings): integrate SymbolTable into ProtoSpace; init cached
 - Modify: `core/ProtoObject.cpp`
 - Modify: `test/test_string.cpp`
 
-- [ ] **Step 1: Add failing test**
+- [x] **Step 1: Add failing test**
 
 ```cpp
 TEST_F(SymbolTest, AutoInternOnSetAttribute) {
@@ -1933,7 +1933,7 @@ TEST_F(SymbolTest, AutoInternOnSetAttribute) {
 }
 ```
 
-- [ ] **Step 2: Find `setAttribute` / `implSetAttribute` in `core/ProtoObject.cpp`**
+- [x] **Step 2: Find `setAttribute` / `implSetAttribute` in `core/ProtoObject.cpp`**
 
 Look for the method that inserts into the object's `SparseList`. It likely receives a
 `const ProtoString* key`. Add auto-interning before the SparseList insert:
@@ -1954,20 +1954,20 @@ Look for the method that inserts into the object's `SparseList`. It likely recei
 }
 ```
 
-- [ ] **Step 3: Run the auto-intern test**
+- [x] **Step 3: Run the auto-intern test**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="SymbolTest.AutoIntern*"
 ```
 Expected: PASSED.
 
-- [ ] **Step 4: Run full suite**
+- [x] **Step 4: Run full suite**
 
 ```bash
 ctest --test-dir build -j$(nproc) --output-on-failure
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/ProtoObject.cpp test/test_string.cpp
@@ -1983,7 +1983,7 @@ git commit -m "feat(strings): auto-intern non-interned String keys in ProtoObjec
 - Modify: `core/ProtoString.cpp`
 - Modify: `core/ProtoSpace.cpp` (GC marking for new cell tags)
 
-- [ ] **Step 1: Update `ProtoString` class in `headers/protoCore.h`**
+- [x] **Step 1: Update `ProtoString` class in `headers/protoCore.h`**
 
 Replace the two existing factory methods with the full new API:
 
@@ -2057,7 +2057,7 @@ public:
 };
 ```
 
-- [ ] **Step 2: Implement `fromUTF8Buffer`, `fromCodepointTuple`, `fromStdString`, `toStdString` in `core/ProtoString.cpp`**
+- [x] **Step 2: Implement `fromUTF8Buffer`, `fromCodepointTuple`, `fromStdString`, `toStdString` in `core/ProtoString.cpp`**
 
 ```cpp
 const ProtoString* ProtoString::fromStdString(ProtoContext* ctx, const std::string& s) {
@@ -2128,7 +2128,7 @@ const ProtoString* ProtoString::fromCodepointTuple(ProtoContext* ctx,
 }
 ```
 
-- [ ] **Step 3: Add GC marking cases for new cell tags in `ProtoSpace.cpp`**
+- [x] **Step 3: Add GC marking cases for new cell tags in `ProtoSpace.cpp`**
 
 Find `analyzeUsedCells` (or the function that marks child pointers for the GC).
 Add cases for the new tags:
@@ -2159,14 +2159,14 @@ case POINTER_TAG_SYMBOL: {
 
 Also update the existing `POINTER_TAG_STRING` case to use `avl_root` instead of the old `tuple` field.
 
-- [ ] **Step 4: Run full test suite**
+- [x] **Step 4: Run full test suite**
 
 ```bash
 cmake --build build -j$(nproc) && ctest --test-dir build -j$(nproc) --output-on-failure
 ```
 Expected: all tests pass, including GCStressTests.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add headers/protoCore.h core/ProtoString.cpp core/ProtoSpace.cpp
@@ -2180,7 +2180,7 @@ git commit -m "feat(strings): finalize public API; add GC marking for StringLeaf
 **Files:**
 - Modify: `test/test_string.cpp`
 
-- [ ] **Step 1: Add buffer boundary tests**
+- [x] **Step 1: Add buffer boundary tests**
 
 ```cpp
 TEST_F(StringTest, BufferBoundaryCleanUTF8) {
@@ -2229,14 +2229,14 @@ TEST_F(StringTest, BufferBoundarySplitThreeByte) {
 }
 ```
 
-- [ ] **Step 2: Run buffer tests**
+- [x] **Step 2: Run buffer tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="StringTest.Buffer*"
 ```
 Expected: 3 tests PASSED.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add test/test_string.cpp
@@ -2250,7 +2250,7 @@ git commit -m "test(strings): add UTF-8 buffer boundary split tests"
 **Files:**
 - Modify: `test/test_string.cpp` (add concurrent test)
 
-- [ ] **Step 1: Add concurrent symbol interning test**
+- [x] **Step 1: Add concurrent symbol interning test**
 
 ```cpp
 TEST_F(SymbolTest, ConcurrentInternSamePointer) {
@@ -2274,14 +2274,14 @@ TEST_F(SymbolTest, ConcurrentInternSamePointer) {
 }
 ```
 
-- [ ] **Step 2: Run GC stress tests**
+- [x] **Step 2: Run GC stress tests**
 
 ```bash
 cmake --build build -j$(nproc) && ./build/proto_tests --gtest_filter="GCStress*:Swarm*:StringTest*:SymbolTest*:StringAVLTest*" --gtest_repeat=3
 ```
 Expected: all pass on all 3 repetitions.
 
-- [ ] **Step 3: Run ThreadSanitizer build (if available)**
+- [x] **Step 3: Run ThreadSanitizer build (if available)**
 
 ```bash
 cmake -B build_tsan -S . -DCMAKE_CXX_FLAGS="-fsanitize=thread -g"
@@ -2290,14 +2290,14 @@ cmake --build build_tsan -j$(nproc)
 ```
 Expected: no data races reported.
 
-- [ ] **Step 4: Run full suite one final time**
+- [x] **Step 4: Run full suite one final time**
 
 ```bash
 ctest --test-dir build -j$(nproc) --output-on-failure
 ```
 Expected: 100% pass rate.
 
-- [ ] **Step 5: Final commit**
+- [x] **Step 5: Final commit**
 
 ```bash
 git add test/test_string.cpp
