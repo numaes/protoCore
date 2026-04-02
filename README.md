@@ -22,13 +22,14 @@ It is designed for developers who need to script complex application behavior, c
 | Metric | Status |
 |--------|--------|
 | **API Completeness** | **100%** - All declared methods implemented ✅ |
-| **Test Coverage** | **50/50 tests passing** (100% pass rate) ✅ |
+| **Test Coverage** | **136/136 tests passing** (100% pass rate) ✅ |
 | **Code Quality** | A+ - Excellent organization and documentation |
 | **Architecture** | Exemplary - Hardware-aware design, GIL-free concurrency |
 | **Production Ready** | **No** - Open for Community Review |
 
 ### Recent Improvements (2026)
 
+- ✅ **Three-Tier AVL String System** *(April 2026)* — Complete rewrite: embedded UTF-8 in tagged pointer (≤6 bytes, zero allocation), interned Symbols via 64-shard `SymbolTable`, and non-interned heap Strings — all sharing a uniform public API. 136/136 tests passing.
 - ✅ **Complete API Implementation** - All 36 missing methods implemented, achieving 100% API completeness
 - ✅ **Buffer API Completion** - Full ProtoByteBuffer public API with factory methods
 - ✅ **GC Stress Testing** - Validated and optimized garbage collection behavior
@@ -115,8 +116,8 @@ protoCore's performance and safety stem from a set of deeply integrated architec
 
 2.  **Hardware-Aware Memory Model**: protoCore's memory architecture is meticulously designed to leverage the features of modern multi-core CPUs, resulting in elite performance:
     *   **Hybrid Data Representation**: protoCore features a sophisticated system that maximizes efficiency by avoiding heap allocation for common values.
-        *   **Tagged Pointers**: Small integers that fit within 56 bits (`SmallInteger`), booleans, and **Inline Strings** (up to 7 characters) are stored directly inside the 64-bit `ProtoObject*` handle. This provides extreme cache locality and zero-allocation performance for the most common data types.
-        *   **Transparent Promotion**: For data that exceeds these ranges (large integers, floats, or long strings), protoCore automatically promotes them to heap-allocated objects (`LargeInteger`, `Double`, or `ProtoStringImplementation` ropes). This hybrid approach offers both raw speed for small values and unlimited scale for complex data.
+        *   **Tagged Pointers**: Small integers that fit within 56 bits (`SmallInteger`), booleans, and **Inline Strings** (up to 6 UTF-8 bytes) are stored directly inside the 64-bit `ProtoObject*` handle. This provides extreme cache locality and zero-allocation performance for the most common data types.
+        *   **Transparent Promotion**: For data that exceeds these ranges (large integers, floats, or longer strings), protoCore automatically promotes them to heap-allocated objects (`LargeInteger`, `Double`, or `ProtoStringImplementation` backed by a persistent AVL tree). This hybrid approach offers both raw speed for small values and unlimited scale for complex data.
     *   **Eliminating False Sharing**: All heap objects reside in 64-byte `Cell`s, perfectly aligning with the 64-byte cache lines of modern CPUs. This ensures that when different cores access different objects, they are guaranteed not to contend for the same cache line—a common and severe performance bottleneck in multithreaded applications.
     *   **Concurrent Garbage Collector**: A dedicated GC thread works in parallel with the application, with extremely short "stop-the-world" pauses, making protoCore suitable for interactive and soft real-time applications.
 

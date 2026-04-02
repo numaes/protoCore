@@ -50,6 +50,7 @@ At a high level, the system is composed of a few key entities:
 | - Owns the Object Prototypes (List, String...)  |
 | - Manages the list of all active threads        |
 | - Holds the global interned tuple dictionary    |
+| - Owns SymbolTable (64-shard string interning)  |
 |                                                 |
 | +--------------------+   +--------------------+ |
 | |   ProtoThread 1    |   |   ProtoThread 2    | |
@@ -84,11 +85,11 @@ To avoid the overhead of heap allocation for simple values, Proto uses **tagged 
 *   **If the tag indicates a pointer**, the remaining bits are the memory address of a `Cell` on the heap (e.g., Objects, Lists, SparseLists).
 *   **If the tag indicates an embedded value**, the remaining bits store the value directly (e.g., a 56-bit integer, a boolean, or an **Inline String**).
 
-#### Inline Strings (SmallString Optimization)
+#### Inline Strings (Embedded UTF-8 Pointer)
 
-Strings up to **7 characters** (using 7-bit ASCII/UTF-32 code units) are stored directly within the 64-bit `ProtoObject*` handle. This uses the `POINTER_TAG_EMBEDDED_VALUE` (1) with the `EMBEDDED_TYPE_INLINE_STRING` (4) discriminator. The layout provides 49 bits for character data and 3 bits for length, enabling extreme performance for short identifiers and symbols by eliminating heap allocation and reducing function call overhead.
+Strings up to **6 UTF-8 bytes** are stored directly within the 64-bit `ProtoObject*` handle using `POINTER_TAG_EMBEDDED_VALUE` (1) with `EMBEDDED_TYPE_INLINE_STRING` (4). The `inlineString` bitfield packs `inline_byte_count` (3 bits) and up to 48 bits of raw UTF-8 bytes (LSB = first byte), supporting any Unicode content whose encoded form fits in 6 bytes (e.g., up to 6 ASCII characters, 3 two-byte codepoints, or 2 three-byte CJK characters).
 
-This is the single most important optimization for scalar operations, as it makes them as fast as primitive C++ types and avoids triggering the garbage collector.
+Pointer equality implies content equality for inline strings, eliminating the need for hash table lookups on the hot path. This is the single most important optimization for scalar operations: it makes common string comparisons as fast as integer equality and avoids triggering the garbage collector.
 
 ### The Memory Arena: Lock-Free, Per-Thread Allocation
 
@@ -109,7 +110,7 @@ The GC is designed to minimize application pauses.
 
 To prevent deadlocks during complex operations (e.g., allocation triggering GC, which then needs to access global metadata), ProtoCore utilizes a **Global Reentrant Mutex** (`globalMutex`).
 *   **Reentrancy**: The `std::recursive_mutex` allows a single thread to acquire the same lock multiple times without deadlocking. This is essential for the hybrid execution model where high-level operations (like interning or thread creation) may trigger low-level memory management tasks that also require the global lock.
-*   **Granularity**: While the system avoids a GIL, the `globalMutex` protects specific global registries (String Interning, Tuple Dictionary, Thread List) and orchestrates the Stop-The-World phase.
+*   **Granularity**: While the system avoids a GIL, the `globalMutex` protects specific global registries (Tuple Dictionary, Thread List) and orchestrates the Stop-The-World phase. String interning uses a separate `SymbolTable` with fine-grained per-shard mutexes (one per 64 shards), avoiding contention on the global lock for string operations.
 
 ---
 
@@ -117,15 +118,32 @@ To prevent deadlocks during complex operations (e.g., allocation triggering GC, 
 
 All core collection types in Proto are implemented as persistent, immutable data structures, backed by self-balancing AVL trees. This provides efficient structural sharing and guarantees O(log n) performance for most operations.
 
-* **`ProtoTuple` & `ProtoString`**: These are implemented using a hybrid data model:
-  * **Inline Strings**: Short strings (up to 7 chars) are stored directly in the `ProtoObject*` handle (see Memory Model).
-  * **Rope Strings**: Longer strings and tuples are implemented as **ropes**, a tree structure where leaves are small, fixed-size arrays of data. This makes operations like concatenation, slicing, and insertion extremely efficient, as it avoids massive data copies by simply creating new tree nodes that point to shared data.
-  * **Performance**: String comparison is lexicographical and optimized for both representations. It uses a stack-based iterator for $O(N)$ rope traversal and direct bit manipulation for inline strings.
+* **`ProtoString`** — Three-tier architecture, all tiers sharing a uniform public API:
 
-* **Interning for Tuples & Strings**: To conserve memory and speed up equality checks, distinct objects with identical content share the same memory address.
-  * **Tuples**: Managed by a global `tupleRoot` dictionary (BST).
-  * **Strings**: Only rope-based strings (`ProtoStringImplementation`) are managed by a global `stringInternMap` (Hash Set). Since rope strings are wrappers around Tuples, checking string equality often reduces to checking pointer equality of the underlying interned tuple.
-  * **Inline String Identity**: Because inline strings are immediate values, equality is naturally handled via pointer comparison, skipping the interning map entirely for significant performance gains.
+  * **Tier 1 — Embedded pointer** (`POINTER_TAG_EMBEDDED_VALUE`): strings ≤6 UTF-8 bytes encoded directly in the tagged pointer. Zero heap allocation; pointer equality implies content equality.
+
+  * **Tier 2 — Symbol** (`POINTER_TAG_SYMBOL` = 22): interned strings used as identifiers and attribute keys. Backed by a `ProtoStringImplementation` wrapping a persistent AVL tree. A **64-shard `SymbolTable`** (one `std::mutex` per shard, double-checked locking) guarantees that equal content always returns the same pointer. Strong symbols (created by `createSymbol()` or ProtoSpace literals) are GC roots; weak symbols (auto-interned keys) are evictable via `removeWeak()`. Read-only lookups use the non-inserting `lookupByContent()` path with no allocation or lock side effects.
+
+  * **Tier 3 — String** (`POINTER_TAG_STRING` = 6): non-interned heap strings for general text. Same AVL tree cells as Symbol but not deduplicated.
+
+  * **Persistent AVL tree** — two 64-byte Cell types:
+    * `StringLeafNode`: stores up to 32 UTF-8 bytes, FNV-1a `content_hash`, `char_count`, `is_partial` flag. `processReferences()` is a no-op.
+    * `StringInternalNode`: left/right children, `total_chars`, `left_chars` (for O(log N) `charAt` navigation), `subtree_hash`, AVL `height`. `processReferences()` visits both children for GC tracing.
+
+  * **Two primitives** compose all string operations:
+    * `strConcat(ctx, a, b)` — O(log |h(a)−h(b)| + 1)
+    * `strSplit(ctx, node, char_index)` — O(log N)
+
+  * **Iterators**: `RopeCharacterIterator` (internal, byte-offset based, O(1) amortized per codepoint) and `ProtoStringIteratorImplementation` (public API, leaf-caching, fits in a 64-byte Cell, `hasNext()` is O(1)).
+
+  * **Auto-interning**: `setAttribute` automatically interns non-interned String keys (tag 6 → Symbol). Attribute lookup methods (`getAttribute`, `hasAttribute`) use `SymbolTable::lookupByContent()` with no insertion side effects.
+
+* **`ProtoTuple`**: Implemented as a rope of small, fixed-size leaf arrays forming a persistent AVL tree. `ProtoString` no longer uses tuples internally; tuple interning is managed by a separate global `tupleRoot` dictionary (BST).
+
+* **Interning summary**:
+  * **Tuples**: global `tupleRoot` dictionary (BST).
+  * **Symbols**: `SymbolTable` (64-shard hash table, per-shard mutex).
+  * **Inline Strings**: pointer equality is content equality — no interning table needed.
 
 *   **Sets & Multisets**:
     *   **`ProtoSet`**: Implemented using a `ProtoSparseList` where keys are the hash of elements and values are the elements themselves.

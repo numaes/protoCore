@@ -1,6 +1,6 @@
 # protoCore Documentation Index
 
-**Last updated:** January 2026  
+**Last updated:** April 2026  
 **Purpose:** Unified index of all protoCore documentation with references. Use this document to find the right doc for your need.
 
 ---
@@ -86,6 +86,8 @@ These documents describe completed one-off work. The canonical current state is 
 | [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | Summary of GCBridge-related methods (ProtoString::asObject, etc.). |
 | [PROTOCORE_BUFFER_API_RESOLUTION.md](PROTOCORE_BUFFER_API_RESOLUTION.md) | Buffer API implementation resolution for protoJS. |
 | [GC_STRESS_TEST_FIX_ANALYSIS.md](GC_STRESS_TEST_FIX_ANALYSIS.md) | GC stress test fix (LargeAllocationReclamation). |
+| [docs/superpowers/specs/2026-03-31-string-refactoring-design.md](docs/superpowers/specs/2026-03-31-string-refactoring-design.md) | Design spec for the three-tier AVL string refactoring (April 2026). |
+| [docs/superpowers/plans/2026-03-31-string-refactoring.md](docs/superpowers/plans/2026-03-31-string-refactoring.md) | Implementation plan for the string refactoring (all 15 tasks completed). |
 
 ---
 
