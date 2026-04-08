@@ -10,7 +10,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/gamarino/Documentos/proyectos/protoCore/test/ContextTests.cpp" "test/CMakeFiles/proto_tests.dir/ContextTests.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/ContextTests.cpp.o.d"
   "/home/gamarino/Documentos/proyectos/protoCore/test/GCStressTests.cpp" "test/CMakeFiles/proto_tests.dir/GCStressTests.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/GCStressTests.cpp.o.d"
+  "/home/gamarino/Documentos/proyectos/protoCore/test/MultipleInheritanceTests.cpp" "test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o.d"
   "/home/gamarino/Documentos/proyectos/protoCore/test/NumericTests.cpp" "test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/NumericTests.cpp.o.d"
+  "/home/gamarino/Documentos/proyectos/protoCore/test/SwarmTests.cpp" "test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o.d"
   "/home/gamarino/Documentos/proyectos/protoCore/test/test_list.cpp" "test/CMakeFiles/proto_tests.dir/test_list.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/test_list.cpp.o.d"
   "/home/gamarino/Documentos/proyectos/protoCore/test/test_module_discovery.cpp" "test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/test_module_discovery.cpp.o.d"
   "/home/gamarino/Documentos/proyectos/protoCore/test/test_object.cpp" "test/CMakeFiles/proto_tests.dir/test_object.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/test_object.cpp.o.d"
@@ -18,6 +20,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/gamarino/Documentos/proyectos/protoCore/test/test_proto.cpp" "test/CMakeFiles/proto_tests.dir/test_proto.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/test_proto.cpp.o.d"
   "/home/gamarino/Documentos/proyectos/protoCore/test/test_sets.cpp" "test/CMakeFiles/proto_tests.dir/test_sets.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/test_sets.cpp.o.d"
   "/home/gamarino/Documentos/proyectos/protoCore/test/test_sparselist.cpp" "test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.o.d"
+  "/home/gamarino/Documentos/proyectos/protoCore/test/test_string.cpp" "test/CMakeFiles/proto_tests.dir/test_string.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/test_string.cpp.o.d"
   "/home/gamarino/Documentos/proyectos/protoCore/test/test_tuple.cpp" "test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o" "gcc" "test/CMakeFiles/proto_tests.dir/test_tuple.cpp.o.d"
   )
 

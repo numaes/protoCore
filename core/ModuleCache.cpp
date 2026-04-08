@@ -40,6 +40,9 @@ const ProtoObject* sharedModuleCacheGet(const std::string& logicalPath) {
 }
 
 void sharedModuleCacheInsert(const std::string& logicalPath, const ProtoObject* module) {
+    if (std::getenv("PROTO_RESOLVE_DIAG")) {
+        fprintf(stderr, "DEBUG: sharedModuleCacheInsert(%s, %p)\n", logicalPath.c_str(), (void*)module);
+    }
     getCache().insert(logicalPath, module);
 }
 

@@ -6,5 +6,5 @@ CXX_DEFINES = -DprotoCore_EXPORTS
 
 CXX_INCLUDES = -I/home/gamarino/Documentos/proyectos/protoCore/headers
 
-CXX_FLAGS = -O3 -DNDEBUG -std=c++20 -fPIC
+CXX_FLAGS = -O3 -DNDEBUG -std=c++20 -fPIC -fno-delete-null-pointer-checks
 

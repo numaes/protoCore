@@ -77,6 +77,7 @@ preinstall: test/preinstall
 clean: CMakeFiles/protoCore.dir/clean
 clean: CMakeFiles/immutable_sharing_benchmark.dir/clean
 clean: CMakeFiles/concurrent_append_benchmark.dir/clean
+clean: CMakeFiles/package_protocore_only.dir/clean
 clean: test/clean
 .PHONY : clean
 
@@ -155,7 +156,7 @@ test/clean: _deps/googletest-build/clean
 CMakeFiles/protoCore.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/protoCore.dir/build.make CMakeFiles/protoCore.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 "Built target protoCore"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37 "Built target protoCore"
 .PHONY : CMakeFiles/protoCore.dir/all
 
 # Build rule for subdir invocation for target.
@@ -227,6 +228,32 @@ CMakeFiles/concurrent_append_benchmark.dir/clean:
 .PHONY : CMakeFiles/concurrent_append_benchmark.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/package_protocore_only.dir
+
+# All Build rule for target.
+CMakeFiles/package_protocore_only.dir/all: CMakeFiles/protoCore.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/package_protocore_only.dir/build.make CMakeFiles/package_protocore_only.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/package_protocore_only.dir/build.make CMakeFiles/package_protocore_only.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=13 "Built target package_protocore_only"
+.PHONY : CMakeFiles/package_protocore_only.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/package_protocore_only.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 25
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/package_protocore_only.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 0
+.PHONY : CMakeFiles/package_protocore_only.dir/rule
+
+# Convenience name for target.
+package_protocore_only: CMakeFiles/package_protocore_only.dir/rule
+.PHONY : package_protocore_only
+
+# clean rule for target.
+CMakeFiles/package_protocore_only.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/package_protocore_only.dir/build.make CMakeFiles/package_protocore_only.dir/clean
+.PHONY : CMakeFiles/package_protocore_only.dir/clean
+
+#=============================================================================
 # Target rules for target test/CMakeFiles/proto_tests.dir
 
 # All Build rule for target.
@@ -235,12 +262,12 @@ test/CMakeFiles/proto_tests.dir/all: _deps/googletest-build/googletest/CMakeFile
 test/CMakeFiles/proto_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=37,38,39,40,41,42,43,44,45,46,47,48 "Built target proto_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles --progress-num=38,39,40,41,42,43,44,45,46,47,48,49,50,51,52 "Built target proto_tests"
 .PHONY : test/CMakeFiles/proto_tests.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/proto_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 40
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 43
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/proto_tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamarino/Documentos/proyectos/protoCore/build_check/CMakeFiles 0
 .PHONY : test/CMakeFiles/proto_tests.dir/rule

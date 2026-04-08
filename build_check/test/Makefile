@@ -117,7 +117,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\" \"protoCore\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"protoCore\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -253,6 +253,30 @@ GCStressTests.cpp.s:
 	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/GCStressTests.cpp.s
 .PHONY : GCStressTests.cpp.s
 
+MultipleInheritanceTests.o: MultipleInheritanceTests.cpp.o
+.PHONY : MultipleInheritanceTests.o
+
+# target to build an object file
+MultipleInheritanceTests.cpp.o:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.o
+.PHONY : MultipleInheritanceTests.cpp.o
+
+MultipleInheritanceTests.i: MultipleInheritanceTests.cpp.i
+.PHONY : MultipleInheritanceTests.i
+
+# target to preprocess a source file
+MultipleInheritanceTests.cpp.i:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.i
+.PHONY : MultipleInheritanceTests.cpp.i
+
+MultipleInheritanceTests.s: MultipleInheritanceTests.cpp.s
+.PHONY : MultipleInheritanceTests.s
+
+# target to generate assembly for a file
+MultipleInheritanceTests.cpp.s:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/MultipleInheritanceTests.cpp.s
+.PHONY : MultipleInheritanceTests.cpp.s
+
 NumericTests.o: NumericTests.cpp.o
 .PHONY : NumericTests.o
 
@@ -276,6 +300,30 @@ NumericTests.s: NumericTests.cpp.s
 NumericTests.cpp.s:
 	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/NumericTests.cpp.s
 .PHONY : NumericTests.cpp.s
+
+SwarmTests.o: SwarmTests.cpp.o
+.PHONY : SwarmTests.o
+
+# target to build an object file
+SwarmTests.cpp.o:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.o
+.PHONY : SwarmTests.cpp.o
+
+SwarmTests.i: SwarmTests.cpp.i
+.PHONY : SwarmTests.i
+
+# target to preprocess a source file
+SwarmTests.cpp.i:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.i
+.PHONY : SwarmTests.cpp.i
+
+SwarmTests.s: SwarmTests.cpp.s
+.PHONY : SwarmTests.s
+
+# target to generate assembly for a file
+SwarmTests.cpp.s:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/SwarmTests.cpp.s
+.PHONY : SwarmTests.cpp.s
 
 test_list.o: test_list.cpp.o
 .PHONY : test_list.o
@@ -445,6 +493,30 @@ test_sparselist.cpp.s:
 	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/test_sparselist.cpp.s
 .PHONY : test_sparselist.cpp.s
 
+test_string.o: test_string.cpp.o
+.PHONY : test_string.o
+
+# target to build an object file
+test_string.cpp.o:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/test_string.cpp.o
+.PHONY : test_string.cpp.o
+
+test_string.i: test_string.cpp.i
+.PHONY : test_string.i
+
+# target to preprocess a source file
+test_string.cpp.i:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/test_string.cpp.i
+.PHONY : test_string.cpp.i
+
+test_string.s: test_string.cpp.s
+.PHONY : test_string.s
+
+# target to generate assembly for a file
+test_string.cpp.s:
+	cd /home/gamarino/Documentos/proyectos/protoCore/build_check && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/proto_tests.dir/build.make test/CMakeFiles/proto_tests.dir/test_string.cpp.s
+.PHONY : test_string.cpp.s
+
 test_tuple.o: test_tuple.cpp.o
 .PHONY : test_tuple.o
 
@@ -491,9 +563,15 @@ help:
 	@echo "... GCStressTests.o"
 	@echo "... GCStressTests.i"
 	@echo "... GCStressTests.s"
+	@echo "... MultipleInheritanceTests.o"
+	@echo "... MultipleInheritanceTests.i"
+	@echo "... MultipleInheritanceTests.s"
 	@echo "... NumericTests.o"
 	@echo "... NumericTests.i"
 	@echo "... NumericTests.s"
+	@echo "... SwarmTests.o"
+	@echo "... SwarmTests.i"
+	@echo "... SwarmTests.s"
 	@echo "... test_list.o"
 	@echo "... test_list.i"
 	@echo "... test_list.s"
@@ -515,6 +593,9 @@ help:
 	@echo "... test_sparselist.o"
 	@echo "... test_sparselist.i"
 	@echo "... test_sparselist.s"
+	@echo "... test_string.o"
+	@echo "... test_string.i"
+	@echo "... test_string.s"
 	@echo "... test_tuple.o"
 	@echo "... test_tuple.i"
 	@echo "... test_tuple.s"
