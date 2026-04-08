@@ -623,7 +623,7 @@ namespace proto
         if (!this) return nullptr;
         ProtoObjectPointer pa{};
         pa.oid = this;
-        if (pa.op.pointer_tag == POINTER_TAG_STRING) return reinterpret_cast<const ProtoString*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_STRING || pa.op.pointer_tag == POINTER_TAG_SYMBOL) return reinterpret_cast<const ProtoString*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING) return reinterpret_cast<const ProtoString*>(this);
         
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {

@@ -255,6 +255,15 @@ namespace proto
     unsigned long ProtoSparseList::getSize(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->size; }
     const ProtoObject* ProtoSparseList::asObject(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->implAsObject(context); }
     const ProtoSparseListIterator* ProtoSparseList::getIterator(ProtoContext* context) const { const auto* impl = toImpl<const ProtoSparseListImplementation>(this)->implGetIterator(context); return impl ? reinterpret_cast<const ProtoSparseListIterator*>(impl->implAsObject(context)) : nullptr; }
+ 
+    void ProtoSparseList::processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, const ProtoObject*)) const {
+        const auto* impl = toImpl<const ProtoSparseListImplementation>(this);
+        const ProtoSparseListIteratorImplementation* it = impl->implGetIterator(context);
+        while (it && it->implHasNext()) {
+            method(context, self, it->implNextKey(), it->implNextValue());
+            it = it->implAdvance(context);
+        }
+    }
 
     int ProtoSparseListIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implHasNext(); }
     unsigned long ProtoSparseListIterator::nextKey(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextKey(); }
