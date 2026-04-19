@@ -731,7 +731,8 @@ namespace proto
         const ProtoSpaceImplementation* impl{};
         int state;
         ProtoContext* rootContext;
-        std::atomic<ProtoSparseList*> mutableRoot;
+        static constexpr int MUTABLE_ROOT_SHARDS = 16;
+        std::atomic<ProtoSparseList*> mutableRoot[MUTABLE_ROOT_SHARDS];
         std::atomic<unsigned long> nextMutableRef;
 
         // --- Maquinaria Interna (Público por ahora) ---

@@ -232,7 +232,8 @@ namespace proto
             
             // Handle Mutable Objects
             if (oc->mutable_ref > 0) {
-                 ProtoSparseList* root = context->space->mutableRoot.load();
+                 int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+                 ProtoSparseList* root = context->space->mutableRoot[shard].load();
                  if (root != nullptr) {
                       const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                       const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
@@ -329,7 +330,8 @@ namespace proto
                 if (proto::isObject(currentPointer)) {
                     auto oc = toImpl<const ProtoObjectCell>(currentPointer);
                     if (oc->mutable_ref > 0) {
-                        ProtoSparseList* root = context->space->mutableRoot.load();
+                        int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+                        ProtoSparseList* root = context->space->mutableRoot[shard].load();
                         if (root != nullptr) {
                             const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                             const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
@@ -439,15 +441,16 @@ namespace proto
 
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
+             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
              int casIteration = 0;
              while(true) {
                  if (++casIteration > 100) {
                      break; // Give up
                  }
-                 
-                 // 1. Get current object state from the latest root
-                 const ProtoObject* currentObjState = this; 
-                 ProtoSparseList* oldRoot = context->space->mutableRoot.load();
+
+                 // 1. Get current object state from the shard
+                 const ProtoObject* currentObjState = this;
+                 ProtoSparseList* oldRoot = context->space->mutableRoot[shard].load();
                  if (oldRoot != nullptr) {
                      const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(oldRoot);
                      const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
@@ -455,25 +458,25 @@ namespace proto
                           currentObjState = storedState;
                      }
                  }
-                 
+
                  // 2. Create new state with updated attribute
                  if (!proto::isObject(currentObjState)) {
                      return this; // Corruption detected or inconsistent state
                  }
                  auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
                  const auto* newAttributes = currentOc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
-                 
+
                  // CRITICAL: newState MUST have mutable_ref = 0 to avoid infinite loop during lookup
                  auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
 
-                 // 3. Update mutableRoot (Compare and Swap Loop)
-                 const auto* oldRootImpl = (oldRoot == nullptr) ? 
+                 // 3. CAS only the shard that owns this mutable_ref
+                 const auto* oldRootImpl = (oldRoot == nullptr) ?
                      toImpl<const ProtoSparseListImplementation>(context->newSparseList()) :
                      toImpl<const ProtoSparseListImplementation>(oldRoot);
-                 
+
                  auto* newRootImpl = oldRootImpl->implSetAt(context, oc->mutable_ref, newState);
                  ProtoSparseList* expected = oldRoot;
-                 if (context->space->mutableRoot.compare_exchange_weak(expected, const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context)))) {
+                 if (context->space->mutableRoot[shard].compare_exchange_weak(expected, const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context)))) {
                      break;
                  }
              }
@@ -493,7 +496,8 @@ namespace proto
         
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
-             ProtoSparseList* root = context->space->mutableRoot.load();
+             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+             ProtoSparseList* root = context->space->mutableRoot[shard].load();
              if (root != nullptr) {
                   const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                   const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
@@ -534,15 +538,16 @@ namespace proto
         
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
+             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
              int casIteration = 0;
              while(true) {
                  if (++casIteration > 100) {
                      break; // Give up
                  }
 
-                 // 1. Get current object state from the latest root
-                 const ProtoObject* currentObjState = this; 
-                 ProtoSparseList* oldRoot = context->space->mutableRoot.load();
+                 // 1. Get current object state from the shard
+                 const ProtoObject* currentObjState = this;
+                 ProtoSparseList* oldRoot = context->space->mutableRoot[shard].load();
                  if (oldRoot != nullptr) {
                      const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(oldRoot);
                      const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
@@ -555,14 +560,14 @@ namespace proto
                  auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
                  auto* newState = currentOc->addParent(context, newParent)->asObject(context);
 
-                 // 3. Update mutableRoot (Compare and Swap Loop)
-                 const auto* oldRootImpl = (oldRoot == nullptr) ? 
+                 // 3. CAS only the shard that owns this mutable_ref
+                 const auto* oldRootImpl = (oldRoot == nullptr) ?
                      toImpl<const ProtoSparseListImplementation>(context->newSparseList()) :
                      toImpl<const ProtoSparseListImplementation>(oldRoot);
-                 
+
                  auto* newRootImpl = oldRootImpl->implSetAt(context, oc->mutable_ref, newState);
                  ProtoSparseList* expected = oldRoot;
-                 if (context->space->mutableRoot.compare_exchange_weak(expected, const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context)))) {
+                 if (context->space->mutableRoot[shard].compare_exchange_weak(expected, const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context)))) {
                      break;
                  }
              }
@@ -942,7 +947,8 @@ namespace proto
 
             // Support for Mutable Objects
             if (oc->mutable_ref > 0) {
-                 ProtoSparseList* root = context->space->mutableRoot.load();
+                 int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+                 ProtoSparseList* root = context->space->mutableRoot[shard].load();
                  if (root != nullptr) {
                       const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                       const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
@@ -1009,7 +1015,8 @@ namespace proto
         const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
-            ProtoSparseList* root = context->space->mutableRoot.load();
+            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+            ProtoSparseList* root = context->space->mutableRoot[shard].load();
             if (root != nullptr) {
                 const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                 const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
@@ -1052,7 +1059,8 @@ namespace proto
         const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
-            ProtoSparseList* root = context->space->mutableRoot.load();
+            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+            ProtoSparseList* root = context->space->mutableRoot[shard].load();
             if (root != nullptr) {
                 const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                 const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
@@ -1087,7 +1095,8 @@ namespace proto
         const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
-            ProtoSparseList* root = context->space->mutableRoot.load();
+            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+            ProtoSparseList* root = context->space->mutableRoot[shard].load();
             if (root != nullptr) {
                 const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
                 const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);

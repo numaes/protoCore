@@ -239,7 +239,10 @@ namespace proto {
                     }
                 }
 
-                if (space->mutableRoot.load()) addRootObj(reinterpret_cast<const ProtoObject*>(space->mutableRoot.load()));
+                // Scan all mutableRoot shards so GC traces every live mutable-object snapshot.
+                for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
+                    if (auto* r = space->mutableRoot[s].load()) addRootObj(reinterpret_cast<const ProtoObject*>(r));
+                }
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
                 // 3. Scan the Main Thread stack
@@ -395,9 +398,12 @@ namespace proto {
         this->setIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
         this->multisetIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
 
-        // Initialize mutableRoot
-        auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);
-        this->mutableRoot = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext));
+        // Initialize all mutableRoot shards to an empty SparseList.
+        // Each shard holds objects with mutable_ref % MUTABLE_ROOT_SHARDS == shard_index.
+        for (int s = 0; s < MUTABLE_ROOT_SHARDS; ++s) {
+            auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);
+            this->mutableRoot[s] = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext));
+        }
         
         symbolTable = new SymbolTable();
         initStringInternMap(this);

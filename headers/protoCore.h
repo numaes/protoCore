@@ -582,7 +582,8 @@ namespace proto
             const ProtoList* parameterNames = nullptr,
             const ProtoList* localNames = nullptr,
             const ProtoList* args = nullptr,
-            const ProtoSparseList* kwargs = nullptr
+            const ProtoSparseList* kwargs = nullptr,
+            size_t totalSlots = 0
         );
         ~ProtoContext();
 
@@ -786,7 +787,10 @@ namespace proto
         const ProtoSpaceImplementation* impl{};
         int state;
         ProtoContext* rootContext;
-        std::atomic<ProtoSparseList*> mutableRoot;
+        // 16 independent shards: mutable_ref % 16 selects the shard.
+        // Reduces CAS contention 16x in multi-threaded workloads; transparent to API callers.
+        static constexpr int MUTABLE_ROOT_SHARDS = 16;
+        std::atomic<ProtoSparseList*> mutableRoot[MUTABLE_ROOT_SHARDS];
         std::atomic<unsigned long> nextMutableRef;
 
         // --- Maquinaria Interna (Público por ahora) ---
