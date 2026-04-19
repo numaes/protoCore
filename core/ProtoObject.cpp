@@ -341,11 +341,16 @@ namespace proto
                 }
             }
 
-            // Check Cache using currentPointer (the handle)
+            // Cache keyed on currentValue (the resolved immutable snapshot).
+            // For immutable objects currentValue == currentPointer, so behaviour is unchanged.
+            // For mutable objects currentValue is the snapshot stored in mutableRoot; when the
+            // object mutates mutableRoot is updated to a new snapshot pointer, so the next lookup
+            // gets a different currentValue → natural cache miss → correct re-lookup.
+            // This avoids the former bug of skipping the cache for mutable objects entirely.
             unsigned long hash_idx = 0;
             if (cache) {
-                hash_idx = (reinterpret_cast<uintptr_t>(currentPointer) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
-                if (cache[hash_idx].object == currentPointer && cache[hash_idx].name == name) {
+                hash_idx = (reinterpret_cast<uintptr_t>(currentValue) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
+                if (cache[hash_idx].object == currentValue && cache[hash_idx].name == name) {
                     return cache[hash_idx].result;
                 }
             }
@@ -355,9 +360,8 @@ namespace proto
                 auto ocValue = toImpl<const ProtoObjectCell>(currentValue);
                 if (ocValue->attributes->implHas(context, attr_hash)) {
                     const auto* result = ocValue->attributes->implGetAt(context, attr_hash);
-                    // Update Cache
                     if (cache) {
-                        cache[hash_idx] = {currentPointer, result, name};
+                        cache[hash_idx] = {currentValue, result, name};
                     }
                     return result;
                 }
