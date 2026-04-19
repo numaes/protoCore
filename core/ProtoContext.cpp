@@ -35,7 +35,8 @@ namespace proto
         const ProtoList* parameterNames,
         const ProtoList* localNames,
         const ProtoList* args,
-        const ProtoSparseList* kwargs
+        const ProtoSparseList* kwargs,
+        size_t totalSlots
     ) : previous(previous),
         space(space),
         thread(nullptr),
@@ -60,13 +61,12 @@ namespace proto
             this->thread = nullptr;
         }
         // Step 2: Allocate and INITIALIZE storage for local variables BEFORE registration.
-        if (localNames) {
-            automaticLocalsCount = localNames->getSize(this);
+        {
+            size_t nameCount = localNames ? localNames->getSize(this) : 0;
+            automaticLocalsCount = (totalSlots > nameCount) ? totalSlots : nameCount;
             if (automaticLocalsCount > 0) {
                 const ProtoObject** temp = new const ProtoObject*[automaticLocalsCount];
-                for (unsigned int i = 0; i < automaticLocalsCount; ++i) {
-                    temp[i] = PROTO_NONE;
-                }
+                std::fill(temp, temp + automaticLocalsCount, PROTO_NONE);
                 this->automaticLocals = temp;
             }
         }
@@ -189,7 +189,13 @@ namespace proto
      */
     Cell* ProtoContext::allocCell()
     {
-        if (this && this->space && this->space->stwFlag.load() && std::this_thread::get_id() != this->space->gcThread->get_id()) {
+        // Poll the stop-the-world flag every 64 allocations instead of every call.
+        // A cooperative GC can tolerate a few-microsecond delay; this eliminates 63 out of 64
+        // seq_cst atomic loads on the hot allocation path.
+        if (this && this->space &&
+            (allocatedCellsCount & 63) == 0 &&
+            this->space->stwFlag.load(std::memory_order_relaxed) &&
+            std::this_thread::get_id() != this->space->gcThread->get_id()) {
             this->space->parkedThreads++;
             {
                 GC_LOCK_TRACE("allocCell STW ACQ");
