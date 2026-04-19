@@ -44,6 +44,7 @@ namespace proto
     class ProtoMultiset;
     class ProtoMultisetIterator;
     class ProtoObjectCell;
+    class ProtoByteBuffer;
     class ProtoThread;
     class ProtoSpaceImplementation;
     class ModuleProvider;
@@ -78,6 +79,13 @@ namespace proto
         const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const;
         const ProtoSparseList* getAttributes(ProtoContext* context) const;
         const ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
+        /**
+         * Returns the value of an own-attribute by interned symbol pointer key, or nullptr if not
+         * found. Resolves mutable state once internally. Does NOT traverse the prototype chain and
+         * does NOT invoke descriptor protocol — use only for plain instance own-attribute reads
+         * where the caller guarantees name is a POINTER_TAG_SYMBOL (e.g. co_names entries).
+         */
+        const ProtoObject* getOwnAttributeDirect(ProtoContext* context, const ProtoString* name) const;
 
         //- Inheritance
         const ProtoList* getParents(ProtoContext* context) const;
@@ -117,6 +125,8 @@ namespace proto
         bool isTuple(ProtoContext* context) const;
         bool isSet(ProtoContext* context) const;
         bool isMultiset(ProtoContext* context) const;
+        bool isByteBuffer(ProtoContext* context) const;
+        bool isNativeRangeIterator(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
@@ -141,6 +151,14 @@ namespace proto
         const ProtoThread* asThread(ProtoContext* context) const;
         const ProtoExternalPointer* asExternalPointer(ProtoContext* context) const;
         const ProtoExternalBuffer* asExternalBuffer(ProtoContext* context) const;
+        const ProtoByteBuffer* asByteBuffer(ProtoContext* context) const;
+        const ProtoObject* nextInNativeRange(ProtoContext* context) const;
+        /**
+         * If this object is a ByteBuffer, returns its raw data pointer; otherwise nullptr.
+         * Avoids three separate cross-DSO calls (isByteBuffer + asByteBuffer + getBuffer)
+         * in hot paths such as FunctionMetaCache and native bytecode access.
+         */
+        char* getDataIfByteBuffer(ProtoContext* context) const;
         /** If this object is a ProtoExternalBuffer, returns the raw segment pointer; otherwise nullptr. Stable until the object is collected (no compaction). */
         void* getRawPointerIfExternalBuffer(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
@@ -645,6 +663,8 @@ namespace proto
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);
         const ProtoSparseList* newSparseList();
         const ProtoSet* newSet();
+        /** Creates a native range iterator over [start, stop) with the given step. */
+        const ProtoObject* newRangeIterator(long long start, long long stop, long long step);
         const ProtoMultiset* newMultiset();
         const ProtoObject* newObject(bool mutableObject = false);
         /** Allocates a contiguous buffer (aligned_alloc). GC finalize frees it when descriptor is collected (Shadow GC). */

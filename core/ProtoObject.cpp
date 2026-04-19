@@ -705,6 +705,55 @@ namespace proto
         return false;
     }
 
+    bool ProtoObject::isByteBuffer(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_BYTE_BUFFER;
+    }
+
+    bool ProtoObject::isNativeRangeIterator(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_RANGE_ITERATOR;
+    }
+
+    const ProtoByteBuffer* ProtoObject::asByteBuffer(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_BYTE_BUFFER) return nullptr;
+        return toImpl<const ProtoByteBufferImplementation>(this)->asByteBuffer(context);
+    }
+
+    const ProtoObject* ProtoObject::nextInNativeRange(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_RANGE_ITERATOR) return nullptr;
+        pa.op.pointer_tag = 0;  // clear tag bits before pointer dereference (mirrors toImpl)
+        auto* impl = const_cast<ProtoRangeIteratorImplementation*>(pa.rangeIteratorImplementation);
+        return impl->implNext(context);
+    }
+
+    char* ProtoObject::getDataIfByteBuffer(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_BYTE_BUFFER) return nullptr;
+        return toImpl<const ProtoByteBufferImplementation>(this)->implGetBuffer(context);
+    }
+
+    const ProtoObject* ProtoObject::getOwnAttributeDirect(ProtoContext* context, const ProtoString* name) const {
+        ProtoObjectPointer pa{}; pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return nullptr;
+        auto oc = toImpl<const ProtoObjectCell>(this);
+        const ProtoSparseListImplementation* attrs = oc->attributes;
+        if (oc->mutable_ref > 0) {
+            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+            ProtoSparseList* root = context->space->mutableRoot[shard].load();
+            if (root != nullptr) {
+                const auto* ml = toImpl<const ProtoSparseListImplementation>(root);
+                const ProtoObject* ss = ml->implGetAt(context, oc->mutable_ref);
+                if (ss != nullptr) {
+                    attrs = toImpl<const ProtoObjectCell>(ss)->attributes;
+                }
+            }
+        }
+        return attrs->implGetAt(context, reinterpret_cast<uintptr_t>(name));
+    }
+
     unsigned long ProtoObject::getHash(ProtoContext* context) const {
         if (!this) return 0;
 

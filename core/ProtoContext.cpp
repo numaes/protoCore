@@ -390,6 +390,11 @@ namespace proto
         return (new(this) ProtoMultisetImplementation(this, newSparseList(), 0))->asProtoMultiset(this);
     }
 
+    const ProtoObject* ProtoContext::newRangeIterator(long long start, long long stop, long long step)
+    {
+        return (new(this) ProtoRangeIteratorImplementation(this, start, stop, step))->implAsObject(this);
+    }
+
     const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
         unsigned long ref = mutableObject ? generate_mutable_ref(this) : 0;
