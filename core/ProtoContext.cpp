@@ -80,13 +80,11 @@ namespace proto
             }
         }
         
-        // This allocation could trigger GC, but we are not registered yet and have no 
-        // objects on our stack yet, so it's safe.
-        closureLocals = this->newSparseList();
-
         // Step 3: Register context as reachable by GC.
-        // This MUST be done after automaticLocals and closureLocals are initialized,
-        // but before we bind arguments which could also trigger allocations.
+        // closureLocals is intentionally left nullptr here; it is allocated lazily on first
+        // parameter binding below. The GC null-checks closureLocals before scanning it, so
+        // a nullptr value is safe. Callers that pass parameterNames=nullptr (e.g. protoPython's
+        // slot-based calling convention) avoid the allocation entirely.
         if (this->thread) {
             toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this);
         } else if (this->space) {
@@ -95,6 +93,11 @@ namespace proto
 
         // Step 3: Argument to Parameter Binding
         if (!parameterNames) return; // Nothing more to do if there are no parameters.
+
+        // Allocate closureLocals only when we actually need to bind parameters.
+        // This is safe: we are registered with the GC above, so any subsequent
+        // allocation that triggers GC will find this context on the reachable set.
+        closureLocals = this->newSparseList();
 
         const unsigned int paramCount = parameterNames->getSize(this);
         const unsigned int argCount = args ? args->getSize(this) : 0;

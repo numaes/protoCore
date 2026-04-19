@@ -97,8 +97,8 @@ TEST_F(ContextTest, LifecycleAndReturnValuePromotion) {
     
     // The new list is the first and only cell allocated in f_context
     ASSERT_EQ(f_context->lastAllocatedCell, new_list->asObject(f_context)->asCell(f_context));
-    // g_context allocates closureLocals, so it is not nullptr
-    ASSERT_NE(g_context->lastAllocatedCell, nullptr);
+    // g_context has no cells yet — closureLocals is lazy (only allocated when parameterNames != nullptr)
+    ASSERT_EQ(g_context->lastAllocatedCell, nullptr);
 
     // 4. Set the return value for f_context
     f_context->returnValue = new_list->asObject(f_context);
@@ -107,9 +107,8 @@ TEST_F(ContextTest, LifecycleAndReturnValuePromotion) {
     delete f_context;
 
     // 6. Assert the state of the parent context (g_context)
-    // The parent's "young generation" should now contain the ReturnReference and the closureLocals.
+    // The parent's "young generation" should now contain the ReturnReference only.
     ASSERT_NE(g_context->lastAllocatedCell, nullptr);
-    ASSERT_NE(g_context->lastAllocatedCell->getNext(), nullptr); // Points to closureLocals
 
     // This cell must be a ReturnReference
     const Cell* ref_cell = g_context->lastAllocatedCell;
