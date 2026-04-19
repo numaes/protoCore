@@ -562,28 +562,36 @@ namespace proto
         // C-style array for automatic variables that are destroyed with the context.
         const ProtoObject** automaticLocals;
         unsigned int automaticLocalsCount;
+        // False when automaticLocals points to an externally-owned buffer (e.g. stack SBO).
+        // The destructor only calls delete[] when this is true.
+        bool ownsSlots_;
 
     public:
         /**
          * @brief Constructs a new execution context for a function call.
          * This constructor is the core of the function execution model. It allocates
          * space for local variables and performs argument-to-parameter binding.
-         * 
+         *
          * @param space The global ProtoSpace this context belongs to.
          * @param previous The parent context in the call stack.
          * @param parameterNames A list of ProtoStrings for the function's declared parameter names.
          * @param localNames A list of ProtoStrings for the function's automatic (C-style) local variables.
          * @param args The positional arguments passed to the function.
          * @param kwargs The keyword arguments passed to the function.
+         * @param totalSlots Minimum number of slots to allocate for local variables.
+         * @param externalSlots Optional pre-allocated slot buffer (caller-owned, must stay alive
+         *        for the lifetime of this context). When non-null, no heap allocation is done for
+         *        slots; the caller is responsible for initialising the buffer to PROTO_NONE.
          */
-        explicit ProtoContext( // Add default arguments to allow fewer parameters
+        explicit ProtoContext(
             ProtoSpace* space,
             ProtoContext* previous = nullptr,
             const ProtoList* parameterNames = nullptr,
             const ProtoList* localNames = nullptr,
             const ProtoList* args = nullptr,
             const ProtoSparseList* kwargs = nullptr,
-            size_t totalSlots = 0
+            size_t totalSlots = 0,
+            const ProtoObject** externalSlots = nullptr
         );
         ~ProtoContext();
 

@@ -36,13 +36,15 @@ namespace proto
         const ProtoList* localNames,
         const ProtoList* args,
         const ProtoSparseList* kwargs,
-        size_t totalSlots
+        size_t totalSlots,
+        const ProtoObject** externalSlots
     ) : previous(previous),
         space(space),
         thread(nullptr),
         closureLocals(nullptr),
         automaticLocals(nullptr),
         automaticLocalsCount(0),
+        ownsSlots_(false),
         lastAllocatedCell(nullptr),
         allocatedCellsCount(0),
         returnValue(PROTO_NONE),
@@ -60,14 +62,21 @@ namespace proto
             // This is the root context, it doesn't have a parent thread yet.
             this->thread = nullptr;
         }
-        // Step 2: Allocate and INITIALIZE storage for local variables BEFORE registration.
+        // Step 2: Acquire storage for local variables BEFORE registration.
+        // Fast path (externalSlots): caller pre-allocated a stack buffer — zero heap cost.
+        // Slow path: heap-allocate and zero-initialise.
         {
             size_t nameCount = localNames ? localNames->getSize(this) : 0;
             automaticLocalsCount = (totalSlots > nameCount) ? totalSlots : nameCount;
-            if (automaticLocalsCount > 0) {
+            if (externalSlots && automaticLocalsCount <= totalSlots) {
+                // Caller owns the buffer and has already initialised it to PROTO_NONE.
+                this->automaticLocals = externalSlots;
+                ownsSlots_ = false;
+            } else if (automaticLocalsCount > 0) {
                 const ProtoObject** temp = new const ProtoObject*[automaticLocalsCount];
                 std::fill(temp, temp + automaticLocalsCount, PROTO_NONE);
                 this->automaticLocals = temp;
+                ownsSlots_ = true;
             }
         }
         
@@ -180,8 +189,8 @@ namespace proto
             lock.clear(std::memory_order_release);
         }
 
-        // Free the C-style array for automatic variables.
-        delete[] automaticLocals;
+        // Free the slot array only when this context owns it (heap-allocated path).
+        if (ownsSlots_) delete[] automaticLocals;
     }
 
     /**
