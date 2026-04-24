@@ -95,13 +95,44 @@ namespace proto
         try {
             long long val = std::stoll(str, nullptr, base);
             return fromLong(context, val);
-        } catch (const std::out_of_range& oor) {
-            // Value is too large for a long long, needs full bignum parsing.
-            // For now, we'll just throw an error.
-            throw std::overflow_error("String value too large for Integer::fromString (exceeds long long range).");
-        } catch (const std::invalid_argument& ia) {
+        } catch (const std::out_of_range&) {
+            // Fall through to big-integer parsing below.
+        } catch (const std::invalid_argument&) {
             throw std::invalid_argument("Invalid argument for Integer::fromString.");
         }
+
+        // Big-integer path: parse digit-by-digit using Horner's method,
+        // `result = result * base + digit`, promoting to a LargeInteger as
+        // soon as the running value overflows int64.  Skip an optional
+        // leading '+' or '-' sign and ignore digit-group underscores.
+        const char* p = str;
+        bool is_negative = false;
+        if (*p == '+') { ++p; }
+        else if (*p == '-') { is_negative = true; ++p; }
+        if (*p == '\0') throw std::invalid_argument("Invalid argument for Integer::fromString.");
+
+        const ProtoObject* result = fromLong(context, 0);
+        const ProtoObject* baseObj = fromLong(context, base);
+        for (; *p != '\0'; ++p) {
+            char c = *p;
+            if (c == '_') continue;
+            int digit;
+            if (c >= '0' && c <= '9') digit = c - '0';
+            else if (c >= 'a' && c <= 'z') digit = c - 'a' + 10;
+            else if (c >= 'A' && c <= 'Z') digit = c - 'A' + 10;
+            else throw std::invalid_argument("Invalid argument for Integer::fromString.");
+            if (digit >= base) {
+                throw std::invalid_argument("Invalid argument for Integer::fromString.");
+            }
+            result = Integer::multiply(context, result, baseObj);
+            const ProtoObject* digObj = fromLong(context, digit);
+            result = Integer::add(context, result, digObj);
+        }
+        if (is_negative) {
+            const ProtoObject* zero = fromLong(context, 0);
+            result = Integer::subtract(context, zero, result);
+        }
+        return result;
     }
 
     long long Integer::asLong(ProtoContext* context, const ProtoObject* object)
