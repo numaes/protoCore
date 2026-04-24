@@ -588,12 +588,45 @@ namespace proto
         if (amount < 0) throw std::invalid_argument("Shift amount cannot be negative.");
         if (amount == 0) return const_cast<ProtoObject*>(object);
 
-        // For now, we'll only support small integers for shift ops.
+        // SmallInteger fast path — but only when the result still fits.
         if (isSmallInteger(object)) {
             long long val = asLong(context, object);
-            return fromLong(context, val << amount);
+            if (val == 0) return fromLong(context, 0);
+            // 53-bit SmallInteger: any shift large enough to push the
+            // magnitude past 2^53-1 must promote to bignum.
+            if (amount < 53) {
+                long long shifted = static_cast<long long>(static_cast<unsigned long long>(val) << amount);
+                // Check that the shift is safe (no overflow into the
+                // sign bit beyond what SmallInteger can represent).
+                if (val > 0 && shifted >= val && shifted <= ((1LL << 53) - 1)) {
+                    return fromLong(context, shifted);
+                }
+                if (val < 0 && shifted >= -(1LL << 53)) {
+                    return fromLong(context, shifted);
+                }
+            }
+            // Promote to bignum and use the magnitude-shift path below.
         }
-        throw std::runtime_error("ShiftLeft not implemented for LargeIntegers.");
+
+        // Bignum path: shift the magnitude vector by `amount` bits.
+        TempBignum t = toTempBignum(object);
+        if (t.magnitude.empty()) return fromLong(context, 0);
+        const size_t wbits = sizeof(unsigned long) * 8;
+        size_t wholeWords = static_cast<size_t>(amount) / wbits;
+        size_t bits = static_cast<size_t>(amount) % wbits;
+        std::vector<unsigned long> out(t.magnitude.size() + wholeWords + 1, 0UL);
+        unsigned long carry = 0;
+        for (size_t i = 0; i < t.magnitude.size(); ++i) {
+            unsigned long v = t.magnitude[i];
+            out[i + wholeWords] = (bits == 0 ? v : (v << bits)) | carry;
+            carry = (bits == 0) ? 0UL : (v >> (wbits - bits));
+        }
+        out[t.magnitude.size() + wholeWords] = carry;
+        TempBignum r;
+        r.is_negative = t.is_negative;
+        r.magnitude = std::move(out);
+        r.normalize();
+        return fromTempBignum(context, r);
     }
 
     const ProtoObject* Integer::shiftRight(ProtoContext* context, const ProtoObject* object, int amount)
@@ -602,12 +635,66 @@ namespace proto
         if (amount < 0) throw std::invalid_argument("Shift amount cannot be negative.");
         if (amount == 0) return const_cast<ProtoObject*>(object);
 
-        // For now, we'll only support small integers for shift ops.
         if (isSmallInteger(object)) {
             long long val = asLong(context, object);
+            // Python: arithmetic shift right (preserves sign), floor toward -inf.
+            // C++ `>>` on signed is implementation-defined pre-C++20 but g++
+            // gives arithmetic shift in practice; clamp to width to avoid UB.
+            if (amount >= 64) {
+                return fromLong(context, val < 0 ? -1 : 0);
+            }
             return fromLong(context, val >> amount);
         }
-        throw std::runtime_error("ShiftRight not implemented for LargeIntegers.");
+
+        // Bignum path: shift magnitude right.  For Python's floor-toward-
+        // -inf semantics on negatives: -|n| >> k = -((|n| + (2^k - 1)) >> k)
+        TempBignum t = toTempBignum(object);
+        if (t.magnitude.empty()) return fromLong(context, 0);
+        bool wasNeg = t.is_negative;
+        if (wasNeg) {
+            // Compute |n| - 1 first; we'll add 1 back to the result.
+            // Equivalent: shift_right_arith(n, k) = -((|n| - 1) >> k) - 1
+            // We simulate this via: r = -((|n| + 0xff...f) >> k) where we
+            // mask off the low k bits then negate.  Simpler: do the truncated
+            // right-shift then add 1 if the low k bits of |n| were nonzero.
+        }
+        const size_t wbits = sizeof(unsigned long) * 8;
+        size_t wholeWords = static_cast<size_t>(amount) / wbits;
+        size_t bits = static_cast<size_t>(amount) % wbits;
+        bool hadLowBits = false;
+        if (wholeWords >= t.magnitude.size()) {
+            // Shifted past the whole magnitude.
+            for (auto w : t.magnitude) if (w) { hadLowBits = true; break; }
+            if (wasNeg && hadLowBits) return fromLong(context, -1);
+            return fromLong(context, 0);
+        }
+        // Detect dropped low bits (used for the negative-floor adjustment).
+        for (size_t i = 0; i < wholeWords; ++i) {
+            if (t.magnitude[i]) { hadLowBits = true; break; }
+        }
+        if (bits != 0 && !hadLowBits) {
+            unsigned long mask = (1UL << bits) - 1UL;
+            if ((t.magnitude[wholeWords] & mask) != 0) hadLowBits = true;
+        }
+        std::vector<unsigned long> out(t.magnitude.size() - wholeWords, 0UL);
+        for (size_t i = 0; i < out.size(); ++i) {
+            unsigned long lo = (bits == 0) ? t.magnitude[i + wholeWords] : (t.magnitude[i + wholeWords] >> bits);
+            unsigned long hi = 0UL;
+            if (bits != 0 && (i + wholeWords + 1) < t.magnitude.size()) {
+                hi = t.magnitude[i + wholeWords + 1] << (wbits - bits);
+            }
+            out[i] = lo | hi;
+        }
+        TempBignum r;
+        r.is_negative = t.is_negative;
+        r.magnitude = std::move(out);
+        r.normalize();
+        if (wasNeg && hadLowBits) {
+            // Floor adjust: subtract 1 in absolute value (= add 1 to mag, keep sign).
+            const ProtoObject* tmp = fromTempBignum(context, r);
+            return subtract(context, tmp, fromLong(context, 1));
+        }
+        return fromTempBignum(context, r);
     }
 
 
