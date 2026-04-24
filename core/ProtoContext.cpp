@@ -390,6 +390,20 @@ namespace proto
         return (new(this) ProtoMultisetImplementation(this, newSparseList(), 0))->asProtoMultiset(this);
     }
 
+    const ProtoByteBuffer* ProtoContext::newByteBuffer(const char* data, unsigned long len)
+    {
+        // Allocate a fresh buffer owned by the GC descriptor.
+        // The implementation accepts `nullptr` and allocates internally.
+        char* buf = nullptr;
+        if (len > 0) {
+            buf = new char[len];
+            if (data) std::memcpy(buf, data, len);
+            else std::memset(buf, 0, len);
+        }
+        return (new(this) ProtoByteBufferImplementation(this, buf, len, /*freeOnExit=*/true))
+            ->asByteBuffer(this);
+    }
+
     const ProtoObject* ProtoContext::newRangeIterator(long long start, long long stop, long long step)
     {
         return (new(this) ProtoRangeIteratorImplementation(this, start, stop, step))->implAsObject(this);

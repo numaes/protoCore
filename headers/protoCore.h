@@ -669,6 +669,13 @@ namespace proto
         const ProtoObject* newObject(bool mutableObject = false);
         /** Allocates a contiguous buffer (aligned_alloc). GC finalize frees it when descriptor is collected (Shadow GC). */
         const ProtoObject* newExternalBuffer(unsigned long size);
+        /**
+         * Create a fresh, GC-owned ProtoByteBuffer holding `len` raw octets.
+         * The bytes are copied from `data` (data may be null only if len == 0).
+         * Unlike ProtoString, ProtoByteBuffer is opaque-binary: every byte
+         * 0..255 round-trips, and embedded nulls do not truncate.
+         */
+        const ProtoByteBuffer* newByteBuffer(const char* data, unsigned long len);
 
         //- Memory Management
         Cell* allocCell();
