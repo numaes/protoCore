@@ -462,50 +462,124 @@ namespace proto
         return subtract(context, context->fromLong(-1), object);
     }
 
+    // Two's-complement helpers for bignum bitwise ops.
+    //
+    // Python bitwise ops treat negative integers as if they had infinite
+    // leading 1s (two's complement).  To compute them on a sign-and-magnitude
+    // representation we:
+    //   1. Convert each operand into a vector of `unsigned long` words
+    //      representing its two's-complement form, extended to the wider
+    //      of the two operands.
+    //   2. Apply the operation word-by-word.
+    //   3. If the top (sign) word of the result has its high bit set, the
+    //      result is negative — re-interpret back to sign-magnitude.
+    //
+    // This gives correct results for arbitrary positive or negative bignums,
+    // matching CPython's semantics.
+    namespace {
+        // Convert a TempBignum to a two's-complement word vector of `nwords`
+        // words.  `nwords` must be >= the natural magnitude size + 1 so the
+        // sign word is available for both operands.
+        static std::vector<unsigned long> toTwosComplement(const TempBignum& n, size_t nwords) {
+            std::vector<unsigned long> out(nwords, n.is_negative ? ~0UL : 0UL);
+            for (size_t i = 0; i < n.magnitude.size() && i < nwords; ++i) {
+                out[i] = n.magnitude[i];
+            }
+            if (n.is_negative) {
+                // two's complement: invert all then add 1.  Track overflow
+                // via the post-addition compare (works regardless of the
+                // native word width of unsigned long).
+                for (auto& w : out) w = ~w;
+                bool carry = true;
+                for (auto& w : out) {
+                    if (!carry) break;
+                    unsigned long prev = w;
+                    w = prev + 1UL;
+                    carry = (w < prev);  // overflow if sum wrapped
+                }
+            }
+            return out;
+        }
+
+        // Interpret a two's-complement word vector back into a TempBignum.
+        static TempBignum fromTwosComplement(std::vector<unsigned long> words) {
+            TempBignum out;
+            if (words.empty()) return out;
+            unsigned long signBitMask = 1UL << (sizeof(unsigned long) * 8 - 1);
+            bool neg = (words.back() & signBitMask) != 0;
+            if (neg) {
+                // invert + add 1 to get magnitude
+                for (auto& w : words) w = ~w;
+                bool carry = true;
+                for (auto& w : words) {
+                    if (!carry) break;
+                    unsigned long prev = w;
+                    w = prev + 1UL;
+                    carry = (w < prev);
+                }
+            }
+            out.is_negative = neg;
+            out.magnitude = std::move(words);
+            out.normalize();
+            return out;
+        }
+    }
+
     const ProtoObject* Integer::bitwiseAnd(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
         if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for bitwiseAnd.");
-        TempBignum l = toTempBignum(left);
-        TempBignum r = toTempBignum(right);
-        TempBignum result;
-
-        // Convert to two's complement representation for bitwise ops
-        // For negative numbers, ~x is used as the two's complement representation
-        // (conceptually, infinite leading ones).
-        // This is a simplified approach for now.
-        // A full bignum bitwise implementation is complex.
-
-        // For now, we'll only support small integers for bitwise ops.
         if (isSmallInteger(left) && isSmallInteger(right)) {
             long long val_l = asLong(context, left);
             long long val_r = asLong(context, right);
             return fromLong(context, val_l & val_r);
         }
-        throw std::runtime_error("BitwiseAnd not implemented for LargeIntegers.");
+        TempBignum l = toTempBignum(left);
+        TempBignum r = toTempBignum(right);
+        size_t n = std::max(l.magnitude.size(), r.magnitude.size()) + 1;
+        auto lw = toTwosComplement(l, n);
+        auto rw = toTwosComplement(r, n);
+        std::vector<unsigned long> out(n);
+        for (size_t i = 0; i < n; ++i) out[i] = lw[i] & rw[i];
+        TempBignum res = fromTwosComplement(std::move(out));
+        return fromTempBignum(context, res);
     }
 
     const ProtoObject* Integer::bitwiseOr(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
         if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for bitwiseOr.");
-        // For now, we'll only support small integers for bitwise ops.
         if (isSmallInteger(left) && isSmallInteger(right)) {
             long long val_l = asLong(context, left);
             long long val_r = asLong(context, right);
             return fromLong(context, val_l | val_r);
         }
-        throw std::runtime_error("BitwiseOr not implemented for LargeIntegers.");
+        TempBignum l = toTempBignum(left);
+        TempBignum r = toTempBignum(right);
+        size_t n = std::max(l.magnitude.size(), r.magnitude.size()) + 1;
+        auto lw = toTwosComplement(l, n);
+        auto rw = toTwosComplement(r, n);
+        std::vector<unsigned long> out(n);
+        for (size_t i = 0; i < n; ++i) out[i] = lw[i] | rw[i];
+        TempBignum res = fromTwosComplement(std::move(out));
+        return fromTempBignum(context, res);
     }
 
     const ProtoObject* Integer::bitwiseXor(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
         if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for bitwiseXor.");
-        // For now, we'll only support small integers for bitwise ops.
         if (isSmallInteger(left) && isSmallInteger(right)) {
             long long val_l = asLong(context, left);
             long long val_r = asLong(context, right);
             return fromLong(context, val_l ^ val_r);
         }
-        throw std::runtime_error("BitwiseXor not implemented for LargeIntegers.");
+        TempBignum l = toTempBignum(left);
+        TempBignum r = toTempBignum(right);
+        size_t n = std::max(l.magnitude.size(), r.magnitude.size()) + 1;
+        auto lw = toTwosComplement(l, n);
+        auto rw = toTwosComplement(r, n);
+        std::vector<unsigned long> out(n);
+        for (size_t i = 0; i < n; ++i) out[i] = lw[i] ^ rw[i];
+        TempBignum res = fromTwosComplement(std::move(out));
+        return fromTempBignum(context, res);
     }
 
     const ProtoObject* Integer::shiftLeft(ProtoContext* context, const ProtoObject* object, int amount)
