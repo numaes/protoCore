@@ -1224,10 +1224,8 @@ namespace proto
     }
     
     const ProtoObject* ProtoObject::abs(ProtoContext* context) const {
-        if (isInteger(context)) {
-            long long val = asLong(context);
-            return context->fromLong(val < 0 ? -val : val);
-        } else if (isDouble(context)) {
+        if (isInteger(context)) return Integer::abs(context, this);
+        if (isDouble(context)) {
             double val = asDouble(context);
             return context->fromDouble(val < 0 ? -val : val);
         }
