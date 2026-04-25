@@ -131,6 +131,16 @@ namespace proto
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
         long long asLong(ProtoContext* context) const;
+        /**
+         * @brief Bignum-safe sign of an integer object.
+         *
+         * Returns -1 for negative integers, 0 for zero, +1 for positive.
+         * Works for both SmallInteger (tagged) and LargeInteger (heap-allocated)
+         * objects. Throws std::runtime_error if the receiver is not an integer.
+         *
+         * Public replacement for the previously private proto::Integer::sign.
+         */
+        int integerSign(ProtoContext* context) const;
         double asDouble(ProtoContext* context) const;
         char asByte(ProtoContext* context) const;
         void asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day) const;

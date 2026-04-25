@@ -848,6 +848,7 @@ namespace proto
     }
 
     long long ProtoObject::asLong(ProtoContext* context) const { return Integer::asLong(context, this); }
+    int ProtoObject::integerSign(ProtoContext* context) const { return Integer::sign(context, this); }
     bool ProtoObject::asBoolean(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
