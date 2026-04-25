@@ -1220,7 +1220,9 @@ namespace proto
     }
     
     const ProtoObject* ProtoObject::negate(ProtoContext* context) const {
-        return subtract(context, context->fromInteger(0));
+        if (isInteger(context)) return Integer::negate(context, this);
+        if (isDouble(context)) return context->fromDouble(-asDouble(context));
+        return this;
     }
     
     const ProtoObject* ProtoObject::abs(ProtoContext* context) const {
