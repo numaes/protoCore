@@ -127,6 +127,19 @@ namespace proto
          * Public replacement for the previously private proto::Integer::sign.
          */
         int integerSign(ProtoContext* context) const;
+        /**
+         * @brief Bignum-safe integer-to-string conversion.
+         *
+         * Returns a ProtoString containing the receiver's integer value
+         * rendered in the given base (2..36). Works for SmallInteger and
+         * LargeInteger objects. Throws std::invalid_argument for an
+         * out-of-range base, std::runtime_error if the receiver is not
+         * an integer.
+         *
+         * Public replacement for the previously private
+         * proto::Integer::toString.
+         */
+        const ProtoString* asIntegerString(ProtoContext* context, int base = 10) const;
         double asDouble(ProtoContext* context) const;
         char asByte(ProtoContext* context) const;
         void asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day) const;
