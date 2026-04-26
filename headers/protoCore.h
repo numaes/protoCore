@@ -89,6 +89,19 @@ namespace proto
 
         //- Inheritance
         const ProtoList* getParents(ProtoContext* context) const;
+        /**
+         * @brief Returns the immediate (first) parent without allocating a list.
+         *
+         * Equivalent to `getParents(ctx)->getAt(ctx, 0)` but without the
+         * ProtoList allocation per call, and correctly resolves mutable
+         * objects to their current snapshot (which `getPrototype` does not).
+         *
+         * Returns `PROTO_NONE` when the object has no parent.  This is the
+         * recommended hot-path API for embedders walking single-inheritance
+         * chains (e.g. `type(obj)` lookups in protoPython, where allocating
+         * a ProtoList per attribute access dominates wall time).
+         */
+        const ProtoObject* getFirstParent(ProtoContext* context) const;
         int hasParent(ProtoContext* context, const ProtoObject* target) const;
         const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent) const;
         const ProtoObject* addParentInternal(ProtoContext* context, const ProtoObject* newParent) const;

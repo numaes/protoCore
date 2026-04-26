@@ -560,6 +560,30 @@ namespace proto
         return result;
     }
 
+    const ProtoObject* ProtoObject::getFirstParent(ProtoContext* context) const {
+        if (!proto::isObject(this)) return PROTO_NONE;
+        const auto* oc = toImpl<const ProtoObjectCell>(this);
+
+        // Resolve mutable to its current snapshot — same logic getParents uses.
+        if (oc->mutable_ref > 0) {
+            const proto::ProtoObject* storedState =
+                resolveMutableSnapshot(context, oc->mutable_ref);
+            if (storedState != nullptr && storedState != this) {
+                ProtoObjectPointer psa{};
+                psa.oid = storedState;
+                if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                    oc = toImpl<const ProtoObjectCell>(storedState);
+                }
+            }
+        }
+
+        if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
+            auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
+            if (pl->getType() == CellType::ParentLink) return pl->getObject(context);
+        }
+        return PROTO_NONE;
+    }
+
     const ProtoList* ProtoObject::getParents(ProtoContext* context) const {
         if (!proto::isObject(this)) return context->newList();
         const auto* oc = toImpl<const ProtoObjectCell>(this);
