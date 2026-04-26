@@ -741,6 +741,28 @@ namespace proto
          */
         inline unsigned int getAutomaticLocalsCount() const { return automaticLocalsCount; }
 
+        /**
+         * @brief Resize the automatic-locals slot region.
+         *
+         * Designed for embedders (e.g. protoJS's bytecode interpreter)
+         * that don't know the required slot count at construction time
+         * but want a flat, GC-visible array — instead of the more
+         * expensive ProtoSparseList copy-on-write storage — for the
+         * call frame's locals + value stack.
+         *
+         * If `newCount > automaticLocalsCount`, allocates a fresh
+         * heap-owned `const ProtoObject*[newCount]` initialised to
+         * PROTO_NONE, copies any existing entries, frees the previous
+         * heap buffer (only when `ownsSlots_`), and reseats the
+         * pointer.  After the call `automaticLocals` is guaranteed to
+         * be heap-owned (`ownsSlots_=true`) so the destructor will
+         * release it.
+         *
+         * If `newCount <= automaticLocalsCount`, the call is a no-op
+         * (we never shrink — keeps the existing GC roots reachable).
+         */
+        void resizeAutomaticLocals(unsigned int newCount);
+
         //- Factory methods for primitive types.
         const ProtoObject* fromInteger(long long value);
         const ProtoObject* fromLong(long long value);

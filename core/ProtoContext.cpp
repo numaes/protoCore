@@ -196,6 +196,20 @@ namespace proto
         if (ownsSlots_) delete[] automaticLocals;
     }
 
+    void ProtoContext::resizeAutomaticLocals(unsigned int newCount) {
+        if (newCount <= automaticLocalsCount) return;
+        const ProtoObject** fresh = new const ProtoObject*[newCount];
+        std::fill(fresh, fresh + newCount, PROTO_NONE);
+        if (automaticLocals && automaticLocalsCount > 0) {
+            for (unsigned int i = 0; i < automaticLocalsCount; ++i)
+                fresh[i] = automaticLocals[i];
+        }
+        if (ownsSlots_ && automaticLocals) delete[] automaticLocals;
+        automaticLocals = fresh;
+        automaticLocalsCount = newCount;
+        ownsSlots_ = true;
+    }
+
     /**
      * @brief Cooperative GC safepoint.
      *
