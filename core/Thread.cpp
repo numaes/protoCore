@@ -46,10 +46,16 @@ namespace proto {
         for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
             this->attributeCache[i] = {nullptr, nullptr, nullptr};
         }
+        this->mutableValueCache = static_cast<MutableValueCacheEntry*>(
+            std::malloc(MUTABLE_VALUE_CACHE_DEPTH * sizeof(MutableValueCacheEntry)));
+        for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
+            this->mutableValueCache[i] = {0, nullptr, nullptr};
+        }
     }
 
     ProtoThreadExtension::~ProtoThreadExtension() {
         std::free(this->attributeCache);
+        std::free(this->mutableValueCache);
         if (osThread && osThread->joinable()) {
             osThread->join();
         }
@@ -78,6 +84,20 @@ namespace proto {
             }
             if (ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name))) {
                 method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name)));
+            }
+        }
+        // Trace MutableValueCache entries as GC roots: the cached shard_root and current_value
+        // must not be reclaimed while still referenced by a live cache entry.
+        if (this->mutableValueCache) {
+            for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
+                if (this->mutableValueCache[i].mutable_ref == 0) continue;
+                const ProtoObject* sr = reinterpret_cast<const ProtoObject*>(this->mutableValueCache[i].shard_root);
+                if (ProtoObject::isCellPointer(sr)) {
+                    method(context, self, ProtoObject::asCellPointer(sr));
+                }
+                if (ProtoObject::isCellPointer(this->mutableValueCache[i].current_value)) {
+                    method(context, self, ProtoObject::asCellPointer(this->mutableValueCache[i].current_value));
+                }
             }
         }
     }

@@ -31,6 +31,7 @@
 #endif
 
 #define THREAD_CACHE_DEPTH 1024
+#define MUTABLE_VALUE_CACHE_DEPTH 1024
 #define TUPLE_SIZE 4
 
 #define SPACE_STATE_RUNNING 0
@@ -931,11 +932,31 @@ namespace proto {
         const ProtoString* name;
     };
 
+    /**
+     * @brief Per-thread cache entry for mutable-object snapshot resolution.
+     *
+     * The cache short-circuits the "load mutableRoot[shard] + AVL implGetAt(mutable_ref)"
+     * sequence on the common own-thread read path. Validity is established by pointer
+     * equality on shard_root: if the cached shard_root still matches the current shard
+     * root pointer, the cached current_value is the live snapshot. Any successful CAS
+     * by any thread (including this one) replaces shard_root and naturally invalidates
+     * stale entries on the next lookup.
+     *
+     * Both shard_root and current_value are GC roots: ProtoThreadExtension::processReferences
+     * traces them so the GC cannot reclaim a snapshot still referenced by a cached entry.
+     */
+    struct MutableValueCacheEntry {
+        unsigned long       mutable_ref;     // 0 = empty entry
+        ProtoSparseList*    shard_root;      // shard root pointer at the time we cached
+        const ProtoObject*  current_value;   // resolved snapshot
+    };
+
     class ProtoThreadExtension : public Cell {
     public:
         std::thread* osThread;
         Cell* freeCells;
         AttributeCacheEntry* attributeCache;
+        MutableValueCacheEntry* mutableValueCache;
 
         CellType getType() const override { return CellType::ThreadExtension; }
 

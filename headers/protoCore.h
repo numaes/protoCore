@@ -845,10 +845,17 @@ namespace proto
         const ProtoSpaceImplementation* impl{};
         int state;
         ProtoContext* rootContext;
-        // 16 independent shards: mutable_ref % 16 selects the shard.
-        // Reduces CAS contention 16x in multi-threaded workloads; transparent to API callers.
-        static constexpr int MUTABLE_ROOT_SHARDS = 16;
-        std::atomic<ProtoSparseList*> mutableRoot[MUTABLE_ROOT_SHARDS];
+        // 256 independent shards: mutable_ref % MUTABLE_ROOT_SHARDS selects the shard.
+        // Reduces CAS contention and AVL depth in multi-threaded workloads; transparent to API callers.
+        // Each shard slot is padded to 64 bytes; the array is cache-line aligned so consecutive
+        // slots fall on distinct cache lines, eliminating false sharing between cores
+        // performing CAS on different shards.
+        static constexpr int MUTABLE_ROOT_SHARDS = 256;
+        struct MutableShardSlot {
+            std::atomic<ProtoSparseList*> root;
+            char _pad[64 - sizeof(std::atomic<ProtoSparseList*>)];
+        };
+        alignas(64) MutableShardSlot mutableRoot[MUTABLE_ROOT_SHARDS];
         std::atomic<unsigned long> nextMutableRef;
 
         // --- Maquinaria Interna (Público por ahora) ---

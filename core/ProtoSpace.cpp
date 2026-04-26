@@ -241,7 +241,7 @@ namespace proto {
 
                 // Scan all mutableRoot shards so GC traces every live mutable-object snapshot.
                 for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
-                    if (auto* r = space->mutableRoot[s].load()) addRootObj(reinterpret_cast<const ProtoObject*>(r));
+                    if (auto* r = space->mutableRoot[s].root.load()) addRootObj(reinterpret_cast<const ProtoObject*>(r));
                 }
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
@@ -402,7 +402,7 @@ namespace proto {
         // Each shard holds objects with mutable_ref % MUTABLE_ROOT_SHARDS == shard_index.
         for (int s = 0; s < MUTABLE_ROOT_SHARDS; ++s) {
             auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);
-            this->mutableRoot[s] = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext));
+            this->mutableRoot[s].root.store(const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext)));
         }
         
         symbolTable = new SymbolTable();

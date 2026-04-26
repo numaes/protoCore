@@ -12,6 +12,72 @@
 
 namespace proto
 {
+    namespace {
+        /**
+         * Per-thread cache lookup for a mutable object's current snapshot.
+         *
+         * Validation: the cached entry is live iff `mutable_ref` matches AND the cached
+         * `shard_root` pointer equals the current `mutableRoot[shard].root`. Any successful
+         * CAS by any thread (including this one) replaces the shard root pointer, which
+         * naturally invalidates stale entries on the next lookup.
+         *
+         * On miss, performs the authoritative load + AVL `implGetAt` and refreshes the
+         * cache. Returns nullptr if there is no current snapshot for `mutable_ref` (i.e.
+         * the object has not yet been mutated since allocation).
+         */
+        inline const ProtoObject* resolveMutableSnapshot(ProtoContext* context,
+                                                         unsigned long mutable_ref) {
+            // Cache fast-path
+            MutableValueCacheEntry* cache = nullptr;
+            if (context->thread) {
+                auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+                if (threadImpl->extension) {
+                    cache = threadImpl->extension->mutableValueCache;
+                }
+            }
+            int shard = mutable_ref % ProtoSpace::MUTABLE_ROOT_SHARDS;
+            unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
+
+            if (cache && cache[idx].mutable_ref == mutable_ref) {
+                ProtoSparseList* live =
+                    context->space->mutableRoot[shard].root.load(std::memory_order_acquire);
+                if (live == cache[idx].shard_root) {
+                    return cache[idx].current_value;
+                }
+            }
+
+            // Authoritative resolve
+            ProtoSparseList* live =
+                context->space->mutableRoot[shard].root.load(std::memory_order_acquire);
+            const ProtoObject* snap = nullptr;
+            if (live != nullptr) {
+                const auto* mutableList = toImpl<const ProtoSparseListImplementation>(live);
+                snap = mutableList->implGetAt(context, mutable_ref);
+            }
+
+            if (cache && snap != nullptr) {
+                cache[idx] = {mutable_ref, live, snap};
+            }
+            return snap;
+        }
+
+        /**
+         * Refresh the per-thread mutable-value cache after a successful CAS on the
+         * shard root. Called on the writing thread; subsequent reads on this thread
+         * will hit the cache with the freshly published `(new_root, new_value)` pair.
+         */
+        inline void refreshMutableCache(ProtoContext* context,
+                                        unsigned long mutable_ref,
+                                        ProtoSparseList* new_root,
+                                        const ProtoObject* new_value) {
+            if (!context->thread) return;
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+            if (!threadImpl->extension || !threadImpl->extension->mutableValueCache) return;
+            unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
+            threadImpl->extension->mutableValueCache[idx] = {mutable_ref, new_root, new_value};
+        }
+    }
+
     /**
      * @class ProtoObjectCell
      * @brief The internal implementation of a standard, user-creatable object.
@@ -230,19 +296,15 @@ namespace proto
             }
             auto oc = toImpl<const ProtoObjectCell>(current);
             
-            // Handle Mutable Objects
+            // Handle Mutable Objects (cache-fast)
             if (oc->mutable_ref > 0) {
-                 int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-                 ProtoSparseList* root = context->space->mutableRoot[shard].load();
-                 if (root != nullptr) {
-                      const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                      const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                      if (storedState != nullptr && storedState != current) {
-                          ProtoObjectPointer psa{};
-                          psa.oid = storedState;
-                          if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                              oc = toImpl<const ProtoObjectCell>(storedState);
-                          }
+                 const proto::ProtoObject* storedState =
+                     resolveMutableSnapshot(context, oc->mutable_ref);
+                 if (storedState != nullptr && storedState != current) {
+                      ProtoObjectPointer psa{};
+                      psa.oid = storedState;
+                      if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                          oc = toImpl<const ProtoObjectCell>(storedState);
                       }
                  }
             }
@@ -330,14 +392,10 @@ namespace proto
                 if (proto::isObject(currentPointer)) {
                     auto oc = toImpl<const ProtoObjectCell>(currentPointer);
                     if (oc->mutable_ref > 0) {
-                        int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-                        ProtoSparseList* root = context->space->mutableRoot[shard].load();
-                        if (root != nullptr) {
-                            const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                            const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                            if (storedState != nullptr) {
-                                currentValue = storedState;
-                            }
+                        const proto::ProtoObject* storedState =
+                            resolveMutableSnapshot(context, oc->mutable_ref);
+                        if (storedState != nullptr) {
+                            currentValue = storedState;
                         }
                     }
                 }
@@ -450,7 +508,7 @@ namespace proto
 
                  // 1. Get current object state from the shard
                  const ProtoObject* currentObjState = this;
-                 ProtoSparseList* oldRoot = context->space->mutableRoot[shard].load();
+                 ProtoSparseList* oldRoot = context->space->mutableRoot[shard].root.load();
                  if (oldRoot != nullptr) {
                      const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(oldRoot);
                      const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
@@ -475,8 +533,11 @@ namespace proto
                      toImpl<const ProtoSparseListImplementation>(oldRoot);
 
                  auto* newRootImpl = oldRootImpl->implSetAt(context, oc->mutable_ref, newState);
+                 ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context));
                  ProtoSparseList* expected = oldRoot;
-                 if (context->space->mutableRoot[shard].compare_exchange_weak(expected, const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context)))) {
+                 if (context->space->mutableRoot[shard].root.compare_exchange_weak(expected, newRoot)) {
+                     // Refresh per-thread cache so subsequent reads on this thread hit immediately.
+                     refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                      break;
                  }
              }
@@ -493,21 +554,17 @@ namespace proto
     const ProtoList* ProtoObject::getParents(ProtoContext* context) const {
         if (!proto::isObject(this)) return context->newList();
         const auto* oc = toImpl<const ProtoObjectCell>(this);
-        
-        // Handle Mutable Objects
+
+        // Handle Mutable Objects (cache-fast)
         if (oc->mutable_ref > 0) {
-             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-             ProtoSparseList* root = context->space->mutableRoot[shard].load();
-             if (root != nullptr) {
-                  const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                  const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                  if (storedState != nullptr && storedState != this) {
-                      ProtoObjectPointer psa{};
-                      psa.oid = storedState;
-                      if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                          oc = toImpl<const ProtoObjectCell>(storedState);
-                      }
-                  }
+             const proto::ProtoObject* storedState =
+                 resolveMutableSnapshot(context, oc->mutable_ref);
+             if (storedState != nullptr && storedState != this) {
+                 ProtoObjectPointer psa{};
+                 psa.oid = storedState;
+                 if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                     oc = toImpl<const ProtoObjectCell>(storedState);
+                 }
              }
         }
 
@@ -547,7 +604,7 @@ namespace proto
 
                  // 1. Get current object state from the shard
                  const ProtoObject* currentObjState = this;
-                 ProtoSparseList* oldRoot = context->space->mutableRoot[shard].load();
+                 ProtoSparseList* oldRoot = context->space->mutableRoot[shard].root.load();
                  if (oldRoot != nullptr) {
                      const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(oldRoot);
                      const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
@@ -566,15 +623,18 @@ namespace proto
                      toImpl<const ProtoSparseListImplementation>(oldRoot);
 
                  auto* newRootImpl = oldRootImpl->implSetAt(context, oc->mutable_ref, newState);
+                 ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context));
                  ProtoSparseList* expected = oldRoot;
-                 if (context->space->mutableRoot[shard].compare_exchange_weak(expected, const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context)))) {
+                 if (context->space->mutableRoot[shard].root.compare_exchange_weak(expected, newRoot)) {
+                     // Refresh per-thread cache so subsequent reads on this thread hit immediately.
+                     refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                      break;
                  }
              }
 
              return this; // Return the same handle
         }
-        
+
         return oc->addParent(context, newParent)->asObject(context);
     }
 
@@ -741,14 +801,9 @@ namespace proto
         auto oc = toImpl<const ProtoObjectCell>(this);
         const ProtoSparseListImplementation* attrs = oc->attributes;
         if (oc->mutable_ref > 0) {
-            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-            ProtoSparseList* root = context->space->mutableRoot[shard].load();
-            if (root != nullptr) {
-                const auto* ml = toImpl<const ProtoSparseListImplementation>(root);
-                const ProtoObject* ss = ml->implGetAt(context, oc->mutable_ref);
-                if (ss != nullptr) {
-                    attrs = toImpl<const ProtoObjectCell>(ss)->attributes;
-                }
+            const ProtoObject* ss = resolveMutableSnapshot(context, oc->mutable_ref);
+            if (ss != nullptr) {
+                attrs = toImpl<const ProtoObjectCell>(ss)->attributes;
             }
         }
         return attrs->implGetAt(context, reinterpret_cast<uintptr_t>(name));
@@ -996,22 +1051,18 @@ namespace proto
                 return PROTO_FALSE;
             }
 
-            // Support for Mutable Objects
+            // Support for Mutable Objects (cache-fast)
             if (oc->mutable_ref > 0) {
-                 int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-                 ProtoSparseList* root = context->space->mutableRoot[shard].load();
-                 if (root != nullptr) {
-                      const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                      const proto::ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                      if (storedState != nullptr && storedState != currentObject) {
-                          ProtoObjectPointer psa{};
-                          psa.oid = storedState;
-                          if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                              auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                              attributes = storedOc->attributes;
-                              oc = storedOc;
-                          }
-                      }
+                 const proto::ProtoObject* storedState =
+                     resolveMutableSnapshot(context, oc->mutable_ref);
+                 if (storedState != nullptr && storedState != currentObject) {
+                     ProtoObjectPointer psa{};
+                     psa.oid = storedState;
+                     if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                         auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                         attributes = storedOc->attributes;
+                         oc = storedOc;
+                     }
                  }
             }
 
@@ -1066,16 +1117,11 @@ namespace proto
         const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
-            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-            ProtoSparseList* root = context->space->mutableRoot[shard].load();
-            if (root != nullptr) {
-                const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                if (storedState != nullptr) {
-                    auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                    attributes = storedOc->attributes;
-                    oc = storedOc;
-                }
+            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+            if (storedState != nullptr) {
+                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                attributes = storedOc->attributes;
+                oc = storedOc;
             }
         }
 
@@ -1110,15 +1156,10 @@ namespace proto
         const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
-            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-            ProtoSparseList* root = context->space->mutableRoot[shard].load();
-            if (root != nullptr) {
-                const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                if (storedState != nullptr) {
-                    auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                    attributes = storedOc->attributes;
-                }
+            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+            if (storedState != nullptr) {
+                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                attributes = storedOc->attributes;
             }
         }
         return attributes->asSparseList(context);
@@ -1146,15 +1187,10 @@ namespace proto
         const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
-            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-            ProtoSparseList* root = context->space->mutableRoot[shard].load();
-            if (root != nullptr) {
-                const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
-                const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
-                if (storedState != nullptr) {
-                    auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                    attributes = storedOc->attributes;
-                }
+            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+            if (storedState != nullptr) {
+                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                attributes = storedOc->attributes;
             }
         }
         return context->fromBoolean(attributes->implHas(context, reinterpret_cast<uintptr_t>(name)));
