@@ -948,6 +948,14 @@ namespace proto
         Cell* freeCells;
         /** Lock-free stack of dirty segments; GC drains under globalMutex. */
         std::atomic<DirtySegment*> dirtySegments;
+        /**
+         * Lock-free free pool of unused DirtySegments.  submitYoungGeneration
+         * pops from here before falling back to a fresh allocation; the GC
+         * pushes consumed segments back here after sweep instead of freeing
+         * them.  Eliminates the per-Python-method-call malloc/free pair on
+         * the hot path (~480 K/run on richards_lite).
+         */
+        std::atomic<DirtySegment*> dirtySegmentFreePool;
         unsigned int maxAllocatedCellsPerContext;
         int blocksPerAllocation;
         int heapSize;

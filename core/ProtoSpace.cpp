@@ -311,7 +311,18 @@ namespace proto {
                     }
 
                     DirtySegment* nextSeg = currentSeg->next;
-                    delete currentSeg;
+                    // Return the segment to the lock-free free pool so the
+                    // next submitYoungGeneration() can recycle it.  The GC
+                    // is the sole consumer here and the only thread that
+                    // pushes during sweep, so a single CAS is enough.
+                    currentSeg->cellChain = nullptr;
+                    currentSeg->next = space->dirtySegmentFreePool.load(std::memory_order_relaxed);
+                    while (!space->dirtySegmentFreePool.compare_exchange_weak(
+                            currentSeg->next, currentSeg,
+                            std::memory_order_release,
+                            std::memory_order_relaxed)) {
+                        // currentSeg->next updated by compare_exchange_weak on failure
+                    }
                     currentSeg = nextSeg;
                 }
 
@@ -353,6 +364,7 @@ namespace proto {
         tupleRoot(nullptr),
         stringInternMap(nullptr),
         dirtySegments(nullptr),
+        dirtySegmentFreePool(nullptr),
         freeCells(nullptr),
         gcStarted(false),
         mainContext(nullptr),
@@ -430,6 +442,21 @@ namespace proto {
         freeStringInternMap(this);
         delete symbolTable;
         symbolTable = nullptr;
+
+        // Drain both DirtySegment lists (live and free pool) and free the
+        // underlying heap nodes.  GC thread is already joined above, so no
+        // concurrent access remains.
+        for (auto* head : { this->dirtySegments.load(std::memory_order_relaxed),
+                            this->dirtySegmentFreePool.load(std::memory_order_relaxed) }) {
+            DirtySegment* seg = head;
+            while (seg) {
+                DirtySegment* nextSeg = seg->next;
+                delete seg;
+                seg = nextSeg;
+            }
+        }
+        this->dirtySegments.store(nullptr, std::memory_order_relaxed);
+        this->dirtySegmentFreePool.store(nullptr, std::memory_order_relaxed);
     }
 
     const ProtoObject* ProtoSpace::getResolutionChain() const {
@@ -574,7 +601,27 @@ namespace proto {
 
     void ProtoSpace::submitYoungGeneration(const Cell* cell) {
         if (!cell) return;
-        DirtySegment* segment = new DirtySegment();
+
+        // Try to recycle a DirtySegment from the free pool before falling back
+        // to a fresh heap allocation.  The pool is a lock-free LIFO; the GC
+        // returns segments here after sweep, so steady-state submit/return is
+        // alloc-free.  Single CAS on the pop, single CAS on the dirty-list
+        // push — no system malloc on the hot path.
+        DirtySegment* segment = this->dirtySegmentFreePool.load(std::memory_order_acquire);
+        while (segment) {
+            DirtySegment* nextFree = segment->next;
+            if (this->dirtySegmentFreePool.compare_exchange_weak(
+                    segment, nextFree,
+                    std::memory_order_acquire,
+                    std::memory_order_acquire)) {
+                break;  // claimed `segment`
+            }
+            // segment reloaded by compare_exchange_weak on failure; retry.
+        }
+        if (!segment) {
+            segment = new DirtySegment();
+        }
+
         segment->cellChain = const_cast<Cell*>(cell);
         // Lock-free push so threads do not contend on globalMutex on every context destroy.
         segment->next = this->dirtySegments.load(std::memory_order_relaxed);
