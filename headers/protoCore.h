@@ -210,6 +210,58 @@ namespace proto
         const ProtoObject* shiftRight(ProtoContext* context, int amount) const;
     };
 
+    // ------------------------------------------------------------------
+    // Public SmallInt fast-path helpers
+    // ------------------------------------------------------------------
+    //
+    // SmallInt tagged-pointer encoding (the same `si` bit-field layout
+    // proto_internal.h declares for `ProtoObjectPointer`):
+    //
+    //   bits  0-5   :  pointer_tag  = 1  (POINTER_TAG_EMBEDDED_VALUE)
+    //   bits  6-9   :  embedded_type = 0 (EMBEDDED_TYPE_SMALLINT)
+    //   bits 10-63  :  signed 54-bit integer value (sign-extended on read)
+    //
+    // The combined low-10-bit tag is therefore the constant value 1.
+    //
+    // These helpers are `inline` in the public header so an embedder
+    // (e.g. protoPython's bytecode dispatcher) can branch on the tag,
+    // do the integer ALU op, and re-pack the result without crossing
+    // the protoCore shared-library boundary.  protoCore stays a separate
+    // shared library — only the bit pattern is exposed, not internal
+    // types or symbols.
+    //
+    // Range is [-(2^53), (2^53) - 1]; values outside that fall through
+    // to the slow path (`ProtoObject::add`, etc.) which promotes to a
+    // LargeInteger.
+
+    static constexpr long long PROTO_SMALL_INT_MAX  = (1LL << 53) - 1;
+    static constexpr long long PROTO_SMALL_INT_MIN  = -(1LL << 53);
+    static constexpr unsigned long PROTO_SMALL_INT_TAG_MASK  = 0x3FFUL; // pointer_tag(6) + embedded_type(4)
+    static constexpr unsigned long PROTO_SMALL_INT_TAG_VALUE = 0x001UL; // POINTER_TAG_EMBEDDED_VALUE | (EMBEDDED_TYPE_SMALLINT << 6)
+
+    /** True iff `obj` is a tagged SmallInteger pointer (no Cell, no allocation). */
+    static inline bool isSmallInt(const ProtoObject* obj) {
+        return (reinterpret_cast<unsigned long>(obj) & PROTO_SMALL_INT_TAG_MASK) == PROTO_SMALL_INT_TAG_VALUE;
+    }
+
+    /** Extract the signed 54-bit integer value from a SmallInt-tagged pointer.
+     *  Caller must have validated with isSmallInt(). */
+    static inline long long asSmallInt(const ProtoObject* obj) {
+        // Arithmetic right shift on a signed 64-bit int sign-extends bit 63
+        // into the upper 10 bits, recovering the original 54-bit signed value.
+        return static_cast<long long>(reinterpret_cast<long long>(obj)) >> 10;
+    }
+
+    /** True iff `v` fits in a SmallInt (range [-(2^53), (2^53)-1]). */
+    static inline bool smallIntInRange(long long v) {
+        return v >= PROTO_SMALL_INT_MIN && v <= PROTO_SMALL_INT_MAX;
+    }
+
+    /** Build a SmallInt-tagged pointer from a value already known to be in range. */
+    static inline const ProtoObject* makeSmallInt(long long v) {
+        return reinterpret_cast<const ProtoObject*>((v << 10) | static_cast<long long>(PROTO_SMALL_INT_TAG_VALUE));
+    }
+
     class ProtoListIterator
     {
     public:
