@@ -923,6 +923,12 @@ namespace proto {
         return compareStrings(context, a, b);
     }
 
+    bool ProtoString::isSymbol() const {
+        ProtoObjectPointer p{};
+        p.oid = reinterpret_cast<const ProtoObject*>(this);
+        return p.op.pointer_tag == POINTER_TAG_SYMBOL;
+    }
+
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
         auto* self = reinterpret_cast<const ProtoObject*>(this);
         if (isInlineString(self)) return self;

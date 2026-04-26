@@ -412,6 +412,20 @@ namespace proto
 
         int cmp_to_string(ProtoContext* context, const ProtoString* otherString) const;
 
+        /**
+         * @brief True iff this ProtoString* points at an interned canonical
+         * symbol (POINTER_TAG_SYMBOL).
+         *
+         * Strings created via createSymbol(), or auto-interned by
+         * ProtoObject::setAttribute, are symbols.  Strings produced by
+         * fromUTF8String / appendLast / setAt etc. are not.
+         *
+         * Equality and lookup against symbols is just pointer comparison
+         * — embedders that handle attribute-name-style keys can short-
+         * circuit content comparison when both sides are symbols.
+         */
+        bool isSymbol() const;
+
         //- Accessors
         const ProtoObject* getAt(ProtoContext* context, int index) const;
         unsigned long getSize(ProtoContext* context) const;
