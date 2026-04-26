@@ -75,6 +75,20 @@ target_include_directories(protoCore PUBLIC
 find_package(Threads REQUIRED)
 target_link_libraries(protoCore PUBLIC Threads::Threads)
 
+# Resolve intra-DSO calls directly instead of round-tripping through the
+# PLT/GOT.  Profile of nqueens showed every recursive ProtoContext teardown
+# walking through 5 PLT trampolines (implSetCurrentContext,
+# submitYoungGeneration, asCell, Cell::operator new, ReturnReference ctor)
+# even though all callees live in the same shared library.  Default-
+# visibility ELF symbols force the trampoline to support runtime symbol
+# interposition; -Bsymbolic-functions opts out of that for function
+# references in this DSO.  Equivalent to -fvisibility=hidden but lighter to
+# adopt: no source-level annotation needed, and consumers of the public
+# API are unaffected because the symbols stay exported.
+if(NOT WIN32 AND NOT APPLE)
+    target_link_options(protoCore PRIVATE "-Wl,-Bsymbolic-functions")
+endif()
+
 if(COVERAGE)
     target_compile_options(protoCore PRIVATE ${COVERAGE_FLAGS})
     target_link_options(protoCore PUBLIC ${COVERAGE_FLAGS})
