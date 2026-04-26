@@ -42,6 +42,8 @@ namespace proto
                 ProtoSparseList* live =
                     context->space->mutableRoot[shard].root.load(std::memory_order_acquire);
                 if (live == cache[idx].shard_root) {
+                    // Cached entry is valid; current_value may be nullptr (negative
+                    // cache: object never mutated yet) — both states are correct hits.
                     return cache[idx].current_value;
                 }
             }
@@ -55,7 +57,14 @@ namespace proto
                 snap = mutableList->implGetAt(context, mutable_ref);
             }
 
-            if (cache && snap != nullptr) {
+            // Cache the result, INCLUDING the negative case (snap == nullptr).
+            // Negative caching is critical: a mutable object that has not yet been
+            // mutated (e.g. a fresh function created with mutable=true that no decorator
+            // touched) would otherwise pay a fresh load + AVL implGetAt on every
+            // attribute read forever. With negative caching, the second and later reads
+            // hit the cache and return nullptr immediately; the caller falls back to
+            // the original `this` pointer at zero extra cost.
+            if (cache) {
                 cache[idx] = {mutable_ref, live, snap};
             }
             return snap;
