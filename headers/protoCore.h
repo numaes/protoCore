@@ -704,6 +704,25 @@ namespace proto
         Cell* allocCell();
         void addCell2Context(Cell* cell);
 
+        /**
+         * @brief Cooperative GC safepoint.
+         *
+         * Public hook callable from any thread.  When the space's stop-the-world
+         * flag is set, the calling thread parks itself on the STW condition
+         * variable until the GC pause ends, the same handshake `allocCell`
+         * already performs internally every 64 allocations.
+         *
+         * This is the supported way for an embedder (e.g. protoPython's
+         * bytecode dispatch loop) to participate in the GC handshake from a
+         * tight, allocation-free hot loop.  Without it, a CPU-bound thread
+         * that never calls `allocCell` will starve the GC indefinitely and
+         * stall every other thread waiting for STW to begin.
+         *
+         * Cheap on the fast path: a single relaxed atomic load of
+         * `stwFlag`.  Only takes the global mutex if the flag is set.
+         */
+        void safepoint();
+
         Cell* lastAllocatedCell;
         unsigned long allocatedCellsCount;
         Cell* freeCells;

@@ -17,6 +17,19 @@ namespace proto {
             const ProtoList* args,
             const ProtoSparseList* kwargs
         ) {
+            // Mark the thread "running" only once the OS thread actually starts
+            // executing.  The constructor previously incremented runningThreads
+            // *before* std::thread was spawned, opening a window where the GC
+            // could observe a phantom running thread (counted in
+            // runningThreads but not yet able to park on stwFlag), and would
+            // wait forever for parkedThreads to catch up.
+            context->space->runningThreads++;
+            // If a stop-the-world is already in progress when this OS thread
+            // starts, park immediately so the GC's wait-for-N-parked
+            // condition counts us correctly.  Without this, the new thread
+            // would sail past STW and run unsynchronised, sometimes leaving
+            // the GC waiting indefinitely.
+            context->safepoint();
             try {
                 method(context, reinterpret_cast<const ProtoObject*>(context->thread), nullptr, args, kwargs);
             } catch (const std::exception& e) {
@@ -134,7 +147,12 @@ namespace proto {
             unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(context));
             auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(space->threads);
             space->threads = const_cast<ProtoSparseList*>(threadsImpl->implSetAt(context, threadId, (const ProtoObject*)this->asThread(context))->asSparseList(context));
-            space->runningThreads++;
+            // NOTE: runningThreads is intentionally NOT incremented here.
+            // It is incremented inside thread_main, the moment the OS thread
+            // actually starts executing.  This closes the deadlock window
+            // between this point and `new std::thread(...)` below, during
+            // which GC would otherwise see a phantom running thread that
+            // could never park on stwFlag.
         }
         this->extension->osThread = new std::thread(thread_main, this->context, mainFunction, args, kwargs);
     }

@@ -197,6 +197,37 @@ namespace proto
     }
 
     /**
+     * @brief Cooperative GC safepoint.
+     *
+     * Fast path: relaxed atomic load of `stwFlag`.  When the flag is clear
+     * (the common case) the call costs essentially nothing.
+     *
+     * Slow path: when the GC has signalled stop-the-world, increment
+     * `parkedThreads`, notify the GC, and wait on `stopTheWorldCV` until
+     * the flag clears.  This is the same handshake `allocCell` performs
+     * every 64 allocations, exposed as a public hook so that an embedder
+     * (e.g. protoPython's bytecode dispatcher) can cooperate with the GC
+     * from a tight, allocation-free hot loop.
+     */
+    void ProtoContext::safepoint()
+    {
+        if (!this || !this->space) return;
+        if (!this->space->stwFlag.load(std::memory_order_relaxed)) return;
+        // GC thread itself never parks against its own STW.
+        if (this->space->gcThread &&
+            std::this_thread::get_id() == this->space->gcThread->get_id()) return;
+        this->space->parkedThreads++;
+        {
+            GC_LOCK_TRACE("safepoint STW ACQ");
+            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            this->space->gcCV.notify_all();
+            this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+            GC_LOCK_TRACE("safepoint STW REL");
+        }
+        this->space->parkedThreads--;
+    }
+
+    /**
      * @brief The core memory allocation function.
      */
     Cell* ProtoContext::allocCell()
