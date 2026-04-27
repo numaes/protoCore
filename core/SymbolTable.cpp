@@ -58,13 +58,24 @@ bool SymbolTable::contentEqual(ProtoContext* ctx,
 // ---------------------------------------------------------------------------
 // normalizeForSymbol — convert any string representation to a fresh
 // ProtoStringImplementation whose hash reflects its AVL content.
+//
+// `readCtx` is used only for reading from `strObj` (iterating its rope);
+// `allocCtx` is used for the new ProtoStringImplementation and its AVL
+// nodes.  The two are kept distinct so a strong intern can pass
+// `allocCtx = nullptr`, which routes every Cell allocation through
+// `posix_memalign` directly: the resulting Cells are never enrolled in
+// any thread freelist, never appear in a context's young-generation
+// chain, and are therefore invisible to the GC's free-and-recycle
+// machinery — they live for the lifetime of the process.  See
+// DESIGN.md § "Perpetual allocations via NULL ProtoContext".
 // ---------------------------------------------------------------------------
 const ProtoStringImplementation* SymbolTable::normalizeForSymbol(
-        ProtoContext* ctx, const ProtoObject* strObj) {
+        ProtoContext* readCtx, ProtoContext* allocCtx,
+        const ProtoObject* strObj) {
     std::string utf8;
-    reinterpret_cast<const ProtoString*>(strObj)->toUTF8String(ctx, utf8);
+    reinterpret_cast<const ProtoString*>(strObj)->toUTF8String(readCtx, utf8);
     return ProtoStringImplementation::fromUTF8Bytes(
-        ctx,
+        allocCtx,
         reinterpret_cast<const uint8_t*>(utf8.data()),
         utf8.size());
 }
@@ -99,7 +110,19 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     // Normalize and create the symbol candidate BEFORE acquiring the lock.
     // normalizeForSymbol may allocate Cells; doing so without holding
     // shard.mutex prevents the deadlock described above.
-    const ProtoStringImplementation* normalized = normalizeForSymbol(ctx, strObj);
+    //
+    // Strong symbols are allocated with `allocCtx = nullptr`, which makes
+    // their Cells perpetual (posix_memalign-only, never on any thread
+    // freelist or context young chain).  This is correct because a
+    // strong symbol's identity must outlive every individual context
+    // and thread that ever references it — typical strong symbols are
+    // attribute names, language keywords, and protoCore-side cached
+    // literals — and it removes the per-GC-cycle cost of having to
+    // mark every strong-symbol Cell as a root.  Weak symbols continue
+    // to allocate against `ctx` and follow the normal GC lifetime.
+    ProtoContext* allocCtx = is_strong ? nullptr : ctx;
+    const ProtoStringImplementation* normalized =
+        normalizeForSymbol(ctx, allocCtx, strObj);
     const ProtoObject* symbol_candidate = reinterpret_cast<const ProtoObject*>(
         normalized->implAsSymbol(ctx));
     uint64_t hash = normalized->implGetHash();

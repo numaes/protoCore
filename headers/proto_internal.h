@@ -749,8 +749,13 @@ namespace proto {
         }
         static bool contentEqual(ProtoContext* ctx,
                                   const ProtoObject* a, const ProtoObject* b);
-        static const ProtoStringImplementation* normalizeForSymbol(ProtoContext* ctx,
-                                                                    const ProtoObject* strObj);
+        // Build a fresh ProtoStringImplementation with the same content
+        // as `strObj`.  `readCtx` traverses `strObj`; `allocCtx` owns
+        // every new Cell.  Pass `allocCtx = nullptr` for strong-intern
+        // (perpetual) symbols — see SymbolTable.cpp for the rationale.
+        static const ProtoStringImplementation* normalizeForSymbol(
+            ProtoContext* readCtx, ProtoContext* allocCtx,
+            const ProtoObject* strObj);
     };
 
     // ---- StringLeafNode -------------------------------------------------------

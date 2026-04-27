@@ -112,21 +112,70 @@ To prevent deadlocks during complex operations (e.g., allocation triggering GC, 
 *   **Reentrancy**: The `std::recursive_mutex` allows a single thread to acquire the same lock multiple times without deadlocking. This is essential for the hybrid execution model where high-level operations (like interning or thread creation) may trigger low-level memory management tasks that also require the global lock.
 *   **Granularity**: While the system avoids a GIL, the `globalMutex` protects specific global registries (Tuple Dictionary, Thread List) and orchestrates the Stop-The-World phase. String interning uses a separate `SymbolTable` with fine-grained per-shard mutexes (one per 64 shards), avoiding contention on the global lock for string operations.
 
-### Embedder Root Sets
+### Keeping ProtoObjects alive across allocation boundaries the GC cannot see
 
-A runtime built on top of protoCore (a JS interpreter, a Python interpreter, a foreign function bridge) often needs to keep a `ProtoObject*` alive across an allocation boundary that the GC cannot see. The canonical example is an asynchronous callback whose receiver is captured into a C++ lambda registered with an external event loop: between the moment the lambda is enqueued and the moment it fires, the only reference to that receiver lives on the C++ side and is invisible to protoCore's tracing GC.
+A runtime built on top of protoCore (a JS interpreter, a Python interpreter, a foreign function bridge) often needs to keep a `ProtoObject*` alive across an allocation boundary that the GC cannot see. The canonical examples are an asynchronous callback whose receiver is captured into a C++ lambda registered with an external event loop, and a language symbol (an attribute name, a keyword, a cached literal) that has to outlive every individual context that ever interacts with it.
 
-Smuggling such references through `setAttribute` on an embedder-side global object works in principle but introduces three serious problems: (1) every async operation pays the cost of mutating a heavily contended mutable object, (2) different embedders linked into the same process collide on attribute namespaces, and (3) under load the mutable shard's CAS loop becomes the dominant overhead.
+protoCore offers two complementary mechanisms for this. They cover **different lifetimes** and choosing the right one is part of the embedder's design contract:
 
-`ProtoRootSet` solves this directly:
+#### Mechanism A — Perpetual allocation via `ProtoContext* = nullptr`
 
-* **Per-embedder isolation.** Each embedder calls `ProtoSpace::createRootSet(name)` once at startup and pins/unpins through that handle. Two embedders sharing a `ProtoSpace` never see each other's root sets.
+When an object is conceptually a permanent fixture of the runtime — a Symbol that will be referenced for the entire lifetime of the process, a per-type prototype, a one-shot canonical constant — allocate it through a **null `ProtoContext`**. The unified `ProtoContext::allocCell()` path falls through to `posix_memalign`: the resulting Cell is *never* enrolled in any thread freelist and *never* added to a context's young-generation chain, so the GC's free-and-recycle machinery cannot see it. It survives forever.
+
+```cpp
+auto* impl = ProtoStringImplementation::fromUTF8Bytes(/*ctx=*/nullptr, bytes, len);
+// `impl` and every Cell its AVL tree allocated are perpetual.
+```
+
+The key property is that *the entire reachable subgraph must be allocated null-context too*: a perpetual root that points to a normal GC-managed Cell is a ticking bomb because the GC sees no path to that child and will reclaim it. In practice this is enforced by passing a single `nullptr` through the construction call chain (`fromUTF8Bytes` → `buildAVL` → `new(ctx) ...`), since every allocation site in protoCore takes its `ProtoContext*` as a parameter and forwards it.
+
+The canonical user is `SymbolTable::intern(strObj, is_strong=true)`: every strong symbol — including the implicit auto-intern that `ProtoObject::setAttribute` performs on a non-interned heap String — is allocated null-context. There is no per-cycle GC scan to mark them, and there is no SymbolTable bucket pointing to a Cell that might be reclaimed.
+
+**When to use it**:
+* The object is a singleton or a member of a closed, source-bounded set (attribute names, language keywords, type prototypes).
+* You can guarantee its entire reachable graph is also null-context.
+* You will never need to free it.
+
+**When *not* to use it**:
+* The object's lifetime is bounded (for example a few milliseconds for an async callback receiver).
+* The object holds references into the regular GC-managed graph (transitive perpetual allocation would explode).
+* You need the option to release it explicitly.
+
+#### Mechanism B — `ProtoRootSet` (transient pinning)
+
+For everything that doesn't fit the perpetual case, protoCore exposes `ProtoRootSet`. An embedder calls `ProtoSpace::createRootSet(name)` once at startup, then pins each transient `ProtoObject*` with `add(obj)` and releases it with `remove(handle)`. The set is GC-traced: during the STW root-collection phase the GC iterates every registered set via `ProtoSpace::forEachRootSet` and adds the pinned objects to the same worklist as thread stacks and global registries.
+
+* **Per-embedder isolation.** Each embedder calls `createRootSet` once. Two embedders sharing a `ProtoSpace` never see each other's pins.
 * **O(1) pin/unpin.** A flat slot array with a free list of recyclable indices. A short `std::mutex` guards the slot vector; under realistic embedder rates (a few thousand pins/sec) the lock is uncontended.
 * **Generational handles.** Each handle carries a 32-bit generation in addition to the slot index, so a stale handle from a freed slot cannot accidentally resolve to a different object after the slot is reused.
-* **GC integration.** During the STW root-collection phase, the GC iterates every registered root set via `ProtoSpace::forEachRootSet` and treats the contents as additional roots — adding them to the same worklist as thread stacks and global registries.
 * **Lifetime.** The embedder may call `destroyRootSet` explicitly. If it doesn't, `~ProtoSpace` frees any orphans after the GC thread has joined.
 
-The API is two free functions on `ProtoSpace` plus four methods on `ProtoRootSet` (`add`, `resolve`, `remove`, `forEachRoot`). See `headers/protoCore.h` for the complete contract.
+```cpp
+auto* rs = space->createRootSet("my-runtime-async");
+auto handle = rs->add(callback);
+event_loop.enqueue([handle, rs]() {
+    auto* cb = rs->resolve(handle);
+    rs->remove(handle);
+    invoke(cb);
+});
+```
+
+**When to use it**:
+* The object's reachability is asynchronous: it must survive a window where no JS-/Python-/embedder-side reference can reach it but a C++ continuation will.
+* The transitive reachable graph is GC-managed (so tracing a single root pins the rest).
+* You need explicit `add` / `remove`.
+
+#### Decision matrix
+
+| Lifetime | Reachable graph all perpetual? | Mechanism |
+|---|---|---|
+| Process-perpetual | Yes (or trivially extendable) | NULL `ProtoContext` allocation |
+| Bounded async (microseconds to seconds) | Doesn't matter | `ProtoRootSet` |
+| Anything in between | — | `ProtoRootSet` (safer; explicit release) |
+
+The two mechanisms are **complementary, not interchangeable**: don't try to release a NULL-context allocation, and don't lean on `ProtoRootSet` for objects that are conceptually language vocabulary.
+
+The full `ProtoRootSet` contract — `add`, `resolve`, `remove`, `forEachRoot`, plus `ProtoSpace::createRootSet` / `destroyRootSet` / `forEachRootSet` — lives in `headers/protoCore.h`.
 
 ---
 

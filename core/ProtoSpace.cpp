@@ -224,20 +224,18 @@ namespace proto {
                     }
                 }
 
-                // Mark all strong symbols in SymbolTable as GC roots.
-                // Strong symbols are permanent literals (e.g. cached attribute names) that must
-                // survive every GC cycle. Inline symbols (embedded-value pointer representation)
-                // carry no Cell and require no marking; only heap-allocated symbol Cells are added.
-                if (space->symbolTable) {
-                    for (int si = 0; si < SymbolTable::SHARD_COUNT; ++si) {
-                        std::lock_guard<std::mutex> shardLock(space->symbolTable->shards[si].mutex);
-                        for (SymbolTable::Bucket* b = space->symbolTable->shards[si].head; b; b = b->next) {
-                            if (b->is_strong) {
-                                addRootObj(b->symbol);
-                            }
-                        }
-                    }
-                }
+                // Strong symbols are NOT scanned here.  As of the
+                // perpetual-allocation refactor (SymbolTable::intern with
+                // is_strong=true now passes a null ProtoContext to the
+                // underlying allocator), strong-symbol Cells are
+                // allocated via posix_memalign directly — they are
+                // never enrolled in any thread freelist or context
+                // young chain, so the GC's mark/sweep machinery never
+                // sees them as candidates and there is nothing to
+                // protect.  Iterating every shard on every GC cycle
+                // would be pure overhead.  Weak symbols still take the
+                // ctx-tracked allocation path and obey the normal
+                // GC lifetime.
 
                 // Scan all mutableRoot shards so GC traces every live mutable-object snapshot.
                 for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
