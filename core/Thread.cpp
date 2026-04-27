@@ -38,11 +38,23 @@ namespace proto {
                 }
             }
             context->space->runningThreads--;
-            {
+            // Rebuild the immutable threads list OUTSIDE the global
+            // mutex, then swap inside — see ProtoThreadImplementation
+            // constructor for the recursive_mutex / park deadlock this
+            // pattern avoids.
+            unsigned long threadId = reinterpret_cast<uintptr_t>(context->thread);
+            while (true) {
+                const ProtoSparseList* oldThreads = context->space->threads;
+                auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
+                const ProtoSparseList* newThreads =
+                    const_cast<ProtoSparseList*>(
+                        threadsImpl->implRemoveAt(context, threadId)
+                                   ->asSparseList(context));
                 std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-                unsigned long threadId = reinterpret_cast<uintptr_t>(context->thread);
-                auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(context->space->threads);
-                context->space->threads = const_cast<ProtoSparseList*>(threadsImpl->implRemoveAt(context, threadId)->asSparseList(context));
+                if (context->space->threads == oldThreads) {
+                    context->space->threads = const_cast<ProtoSparseList*>(newThreads);
+                    break;
+                }
             }
             context->space->gcCV.notify_all(); // Notify GC that a thread finished
         }
@@ -142,26 +154,68 @@ namespace proto {
         this->extension = new (context) ProtoThreadExtension(context);
         this->context = new ProtoContext(space, nullptr, nullptr, nullptr, args, kwargs);
         this->context->thread = (ProtoThread*)this->asThread(context);
-        {
+        // Build the new `space->threads` list OUTSIDE the global mutex.
+        //
+        // Why: `implSetAt` walks the SparseList and allocates new node
+        // Cells along the path.  Cell allocation may need to park on
+        // STW (stwFlag).  Parking re-acquires `globalMutex` via
+        // `unique_lock`, and `condition_variable::wait(lock)` only
+        // unlocks ONCE on a recursive_mutex — so if we already held
+        // globalMutex from an outer `lock_guard`, the wait leaves the
+        // mutex still owned by us at depth 1.  GC then cannot acquire
+        // it and waits forever for parkedThreads, while we wait
+        // forever for stwFlag to clear.  Doing the allocation here,
+        // before the lock, lets the alloc park cleanly.
+        //
+        // The CAS retry loop handles the rare case where another
+        // thread inserts into space->threads between our read and our
+        // swap — we recompute newThreads off the current oldThreads.
+        unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(context));
+        const ProtoObject* threadAsObj = (const ProtoObject*)this->asThread(context);
+        while (true) {
+            const ProtoSparseList* oldThreads = space->threads;
+            auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
+            const ProtoSparseList* newThreads =
+                const_cast<ProtoSparseList*>(
+                    threadsImpl->implSetAt(context, threadId, threadAsObj)
+                               ->asSparseList(context));
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-            unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(context));
-            auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(space->threads);
-            space->threads = const_cast<ProtoSparseList*>(threadsImpl->implSetAt(context, threadId, (const ProtoObject*)this->asThread(context))->asSparseList(context));
-            // NOTE: runningThreads is intentionally NOT incremented here.
-            // It is incremented inside thread_main, the moment the OS thread
-            // actually starts executing.  This closes the deadlock window
-            // between this point and `new std::thread(...)` below, during
-            // which GC would otherwise see a phantom running thread that
-            // could never park on stwFlag.
+            if (space->threads == oldThreads) {
+                space->threads = const_cast<ProtoSparseList*>(newThreads);
+                break;
+            }
+            // Else: another newThread won the race; loop and rebuild
+            // off the now-current oldThreads.
         }
+        // NOTE: runningThreads is intentionally NOT incremented here.
+        // It is incremented inside thread_main, the moment the OS
+        // thread actually starts executing.  This closes the deadlock
+        // window between this point and `new std::thread(...)` below,
+        // during which GC would otherwise see a phantom running thread
+        // that could never park on stwFlag.
         this->extension->osThread = new std::thread(thread_main, this->context, mainFunction, args, kwargs);
     }
 
     ProtoThreadImplementation::~ProtoThreadImplementation() {
-        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        // Same pattern as the constructor: do the immutable-list rebuild
+        // OUTSIDE the global mutex, then swap inside.  implRemoveAt
+        // allocates new node Cells and may park; parking under
+        // recursive_mutex would leave the lock held at depth 1 (see
+        // constructor comment for the full deadlock chain).
         unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(this->context));
-        auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(space->threads);
-        space->threads = const_cast<ProtoSparseList*>(threadsImpl->implRemoveAt(this->context, threadId)->asSparseList(this->context));
+        while (true) {
+            const ProtoSparseList* oldThreads = space->threads;
+            auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
+            const ProtoSparseList* newThreads =
+                const_cast<ProtoSparseList*>(
+                    threadsImpl->implRemoveAt(this->context, threadId)
+                               ->asSparseList(this->context));
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            if (space->threads == oldThreads) {
+                space->threads = const_cast<ProtoSparseList*>(newThreads);
+                break;
+            }
+        }
         delete this->context;
     }
 
