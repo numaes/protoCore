@@ -109,6 +109,7 @@ int main() {
 *   **Immutable-by-Default Data Structures**: Collections like lists, tuples, and dictionaries are immutable. Operations like `append` or `set` return new, modified versions, eliminating a whole class of bugs related to shared state and making concurrent programming safer and easier to reason about.
 *   **True, GIL-Free Concurrency**: Each `ProtoThread` is a native OS thread. The runtime was designed from the ground up for parallelism and has no Global Interpreter Lock, allowing it to take full advantage of modern multi-core processors.
 *   **Low-Latency Automatic Memory Management**: A concurrent, stop-the-world garbage collector manages the lifecycle of all objects, freeing you from manual `new` and `delete` with minimal application pauses.
+*   **Embedder Root Sets**: Runtimes built on protoCore (e.g. protoJS, protoPython) can pin `ProtoObject*` references that need to outlive an allocation boundary the GC cannot see — typically callbacks captured into C++ lambdas registered with an external event loop. `ProtoSpace::createRootSet` returns an isolated, GC-traced registry with O(1) `add` / `remove` and generational handles that prevent stale-handle resurrection. See `DESIGN.md` § "Embedder Root Sets".
 *   **Clean, `const`-Correct C++ API**: The entire system is exposed through a clear and minimal public API (`protoCore.h`) that has been refactored for `const`-correctness, improving safety and expressiveness. **100% API completeness** - all declared methods are fully implemented and tested.
 
 ## Architectural Highlights

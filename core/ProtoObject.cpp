@@ -9,6 +9,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <thread>
 
 namespace proto
 {
@@ -509,11 +510,18 @@ namespace proto
         // Handle Mutable Objects
         if (oc->mutable_ref > 0) {
              int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+             // Retry until the CAS succeeds.  Silently bailing out after a
+             // fixed iteration cap loses the user's write — under enough
+             // cross-thread contention (multiple JS deferreds resolving
+             // concurrently and each updating an attribute on the global
+             // mutable object) we hit that cap, which manifested as
+             // attributes like Array.isArray reading back as undefined
+             // because they were never installed.  Add a tiny pause every
+             // few rounds so the writers don't burn CPU livelocking each
+             // other on the same shard.
              int casIteration = 0;
-             while(true) {
-                 if (++casIteration > 100) {
-                     break; // Give up
-                 }
+             while (true) {
+                 ++casIteration;
 
                  // 1. Get current object state from the shard
                  const ProtoObject* currentObjState = this;
@@ -548,6 +556,13 @@ namespace proto
                      // Refresh per-thread cache so subsequent reads on this thread hit immediately.
                      refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                      break;
+                 }
+                 // CAS lost — another writer beat us; back off briefly
+                 // every 32 retries so we don't livelock on the same
+                 // shard.  std::this_thread::yield is cheap and gives
+                 // contending writers a chance to make progress.
+                 if ((casIteration & 31) == 0) {
+                     std::this_thread::yield();
                  }
              }
 
@@ -626,14 +641,14 @@ namespace proto
         
         const auto* oc = toImpl<const ProtoObjectCell>(this);
         
-        // Handle Mutable Objects
+        // Handle Mutable Objects.  See setAttribute (above) for the
+        // rationale on the unbounded-retry-with-backoff loop: an early
+        // cap silently dropped writes when shards were contended.
         if (oc->mutable_ref > 0) {
              int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
              int casIteration = 0;
-             while(true) {
-                 if (++casIteration > 100) {
-                     break; // Give up
-                 }
+             while (true) {
+                 ++casIteration;
 
                  // 1. Get current object state from the shard
                  const ProtoObject* currentObjState = this;
@@ -662,6 +677,9 @@ namespace proto
                      // Refresh per-thread cache so subsequent reads on this thread hit immediately.
                      refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                      break;
+                 }
+                 if ((casIteration & 31) == 0) {
+                     std::this_thread::yield();
                  }
              }
 

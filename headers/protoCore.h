@@ -27,6 +27,7 @@ namespace proto
     class BigCell;
     class ProtoContext;
     class ProtoSpace;
+    class ProtoRootSet;
     class DirtySegment;
     class ProtoObject;
     class TupleDictionary;
@@ -840,6 +841,85 @@ namespace proto
      * A ProtoSpace manages the global state, including the object heap,
      * garbage collector, and all running threads. It holds the root const prototypes* for all built-in types.
      */
+    /**
+     * @brief A registry of GC roots owned by an embedder (e.g. a JS or
+     *        Python runtime built on protoCore).
+     *
+     * Embedders frequently need to keep a `ProtoObject` alive across an
+     * allocation boundary that is invisible to protoCore's tracing GC —
+     * the canonical case is an asynchronous callback whose receiver is
+     * captured into a C++ lambda that fires from a non-protoCore event
+     * loop.  Without an explicit root the GC may reclaim the object
+     * between enqueue and dispatch.
+     *
+     * `ProtoRootSet` solves this without forcing every embedder to
+     * invent its own anchor scheme on top of `setAttribute`-on-globals
+     * (which serialises through the mutable shard locks and is prone to
+     * silent CAS livelock under contention).  Each embedder asks the
+     * `ProtoSpace` for one or more root sets, calls `add()` to pin a
+     * `ProtoObject*` (receiving an opaque `Handle`), and `remove()` to
+     * release it.  The GC's marking phase iterates every registered
+     * root set during STW and treats their contents as additional
+     * roots — see `ProtoSpace::forEachRootSet`.
+     *
+     * Thread-safe: `add` / `remove` / `resolve` are safe to call from
+     * any thread.  `forEach` is intended to be called only from the GC
+     * thread during STW; mutators are parked at that point so no
+     * concurrent `add`/`remove` can race with iteration.
+     */
+    class ProtoRootSet
+    {
+    public:
+        using Handle = unsigned long long;
+        static constexpr Handle kNullHandle = 0;
+
+        /**
+         * @brief Pin `obj` as a GC root.  Returns an opaque handle that
+         *        the caller must later pass to `remove()`.  Pinning a
+         *        null pointer is a no-op and returns `kNullHandle`.
+         */
+        Handle add(const ProtoObject* obj);
+
+        /**
+         * @brief Look up the object behind a handle without removing it.
+         *        Returns nullptr if the handle is unknown or already
+         *        removed.  Convenient when the lambda owns the handle
+         *        and wants to dispatch on the pinned value.
+         */
+        const ProtoObject* resolve(Handle h) const;
+
+        /**
+         * @brief Release the root pinned by `add`.  Safe to call with
+         *        `kNullHandle` (no-op).  Each handle should be removed
+         *        exactly once.
+         */
+        void remove(Handle h);
+
+        /** @brief Number of currently pinned roots — for tests/diagnostics. */
+        unsigned long size() const;
+
+        /** @brief Human-readable name set at creation, for diagnostics. */
+        const char* getName() const;
+
+        /**
+         * @brief Iterate every currently-pinned root.  The visitor is
+         *        invoked once per live slot.  Holds the internal mutex
+         *        for the duration so it is safe to call concurrently
+         *        with `add` / `remove`, but the GC normally calls this
+         *        during STW where the lock is uncontended.
+         */
+        void forEachRoot(void (*visit)(void* user, const ProtoObject* obj),
+                          void* user) const;
+
+    private:
+        friend class ProtoSpace;
+        ProtoRootSet(ProtoSpace* owner, const char* name);
+        ~ProtoRootSet();
+
+        struct Impl;
+        Impl* impl_;
+    };
+
     class ProtoSpace
     {
     public:
@@ -938,6 +1018,28 @@ namespace proto
         void analyzeUsedCells(Cell* cellsChain);
         void triggerGC();
 
+        //- Embedder Root Sets
+        //
+        // Lets a runtime built on protoCore (e.g. protoJS, protoPython)
+        // pin ProtoObjects as GC roots without smuggling them into
+        // setAttribute-on-the-global hacks.  See `ProtoRootSet` for the
+        // full motivation and threading model.
+        //
+        // `name` is copied for diagnostics.  Caller must `destroyRootSet`
+        // the returned handle before the ProtoSpace is destroyed (or
+        // leak on shutdown — the destructor frees any still-registered
+        // sets).
+        ProtoRootSet* createRootSet(const char* name);
+        void destroyRootSet(ProtoRootSet* rs);
+
+        /**
+         * @brief Invokes `visit(user, rs)` for every currently-registered
+         *        root set.  Called from the GC thread during STW; embedders
+         *        should not call this themselves.
+         */
+        void forEachRootSet(void (*visit)(void* user, ProtoRootSet* rs),
+                             void* user) const;
+
         //- Thread Management
         void allocThread(ProtoContext* context, const ProtoThread* thread);
         void deallocThread(ProtoContext* context, const ProtoThread* thread);
@@ -1022,6 +1124,10 @@ namespace proto
 
         /** @brief Global reentrant mutex for protecting space-wide metadata (interning, thread registry, GC state). */
         static std::recursive_mutex globalMutex;
+
+        // --- Embedder root sets (see `createRootSet`) ---
+        std::vector<ProtoRootSet*> rootSets_;
+        mutable std::mutex rootSetsMutex_;
     };
 }
 

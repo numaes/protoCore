@@ -112,6 +112,22 @@ To prevent deadlocks during complex operations (e.g., allocation triggering GC, 
 *   **Reentrancy**: The `std::recursive_mutex` allows a single thread to acquire the same lock multiple times without deadlocking. This is essential for the hybrid execution model where high-level operations (like interning or thread creation) may trigger low-level memory management tasks that also require the global lock.
 *   **Granularity**: While the system avoids a GIL, the `globalMutex` protects specific global registries (Tuple Dictionary, Thread List) and orchestrates the Stop-The-World phase. String interning uses a separate `SymbolTable` with fine-grained per-shard mutexes (one per 64 shards), avoiding contention on the global lock for string operations.
 
+### Embedder Root Sets
+
+A runtime built on top of protoCore (a JS interpreter, a Python interpreter, a foreign function bridge) often needs to keep a `ProtoObject*` alive across an allocation boundary that the GC cannot see. The canonical example is an asynchronous callback whose receiver is captured into a C++ lambda registered with an external event loop: between the moment the lambda is enqueued and the moment it fires, the only reference to that receiver lives on the C++ side and is invisible to protoCore's tracing GC.
+
+Smuggling such references through `setAttribute` on an embedder-side global object works in principle but introduces three serious problems: (1) every async operation pays the cost of mutating a heavily contended mutable object, (2) different embedders linked into the same process collide on attribute namespaces, and (3) under load the mutable shard's CAS loop becomes the dominant overhead.
+
+`ProtoRootSet` solves this directly:
+
+* **Per-embedder isolation.** Each embedder calls `ProtoSpace::createRootSet(name)` once at startup and pins/unpins through that handle. Two embedders sharing a `ProtoSpace` never see each other's root sets.
+* **O(1) pin/unpin.** A flat slot array with a free list of recyclable indices. A short `std::mutex` guards the slot vector; under realistic embedder rates (a few thousand pins/sec) the lock is uncontended.
+* **Generational handles.** Each handle carries a 32-bit generation in addition to the slot index, so a stale handle from a freed slot cannot accidentally resolve to a different object after the slot is reused.
+* **GC integration.** During the STW root-collection phase, the GC iterates every registered root set via `ProtoSpace::forEachRootSet` and treats the contents as additional roots — adding them to the same worklist as thread stacks and global registries.
+* **Lifetime.** The embedder may call `destroyRootSet` explicitly. If it doesn't, `~ProtoSpace` frees any orphans after the GC thread has joined.
+
+The API is two free functions on `ProtoSpace` plus four methods on `ProtoRootSet` (`add`, `resolve`, `remove`, `forEachRoot`). See `headers/protoCore.h` for the complete contract.
+
 ---
 
 ## 2. The Data Model: Immutable and Efficient

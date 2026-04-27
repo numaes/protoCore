@@ -245,6 +245,36 @@ namespace proto {
                 }
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
+                // Scan embedder-registered root sets.  Each set owns a
+                // private collection of `ProtoObject*` pinned by a
+                // runtime built on protoCore (e.g. protoJS callbacks
+                // captured into C++ lambdas).  See ProtoRootSet for
+                // the rationale; we are inside STW here, mutators are
+                // parked, so no add/remove can race with iteration.
+                //
+                // The visit functions are non-capturing C function
+                // pointers because the ProtoSpace API only exposes
+                // that signature (kept C-friendly for FFIs).  We
+                // route the addRootObj closure through a stack
+                // context structure passed as `user`.
+                struct RootSetVisitCtx {
+                    std::vector<const Cell*>* workList;
+                };
+                RootSetVisitCtx rsCtx{&workList};
+                space->forEachRootSet(
+                    [](void* user, ProtoRootSet* rs) {
+                        rs->forEachRoot(
+                            [](void* u, const ProtoObject* obj) {
+                                auto* c = static_cast<RootSetVisitCtx*>(u);
+                                if (ProtoObject::isCellPointer(obj)) {
+                                    c->workList->push_back(
+                                        ProtoObject::asCellPointer(obj));
+                                }
+                            },
+                            user);
+                    },
+                    &rsCtx);
+
                 // 3. Scan the Main Thread stack
                 scanContexts(space->mainContext);
 
@@ -437,6 +467,14 @@ namespace proto {
         }
         if (gcThread && gcThread->joinable()) {
             gcThread->join();
+        }
+        // Free any embedder root sets that the embedder didn't
+        // explicitly destroy.  Doing this after the GC thread has
+        // joined means no concurrent forEachRootSet can fire.
+        {
+            std::lock_guard<std::mutex> lock(rootSetsMutex_);
+            for (auto* rs : rootSets_) delete rs;
+            rootSets_.clear();
         }
         delete this->rootContext;
         freeStringInternMap(this);
