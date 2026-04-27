@@ -480,14 +480,28 @@ namespace proto
         if (!this || !name) return this;
 
         // Auto-intern the key if it is a non-interned heap String (POINTER_TAG_STRING).
-        // This ensures that the canonical symbol pointer is stored in the attribute
-        // sparse list, so lookups using createSymbol() keys find the value by pointer.
+        //
+        // Intern STRONGLY: the resulting Symbol becomes a permanent
+        // root so that the attribute SparseList — which stores the
+        // Symbol *pointer* as its key — can never see that pointer
+        // dangle.  A weak intern would be reclaimed by the next GC
+        // cycle (the SparseList's processReferences only traces
+        // `value`, not `key`), the SymbolTable bucket would still
+        // hold the freed pointer, and the next createSymbol() with
+        // the same content would return a fresh pointer that no
+        // longer matches the SparseList key — a missed lookup that
+        // surfaces as `Array.isArray === undefined` after a few
+        // hundred async operations have triggered a GC.
+        //
+        // Strong-interning attribute names is bounded by the
+        // program's vocabulary; in practice the cost is negligible
+        // and identical to manually pre-interning every key.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
                 const ProtoObject* sym = context->space->symbolTable->intern(
-                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/false);
+                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/true);
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
         }
