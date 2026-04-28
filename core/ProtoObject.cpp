@@ -15,7 +15,10 @@ namespace proto
 {
     namespace {
         /**
-         * Per-thread cache lookup for a mutable object's current snapshot.
+         * Per-thread cache lookup for a mutable object's current snapshot AND the
+         * shard root that produced it.  Returns both because writers (setAttribute,
+         * addParentInternal) need the shard root pointer as the CAS `expected`
+         * value, while readers only consume the snapshot.
          *
          * Validation: the cached entry is live iff `mutable_ref` matches AND the cached
          * `shard_root` pointer equals the current `mutableRoot[shard].root`. Any successful
@@ -23,12 +26,14 @@ namespace proto
          * naturally invalidates stale entries on the next lookup.
          *
          * On miss, performs the authoritative load + AVL `implGetAt` and refreshes the
-         * cache. Returns nullptr if there is no current snapshot for `mutable_ref` (i.e.
-         * the object has not yet been mutated since allocation).
+         * cache. `*outShardRoot` is filled with the LIVE shard root pointer regardless
+         * of cache hit/miss. `*outCurrent` is the snapshot for `mutable_ref` in that
+         * shard (nullptr when the object has not yet been mutated since allocation).
          */
-        inline const ProtoObject* resolveMutableSnapshot(ProtoContext* context,
-                                                         unsigned long mutable_ref) {
-            // Cache fast-path
+        inline void resolveMutableState(ProtoContext* context,
+                                          unsigned long mutable_ref,
+                                          ProtoSparseList** outShardRoot,
+                                          const ProtoObject** outCurrent) {
             MutableValueCacheEntry* cache = nullptr;
             if (context->thread) {
                 auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
@@ -39,17 +44,18 @@ namespace proto
             int shard = mutable_ref % ProtoSpace::MUTABLE_ROOT_SHARDS;
             unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
 
+            // Validate cache entry by re-loading the live shard root.
             if (cache && cache[idx].mutable_ref == mutable_ref) {
                 ProtoSparseList* live =
                     context->space->mutableRoot[shard].root.load(std::memory_order_acquire);
                 if (live == cache[idx].shard_root) {
-                    // Cached entry is valid; current_value may be nullptr (negative
-                    // cache: object never mutated yet) — both states are correct hits.
-                    return cache[idx].current_value;
+                    if (outShardRoot) *outShardRoot = live;
+                    if (outCurrent)   *outCurrent   = cache[idx].current_value;
+                    return;
                 }
             }
 
-            // Authoritative resolve
+            // Authoritative resolve: live load + AVL.
             ProtoSparseList* live =
                 context->space->mutableRoot[shard].root.load(std::memory_order_acquire);
             const ProtoObject* snap = nullptr;
@@ -68,6 +74,15 @@ namespace proto
             if (cache) {
                 cache[idx] = {mutable_ref, live, snap};
             }
+            if (outShardRoot) *outShardRoot = live;
+            if (outCurrent)   *outCurrent   = snap;
+        }
+
+        /** Read-only convenience wrapper: returns just the current snapshot. */
+        inline const ProtoObject* resolveMutableSnapshot(ProtoContext* context,
+                                                         unsigned long mutable_ref) {
+            const ProtoObject* snap = nullptr;
+            resolveMutableState(context, mutable_ref, nullptr, &snap);
             return snap;
         }
 
@@ -537,15 +552,21 @@ namespace proto
              while (true) {
                  ++casIteration;
 
-                 // 1. Get current object state from the shard
+                 // 1. Get current object state from the shard.  Use the
+                 //    per-thread mutable-value cache: on the common case
+                 //    where this thread (or another that already validated
+                 //    the same shard root) has the live snapshot cached,
+                 //    this avoids the AVL implGetAt traversal entirely.
+                 //    `resolveMutableState` validates the cache by
+                 //    re-loading the shard root and invalidating stale
+                 //    entries; on miss it falls back to the authoritative
+                 //    load + AVL and refreshes the cache.
                  const ProtoObject* currentObjState = this;
-                 ProtoSparseList* oldRoot = context->space->mutableRoot[shard].root.load();
-                 if (oldRoot != nullptr) {
-                     const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(oldRoot);
-                     const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
-                     if (storedState != nullptr) {
-                          currentObjState = storedState;
-                     }
+                 ProtoSparseList* oldRoot = nullptr;
+                 const ProtoObject* storedState = nullptr;
+                 resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+                 if (storedState != nullptr) {
+                     currentObjState = storedState;
                  }
 
                  // 2. Create new state with updated attribute
@@ -664,15 +685,14 @@ namespace proto
              while (true) {
                  ++casIteration;
 
-                 // 1. Get current object state from the shard
+                 // 1. Get current object state from the shard via the
+                 //    per-thread mutable-value cache (see setAttribute).
                  const ProtoObject* currentObjState = this;
-                 ProtoSparseList* oldRoot = context->space->mutableRoot[shard].root.load();
-                 if (oldRoot != nullptr) {
-                     const auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(oldRoot);
-                     const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
-                     if (storedState != nullptr) {
-                          currentObjState = storedState;
-                     }
+                 ProtoSparseList* oldRoot = nullptr;
+                 const ProtoObject* storedState = nullptr;
+                 resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+                 if (storedState != nullptr) {
+                     currentObjState = storedState;
                  }
 
                  // 2. Create new state with added parent
