@@ -453,6 +453,19 @@ namespace proto {
 
         this->resolutionChain_ = buildDefaultResolutionChain(this->rootContext);
 
+        // Adopt the OS process's main thread so the per-thread caches
+        // (attribute, mutable-value, free-cells) are reachable through
+        // `context->thread` on every getAttribute / setAttribute call
+        // from the main thread.  Without this the main thread silently
+        // ran with cache=nullptr, which translated to 0 hits and made
+        // every attribute read fall through to the prototype-chain
+        // walk + AVL implGetAt traversal — observed as 113.6× geomean
+        // on pyperformance and 14.5% getAttribute / 11.2% implGetAt
+        // in perf profiles of richards_lite.
+        new (this->rootContext)
+            ProtoThreadImplementation(ProtoThreadImplementation::AdoptMainThreadTag{},
+                                       this->rootContext, /*name=*/nullptr, this);
+
         this->gcThread = std::make_unique<std::thread>(gcThreadLoop, this);
     }
 

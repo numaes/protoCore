@@ -983,6 +983,19 @@ namespace proto {
         const ProtoSparseList* kwargs;
 
         ProtoThreadImplementation(ProtoContext *context, const ProtoString* name, ProtoSpace* space, ProtoMethod main, const ProtoList* args, const ProtoSparseList* kwargs);
+
+        /** Tag-dispatched constructor used by ProtoSpace for the OS process's
+         *  main thread.  Adopts the supplied `mainContext` as `this->context`
+         *  rather than allocating a new ProtoContext, and does NOT spawn an
+         *  `std::thread` (we ARE the OS thread).  Builds the per-thread
+         *  extension (attribute cache, mutable-value cache, free-cells
+         *  pool) so that `mainContext->thread` is non-null and the
+         *  caches are reachable on every getAttribute / setAttribute
+         *  call from the main thread. */
+        struct AdoptMainThreadTag {};
+        ProtoThreadImplementation(AdoptMainThreadTag, ProtoContext* mainContext,
+                                   const ProtoString* name, ProtoSpace* space);
+
         ~ProtoThreadImplementation() override;
 
         Cell *implAllocCell(ProtoContext *context);

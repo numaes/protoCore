@@ -196,6 +196,47 @@ namespace proto {
         this->extension->osThread = new std::thread(thread_main, this->context, mainFunction, args, kwargs);
     }
 
+    /** Adopt-the-main-thread variant.  Builds the extension (attribute
+     *  cache + mutable-value cache + freeCells pool) and wires it as
+     *  `mainContext->thread`, but does NOT spawn an std::thread and
+     *  does NOT allocate a fresh ProtoContext (we adopt mainContext as
+     *  our own).  Without this constructor the OS process's main thread
+     *  has `context->thread == nullptr`, which silently disables the
+     *  attribute cache on every getAttribute / setAttribute / has*
+     *  call site — the per-thread cache lookup gates on
+     *  `context->thread`, so 0 hits in the steady state. */
+    ProtoThreadImplementation::ProtoThreadImplementation(
+        AdoptMainThreadTag,
+        ProtoContext* mainContext,
+        const ProtoString* name,
+        ProtoSpace* space
+    ) : Cell(mainContext), name(name), space(space), args(nullptr), kwargs(nullptr) {
+        this->extension = new (mainContext) ProtoThreadExtension(mainContext);
+        this->context = mainContext;
+        this->context->thread = (ProtoThread*)this->asThread(mainContext);
+        // Register in space->threads using the same lock-out-of-the-CAS
+        // pattern as the spawning constructor.
+        unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(mainContext));
+        const ProtoObject* threadAsObj = (const ProtoObject*)this->asThread(mainContext);
+        while (true) {
+            const ProtoSparseList* oldThreads = space->threads;
+            auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
+            const ProtoSparseList* newThreads =
+                const_cast<ProtoSparseList*>(
+                    threadsImpl->implSetAt(mainContext, threadId, threadAsObj)
+                               ->asSparseList(mainContext));
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            if (space->threads == oldThreads) {
+                space->threads = const_cast<ProtoSparseList*>(newThreads);
+                break;
+            }
+        }
+        // No osThread spawn — we are the OS thread.
+        // No runningThreads bump — the main thread is implicit and
+        // doesn't participate in stop-the-world parking the same way
+        // child threads do (it owns the main loop that drives GC).
+    }
+
     ProtoThreadImplementation::~ProtoThreadImplementation() {
         // Same pattern as the constructor: do the immutable-list rebuild
         // OUTSIDE the global mutex, then swap inside.  implRemoveAt
