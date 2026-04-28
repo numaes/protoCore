@@ -424,6 +424,9 @@ namespace proto {
     bool isObject(const ProtoObject* obj);
     bool isCell(const ProtoObject* obj);
 
+    // isObjectFast is defined later (after class Cell), once Cell's
+    // member layout — in particular getCellTypeRaw() — is visible.
+
     enum class CellType {
         None,
         Object,
@@ -458,13 +461,43 @@ namespace proto {
 
     class Cell {
     public:
+        // Layout:
+        //   bit 0       : mark (GC tricolour)
+        //   bits 1..5   : cached CellType (5 bits, 32 values; CellType
+        //                 has 29).  Lazy-populated on first
+        //                 getCellTypeRaw() call to bypass the virtual
+        //                 getType() PLT dispatch.  Set-once,
+        //                 monotonic; concurrent writers all write the
+        //                 same value (benign race).
+        //   bits 6..63  : Cell pointer (low 6 bits zero from 64-byte
+        //                 alignment).
         std::atomic<uintptr_t> next_and_flags;
 
         explicit Cell(ProtoContext *context, Cell *n = nullptr);
-
         virtual ~Cell() = default;
 
         virtual CellType getType() const { return CellType::None; }
+
+        /** Inline non-virtual fast-path equivalent of getType().  Lazy-
+         *  populates the cached cellType bits in next_and_flags on
+         *  first call by going through the (slow) virtual getType();
+         *  subsequent calls return the cached value directly without
+         *  crossing the DSO boundary.
+         *
+         *  Thread-safety: the cached value is monotonic (None → real
+         *  type, never changes again).  Concurrent first-call races
+         *  may have multiple threads execute the virtual once, but
+         *  they all OR the same bits — benign. */
+        inline CellType getCellTypeRaw() const {
+            uintptr_t v = next_and_flags.load(std::memory_order_relaxed);
+            uint8_t cached = static_cast<uint8_t>((v >> 1) & 0x1FUL);
+            if (cached != 0) return static_cast<CellType>(cached);
+            CellType t = this->getType();  // virtual, one-time cost per cell
+            uintptr_t bits = (static_cast<uintptr_t>(t) & 0x1FUL) << 1;
+            const_cast<std::atomic<uintptr_t>&>(next_and_flags)
+                .fetch_or(bits, std::memory_order_relaxed);
+            return t;
+        }
 
 
         virtual void finalize(ProtoContext *context) const {}
@@ -496,6 +529,16 @@ namespace proto {
             next_and_flags.store(reinterpret_cast<uintptr_t>(n) & ~0x3FUL);
         }
     };
+
+    /** Inline tag-bit + non-virtual `getCellTypeRaw()` equivalent of
+     *  `isObject`.  Use from hot loops where the function-call overhead
+     *  and the cross-DSO PLT virtual `getType()` call dominate. */
+    inline bool isObjectFast(const ProtoObject* obj) {
+        if (!obj) return false;
+        ProtoObjectPointer pa{}; pa.oid = obj;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return false;
+        return reinterpret_cast<const Cell*>(obj)->getCellTypeRaw() == CellType::Object;
+    }
 
     class ProtoRangeIteratorImplementation final : public Cell {
     public:

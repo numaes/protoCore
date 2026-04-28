@@ -33,6 +33,8 @@ namespace proto
     {
         // Each newly created Cell is immediately registered with the current context
         // for memory management and garbage collection tracking.
+        // cellType bits [1..5] of next_and_flags are left at 0 (CellType::None)
+        // and are lazy-populated on the first getCellTypeRaw() call.
         if (context) {
             context->addCell2Context(this);
         }

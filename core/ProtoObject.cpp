@@ -412,16 +412,18 @@ namespace proto
             const ProtoObject* currentValue = currentPointer;
             ProtoObjectPointer pa_cur{};
             pa_cur.oid = currentPointer;
-            
-            if (pa_cur.op.pointer_tag == POINTER_TAG_OBJECT) {
-                if (proto::isObject(currentPointer)) {
-                    auto oc = toImpl<const ProtoObjectCell>(currentPointer);
-                    if (oc->mutable_ref > 0) {
-                        const proto::ProtoObject* storedState =
-                            resolveMutableSnapshot(context, oc->mutable_ref);
-                        if (storedState != nullptr) {
-                            currentValue = storedState;
-                        }
+
+            // Inline isObjectFast — avoids the cross-DSO PLT call and
+            // the virtual getType() that previously cost ~9% of CPU on
+            // hot prototype-chain walks.
+            bool isObj = proto::isObjectFast(currentPointer);
+            if (isObj) {
+                auto oc = toImpl<const ProtoObjectCell>(currentPointer);
+                if (oc->mutable_ref > 0) {
+                    const proto::ProtoObject* storedState =
+                        resolveMutableSnapshot(context, oc->mutable_ref);
+                    if (storedState != nullptr) {
+                        currentValue = storedState;
                     }
                 }
             }
@@ -434,14 +436,29 @@ namespace proto
             // This avoids the former bug of skipping the cache for mutable objects entirely.
             unsigned long hash_idx = 0;
             if (cache) {
-                hash_idx = (reinterpret_cast<uintptr_t>(currentValue) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
+                // Use the name's pointer identity as the hash component:
+                // attribute keys are auto-interned strong symbols
+                // (SymbolTable::intern with is_strong=true), so two
+                // names with the same content always share a pointer.
+                // Avoids the cross-DSO `name->getHash(context)` call,
+                // which on rope-backed symbols re-traverses the tree
+                // and was costing ~5% of CPU per lookup before this
+                // change (subtreeHash + StringLeafNode::fromObject +
+                // isString in profiles).  Right-shift by 4 to spread
+                // the low alignment-zero bits into the index range.
+                hash_idx = (reinterpret_cast<uintptr_t>(currentValue) ^
+                              (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (cache[hash_idx].object == currentValue && cache[hash_idx].name == name) {
                     return cache[hash_idx].result;
                 }
             }
 
-            // Check OWN Attributes in currentValue
-            if (proto::isObject(currentValue)) {
+            // Check OWN Attributes in currentValue.  If currentPointer was
+            // an object (we just confirmed via isObj above), currentValue
+            // is either currentPointer itself or a snapshot of it (also a
+            // ProtoObjectCell by construction); skip the second isObject
+            // call in that case to avoid a redundant virtual dispatch.
+            if (isObj || proto::isObjectFast(currentValue)) {
                 auto ocValue = toImpl<const ProtoObjectCell>(currentValue);
                 if (ocValue->attributes->implHas(context, attr_hash)) {
                     const auto* result = ocValue->attributes->implGetAt(context, attr_hash);
@@ -525,7 +542,8 @@ namespace proto
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
-                unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
+                unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^
+                                            (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
                     threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr};
@@ -533,7 +551,7 @@ namespace proto
             }
         }
 
-        if (!proto::isObject(this)) return this;
+        if (!proto::isObjectFast(this)) return this;
         auto* oc = toImpl<ProtoObjectCell>(this);
 
         // Handle Mutable Objects
@@ -570,7 +588,7 @@ namespace proto
                  }
 
                  // 2. Create new state with updated attribute
-                 if (!proto::isObject(currentObjState)) {
+                 if (!proto::isObjectFast(currentObjState)) {
                      return this; // Corruption detected or inconsistent state
                  }
                  auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
@@ -611,7 +629,7 @@ namespace proto
     }
 
     const ProtoObject* ProtoObject::getFirstParent(ProtoContext* context) const {
-        if (!proto::isObject(this)) return PROTO_NONE;
+        if (!proto::isObjectFast(this)) return PROTO_NONE;
         const auto* oc = toImpl<const ProtoObjectCell>(this);
 
         // Resolve mutable to its current snapshot — same logic getParents uses.
@@ -635,7 +653,7 @@ namespace proto
     }
 
     const ProtoList* ProtoObject::getParents(ProtoContext* context) const {
-        if (!proto::isObject(this)) return context->newList();
+        if (!proto::isObjectFast(this)) return context->newList();
         const auto* oc = toImpl<const ProtoObjectCell>(this);
 
         // Handle Mutable Objects (cache-fast)
