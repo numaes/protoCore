@@ -399,7 +399,13 @@ namespace proto {
         nextMutableRef(1),
         resolutionChain_(nullptr)
     {
-        // Initialize prototypes
+        // Record the OS thread that created this space.  ProtoContext uses this
+        // to auto-inherit the main thread's ProtoThreadImplementation when a
+        // context is created with previous == nullptr (i.e. every runtime's
+        // bootstrap context), enabling per-thread attribute and mutable-value
+        // caches without requiring each runtime to pass rootContext explicitly.
+        this->mainThreadId = std::this_thread::get_id();
+
         // Initialize prototypes
         this->rootContext = new ProtoContext(this, nullptr, nullptr, nullptr, nullptr, nullptr);
         this->booleanPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));

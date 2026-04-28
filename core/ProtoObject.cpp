@@ -35,7 +35,7 @@ namespace proto
                                           ProtoSparseList** outShardRoot,
                                           const ProtoObject** outCurrent) {
             MutableValueCacheEntry* cache = nullptr;
-            if (context->thread) {
+            if (context && context->thread) {
                 auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
                 if (threadImpl->extension) {
                     cache = threadImpl->extension->mutableValueCache;
@@ -95,7 +95,7 @@ namespace proto
                                         unsigned long mutable_ref,
                                         ProtoSparseList* new_root,
                                         const ProtoObject* new_value) {
-            if (!context->thread) return;
+            if (!context || !context->thread) return;
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (!threadImpl->extension || !threadImpl->extension->mutableValueCache) return;
             unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
@@ -373,7 +373,7 @@ namespace proto
 
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks) const
     {
-        if (!this || !name) return nullptr;
+        if (!this || !name || !context) return nullptr;
 
         // Look up the canonical symbol for this key without inserting.
         // If the key was never interned, it was never used as an attribute key,
@@ -1118,6 +1118,9 @@ namespace proto
         // Look up the canonical symbol for this key without inserting.
         // If the key was never interned, it was never used as an attribute key,
         // so the attribute cannot exist — return PROTO_FALSE immediately.
+        // Fast-path: if the name is already a SYMBOL (interned), the
+        // pointer is canonical — skip the SymbolTable lookup, which
+        // would otherwise hash the rope and compare bucket entries.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -1127,6 +1130,7 @@ namespace proto
                 if (!sym) return PROTO_FALSE;
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
+            // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
         const ProtoObject* currentObject = this;
@@ -1272,6 +1276,9 @@ namespace proto
         // Look up the canonical symbol for this key without inserting.
         // If the key was never interned, it was never used as an attribute key,
         // so the attribute cannot exist — return PROTO_FALSE immediately.
+        // Fast-path: if the name is already a SYMBOL (interned), the
+        // pointer is canonical — skip the SymbolTable lookup, which
+        // would otherwise hash the rope and compare bucket entries.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -1281,6 +1288,7 @@ namespace proto
                 if (!sym) return PROTO_FALSE;
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
+            // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
         ProtoObjectPointer pa{};

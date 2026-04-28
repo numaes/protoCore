@@ -62,6 +62,17 @@ namespace proto
             // This is the root context, it doesn't have a parent thread yet.
             this->thread = nullptr;
         }
+        // Auto-detect main thread: if a runtime bootstraps a new ProtoContext
+        // without a parent (previous == nullptr), check whether the calling OS
+        // thread is the main thread recorded in ProtoSpace.  If so, inherit the
+        // main thread's ProtoThreadImplementation so that per-thread caches work
+        // immediately — no runtime-specific workaround needed.
+        if (!this->thread && this->space
+                && this->space->rootContext
+                && this->space->rootContext->thread
+                && this->space->mainThreadId == std::this_thread::get_id()) {
+            this->thread = this->space->rootContext->thread;
+        }
         // Step 2: Acquire storage for local variables BEFORE registration.
         // Fast path (externalSlots): caller pre-allocated a stack buffer — zero heap cost.
         // Slow path: heap-allocate and zero-initialise.
