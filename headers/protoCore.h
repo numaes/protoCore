@@ -743,6 +743,30 @@ namespace proto
         inline unsigned int getAutomaticLocalsCount() const { return automaticLocalsCount; }
 
         /**
+         * @brief Read one automatic-local slot (combined bounds-check + read).
+         *
+         * Preferred over getAutomaticLocals()[idx] at call sites: single
+         * expression, bounds-safe, and keeps the slot access within the
+         * protoCore API boundary.  Returns nullptr when idx is out of range.
+         */
+        inline const ProtoObject* getAutomaticLocal(unsigned int idx) const {
+            return (idx < automaticLocalsCount && automaticLocals) ? automaticLocals[idx] : nullptr;
+        }
+
+        /**
+         * @brief Write one automatic-local slot (combined bounds-check + write).
+         *
+         * Returns true on success, false if idx is out of range.
+         */
+        inline bool setAutomaticLocal(unsigned int idx, const ProtoObject* val) {
+            if (idx < automaticLocalsCount && automaticLocals) {
+                automaticLocals[idx] = val;
+                return true;
+            }
+            return false;
+        }
+
+        /**
          * @brief Resize the automatic-locals slot region.
          *
          * Designed for embedders (e.g. protoJS's bytecode interpreter)
