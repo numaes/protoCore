@@ -375,7 +375,10 @@ namespace proto
     {
         if (!this || !name || reinterpret_cast<const ProtoObject*>(this) == PROTO_NONE) return PROTO_NONE;
 
-        // 1. Canonical symbol lookup
+        // 1. Canonical symbol lookup. The cache key uses the symbol
+        //    pointer for O(1) equality, so we must agree with every
+        //    other cache user (set/has/getOwn) on which pointer is
+        //    canonical for this content.
         const ProtoString* attrName = name;
         {
             ProtoObjectPointer pa{};
@@ -387,8 +390,12 @@ namespace proto
             }
         }
 
-
-        // 2. Cache Setup
+        // 2. Cache setup. Cache entries are own-only: each slot
+        //    answers "does object O have name N as an own attribute,
+        //    and if so what is the value". The chain walk consults the
+        //    cache at every step against that step's own object — never
+        //    against the originating `this` for an inherited result —
+        //    so cached values are always direct, never chain-resolved.
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
@@ -418,40 +425,47 @@ namespace proto
                     }
                 }
 
-                // 3. Cache lookup
+                // 3. Own-attribute cache probe at this chain step.
+                //    A hit answers "does currentValue own attrName".
+                //    Hit with non-null result: return the value directly
+                //    — it is the own value of the current chain step.
+                //    Hit with null result: cached negative own-fact;
+                //    skip the implGetAt and continue to the next link.
+                //    Miss: probe the own attribute map; cache the
+                //    outcome (value or nullptr) and continue or return.
                 unsigned long h = 0;
+                bool stepResolved = false;
+                const ProtoObject* result = nullptr;
                 if (cache) {
                     h = (reinterpret_cast<uintptr_t>(currentValue) ^
                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
                     if (cache[h].object == currentValue && cache[h].name == attrName) {
-                        const ProtoObject* res = cache[h].result;
-                        if (!res) return PROTO_NONE;
-                        return reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(res) & ~CACHE_FLAG_OWN);
+                        result = cache[h].result;
+                        stepResolved = true;
                     }
                 }
-
-                const auto* result = ocValue->attributes->implGetAt(context, attrHash);
-                if (result != nullptr) {
+                if (!stepResolved) {
+                    result = ocValue->attributes->implGetAt(context, attrHash);
                     if (cache) {
-                        // Cache for the start object
-                        const unsigned long h_start = (reinterpret_cast<uintptr_t>(this) ^
-                                                     (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
-                        
-                        // If it's the first level, it's an 'own' attribute
-                        const ProtoObject* cachedResult = (currentValue == this) ? 
-                            reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN) : result;
-                        
-                        cache[h_start] = {this, cachedResult, attrName};
-                        
-                        // Also cache for the current level as 'own' for future start-at-this-level lookups
-                        if (currentValue != this) {
-                            cache[h] = {currentValue, reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN), attrName};
-                        }
+                        // Persist the own-fact (positive or negative).
+                        // The pointer is stored verbatim so primitive
+                        // tags (SPARSE_LIST, METHOD, DOUBLE …) survive
+                        // intact; the GC roots-walk that traces the
+                        // cache treats each entry as a normal
+                        // ProtoObject* and asCellPointer-strips the
+                        // tag the same way it does for any value.
+                        cache[h] = {currentValue, result, attrName};
                     }
-                    return result;
                 }
+                if (result != nullptr) return result;
 
-                // 4. Chain traversal
+                // 4. Chain traversal — own miss at this step, follow
+                //    the linearised parent chain to the next object.
+                //    The very first step uses ocValue->parent (the
+                //    snapshot's chain head) because the cell pointer
+                //    `this` may carry a linearisation captured at
+                //    construction; subsequent steps follow the link's
+                //    own `parent` pointer.
                 if (!currentLink) {
                     currentLink = ocValue->parent;
                 } else {
@@ -463,17 +477,17 @@ namespace proto
                     currentPointer = nullptr;
                 }
             } else {
+                // Non-object tagged pointers (SmallInteger, None, …)
+                // do not own attributes; fall through their prototype.
                 const ProtoObject* nextProto = currentPointer->getPrototype(context);
                 if (nextProto == currentPointer || nextProto == PROTO_NONE) break;
                 currentPointer = nextProto;
                 currentLink = nullptr;
             }
         }
-        if (cache) {
-            unsigned long h_start = (reinterpret_cast<uintptr_t>(this) ^
-                                     (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
-            cache[h_start] = {this, nullptr, attrName};
-        }
+        // Chain exhausted without finding the attribute. Per-step
+        // negative caches above already record each level's miss; no
+        // need to write a synthetic top-level entry.
         return PROTO_NONE;
     }
 
@@ -507,7 +521,16 @@ namespace proto
             }
         }
 
-        // 1. Invalidate Cache
+        // 1. Invalidate the own-attribute cache slot for (this, name).
+        //    Writing {nullptr, nullptr, nullptr} clears the slot; the
+        //    next read repopulates it via implGetAt. For mutable
+        //    objects the cache is keyed on the snapshot pointer rather
+        //    than `this`, so the entry handled here only matches when
+        //    `this` is its own snapshot (the immutable case). Mutable
+        //    objects rely on the snapshot pointer changing as a
+        //    natural cache invalidation: the new snapshot has a new
+        //    pointer ⇒ different cache key ⇒ next read takes the
+        //    miss path and observes the freshly written value.
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
@@ -870,7 +893,7 @@ namespace proto
     const ProtoObject* ProtoObject::getOwnAttributeDirect(ProtoContext* context, const ProtoString* name) const {
         if (!this || !name || reinterpret_cast<const ProtoObject*>(this) == PROTO_NONE) return PROTO_NONE;
 
-        // 1. Canonical symbol lookup
+        // 1. Canonical symbol lookup (must match every other cache user).
         const ProtoString* attrName = name;
         {
             ProtoObjectPointer pa{};
@@ -888,7 +911,7 @@ namespace proto
         const ProtoObjectCell* oc = toImpl<const ProtoObjectCell>(this);
         const ProtoSparseListImplementation* attrs = oc->attributes;
         const ProtoObject* currentValue = this;
-        
+
         if (oc->mutable_ref > 0) {
             const ProtoObject* snap = resolveMutableSnapshot(context, oc->mutable_ref);
             if (snap && snap != PROTO_NONE) {
@@ -896,30 +919,25 @@ namespace proto
                 attrs = toImpl<const ProtoObjectCell>(snap)->attributes;
             }
         }
-        
-        // Cache Lookup
+
+        // 2. Own-attribute cache. Same key/value contract as
+        //    getAttribute and hasAttribute: result == nullptr is a
+        //    cached negative own-fact, result != nullptr is the stored
+        //    value (with primitive tag bits intact).
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension && threadImpl->extension->attributeCache) {
                 AttributeCacheEntry* cache = threadImpl->extension->attributeCache;
                 const unsigned long h = (reinterpret_cast<uintptr_t>(currentValue) ^
                                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
-                
+
                 if (cache[h].object == currentValue && cache[h].name == attrName) {
-                    uintptr_t resVal = reinterpret_cast<uintptr_t>(cache[h].result);
-                    if (resVal & CACHE_FLAG_OWN) {
-                        return reinterpret_cast<const ProtoObject*>(resVal & ~CACHE_FLAG_OWN);
-                    }
-                    return PROTO_NONE;
+                    return cache[h].result ? cache[h].result : PROTO_NONE;
                 }
 
                 const auto* result = attrs->implGetAt(context, reinterpret_cast<uintptr_t>(attrName));
-                if (result != nullptr) {
-                    // Mark as OWN in cache
-                    cache[h] = {currentValue, reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN), attrName};
-                    return result;
-                }
-                return PROTO_NONE;
+                cache[h] = {currentValue, result, attrName};
+                return result ? result : PROTO_NONE;
             }
         }
 
@@ -1130,7 +1148,9 @@ namespace proto
     {
         if (!this || !name || reinterpret_cast<const ProtoObject*>(this) == PROTO_NONE) return PROTO_FALSE;
 
-        // 1. Canonical symbol lookup
+        // 1. Canonical symbol lookup. If the symbol does not exist
+        //    anywhere in the program, the attribute cannot exist on
+        //    any object, so we can short-circuit to PROTO_FALSE.
         const ProtoString* attrName = name;
         {
             ProtoObjectPointer pa{};
@@ -1143,7 +1163,11 @@ namespace proto
             }
         }
 
-        // 2. Cache Setup
+        // 2. Cache setup. Same own-only cache as getAttribute /
+        //    getOwnAttributeDirect: each entry answers "does object O
+        //    own name N (and what is its value)". hasAttribute walks
+        //    the chain and returns true on the first own-hit at any
+        //    step.
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
@@ -1161,7 +1185,7 @@ namespace proto
             const uintptr_t ptrVal = reinterpret_cast<uintptr_t>(currentPointer);
             bool isObj = (ptrVal & 0x7) == POINTER_TAG_OBJECT;
             const ProtoObject* currentValue = currentPointer;
-            
+
             if (isObj) {
                 const ProtoObjectCell* oc = toImpl<const ProtoObjectCell>(currentPointer);
                 const ProtoObjectCell* ocValue = oc;
@@ -1173,58 +1197,45 @@ namespace proto
                     }
                 }
 
-                // 3. Cache lookup
+                // 3. Own-attribute cache probe at this step.
+                //    Hit non-null → name owned here → PROTO_TRUE.
+                //    Hit null    → cached own-miss → continue chain.
+                //    Miss        → probe and cache the outcome.
                 unsigned long h = 0;
+                bool stepResolved = false;
+                const ProtoObject* result = nullptr;
                 if (cache) {
                     h = (reinterpret_cast<uintptr_t>(currentValue) ^
                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
                     if (cache[h].object == currentValue && cache[h].name == attrName) {
-                        // In our non-lossy cache:
-                        // result != nullptr means hit (even if value is PROTO_NONE)
-                        // Note: we ignore CACHE_FLAG_OWN here as hasAttribute doesn't care if it's own or inherited
-                        return context->fromBoolean(cache[h].result != nullptr);
+                        result = cache[h].result;
+                        stepResolved = true;
                     }
                 }
-
-                const auto* result = ocValue->attributes->implGetAt(context, attrHash);
-                if (result != nullptr) {
+                if (!stepResolved) {
+                    result = ocValue->attributes->implGetAt(context, attrHash);
                     if (cache) {
-                        // The cache key is (currentValue, attrName) and the
-                        // attribute was just resolved via currentValue's own
-                        // attribute map (implGetAt on ocValue->attributes), so
-                        // it is by definition OWN with respect to the cache
-                        // key. Marking it preserves the invariant
-                        // hasOwnAttribute / getOwnAttributeDirect rely on:
-                        // a cache hit without CACHE_FLAG_OWN means "not own".
-                        // Writing without the flag here would cause a later
-                        // hasOwnAttribute(currentValue, attrName) to spuriously
-                        // return PROTO_FALSE, and getOwnAttributeDirect to
-                        // return PROTO_NONE, even though the attribute is in
-                        // currentValue's own dict.
-                        cache[h] = {currentValue,
-                                    reinterpret_cast<const ProtoObject*>(
-                                        reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN),
-                                    attrName};
+                        cache[h] = {currentValue, result, attrName};
                     }
-                    return PROTO_TRUE;
                 }
+                if (result != nullptr) return PROTO_TRUE;
 
-                // 4. Chain traversal
+                // 4. Own miss at this step — descend the linearised
+                //    chain and re-probe at the next object.
                 if (!currentLink) {
                     currentLink = ocValue->parent;
                 } else {
                     currentLink = currentLink->parent;
                 }
-
                 if (currentLink && ((uintptr_t)currentLink & 0x3F) == 0) {
                     currentPointer = currentLink->object;
                 } else {
                     currentPointer = nullptr;
                 }
             } else {
-                // Fallback for non-objects
+                // Non-object tagged pointers — fall through prototype.
                 const ProtoObject* nextProto = currentPointer->getPrototype(context);
-                if (nextProto == currentPointer || nextProto == PROTO_NONE) break; 
+                if (nextProto == currentPointer || nextProto == PROTO_NONE) break;
                 currentPointer = nextProto;
                 currentLink = nullptr;
             }
@@ -1294,7 +1305,7 @@ namespace proto
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
         if (!this || !name || reinterpret_cast<const ProtoObject*>(this) == PROTO_NONE) return PROTO_FALSE;
 
-        // 1. Canonical symbol lookup
+        // 1. Canonical symbol lookup. Missing symbol ⇒ no object can own it.
         const ProtoString* attrName = name;
         {
             ProtoObjectPointer pa{};
@@ -1313,7 +1324,7 @@ namespace proto
         const ProtoObjectCell* oc = toImpl<const ProtoObjectCell>(this);
         const ProtoSparseListImplementation* attrs = oc->attributes;
         const ProtoObject* currentValue = this;
-        
+
         if (oc->mutable_ref > 0) {
             const ProtoObject* snap = resolveMutableSnapshot(context, oc->mutable_ref);
             if (snap && snap != PROTO_NONE) {
@@ -1324,29 +1335,23 @@ namespace proto
 
         const unsigned long attrHash = reinterpret_cast<uintptr_t>(attrName);
 
-        // 2. Cache Lookup
+        // 2. Own-attribute cache. Single-step lookup with the same
+        //    contract as getOwnAttributeDirect: the slot directly
+        //    answers "does this object own attrName".
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension && threadImpl->extension->attributeCache) {
                 AttributeCacheEntry* cache = threadImpl->extension->attributeCache;
                 const unsigned long h = (reinterpret_cast<uintptr_t>(currentValue) ^
                                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
-                
+
                 if (cache[h].object == currentValue && cache[h].name == attrName) {
-                    uintptr_t resVal = reinterpret_cast<uintptr_t>(cache[h].result);
-                    if (resVal & CACHE_FLAG_OWN) {
-                        return PROTO_TRUE;
-                    }
-                    return PROTO_FALSE;
+                    return cache[h].result ? PROTO_TRUE : PROTO_FALSE;
                 }
 
                 const auto* result = attrs->implGetAt(context, attrHash);
-                if (result != nullptr) {
-                    // Mark as OWN in cache
-                    cache[h] = {currentValue, reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN), attrName};
-                    return PROTO_TRUE;
-                }
-                return PROTO_FALSE;
+                cache[h] = {currentValue, result, attrName};
+                return result ? PROTO_TRUE : PROTO_FALSE;
             }
         }
 

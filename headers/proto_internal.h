@@ -974,23 +974,43 @@ namespace proto {
         void processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const override;
     };
 
+    /**
+     * @brief Per-thread attribute cache entry.
+     *
+     * The cache stores OWN attribute lookups only. The key is
+     * (object, name): the resolved snapshot pointer of the object whose
+     * own attribute map was probed, and the canonical interned name.
+     * The result encodes both presence and value:
+     *   - result != nullptr → object's OWN attribute map contains name,
+     *     and result is the stored value (the value pointer itself, with
+     *     no flag bits OR-ed in — primitives like ProtoString,
+     *     ProtoSparseList or ProtoMethod retain their native pointer
+     *     tag so the consumer sees the same handle as if it had called
+     *     implGetAt directly).
+     *   - result == nullptr → object's OWN attribute map does NOT
+     *     contain name (cached miss). Distinguishes a real miss from
+     *     "cell never queried" via the standard hash-slot match check
+     *     on (object, name).
+     *
+     * Crucially, the cache never represents an inherited (chain-walked)
+     * resolution. getAttribute / hasAttribute walk the parent chain
+     * step-by-step and consult the cache at each step against the
+     * step's own object — every cache entry is therefore an own-only
+     * fact, valid forever (until the corresponding object is mutated
+     * via setAttribute, which invalidates the slot for the original
+     * handle, or until the mutable's snapshot pointer changes, which
+     * shifts the key and naturally invalidates the previous entry).
+     *
+     * This design eliminates the prior CACHE_FLAG_OWN bit-tag scheme,
+     * whose strip-out at read time was silently re-tagging primitive
+     * values (SPARSE_LIST, METHOD, DOUBLE, …) as POINTER_TAG_OBJECT
+     * and producing memory-corrupting reads under load.
+     */
     struct AttributeCacheEntry {
         const ProtoObject* object;
-        const ProtoObject* result; // Bit 5 (0x20) is CACHE_FLAG_OWN
+        const ProtoObject* result;
         const ProtoString* name;
     };
-
-    // Bit used to mark a cached attribute lookup as resolved on the
-    // start object's own attribute set (as opposed to via the parent
-    // chain). The bit MUST lie outside the pointer-tag range used by
-    // POINTER_TAG_* (currently 0..24, occupying bits 0..4 of the low
-    // six tag bits). Bit 5 (0x20) is the lowest free bit: cell pointers
-    // are 64-byte aligned (low 6 bits zero) and no live POINTER_TAG_*
-    // value reaches 0x20, so OR-ing/AND-NOT-ing this flag never
-    // collides with a legitimate primitive tag (e.g. SPARSE_LIST = 8,
-    // METHOD = 12, DOUBLE = 15) that would otherwise be silently
-    // re-tagged as POINTER_TAG_OBJECT on cache strip-out.
-    #define CACHE_FLAG_OWN 0x20UL
 
     /**
      * @brief Per-thread cache entry for mutable-object snapshot resolution.
