@@ -1,6 +1,6 @@
 # protoCore Documentation Index
 
-**Last updated:** April 2026  
+**Last updated:** May 2026  
 **Purpose:** Unified index of all protoCore documentation with references. Use this document to find the right doc for your need.
 
 ---
@@ -88,6 +88,7 @@ These documents describe completed one-off work. The canonical current state is 
 | [GC_STRESS_TEST_FIX_ANALYSIS.md](GC_STRESS_TEST_FIX_ANALYSIS.md) | GC stress test fix (LargeAllocationReclamation). |
 | [docs/superpowers/specs/2026-03-31-string-refactoring-design.md](docs/superpowers/specs/2026-03-31-string-refactoring-design.md) | Design spec for the three-tier AVL string refactoring (April 2026). |
 | [docs/superpowers/plans/2026-03-31-string-refactoring.md](docs/superpowers/plans/2026-03-31-string-refactoring.md) | Implementation plan for the string refactoring (all 15 tasks completed). |
+| [docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) | **Implemented** — Design and validation of the 256-shard mutable root and 2-tier per-thread attribute cache (April 2026). |
 
 ---
 

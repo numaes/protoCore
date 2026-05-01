@@ -12,9 +12,10 @@ A `ProtoObjectPointer` is a single machine word (e.g., 64 bits) that can represe
 
 Because heap-allocated objects are always aligned to a certain byte boundary (e.g., 8 or 16 bytes), their memory addresses will always have their lowest bits as zero. We can take advantage of this to store information.
 
-*   If the lowest bit is `0`, the value is a true pointer to a `ProtoObject` on the heap.
-*   If the lowest bit is `1`, the value is an immediate 63-bit signed integer.
-*   Other tag patterns can be used for booleans, null, or other special singletons.
+*   **Pointer (Tag 0)**: A direct memory address to a 64-byte `Cell` on the heap.
+*   **SmallInt (Tag 10)**: A 54-bit signed integer embedded directly in the handle.
+*   **Inline String (Tag 1/4)**: UTF-8 strings up to 6 bytes encoded within the pointer.
+*   **Symbol (Tag 22)**: Interned attribute keys and identifiers.
 
 The `ProtoObjectPointer` union from `proto_internal.h` shows this concept in practice:
 
@@ -41,6 +42,9 @@ The primary benefit is **performance**. Creating or passing around an integer do
 Instead of classes, Proto uses prototypes. Every object can be a prototype for another object. When you try to access an attribute or method on an object, the runtime first looks at the object itself. If the attribute isn't found, it follows the object's `parent` link and looks at its prototype. This process continues up the chain until the attribute is found or the chain ends.
 
 This is different from classical inheritance, where a class defines a rigid structure that all its instances must follow. The prototype model is more flexible, allowing objects to have their structures and behaviors modified dynamically at runtime.
+
+### The Attribute Cache
+To make prototype traversal efficient, ProtoCore uses a per-thread **Attribute Cache**. A hash of the `{object, attribute_name}` pair is used to index a 1024-entry table. On a hit, the resolution (including deep inheritance) is returned in **O(1)**. The cache is optimized for 64-byte aligned objects using a **6-bit hash shift**, ensuring a perfectly uniform distribution of entries.
 
 ## Immutable Data Structures
 

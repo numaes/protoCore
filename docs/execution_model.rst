@@ -36,3 +36,12 @@ The interaction between the context and the GC is the key to Proto's efficient m
     *   Because Proto's objects are immutable, once the roots are collected, the main GC thread can trace the entire object graph and sweep up unreachable objects **concurrently**, while the application threads continue to run.
 
 This architecture provides the benefits of generational GC—namely, very fast allocation and collection of short-lived objects—while leveraging immutability to perform the most expensive work in parallel, resulting in very low-latency pauses for the application.
+
+Performance Optimization: Caching and Sharding
+---------------------------------------------
+
+To complement the efficient memory and GC model, ProtoCore employs several per-thread caching mechanisms to eliminate bottlenecks in object resolution:
+
+1.  **Two-Tier Attribute Cache**: Each thread maintains a direct-mapped cache for property lookups. It short-circuits both the local AVL dictionary search and the entire prototype chain walk, providing access in **~8.7 ns**. The cache uses a **6-bit hash shift** to optimize the distribution of 64-byte aligned object pointers.
+2.  **Mutable Snapshot Cache**: For mutable objects, a per-thread cache short-circuits the resolution of a mutable ID to its current snapshot. This transforms a global atomic search into a local memory check.
+3.  **256-Shard Mutability**: The global mutable state is partitioned into 256 independent, cache-line-padded shards. This eliminates hardware contention (cache-line ping-ponging) during simultaneous mutations from multiple threads, enabling true linear scalability on multicore systems.

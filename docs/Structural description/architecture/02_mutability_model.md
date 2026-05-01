@@ -10,9 +10,13 @@ Proto's model is built on a fundamental separation between an object's **identit
 
 When you change an attribute of an object, you are not modifying the object's memory directly. Instead, you are atomically updating the `mutableRoot` table to map the object's identity to its new state.
 
-### The `mutableRoot` Table
+### The `mutableRoot` Sharded Table
 
-The `mutableRoot` is the heart of Proto's concurrency model. It is a `ProtoSparseList` (a highly efficient, sparse array) wrapped in a `std::atomic`. This atomic wrapper is the key that enables lock-free updates. All modifications to the shared state of the entire Proto system happen by atomically swapping the pointer to this table.
+The `mutableRoot` is the heart of Proto's concurrency model. To eliminate contention on high-core-count machines, it is organized into **256 independent shards**. Each shard is a `std::atomic<ProtoSparseList*>`.
+
+*   **Sharding by ID**: The index of the shard is determined by `mutable_ref & 0xFF`.
+*   **Isolation**: Modifications to an object only affect its specific shard, allowing 256 different threads to mutate 256 different objects simultaneously with zero hardware contention.
+*   **Snapshot Caching**: Every thread maintains a local 1024-entry cache of resolved snapshots. This transforms the global atomic lookup into a local $O(1)$ check, providing elite performance for the common "own-thread" access pattern.
 
 ## The Lock-Free Update Pattern
 
@@ -42,23 +46,24 @@ This mutability model is the single most important enabler for Proto's fast garb
 The `setAttribute` function in `ProtoObject.cpp` perfectly illustrates the lock-free update pattern.
 
 ```cpp
-// Illustrative snippet from ProtoObject.cpp
-void Proto::setAttribute(const ProtoObject target, const ProtoObject key, const ProtoObject value) {
-    // Loop until the atomic update succeeds
+// Illustrative snippet from core/ProtoObject.cpp
+void ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) {
+    // 1. Identify the shard
+    int shard_idx = this->mutable_ref & 0xFF;
+    auto& shard = context->space->mutableRoot[shard_idx];
+
     while (true) {
-        // 1. Atomically load the current root
-        const ProtoObject oldRoot = this->space->mutableRoot.load();
+        // 2. Load the current shard snapshot
+        ProtoSparseList* oldSnapshot = shard.load();
 
-        // 2. Create a modified copy
-        const ProtoObject newRoot = this->space->setAttribute(oldRoot, key, value);
+        // 3. Create a modified copy (structural sharing)
+        ProtoSparseList* newSnapshot = oldSnapshot->setAt(context, this->mutable_ref, value);
 
-        // 3. Attempt to swap the root pointer
-        if (this->space->mutableRoot.compare_exchange_strong(oldRoot, newRoot)) {
+        // 4. Attempt to swap the shard root
+        if (shard.compare_exchange_strong(oldSnapshot, newSnapshot)) {
             // Success! The change is committed.
             break;
         }
-        // 4. If it failed, another thread made a change.
-        // The loop will repeat with the new state.
     }
 }
 ```
