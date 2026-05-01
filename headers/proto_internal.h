@@ -976,9 +976,11 @@ namespace proto {
 
     struct AttributeCacheEntry {
         const ProtoObject* object;
-        const ProtoObject* result;
+        const ProtoObject* result; // Bit 3 (0x8) is CACHE_FLAG_OWN
         const ProtoString* name;
     };
+
+    #define CACHE_FLAG_OWN 0x8UL
 
     /**
      * @brief Per-thread cache entry for mutable-object snapshot resolution.

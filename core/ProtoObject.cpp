@@ -424,21 +424,28 @@ namespace proto
                     h = (reinterpret_cast<uintptr_t>(currentValue) ^
                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
                     if (cache[h].object == currentValue && cache[h].name == attrName) {
-                        return cache[h].result ? cache[h].result : PROTO_NONE;
+                        const ProtoObject* res = cache[h].result;
+                        if (!res) return PROTO_NONE;
+                        return reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(res) & ~CACHE_FLAG_OWN);
                     }
                 }
 
                 const auto* result = ocValue->attributes->implGetAt(context, attrHash);
                 if (result != nullptr) {
                     if (cache) {
-                        // Cache for the start object to achieve O(1) for the whole chain next time
+                        // Cache for the start object
                         const unsigned long h_start = (reinterpret_cast<uintptr_t>(this) ^
                                                      (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
-                        cache[h_start] = {this, result, attrName};
                         
-                        // Also cache for the current level
+                        // If it's the first level, it's an 'own' attribute
+                        const ProtoObject* cachedResult = (currentValue == this) ? 
+                            reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN) : result;
+                        
+                        cache[h_start] = {this, cachedResult, attrName};
+                        
+                        // Also cache for the current level as 'own' for future start-at-this-level lookups
                         if (currentValue != this) {
-                            cache[h] = {currentValue, result, attrName};
+                            cache[h] = {currentValue, reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN), attrName};
                         }
                     }
                     return result;
@@ -899,12 +906,17 @@ namespace proto
                                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
                 
                 if (cache[h].object == currentValue && cache[h].name == attrName) {
-                    return cache[h].result;
+                    uintptr_t resVal = reinterpret_cast<uintptr_t>(cache[h].result);
+                    if (resVal & CACHE_FLAG_OWN) {
+                        return reinterpret_cast<const ProtoObject*>(resVal & ~CACHE_FLAG_OWN);
+                    }
+                    return PROTO_NONE;
                 }
 
                 const auto* result = attrs->implGetAt(context, reinterpret_cast<uintptr_t>(attrName));
                 if (result != nullptr) {
-                    cache[h] = {currentValue, result, attrName};
+                    // Mark as OWN in cache
+                    cache[h] = {currentValue, reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN), attrName};
                     return result;
                 }
                 return PROTO_NONE;
@@ -1169,7 +1181,7 @@ namespace proto
                     if (cache[h].object == currentValue && cache[h].name == attrName) {
                         // In our non-lossy cache:
                         // result != nullptr means hit (even if value is PROTO_NONE)
-                        // result == nullptr means cached miss
+                        // Note: we ignore CACHE_FLAG_OWN here as hasAttribute doesn't care if it's own or inherited
                         return context->fromBoolean(cache[h].result != nullptr);
                     }
                 }
@@ -1303,18 +1315,18 @@ namespace proto
                 const unsigned long h = (reinterpret_cast<uintptr_t>(currentValue) ^
                                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
                 
-                // Note: we can only trust the cache for hasOwnAttribute if we know the hit was 'own'.
-                // Since getAttribute caches inherited results too, we skip the cache hit here
-                // to avoid false positives from the prototype chain.
-                /*
                 if (cache[h].object == currentValue && cache[h].name == attrName) {
-                    return PROTO_TRUE; 
+                    uintptr_t resVal = reinterpret_cast<uintptr_t>(cache[h].result);
+                    if (resVal & CACHE_FLAG_OWN) {
+                        return PROTO_TRUE;
+                    }
+                    return PROTO_FALSE;
                 }
-                */
 
                 const auto* result = attrs->implGetAt(context, attrHash);
                 if (result != nullptr) {
-                    cache[h] = {currentValue, result, attrName};
+                    // Mark as OWN in cache
+                    cache[h] = {currentValue, reinterpret_cast<const ProtoObject*>(reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN), attrName};
                     return PROTO_TRUE;
                 }
                 return PROTO_FALSE;
