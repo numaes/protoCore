@@ -406,7 +406,7 @@ namespace proto
             const uintptr_t ptrVal = reinterpret_cast<uintptr_t>(currentPointer);
             bool isObj = (ptrVal & 0x7) == POINTER_TAG_OBJECT;
             const ProtoObject* currentValue = currentPointer;
-            
+
             if (isObj) {
                 const ProtoObjectCell* oc = toImpl<const ProtoObjectCell>(currentPointer);
                 const ProtoObjectCell* ocValue = oc;
@@ -447,7 +447,7 @@ namespace proto
                 }
             } else {
                 const ProtoObject* nextProto = currentPointer->getPrototype(context);
-                if (nextProto == currentPointer || nextProto == PROTO_NONE) break; 
+                if (nextProto == currentPointer || nextProto == PROTO_NONE) break;
                 currentPointer = nextProto;
                 currentLink = nullptr;
             }
@@ -1101,14 +1101,10 @@ namespace proto
 
     const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const
     {
-        if (!this) return PROTO_FALSE;
+        if (!this || !name || reinterpret_cast<const ProtoObject*>(this) == PROTO_NONE) return PROTO_FALSE;
 
-        // Look up the canonical symbol for this key without inserting.
-        // If the key was never interned, it was never used as an attribute key,
-        // so the attribute cannot exist — return PROTO_FALSE immediately.
-        // Fast-path: if the name is already a SYMBOL (interned), the
-        // pointer is canonical — skip the SymbolTable lookup, which
-        // would otherwise hash the rope and compare bucket entries.
+        // 1. Canonical symbol lookup
+        const ProtoString* attrName = name;
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -1116,86 +1112,74 @@ namespace proto
                 const ProtoObject* sym = context->space->symbolTable->lookupByContent(
                     context, reinterpret_cast<const ProtoObject*>(name));
                 if (!sym) return PROTO_FALSE;
-                name = reinterpret_cast<const ProtoString*>(sym);
+                attrName = reinterpret_cast<const ProtoString*>(sym);
             }
-            // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
-        const ProtoObject* currentObject = this;
-        const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
+        // 2. Cache Setup
+        AttributeCacheEntry* cache = nullptr;
+        if (context->thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+            if (threadImpl->extension) cache = threadImpl->extension->attributeCache;
+        }
 
-        const ParentLinkImplementation* plStack[64];
-        int plPtr = 0;
+        const ProtoObject* currentPointer = this;
+        const ParentLinkImplementation* currentLink = nullptr;
+        const unsigned long attrHash = reinterpret_cast<uintptr_t>(attrName);
         int iterationCount = 0;
 
-        while (currentObject) {
-            if (++iterationCount > 50) return PROTO_FALSE;
+        while (currentPointer && currentPointer != PROTO_NONE) {
+            if (++iterationCount > 500) return PROTO_FALSE;
 
-            ProtoObjectPointer pa_cur{};
-            pa_cur.oid = currentObject;
-            if (pa_cur.op.pointer_tag != POINTER_TAG_OBJECT) {
-                currentObject = currentObject->getPrototype(context);
-                continue;
-            }
-            auto oc = toImpl<const ProtoObjectCell>(currentObject);
-            if (!oc) {
-                return PROTO_FALSE;
-            }
-            const ProtoSparseListImplementation* attributes = oc->attributes;
-            if (!attributes) {
-                return PROTO_FALSE;
-            }
-
-            // Support for Mutable Objects (cache-fast)
-            if (oc->mutable_ref > 0) {
-                 const proto::ProtoObject* storedState =
-                     resolveMutableSnapshot(context, oc->mutable_ref);
-                 if (storedState != nullptr && storedState != currentObject) {
-                     ProtoObjectPointer psa{};
-                     psa.oid = storedState;
-                     if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                         auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                         attributes = storedOc->attributes;
-                         oc = storedOc;
-                     }
-                 }
-            }
-
-            if (attributes->implHas(context, attr_hash)) {
-                return PROTO_TRUE;
-            }
-
-            // Multiple inheritance support:
-            if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
-                auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
-                if (pl->getType() == CellType::ParentLink) {
-                    const ParentLinkImplementation* sibling = pl->getParent(context);
-                    while (sibling && plPtr < 64 && ((uintptr_t)sibling & 0x3F) == 0) {
-                        auto sl = toImpl<const ParentLinkImplementation>(sibling);
-                        if (sl->getType() != CellType::ParentLink) break;
-                        plStack[plPtr++] = sibling;
-                        sibling = sl->getParent(context);
+            const uintptr_t ptrVal = reinterpret_cast<uintptr_t>(currentPointer);
+            bool isObj = (ptrVal & 0x7) == POINTER_TAG_OBJECT;
+            const ProtoObject* currentValue = currentPointer;
+            
+            if (isObj) {
+                const ProtoObjectCell* oc = toImpl<const ProtoObjectCell>(currentPointer);
+                const ProtoObjectCell* ocValue = oc;
+                if (oc->mutable_ref > 0) {
+                    const ProtoObject* snap = resolveMutableSnapshot(context, oc->mutable_ref);
+                    if (snap && snap != PROTO_NONE) {
+                        currentValue = snap;
+                        ocValue = toImpl<const ProtoObjectCell>(currentValue);
                     }
-                    currentObject = pl->getObject(context);
+                }
+
+                // 3. Cache lookup
+                unsigned long h = 0;
+                if (cache) {
+                    h = (reinterpret_cast<uintptr_t>(currentValue) ^
+                         (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
+                    if (cache[h].object == currentValue && cache[h].name == attrName) {
+                        return context->fromBoolean(cache[h].result != PROTO_NONE);
+                    }
+                }
+
+                const auto* result = ocValue->attributes->implGetAt(context, attrHash);
+                if (result != nullptr) {
+                    if (cache) cache[h] = {currentValue, result, attrName};
+                    return PROTO_TRUE;
+                }
+
+                // 4. Chain traversal
+                if (!currentLink) {
+                    currentLink = ocValue->parent;
                 } else {
-                    currentObject = nullptr;
+                    currentLink = currentLink->parent;
+                }
+
+                if (currentLink && ((uintptr_t)currentLink & 0x3F) == 0) {
+                    currentPointer = currentLink->object;
+                } else {
+                    currentPointer = nullptr;
                 }
             } else {
-                if (plPtr > 0) {
-                    const ParentLinkImplementation* top = plStack[--plPtr];
-                    if (top && ((uintptr_t)top & 0x3F) == 0) {
-                        auto tl = toImpl<const ParentLinkImplementation>(top);
-                        if (tl->getType() == CellType::ParentLink) {
-                            currentObject = tl->getObject(context);
-                        } else {
-                            currentObject = nullptr;
-                        }
-                    } else {
-                        currentObject = nullptr;
-                    }
-                } else {
-                    currentObject = nullptr;
-                }
+                // Fallback for non-objects
+                const ProtoObject* nextProto = currentPointer->getPrototype(context);
+                if (nextProto == currentPointer || nextProto == PROTO_NONE) break; 
+                currentPointer = nextProto;
+                currentLink = nullptr;
             }
         }
         return PROTO_FALSE;
@@ -1261,12 +1245,10 @@ namespace proto
     }
     
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
-        // Look up the canonical symbol for this key without inserting.
-        // If the key was never interned, it was never used as an attribute key,
-        // so the attribute cannot exist — return PROTO_FALSE immediately.
-        // Fast-path: if the name is already a SYMBOL (interned), the
-        // pointer is canonical — skip the SymbolTable lookup, which
-        // would otherwise hash the rope and compare bucket entries.
+        if (!this || !name || reinterpret_cast<const ProtoObject*>(this) == PROTO_NONE) return PROTO_FALSE;
+
+        // 1. Canonical symbol lookup
+        const ProtoString* attrName = name;
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -1274,25 +1256,49 @@ namespace proto
                 const ProtoObject* sym = context->space->symbolTable->lookupByContent(
                     context, reinterpret_cast<const ProtoObject*>(name));
                 if (!sym) return PROTO_FALSE;
-                name = reinterpret_cast<const ProtoString*>(sym);
+                attrName = reinterpret_cast<const ProtoString*>(sym);
             }
-            // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
-        ProtoObjectPointer pa{};
-        pa.oid = this;
-        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return PROTO_FALSE;
-        auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseListImplementation* attributes = oc->attributes;
+        const uintptr_t ptrVal = reinterpret_cast<uintptr_t>(this);
+        if ((ptrVal & 0x7) != POINTER_TAG_OBJECT) return PROTO_FALSE;
 
+        const ProtoObjectCell* oc = toImpl<const ProtoObjectCell>(this);
+        const ProtoSparseListImplementation* attrs = oc->attributes;
+        const ProtoObject* currentValue = this;
+        
         if (oc->mutable_ref > 0) {
-            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
-            if (storedState != nullptr) {
-                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                attributes = storedOc->attributes;
+            const ProtoObject* snap = resolveMutableSnapshot(context, oc->mutable_ref);
+            if (snap && snap != PROTO_NONE) {
+                currentValue = snap;
+                attrs = toImpl<const ProtoObjectCell>(snap)->attributes;
             }
         }
-        return context->fromBoolean(attributes->implHas(context, reinterpret_cast<uintptr_t>(name)));
+
+        const unsigned long attrHash = reinterpret_cast<uintptr_t>(attrName);
+
+        // 2. Cache Lookup
+        if (context->thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+            if (threadImpl->extension && threadImpl->extension->attributeCache) {
+                AttributeCacheEntry* cache = threadImpl->extension->attributeCache;
+                const unsigned long h = (reinterpret_cast<uintptr_t>(currentValue) ^
+                                         (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
+                
+                if (cache[h].object == currentValue && cache[h].name == attrName) {
+                    return context->fromBoolean(cache[h].result != PROTO_NONE);
+                }
+
+                const auto* result = attrs->implGetAt(context, attrHash);
+                if (result != nullptr) {
+                    cache[h] = {currentValue, result, attrName};
+                    return PROTO_TRUE;
+                }
+                return PROTO_FALSE;
+            }
+        }
+
+        return context->fromBoolean(attrs->implHas(context, attrHash));
     }
     
     const ProtoObject* ProtoObject::divmod(ProtoContext* context, const ProtoObject* other) const {
