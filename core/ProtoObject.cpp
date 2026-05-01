@@ -411,7 +411,7 @@ namespace proto
             if (++iterationCount > 500) return PROTO_NONE;
 
             const uintptr_t ptrVal = reinterpret_cast<uintptr_t>(currentPointer);
-            bool isObj = (ptrVal & 0x7) == POINTER_TAG_OBJECT;
+            bool isObj = (ptrVal & 0x3F) == POINTER_TAG_OBJECT;
             const ProtoObject* currentValue = currentPointer;
 
             if (isObj) {
@@ -906,7 +906,7 @@ namespace proto
         }
 
         const uintptr_t ptrVal = reinterpret_cast<uintptr_t>(this);
-        if ((ptrVal & 0x7) != POINTER_TAG_OBJECT) return PROTO_NONE;
+        if ((ptrVal & 0x3F) != POINTER_TAG_OBJECT) return PROTO_NONE;
 
         const ProtoObjectCell* oc = toImpl<const ProtoObjectCell>(this);
         const ProtoSparseListImplementation* attrs = oc->attributes;
@@ -1183,7 +1183,7 @@ namespace proto
             if (++iterationCount > 500) return PROTO_FALSE;
 
             const uintptr_t ptrVal = reinterpret_cast<uintptr_t>(currentPointer);
-            bool isObj = (ptrVal & 0x7) == POINTER_TAG_OBJECT;
+            bool isObj = (ptrVal & 0x3F) == POINTER_TAG_OBJECT;
             const ProtoObject* currentValue = currentPointer;
 
             if (isObj) {
@@ -1319,7 +1319,7 @@ namespace proto
         }
 
         const uintptr_t ptrVal = reinterpret_cast<uintptr_t>(this);
-        if ((ptrVal & 0x7) != POINTER_TAG_OBJECT) return PROTO_FALSE;
+        if ((ptrVal & 0x3F) != POINTER_TAG_OBJECT) return PROTO_FALSE;
 
         const ProtoObjectCell* oc = toImpl<const ProtoObjectCell>(this);
         const ProtoSparseListImplementation* attrs = oc->attributes;
