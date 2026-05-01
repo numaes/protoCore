@@ -134,6 +134,10 @@ add_executable(cache_timing_benchmark performance/cache_timing_benchmark.cpp)
 target_link_libraries(cache_timing_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: cache_timing_benchmark")
 
+add_executable(microbenchmark_final performance/microbenchmark_final.cpp)
+target_link_libraries(microbenchmark_final PRIVATE protoCore)
+message(STATUS "Configured benchmark: microbenchmark_final")
+
 # 5. Configure the test suite
 # The 'enable_testing()' command allows the use of ctest.
 enable_testing()

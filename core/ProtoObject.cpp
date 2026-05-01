@@ -424,13 +424,23 @@ namespace proto
                     h = (reinterpret_cast<uintptr_t>(currentValue) ^
                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
                     if (cache[h].object == currentValue && cache[h].name == attrName) {
-                        return cache[h].result;
+                        return cache[h].result ? cache[h].result : PROTO_NONE;
                     }
                 }
 
                 const auto* result = ocValue->attributes->implGetAt(context, attrHash);
                 if (result != nullptr) {
-                    if (cache) cache[h] = {currentValue, result, attrName};
+                    if (cache) {
+                        // Cache for the start object to achieve O(1) for the whole chain next time
+                        const unsigned long h_start = (reinterpret_cast<uintptr_t>(this) ^
+                                                     (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
+                        cache[h_start] = {this, result, attrName};
+                        
+                        // Also cache for the current level
+                        if (currentValue != this) {
+                            cache[h] = {currentValue, result, attrName};
+                        }
+                    }
                     return result;
                 }
 
@@ -451,6 +461,11 @@ namespace proto
                 currentPointer = nextProto;
                 currentLink = nullptr;
             }
+        }
+        if (cache) {
+            unsigned long h_start = (reinterpret_cast<uintptr_t>(this) ^
+                                     (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
+            cache[h_start] = {this, nullptr, attrName};
         }
         return PROTO_NONE;
     }
@@ -1152,7 +1167,10 @@ namespace proto
                     h = (reinterpret_cast<uintptr_t>(currentValue) ^
                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
                     if (cache[h].object == currentValue && cache[h].name == attrName) {
-                        return context->fromBoolean(cache[h].result != PROTO_NONE);
+                        // In our non-lossy cache:
+                        // result != nullptr means hit (even if value is PROTO_NONE)
+                        // result == nullptr means cached miss
+                        return context->fromBoolean(cache[h].result != nullptr);
                     }
                 }
 
@@ -1285,9 +1303,14 @@ namespace proto
                 const unsigned long h = (reinterpret_cast<uintptr_t>(currentValue) ^
                                          (reinterpret_cast<uintptr_t>(attrName) >> 6)) % THREAD_CACHE_DEPTH;
                 
+                // Note: we can only trust the cache for hasOwnAttribute if we know the hit was 'own'.
+                // Since getAttribute caches inherited results too, we skip the cache hit here
+                // to avoid false positives from the prototype chain.
+                /*
                 if (cache[h].object == currentValue && cache[h].name == attrName) {
-                    return context->fromBoolean(cache[h].result != PROTO_NONE);
+                    return PROTO_TRUE; 
                 }
+                */
 
                 const auto* result = attrs->implGetAt(context, attrHash);
                 if (result != nullptr) {
