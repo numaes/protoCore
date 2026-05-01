@@ -976,11 +976,21 @@ namespace proto {
 
     struct AttributeCacheEntry {
         const ProtoObject* object;
-        const ProtoObject* result; // Bit 3 (0x8) is CACHE_FLAG_OWN
+        const ProtoObject* result; // Bit 5 (0x20) is CACHE_FLAG_OWN
         const ProtoString* name;
     };
 
-    #define CACHE_FLAG_OWN 0x8UL
+    // Bit used to mark a cached attribute lookup as resolved on the
+    // start object's own attribute set (as opposed to via the parent
+    // chain). The bit MUST lie outside the pointer-tag range used by
+    // POINTER_TAG_* (currently 0..24, occupying bits 0..4 of the low
+    // six tag bits). Bit 5 (0x20) is the lowest free bit: cell pointers
+    // are 64-byte aligned (low 6 bits zero) and no live POINTER_TAG_*
+    // value reaches 0x20, so OR-ing/AND-NOT-ing this flag never
+    // collides with a legitimate primitive tag (e.g. SPARSE_LIST = 8,
+    // METHOD = 12, DOUBLE = 15) that would otherwise be silently
+    // re-tagged as POINTER_TAG_OBJECT on cache strip-out.
+    #define CACHE_FLAG_OWN 0x20UL
 
     /**
      * @brief Per-thread cache entry for mutable-object snapshot resolution.

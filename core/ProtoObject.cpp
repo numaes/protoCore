@@ -1188,7 +1188,24 @@ namespace proto
 
                 const auto* result = ocValue->attributes->implGetAt(context, attrHash);
                 if (result != nullptr) {
-                    if (cache) cache[h] = {currentValue, result, attrName};
+                    if (cache) {
+                        // The cache key is (currentValue, attrName) and the
+                        // attribute was just resolved via currentValue's own
+                        // attribute map (implGetAt on ocValue->attributes), so
+                        // it is by definition OWN with respect to the cache
+                        // key. Marking it preserves the invariant
+                        // hasOwnAttribute / getOwnAttributeDirect rely on:
+                        // a cache hit without CACHE_FLAG_OWN means "not own".
+                        // Writing without the flag here would cause a later
+                        // hasOwnAttribute(currentValue, attrName) to spuriously
+                        // return PROTO_FALSE, and getOwnAttributeDirect to
+                        // return PROTO_NONE, even though the attribute is in
+                        // currentValue's own dict.
+                        cache[h] = {currentValue,
+                                    reinterpret_cast<const ProtoObject*>(
+                                        reinterpret_cast<uintptr_t>(result) | CACHE_FLAG_OWN),
+                                    attrName};
+                    }
                     return PROTO_TRUE;
                 }
 
