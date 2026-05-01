@@ -39,7 +39,7 @@ TEST_F(ObjectTest, GetMissingAttribute) {
     const proto::ProtoString* attr_name = context->fromUTF8String("non_existent_attr")->asString(context);
 
     const proto::ProtoObject* retrieved_value = obj->getAttribute(context, const_cast<ProtoString*>(attr_name));
-    ASSERT_EQ(retrieved_value, nullptr);
+    ASSERT_EQ(retrieved_value, PROTO_NONE);
 }
 
 TEST_F(ObjectTest, SimpleInheritance) {
