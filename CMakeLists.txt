@@ -130,6 +130,10 @@ add_executable(string_concat_benchmark performance/string_concat_benchmark.cpp)
 target_link_libraries(string_concat_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: string_concat_benchmark")
 
+add_executable(cache_timing_benchmark performance/cache_timing_benchmark.cpp)
+target_link_libraries(cache_timing_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: cache_timing_benchmark")
+
 # 5. Configure the test suite
 # The 'enable_testing()' command allows the use of ctest.
 enable_testing()

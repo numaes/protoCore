@@ -444,10 +444,10 @@ namespace proto
                 // which on rope-backed symbols re-traverses the tree
                 // and was costing ~5% of CPU per lookup before this
                 // change (subtreeHash + StringLeafNode::fromObject +
-                // isString in profiles).  Right-shift by 4 to spread
+                // isString in profiles).  Right-shift by 6 to spread
                 // the low alignment-zero bits into the index range.
                 hash_idx = (reinterpret_cast<uintptr_t>(currentValue) ^
-                              (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
+                              (reinterpret_cast<uintptr_t>(name) >> 6)) % THREAD_CACHE_DEPTH;
                 if (cache[hash_idx].object == currentValue && cache[hash_idx].name == name) {
                     return cache[hash_idx].result;
                 }
@@ -543,7 +543,7 @@ namespace proto
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
                 unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^
-                                            (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
+                                            (reinterpret_cast<uintptr_t>(name) >> 6)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
                     threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr};
