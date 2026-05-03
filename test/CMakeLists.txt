@@ -25,6 +25,12 @@ add_executable(proto_tests ${TEST_SOURCES})
 # Link gtest before gtest_main so that gtest symbols are available to gtest_main.
 target_link_libraries(proto_tests PRIVATE protoCore gtest gtest_main)
 
+# Propagate the survivor re-chain macro to test sources so behaviour-specific
+# tests can GTEST_SKIP when the feature is OFF.
+if(PROTOCORE_GC_REINCLUDE_SURVIVORS)
+    target_compile_definitions(proto_tests PRIVATE PROTOCORE_GC_REINCLUDE_SURVIVORS)
+endif()
+
 # Coverage instrumentation when COVERAGE=ON (set in parent CMakeLists.txt)
 if(COVERAGE AND DEFINED COVERAGE_FLAGS)
     target_compile_options(proto_tests PRIVATE ${COVERAGE_FLAGS})
