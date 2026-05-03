@@ -309,10 +309,19 @@ namespace proto {
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
                     Cell* cell = currentSeg->cellChain;
-                    
+
                     Cell* batchHead = nullptr;
                     Cell* batchTail = nullptr;
                     int batchCount = 0;
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                    // Cells that survived this cycle (were reachable from
+                    // roots) are chained here and re-pushed to dirtySegments
+                    // so the next cycle includes them in its candidate set.
+                    // Without this re-inclusion, a cell that survives once
+                    // is dropped from analysis forever and leaks when it
+                    // later becomes unreachable.
+                    Cell* survHead = nullptr;
+#endif
 
                     while (cell) {
                         Cell* nextCell = cell->getNext();
@@ -325,6 +334,17 @@ namespace proto {
                             batchCount++;
                         } else {
                             cell->unmark();
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                            // Prepend to the survivor chain.  Use setNext
+                            // (not internalSetNextRaw) so the cached
+                            // cellType bits in next_and_flags survive — the
+                            // cell stays live and queryable.  The old next
+                            // pointer is no longer needed: we already saved
+                            // the iteration cursor in `nextCell` above and
+                            // currentSeg->cellChain is being torn down.
+                            cell->setNext(survHead);
+                            survHead = cell;
+#endif
                         }
                         cell = nextCell;
                     }
@@ -339,6 +359,32 @@ namespace proto {
                     }
 
                     DirtySegment* nextSeg = currentSeg->next;
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                    if (survHead) {
+                        // Repurpose currentSeg as a survivor segment and
+                        // push it back to dirtySegments for the next cycle
+                        // to re-include.  Same lock-free push the existing
+                        // submitYoungGeneration uses.
+                        currentSeg->cellChain = survHead;
+                        currentSeg->next = space->dirtySegments.load(std::memory_order_relaxed);
+                        while (!space->dirtySegments.compare_exchange_weak(
+                                currentSeg->next, currentSeg,
+                                std::memory_order_release,
+                                std::memory_order_relaxed)) {
+                            // currentSeg->next updated by compare_exchange_weak on failure
+                        }
+                    } else {
+                        // No survivors: recycle to the free pool as before.
+                        currentSeg->cellChain = nullptr;
+                        currentSeg->next = space->dirtySegmentFreePool.load(std::memory_order_relaxed);
+                        while (!space->dirtySegmentFreePool.compare_exchange_weak(
+                                currentSeg->next, currentSeg,
+                                std::memory_order_release,
+                                std::memory_order_relaxed)) {
+                            // currentSeg->next updated by compare_exchange_weak on failure
+                        }
+                    }
+#else
                     // Return the segment to the lock-free free pool so the
                     // next submitYoungGeneration() can recycle it.  The GC
                     // is the sole consumer here and the only thread that
@@ -351,6 +397,7 @@ namespace proto {
                             std::memory_order_relaxed)) {
                         // currentSeg->next updated by compare_exchange_weak on failure
                     }
+#endif
                     currentSeg = nextSeg;
                 }
 

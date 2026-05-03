@@ -15,12 +15,36 @@
 using namespace proto;
 
 namespace {
-// Drive a few GC cycles to convergence.  triggerGC is non-blocking, so we
-// give the GC thread time to run and re-park.
-void waitForGcCycles(ProtoSpace& space, int cycles = 1, int sleepMs = 100) {
+// Drive a few GC cycles to convergence.  Two interlocking concerns:
+//   1. triggerGC() in production is gated on heap pressure
+//      (freeRatio < 0.2), which never trips when a test allocates only a
+//      handful of cells.  Tests must set gcStarted directly.
+//   2. STW root collection cannot start until parkedThreads >=
+//      runningThreads.  The test thread is "running" and must
+//      cooperate by calling safepoint() so it actually parks when STW
+//      is requested.  Otherwise the GC blocks forever waiting for the
+//      test thread to reach a safepoint.
+//
+// The loop kicks gcStarted, then spins on safepoint() until the cycle
+// completes (gcStarted cleared by the GC thread).
+void waitForGcCycles(ProtoSpace& space, int cycles = 1) {
+    ProtoContext* ctx = space.rootContext;
     for (int i = 0; i < cycles; ++i) {
-        space.triggerGC();
-        std::this_thread::sleep_for(std::chrono::milliseconds(sleepMs));
+        {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            space.gcStarted = true;
+            space.gcCV.notify_all();
+        }
+        auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+        while (space.gcStarted.load() &&
+               std::chrono::steady_clock::now() < deadline) {
+            // Cooperate with STW: park if the GC has requested it.
+            if (ctx) ctx->safepoint();
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        // Tail latency: the GC thread clears gcStarted before sweep
+        // finishes (sweep runs without the global lock).  Give it room.
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }
 }  // namespace
@@ -95,7 +119,9 @@ TEST(GCSurvivorTest, LongLivedSurvivorFreedWhenReferenceDropped) {
     }
     // sub destructor submits its young chain to dirtySegments.
 
-    // Two cycles: cell survives both because it is rooted in rs.
+    // Two cycles: cell survives both because it is rooted in rs.  After
+    // cycle 1, the survivor re-chain has placed the cell back into
+    // dirtySegments so cycle 2 still sees it as a candidate.
     waitForGcCycles(space, 2);
 
     const unsigned long freeBefore = space.freeCellsCount;
