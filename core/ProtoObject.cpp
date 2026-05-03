@@ -377,14 +377,16 @@ namespace proto
 
         // Look up the canonical symbol for this key without inserting.
         // If the key was never interned, it was never used as an attribute key,
-        // so the attribute cannot exist — return nullptr immediately.
+        // so the attribute cannot exist — return PROTO_NONE for "not found"
+        // (the convention across the API; nullptr is reserved for invalid
+        // input, not "missing").
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
                 const ProtoObject* sym = context->space->symbolTable->lookupByContent(
                     context, reinterpret_cast<const ProtoObject*>(name));
-                if (!sym) return nullptr;
+                if (!sym) return PROTO_NONE;
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
         }
@@ -501,11 +503,14 @@ namespace proto
                 // Important: getPrototype for non-objects might NOT be linearized.
                 // But for now we follow the existing pattern.
                 const ProtoObject* nextProto = currentPointer->getPrototype(context);
-                if (nextProto == currentPointer) break; 
+                if (nextProto == currentPointer) break;
                 currentPointer = nextProto;
             }
         }
-        return nullptr;
+        // Full prototype chain searched, attribute not found.  Return
+        // PROTO_NONE per the API convention (nullptr is reserved for
+        // invalid inputs at the top of this function).
+        return PROTO_NONE;
     }
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const {
