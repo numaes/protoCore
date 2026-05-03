@@ -305,6 +305,17 @@ namespace proto {
 
     void ProtoThreadImplementation::implSynchToGC() {
         if (this->space->stwFlag.load()) {
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+            // Same critical-section discipline as ProtoContext::allocCell()
+            // and ProtoContext::safepoint(): never park while the current
+            // context is mid-construction of a tree that will be CAS'd
+            // into a GC root.  Parking here would let the GC start its
+            // STW root scan before the construction completes, and the
+            // half-built tree's cells (already submitted to dirtySegments
+            // via the per-context allocation threshold) would be
+            // unreachable from any root and freed.
+            if (this->context && this->context->criticalSectionDepth > 0) return;
+#endif
             this->space->parkedThreads++;
             {
                 std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);

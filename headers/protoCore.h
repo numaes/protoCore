@@ -854,6 +854,51 @@ namespace proto
         Cell* freeCells;
         Cell* pendingRoot;
         std::atomic_flag lock{ATOMIC_FLAG_INIT};
+
+        /**
+         * @brief Depth counter for in-progress GC critical sections on this
+         *        thread (e.g. mutable setAttribute mid-construction).
+         *
+         * While > 0, the cooperative STW poll in allocCell()/safepoint() skips
+         * parking — the GC's stop-the-world phase therefore cannot start
+         * until every running thread either finishes its critical section
+         * or reaches a safepoint outside one.  This protects the construct +
+         * CAS-into-root pattern from being interrupted between the
+         * allocation of intermediate cells and the final atomic publish:
+         * without the guard a sweep would see those cells in dirtySegments
+         * (chain submitted at the per-context threshold) and unreachable
+         * from any GC root, and free them under the running mutator.
+         *
+         * Only mutated by the owning thread; never touched concurrently.
+         * Wrap any tree-builder that allocates ≥1 cell *and* attaches them
+         * to a GC root only via a final CAS in a CriticalSection RAII guard.
+         */
+        unsigned int criticalSectionDepth = 0;
+
+        /**
+         * @brief RAII guard for a GC critical section on a ProtoContext.
+         *
+         * Increments criticalSectionDepth on construction and decrements on
+         * destruction; STW polling in allocCell()/safepoint() skips parking
+         * while the depth is non-zero.  Use this around any code that holds
+         * ProtoObject* / Cell* values in C++ locals across one or more
+         * allocations and later attaches them to a GC root (typically by
+         * CAS'ing a new mutable snapshot into a mutableRoot shard).  The
+         * guard is per-thread, no atomics, no lock.
+         */
+        class CriticalSection {
+        public:
+            explicit CriticalSection(ProtoContext* ctx) : ctx_(ctx) {
+                if (ctx_) ctx_->criticalSectionDepth++;
+            }
+            ~CriticalSection() {
+                if (ctx_) ctx_->criticalSectionDepth--;
+            }
+            CriticalSection(const CriticalSection&) = delete;
+            CriticalSection& operator=(const CriticalSection&) = delete;
+        private:
+            ProtoContext* ctx_;
+        };
         
         ProtoContext(const ProtoContext&) = delete;
         ProtoContext& operator=(const ProtoContext&) = delete;

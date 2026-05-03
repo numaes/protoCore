@@ -237,10 +237,46 @@ namespace proto
     void ProtoContext::safepoint()
     {
         if (!this || !this->space) return;
+
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+        // Per-context allocation-threshold submission.  This is the only
+        // place we hand lastAllocatedCell over to dirtySegments — calling
+        // it from allocCell mid-construction would orphan in-flight cells
+        // held by native helpers in C++ locals.  An embedder calling
+        // safepoint() does so at a point where every reachable Cell is
+        // anchored from a real GC root (operand stack on automaticLocals,
+        // mutableRoot, prototypes, embedder root sets), so a submission
+        // here cannot leave anything live but unreachable.
+        //
+        // Skipped while in a critical section: a wrapper called from
+        // inside setAttribute would otherwise be trapped between the
+        // construction of a new tree and its CAS into mutableRoot.
+        if (this->criticalSectionDepth == 0 &&
+            this->space->maxAllocatedCellsPerContext > 0 &&
+            this->allocatedCellsCount > this->space->maxAllocatedCellsPerContext &&
+            this->space->gcThread &&
+            std::this_thread::get_id() != this->space->gcThread->get_id()) {
+            while (lock.test_and_set(std::memory_order_acquire)) {}
+            Cell* chain = this->lastAllocatedCell;
+            this->lastAllocatedCell = nullptr;
+            this->allocatedCellsCount = 0;
+            lock.clear(std::memory_order_release);
+            if (chain) {
+                this->space->submitYoungGeneration(chain);
+            }
+        }
+#endif
+
         if (!this->space->stwFlag.load(std::memory_order_relaxed)) return;
         // GC thread itself never parks against its own STW.
         if (this->space->gcThread &&
             std::this_thread::get_id() == this->space->gcThread->get_id()) return;
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+        // Same critical-section discipline: a thread mid-construction
+        // must NOT park; STW would otherwise start with a half-built
+        // tree's cells in dirtySegments and unreachable from any root.
+        if (this->criticalSectionDepth > 0) return;
+#endif
         this->space->parkedThreads++;
         {
             GC_LOCK_TRACE("safepoint STW ACQ");
@@ -260,10 +296,20 @@ namespace proto
         // Poll the stop-the-world flag every 64 allocations instead of every call.
         // A cooperative GC can tolerate a few-microsecond delay; this eliminates 63 out of 64
         // seq_cst atomic loads on the hot allocation path.
+        //
+        // While the calling thread is inside a GC critical section
+        // (mutable construction + CAS-into-root, see ProtoObject::setAttribute
+        // and SparseList::implSetAt), do NOT park.  See safepoint() for the
+        // rationale — STW root collection during a half-built structure
+        // would orphan the in-flight cells.
         if (this && this->space &&
             (allocatedCellsCount & 63) == 0 &&
             this->space->stwFlag.load(std::memory_order_relaxed) &&
-            std::this_thread::get_id() != this->space->gcThread->get_id()) {
+            std::this_thread::get_id() != this->space->gcThread->get_id()
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+            && this->criticalSectionDepth == 0
+#endif
+            ) {
             this->space->parkedThreads++;
             {
                 GC_LOCK_TRACE("allocCell STW ACQ");
@@ -303,50 +349,28 @@ namespace proto
             if (this) {
                 this->allocatedCellsCount++;
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                // Per-context allocation-threshold trigger.  When this
-                // context has accumulated more than maxAllocatedCellsPerContext
-                // cells since its last submission, push the young chain to
-                // dirtySegments, reset the counter, and request a GC cycle.
-                // Bounds RSS in tight loops with small working sets without
-                // changing the algorithm: the GC marks from roots and frees
-                // unreachables.  Cells we just submitted remain reachable
-                // through the active frame stack until mark proves otherwise.
+                // Per-context allocation-threshold submission.
                 //
-                // Skip if this is the GC thread itself (cannot submit to
-                // its own input) or if the threshold is zero (disables
-                // the trigger entirely).
-                if (this->space &&
-                    this->space->maxAllocatedCellsPerContext > 0 &&
-                    this->allocatedCellsCount > this->space->maxAllocatedCellsPerContext &&
-                    this->space->gcThread &&
-                    std::this_thread::get_id() != this->space->gcThread->get_id()) {
-                    // Threshold reached.  We kick the GC but do NOT submit
-                    // lastAllocatedCell to dirtySegments.
-                    //
-                    // The chain implicitly pins every Cell it contains
-                    // (cells in the chain are not in dirtySegments and are
-                    // therefore not candidates for sweep).  Submitting the
-                    // chain mid-execution would move those Cells from
-                    // "implicitly pinned" to "candidate", and the next sweep
-                    // would free anything that isn't reachable from a root.
-                    //
-                    // protoPython routes its bytecode operand stack through
-                    // GC-visible automaticLocals (see makeCodeObject calls
-                    // for module/eval/exec, where automatic_count is sized
-                    // to the compile-time max stack depth + safety margin).
-                    // That covers the bytecode interpreter's in-flight
-                    // values.  However, environment setup, native helpers,
-                    // and other code paths still hold transient Cells in
-                    // C++ locals during construction sequences, where the
-                    // chain submission can race with the GC and free live
-                    // values intermittently.  Until every such path is
-                    // audited, the chain submission stays disabled.
-                    //
-                    // Reset only the counter so the trigger fires once per
-                    // threshold rather than on every allocCell past it.
-                    this->allocatedCellsCount = 0;
-                    this->space->triggerGC();
-                }
+                // When this context has accumulated more than the threshold
+                // since its last submission, hand the young chain over to
+                // dirtySegments so the next GC cycle can reclaim the
+                // unreachable cells.  We do NOT trigger a GC here — the
+                // freeRatio gate inside getFreeCells already kicks the
+                // collector when it actually matters.
+                //
+                // This is safe even when a native helper (mutable
+                // setAttribute, SparseList rebuild, ...) is mid-construction
+                // because such helpers wrap their construct + CAS sequence
+                // in a critical section; the per-thread STW poll skips
+                // parking while the depth is non-zero, so a chain submitted
+                // here cannot become a sweep candidate before the helper's
+                // CAS makes it reachable from a GC root.
+                // Per-context allocation-threshold submission moved to
+                // ProtoContext::safepoint() so it can only land at points
+                // the embedder considers safe (between bytecode opcodes,
+                // for example).  Submitting from inside allocCell mid-
+                // construction races with native helpers that hold cell
+                // pointers in C++ locals across allocations.
 #endif
             }
             return newCell;

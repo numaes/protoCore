@@ -571,6 +571,17 @@ namespace proto
              // because they were never installed.  Add a tiny pause every
              // few rounds so the writers don't burn CPU livelocking each
              // other on the same shard.
+             //
+             // GC critical section: every iteration of this loop allocates
+             // a new SparseList tree (newAttributes), a new ProtoObjectCell
+             // (newState), and a new outer SparseList tree (newRootImpl)
+             // BEFORE any of them are reachable from a GC root — the only
+             // root publish is the final compare_exchange_weak on
+             // mutableRoot[shard].root.  Without the guard the per-context
+             // allocation-threshold submission can land in dirtySegments
+             // mid-construction and a concurrent STW + sweep would free
+             // the half-built tree under the running mutator.
+             ProtoContext::CriticalSection cs(context);
              int casIteration = 0;
              while (true) {
                  ++casIteration;
@@ -627,7 +638,12 @@ namespace proto
              return this; // Return the same handle!
         }
 
-        // Handle Immutable Objects (Copy-on-Write)
+        // Handle Immutable Objects (Copy-on-Write).  Same critical-section
+        // discipline as the mutable branch: newAttributes (a SparseList
+        // tree) and the surrounding ProtoObjectCell are allocated and only
+        // reachable through this function's return value once both are
+        // wired up; sweeping mid-build would orphan them.
+        ProtoContext::CriticalSection cs(context);
         const auto* newAttributes = oc->attributes->implSetAt(context, (uintptr_t)name, value);
         const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         return result;
