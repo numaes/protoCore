@@ -1200,13 +1200,36 @@ namespace proto
         unsigned int survivorStagger;
 
         /**
-         * @brief Monotonic GC cycle counter, only mutated by the GC thread.
+         * @brief Monotonic GC cycle counter.
          *
-         * Incremented at the start of each cycle.  When
-         * `gcCycleCount % survivorStagger == 0`, the survivor pen is folded
-         * back into `dirtySegments` before the cycle's root collection.
+         * Incremented by the GC thread (single writer) at the start of each
+         * cycle, inside STW.  Read by mutator threads via `getGCCycleCount()`
+         * to invalidate per-thread caches that hold raw cell pointers
+         * (e.g. embedder behavior caches keyed by ProtoObject*).
+         *
+         * Atomic with relaxed ordering: the value is only used as a
+         * change-detection token, not as a synchronisation primitive.
+         * Mutator reads observing a stale value will simply postpone
+         * cache invalidation until the next call, which is safe because
+         * the cache is consulted with the same pointer on the next hot
+         * path entry.
+         *
+         * When `gcCycleCount % survivorStagger == 0`, the survivor pen is
+         * folded back into `dirtySegments` before the cycle's root collection.
          */
-        unsigned int gcCycleCount;
+        std::atomic<uint64_t> gcCycleCount;
+
+        /**
+         * @brief Returns the current GC cycle counter (relaxed load).
+         *
+         * Embedders cache cell-pointer-keyed data on the assumption that the
+         * pointer remains valid; after a GC cycle, freed pointers can be
+         * recycled, so caches must be invalidated.  Compare the returned
+         * value against a thread-local snapshot; any change means at least
+         * one GC cycle has happened since the last check, so caches must
+         * be cleared before reuse.
+         */
+        uint64_t getGCCycleCount() const { return gcCycleCount.load(std::memory_order_relaxed); }
 
         /**
          * @brief Per-context allocation threshold for the GC trigger.

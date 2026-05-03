@@ -314,9 +314,9 @@ namespace proto {
                 // skip mark/sweep cost in the meantime, at the price of
                 // delayed reclamation by up to N cycles.
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                space->gcCycleCount++;
+                const uint64_t newCycle = space->gcCycleCount.fetch_add(1, std::memory_order_relaxed) + 1;
                 const unsigned int stagger = space->survivorStagger ? space->survivorStagger : 1;
-                const bool foldThisCycle = ((space->gcCycleCount % stagger) == 0);
+                const bool foldThisCycle = ((newCycle % stagger) == 0);
                 if (foldThisCycle) {
                     DirtySegment* penHead = space->survivorPen.exchange(nullptr, std::memory_order_acquire);
                     while (penHead) {
