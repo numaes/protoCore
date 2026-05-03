@@ -320,34 +320,30 @@ namespace proto
                     this->allocatedCellsCount > this->space->maxAllocatedCellsPerContext &&
                     this->space->gcThread &&
                     std::this_thread::get_id() != this->space->gcThread->get_id()) {
-                    // Per-context allocation-threshold reached.  We only kick
-                    // the GC (which still respects the freeRatio gate inside
-                    // triggerGC); we do NOT submit lastAllocatedCell to
-                    // dirtySegments here.
+                    // Threshold reached.  We kick the GC but do NOT submit
+                    // lastAllocatedCell to dirtySegments.
                     //
-                    // Why no submission: the chain implicitly pins every Cell
-                    // it contains because those Cells are not in dirtySegments
-                    // and therefore not candidates for sweep.  Embedders such
-                    // as protoPython rely on this pinning to protect operand-
-                    // stack values held in C++ locals between bytecode ops —
-                    // those values are not visible to root scan (only
-                    // automaticLocals, closureLocals, returnValue, pendingRoot,
-                    // embedder root sets, and global prototypes are roots).
-                    // Submitting the chain mid-execution would move those Cells
-                    // from "implicitly pinned" to "candidate" and the next
-                    // sweep would free them under the running interpreter.
+                    // The chain implicitly pins every Cell it contains
+                    // (cells in the chain are not in dirtySegments and are
+                    // therefore not candidates for sweep).  Submitting the
+                    // chain mid-execution would move those Cells from
+                    // "implicitly pinned" to "candidate", and the next sweep
+                    // would free anything that isn't reachable from a root.
                     //
-                    // RSS-bounding for tight loops is therefore deferred to a
-                    // follow-up that gives embedders a way to register their
-                    // operand stack as a GC root.  See the spec for the path
-                    // to enabling the chain submission once that lands.
+                    // protoPython routes its bytecode operand stack through
+                    // GC-visible automaticLocals (see makeCodeObject calls
+                    // for module/eval/exec, where automatic_count is sized
+                    // to the compile-time max stack depth + safety margin).
+                    // That covers the bytecode interpreter's in-flight
+                    // values.  However, environment setup, native helpers,
+                    // and other code paths still hold transient Cells in
+                    // C++ locals during construction sequences, where the
+                    // chain submission can race with the GC and free live
+                    // values intermittently.  Until every such path is
+                    // audited, the chain submission stays disabled.
                     //
-                    // Reset only the counter (not the chain) so that the
-                    // trigger fires once per `threshold` allocations rather
-                    // than on every allocCell after the threshold is crossed.
-                    // Without this reset, every allocation past the threshold
-                    // pays the cost of evaluating triggerGC() — measurable
-                    // overhead in tight allocation loops.
+                    // Reset only the counter so the trigger fires once per
+                    // threshold rather than on every allocCell past it.
                     this->allocatedCellsCount = 0;
                     this->space->triggerGC();
                 }
