@@ -418,6 +418,11 @@ namespace proto {
     }
 
     const ProtoObject* ProtoTuple::getSlice(ProtoContext* context, int start, int end) const {
+        // GC critical section: holds `sublist` (a freshly built ProtoList
+        // returned by getSlice) in a C++ local across newTupleFromList,
+        // which itself allocates.  Inner calls also enter their own
+        // critical sections; the depth counter handles nesting.
+        ProtoContext::CriticalSection cs(context);
         const ProtoList* list = toImpl<const ProtoTupleImplementation>(this)->implAsList(context);
         // Ensure start and end are within bounds and make sense
         start = std::max(0, start);

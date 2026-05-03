@@ -960,6 +960,12 @@ namespace proto {
         else if (cp < 0x10000u) { buf[0] = 0xE0u | (cp >> 12); buf[1] = 0x80u | ((cp >> 6) & 0x3Fu); buf[2] = 0x80u | (cp & 0x3Fu); len = 3; }
         else                    { buf[0] = 0xF0u | (cp >> 18); buf[1] = 0x80u | ((cp >> 12) & 0x3Fu); buf[2] = 0x80u | ((cp >> 6) & 0x3Fu); buf[3] = 0x80u | (cp & 0x3Fu); len = 4; }
 
+        // GC critical section: we hold a freshly built StringLeafNode and
+        // the result of strSplit (a tuple of left/right rope subtrees) in
+        // C++ locals across strConcat, which itself allocates rope nodes.
+        // Without the guard a sweep mid-construction would orphan any of
+        // those intermediate cells.
+        ProtoContext::CriticalSection cs(context);
         auto* charLeaf = new(context) StringLeafNode(context, buf, len, 1);
         auto* self = reinterpret_cast<const ProtoObject*>(this);
         const ProtoObject* root = getRoot(context, self);
@@ -976,6 +982,10 @@ namespace proto {
     }
 
     const ProtoString* ProtoString::insertAtString(ProtoContext* context, int index, const ProtoString* otherString) const {
+        // GC critical section: same rope construct + concat pattern as
+        // insertAt above; without the guard, the split result and the
+        // intermediate strConcat node are reachable only via C++ locals.
+        ProtoContext::CriticalSection cs(context);
         auto* self     = reinterpret_cast<const ProtoObject*>(this);
         auto* charsObj = reinterpret_cast<const ProtoObject*>(otherString);
         const ProtoObject* root = getRoot(context, self);
@@ -1024,6 +1034,9 @@ namespace proto {
         if (from < 0) from = 0;
         if (to > static_cast<int>(size)) to = static_cast<int>(size);
         if (from >= to) return const_cast<ProtoString*>(this);
+        // GC critical section: two strSplit results plus a strConcat
+        // node, all reachable only via C++ locals until wrapRoot.
+        ProtoContext::CriticalSection cs(context);
         const ProtoObject* root = getRoot(context, self);
         auto [left, rest]  = strSplit(context, root, static_cast<uint32_t>(from));
         auto [_,    right] = strSplit(context, rest, static_cast<uint32_t>(to - from));
@@ -1073,6 +1086,10 @@ namespace proto {
         if (n <= 0) return ProtoString::fromUTF8String(context, "");
         if (n == 1) return const_cast<ProtoString*>(this);
 
+        // GC critical section: `result` accumulates rope-concat nodes
+        // across the loop, reachable only via this C++ local until
+        // wrapRoot.
+        ProtoContext::CriticalSection cs(context);
         auto* self = reinterpret_cast<const ProtoObject*>(this);
         const ProtoObject* root = getRoot(context, self);
         const ProtoObject* result = root;

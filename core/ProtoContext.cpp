@@ -455,6 +455,17 @@ namespace proto
             // or go through ProtoString creation which routes via wrapRoot.
             return createInlineString(this, count, codepoints);
         }
+        // GC critical section: the loop below builds a ProtoList of
+        // codepoints incrementally — each implAppendLast returns a new
+        // immutable tree held in `charList` (a C++ local) until the
+        // pendingRoot update on the next line.  Subsequent
+        // ProtoString::create allocations would otherwise be vulnerable
+        // to a sweep landing in the gap between assignment and
+        // pendingRoot store.  pendingRoot still acts as the
+        // single-cell pin for the charList head; the critical section
+        // is the broader guarantee that no STW root scan happens until
+        // the whole construction finishes.
+        ProtoContext::CriticalSection cs(this);
         const ProtoListImplementation* charList = new(this) ProtoListImplementation(this);
         this->pendingRoot = const_cast<ProtoListImplementation*>(charList);
         s = (const unsigned char*)zeroTerminatedUtf8String;

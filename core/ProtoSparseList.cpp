@@ -250,8 +250,19 @@ namespace proto
         const ProtoObject* result = toImpl<const ProtoSparseListImplementation>(this)->implGetAt(context, offset);
         return result ? result : PROTO_NONE;
     }
-    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const { return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context); }
-    const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long offset) const { return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, offset)->asSparseList(context); }
+    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const {
+        // GC critical section: implSetAt builds a recursive AVL of new
+        // ProtoSparseListImplementation nodes; the rebalanced tree is
+        // reachable only via this C++ frame's return value until the
+        // caller publishes it.  Same discipline as ProtoList::setAt
+        // and ProtoObject::setAttribute.
+        ProtoContext::CriticalSection cs(context);
+        return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context);
+    }
+    const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long offset) const {
+        ProtoContext::CriticalSection cs(context);
+        return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, offset)->asSparseList(context);
+    }
     unsigned long ProtoSparseList::getSize(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->size; }
     const ProtoObject* ProtoSparseList::asObject(ProtoContext* context) const { return toImpl<const ProtoSparseListImplementation>(this)->implAsObject(context); }
     const ProtoSparseListIterator* ProtoSparseList::getIterator(ProtoContext* context) const { const auto* impl = toImpl<const ProtoSparseListImplementation>(this)->implGetIterator(context); return impl ? reinterpret_cast<const ProtoSparseListIterator*>(impl->implAsObject(context)) : nullptr; }

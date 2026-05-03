@@ -306,11 +306,37 @@ namespace proto {
         return getAt(context, size - 1);
     }
     bool ProtoList::has(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implHas(context, value); }
-    const ProtoList* ProtoList::setAt(ProtoContext* context, int index, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implSetAt(context, index, value)->asProtoList(context); }
-    const ProtoList* ProtoList::insertAt(ProtoContext* context, int index, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implInsertAt(context, index, value)->asProtoList(context); }
+    // GC critical sections on the immutable-collection mutator API.
+    //
+    // Every method below builds a fresh tree of ProtoListImplementation
+    // nodes via the recursive impl* helpers; the result is held in a
+    // C++ local until the caller publishes it.  Without the guard a
+    // concurrent STW root scan landing between two of the recursive
+    // allocations would observe the half-built tree as candidate-but-
+    // unreachable and a sweep would free it.  Same discipline as
+    // ProtoObject::setAttribute, ProtoMultiset::add, ProtoSet::add.
+    //
+    // The guard is per-thread, lock-free, single-int; it is cheap to
+    // enter and the callers that already wrap a CriticalSection (e.g.
+    // setAttribute) just bump the depth counter — no nested STW
+    // suppression issue.
+    const ProtoList* ProtoList::setAt(ProtoContext* context, int index, const ProtoObject* value) const {
+        ProtoContext::CriticalSection cs(context);
+        return toImpl<const ProtoListImplementation>(this)->implSetAt(context, index, value)->asProtoList(context);
+    }
+    const ProtoList* ProtoList::insertAt(ProtoContext* context, int index, const ProtoObject* value) const {
+        ProtoContext::CriticalSection cs(context);
+        return toImpl<const ProtoListImplementation>(this)->implInsertAt(context, index, value)->asProtoList(context);
+    }
     const ProtoList* ProtoList::appendFirst(ProtoContext* context, const ProtoObject* value) const { return insertAt(context, 0, value); }
-    const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context); }
+    const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const {
+        ProtoContext::CriticalSection cs(context);
+        return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context);
+    }
     const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* other) const {
+        // The loop holds `result` (a fresh tree) in a C++ local across
+        // every appendLast; the guard keeps it rooted between iterations.
+        ProtoContext::CriticalSection cs(context);
         const ProtoList* result = const_cast<ProtoList*>(this);
         const ProtoListIterator* it = other->getIterator(context);
         while (it->hasNext(context)) {
@@ -341,8 +367,13 @@ namespace proto {
         if (size == 0) return const_cast<ProtoList*>(this);
         return removeAt(context, size - 1);
     }
-    const ProtoList* ProtoList::removeAt(ProtoContext* context, int index) const { return toImpl<const ProtoListImplementation>(this)->implRemoveAt(context, index)->asProtoList(context); }
+    const ProtoList* ProtoList::removeAt(ProtoContext* context, int index) const {
+        ProtoContext::CriticalSection cs(context);
+        return toImpl<const ProtoListImplementation>(this)->implRemoveAt(context, index)->asProtoList(context);
+    }
     const ProtoList* ProtoList::removeSlice(ProtoContext* context, int from, int to) const {
+        // Loop holds `result` between removeAt calls.
+        ProtoContext::CriticalSection cs(context);
         const ProtoList* result = const_cast<ProtoList*>(this);
         // Remove from end to start to preserve indices
         for (int i = to - 1; i >= from; --i) {
@@ -351,6 +382,8 @@ namespace proto {
         return result;
     }
     const ProtoList* ProtoList::getSlice(ProtoContext* context, int start, int end) const {
+        // Loop holds `list` between appendLast calls.
+        ProtoContext::CriticalSection cs(context);
         const ProtoList* list = context->newList();
         for (int i = start; i < end; ++i) {
             list = list->appendLast(context, getAt(context, i));
@@ -372,6 +405,8 @@ namespace proto {
         if (n <= 0) return context->newList();
         if (n == 1) return const_cast<ProtoList*>(this);
 
+        // Nested loop holds `result` across many appendLast calls.
+        ProtoContext::CriticalSection cs(context);
         const ProtoList* result = context->newList();
         unsigned long self_size = getSize(context);
         for (long long i = 0; i < n; ++i) {
