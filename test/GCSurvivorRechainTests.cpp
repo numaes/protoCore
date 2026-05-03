@@ -51,18 +51,53 @@ void waitForGcCycles(ProtoSpace& space, int cycles = 1) {
 
 // T1 — RSS bounded in a tight loop with no escapes.
 //
-// DEFERRED: the chain-bounding form of the threshold trigger requires
-// embedders to expose their operand stack to the GC root scan (e.g. via
-// a per-thread RootSet).  protoPython's bytecode interpreter holds
-// in-flight values in a C++ std::vector that the GC cannot see; if the
-// trigger submitted lastAllocatedCell mid-execution, those values would
-// be moved out of the implicit pinning that the chain provides and
-// freed under the running interpreter.  See ProtoContext::allocCell
-// for the full rationale.  Until embedders cooperate, the trigger only
-// kicks the GC and does not reset the per-context counter, so this
-// test cannot pass without additional plumbing.
-TEST(GCSurvivorTest, DISABLED_RssBoundedInTightLoopNoEscapes) {
-    GTEST_SKIP() << "deferred: needs embedder operand-stack root";
+// A long-running context allocates many cells, each immediately
+// discarded, and calls ctx->safepoint() periodically.  Every safepoint
+// at which the per-context counter has crossed the threshold submits
+// the young chain to dirtySegments and resets the counter, so the
+// counter stays bounded by ~2 × threshold instead of growing with
+// the loop iteration count (which is what a non-fixed runtime
+// previously did — `lastAllocatedCell` accumulated everything until
+// the context was destroyed).
+//
+// Submission happens at safepoint() rather than allocCell(): native
+// helpers that hold ProtoObject* in C++ locals across allocations
+// (mutable setAttribute, SparseList rebuild, …) would lose those
+// values to a sweep if the chain were submitted from inside their
+// allocation calls.  See ProtoContext::safepoint() for the rationale.
+TEST(GCSurvivorTest, RssBoundedInTightLoopNoEscapes) {
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
+    GTEST_SKIP() << "requires PROTOCORE_GC_REINCLUDE_SURVIVORS";
+#else
+    ProtoSpace space;
+    // Lower the threshold so the trigger fires many times in this test.
+    space.maxAllocatedCellsPerContext = 100;
+
+    ProtoContext* ctx = space.rootContext;
+
+    // K is large enough that, without periodic safepoints, the counter
+    // would be K + setup; with safepoints, the threshold submission
+    // resets it on every crossing so it stays bounded by ~threshold.
+    constexpr int K = 5000;
+    for (int i = 0; i < K; ++i) {
+        // Returned object is not stored; should be reclaimable on next GC.
+        (void)ctx->newObject(false);
+        // Mimic an embedder safepoint every 64 allocations — the same
+        // cadence protoPython's bytecode loop uses.
+        if ((i & 0x3F) == 0) ctx->safepoint();
+    }
+    ctx->safepoint();  // final flush
+
+    // Without the threshold submission: count = K + setup, far above
+    // threshold.  With it: count is below 2 * threshold (the most-recent
+    // batch plus the increment that crossed the threshold but had not
+    // yet hit a safepoint).
+    EXPECT_LT(ctx->allocatedCellsCount, space.maxAllocatedCellsPerContext * 2u)
+        << "allocatedCellsCount = " << ctx->allocatedCellsCount
+        << " after " << K << " allocations with threshold "
+        << space.maxAllocatedCellsPerContext
+        << " — threshold submission not firing at safepoint().";
+#endif
 }
 
 // T2 — A long-lived survivor is freed when its reference is dropped.
@@ -115,14 +150,47 @@ TEST(GCSurvivorTest, LongLivedSurvivorFreedWhenReferenceDropped) {
 #endif
 }
 
-// T3 — The per-context threshold trigger actually fires (deferred).
+// T3 — Threshold submission fires even when every allocated cell is
+// pinned.
 //
-// Same status as T1: the chain-reset side of the trigger is not active
-// until embedders register their operand stack as a root.  The current
-// trigger only kicks the GC; the per-context counter intentionally is
-// not reset, so the assertion below would never hold.
-TEST(GCSurvivorTest, DISABLED_ThresholdTriggerFiresUnderHeavyAllocation) {
-    GTEST_SKIP() << "deferred: needs embedder operand-stack root";
+// Companion to T1, isolating the threshold-submission mechanism from
+// the survivor re-chain that frees unreached cells.  Every cell is
+// pinned in a root set, so a sweep cannot reclaim anything, but the
+// counter must still reset on every safepoint at which the threshold
+// has been crossed — otherwise a long-running pinned-allocation
+// workload would burn a triggerGC cycle on every allocCell instead of
+// once per threshold-many.
+TEST(GCSurvivorTest, ThresholdSubmissionFiresUnderHeavyAllocation) {
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
+    GTEST_SKIP() << "requires PROTOCORE_GC_REINCLUDE_SURVIVORS";
+#else
+    ProtoSpace space;
+    space.maxAllocatedCellsPerContext = 100;
+
+    auto* rs = space.createRootSet("threshold-pin");
+    ASSERT_NE(rs, nullptr);
+
+    std::vector<ProtoRootSet::Handle> handles;
+    handles.reserve(2000);
+
+    ProtoContext* ctx = space.rootContext;
+    constexpr int K = 2000;  // 20× threshold
+    for (int i = 0; i < K; ++i) {
+        const ProtoObject* obj = ctx->newObject(false);
+        handles.push_back(rs->add(obj));
+        if ((i & 0x3F) == 0) ctx->safepoint();
+    }
+    ctx->safepoint();
+
+    EXPECT_LT(ctx->allocatedCellsCount, space.maxAllocatedCellsPerContext * 2u)
+        << "allocatedCellsCount = " << ctx->allocatedCellsCount
+        << " but threshold = " << space.maxAllocatedCellsPerContext
+        << " — safepoint() should reset the counter once per threshold-many "
+           "allocations.";
+
+    for (auto handle : handles) rs->remove(handle);
+    space.destroyRootSet(rs);
+#endif
 }
 
 // T4 — Cells that are legitimately retained are not freed.
