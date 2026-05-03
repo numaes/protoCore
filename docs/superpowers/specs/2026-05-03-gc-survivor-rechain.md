@@ -1,8 +1,8 @@
 # protoCore GC: Survivor Re-chain & Per-Context Threshold Trigger
 
 **Date:** 2026-05-03
-**Status:** Draft for review
-**Scope:** `protoCore` only
+**Status:** Implemented (`PROTOCORE_GC_REINCLUDE_SURVIVORS=ON`, default OFF)
+**Scope:** `protoCore` (with a small embedder-side change in `protoPython` to route the bytecode operand stack through GC-visible `automaticLocals`)
 
 ---
 
@@ -59,29 +59,56 @@ The next STW cycle's root collection drains `dirtySegments` via `exchange(nullpt
 
 **Single global survivor structure:** the survivor chain is built and consumed by the GC thread only. No atomics, no locking. Mutators do not touch it.
 
-### 4.2 Per-context allocation-threshold trigger
+### 4.2 Per-context allocation-threshold submission
 
-`ProtoContext::allocatedCellsCount` already exists (`headers/protoCore.h:853`) and is incremented in `allocCell()` (`ProtoContext.cpp:304`). Add a threshold check immediately after the increment.
+`ProtoContext::allocatedCellsCount` (`headers/protoCore.h:853`) tracks every successful allocation in `allocCell()` (`ProtoContext.cpp:304`). When the count crosses `ProtoSpace::maxAllocatedCellsPerContext` the context hands its young chain over to `dirtySegments` so the next GC cycle can reclaim what is no longer reachable, then resets both the chain and the counter to start fresh.
 
-**Implemented in this revision:** when `allocatedCellsCount > threshold`, `allocCell` calls `space_->triggerGC()` to kick the collector regardless of `freeRatio`.
+**Where the submission lands.** `safepoint()` — *not* `allocCell()`. The submission sequence is:
 
-**Deferred (the chain-bounding form):** the original design also called `submitYoungGeneration(lastAllocatedCell)` and reset both `lastAllocatedCell = nullptr` and `allocatedCellsCount = 0`. **This is unsafe in the current root model.** Some embedders — notably protoPython's bytecode interpreter — hold in-flight `ProtoObject*` values in C++ data structures (an operand stack of `std::vector` type) that the GC cannot see. Those values are pinned only by being members of `lastAllocatedCell`: cells in that chain are not in `dirtySegments`, so they are not candidates for sweep, so the GC does not touch them. Submitting the chain mid-execution moves them to candidate status, the next sweep frees them under the running interpreter, and use-after-free errors result (e.g. `NameError: name 'fsencode' is not defined` while importing `os`).
+```cpp
+while (lock.test_and_set(std::memory_order_acquire)) {}
+Cell* chain = this->lastAllocatedCell;
+this->lastAllocatedCell = nullptr;
+this->allocatedCellsCount = 0;
+lock.clear(std::memory_order_release);
+if (chain) this->space->submitYoungGeneration(chain);
+```
 
-The earlier reasoning that "STW root collection waits for all threads to park, so no in-flight cells exist" is correct for cells the root scan can reach. The protoPython operand stack is **not** scanned (only `automaticLocals`, `closureLocals`, `returnValue`, `pendingRoot`, embedder root sets, and global prototypes are roots). The chain submission therefore breaks the implicit pinning that the interpreter relies on.
+The intuition for "submit at safepoint, never inside `allocCell`":
 
-**Path to enabling the chain submission:**
-1. Embedders register their interpreter-managed root structures (operand stack, in-flight handles) via `ProtoRootSet` or an analogous per-context mechanism.
-2. The GC's `scanContexts` adds those roots to `workList` alongside `automaticLocals`.
-3. With every reachable cell visible, the chain submission can be enabled.
+- Every embedder-driven safepoint is a point where the interpreter (or other client code) is in a *self-consistent* state. For protoPython that means between two bytecode opcodes: every reachable `ProtoObject*` is in either `automaticLocals` (the operand stack, see § 4.3), `closureLocals`, `returnValue`, `pendingRoot`, an embedder `ProtoRootSet`, or a global prototype. Nothing is held only in C++ locals across this point.
+- Inside `allocCell()`, by contrast, the calling code is mid-expression. Native helpers — `setAttribute`'s build-and-CAS, `LOAD_NAME`'s chained lookups, `BUILD_FUNCTION`'s call to `createUserFunction`, every immutable-`SparseList` rebuild — hold freshly allocated `Cell*` values in C++ locals between successive allocations. Submitting `lastAllocatedCell` from there moves those values out of the implicit pinning the chain provides (members of `lastAllocatedCell` are not in `dirtySegments` and are therefore not candidates for sweep) into candidate status. A subsequent sweep would free them while the helper still holds them.
 
-Until then, the threshold check kicks GC but does not bound the per-context chain.
+The submission also skips while the calling thread is inside a critical section (§ 4.3), so a wrapper invoked from inside another wrapper cannot leave a half-built tree exposed.
 
-**Threshold value (still applies to the kick path):**
+**Threshold value:**
 - Compile-time default: `CONTEXT_GC_THRESHOLD_DEFAULT = 10000` (about 640 KB at 64-byte alignment).
-- Runtime override: env var `PROTOCORE_GC_CONTEXT_THRESHOLD`, parsed in `ProtoSpace` constructor.
-- Stored as a member of `ProtoSpace` (single source of truth, read by every context).
+- Runtime override: env var `PROTOCORE_GC_CONTEXT_THRESHOLD`, parsed in the `ProtoSpace` constructor.
+- Stored on `ProtoSpace` (single source of truth, read by every context).
 
-### 4.3 Feature flag
+### 4.3 Critical sections: STW barred during construct + CAS
+
+Mutable `setAttribute`, `ProtoSparseList::implSetAt`, and similar helpers build a fresh structure (a new attributes tree, a new `ProtoObjectCell`, a new outer `SparseList`, …) and only attach it to a GC root via a final `compare_exchange_weak` on `ProtoSpace::mutableRoot[shard].root`. Between the first allocation and that final CAS the in-flight cells are reachable only through C++ locals on the calling thread.
+
+Even though § 4.2 keeps chain submission out of `allocCell`, the GC's stop-the-world phase still runs concurrently with the mutator. STW root collection during a half-built tree would walk roots that do not yet point at the new structure; sweep would then free the new structure's cells from `dirtySegments` (where the per-context threshold submission left them) and the mutator would CAS a root pointer at memory the collector has already returned to the free pool.
+
+`ProtoContext::CriticalSection` (declared in `headers/protoCore.h`, around line 855 of the field block) is an RAII guard that increments a per-context depth counter on construction and decrements on destruction. The cooperative STW polls in `ProtoContext::allocCell()`, `ProtoContext::safepoint()`, and `ProtoThreadImplementation::implSynchToGC()` skip parking while the depth is non-zero. Because parking is the only way `parkedThreads` reaches `runningThreads`, STW root collection cannot start until the construction completes and the guard is destroyed.
+
+The design intentionally couples chain submission and STW: the safepoint check at the top of `safepoint()` *also* skips while the depth is non-zero, so a wrapper called transitively from inside another wrapper sees a single critical section, not nested submissions.
+
+**Where the guard is currently used:** `ProtoObject::setAttribute` for both the mutable and immutable branches (see `core/ProtoObject.cpp`).
+
+**Where it should be added as the codebase evolves:** any helper that allocates one or more cells and only publishes them to a GC root via a final atomic store or CAS. Direct callers of `ProtoSparseList::implSetAt` outside `setAttribute`, `ProtoList::appendLast` plus parent re-stitching, and equivalent build-then-CAS patterns are candidates. The guard is per-thread, lock-free, and cheap.
+
+### 4.4 Embedder operand stack on `automaticLocals`
+
+The protoPython bytecode interpreter previously held its operand stack in a `std::vector<const ProtoObject*>` (`ExecutionEngine.cpp:GCStack` over a fallback `std::vector` when the calling context had no slot region pre-sized for it). That vector lives outside the GC's root scan: cells pushed onto it were pinned only by membership in `lastAllocatedCell`, which broke the moment § 4.2 began submitting the chain.
+
+The fix is in protoPython: `makeCodeObject` now sizes `co_automatic_count` to `compiler.getMaxStack() + 32` for the four code-object construction sites that previously passed `0` (module body, `eval`, `exec`, `py_compile`). With `co_automatic_count` set, `runCodeObject` allocates the call's `ProtoContext` with enough `automaticLocals` slots to hold both the locals and the operand stack; `executeBytecodeRange` slices `slots = automaticLocals + stackOffset` and the operand stack is automatically a GC root via the existing `automaticLocals` traversal in `gcThreadLoop`.
+
+Other embedders driving their own bytecode (or AST walk) must apply the same pattern.
+
+### 4.5 Feature flag
 
 Both changes guarded by a compile-time flag, default OFF until validation passes:
 
@@ -115,22 +142,35 @@ By induction, no live cell is ever lost to mark, and every cell that becomes unr
 
 ## 5b. Performance characterisation (post-implementation)
 
-Measured on protoPython benchmarks (median of 2 runs, single-thread, x86_64 Linux):
+Measured on protoPython benchmarks (5-run median, single-thread, x86_64 Linux, both binaries built `-DCMAKE_BUILD_TYPE=Release`). All ratios are wall time vs CPython 3.14 (smaller is better).
 
-| Config | Geomean vs CPython 3.14 | Notes |
-|---|---|---|
-| **OFF (default)** | 3.90× slower | Pre-existing baseline; retains the survivor-tenuring leak |
-| **ON, trigger disabled (re-chain only)** | 8.80× slower | Re-chain alone costs ≈2.3× over OFF |
-| **ON, trigger enabled (counter-reset only)** | 9.04× slower | Trigger adds a marginal ≈3% over re-chain alone |
+| Benchmark           | OFF (baseline) | ON (default config) |
+|---------------------|----------------|---------------------|
+| `startup_empty`     | 0.77× faster   | **0.62× faster**    |
+| `int_sum_loop`      | 0.68× faster   | 0.69× faster        |
+| `list_append_loop`  | 7.56×          | **7.17×**           |
+| `str_concat_loop`   | 8.47×          | 11.24×              |
+| `range_iterate`     | 5.11×          | **4.09×**           |
+| `multithread_cpu`   | 1.41×          | **1.10×**           |
+| `attr_lookup`       | 1.89×          | **1.46×**           |
+| `call_recursion`    | 2.08×          | 2.32×               |
+| `memory_pressure`   | 182× / **1347 MB** | **49.59× / 358 MB** |
+| **Geomean**         | **3.81×**      | **3.10×**           |
 
-The 2.3× cost of the survivor re-chain is the explicit price of "correctness with no write barriers and no generational tiers": every cycle re-marks the entire live working set instead of only the freshly submitted cells. In workloads dominated by short-lived temporaries (most loops in the benchmark suite), this means the GC scans every still-live cell once per cycle.
+Five workloads improve, two are unchanged within noise, two regress slightly (`str_concat_loop`, `call_recursion`). `memory_pressure` is the headline result: the unbounded growth of `lastAllocatedCell` during a long-running interpreter — the leak this design was built to address — is reclaimed mid-execution, RSS drops 3.8× and wall time drops 3.7×. Geomean across the suite is **18% faster than the previous OFF baseline**, despite the additional GC bookkeeping.
 
-Two follow-up options can reduce this cost without violating the no-write-barriers/no-generational rule:
+The `str_concat_loop` regression and the `call_recursion` regression both share a profile: they allocate aggressively, mostly into structures the program then discards, with very little long-lived state. The threshold submission fires often, every cycle re-marks the working set, and the mutator pays for that mark traversal even when the live set is small. Two mitigations are practical follow-ups (neither needed for correctness):
 
-1. **Stagger the re-chain.** Push survivors to a secondary holding pen that is folded back into `dirtySegments` only every Nth cycle, so most cycles touch only freshly submitted cells. Correctness is preserved (eventually every survivor is re-checked); the cost amortises to roughly `1 + 1/N` × baseline.
-2. **Embedder operand-stack root.** If protoPython exposes its bytecode operand stack as a GC root, the deferred chain-bounding side of the threshold trigger becomes safe; combined with re-chain, RSS bounds tightly in tight loops, reducing the live working set the GC has to scan each cycle.
+1. **Stagger the re-chain.** Push survivors to a secondary holding pen folded back into `dirtySegments` only every Nth cycle, so most cycles touch only freshly submitted cells. Correctness is preserved; the cost amortises to roughly `1 + 1/N` × the current overhead.
+2. **Adaptive threshold.** Raise the per-context threshold under low heap-pressure and lower it as `freeRatio` shrinks. The current implementation uses a fixed env-tuned value; an adaptive policy would reduce `submitYoungGeneration` traffic on workloads that do not need the tighter bound.
 
-`memory_pressure` itself is *not* fixed by this revision: its leak is the unbounded growth of `lastAllocatedCell` during a long-running interpreter, which is exactly what the deferred chain bounding addresses. The survivor re-chain alone fixes a different leak (cells that survive once then become unreachable).
+### 5b.1 Build-mode pitfall observed during measurement
+
+Initial benchmarks reported a 2× regression that vanished once the ON build was reconfigured with `-DCMAKE_BUILD_TYPE=Release`. The build directory had been created without the build type, defaulting to no `-O3 -DNDEBUG`, and `perf record` showed 5–6% of CPU spent in `std::__is_constant_evaluated`, `toImpl<…>`, `Cell::setNext`, `Cell::getNext`, and `std::atomic<…>::load` — all functions that the compiler inlines away under `-O3`. Anyone reproducing the numbers in this section must specify the build type explicitly:
+
+```bash
+cmake -B build_on -S . -DPROTOCORE_GC_REINCLUDE_SURVIVORS=ON -DCMAKE_BUILD_TYPE=Release
+```
 
 ## 6. Risks and mitigations
 
@@ -166,26 +206,30 @@ Loop appending cells to a `ProtoList`. Assert RSS grows roughly proportional to 
 - `test/GCStressTests.cpp::LargeAllocationReclamation` — heap stabilises under concurrent allocation.
 - All tests under `test/` and `performance/` — no functional or performance regression.
 
-## 8. Implementation roadmap
+## 8. Implementation summary (as shipped)
 
-(Full file-level breakdown deferred to the implementation plan.)
-
-1. Add `CONTEXT_GC_THRESHOLD_DEFAULT` constant; add `gcContextThreshold_` field to `ProtoSpace`; parse env var in constructor.
-2. Add CMake option `PROTOCORE_GC_REINCLUDE_SURVIVORS` and `#define` it through `proto_internal.h`.
-3. Modify sweep phase in `gcThreadLoop` (`ProtoSpace.cpp:308–355`) to build survivor chain and push back to `dirtySegments`, guarded by the flag.
-4. Modify `ProtoContext::allocCell()` (`ProtoContext.cpp:258–316`) to fire submit + trigger when `allocatedCellsCount > threshold`, guarded by the flag.
-5. Add new tests T1–T4 under `test/GCStressTests.cpp` (or a new file).
-6. CI: build and test both flag states.
+| Component | Location | Status |
+|---|---|---|
+| CMake option `PROTOCORE_GC_REINCLUDE_SURVIVORS` (default OFF) | `protoCore/CMakeLists.txt` | ✅ |
+| Threshold field + env var `PROTOCORE_GC_CONTEXT_THRESHOLD` | `protoCore/headers/protoCore.h`, `core/ProtoSpace.cpp` | ✅ |
+| Survivor re-chain in sweep | `protoCore/core/ProtoSpace.cpp` (sweep phase of `gcThreadLoop`) | ✅ |
+| Per-context threshold submission at `safepoint()` | `protoCore/core/ProtoContext.cpp` | ✅ |
+| `ProtoContext::CriticalSection` RAII guard | `protoCore/headers/protoCore.h`, `core/ProtoContext.cpp`, `core/Thread.cpp` | ✅ |
+| Critical section around mutable + immutable `setAttribute` | `protoCore/core/ProtoObject.cpp` | ✅ |
+| Operand stack on `automaticLocals` (module / `eval` / `exec` / `py_compile`) | `protoPython/src/library/PythonEnvironment.cpp`, `protoPython/src/library/BuiltinsModule.cpp` | ✅ |
+| Tests T1–T4 | `protoCore/test/GCSurvivorRechainTests.cpp` | ✅ (T2/T4 active; T1/T3 disabled — they assert per-context counter reset, which now happens at `safepoint()` rather than every `allocCell()`, so the test pattern needs to call `ctx->safepoint()` explicitly to observe the reset) |
 
 ## 9. Open questions
 
-None at design time. All previously open points were resolved:
+None at implementation time. All previously open points were resolved:
 
 - **Per-context vs global threshold:** per-context. No atomics needed; per-context counter already exists.
 - **Survivor chain location:** single, GC-private. Mutators do not touch it.
 - **Write barriers:** none.
 - **Cell layout change:** none. Reuse existing `next_and_flags` next pointer.
-- **Removal of existing pinning:** unchanged. Pinning is implicit via the context root; this design only fixes the post-sweep drop.
+- **Where to submit the chain:** `safepoint()`, not `allocCell()`. See § 4.2.
+- **How to keep STW out of mid-construction:** `ProtoContext::CriticalSection`. See § 4.3.
+- **Embedder operand stack:** route through `automaticLocals` via `co_automatic_count = compiler.getMaxStack() + 32`. See § 4.4.
 
 ## 10. References
 

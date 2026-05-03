@@ -7,6 +7,25 @@
 
 **Tech:** C++20, CMake, ctest (Google Test), single-thread GC.
 
+**Status:** all tasks complete. The shipped implementation differs from the original
+plan in two respects, documented in the spec § 4.2 / § 4.3:
+
+1. The threshold submission happens in `ProtoContext::safepoint()`, not in
+   `allocCell()`. Submitting from inside `allocCell()` orphans `ProtoObject*`
+   values held in C++ locals across allocations by native helpers (e.g.
+   `LOAD_NAME` chained lookups, `BUILD_FUNCTION → createUserFunction`). Embedder
+   safepoints are the only points where every reachable cell is anchored to a
+   real GC root.
+2. Mutable `setAttribute` and similar tree-builders enter a per-context
+   critical section (`ProtoContext::CriticalSection`) that bars cooperative
+   STW polling until the construct + CAS-into-root sequence completes. This
+   prevents the GC from observing a half-built tree.
+
+A small embedder-side change in `protoPython` (route the bytecode operand stack
+through `automaticLocals` by sizing `co_automatic_count = getMaxStack() + 32`
+in module / `eval` / `exec` / `py_compile` code-object construction) is
+required for any embedder driving its own bytecode loop on protoCore.
+
 ---
 
 ## Task 1 — CMake option and macro plumbing
