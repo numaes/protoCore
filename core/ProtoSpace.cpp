@@ -284,6 +284,78 @@ namespace proto {
 
                 // 6. Capture the heap snapshot (segments to process)
                 // This MUST be done during STW to ensure we only sweep what existed at root collection.
+                //
+                // Survivor pen — staggered re-chain.  The previous sweep
+                // pushed survivors into space->survivorPen instead of
+                // dirtySegments.  We treat them in one of two ways here,
+                // mutually exclusive within a cycle:
+                //
+                //   FOLD CYCLE  (gcCycleCount % stagger == 0):
+                //     Splice the pen into dirtySegments so cells become
+                //     candidates again.  Mark from roots will reach them
+                //     naturally; outgoing references are traced via the
+                //     normal candidate path.  No separate pen scan needed.
+                //
+                //   NON-FOLD CYCLE (stagger > 1 only):
+                //     Pen cells stay in the pen this cycle (skip mark and
+                //     sweep cost).  But if a pen cell references a cell
+                //     that IS in dirtySegments, mark must still trace
+                //     through it or the referenced cell is freed and the
+                //     pen reference dangles.  Walk each pen cell and push
+                //     its outgoing references onto the workList, same
+                //     discipline as the per-context young chain.  The
+                //     pen cell itself is not pushed (not a candidate, no
+                //     liveness check).
+                //
+                // With stagger == 1 (default) every cycle is a fold cycle:
+                // functionally equivalent to sweep pushing directly to
+                // dirtySegments, with one extra atomic-list hop per cycle.
+                // With stagger > 1, only every Nth cycle folds; survivors
+                // skip mark/sweep cost in the meantime, at the price of
+                // delayed reclamation by up to N cycles.
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                space->gcCycleCount++;
+                const unsigned int stagger = space->survivorStagger ? space->survivorStagger : 1;
+                const bool foldThisCycle = ((space->gcCycleCount % stagger) == 0);
+                if (foldThisCycle) {
+                    DirtySegment* penHead = space->survivorPen.exchange(nullptr, std::memory_order_acquire);
+                    while (penHead) {
+                        DirtySegment* nextSeg = penHead->next;
+                        penHead->next = space->dirtySegments.load(std::memory_order_relaxed);
+                        while (!space->dirtySegments.compare_exchange_weak(
+                                penHead->next, penHead,
+                                std::memory_order_release,
+                                std::memory_order_relaxed)) {
+                            // penHead->next reloaded by compare_exchange_weak on failure
+                        }
+                        penHead = nextSeg;
+                    }
+                } else {
+                    // Stagger > 1, non-fold cycle: scan pen cells'
+                    // outgoing references so mark traces them.  Pen
+                    // pointer load is relaxed because we are inside STW;
+                    // mutators are parked and no sweep is in flight.
+                    DirtySegment* penSeg = space->survivorPen.load(std::memory_order_relaxed);
+                    while (penSeg) {
+                        Cell* scanCell = penSeg->cellChain;
+                        struct PenScanState { std::vector<const Cell*>* wl; const Cell* parent; } pst = {&workList, scanCell};
+                        while (scanCell) {
+                            pst.parent = scanCell;
+                            scanCell->processReferences(space->rootContext, &pst, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                                auto* s = static_cast<PenScanState*>(self);
+                                if (reinterpret_cast<uintptr_t>(ref) & 1) {
+                                    std::cerr << "CRITICAL TAGGED POINTER (pen): " << ref << " from parent " << s->parent << " type " << (int)s->parent->getType() << std::endl;
+                                    std::abort();
+                                }
+                                s->wl->push_back(ref);
+                            });
+                            scanCell = scanCell->getNext();
+                        }
+                        penSeg = penSeg->next;
+                    }
+                }
+#endif
+
                 DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
                 
                 // --- PHASE 3: RESUME THE WORLD ---
@@ -368,12 +440,18 @@ namespace proto {
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
                     if (survHead) {
                         // Repurpose currentSeg as a survivor segment and
-                        // push it back to dirtySegments for the next cycle
-                        // to re-include.  Same lock-free push the existing
-                        // submitYoungGeneration uses.
+                        // push it to the survivor pen.  When stagger == 1
+                        // (default) the pen is folded back into
+                        // dirtySegments at the start of every cycle, so
+                        // this is equivalent to the previous direct push
+                        // to dirtySegments — only one extra atomic-list
+                        // hop on the cold path.  When stagger > 1 the pen
+                        // is folded only every Nth cycle, so survivors
+                        // skip mark cost in the meantime (at the price of
+                        // delayed reclamation; see survivorStagger doc).
                         currentSeg->cellChain = survHead;
-                        currentSeg->next = space->dirtySegments.load(std::memory_order_relaxed);
-                        while (!space->dirtySegments.compare_exchange_weak(
+                        currentSeg->next = space->survivorPen.load(std::memory_order_relaxed);
+                        while (!space->survivorPen.compare_exchange_weak(
                                 currentSeg->next, currentSeg,
                                 std::memory_order_release,
                                 std::memory_order_relaxed)) {
@@ -446,6 +524,9 @@ namespace proto {
         stringInternMap(nullptr),
         dirtySegments(nullptr),
         dirtySegmentFreePool(nullptr),
+        survivorPen(nullptr),
+        survivorStagger(SURVIVOR_STAGGER_DEFAULT),
+        gcCycleCount(0),
         freeCells(nullptr),
         gcStarted(false),
         mainContext(nullptr),
@@ -468,6 +549,20 @@ namespace proto {
             unsigned long parsed = std::strtoul(envThreshold, &endPtr, 10);
             if (endPtr && *endPtr == '\0' && parsed > 0 && parsed <= UINT_MAX) {
                 this->maxAllocatedCellsPerContext = static_cast<unsigned int>(parsed);
+            }
+        }
+
+        // Survivor-pen stagger: how many GC cycles between successive
+        // folds of the survivor pen back into dirtySegments.  Default 1
+        // (re-check every cycle, no stagger).  Higher values reduce mark
+        // cost on workloads with stable working sets at the price of
+        // delayed reclamation (RSS may grow up to N × working set).
+        this->survivorStagger = SURVIVOR_STAGGER_DEFAULT;
+        if (const char* envStagger = std::getenv("PROTOCORE_GC_SURVIVOR_STAGGER")) {
+            char* endPtr = nullptr;
+            unsigned long parsed = std::strtoul(envStagger, &endPtr, 10);
+            if (endPtr && *endPtr == '\0' && parsed >= 1 && parsed <= 256) {
+                this->survivorStagger = static_cast<unsigned int>(parsed);
             }
         }
 
@@ -591,11 +686,12 @@ namespace proto {
         delete symbolTable;
         symbolTable = nullptr;
 
-        // Drain both DirtySegment lists (live and free pool) and free the
-        // underlying heap nodes.  GC thread is already joined above, so no
-        // concurrent access remains.
+        // Drain DirtySegment lists (live, free pool, and survivor pen)
+        // and free the underlying heap nodes.  GC thread is already
+        // joined above, so no concurrent access remains.
         for (auto* head : { this->dirtySegments.load(std::memory_order_relaxed),
-                            this->dirtySegmentFreePool.load(std::memory_order_relaxed) }) {
+                            this->dirtySegmentFreePool.load(std::memory_order_relaxed),
+                            this->survivorPen.load(std::memory_order_relaxed) }) {
             DirtySegment* seg = head;
             while (seg) {
                 DirtySegment* nextSeg = seg->next;
@@ -605,6 +701,7 @@ namespace proto {
         }
         this->dirtySegments.store(nullptr, std::memory_order_relaxed);
         this->dirtySegmentFreePool.store(nullptr, std::memory_order_relaxed);
+        this->survivorPen.store(nullptr, std::memory_order_relaxed);
     }
 
     const ProtoObject* ProtoSpace::getResolutionChain() const {

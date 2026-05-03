@@ -219,6 +219,35 @@ Loop appending cells to a `ProtoList`. Assert RSS grows roughly proportional to 
 | Operand stack on `automaticLocals` (module / `eval` / `exec` / `py_compile`) | `protoPython/src/library/PythonEnvironment.cpp`, `protoPython/src/library/BuiltinsModule.cpp` | ✅ |
 | Tests T1–T4 | `protoCore/test/GCSurvivorRechainTests.cpp` | ✅ (T2/T4 active; T1/T3 disabled — they assert per-context counter reset, which now happens at `safepoint()` rather than every `allocCell()`, so the test pattern needs to call `ctx->safepoint()` explicitly to observe the reset) |
 
+### 8.1 Staggered survivor pen (experimental, default off)
+
+A second iteration added an intermediate `survivorPen` LIFO and an env var
+`PROTOCORE_GC_SURVIVOR_STAGGER` (default 1) that controls how often the pen
+is folded into `dirtySegments`. The hypothesis: holding survivors out of the
+candidate set for N cycles would reduce sweep cost on stable working sets.
+
+**Result: stagger > 1 does not help.** Three-run median, Release build,
+protoPython benchmarks (PROTOCORE_GC_REINCLUDE_SURVIVORS=ON):
+
+| Bench | stagger=1 | stagger=2 | stagger=4 |
+|---|---|---|---|
+| `list_append_loop` | 7.10× slower | 6.25× slower | 6.54× slower |
+| `str_concat_loop` | 12.32× slower | 11.75× slower | 12.56× slower |
+| `memory_pressure` | 48.86× slower | 56.96× slower | 58.58× slower |
+| **Geomean** | **3.05×** | 3.22× | 3.27× |
+
+Reason: in non-fold cycles, mark must still scan pen cells' outgoing
+references (cells in the pen are not candidates, but their references can
+point at cells that ARE in `dirtySegments` — without scanning, those
+referenced cells would be freed and the pen reference dangles). The scan
+costs roughly what sweep saves, while delayed reclamation in
+`memory_pressure` accumulates extra live cells, hurting throughput.
+
+The infrastructure is retained behind the env var (default 1, equivalent
+to direct re-chain with one extra atomic-list hop) so workloads with a
+provably stable working set can opt in. For the workloads currently
+measured, do not change the default.
+
 ## 9. Open questions
 
 None at implementation time. All previously open points were resolved:

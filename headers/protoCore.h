@@ -1165,6 +1165,50 @@ namespace proto
         std::atomic<DirtySegment*> dirtySegmentFreePool;
 
         /**
+         * @brief Holding pen for sweep survivors when stagger > 1.
+         *
+         * The survivor re-chain (PROTOCORE_GC_REINCLUDE_SURVIVORS) re-pushes
+         * cells that were marked alive into a follow-up segment so the next
+         * cycle can re-examine them.  By default that "next cycle" is
+         * literally the next one, which means every live cell pays the
+         * mark cost once per cycle.  With stagger > 1, sweep instead pushes
+         * survivors here; the pen is folded back into `dirtySegments` only
+         * once every `survivorStagger` cycles, so survivors are re-examined
+         * less often.  RSS grows by up to `stagger × working set` because
+         * cells that became unreachable during the staggered window stay
+         * alive in the pen until the next fold; mark cost across the same
+         * window drops to ~`1/stagger` of the un-staggered baseline.
+         *
+         * Lock-free LIFO push from sweep, atomic-exchange-to-nullptr drain
+         * from gcThreadLoop's STW phase.  Always-empty when stagger == 1.
+         */
+        std::atomic<DirtySegment*> survivorPen;
+
+        /**
+         * @brief How many GC cycles between successive folds of the
+         *        survivor pen back into dirtySegments.
+         *
+         * 1 = re-check every cycle (current behaviour, no stagger).
+         * 2 = re-check every other cycle.
+         * N = re-check every Nth cycle.
+         *
+         * Default: 1 (no stagger).  Override at startup via env var
+         * PROTOCORE_GC_SURVIVOR_STAGGER.  Set once at ProtoSpace
+         * construction, never modified afterwards.
+         */
+        static constexpr unsigned int SURVIVOR_STAGGER_DEFAULT = 1;
+        unsigned int survivorStagger;
+
+        /**
+         * @brief Monotonic GC cycle counter, only mutated by the GC thread.
+         *
+         * Incremented at the start of each cycle.  When
+         * `gcCycleCount % survivorStagger == 0`, the survivor pen is folded
+         * back into `dirtySegments` before the cycle's root collection.
+         */
+        unsigned int gcCycleCount;
+
+        /**
          * @brief Per-context allocation threshold for the GC trigger.
          *
          * When PROTOCORE_GC_REINCLUDE_SURVIVORS is enabled and a single
