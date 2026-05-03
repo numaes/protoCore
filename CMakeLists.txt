@@ -103,6 +103,16 @@ if(PROTO_GC_LOCK_TRACE)
     message(STATUS "GC lock tracing enabled (diagnostic)")
 endif()
 
+# Option: re-include GC survivors into the next analysis cycle and enable
+# per-context allocation-threshold trigger. See
+# docs/superpowers/specs/2026-05-03-gc-survivor-rechain.md for the design.
+# Default OFF until validation passes.
+option(PROTOCORE_GC_REINCLUDE_SURVIVORS "Re-chain sweep survivors into dirtySegments and enable per-context alloc threshold" OFF)
+if(PROTOCORE_GC_REINCLUDE_SURVIVORS)
+    target_compile_definitions(protoCore PRIVATE PROTOCORE_GC_REINCLUDE_SURVIVORS)
+    message(STATUS "GC survivor re-chain enabled")
+endif()
+
 message(STATUS "Configured protoCore shared library target: protoCore")
 
 # 4. Define the performance benchmark executables
