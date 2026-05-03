@@ -321,39 +321,34 @@ namespace proto
                     this->space->gcThread &&
                     std::this_thread::get_id() != this->space->gcThread->get_id()) {
                     // Per-context allocation-threshold reached.  We only kick
-                    // the GC (which still bypasses the freeRatio gate via the
-                    // gcStarted = true side-effect of triggerGC); we do NOT
-                    // submit lastAllocatedCell to dirtySegments here.
+                    // the GC (which still respects the freeRatio gate inside
+                    // triggerGC); we do NOT submit lastAllocatedCell to
+                    // dirtySegments here.
                     //
                     // Why no submission: the chain implicitly pins every Cell
                     // it contains because those Cells are not in dirtySegments
                     // and therefore not candidates for sweep.  Embedders such
                     // as protoPython rely on this pinning to protect operand-
                     // stack values held in C++ locals between bytecode ops —
-                    // those values are not visible to root scan
-                    // (automaticLocals / closureLocals / pendingRoot all live
-                    // on the protoCore frame, not on the interpreter's
-                    // operand stack).  Submitting the chain mid-execution
-                    // would move those Cells from "implicitly pinned" to
-                    // "candidate" and the next sweep would free them under
-                    // the running interpreter.
+                    // those values are not visible to root scan (only
+                    // automaticLocals, closureLocals, returnValue, pendingRoot,
+                    // embedder root sets, and global prototypes are roots).
+                    // Submitting the chain mid-execution would move those Cells
+                    // from "implicitly pinned" to "candidate" and the next
+                    // sweep would free them under the running interpreter.
                     //
                     // RSS-bounding for tight loops is therefore deferred to a
                     // follow-up that gives embedders a way to register their
-                    // operand stack as a GC root (e.g. a per-thread RootSet
-                    // owned by the interpreter).  Once that lands, the chain
-                    // submission below can be enabled safely:
+                    // operand stack as a GC root.  See the spec for the path
+                    // to enabling the chain submission once that lands.
                     //
-                    //   while (lock.test_and_set(...)) {}
-                    //   Cell* chain = this->lastAllocatedCell;
-                    //   this->lastAllocatedCell = nullptr;
-                    //   this->allocatedCellsCount = 0;
-                    //   lock.clear(...);
-                    //   if (chain) this->space->submitYoungGeneration(chain);
-                    //
-                    // The survivor re-chain in sweep (which is the actual
-                    // fix for the historical "memory_pressure" leak) is
-                    // unaffected and remains active.
+                    // Reset only the counter (not the chain) so that the
+                    // trigger fires once per `threshold` allocations rather
+                    // than on every allocCell after the threshold is crossed.
+                    // Without this reset, every allocation past the threshold
+                    // pays the cost of evaluating triggerGC() — measurable
+                    // overhead in tight allocation loops.
+                    this->allocatedCellsCount = 0;
                     this->space->triggerGC();
                 }
 #endif
