@@ -279,13 +279,13 @@ namespace proto {
                 // 6. Capture the heap snapshot (segments to process)
                 // This MUST be done during STW to ensure we only sweep what existed at root collection.
                 DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
-                
+
                 // --- PHASE 3: RESUME THE WORLD ---
                 space->stwFlag.store(false);
                 space->stopTheWorldCV.notify_all();
                 GC_LOCK_TRACE("gcLoop REL(mark-sweep)");
                 lock.unlock(); // Allow threads to run while we mark and sweep
-                
+
                 // --- PHASE 4: MARK ---
                 while (!workList.empty()) {
                     const Cell* cell = workList.back();
@@ -304,12 +304,12 @@ namespace proto {
                         });
                     }
                 }
-                
+
                 // --- PHASE 5: SWEEP ---
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
                     Cell* cell = currentSeg->cellChain;
-                    
+
                     Cell* batchHead = nullptr;
                     Cell* batchTail = nullptr;
                     int batchCount = 0;
@@ -317,6 +317,18 @@ namespace proto {
                     while (cell) {
                         Cell* nextCell = cell->getNext();
                         if (!cell->isMarked()) {
+                            // String cells previously routed through a
+                            // removeWeak path that consulted an
+                            // in-cell isInterned flag.  That flag
+                            // pushed sizeof(ProtoStringImpl) past the
+                            // 64-byte cell alignment and corrupted
+                            // adjacent cells.  Until a side-table
+                            // mapping String cells back to their
+                            // symbol-table bucket is reintroduced,
+                            // weak-symbol eviction is deferred —
+                            // weakly-held interned strings keep their
+                            // bucket entries until the next time the
+                            // symbol table is rehashed by content.
                             cell->finalize(space->rootContext);
 
                             cell->internalSetNextRaw(batchHead);
@@ -324,25 +336,26 @@ namespace proto {
                             batchHead = cell;
                             batchCount++;
                         } else {
+                            // Survived: unmark in place. Do NOT relink via internalSetNextRaw:
+                            // that field is shared with the ProtoContext lastAllocatedCell chain
+                            // and overwriting it mid-execution would corrupt that chain.
                             cell->unmark();
                         }
                         cell = nextCell;
                     }
 
                     if (batchHead) {
-                        GC_LOCK_TRACE("gcLoop ACQ(freeList)");
                         std::lock_guard<std::recursive_mutex> freeLock(ProtoSpace::globalMutex);
                         batchTail->internalSetNextRaw(space->freeCells);
                         space->freeCells = batchHead;
                         space->freeCellsCount += batchCount;
-                        GC_LOCK_TRACE("gcLoop REL(freeList)");
                     }
 
                     DirtySegment* nextSeg = currentSeg->next;
-                    // Return the segment to the lock-free free pool so the
-                    // next submitYoungGeneration() can recycle it.  The GC
-                    // is the sole consumer here and the only thread that
-                    // pushes during sweep, so a single CAS is enough.
+                    // Return the segment container to the pool regardless — surviving
+                    // cells stay in-place in the OS allocation; their next_and_flags
+                    // must NOT be relinked here because they may still be part of an
+                    // active ProtoContext's lastAllocatedCell chain.
                     currentSeg->cellChain = nullptr;
                     currentSeg->next = space->dirtySegmentFreePool.load(std::memory_order_relaxed);
                     while (!space->dirtySegmentFreePool.compare_exchange_weak(
@@ -353,6 +366,8 @@ namespace proto {
                     }
                     currentSeg = nextSeg;
                 }
+                
+                space->gcCycleCount.fetch_add(1, std::memory_order_relaxed);
 
                 GC_LOCK_TRACE("gcLoop ACQ(after-sweep)");
                 lock.lock(); // Re-acquire for next wait
@@ -561,6 +576,10 @@ namespace proto {
         auto* newThreadImpl = new(c) ProtoThreadImplementation(c, name, this, mainFunction, args, kwargs);
         // runningThreads is incremented in ProtoThreadImplementation constructor
         return newThreadImpl->asThread(c);
+    }
+
+    uint64_t ProtoSpace::getGCCycleCount() const {
+        return gcCycleCount.load(std::memory_order_relaxed);
     }
 
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {

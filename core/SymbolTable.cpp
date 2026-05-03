@@ -77,7 +77,8 @@ const ProtoStringImplementation* SymbolTable::normalizeForSymbol(
     return ProtoStringImplementation::fromUTF8Bytes(
         allocCtx,
         reinterpret_cast<const uint8_t*>(utf8.data()),
-        utf8.size());
+        utf8.size(),
+        /*doIntern=*/false);
 }
 
 // ---------------------------------------------------------------------------
@@ -123,8 +124,7 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     ProtoContext* allocCtx = is_strong ? nullptr : ctx;
     const ProtoStringImplementation* normalized =
         normalizeForSymbol(ctx, allocCtx, strObj);
-    const ProtoObject* symbol_candidate = reinterpret_cast<const ProtoObject*>(
-        normalized->implAsSymbol(ctx));
+    const ProtoObject* symbol_candidate = normalized->implAsSymbol(ctx);
     uint64_t hash = normalized->implGetHash();
     int shard_idx = shardIndex(hash);
     Shard& shard = shards[shard_idx];
@@ -144,6 +144,16 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
         // Not found — insert the pre-built candidate.
         Bucket* bucket = new Bucket{ hash, symbol_candidate, is_strong, shard.head };
         shard.head = bucket;
+
+        // Note: previously we cached isInterned / internHash directly on
+        // ProtoStringImplementation so the GC sweep could evict weak
+        // entries.  Those two fields pushed sizeof(ProtoStringImpl)
+        // beyond the 64-byte cell alignment and corrupted adjacent
+        // cells.  GC eviction now goes through removeWeak via a content
+        // re-hash if the bucket happens to be weak; the bookkeeping
+        // here remains the same (the bucket itself stores hash and
+        // is_strong).
+
         return symbol_candidate;
     }
 }

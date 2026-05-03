@@ -355,8 +355,14 @@ namespace proto {
             std::abort();
         }
 
-        // Check if the actual tag matches the expected tag
-        if (actual_tag != expected_tag) {
+        // Check if the actual tag matches the expected tag.
+        // Special case: ProtoStringImplementation can be tagged as either STRING or SYMBOL.
+        bool tagMatch = (actual_tag == expected_tag);
+        if (expected_tag == POINTER_TAG_STRING && actual_tag == POINTER_TAG_SYMBOL) {
+            tagMatch = true;
+        }
+
+        if (!tagMatch) {
             std::cerr << "Error: Type mismatch in toImpl conversion. Expected tag " << expected_tag
                       << " for type " << getTypeName<Impl>() << ", but found tag " << actual_tag
                       << " for ProtoObject* " << p.oid << "." << std::endl;
@@ -397,8 +403,14 @@ namespace proto {
             std::abort();
         }
 
-        // Check if the actual tag matches the expected tag
-        if (actual_tag != expected_tag) {
+        // Check if the actual tag matches the expected tag.
+        // Special case: ProtoStringImplementation can be tagged as either STRING or SYMBOL.
+        bool tagMatch = (actual_tag == expected_tag);
+        if (expected_tag == POINTER_TAG_STRING && actual_tag == POINTER_TAG_SYMBOL) {
+            tagMatch = true;
+        }
+
+        if (!tagMatch) {
             std::cerr << "Error: Type mismatch in toImpl conversion. Expected tag " << expected_tag
                       << " for type " << getTypeName<const Impl>() << ", but found tag " << actual_tag
                       << " for ProtoObject* " << p.oid << "." << std::endl;
@@ -729,11 +741,12 @@ namespace proto {
 
         const ProtoObject* implAsObject(ProtoContext* ctx) const override;
         const ProtoString* asProtoString(ProtoContext* ctx) const;
-        const ProtoStringImplementation* implAsSymbol(ProtoContext* ctx) const;
+        const ProtoObject* implAsSymbol(ProtoContext* ctx) const;
 
         static const ProtoStringImplementation* fromUTF8Bytes(ProtoContext* ctx,
                                                                const uint8_t* bytes,
-                                                               size_t len);
+                                                               size_t len,
+                                                               bool doIntern = true);
 
         // Legacy compatibility methods (used by RopeCharacterIterator and ProtoString public API)
         unsigned long getHash(ProtoContext* context) const override;

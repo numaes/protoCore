@@ -763,11 +763,11 @@ namespace proto {
         return p.string;
     }
 
-    const ProtoStringImplementation* ProtoStringImplementation::implAsSymbol(ProtoContext* /*ctx*/) const {
+    const ProtoObject* ProtoStringImplementation::implAsSymbol(ProtoContext* /*ctx*/) const {
         ProtoObjectPointer pa{};
         pa.symbolImplementation = this;
         pa.op.pointer_tag = POINTER_TAG_SYMBOL;
-        return reinterpret_cast<const ProtoStringImplementation*>(pa.oid);
+        return pa.oid;
     }
 
     // Build a balanced AVL tree from a contiguous UTF-8 byte array.
@@ -798,8 +798,19 @@ namespace proto {
     }
 
     const ProtoStringImplementation* ProtoStringImplementation::fromUTF8Bytes(
-            ProtoContext* ctx, const uint8_t* bytes, size_t len) {
-        return new(ctx) ProtoStringImplementation(ctx, buildAVL(ctx, bytes, len));
+            ProtoContext* ctx, const uint8_t* bytes, size_t len, bool doIntern) {
+        const ProtoObject* root = buildAVL(ctx, bytes, len);
+        const ProtoStringImplementation* pending = new(ctx) ProtoStringImplementation(ctx, root);
+        
+        if (!doIntern || !ctx || !ctx->space || !ctx->space->symbolTable) {
+            return pending;
+        }
+
+        ctx->pendingRoot = const_cast<ProtoStringImplementation*>(pending);
+        const ProtoObject* interned = ctx->space->symbolTable->intern(ctx, pending->implAsObject(ctx), false);
+        ctx->pendingRoot = nullptr;
+
+        return static_cast<const ProtoStringImplementation*>(toImpl<const ProtoStringImplementation>(interned));
     }
 
     void ProtoStringImplementation::processReferences(
