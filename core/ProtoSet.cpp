@@ -71,6 +71,10 @@ namespace proto {
     // ProtoSet / ProtoSetIterator external API trampolines
     const ProtoSet* ProtoSet::add(ProtoContext* context, const ProtoObject* value) const {
         const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
+        // GC critical section: setAt allocates a chain of new SparseList
+        // nodes that are reachable only via `new_list` (a C++ local)
+        // until the wrapping ProtoSetImplementation stitches them in.
+        ProtoContext::CriticalSection cs(context);
         const auto* new_list = current_list->setAt(context, value->getHash(context), value);
         return (new (context) ProtoSetImplementation(context, new_list, new_list->getSize(context)))->asProtoSet(context);
     }
@@ -81,6 +85,8 @@ namespace proto {
 
     const ProtoSet* ProtoSet::remove(ProtoContext* context, const ProtoObject* value) const {
         const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
+        // GC critical section: same rationale as add().
+        ProtoContext::CriticalSection cs(context);
         const auto* new_list = toImpl<const ProtoSparseListImplementation>(current_list)->implRemoveAt(context, value->getHash(context));
         return (new (context) ProtoSetImplementation(context, new_list->asSparseList(context), (unsigned long)new_list->size))->asProtoSet(context);
     }

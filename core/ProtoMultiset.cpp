@@ -76,6 +76,13 @@ namespace proto {
         const ProtoObject* existing = current_list->getAt(context, hash);
         long long count = (existing && existing != PROTO_NONE) ? existing->asLong(context) : 0;
 
+        // GC critical section: setAt allocates a chain of new SparseList
+        // nodes, then the wrapping ProtoMultisetImplementation is
+        // allocated.  `new_list` is reachable only via this C++ local
+        // until the wrapping cell stitches it in.  Without the guard a
+        // concurrent STW root scan would miss `new_list` and a sweep
+        // would free its nodes before we returned.
+        ProtoContext::CriticalSection cs(context);
         const auto* new_list = current_list->setAt(context, hash, context->fromInteger(count + 1));
         return (new (context) ProtoMultisetImplementation(context, new_list, impl->size + 1))->asProtoMultiset(context);
     }
@@ -94,6 +101,10 @@ namespace proto {
         if (!existing || existing == PROTO_NONE) return this;
 
         long long count = existing->asLong(context);
+        // GC critical section: same rationale as add() — `new_list`
+        // lives only in this C++ local across the wrapping
+        // ProtoMultisetImplementation allocation.
+        ProtoContext::CriticalSection cs(context);
         const ProtoSparseList* new_list;
         if (count > 1) {
              new_list = current_list->setAt(context, hash, context->fromInteger(count - 1));

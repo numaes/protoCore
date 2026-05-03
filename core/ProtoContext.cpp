@@ -120,6 +120,15 @@ namespace proto
 
         std::vector<bool> assigned(paramCount, false);
 
+        // GC critical section: every setAt below returns a freshly built
+        // SparseList tree.  The result is held in the surrounding
+        // expression and only published to this->closureLocals on the
+        // assignment that follows, so a concurrent STW root scan
+        // landing between the setAt allocations and the assignment
+        // would observe the new tree as candidate-but-unreachable.
+        // The guard covers both binding loops.
+        ProtoContext::CriticalSection cs(this);
+
         // 3b. Bind positional arguments
         for (unsigned int i = 0; i < argCount; ++i) {
             const ProtoString* paramName = parameterNames->getAt(this, i)->asString(this);

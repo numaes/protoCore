@@ -284,6 +284,17 @@ namespace proto
         }
         auto* oc = toImpl<const ProtoObjectCell>(this);
         unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
+        // GC critical section: this expression allocates three cells
+        // (the empty SparseList, the ParentLinkImplementation, and the
+        // outer ProtoObjectCell) in a single statement.  Argument
+        // evaluation order is unspecified and the temporaries live in
+        // the C++ stack between sub-expression results — none of them
+        // are reachable from a GC root until the surrounding
+        // ProtoObjectCell finishes constructing and links the chain
+        // back together.  Without the guard a concurrent STW root scan
+        // would observe a partial chain as candidate-but-unreachable
+        // and sweep would free the SparseList or ParentLink under us.
+        ProtoContext::CriticalSection cs(context);
         auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), toImpl<const ProtoSparseListImplementation>(context->newSparseList()), ref);
         const ProtoObject* result = newObject->asObject(context);
         return result;
@@ -712,14 +723,24 @@ namespace proto
 
     const ProtoObject* ProtoObject::addParentInternal(ProtoContext* context, const ProtoObject* newParent) const {
         if (!isCell(context)) return this;
-        
+
         const auto* oc = toImpl<const ProtoObjectCell>(this);
-        
+
         // Handle Mutable Objects.  See setAttribute (above) for the
         // rationale on the unbounded-retry-with-backoff loop: an early
         // cap silently dropped writes when shards were contended.
         if (oc->mutable_ref > 0) {
              int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+             // GC critical section: every iteration allocates a new
+             // ProtoObjectCell + a new ParentLinkImplementation + a new
+             // outer SparseList tree before any of them are reachable
+             // from a GC root — only the final compare_exchange_weak on
+             // mutableRoot[shard].root publishes the new state.  Same
+             // discipline as setAttribute (see core/ProtoObject.cpp
+             // mutable branch); without it a concurrent STW root scan
+             // would observe the half-built tree as candidate-but-
+             // unreachable and sweep would free it.
+             ProtoContext::CriticalSection cs(context);
              int casIteration = 0;
              while (true) {
                  ++casIteration;
@@ -759,6 +780,13 @@ namespace proto
              return this; // Return the same handle
         }
 
+        // Immutable branch: build a new ProtoObjectCell with the added
+        // parent.  The intermediate ParentLinkImplementation cell is
+        // held in the constructor's argument list across the
+        // ProtoObjectCell allocation; both must stay reachable until the
+        // result is returned to the caller.  Critical section forbids
+        // STW root scan during construction.
+        ProtoContext::CriticalSection cs(context);
         return oc->addParent(context, newParent)->asObject(context);
     }
 
@@ -766,7 +794,17 @@ namespace proto
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT || !ProtoObject::isCellPointer(newParent)) return this;
-        
+
+        // GC critical section: the loop below holds `result` (a
+        // ProtoObject* returned by addParentInternal) in a C++ local
+        // across multiple allocations — every iteration of the
+        // ancestors loop allocates new cells via the inner
+        // addParentInternal.  Without the guard a concurrent STW
+        // between iterations would observe `result` only via this C++
+        // local (it is not yet in any GC root) and a sweep could free
+        // its underlying cell.
+        ProtoContext::CriticalSection cs(context);
+
         const ProtoObject* result = this;
         const ProtoList* mroOfNew = newParent->getParents(context);
 
@@ -780,12 +818,12 @@ namespace proto
                 }
             }
         }
-        
+
         // Finally add newParent itself
         if (!result->hasParent(context, newParent)) {
             result = result->addParentInternal(context, newParent);
         }
-        
+
         return result;
     }
 
@@ -1260,7 +1298,12 @@ namespace proto
                 const ProtoObject* parentObj = pl->getObject(context);
                 if (parentObj) {
                     const ProtoSparseList* parentAttrs = parentObj->getAttributes(context);
-                // Merge parent attributes with own attributes
+                // Merge parent attributes with own attributes.  GC critical
+                // section: the loop below builds `attrs` incrementally and
+                // every setAt allocates new SparseList nodes; the partial
+                // tree is reachable only via this C++ local until the
+                // final `return`.
+                ProtoContext::CriticalSection cs(context);
                 const ProtoSparseListIterator* it = parentAttrs->getIterator(context);
                 while (it && it->hasNext(context)) {
                     unsigned long key = it->nextKey(context);

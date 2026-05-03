@@ -172,6 +172,13 @@ namespace proto {
         // swap — we recompute newThreads off the current oldThreads.
         unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(context));
         const ProtoObject* threadAsObj = (const ProtoObject*)this->asThread(context);
+        // GC critical section: implSetAt allocates a chain of new
+        // SparseList nodes that are reachable only via `newThreads`
+        // (a C++ local) until the publish-store to space->threads
+        // happens under globalMutex.  A concurrent STW root scan would
+        // miss the chain and a sweep would free it before the publish.
+        // Same discipline as ProtoObject::setAttribute (mutable path).
+        ProtoContext::CriticalSection cs(context);
         while (true) {
             const ProtoSparseList* oldThreads = space->threads;
             auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
@@ -218,6 +225,11 @@ namespace proto {
         // pattern as the spawning constructor.
         unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(mainContext));
         const ProtoObject* threadAsObj = (const ProtoObject*)this->asThread(mainContext);
+        // GC critical section: same rationale as the spawning
+        // constructor above — newThreads is held in a C++ local across
+        // the implSetAt allocations and only published to
+        // space->threads at the bottom of the loop.
+        ProtoContext::CriticalSection cs(mainContext);
         while (true) {
             const ProtoSparseList* oldThreads = space->threads;
             auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
