@@ -465,6 +465,34 @@ namespace proto {
             }
         }
 
+        // Pre-allocate a pool of DirtySegments so submitYoungGeneration's
+        // hot path (per-context threshold submission, every context-
+        // destruction) can claim one without falling back to a system
+        // malloc.  Each DirtySegment is 16 bytes (two pointers), so the
+        // initial reservation is small and amortises the cost of every
+        // future submission against this single startup burst.
+        //
+        // Profile of protoPython str_concat_loop with the threshold
+        // submission active showed _int_malloc inside libc as a top
+        // hotspot — every miss in the pool walked
+        // posix_memalign / new — when the burst rate exceeded the GC's
+        // sweep cadence (sweep is the only path that returns segments).
+        // The pre-allocation keeps the pool warm so steady-state
+        // submission is allocation-free, and the existing fallback in
+        // submitYoungGeneration still covers pathological pressure.
+        constexpr int kInitialDirtySegmentPool = 128;
+        for (int i = 0; i < kInitialDirtySegmentPool; ++i) {
+            DirtySegment* seg = new DirtySegment();
+            seg->cellChain = nullptr;
+            seg->next = this->dirtySegmentFreePool.load(std::memory_order_relaxed);
+            while (!this->dirtySegmentFreePool.compare_exchange_weak(
+                    seg->next, seg,
+                    std::memory_order_release,
+                    std::memory_order_relaxed)) {
+                // seg->next reloaded by compare_exchange_weak on failure.
+            }
+        }
+
         // Initialize prototypes
         this->rootContext = new ProtoContext(this, nullptr, nullptr, nullptr, nullptr, nullptr);
         this->booleanPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
