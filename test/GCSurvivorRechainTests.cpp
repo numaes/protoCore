@@ -51,45 +51,18 @@ void waitForGcCycles(ProtoSpace& space, int cycles = 1) {
 
 // T1 — RSS bounded in a tight loop with no escapes.
 //
-// A long-running context allocates many cells, each immediately discarded.
-// With the survivor re-chain + per-context threshold trigger enabled, the GC
-// fires mid-loop, sweeps the unreferenced cells, and heapSize stays bounded
-// in the working set.  Without the fix, all cells stay pinned in
-// lastAllocatedCell and heapSize grows ~ K * cell-size.
-TEST(GCSurvivorTest, RssBoundedInTightLoopNoEscapes) {
-#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
-    GTEST_SKIP() << "requires PROTOCORE_GC_REINCLUDE_SURVIVORS";
-#else
-    ProtoSpace space;
-    // Lower the threshold so the trigger fires many times in this test.
-    space.maxAllocatedCellsPerContext = 100;
-
-    ProtoContext* ctx = space.rootContext;
-
-    // K is large enough that, without the trigger, allocatedCellsCount
-    // would be K + setup overhead.  With the trigger, the count should
-    // be reset whenever it crosses the threshold, leaving only the
-    // most recent partial batch in the counter at observation time.
-    // heapSize is not a reliable discriminator here because the OS
-    // allocation batch (blocksPerAllocation * 50) dwarfs K.
-    constexpr int K = 5000;
-    for (int i = 0; i < K; ++i) {
-        // Returned object is not stored; should be reclaimable on next GC.
-        (void)ctx->newObject(false);
-    }
-
-    // Let any in-flight GC cycles complete.
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-
-    // Without the trigger: allocatedCellsCount = K + setup, far above
-    // the threshold.  With the trigger: count is below 2 * threshold
-    // (the most-recent batch plus the increment that fired the trigger).
-    EXPECT_LT(ctx->allocatedCellsCount, space.maxAllocatedCellsPerContext * 2u)
-        << "allocatedCellsCount = " << ctx->allocatedCellsCount
-        << " after " << K << " allocations with threshold "
-        << space.maxAllocatedCellsPerContext
-        << " — threshold trigger not firing.";
-#endif
+// DEFERRED: the chain-bounding form of the threshold trigger requires
+// embedders to expose their operand stack to the GC root scan (e.g. via
+// a per-thread RootSet).  protoPython's bytecode interpreter holds
+// in-flight values in a C++ std::vector that the GC cannot see; if the
+// trigger submitted lastAllocatedCell mid-execution, those values would
+// be moved out of the implicit pinning that the chain provides and
+// freed under the running interpreter.  See ProtoContext::allocCell
+// for the full rationale.  Until embedders cooperate, the trigger only
+// kicks the GC and does not reset the per-context counter, so this
+// test cannot pass without additional plumbing.
+TEST(GCSurvivorTest, DISABLED_RssBoundedInTightLoopNoEscapes) {
+    GTEST_SKIP() << "deferred: needs embedder operand-stack root";
 }
 
 // T2 — A long-lived survivor is freed when its reference is dropped.
@@ -142,50 +115,14 @@ TEST(GCSurvivorTest, LongLivedSurvivorFreedWhenReferenceDropped) {
 #endif
 }
 
-// T3 — The per-context threshold trigger actually fires.
+// T3 — The per-context threshold trigger actually fires (deferred).
 //
-// Pin every allocated cell so nothing can be reclaimed even if GC runs.
-// Lower the threshold so that, over the course of a few thousand
-// allocations, the trigger should fire many times.  Each firing submits
-// the chain and resets the count.  We observe by pre/post comparison of
-// dirtySegments push activity: heapSize will grow normally (cells are
-// pinned), but the per-context count must be re-armed below the
-// threshold by the time the loop ends.
-TEST(GCSurvivorTest, ThresholdTriggerFiresUnderHeavyAllocation) {
-#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
-    GTEST_SKIP() << "requires PROTOCORE_GC_REINCLUDE_SURVIVORS";
-#else
-    ProtoSpace space;
-    space.maxAllocatedCellsPerContext = 100;
-
-    auto* rs = space.createRootSet("threshold-pin");
-    ASSERT_NE(rs, nullptr);
-
-    std::vector<ProtoRootSet::Handle> handles;
-    handles.reserve(2000);
-
-    ProtoContext* ctx = space.rootContext;
-    constexpr int K = 2000;  // 20× threshold
-    for (int i = 0; i < K; ++i) {
-        const ProtoObject* obj = ctx->newObject(false);
-        handles.push_back(rs->add(obj));
-    }
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-
-    // After K=2000 allocations with threshold=100, the trigger fired ~20
-    // times.  Each firing resets allocatedCellsCount to 0 + however many
-    // we did before the next firing.  The current count must therefore be
-    // less than 2 * threshold (room for the most-recent batch plus the
-    // increment that fired the trigger).
-    EXPECT_LT(ctx->allocatedCellsCount, space.maxAllocatedCellsPerContext * 2u)
-        << "allocatedCellsCount = " << ctx->allocatedCellsCount
-        << " but threshold = " << space.maxAllocatedCellsPerContext
-        << " — trigger should have reset it many times";
-
-    for (auto handle : handles) rs->remove(handle);
-    space.destroyRootSet(rs);
-#endif
+// Same status as T1: the chain-reset side of the trigger is not active
+// until embedders register their operand stack as a root.  The current
+// trigger only kicks the GC; the per-context counter intentionally is
+// not reset, so the assertion below would never hold.
+TEST(GCSurvivorTest, DISABLED_ThresholdTriggerFiresUnderHeavyAllocation) {
+    GTEST_SKIP() << "deferred: needs embedder operand-stack root";
 }
 
 // T4 — Cells that are legitimately retained are not freed.

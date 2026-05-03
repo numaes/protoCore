@@ -63,20 +63,23 @@ The next STW cycle's root collection drains `dirtySegments` via `exchange(nullpt
 
 `ProtoContext::allocatedCellsCount` already exists (`headers/protoCore.h:853`) and is incremented in `allocCell()` (`ProtoContext.cpp:304`). Add a threshold check immediately after the increment.
 
-When `allocatedCellsCount > threshold`:
-1. Call `space_->submitYoungGeneration(lastAllocatedCell)` — wraps the chain in a `DirtySegment` and pushes to `dirtySegments` (lock-free). Existing API.
-2. Reset `lastAllocatedCell = nullptr`, `allocatedCellsCount = 0`.
-3. Call `space_->triggerGC()` — request a cycle. Existing API.
+**Implemented in this revision:** when `allocatedCellsCount > threshold`, `allocCell` calls `space_->triggerGC()` to kick the collector regardless of `freeRatio`.
 
-**Threshold value:**
+**Deferred (the chain-bounding form):** the original design also called `submitYoungGeneration(lastAllocatedCell)` and reset both `lastAllocatedCell = nullptr` and `allocatedCellsCount = 0`. **This is unsafe in the current root model.** Some embedders — notably protoPython's bytecode interpreter — hold in-flight `ProtoObject*` values in C++ data structures (an operand stack of `std::vector` type) that the GC cannot see. Those values are pinned only by being members of `lastAllocatedCell`: cells in that chain are not in `dirtySegments`, so they are not candidates for sweep, so the GC does not touch them. Submitting the chain mid-execution moves them to candidate status, the next sweep frees them under the running interpreter, and use-after-free errors result (e.g. `NameError: name 'fsencode' is not defined` while importing `os`).
+
+The earlier reasoning that "STW root collection waits for all threads to park, so no in-flight cells exist" is correct for cells the root scan can reach. The protoPython operand stack is **not** scanned (only `automaticLocals`, `closureLocals`, `returnValue`, `pendingRoot`, embedder root sets, and global prototypes are roots). The chain submission therefore breaks the implicit pinning that the interpreter relies on.
+
+**Path to enabling the chain submission:**
+1. Embedders register their interpreter-managed root structures (operand stack, in-flight handles) via `ProtoRootSet` or an analogous per-context mechanism.
+2. The GC's `scanContexts` adds those roots to `workList` alongside `automaticLocals`.
+3. With every reachable cell visible, the chain submission can be enabled.
+
+Until then, the threshold check kicks GC but does not bound the per-context chain.
+
+**Threshold value (still applies to the kick path):**
 - Compile-time default: `CONTEXT_GC_THRESHOLD_DEFAULT = 10000` (about 640 KB at 64-byte alignment).
 - Runtime override: env var `PROTOCORE_GC_CONTEXT_THRESHOLD`, parsed in `ProtoSpace` constructor.
 - Stored as a member of `ProtoSpace` (single source of truth, read by every context).
-
-**Why this is safe:**
-- Submission happens inside `allocCell()`, which already polls the STW flag every 64 calls. The thread reaches a safepoint naturally on the next iteration.
-- Cells being submitted are still reachable through the active frame stack — the context is a root. The next mark cycle will preserve referenced cells and free unreferenced ones.
-- The actual GC cycle does not start until all threads enter safepoints (`ProtoSpace.cpp:77–89`). By then, every thread is parked; no in-flight unrooted cells exist.
 
 ### 4.3 Feature flag
 
