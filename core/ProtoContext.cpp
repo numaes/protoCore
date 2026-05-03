@@ -300,8 +300,38 @@ namespace proto
 
         if (newCell) {
             std::memset(newCell, 0, 64);
-            if (this)
+            if (this) {
                 this->allocatedCellsCount++;
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                // Per-context allocation-threshold trigger.  When this
+                // context has accumulated more than maxAllocatedCellsPerContext
+                // cells since its last submission, push the young chain to
+                // dirtySegments, reset the counter, and request a GC cycle.
+                // Bounds RSS in tight loops with small working sets without
+                // changing the algorithm: the GC marks from roots and frees
+                // unreachables.  Cells we just submitted remain reachable
+                // through the active frame stack until mark proves otherwise.
+                //
+                // Skip if this is the GC thread itself (cannot submit to
+                // its own input) or if the threshold is zero (disables
+                // the trigger entirely).
+                if (this->space &&
+                    this->space->maxAllocatedCellsPerContext > 0 &&
+                    this->allocatedCellsCount > this->space->maxAllocatedCellsPerContext &&
+                    this->space->gcThread &&
+                    std::this_thread::get_id() != this->space->gcThread->get_id()) {
+                    while (lock.test_and_set(std::memory_order_acquire)) {}
+                    Cell* chain = this->lastAllocatedCell;
+                    this->lastAllocatedCell = nullptr;
+                    this->allocatedCellsCount = 0;
+                    lock.clear(std::memory_order_release);
+                    if (chain) {
+                        this->space->submitYoungGeneration(chain);
+                    }
+                    this->space->triggerGC();
+                }
+#endif
+            }
             return newCell;
         }
         else
