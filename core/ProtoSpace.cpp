@@ -406,6 +406,18 @@ namespace proto {
         // caches without requiring each runtime to pass rootContext explicitly.
         this->mainThreadId = std::this_thread::get_id();
 
+        // Per-context GC threshold: env var override, fall back to default.
+        // Only consumed when PROTOCORE_GC_REINCLUDE_SURVIVORS is enabled, but
+        // initialised unconditionally so the field is well-defined.
+        this->maxAllocatedCellsPerContext = CONTEXT_GC_THRESHOLD_DEFAULT;
+        if (const char* envThreshold = std::getenv("PROTOCORE_GC_CONTEXT_THRESHOLD")) {
+            char* endPtr = nullptr;
+            unsigned long parsed = std::strtoul(envThreshold, &endPtr, 10);
+            if (endPtr && *endPtr == '\0' && parsed > 0 && parsed <= UINT_MAX) {
+                this->maxAllocatedCellsPerContext = static_cast<unsigned int>(parsed);
+            }
+        }
+
         // Initialize prototypes
         this->rootContext = new ProtoContext(this, nullptr, nullptr, nullptr, nullptr, nullptr);
         this->booleanPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));

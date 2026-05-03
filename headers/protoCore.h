@@ -1118,6 +1118,25 @@ namespace proto
          * the hot path (~480 K/run on richards_lite).
          */
         std::atomic<DirtySegment*> dirtySegmentFreePool;
+
+        /**
+         * @brief Per-context allocation threshold for the GC trigger.
+         *
+         * When PROTOCORE_GC_REINCLUDE_SURVIVORS is enabled and a single
+         * ProtoContext has allocated more than this many cells since its
+         * last GC submission, allocCell() submits the context's young
+         * chain to dirtySegments, resets the per-context count, and calls
+         * triggerGC().  This bounds RSS in tight loops with small working
+         * sets without changing the algorithm: the GC still marks from
+         * roots and frees what is unreachable.
+         *
+         * Default: CONTEXT_GC_THRESHOLD_DEFAULT (10000 cells).
+         * Override at startup via env var PROTOCORE_GC_CONTEXT_THRESHOLD.
+         *
+         * Read by ProtoContext::allocCell() in the hot path; not atomic
+         * because it is set once at construction and never changed.
+         */
+        static constexpr unsigned int CONTEXT_GC_THRESHOLD_DEFAULT = 10000;
         unsigned int maxAllocatedCellsPerContext;
         int blocksPerAllocation;
         int heapSize;
