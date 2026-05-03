@@ -113,6 +113,25 @@ By induction, no live cell is ever lost to mark, and every cell that becomes unr
 
 **Tight-loop bounding:** a loop allocating M cells per iteration with bounded retention triggers a cycle every `threshold / M` iterations. At each cycle, only currently-referenced cells survive; the rest are freed. RSS stays bounded in the working set, not in the iteration count.
 
+## 5b. Performance characterisation (post-implementation)
+
+Measured on protoPython benchmarks (median of 2 runs, single-thread, x86_64 Linux):
+
+| Config | Geomean vs CPython 3.14 | Notes |
+|---|---|---|
+| **OFF (default)** | 3.90× slower | Pre-existing baseline; retains the survivor-tenuring leak |
+| **ON, trigger disabled (re-chain only)** | 8.80× slower | Re-chain alone costs ≈2.3× over OFF |
+| **ON, trigger enabled (counter-reset only)** | 9.04× slower | Trigger adds a marginal ≈3% over re-chain alone |
+
+The 2.3× cost of the survivor re-chain is the explicit price of "correctness with no write barriers and no generational tiers": every cycle re-marks the entire live working set instead of only the freshly submitted cells. In workloads dominated by short-lived temporaries (most loops in the benchmark suite), this means the GC scans every still-live cell once per cycle.
+
+Two follow-up options can reduce this cost without violating the no-write-barriers/no-generational rule:
+
+1. **Stagger the re-chain.** Push survivors to a secondary holding pen that is folded back into `dirtySegments` only every Nth cycle, so most cycles touch only freshly submitted cells. Correctness is preserved (eventually every survivor is re-checked); the cost amortises to roughly `1 + 1/N` × baseline.
+2. **Embedder operand-stack root.** If protoPython exposes its bytecode operand stack as a GC root, the deferred chain-bounding side of the threshold trigger becomes safe; combined with re-chain, RSS bounds tightly in tight loops, reducing the live working set the GC has to scan each cycle.
+
+`memory_pressure` itself is *not* fixed by this revision: its leak is the unbounded growth of `lastAllocatedCell` during a long-running interpreter, which is exactly what the deferred chain bounding addresses. The survivor re-chain alone fixes a different leak (cells that survive once then become unreachable).
+
 ## 6. Risks and mitigations
 
 | Risk | Mitigation |
