@@ -1,7 +1,7 @@
 # protoCore GC: Survivor Re-chain & Per-Context Threshold Trigger
 
 **Date:** 2026-05-03
-**Status:** Implemented (`PROTOCORE_GC_REINCLUDE_SURVIVORS=ON`, default OFF)
+**Status:** Implemented and **enabled by default** (`PROTOCORE_GC_REINCLUDE_SURVIVORS=ON`; configure with `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` to bisect against the previous behaviour)
 **Scope:** `protoCore` (with a small embedder-side change in `protoPython` to route the bytecode operand stack through GC-visible `automaticLocals`)
 
 ---
@@ -120,7 +120,7 @@ Both changes guarded by a compile-time flag, default OFF until validation passes
 #endif
 ```
 
-Enable via CMake option `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=ON`. CI builds both modes; bisection trivial.
+**Default ON** since the May 2026 audit landed all the necessary critical-section coverage.  Configure with `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` to bisect against the previous behaviour or to reproduce historical numbers.
 
 ## 5. Why this is correct
 
@@ -140,24 +140,24 @@ By induction, no live cell is ever lost to mark, and every cell that becomes unr
 
 **Tight-loop bounding:** a loop allocating M cells per iteration with bounded retention triggers a cycle every `threshold / M` iterations. At each cycle, only currently-referenced cells survive; the rest are freed. RSS stays bounded in the working set, not in the iteration count.
 
-## 5b. Performance characterisation (post-implementation)
+## 5b. Performance characterisation (default ON, post-audit)
 
-Measured on protoPython benchmarks (5-run median, single-thread, x86_64 Linux, both binaries built `-DCMAKE_BUILD_TYPE=Release`). All ratios are wall time vs CPython 3.14 (smaller is better).
+Measured on protoPython benchmarks (5-run median, single-thread, x86_64 Linux, both binaries built `-DCMAKE_BUILD_TYPE=Release`).  The full critical-section audit landed across May 2026; final side-by-side numbers below.  All ratios are wall time vs CPython 3.14 (smaller is better).
 
-| Benchmark           | OFF (baseline) | ON (default config) |
-|---------------------|----------------|---------------------|
-| `startup_empty`     | 0.77× faster   | **0.62× faster**    |
-| `int_sum_loop`      | 0.68× faster   | 0.69× faster        |
-| `list_append_loop`  | 7.56×          | **7.17×**           |
-| `str_concat_loop`   | 8.47×          | 11.24×              |
-| `range_iterate`     | 5.11×          | **4.09×**           |
-| `multithread_cpu`   | 1.41×          | **1.10×**           |
-| `attr_lookup`       | 1.89×          | **1.46×**           |
-| `call_recursion`    | 2.08×          | 2.32×               |
-| `memory_pressure`   | 182× / **1347 MB** | **49.59× / 358 MB** |
-| **Geomean**         | **3.81×**      | **3.10×**           |
+| Benchmark           | OFF              | **ON (default)** | Δ                  |
+|---------------------|------------------|------------------|--------------------|
+| `startup_empty`     | 0.66× faster     | 0.66× faster     | flat               |
+| `int_sum_loop`      | 0.67× faster     | **0.61× faster** | better             |
+| `list_append_loop`  | 6.39×            | 6.90×            | −8 % (regression)  |
+| `str_concat_loop`   | 11.67×           | 11.70×           | flat               |
+| `range_iterate`     | 4.26×            | 4.32×            | flat               |
+| `multithread_cpu`   | 1.17×            | **1.13×**        | better             |
+| `attr_lookup`       | 1.57×            | **1.45×**        | better             |
+| `call_recursion`    | 2.56×            | **2.38×**        | better             |
+| `memory_pressure`   | 190.91× / **1347 MB** | **43.38× / 358 MB** | **4.4× faster, 3.8× less RSS** |
+| **Geomean**         | **3.69×**        | **3.06×**        | **17 % faster**    |
 
-Five workloads improve, two are unchanged within noise, two regress slightly (`str_concat_loop`, `call_recursion`). `memory_pressure` is the headline result: the unbounded growth of `lastAllocatedCell` during a long-running interpreter — the leak this design was built to address — is reclaimed mid-execution, RSS drops 3.8× and wall time drops 3.7×. Geomean across the suite is **18% faster than the previous OFF baseline**, despite the additional GC bookkeeping.
+`memory_pressure` is the headline result: the unbounded growth of `lastAllocatedCell` during a long-running interpreter — the leak this design was built to address — is reclaimed mid-execution, RSS drops 3.8× and wall time drops 4.4×.  Geomean across the suite is **17 % faster than the OFF baseline**, despite the additional GC bookkeeping.  Five workloads improve, three are flat, one (`list_append_loop`) regresses by ~8 % — heavy churn into structures the program then discards.
 
 The `str_concat_loop` regression and the `call_recursion` regression both share a profile: they allocate aggressively, mostly into structures the program then discards, with very little long-lived state. The threshold submission fires often, every cycle re-marks the working set, and the mutator pays for that mark traversal even when the live set is small. Two mitigations are practical follow-ups (neither needed for correctness):
 

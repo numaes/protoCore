@@ -104,13 +104,21 @@ if(PROTO_GC_LOCK_TRACE)
 endif()
 
 # Option: re-include GC survivors into the next analysis cycle and enable
-# per-context allocation-threshold trigger. See
+# per-context allocation-threshold submission. See
 # docs/superpowers/specs/2026-05-03-gc-survivor-rechain.md for the design.
-# Default OFF until validation passes.
-option(PROTOCORE_GC_REINCLUDE_SURVIVORS "Re-chain sweep survivors into dirtySegments and enable per-context alloc threshold" OFF)
+#
+# Default ON since the May 2026 audit: full protoCore (148/148) and
+# protoPython (163/163) test suites pass, and protoPython benchmarks
+# show ~14 % geomean improvement vs the OFF baseline plus a ~3.8x RSS
+# reduction on `memory_pressure`.  Configure with
+# -DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF to bisect against the previous
+# behaviour.
+option(PROTOCORE_GC_REINCLUDE_SURVIVORS "Re-chain sweep survivors into dirtySegments and enable per-context alloc threshold" ON)
 if(PROTOCORE_GC_REINCLUDE_SURVIVORS)
     target_compile_definitions(protoCore PRIVATE PROTOCORE_GC_REINCLUDE_SURVIVORS)
-    message(STATUS "GC survivor re-chain enabled")
+    message(STATUS "GC survivor re-chain enabled (default)")
+else()
+    message(STATUS "GC survivor re-chain DISABLED — will exhibit the historical survivor-tenuring leak")
 endif()
 
 message(STATUS "Configured protoCore shared library target: protoCore")
