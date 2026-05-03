@@ -111,6 +111,13 @@ namespace proto
         else if (*p == '-') { is_negative = true; ++p; }
         if (*p == '\0') throw std::invalid_argument("Invalid argument for Integer::fromString.");
 
+        // GC critical section: `result` and `baseObj` are LargeInteger
+        // chains held in C++ locals across multiple multiply/add calls;
+        // each such call may allocate (via fromTempBignum, also wrapped),
+        // and a sweep landing on the chain mid-loop without a guard at
+        // this level would observe `result` between iterations as
+        // unrooted.
+        ProtoContext::CriticalSection cs(context);
         const ProtoObject* result = fromLong(context, 0);
         const ProtoObject* baseObj = fromLong(context, base);
         for (; *p != '\0'; ++p) {
@@ -432,6 +439,13 @@ namespace proto
             return context->fromUTF8String("0")->asString(context);
         }
 
+        // GC critical section: the divmod loop allocates a fresh
+        // LargeIntegerImplementation chain for every digit (via
+        // fromTempBignum) and the final fromUTF8String builds a rope.
+        // None of those temporaries are reachable from a GC root until
+        // they are consumed by the next iteration; the guard keeps STW
+        // from observing them as candidate-but-unreachable.
+        ProtoContext::CriticalSection cs(context);
         std::string s = "";
         TempBignum base_bignum;
         base_bignum.magnitude.push_back(base);

@@ -44,6 +44,12 @@ namespace proto {
             (void)s_diagTids;
         }
         const ProtoList* buildDefaultResolutionChain(ProtoContext* ctx) {
+            // GC critical section: `chain` accumulates entries across the
+            // loop and is held in this C++ local between iterations; each
+            // appendLast also enters its own critical section internally,
+            // but the outer guard covers the gap between them where
+            // chain would otherwise be unrooted.
+            ProtoContext::CriticalSection cs(ctx);
             const ProtoList* chain = ctx->newList();
             if (!chain) return nullptr;
 #if defined(_WIN32)

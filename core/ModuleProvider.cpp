@@ -59,6 +59,10 @@ const ProtoObject* FileSystemProvider::tryLoad(const std::string& logicalPath, P
     std::string resolved = joinPath(basePath_, logicalPath);
     if (!pathExists(resolved)) return PROTO_NONE;
     if (isFile(resolved)) {
+        // GC critical section: pathStr, pathObj, module, keyPath are all
+        // held in C++ locals across newObject / addParent / setAttribute
+        // calls, each of which allocates.
+        ProtoContext::CriticalSection cs(ctx);
         const ProtoString* pathStr = ProtoString::fromUTF8String(ctx, resolved.c_str());
         if (!pathStr) return PROTO_NONE;
         const ProtoObject* pathObj = pathStr->asObject(ctx);

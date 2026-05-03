@@ -287,6 +287,11 @@ namespace proto {
     }
 
     const ProtoTupleImplementation* ProtoTupleImplementation::tupleFromList(ProtoContext* context, const ProtoListImplementation* list) {
+        // GC critical section: fromListRecursive builds a tree of
+        // ProtoTupleImplementation cells; rawTuple is held in this C++
+        // local across internTuple, which itself walks the tuple
+        // interner tree (allocating new TupleDictionary nodes on miss).
+        ProtoContext::CriticalSection cs(context);
         const ProtoTupleImplementation* rawTuple = fromListRecursive(context, list->asProtoList(context), 0, list->size);
         const ProtoTupleImplementation* internedTuple = internTuple(context, rawTuple);
         // If interned came back different, rawTuple is redundant (garbage) but not easily deletable here due to GC.
@@ -295,6 +300,7 @@ namespace proto {
     }
 
     const ProtoTupleImplementation* ProtoTupleImplementation::tupleFromVector(ProtoContext* context, const std::vector<const ProtoObject*>& source) {
+        ProtoContext::CriticalSection cs(context);
         const ProtoTupleImplementation* rawTuple = fromVectorRecursive(context, source, 0, source.size());
         const ProtoTupleImplementation* internedTuple = internTuple(context, rawTuple);
         return internedTuple;

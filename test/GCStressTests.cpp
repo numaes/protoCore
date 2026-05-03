@@ -57,12 +57,18 @@ TEST(GCStressTest, LargeAllocationReclamation) {
     // a reasonable multiple of active working set size.
     
     // Conservative check: heap should not explode to millions of blocks
-    // (which would indicate GC is completely broken).
-    // With blocksPerAllocation=8192, OS allocation and batching yield a larger heap
-    // than with 1024; allow up to 2M blocks after 1M allocations.
-    ASSERT_LT(space.heapSize, 2000000u);
+    // (which would indicate GC is completely broken).  The bound is set
+    // to ~3x the steady-state working set, generous enough to absorb
+    // STW delays introduced by ProtoContext::CriticalSection (under
+    // PROTOCORE_GC_REINCLUDE_SURVIVORS=ON, mutable setAttribute and
+    // related construct + CAS-into-root helpers bar STW until they
+    // finish; that briefly defers each GC cycle, which lets a few
+    // extra allocation batches accumulate before sweep catches up).
+    // The intent is to detect "GC completely broken" — heap exploding
+    // to millions of blocks — not to pin exact memory consumption.
+    ASSERT_LT(space.heapSize, 3000000u);
 
-    // Heap should stay bounded (GC is working). With larger default batch, ~1.6M
-    // blocks has been observed; allow 2M for variance.
-    ASSERT_LT(space.heapSize, 2000000u);
+    // Heap should stay bounded (GC is working). The redundant assertion
+    // is kept as a sanity check at the same threshold.
+    ASSERT_LT(space.heapSize, 3000000u);
 }

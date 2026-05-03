@@ -27,6 +27,11 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
             }
         }
         
+        // GC critical section: `wrapper` and `attrName` are held in C++
+        // locals across newObject + addParent + fromUTF8String +
+        // setAttribute, each of which allocates.  Without the guard, a
+        // sweep landing between any two could orphan one of them.
+        ProtoContext::CriticalSection cs(ctx);
         const ProtoObject* wrapper = ctx->newObject(false);
         if (space->objectPrototype) {
             wrapper = wrapper->addParent(ctx, space->objectPrototype);
@@ -113,6 +118,9 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
         space->moduleRoots.push_back(module);
     }
 
+    // GC critical section: same construct + attach pattern as the
+    // cache-hit branch above.
+    ProtoContext::CriticalSection cs2(ctx);
     const ProtoObject* wrapper = ctx->newObject(false);
     if (!wrapper) return PROTO_NONE;
     const ProtoString* attrName = ProtoString::fromUTF8String(ctx, attrName2create);

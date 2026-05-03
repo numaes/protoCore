@@ -529,11 +529,19 @@ namespace proto
 
     const ProtoSet* ProtoContext::newSet()
     {
+        // GC critical section: two allocations in a single expression
+        // (newSparseList for the empty backing store, then the wrapping
+        // ProtoSetImplementation).  Argument-evaluation order is
+        // unspecified, so the freshly allocated SparseList is reachable
+        // only via a C++ temporary across the SetImplementation alloc.
+        ProtoContext::CriticalSection cs(this);
         return (new(this) ProtoSetImplementation(this, newSparseList(), 0))->asProtoSet(this);
     }
 
     const ProtoMultiset* ProtoContext::newMultiset()
     {
+        // GC critical section: same pattern as newSet().
+        ProtoContext::CriticalSection cs(this);
         return (new(this) ProtoMultisetImplementation(this, newSparseList(), 0))->asProtoMultiset(this);
     }
 
@@ -559,6 +567,11 @@ namespace proto
     const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
         unsigned long ref = mutableObject ? generate_mutable_ref(this) : 0;
+        // GC critical section: `attributes` is held in a C++ local across
+        // the wrapping ProtoObjectCell allocation.  Same discipline as
+        // ProtoObject::newChild (which already wraps); this is the
+        // simpler factory path used everywhere else.
+        ProtoContext::CriticalSection cs(this);
         const auto* attributes = toImpl<const ProtoSparseListImplementation>(newSparseList());
         const ProtoObject* result = (new(this) ProtoObjectCell(this, nullptr, attributes, ref))->asObject(this);
         return result;

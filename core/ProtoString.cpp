@@ -940,7 +940,11 @@ namespace proto {
     }
 
     const ProtoString* ProtoString::setAt(ProtoContext* context, int index, const ProtoObject* character) const {
-        // Remove the character at index, then insert the new one
+        // Remove the character at index, then insert the new one.
+        // GC critical section: the intermediate result of removeAt is held
+        // in a C++ temporary across insertAt; without the guard a sweep
+        // landing between the two would orphan its rope subtree.
+        ProtoContext::CriticalSection cs(context);
         return removeAt(context, index)->insertAt(context, index, character);
     }
 
@@ -975,7 +979,10 @@ namespace proto {
     }
 
     const ProtoString* ProtoString::setAtString(ProtoContext* context, int index, const ProtoString* otherString) const {
-        // Replace characters starting at index with those from otherString
+        // Replace characters starting at index with those from otherString.
+        // GC critical section: `removed` is a freshly built rope held in
+        // a C++ local across insertAtString.
+        ProtoContext::CriticalSection cs(context);
         unsigned long otherLen = otherString->getSize(context);
         const ProtoString* removed = removeSlice(context, index, index + static_cast<int>(otherLen));
         return removed->insertAtString(context, index, otherString);
@@ -1165,6 +1172,14 @@ namespace proto {
             return reinterpret_cast<const ProtoString*>(createInlineString(context, static_cast<int>(size), codepoints));
         }
 
+        // GC critical section: fromUTF8Bytes builds an AVL of
+        // StringInternalNode + StringLeafNode cells; pendingStr is
+        // reachable only via this C++ local until the pendingRoot
+        // assignment, and then internString may rebuild structure via
+        // its set lookup.  Without the guard a sweep landing between
+        // the build and the pendingRoot assignment would orphan the
+        // pendingStr subtree.
+        ProtoContext::CriticalSection cs(context);
         const ProtoStringImplementation* pendingStr = ProtoStringImplementation::fromUTF8Bytes(
             context,
             reinterpret_cast<const uint8_t*>(utf8.data()),
@@ -1203,7 +1218,13 @@ namespace proto {
             }
         }
 
-        // General path: build a ProtoStringImplementation, intern it as a symbol.
+        // General path: build a ProtoStringImplementation, intern it as a
+        // symbol.  GC critical section: `impl` (a multi-cell rope) is held
+        // in this C++ local across implAsObject and the SymbolTable
+        // intern, both of which may allocate.  CriticalSection is a no-op
+        // when ctx is nullptr (perpetual / NULL-context allocation path),
+        // so symbol-vocabulary creation pays nothing.
+        ProtoContext::CriticalSection cs(ctx);
         const ProtoStringImplementation* impl =
             ProtoStringImplementation::fromUTF8Bytes(
                 ctx,

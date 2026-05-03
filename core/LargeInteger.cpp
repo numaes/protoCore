@@ -181,6 +181,13 @@ namespace proto
              }
          }
 
+         // GC critical section: builds a chain of LargeIntegerImplementation
+         // cells linked via `next`.  `head` is reachable only via this C++
+         // local until the final implAsObject call returns, and every
+         // intermediate `new_chunk` cell is reachable only through the
+         // (still-being-built) chain — without the guard, a sweep landing
+         // in the middle would orphan the partial chain.
+         ProtoContext::CriticalSection cs(context);
          const LargeIntegerImplementation* head = nullptr;
          LargeIntegerImplementation* current = nullptr;
          int digits_processed = 0;
