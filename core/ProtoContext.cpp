@@ -175,29 +175,6 @@ namespace proto
      * @brief Destructor for the context.
      * Reports allocated cells to the GC and frees automatic local variable storage.
      */
-    ProtoContext::CriticalSection::CriticalSection(ProtoContext* ctx) : ctx_(ctx) {
-        if (ctx_) {
-            // Outer-most enter: bump the space-wide counter so the
-            // GC thread can see at least one mutator is mid-build.
-            // Nested enters only bump the per-context depth: the
-            // space counter already reflects this thread's presence
-            // from the outer ctor.
-            if (ctx_->criticalSectionDepth == 0 && ctx_->space) {
-                ctx_->space->criticalSectionsActive.fetch_add(1, std::memory_order_acq_rel);
-            }
-            ctx_->criticalSectionDepth++;
-        }
-    }
-
-    ProtoContext::CriticalSection::~CriticalSection() {
-        if (ctx_) {
-            ctx_->criticalSectionDepth--;
-            if (ctx_->criticalSectionDepth == 0 && ctx_->space) {
-                ctx_->space->criticalSectionsActive.fetch_sub(1, std::memory_order_acq_rel);
-            }
-        }
-    }
-
     ProtoContext::~ProtoContext()
     {
         if (this->thread) {

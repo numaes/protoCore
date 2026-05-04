@@ -888,8 +888,12 @@ namespace proto
          */
         class CriticalSection {
         public:
-            explicit CriticalSection(ProtoContext* ctx);
-            ~CriticalSection();
+            explicit CriticalSection(ProtoContext* ctx) : ctx_(ctx) {
+                if (ctx_) ctx_->criticalSectionDepth++;
+            }
+            ~CriticalSection() {
+                if (ctx_) ctx_->criticalSectionDepth--;
+            }
             CriticalSection(const CriticalSection&) = delete;
             CriticalSection& operator=(const CriticalSection&) = delete;
         private:
@@ -1268,27 +1272,6 @@ namespace proto
         std::atomic<bool> stwFlag;
         std::atomic<int> parkedThreads;
         ProtoContext* mainContext;
-
-        /**
-         * @brief Count of mutator threads currently inside a
-         *        ProtoContext::CriticalSection.
-         *
-         * Incremented by the CriticalSection ctor, decremented by the dtor.
-         * The GC thread waits for this counter to drop to zero before
-         * starting a concurrent sweep, so that sweep cannot free cells the
-         * mutator still holds via C++ scratch (which is invisible to the
-         * captured-at-STW root scan when PROTOCORE_GC_REINCLUDE_SURVIVORS
-         * is enabled and every cell is a candidate every cycle).
-         *
-         * Bracketing sweep with this counter trades GC throughput (sweep
-         * stalls while any thread is mid-CS) for correctness — without
-         * the gate, native callbacks like ArrayPrototype.push and the
-         * mutable-attribute AVL rebuild can lose cells they are about to
-         * publish.  Critical sections are short (one rope build, one
-         * setAttribute), so the stall is bounded by the slowest mutator's
-         * inner loop, not by overall mutator runtime.
-         */
-        std::atomic<int> criticalSectionsActive{0};
 
         const ProtoList* resolutionChain_;
         std::vector<const ProtoObject*> moduleRoots;
