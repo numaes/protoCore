@@ -59,18 +59,23 @@ TEST_F(StringTest, TupleStringInvariantNonAscii) {
     ASSERT_EQ(pa.op.pointer_tag, POINTER_TAG_STRING);
 }
 
-TEST_F(StringTest, StringInterningTupleStrings) {
+TEST_F(StringTest, RuntimeStringsCompareByContent) {
+    // Two ad-hoc rope-backed strings with identical content are no longer
+    // pointer-equal — runtime fromUTF8String no longer dedups via the global
+    // intern map, because the rope-walk content hash made it O(N) per
+    // insertion (so N runtime concats became O(N²)).  Symbols still
+    // dedup via SymbolTable; only the runtime path changed.  Equality
+    // contracts are preserved because compare() walks content.
     const ProtoObject* str1 = ctx->fromUTF8String("this is a test string");
     const ProtoObject* str2 = ctx->fromUTF8String("this is a test string");
-    
-    // Both are tuple strings
+
     ProtoObjectPointer pa1{}; pa1.oid = str1;
     ProtoObjectPointer pa2{}; pa2.oid = str2;
     ASSERT_EQ(pa1.op.pointer_tag, POINTER_TAG_STRING);
     ASSERT_EQ(pa2.op.pointer_tag, POINTER_TAG_STRING);
-    
-    // Interning guarantees pointer equality for identical strings
-    ASSERT_EQ(str1, str2);
+
+    // Pointers may differ; content must compare equal.
+    ASSERT_EQ(str1->compare(ctx, str2), 0);
 }
 
 TEST_F(StringTest, StringInterningInlineStrings) {
@@ -99,15 +104,17 @@ TEST_F(StringTest, StringConcatenationInvariant) {
     EXPECT_EQ(pa.op.embedded_type, EMBEDDED_TYPE_INLINE_STRING);
 }
 
-TEST_F(StringTest, StringTupleInterningConcatenation) {
+TEST_F(StringTest, ConcatenatedStringComparesEqualToDirect) {
+    // After removing the runtime intern map, a concatenated rope and a
+    // direct fromUTF8String of the same content are distinct objects but
+    // must compare equal via ProtoObject::compare.  See
+    // RuntimeStringsCompareByContent for the rationale.
     const ProtoString* a = ctx->fromUTF8String("1234")->asString(ctx);
     const ProtoString* b = ctx->fromUTF8String("5678")->asString(ctx);
     const ProtoString* ab = a->appendLast(ctx, b);
 
     const ProtoObject* directString = ctx->fromUTF8String("12345678");
-
-    // Must map to the exact same pointer through interning!
-    EXPECT_EQ(ab->asObject(ctx), directString);
+    EXPECT_EQ(ab->asObject(ctx)->compare(ctx, directString), 0);
 }
 
 // ===== StringAVLTest ========================================================

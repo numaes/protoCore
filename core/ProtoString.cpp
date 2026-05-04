@@ -287,10 +287,18 @@ namespace proto {
             }
         }
         auto* pendingStr = new(ctx) ProtoStringImplementation(ctx, root);
-        ctx->pendingRoot = const_cast<ProtoStringImplementation*>(pendingStr);
-        const ProtoStringImplementation* interned = internString(ctx, pendingStr);
-        ctx->pendingRoot = nullptr;
-        return interned->implAsObject(ctx);
+        // Do not call internString here: the global stringInternMap was
+        // a content-keyed dedup, and computeContentHash walks the entire
+        // rope (O(N)).  Insertion of N runtime concats becomes O(N²) —
+        // the dominant cost of `s += 'x'` loops.  Symbols (attribute
+        // keys, identifiers) keep their own perpetual table via
+        // ProtoString::createSymbol; ad-hoc ropes do not need dedup
+        // because comparisons (==/===, sort, hash-table key) walk
+        // content via ProtoObject::compare and getHash returns the
+        // O(1) cached subtree_hash.  Skipping the intern saves the
+        // global mutex, the rope-walk hash, and the unbounded-growth
+        // intern set.
+        return pendingStr->implAsObject(ctx);
     }
 
     /** O(N) rope/AVL traversal: iterates codepoints without repeated descent.
@@ -1175,21 +1183,19 @@ namespace proto {
         // GC critical section: fromUTF8Bytes builds an AVL of
         // StringInternalNode + StringLeafNode cells; pendingStr is
         // reachable only via this C++ local until the pendingRoot
-        // assignment, and then internString may rebuild structure via
-        // its set lookup.  Without the guard a sweep landing between
-        // the build and the pendingRoot assignment would orphan the
+        // assignment.  Without the guard a sweep landing between the
+        // build and the pendingRoot assignment would orphan the
         // pendingStr subtree.
         ProtoContext::CriticalSection cs(context);
         const ProtoStringImplementation* pendingStr = ProtoStringImplementation::fromUTF8Bytes(
             context,
             reinterpret_cast<const uint8_t*>(utf8.data()),
             utf8.size());
-        context->pendingRoot = const_cast<ProtoStringImplementation*>(pendingStr);
 
-        const ProtoStringImplementation* interned = internString(context, pendingStr);
-        context->pendingRoot = nullptr;
-
-        return interned->asProtoString(context);
+        // No interning — see wrapRoot for the rationale.  The global
+        // stringInternMap caused O(N²) growth on runtime concat loops
+        // because computeContentHash walks the entire rope.
+        return pendingStr->asProtoString(context);
     }
 
     const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* str) {
