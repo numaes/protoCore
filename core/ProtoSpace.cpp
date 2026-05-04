@@ -384,6 +384,27 @@ namespace proto {
                 }
                 
                 // --- PHASE 5: SWEEP ---
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                // Wait for every mutator-side CriticalSection to finish
+                // before freeing anything.  A native callback (e.g.
+                // ArrayPrototype.push, JSONBuiltin, or the mutable AVL
+                // rebuild in setAttribute) holds a fresh tree root in a
+                // C++ local until the closing publish.  That root is not
+                // visible to mark from STW-captured roots, so without
+                // this gate sweep can free cells the mutator is about to
+                // chain into the published structure — manifested as a
+                // getHash segfault on a stale value field.
+                //
+                // The gate only kicks in when re-include-survivors is
+                // enabled: in that mode every cell appears as a candidate
+                // every cycle, so missed-mark = freed cell.  With the
+                // option off, only newly-submitted cells are candidates
+                // and the in-flight tree's nodes were never on the
+                // candidate set, so the gate is unnecessary.
+                while (space->criticalSectionsActive.load(std::memory_order_acquire) > 0) {
+                    std::this_thread::yield();
+                }
+#endif
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
                     Cell* cell = currentSeg->cellChain;
