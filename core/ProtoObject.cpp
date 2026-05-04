@@ -427,23 +427,28 @@ namespace proto
                  return PROTO_NONE;
             }
 
-            // Resolve current state for the current pointer
-            const ProtoObject* currentValue = currentPointer;
-            ProtoObjectPointer pa_cur{};
-            pa_cur.oid = currentPointer;
-
-            // Inline isObjectFast — avoids the cross-DSO PLT call and
-            // the virtual getType() that previously cost ~9% of CPU on
+            // Resolve current state for the current pointer.  Inline
+            // isObjectFast — avoids the cross-DSO PLT call and the
+            // virtual getType() that previously cost ~9 % of CPU on
             // hot prototype-chain walks.
             bool isObj = proto::isObjectFast(currentPointer);
-            if (isObj) {
-                auto oc = toImpl<const ProtoObjectCell>(currentPointer);
-                if (oc->mutable_ref > 0) {
-                    const proto::ProtoObject* storedState =
-                        resolveMutableSnapshot(context, oc->mutable_ref);
-                    if (storedState != nullptr) {
-                        currentValue = storedState;
-                    }
+            if (!isObj) {
+                // Non-object tagged pointers (e.g. Integers, None) — fall
+                // through to their prototype.  Move out of the hot
+                // attribute-lookup path entirely.
+                const ProtoObject* nextProto = currentPointer->getPrototype(context);
+                if (nextProto == currentPointer) break;
+                currentPointer = nextProto;
+                continue;
+            }
+
+            const ProtoObject* currentValue = currentPointer;
+            auto oc = toImpl<const ProtoObjectCell>(currentPointer);
+            if (oc->mutable_ref > 0) {
+                const proto::ProtoObject* storedState =
+                    resolveMutableSnapshot(context, oc->mutable_ref);
+                if (storedState != nullptr) {
+                    currentValue = storedState;
                 }
             }
 
@@ -452,19 +457,18 @@ namespace proto
             // For mutable objects currentValue is the snapshot stored in mutableRoot; when the
             // object mutates mutableRoot is updated to a new snapshot pointer, so the next lookup
             // gets a different currentValue → natural cache miss → correct re-lookup.
-            // This avoids the former bug of skipping the cache for mutable objects entirely.
+            //
+            // hash_idx uses the name's pointer identity as the hash
+            // component: attribute keys are auto-interned strong symbols
+            // (SymbolTable::intern with is_strong=true), so two names
+            // with the same content always share a pointer.  Avoids the
+            // cross-DSO `name->getHash(context)` call, which on
+            // rope-backed symbols re-traverses the tree and was costing
+            // ~5 % of CPU per lookup before this change.  Right-shift by
+            // 4 to spread the low alignment-zero bits into the index
+            // range.
             unsigned long hash_idx = 0;
             if (cache) {
-                // Use the name's pointer identity as the hash component:
-                // attribute keys are auto-interned strong symbols
-                // (SymbolTable::intern with is_strong=true), so two
-                // names with the same content always share a pointer.
-                // Avoids the cross-DSO `name->getHash(context)` call,
-                // which on rope-backed symbols re-traverses the tree
-                // and was costing ~5% of CPU per lookup before this
-                // change (subtreeHash + StringLeafNode::fromObject +
-                // isString in profiles).  Right-shift by 4 to spread
-                // the low alignment-zero bits into the index range.
                 hash_idx = (reinterpret_cast<uintptr_t>(currentValue) ^
                               (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (cache[hash_idx].object == currentValue && cache[hash_idx].name == name) {
@@ -472,56 +476,44 @@ namespace proto
                 }
             }
 
-            // Check OWN Attributes in currentValue.  If currentPointer was
-            // an object (we just confirmed via isObj above), currentValue
-            // is either currentPointer itself or a snapshot of it (also a
-            // ProtoObjectCell by construction); skip the second isObject
-            // call in that case to avoid a redundant virtual dispatch.
-            if (isObj || proto::isObjectFast(currentValue)) {
-                auto ocValue = toImpl<const ProtoObjectCell>(currentValue);
-                if (ocValue->attributes->implHas(context, attr_hash)) {
-                    const auto* result = ocValue->attributes->implGetAt(context, attr_hash);
-                    if (cache) {
-                        cache[hash_idx] = {currentValue, result, name};
-                    }
-                    return result;
+            // Check OWN attributes in currentValue.  currentValue is a
+            // ProtoObjectCell either as `currentPointer` itself or as
+            // its mutable snapshot — both branches above ensured the
+            // tag is POINTER_TAG_OBJECT, so no second isObjectFast
+            // check is needed here.  Single `implGetAt` walk: it
+            // already returns nullptr for "not found", so calling
+            // `implHas` first would just walk the AVL twice.
+            auto ocValue = toImpl<const ProtoObjectCell>(currentValue);
+            const auto* result = ocValue->attributes->implGetAt(context, attr_hash);
+            if (result != nullptr) {
+                if (cache) {
+                    cache[hash_idx] = {currentValue, result, name};
                 }
+                return result;
+            }
 
-                // Move to NEXT in linearized chain
-                if (!currentLink) {
-                    // We just checked 'this'. Now follow its parent links.
-                    currentLink = ocValue->parent;
-                } else {
-                    // We are already in the middle of a ParentLink chain. Move to next link.
-                    if (currentLink && ((uintptr_t)currentLink & 0x3F) == 0) {
-                        auto cl = toImpl<const ParentLinkImplementation>(currentLink);
-                        if (cl->getType() == CellType::ParentLink) {
-                            currentLink = cl->getParent(context);
-                        } else {
-                            currentLink = nullptr;
-                        }
-                    } else {
-                        currentLink = nullptr;
-                    }
-                }
-
-                if (currentLink && ((uintptr_t)currentLink & 0x3F) == 0) {
-                    auto cl = toImpl<const ParentLinkImplementation>(currentLink);
-                    if (cl->getType() == CellType::ParentLink) {
-                        currentPointer = cl->getObject(context);
-                    } else {
-                        currentPointer = nullptr;
-                    }
-                } else {
-                    currentPointer = nullptr;
-                }
+            // Move to NEXT in linearized chain.  First iteration
+            // (currentLink == nullptr) starts from this object's parent
+            // link; subsequent iterations dereference the previous link
+            // for the next one.  A single helper to validate a link
+            // pointer (cell-aligned + actually a ParentLink type)
+            // collapses the previously duplicated tag + type checks.
+            auto validLink = [](const ParentLinkImplementation* l) -> bool {
+                return l && ((uintptr_t)l & 0x3F) == 0 &&
+                       l->getType() == CellType::ParentLink;
+            };
+            const ParentLinkImplementation* nextLink;
+            if (currentLink == nullptr) {
+                nextLink = ocValue->parent;
             } else {
-                // Non-object tagged pointers (e.g. Integers, None) - use their prototype
-                // Important: getPrototype for non-objects might NOT be linearized.
-                // But for now we follow the existing pattern.
-                const ProtoObject* nextProto = currentPointer->getPrototype(context);
-                if (nextProto == currentPointer) break;
-                currentPointer = nextProto;
+                nextLink = validLink(currentLink) ? currentLink->getParent(context) : nullptr;
+            }
+            if (validLink(nextLink)) {
+                currentPointer = nextLink->getObject(context);
+                currentLink = nextLink;
+            } else {
+                currentPointer = nullptr;
+                currentLink = nullptr;
             }
         }
         // Full prototype chain searched, attribute not found.  Return
@@ -1205,74 +1197,63 @@ namespace proto
         int plPtr = 0;
         int iterationCount = 0;
 
+        // A ParentLink pointer is valid when it is non-null,
+        // 64-byte-aligned (cell-aligned, low 6 bits = 0), and its
+        // cell type is actually ParentLink.  Used in a few places
+        // below where the original code repeated all three checks.
+        auto validLink = [](const ParentLinkImplementation* l) -> bool {
+            return l && ((uintptr_t)l & 0x3F) == 0 &&
+                   l->getType() == CellType::ParentLink;
+        };
+
         while (currentObject) {
             if (++iterationCount > 50) return PROTO_FALSE;
 
-            ProtoObjectPointer pa_cur{};
-            pa_cur.oid = currentObject;
-            if (pa_cur.op.pointer_tag != POINTER_TAG_OBJECT) {
+            // Inline isObjectFast: any other tagged pointer (Integer,
+            // None, etc.) falls through to its prototype.
+            if (!proto::isObjectFast(currentObject)) {
                 currentObject = currentObject->getPrototype(context);
                 continue;
             }
             auto oc = toImpl<const ProtoObjectCell>(currentObject);
-            if (!oc) {
-                return PROTO_FALSE;
-            }
             const ProtoSparseListImplementation* attributes = oc->attributes;
-            if (!attributes) {
-                return PROTO_FALSE;
-            }
 
-            // Support for Mutable Objects (cache-fast)
+            // Support for Mutable Objects (cache-fast).  resolveMutableSnapshot
+            // never returns a non-Object pointer for a valid mutable_ref, so
+            // the previous tag re-check on the snapshot was redundant.
             if (oc->mutable_ref > 0) {
                  const proto::ProtoObject* storedState =
                      resolveMutableSnapshot(context, oc->mutable_ref);
                  if (storedState != nullptr && storedState != currentObject) {
-                     ProtoObjectPointer psa{};
-                     psa.oid = storedState;
-                     if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                         auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                         attributes = storedOc->attributes;
-                         oc = storedOc;
-                     }
+                     auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                     attributes = storedOc->attributes;
+                     oc = storedOc;
                  }
             }
 
-            if (attributes->implHas(context, attr_hash)) {
+            // Single AVL probe.  implHas is exactly
+            // `implGetAt(...) != nullptr` so calling implGetAt direct
+            // avoids the cross-DSO trampoline.
+            if (attributes->implGetAt(context, attr_hash) != nullptr) {
                 return PROTO_TRUE;
             }
 
-            // Multiple inheritance support:
-            if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
-                auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
-                if (pl->getType() == CellType::ParentLink) {
-                    const ParentLinkImplementation* sibling = pl->getParent(context);
-                    while (sibling && plPtr < 64 && ((uintptr_t)sibling & 0x3F) == 0) {
-                        auto sl = toImpl<const ParentLinkImplementation>(sibling);
-                        if (sl->getType() != CellType::ParentLink) break;
-                        plStack[plPtr++] = sibling;
-                        sibling = sl->getParent(context);
-                    }
-                    currentObject = pl->getObject(context);
-                } else {
-                    currentObject = nullptr;
+            // Multiple inheritance support: walk the linearised chain
+            // through `oc->parent`, while pushing any sibling links on
+            // a small stack so they can be revisited after the main
+            // chain is exhausted.
+            if (validLink(oc->parent)) {
+                const ParentLinkImplementation* sibling = oc->parent->getParent(context);
+                while (validLink(sibling) && plPtr < 64) {
+                    plStack[plPtr++] = sibling;
+                    sibling = sibling->getParent(context);
                 }
+                currentObject = oc->parent->getObject(context);
+            } else if (plPtr > 0) {
+                const ParentLinkImplementation* top = plStack[--plPtr];
+                currentObject = validLink(top) ? top->getObject(context) : nullptr;
             } else {
-                if (plPtr > 0) {
-                    const ParentLinkImplementation* top = plStack[--plPtr];
-                    if (top && ((uintptr_t)top & 0x3F) == 0) {
-                        auto tl = toImpl<const ParentLinkImplementation>(top);
-                        if (tl->getType() == CellType::ParentLink) {
-                            currentObject = tl->getObject(context);
-                        } else {
-                            currentObject = nullptr;
-                        }
-                    } else {
-                        currentObject = nullptr;
-                    }
-                } else {
-                    currentObject = nullptr;
-                }
+                currentObject = nullptr;
             }
         }
         return PROTO_FALSE;
@@ -1361,20 +1342,20 @@ namespace proto
             // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
-        ProtoObjectPointer pa{};
-        pa.oid = this;
-        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return PROTO_FALSE;
+        if (!proto::isObjectFast(this)) return PROTO_FALSE;
         auto oc = toImpl<const ProtoObjectCell>(this);
         const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
             if (storedState != nullptr) {
-                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                attributes = storedOc->attributes;
+                attributes = toImpl<const ProtoObjectCell>(storedState)->attributes;
             }
         }
-        return context->fromBoolean(attributes->implHas(context, reinterpret_cast<uintptr_t>(name)));
+        // implHas is `implGetAt(...) != nullptr`; call implGetAt direct
+        // to drop the trampoline.
+        return context->fromBoolean(
+            attributes->implGetAt(context, reinterpret_cast<uintptr_t>(name)) != nullptr);
     }
     
     const ProtoObject* ProtoObject::divmod(ProtoContext* context, const ProtoObject* other) const {
