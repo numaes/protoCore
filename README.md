@@ -136,16 +136,16 @@ protoCore's performance and safety stem from a set of deeply integrated architec
 
 To validate the theoretical performance of the `protoCore` object model and its per-thread attribute cache, we conducted high-precision microbenchmarks and compared the results against industry standards for hash-based lookups in other major runtimes.
 
-### Benchmark Results (Sub-10ns Latency)
+### Benchmark Results (Low-Nanosecond Attribute Access)
 
-The latest 2026 audit confirms that `protoCore` achieves sub-10ns latency for all primary attribute access paths, leveraging its non-lossy thread-local inline cache (TL-IC) and O(1) inheritance resolution.
+Refreshed on 2026-05-04 — median of 20 runs of `performance/microbenchmark_final.cpp` (10 M iterations per scenario, RelWithDebInfo build, single-threaded). The thread-local inline cache (TL-IC) keeps own-attribute lookups in the low double-digit nanosecond range; inherited lookups walk the prototype chain.
 
 | Scenario | Latency (ns/op) | Note |
 | :--- | :--- | :--- |
-| **getAttribute (Hot Cache)** | **8.19 ns** | Single-probing TL-IC hit for pre-interned symbols. |
-| **hasAttribute (Hot Cache)** | **9.13 ns** | Non-lossy existence check (distinguishes PROTO_NONE). |
-| **getOwnAttributeDirect** | **11.10 ns** | Direct property access with `CACHE_FLAG_OWN` validation. |
-| **Inherited Attribute (10-level)** | **36.73 ns** | O(1) jump after first resolution via start-object caching. |
+| **getAttribute (Hot Cache)** | **15.17 ns** | Single-probing TL-IC hit for pre-interned symbols. |
+| **hasAttribute (Hot Cache)** | **14.32 ns** | Non-lossy existence check (distinguishes PROTO_NONE). |
+| **getOwnAttributeDirect** | **11.58 ns** | Direct property access, bypasses inheritance walk. |
+| **Inherited Attribute (10-level)** | **108.93 ns** | Prototype-chain walk; ~10–11 ns per inheritance level. |
 
 ### Comparative Latency: protoCore vs. Industry Standards
 
@@ -153,11 +153,11 @@ When compared to standard hash-based lookups in high-level languages and standar
 
 | System / Operation | Average Latency | Comparison |
 | :--- | :--- | :--- |
-| **protoCore (TL-IC)** | **~8.2 ns** | **Reference baseline** |
-| **Python `getattr`** | ~20ns - 70ns | 2.5x - 8x slower |
-| **Java `HashMap.get()`** | ~30ns - 100ns | 3.5x - 12x slower |
-| **C++ `std::unordered_map`** | ~30ns - 80ns | 3.5x - 10x slower |
-| **Main Memory (L3 Miss)** | ~100ns | 12x slower |
+| **protoCore (TL-IC)** | **~15 ns** | **Reference baseline** |
+| **Python `getattr`** | ~20ns - 70ns | 1.3x - 4.6x slower |
+| **Java `HashMap.get()`** | ~30ns - 100ns | 2x - 6.6x slower |
+| **C++ `std::unordered_map`** | ~30ns - 80ns | 2x - 5.3x slower |
+| **Main Memory (L3 Miss)** | ~100ns | ~6.6x slower |
 
 ### Architectural Advantages
 
