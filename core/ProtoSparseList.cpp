@@ -125,7 +125,8 @@ namespace proto
 
     const ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext* context, unsigned long offset) const {
         const auto* node = this;
-        while (node && !node->isEmpty) {
+        while (node) {
+            if (node->isEmpty) break;
             if (offset < node->key) node = node->previous;
             else if (offset > node->key) node = node->next;
             else return node->value;

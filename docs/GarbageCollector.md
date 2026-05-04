@@ -38,10 +38,33 @@ While the world is stopped, the GC identifies all root objects:
 - Once roots are safely collected into a work-list, the `stwFlag` is cleared.
 - Application threads are resumed and can continue execution and allocation while the GC proceeds to marking.
 
+### Phase 4a: Pre-mark Unmark Pass
+Before the actual mark pass begins, the collector walks the live graph from
+all roots and **clears** the mark bit on every reachable cell.
+
+This step is required because Sweep (Phase 5) only resets the mark bit on
+cells that live inside the captured `segmentsToProcess` snapshot. A cell
+reachable from a root that does **not** belong to that snapshot — for
+example a young cell whose owning context never submitted its young chain,
+a perpetual prototype, or an entry in the tuple/string interner — would
+otherwise carry a stale `mark=1` over from the previous cycle. When Phase 4
+later popped such a cell, the `if (!isMarked())` guard would skip it and,
+crucially, its entire transitive closure: any candidate cell reachable
+exclusively through that path would remain unmarked, and Sweep would free
+it even though it is still live. The result was a use-after-free that
+became reproducible at scale once `PROTOCORE_GC_REINCLUDE_SURVIVORS` was
+enabled (see `next_steps.md` § "May 2026 — GC stale-mark fix").
+
+The pre-pass cost is `O(reachable cells)`, dominated by `processReferences`
+calls — the same shape as Phase 4 itself. In exchange the tricolor
+invariant is restored at the start of every cycle without requiring any
+per-cell bookkeeping for "is this a candidate".
+
 ### Phase 4: Mark
 - Performs a depth-first traversal starting from the roots.
 - Uses the `processReferences` virtual method on `Cell` implementations to discover reachable objects.
 - Reachable objects are marked using a bit-flag in the `Cell::next_and_flags` atomic member (bit 0). This is highly efficient as it avoids the allocation and hashing overhead of a separate set.
+- The pre-pass above guarantees every reachable cell starts this phase with `mark=0`, so the `!isMarked()` guard correctly distinguishes "first visit this cycle" from "already processed this cycle".
 
 ### Phase 5: Sweep
 - Iterates through the **captured snapshot** of `DirtySegments`.

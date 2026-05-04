@@ -8,6 +8,8 @@
 #include "../headers/proto_internal.h"
 #include <iostream>
 #include <cstdlib>
+#include <set>
+#include <vector>
 #include <vector>
 #include <unordered_set>
 #include <mutex>
@@ -357,13 +359,39 @@ namespace proto {
 #endif
 
                 DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
-                
-                // --- PHASE 3: RESUME THE WORLD ---
-                space->stwFlag.store(false);
-                space->stopTheWorldCV.notify_all();
-                GC_LOCK_TRACE("gcLoop REL(mark-sweep)");
-                lock.unlock(); // Allow threads to run while we mark and sweep
-                
+
+                // Pre-pass: walk the live graph from all roots and
+                // UNMARK every reachable cell.  Sweep only clears mark
+                // bits on cells inside segmentsToProcess; cells outside
+                // that set (young cells that mark touched, perpetual
+                // prototypes, tuple/string interner entries, and any
+                // cell whose owning context never submits its young
+                // chain) retain stale mark=1 from prior cycles.  When
+                // PHASE 4 then encounters a stale-marked cell it skips
+                // it and its entire transitive closure — corrupting the
+                // live graph.  This pre-pass restores a clean tricolor
+                // invariant in O(reachable) time.
+                {
+                    std::vector<const Cell*> unmarkList = workList;
+                    std::set<const Cell*> seen;
+                    while (!unmarkList.empty()) {
+                        const Cell* c = unmarkList.back();
+                        unmarkList.pop_back();
+                        if (!c) continue;
+                        if (reinterpret_cast<uintptr_t>(c) & 0x3F) continue;
+                        if (!seen.insert(c).second) continue;
+                        const_cast<Cell*>(c)->unmark();
+                        struct UM { std::vector<const Cell*>* wl; } um = {&unmarkList};
+                        c->processReferences(space->rootContext, &um,
+                            [](ProtoContext*, void* self, const Cell* ref) {
+                                auto* s = static_cast<UM*>(self);
+                                if (ref && (reinterpret_cast<uintptr_t>(ref) & 0x3F) == 0) {
+                                    s->wl->push_back(ref);
+                                }
+                            });
+                    }
+                }
+
                 // --- PHASE 4: MARK ---
                 while (!workList.empty()) {
                     const Cell* cell = workList.back();
@@ -382,7 +410,13 @@ namespace proto {
                         });
                     }
                 }
-                
+
+                // --- PHASE 3 (delayed): RESUME THE WORLD ---
+                space->stwFlag.store(false);
+                space->stopTheWorldCV.notify_all();
+                GC_LOCK_TRACE("gcLoop REL(sweep)");
+                lock.unlock(); // Allow threads to run while we sweep
+
                 // --- PHASE 5: SWEEP ---
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {

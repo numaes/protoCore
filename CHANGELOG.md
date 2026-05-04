@@ -2,6 +2,28 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased] - 2026-05-04
+### Fixed
+- **GC stale-mark bug** — Mark phase set the per-cell mark bit on every reachable
+  cell, but Sweep only cleared that bit on cells inside the captured
+  `segmentsToProcess` snapshot. Cells reachable from a root that lived outside
+  that snapshot (young cells whose owning context never submitted, perpetual
+  prototypes, tuple/string interner entries) carried `mark=1` over from the
+  previous cycle. The next cycle's mark drain skipped them via the
+  `if (!isMarked())` guard and never traced their children, so any candidate
+  reachable exclusively through that path was freed by Sweep while still live.
+  Reproduced 100% with `PROTOCORE_GC_REINCLUDE_SURVIVORS` enabled and a
+  16k-node mutable-object workload (protoJS `tree_traversal` benchmark crashed 0/5).
+- **Fix** — Added a pre-mark unmark pass that walks the live graph from all
+  roots and clears the mark bit on every reachable cell before Phase 4 begins.
+  Cost is `O(reachable cells)`, comparable to Mark itself, in exchange for a
+  clean tricolor invariant at the start of every cycle. See
+  `docs/GarbageCollector.md` § "Phase 4a: Pre-mark Unmark Pass".
+
+### Tests
+- 150/150 protoCore tests pass.
+- protoJS `tree_traversal`: 10/10 stable (was 0/5 crashing).
+
 ## [1.1.0] - 2026-04-02
 ### Added
 - **Performance Benchmarking Suite**: Integrated micro-benchmarks for List, SparseList, Object Access, and String Concatenation into the CMake build system.
