@@ -10,7 +10,6 @@
 
 #include "../headers/proto_internal.h"
 #include <thread>
-#include <cstring>
 
 namespace proto
 {
@@ -403,34 +402,18 @@ namespace proto
             }
         }
 
-        // Attribute Cache Setup.
-        //
-        // The cache stores `(currentValue, name) -> result` keyed on raw
-        // pointer identity.  None of those pointers are stable across
-        // GC cycles: a snapshot ProtoObjectCell published last cycle can
-        // be freed and the arena can hand the same address back as a new
-        // cell with completely different content.  Looking that up by
-        // pointer alone would return a stale result that no longer
-        // corresponds to a live attribute on the live snapshot.
-        //
-        // Bump the cache invalidation off ProtoSpace::gcCycleCount: each
-        // thread tracks the cycle it last cleared its own cache against,
-        // and on any advance it memsets the entries to zero before use.
-        // The check is one relaxed atomic load + a branch on the hot
-        // path, comparable to the cost of a single cache hit.
+        // Attribute Cache Setup.  ProtoThreadExtension::processReferences
+        // pins every (object, result, name) entry as a GC root, so the
+        // pointers in the cache cannot dangle: the cells they reference
+        // stay alive, and the arena cannot recycle their addresses while
+        // the cache holds them.  No GC-cycle invalidation is needed —
+        // entries are naturally retired by hash-slot eviction on later
+        // misses.
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
                 cache = threadImpl->extension->attributeCache;
-                if (cache && context->space) {
-                    static thread_local uint64_t t_lastClearedAttrCycle = 0;
-                    uint64_t currentCycle = context->space->getGCCycleCount();
-                    if (currentCycle != t_lastClearedAttrCycle) {
-                        t_lastClearedAttrCycle = currentCycle;
-                        std::memset(cache, 0, THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry));
-                    }
-                }
             }
         }
 
