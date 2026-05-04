@@ -1224,16 +1224,21 @@ namespace proto {
             }
         }
 
-        // General path: build a ProtoStringImplementation, intern it as a
-        // symbol.  GC critical section: `impl` (a multi-cell rope) is held
-        // in this C++ local across implAsObject and the SymbolTable
-        // intern, both of which may allocate.  CriticalSection is a no-op
-        // when ctx is nullptr (perpetual / NULL-context allocation path),
-        // so symbol-vocabulary creation pays nothing.
-        ProtoContext::CriticalSection cs(ctx);
+        // Build the working ProtoStringImplementation with NULL context so
+        // its cells are allocated through `posix_memalign` directly,
+        // bypassing the per-thread freelist and the per-context young
+        // chain.  Strong symbols are eternal by contract — a name once
+        // interned must never be reclaimed — so there is no point
+        // routing the build through GC-tracked allocation.  Doing so was
+        // also load-bearing for safety: between fromUTF8Bytes and the
+        // intern lookup, a GC cycle could otherwise see the in-flight
+        // rope as a candidate, miss it because it was held only via this
+        // C++ local, and free it before the SymbolTable could record the
+        // canonical pointer.  With NULL context, every cell here lives
+        // for the lifetime of the process, so no GC race exists.
         const ProtoStringImplementation* impl =
             ProtoStringImplementation::fromUTF8Bytes(
-                ctx,
+                /*ctx=*/nullptr,
                 reinterpret_cast<const uint8_t*>(utf8),
                 len);
         const ProtoObject* str_obj = impl->implAsObject(ctx);
