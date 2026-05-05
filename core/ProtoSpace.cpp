@@ -432,6 +432,19 @@ namespace proto {
                 while (!workList.empty()) {
                     const Cell* cell = workList.back();
                     workList.pop_back();
+                    // Prefetch the NEXT cell to be popped — the mark
+                    // phase, like sweep, is a pointer-chasing loop
+                    // where each iteration loads
+                    // `cell->next_and_flags` to read the mark bit.
+                    // Prefetching the lookahead pop overlaps the
+                    // cache-line miss with the current cell's
+                    // mark + processReferences work.
+                    if (!workList.empty()) {
+                        const Cell* nextCell = workList.back();
+                        if (nextCell && (reinterpret_cast<uintptr_t>(nextCell) & 0x3F) == 0) {
+                            __builtin_prefetch(nextCell, 1, 1);
+                        }
+                    }
 
                     if (!cell->isMarked()) {
                         const_cast<Cell*>(cell)->mark();
