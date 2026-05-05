@@ -428,11 +428,22 @@ namespace proto
                  return PROTO_NONE;
             }
 
-            // Resolve current state for the current pointer.  Inline
-            // isObjectFast — avoids the cross-DSO PLT call and the
-            // virtual getType() that previously cost ~9 % of CPU on
-            // hot prototype-chain walks.
-            bool isObj = proto::isObjectFast(currentPointer);
+            // Pure 6-bit tag check — POINTER_TAG_OBJECT is 0, so
+            // alignment-clear low bits identifies an object cell.
+            // No virtual getCellTypeRaw() probe needed: every cell
+            // the chain navigation reaches is invariantly a
+            // ProtoObjectCell or a tagged primitive, and tagged
+            // primitives are filtered here by the non-zero low bits.
+            // For the FIRST iteration (currentPointer == this) the
+            // caller may have passed any value — including primitives
+            // like SmallInteger that go to getPrototype below — so
+            // we still need the branch.  Subsequent iterations
+            // visit either a getPrototype result (an *Prototype
+            // ProtoObjectCell, tag 0) or a ParentLink->object
+            // (always a ProtoObjectCell), so the tag check on those
+            // is a single bit-and that the predictor learns to
+            // handle as taken-not-taken in the steady state.
+            const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & 0x3FUL) == POINTER_TAG_OBJECT;
             if (!isObj) {
                 // Non-object tagged pointers (e.g. Integers, None) — fall
                 // through to their prototype.  Move out of the hot
@@ -445,11 +456,13 @@ namespace proto
 
             const ProtoObject* currentValue = currentPointer;
             auto oc = toImpl<const ProtoObjectCell>(currentPointer);
+            auto ocValue = oc;  // Default: immutable case → currentValue == currentPointer.
             if (oc->mutable_ref > 0) {
                 const proto::ProtoObject* storedState =
                     resolveMutableSnapshot(context, oc->mutable_ref);
                 if (storedState != nullptr) {
                     currentValue = storedState;
+                    ocValue = toImpl<const ProtoObjectCell>(currentValue);
                 }
             }
 
@@ -484,14 +497,12 @@ namespace proto
                 }
             }
 
-            // Check OWN attributes in currentValue.  currentValue is a
-            // ProtoObjectCell either as `currentPointer` itself or as
-            // its mutable snapshot — both branches above ensured the
-            // tag is POINTER_TAG_OBJECT, so no second isObjectFast
-            // check is needed here.  Single `implGetAt` walk: it
-            // already returns nullptr for "not found", so calling
-            // `implHas` first would just walk the AVL twice.
-            auto ocValue = toImpl<const ProtoObjectCell>(currentValue);
+            // Check OWN attributes in currentValue.  ocValue was
+            // computed up-front above (re-using `oc` in the immutable
+            // case to avoid a redundant toImpl call on the hot path).
+            // Single `implGetAt` walk: it already returns nullptr for
+            // "not found", so calling `implHas` first would just walk
+            // the AVL twice.
             if (!cache_resolved) {
                 result = ocValue->attributes->implGetAt(context, attr_hash);
                 if (cache) {
