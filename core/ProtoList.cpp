@@ -238,7 +238,107 @@ namespace proto {
     }
 
     const ProtoListIteratorImplementation* ProtoListImplementation::implGetIterator(ProtoContext* context) const {
-        return new (context) ProtoListIteratorImplementation(context, this, 0);
+        // Build the tagged base directly; the iterator dispatches on the tag.
+        ProtoObjectPointer p;
+        p.listImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_LIST;
+        return new (context) ProtoListIteratorImplementation(context, p.oid, 0);
+    }
+
+    //=========================================================================
+    // ProtoListSmallImplementation
+    //=========================================================================
+
+    ProtoListSmallImplementation::ProtoListSmallImplementation(
+        ProtoContext* context, unsigned n, const ProtoObject* const* items
+    ) : Cell(context), size(n)
+    {
+        for (unsigned i = 0; i < MAX_INLINE; ++i) {
+            slots[i] = (i < n) ? items[i] : nullptr;
+        }
+    }
+
+    const ProtoObject* ProtoListSmallImplementation::implGetAt(ProtoContext* context, int index) const {
+        if (index < 0 || static_cast<unsigned long>(index) >= size) return nullptr;
+        return slots[index];
+    }
+
+    bool ProtoListSmallImplementation::implHas(ProtoContext* context, const ProtoObject* targetValue) const {
+        if (!targetValue) return false;
+        for (unsigned long i = 0; i < size; ++i) {
+            const ProtoObject* v = slots[i];
+            if (v == targetValue) return true;
+            if (v && v->isInteger(context) && targetValue->isInteger(context)) {
+                if (v->asLong(context) == targetValue->asLong(context)) return true;
+            } else if (v && v->isString(context) && targetValue->isString(context)) {
+                if (v->asString(context)->cmp_to_string(context, targetValue->asString(context)) == 0) return true;
+            }
+        }
+        return false;
+    }
+
+    const ProtoObject* ProtoListSmallImplementation::implAsObject(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.listSmallImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_LIST_SMALL;
+        return p.oid;
+    }
+
+    const ProtoList* ProtoListSmallImplementation::asProtoList(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.listSmallImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_LIST_SMALL;
+        return p.list;
+    }
+
+    void ProtoListSmallImplementation::processReferences(
+        ProtoContext* context, void* self,
+        void (*method)(ProtoContext*, void*, const Cell*)) const
+    {
+        for (unsigned long i = 0; i < size; ++i) {
+            const ProtoObject* v = slots[i];
+            if (ProtoObject::isCellPointer(v)) {
+                method(context, self, ProtoObject::asCellPointer(v));
+            }
+        }
+    }
+
+    //=========================================================================
+    // Output-form selection helpers (file-local)
+    //=========================================================================
+    namespace {
+        // Bottom-up balanced AVL build from a flat array. Cheaper than
+        // newList() + N appendLast: skips per-element rebalance walks.
+        // Returns nullptr-equivalent (empty list cell) when n == 0.
+        const ProtoListImplementation* buildBalancedFromArray(
+            ProtoContext* context, const ProtoObject* const* items, unsigned n)
+        {
+            if (n == 0) {
+                return new (context) ProtoListImplementation(context, nullptr, true, nullptr, nullptr);
+            }
+            unsigned mid = n / 2;
+            const ProtoListImplementation* left =
+                (mid > 0) ? buildBalancedFromArray(context, items, mid) : nullptr;
+            const ProtoListImplementation* right =
+                (mid + 1 < n) ? buildBalancedFromArray(context, items + mid + 1, n - mid - 1) : nullptr;
+            return new (context) ProtoListImplementation(
+                context, items[mid], false,
+                (left && left->isEmpty) ? nullptr : left,
+                (right && right->isEmpty) ? nullptr : right);
+        }
+
+        // Picks the inline form when the resulting size fits, AVL otherwise.
+        // Used by every mutator output path so SmallList stays small as long
+        // as possible without forcing a one-way upgrade.
+        const ProtoList* makeOutputList(
+            ProtoContext* context, const ProtoObject* const* items, unsigned n)
+        {
+            if (n <= ProtoListSmallImplementation::MAX_INLINE) {
+                return (new (context) ProtoListSmallImplementation(context, n, items))
+                    ->asProtoList(context);
+            }
+            return buildBalancedFromArray(context, items, n)->asProtoList(context);
+        }
     }
 
     //=========================================================================
@@ -247,23 +347,46 @@ namespace proto {
 
     ProtoListIteratorImplementation::ProtoListIteratorImplementation(
         ProtoContext* context,
-        const ProtoListImplementation* b,
+        const ProtoObject* b,
         unsigned long index
     ) : Cell(context), base(b), currentIndex(index)
     {
     }
 
+    namespace {
+        // Iterator helpers — read size / element from the tagged base
+        // pointer without a virtual call.
+        unsigned long iterBaseSize(const ProtoObject* base) {
+            if (!base) return 0;
+            ProtoObjectPointer pa{}; pa.oid = base;
+            if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+                return toImpl<const ProtoListSmallImplementation>(base)->size;
+            }
+            return toImpl<const ProtoListImplementation>(base)->size;
+        }
+        const ProtoObject* iterBaseGetAt(ProtoContext* context, const ProtoObject* base, unsigned long index) {
+            if (!base) return nullptr;
+            ProtoObjectPointer pa{}; pa.oid = base;
+            if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+                return toImpl<const ProtoListSmallImplementation>(base)
+                    ->implGetAt(context, static_cast<int>(index));
+            }
+            return toImpl<const ProtoListImplementation>(base)
+                ->implGetAt(context, static_cast<int>(index));
+        }
+    }
+
     int ProtoListIteratorImplementation::implHasNext() const {
         if (!this->base) return false;
-        return this->currentIndex < this->base->size;
+        return this->currentIndex < iterBaseSize(this->base);
     }
 
     const ProtoObject* ProtoListIteratorImplementation::implNext(ProtoContext* context) const {
-        return this->base->implGetAt(context, this->currentIndex);
+        return iterBaseGetAt(context, this->base, this->currentIndex);
     }
 
     const ProtoListIteratorImplementation* ProtoListIteratorImplementation::implAdvance(ProtoContext* context) const {
-        if (this->currentIndex < this->base->size) {
+        if (this->currentIndex < iterBaseSize(this->base)) {
             return new (context) ProtoListIteratorImplementation(context, this->base, this->currentIndex + 1);
         }
         return this;
@@ -284,15 +407,72 @@ namespace proto {
     }
 
     void ProtoListIteratorImplementation::processReferences(ProtoContext* context, void* callback_data, void (*callback)(ProtoContext*, void*, const Cell*)) const {
-        if (base && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(base))) {
-            callback(context, callback_data, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(base)));
+        if (ProtoObject::isCellPointer(base)) {
+            callback(context, callback_data, ProtoObject::asCellPointer(base));
         }
     }
 
     // ProtoList / ProtoListIterator external API trampolines
-    unsigned long ProtoList::getSize(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->size; }
+    //
+    // Each method dispatches on POINTER_TAG_{LIST,LIST_SMALL} once at entry.
+    // Read-only methods read directly from the relevant impl form (no
+    // promotion). Mutator methods produce a fresh output whose form is
+    // selected by the resulting size: ≤ MAX_INLINE → SmallList, > MAX_INLINE
+    // → AVL. Only `appendLast` overflowing past MAX_INLINE triggers a
+    // strict promotion (the result genuinely cannot fit inline).
+
+    // GC critical sections on the immutable-collection mutator API.
+    //
+    // Every mutator builds a fresh tree of cells; the result is held in a
+    // C++ local until the caller publishes it.  Without the guard a
+    // concurrent STW root scan landing between two allocations would
+    // observe the half-built tree as candidate-but-unreachable and a
+    // sweep would free it.  Same discipline as
+    // ProtoObject::setAttribute, ProtoMultiset::add, ProtoSet::add.
+    //
+    // The guard is per-thread, lock-free, single-int; it is cheap to
+    // enter and callers that already wrap a CriticalSection (e.g.
+    // setAttribute) just bump the depth counter — no nested STW
+    // suppression issue.
+
+    namespace {
+        // Read a SmallList's slots into a stack-buffer so a mutator can
+        // recompute the result.  Returns the count.
+        unsigned smallToBuffer(const ProtoListSmallImplementation* small,
+                               const ProtoObject** buf) {
+            unsigned n = static_cast<unsigned>(small->size);
+            for (unsigned i = 0; i < n; ++i) buf[i] = small->slots[i];
+            return n;
+        }
+
+        // Pull every element of an AVL list into a flat heap vector.  Used
+        // by the rare path where a SmallList is mixed with an AVL list in
+        // a mutator (e.g. extend) and we want a single-pass output build.
+        void avlToVector(ProtoContext* context, const ProtoListImplementation* avl,
+                         std::vector<const ProtoObject*>& out) {
+            unsigned long n = avl->size;
+            out.reserve(out.size() + n);
+            for (unsigned long i = 0; i < n; ++i) {
+                out.push_back(avl->implGetAt(context, static_cast<int>(i)));
+            }
+        }
+    }
+
+    unsigned long ProtoList::getSize(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            return toImpl<const ProtoListSmallImplementation>(this)->size;
+        }
+        return toImpl<const ProtoListImplementation>(this)->size;
+    }
     const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const {
-        const ProtoObject* result = toImpl<const ProtoListImplementation>(this)->implGetAt(context, index);
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        const ProtoObject* result;
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            result = toImpl<const ProtoListSmallImplementation>(this)->implGetAt(context, index);
+        } else {
+            result = toImpl<const ProtoListImplementation>(this)->implGetAt(context, index);
+        }
         return result ? result : PROTO_NONE;
     }
     const ProtoObject* ProtoList::getFirst(ProtoContext* context) const {
@@ -305,32 +485,57 @@ namespace proto {
         if (size == 0) return PROTO_NONE;
         return getAt(context, size - 1);
     }
-    bool ProtoList::has(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoListImplementation>(this)->implHas(context, value); }
-    // GC critical sections on the immutable-collection mutator API.
-    //
-    // Every method below builds a fresh tree of ProtoListImplementation
-    // nodes via the recursive impl* helpers; the result is held in a
-    // C++ local until the caller publishes it.  Without the guard a
-    // concurrent STW root scan landing between two of the recursive
-    // allocations would observe the half-built tree as candidate-but-
-    // unreachable and a sweep would free it.  Same discipline as
-    // ProtoObject::setAttribute, ProtoMultiset::add, ProtoSet::add.
-    //
-    // The guard is per-thread, lock-free, single-int; it is cheap to
-    // enter and the callers that already wrap a CriticalSection (e.g.
-    // setAttribute) just bump the depth counter — no nested STW
-    // suppression issue.
+    bool ProtoList::has(ProtoContext* context, const ProtoObject* value) const {
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            return toImpl<const ProtoListSmallImplementation>(this)->implHas(context, value);
+        }
+        return toImpl<const ProtoListImplementation>(this)->implHas(context, value);
+    }
     const ProtoList* ProtoList::setAt(ProtoContext* context, int index, const ProtoObject* value) const {
         ProtoContext::CriticalSection cs(context);
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            const auto* small = toImpl<const ProtoListSmallImplementation>(this);
+            if (index < 0 || static_cast<unsigned long>(index) >= small->size) {
+                return const_cast<ProtoList*>(this);
+            }
+            const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
+            unsigned n = smallToBuffer(small, buf);
+            buf[index] = value;
+            return makeOutputList(context, buf, n);
+        }
         return toImpl<const ProtoListImplementation>(this)->implSetAt(context, index, value)->asProtoList(context);
     }
     const ProtoList* ProtoList::insertAt(ProtoContext* context, int index, const ProtoObject* value) const {
         ProtoContext::CriticalSection cs(context);
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            const auto* small = toImpl<const ProtoListSmallImplementation>(this);
+            unsigned n = static_cast<unsigned>(small->size);
+            if (index < 0) index = 0;
+            if (static_cast<unsigned>(index) > n) index = static_cast<int>(n);
+            // Resulting size = n + 1.  If it fits inline, stay SmallList;
+            // otherwise build AVL via buildBalancedFromArray.
+            const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE + 1];
+            for (unsigned i = 0; i < static_cast<unsigned>(index); ++i) buf[i] = small->slots[i];
+            buf[index] = value;
+            for (unsigned i = static_cast<unsigned>(index); i < n; ++i) buf[i + 1] = small->slots[i];
+            return makeOutputList(context, buf, n + 1);
+        }
         return toImpl<const ProtoListImplementation>(this)->implInsertAt(context, index, value)->asProtoList(context);
     }
     const ProtoList* ProtoList::appendFirst(ProtoContext* context, const ProtoObject* value) const { return insertAt(context, 0, value); }
     const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const {
         ProtoContext::CriticalSection cs(context);
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            const auto* small = toImpl<const ProtoListSmallImplementation>(this);
+            const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE + 1];
+            unsigned n = smallToBuffer(small, buf);
+            buf[n] = value;
+            return makeOutputList(context, buf, n + 1);
+        }
         return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context);
     }
     const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* other) const {
@@ -369,6 +574,21 @@ namespace proto {
     }
     const ProtoList* ProtoList::removeAt(ProtoContext* context, int index) const {
         ProtoContext::CriticalSection cs(context);
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            const auto* small = toImpl<const ProtoListSmallImplementation>(this);
+            unsigned n = static_cast<unsigned>(small->size);
+            if (index < 0 || static_cast<unsigned>(index) >= n) {
+                return const_cast<ProtoList*>(this);
+            }
+            const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
+            unsigned out = 0;
+            for (unsigned i = 0; i < n; ++i) {
+                if (i == static_cast<unsigned>(index)) continue;
+                buf[out++] = small->slots[i];
+            }
+            return makeOutputList(context, buf, out);
+        }
         return toImpl<const ProtoListImplementation>(this)->implRemoveAt(context, index)->asProtoList(context);
     }
     const ProtoList* ProtoList::removeSlice(ProtoContext* context, int from, int to) const {
@@ -390,9 +610,30 @@ namespace proto {
         }
         return list;
     }
-    const ProtoObject* ProtoList::asObject(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->implAsObject(context); }
-    const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context); }
-    unsigned long ProtoList::getHash(ProtoContext* context) const { return toImpl<const ProtoListImplementation>(this)->getHash(context); }
+    const ProtoObject* ProtoList::asObject(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            return toImpl<const ProtoListSmallImplementation>(this)->implAsObject(context);
+        }
+        return toImpl<const ProtoListImplementation>(this)->implAsObject(context);
+    }
+    const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            // Use the tagged pointer (`this`) directly as the iterator base.
+            return (new (context) ProtoListIteratorImplementation(
+                        context, reinterpret_cast<const ProtoObject*>(this), 0))
+                    ->asProtoListIterator(context);
+        }
+        return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context);
+    }
+    unsigned long ProtoList::getHash(ProtoContext* context) const {
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            return toImpl<const ProtoListSmallImplementation>(this)->getHash(context);
+        }
+        return toImpl<const ProtoListImplementation>(this)->getHash(context);
+    }
 
     int ProtoListIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoListIteratorImplementation>(this)->implHasNext(); }
     const ProtoObject* ProtoListIterator::next(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoListIteratorImplementation>(this)->implNext(context); }

@@ -808,6 +808,11 @@ namespace proto
 
         //- Factory methods for complex types
         const ProtoList* newList();
+        // Single-allocation builder for short ProtoLists (up to 5 elements).
+        // Use whenever the count is known at the call site (interpreter call
+        // dispatch, native method argument packs); the result is functionally
+        // identical to newList() + N appendLast but costs exactly 1 cell.
+        const ProtoList* newSmallListN(unsigned n, const ProtoObject* const* items);
         const ProtoTuple* newTuple();
         const ProtoTuple* newTuple(const std::vector<const ProtoObject*>& elements);
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);

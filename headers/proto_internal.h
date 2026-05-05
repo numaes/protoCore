@@ -47,6 +47,7 @@ namespace proto {
     class ProtoObjectCell;
     class ParentLinkImplementation;
     class ProtoListImplementation;
+    class ProtoListSmallImplementation;
     class ProtoListIteratorImplementation;
     class ProtoSparseListImplementation;
     class ProtoSparseListIteratorImplementation;
@@ -102,6 +103,7 @@ namespace proto {
         const ProtoSparseListImplementation *sparseListImplementation;
         const ProtoSparseListIteratorImplementation *sparseListIteratorImplementation;
         const ProtoListImplementation *listImplementation;
+        const ProtoListSmallImplementation *listSmallImplementation;
         const ProtoListIteratorImplementation *listIteratorImplementation;
         const ProtoTupleImplementation *tupleImplementation;
         const ProtoStringImplementation *stringImplementation;
@@ -203,6 +205,7 @@ namespace proto {
 #define POINTER_TAG_SYMBOL            22   // Interned ProtoStringImplementation
 #define POINTER_TAG_STRING_LEAF_NODE  23   // StringLeafNode (internal AVL leaf)
 #define POINTER_TAG_STRING_INTERNAL_NODE 24 // StringInternalNode (internal AVL node)
+#define POINTER_TAG_LIST_SMALL          25 // ProtoListSmallImplementation — inline-slot list (size ≤ 5)
 
 #define EMBEDDED_TYPE_SMALLINT 0
 #define EMBEDDED_TYPE_UNICODE_CHAR 2
@@ -261,6 +264,9 @@ namespace proto {
 
     template<> struct ExpectedTag<const ProtoListImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST; };
     template<> struct ExpectedTag<ProtoListImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST; };
+
+    template<> struct ExpectedTag<const ProtoListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_SMALL; };
+    template<> struct ExpectedTag<ProtoListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_SMALL; };
 
     template<> struct ExpectedTag<const ProtoSparseListImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST; };
     template<> struct ExpectedTag<ProtoSparseListImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST; };
@@ -456,7 +462,8 @@ namespace proto {
         ByteBuffer,
         TupleDictionary,
         StringLeafNode,
-        StringInternalNode
+        StringInternalNode,
+        ListSmall
     };
 
     class Cell {
@@ -1125,14 +1132,46 @@ namespace proto {
         void processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const override;
     };
 
+    class ProtoListSmallImplementation final : public Cell {
+    public:
+        // Inline-storage list: holds up to MAX_INLINE elements in a single
+        // 64-byte Cell. The dense slot array avoids per-element AVL
+        // allocations (1 + N → 1 cells for N ≤ MAX_INLINE).
+        // Output form selection (not promotion) is done at every mutator:
+        // operations whose result fits stay in this form; operations whose
+        // result exceeds MAX_INLINE produce an AVL ProtoListImplementation.
+        // Iteration is handled by retyping ProtoListIteratorImplementation::base
+        // to const Cell* and dispatching by tag in implNext / implAdvance.
+        static constexpr unsigned MAX_INLINE = 5;
+
+        unsigned long size;                    // 0..MAX_INLINE
+        const ProtoObject *slots[MAX_INLINE];  // dense; [0..size) valid
+
+        CellType getType() const override { return CellType::ListSmall; }
+
+        explicit ProtoListSmallImplementation(ProtoContext *context, unsigned n,
+                                              const ProtoObject *const *items);
+
+        const ProtoObject *implGetAt(ProtoContext *context, int index) const;
+        bool implHas(ProtoContext *context, const ProtoObject *targetValue) const;
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        const ProtoList *asProtoList(ProtoContext *context) const;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
     class ProtoListIteratorImplementation final : public Cell {
     public:
-        const ProtoListImplementation *base;
+        // base is stored as a tagged ProtoObject* so the iterator can carry
+        // either an AVL ProtoListImplementation (POINTER_TAG_LIST) or a
+        // ProtoListSmallImplementation (POINTER_TAG_LIST_SMALL); implNext /
+        // implAdvance dispatch on the pointer tag, no virtual call.
+        const ProtoObject *base;
         unsigned long currentIndex;
 
         CellType getType() const override { return CellType::ListIterator; }
 
-        ProtoListIteratorImplementation(ProtoContext *context, const ProtoListImplementation *b, unsigned long index);
+        ProtoListIteratorImplementation(ProtoContext *context, const ProtoObject *b, unsigned long index);
 
         int implHasNext() const;
 
@@ -1411,6 +1450,7 @@ namespace proto {
             ProtoObjectCell objectCell;
             ProtoListIteratorImplementation listIteratorCell;
             ProtoListImplementation listCell;
+            ProtoListSmallImplementation listSmallCell;
             ProtoSparseListIteratorImplementation sparseListIteratorCell;
             ProtoSparseListImplementation sparseListCell;
             ProtoTupleIteratorImplementation tupleIteratorCell;
@@ -1435,6 +1475,7 @@ namespace proto {
     static_assert(sizeof(ProtoObjectCell) <= 64, "ProtoObjectCell exceeds 64 bytes!");
     static_assert(sizeof(ProtoListIteratorImplementation) <= 64, "ProtoListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListImplementation) <= 64, "ProtoListImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoListSmallImplementation) <= 64, "ProtoListSmallImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListIteratorImplementation) <= 64, "ProtoSparseListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListImplementation) <= 64, "ProtoSparseListImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoTupleIteratorImplementation) <= 64, "ProtoTupleIteratorImplementation exceeds 64 bytes!");

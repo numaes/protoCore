@@ -246,6 +246,7 @@ namespace proto
             default: return context->space->objectPrototype; // Fallback for unknown embedded types
             }
         case POINTER_TAG_LIST: return context->space->listPrototype;
+        case POINTER_TAG_LIST_SMALL: return context->space->listPrototype;
         case POINTER_TAG_LIST_ITERATOR: return context->space->listIteratorPrototype;
         case POINTER_TAG_SPARSE_LIST: return context->space->sparseListPrototype;
         case POINTER_TAG_SPARSE_LIST_ITERATOR: return context->space->sparseListIteratorPrototype;
@@ -1090,6 +1091,7 @@ namespace proto
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag == POINTER_TAG_LIST) return reinterpret_cast<const ProtoList*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) return reinterpret_cast<const ProtoList*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_STRING) return toImpl<const ProtoStringImplementation>(this)->implAsList(context);
         if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING) return reinterpret_cast<const ProtoString*>(this)->asList(context);
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {

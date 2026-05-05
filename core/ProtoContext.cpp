@@ -525,6 +525,21 @@ namespace proto
         return (new(this) ProtoListImplementation(this, PROTO_NONE, true, nullptr, nullptr))->asProtoList(this);
     }
 
+    const ProtoList* ProtoContext::newSmallListN(unsigned n, const ProtoObject* const* items)
+    {
+        if (n > ProtoListSmallImplementation::MAX_INLINE) {
+            // Fall back to the AVL builder via newList + appendLast.  Caller
+            // contract is N ≤ MAX_INLINE; this path is defensive only.
+            ProtoContext::CriticalSection cs(this);
+            const ProtoList* result = newList();
+            for (unsigned i = 0; i < n; ++i) {
+                result = result->appendLast(this, items[i]);
+            }
+            return result;
+        }
+        return (new(this) ProtoListSmallImplementation(this, n, items))->asProtoList(this);
+    }
+
     const ProtoTuple* ProtoContext::newTuple()
     {
         return (new(this) ProtoTupleImplementation(this, nullptr, 0))->asProtoTuple(this);
@@ -537,6 +552,18 @@ namespace proto
 
     const ProtoTuple* ProtoContext::newTupleFromList(const ProtoList* sourceList)
     {
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(sourceList);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            // SmallList → vector → tupleFromVector.  Avoids materializing
+            // an intermediate AVL form for the common tuple(args) pattern.
+            const auto* small = toImpl<const ProtoListSmallImplementation>(sourceList);
+            std::vector<const ProtoObject*> elements;
+            elements.reserve(small->size);
+            for (unsigned long i = 0; i < small->size; ++i) {
+                elements.push_back(small->slots[i]);
+            }
+            return ProtoTupleImplementation::tupleFromVector(this, elements)->asProtoTuple(this);
+        }
         return ProtoTupleImplementation::tupleFromList(this, toImpl<const ProtoListImplementation>(sourceList))->asProtoTuple(this);
     }
 

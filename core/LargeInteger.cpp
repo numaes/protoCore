@@ -119,6 +119,7 @@ namespace proto
          switch (pa.op.pointer_tag) {
              case POINTER_TAG_OBJECT:
              case POINTER_TAG_LIST:
+             case POINTER_TAG_LIST_SMALL:
               case POINTER_TAG_METHOD:
              case POINTER_TAG_LARGE_INTEGER:
              case POINTER_TAG_DOUBLE:
