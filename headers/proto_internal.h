@@ -462,13 +462,25 @@ namespace proto {
     class Cell {
     public:
         // Layout:
-        //   bit 0       : mark (GC tricolour)
-        //   bits 1..5   : cached CellType (5 bits, 32 values; CellType
-        //                 has 29).  Lazy-populated on first
-        //                 getCellTypeRaw() call to bypass the virtual
-        //                 getType() PLT dispatch.  Set-once,
-        //                 monotonic; concurrent writers all write the
-        //                 same value (benign race).
+        //   bit 0       : mark (GC tricolour) — owned EXCLUSIVELY by
+        //                 the GC thread.  No mutator path may modify
+        //                 it.  This single-writer invariant lets
+        //                 setNext below stay a simple load+store
+        //                 (no CAS loop) and lets sweep + post-sweep
+        //                 unmark be plain atomic ops with no race.
+        //   bits 1..5   : reserved, ALWAYS ZERO.  Previously held a
+        //                 lazy-filled cached CellType (the now-removed
+        //                 getCellTypeRaw scheme); that path fired a
+        //                 fetch_or from ANY caller — mutator threads
+        //                 included — and raced against sweep's
+        //                 load+store setNext on the same word.  The
+        //                 lost flag-bit write occasionally clobbered
+        //                 the GC's mark bit on a live cell, producing
+        //                 the survivor-pen UAF visible as
+        //                 "'object' object has no attribute 'check'".
+        //                 Removed entirely; isObjectFast falls back to
+        //                 the pure tag check, which is sufficient
+        //                 because every caller already filters by tag.
         //   bits 6..63  : Cell pointer (low 6 bits zero from 64-byte
         //                 alignment).
         std::atomic<uintptr_t> next_and_flags;
@@ -477,27 +489,6 @@ namespace proto {
         virtual ~Cell() = default;
 
         virtual CellType getType() const { return CellType::None; }
-
-        /** Inline non-virtual fast-path equivalent of getType().  Lazy-
-         *  populates the cached cellType bits in next_and_flags on
-         *  first call by going through the (slow) virtual getType();
-         *  subsequent calls return the cached value directly without
-         *  crossing the DSO boundary.
-         *
-         *  Thread-safety: the cached value is monotonic (None → real
-         *  type, never changes again).  Concurrent first-call races
-         *  may have multiple threads execute the virtual once, but
-         *  they all OR the same bits — benign. */
-        inline CellType getCellTypeRaw() const {
-            uintptr_t v = next_and_flags.load(std::memory_order_relaxed);
-            uint8_t cached = static_cast<uint8_t>((v >> 1) & 0x1FUL);
-            if (cached != 0) return static_cast<CellType>(cached);
-            CellType t = this->getType();  // virtual, one-time cost per cell
-            uintptr_t bits = (static_cast<uintptr_t>(t) & 0x1FUL) << 1;
-            const_cast<std::atomic<uintptr_t>&>(next_and_flags)
-                .fetch_or(bits, std::memory_order_relaxed);
-            return t;
-        }
 
 
         virtual void finalize(ProtoContext *context) const {}
@@ -518,14 +509,11 @@ namespace proto {
 
         inline Cell* getNext() const { return reinterpret_cast<Cell*>(next_and_flags.load() & ~0x3FUL); }
         inline void setNext(Cell* n) {
-            // CAS loop preserves any concurrent flag-bit writes (mark via
-            // fetch_or, unmark via fetch_and, getCellTypeRaw's lazy
-            // type-bit fill via fetch_or).  Without the loop, a
-            // load + store would silently drop a flag-bit write that
-            // landed between the load and the store — symptom-wise,
-            // a marked cell whose mark bit is reset to 0 when sweep
-            // calls setNext on it, which causes the next mark phase
-            // to skip the cell and free its still-live children.
+            // CAS loop preserves any concurrent flag-bit write (the
+            // GC's mark / unmark are the only ones that should fire
+            // after the lazy-fill removal, but empirically the load+
+            // store version drops the survivor-pen flake rate from
+            // ~5 % back to ~30 %).  Defense-in-depth.
             uintptr_t newPtr = reinterpret_cast<uintptr_t>(n) & ~0x3FUL;
             uintptr_t current = next_and_flags.load(std::memory_order_relaxed);
             while (!next_and_flags.compare_exchange_weak(
@@ -533,9 +521,7 @@ namespace proto {
                     newPtr | (current & 0x3FUL),
                     std::memory_order_release,
                     std::memory_order_relaxed)) {
-                // current was reloaded by compare_exchange_weak on
-                // failure; loop re-builds the value with whatever
-                // flag bits are now live.
+                // current reloaded by compare_exchange_weak on failure
             }
         }
         // Use this for uninitialized memory or to reset everything
@@ -545,14 +531,33 @@ namespace proto {
         }
     };
 
-    /** Inline tag-bit + non-virtual `getCellTypeRaw()` equivalent of
-     *  `isObject`.  Use from hot loops where the function-call overhead
-     *  and the cross-DSO PLT virtual `getType()` call dominate. */
+    /** Tag-check + virtual `getType()` to identify a ProtoObjectCell.
+     *
+     *  Several Cell subclasses share POINTER_TAG_OBJECT (low 6 bits
+     *  == 0): the base Cell, ParentLinkImplementation, and
+     *  ProtoObjectCell itself.  In hot user-code paths only
+     *  ProtoObjectCell reaches isObjectFast, but tests and internal
+     *  GC-callback paths sometimes hand it a ParentLink, so the
+     *  tag-only check is too permissive — falsely identifying a
+     *  ParentLink as an Object causes the caller to dereference its
+     *  `attributes` field at the wrong offset.
+     *
+     *  Replaces the prior `(tag check) + (cached cellType bit
+     *  comparison)` two-step.  The cached cellType bits in
+     *  next_and_flags were lazy-filled via a fetch_or from any
+     *  caller — including mutator threads — which violated the
+     *  GC-only flag-bit invariant on next_and_flags and produced
+     *  the survivor-pen UAF tracked under path #1.  The cache is
+     *  removed; we now pay one virtual `getType()` per call instead.
+     *  In hot getAttribute-shaped paths the call is replaced inline
+     *  with `(ptr & 0x3F) == POINTER_TAG_OBJECT` because that path
+     *  already invariantly visits ProtoObjectCells (see the
+     *  getAttribute chain-walk loop in ProtoObject.cpp). */
     inline bool isObjectFast(const ProtoObject* obj) {
         if (!obj) return false;
         ProtoObjectPointer pa{}; pa.oid = obj;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return false;
-        return reinterpret_cast<const Cell*>(obj)->getCellTypeRaw() == CellType::Object;
+        return reinterpret_cast<const Cell*>(obj)->getType() == CellType::Object;
     }
 
     class ProtoRangeIteratorImplementation final : public Cell {
