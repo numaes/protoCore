@@ -360,45 +360,50 @@ namespace proto {
 
                 DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
 
-                // Pre-pass: walk the live graph from all roots and
-                // UNMARK every reachable cell.  Sweep only clears mark
-                // bits on cells inside segmentsToProcess; cells outside
-                // that set (young cells that mark touched, perpetual
-                // prototypes, tuple/string interner entries, and any
-                // cell whose owning context never submits its young
-                // chain) retain stale mark=1 from prior cycles.  When
-                // PHASE 4 then encounters a stale-marked cell it skips
-                // it and its entire transitive closure — corrupting the
-                // live graph.  This pre-pass restores a clean tricolor
-                // invariant in O(reachable) time.
-                {
-                    std::vector<const Cell*> unmarkList = workList;
-                    std::set<const Cell*> seen;
-                    while (!unmarkList.empty()) {
-                        const Cell* c = unmarkList.back();
-                        unmarkList.pop_back();
-                        if (!c) continue;
-                        if (reinterpret_cast<uintptr_t>(c) & 0x3F) continue;
-                        if (!seen.insert(c).second) continue;
-                        const_cast<Cell*>(c)->unmark();
-                        struct UM { std::vector<const Cell*>* wl; } um = {&unmarkList};
-                        c->processReferences(space->rootContext, &um,
-                            [](ProtoContext*, void* self, const Cell* ref) {
-                                auto* s = static_cast<UM*>(self);
-                                if (ref && (reinterpret_cast<uintptr_t>(ref) & 0x3F) == 0) {
-                                    s->wl->push_back(ref);
-                                }
-                            });
-                    }
-                }
-
                 // --- PHASE 4: MARK ---
+                //
+                // Sweep only clears mark bits on cells inside
+                // segmentsToProcess; cells outside that set (young
+                // cells whose owning context never submitted, perpetual
+                // prototypes, tuple/string interner entries) used to
+                // retain stale mark=1 from prior cycles, which made
+                // the next cycle's `if (!isMarked())` skip them and
+                // their transitive closure — corrupting the live
+                // graph (see commit 0441247e).
+                //
+                // The previous fix (pre-mark pass that walked the live
+                // graph and unmarked every reachable cell, deduped via
+                // std::set<const Cell*>) restored correctness but at
+                // O(N log N) per cycle on the std::set inserts.  That
+                // dominated CPU time on attribute-heavy workloads:
+                // perf record on `binary_trees(10)` showed
+                // _Rb_tree::_M_insert_unique alone at 15.8 % of total
+                // CPU, with gcThreadLoop frame-time at 26 %, and the
+                // bench dropped from 2.2 s/iter (2026-05-01) to ~12 s
+                // /iter (2026-05-04).
+                //
+                // Replacement: track the cells we mark right here in
+                // Phase 4 (one push_back per Cell, deduped naturally
+                // by the existing `if (!isMarked())` guard), then
+                // unmark them in a separate post-sweep pass.  Same
+                // tricolour invariant restored, no std::set, O(N)
+                // pure pushes — and the markedList is contiguous
+                // memory so traversing it post-sweep is cache-
+                // friendly.
+                //
+                // Why post-sweep instead of pre-mark next cycle: it
+                // localises the work to "the GC cycle that produced
+                // the marks", so a single iteration of gcThreadLoop
+                // is self-contained — no cross-iteration state
+                // beyond the cell mark bits themselves.
+                std::vector<const Cell*> markedList;
                 while (!workList.empty()) {
                     const Cell* cell = workList.back();
                     workList.pop_back();
 
                     if (!cell->isMarked()) {
                         const_cast<Cell*>(cell)->mark();
+                        markedList.push_back(cell);
                         struct GCLambdaState { std::vector<const Cell*>* wl; const Cell* parent; } state = {&workList, cell};
                         cell->processReferences(space->rootContext, &state, [](ProtoContext* ctx, void* self, const Cell* ref) {
                             auto* s = static_cast<GCLambdaState*>(self);
@@ -517,6 +522,38 @@ namespace proto {
                     }
 #endif
                     currentSeg = nextSeg;
+                }
+
+                // --- PHASE 6: BULK UNMARK (replaces the pre-mark pass) ---
+                //
+                // Walk the markedList collected in Phase 4 and unmark
+                // every entry.  After this completes, ALL reachable
+                // cells (segments-side and outside-segments alike)
+                // satisfy mark=0, so the next cycle's mark phase sees
+                // a clean tricolour state.
+                //
+                // Sweep already cleared the mark bit on the survivors
+                // it kept (the `else { cell->unmark(); }` branch in
+                // Phase 5).  For those entries this loop's
+                // fetch_and(~0x1) is a benign no-op — atomic and
+                // cheap.  The interesting work is on the cells that
+                // were marked but live OUTSIDE segmentsToProcess
+                // (perpetuals, unsubmitted-young, interners) — sweep
+                // never touched their mark bit, and without this loop
+                // they would carry mark=1 into the next cycle and
+                // re-trigger the bug 0441247e fixed.
+                //
+                // Runs OUTSIDE the STW window (lock was released
+                // before Phase 5) — same locking regime as sweep.
+                // Mutators may be allocating fresh cells in parallel;
+                // those new cells are not in markedList and start
+                // with mark=0, so they are unaffected.  unmark() is
+                // a single atomic fetch_and, safe regardless of
+                // contention with mutator threads.
+                for (const Cell* m : markedList) {
+                    if (m && (reinterpret_cast<uintptr_t>(m) & 0x3F) == 0) {
+                        const_cast<Cell*>(m)->unmark();
+                    }
                 }
 
                 GC_LOCK_TRACE("gcLoop ACQ(after-sweep)");
