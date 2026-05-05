@@ -201,17 +201,33 @@ namespace proto
             this->space->mainContext = this->previous;
         }
 
-        if (this->space && this->lastAllocatedCell) {
-            this->space->submitYoungGeneration(this->lastAllocatedCell);
-        }
-
+        // Order matters here.  `submitYoungGeneration` MUST run AFTER the
+        // ReturnReference is anchored in `previous`'s young chain.  If we
+        // submit first, the inner context's young chain enters
+        // `dirtySegments` while the returnValue cell is reachable only
+        // through `this->returnValue` — which is no longer scanned
+        // because step 1 above popped this context off the thread's stack.
+        // The next allocCell (for the ReturnReference itself) parks at a
+        // STW poll, the GC runs Phase 4 with a root set that does not
+        // include this returnValue, and Phase 5 frees it.  The
+        // ReturnReference that finishes constructing after the GC wakes
+        // then holds a freed cell pointer — symptom at high-recursion
+        // workloads (e.g. bench_binary_trees(11)): "AttributeError:
+        // 'Node' object has no attribute 'left'" once the freed cell is
+        // recycled as a different type.  Anchoring first keeps the
+        // returnValue rooted via `previous`'s young chain across the
+        // submission STW window.
         if (this->returnValue && this->previous)
         {
             Cell* cell = const_cast<Cell*>(this->returnValue->asCell(this));
             if (cell != nullptr) {
                 (void) new(this->previous) ReturnReference(this->previous, cell);
-                // Cell constructor already registers with context via addCell2Context
+                // Cell constructor already registers with context via addCell2Context.
             }
+        }
+
+        if (this->space && this->lastAllocatedCell) {
+            this->space->submitYoungGeneration(this->lastAllocatedCell);
         }
         // Any unfreed cells from the local batch must be returned to the space
         if (this->freeCells && this->space) {
