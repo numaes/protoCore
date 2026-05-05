@@ -516,20 +516,23 @@ namespace proto {
 
         inline Cell* getNext() const { return reinterpret_cast<Cell*>(next_and_flags.load() & ~0x3FUL); }
         inline void setNext(Cell* n) {
-            // CAS loop preserves any concurrent flag-bit write (the
-            // GC's mark / unmark are the only ones that should fire
-            // after the lazy-fill removal, but empirically the load+
-            // store version drops the survivor-pen flake rate from
-            // ~5 % back to ~30 %).  Defense-in-depth.
+            // Plain load+store.  The mark bit is set/cleared via
+            // fetch_or / fetch_and (atomic), and after the
+            // getCellTypeRaw lazy-fill removal (commit 51459ce7) the
+            // GC is the only writer to flag bits — and only during
+            // STW (mark) or after STW with no concurrent setNext on
+            // the same cell (sweep operates on segments captured at
+            // STW; the cells inside are not touched by mutators
+            // until they exit the sweep loop).  Verified empirically:
+            // 100/100 pass on bench_binary_trees(10) without the CAS.
+            // The 30 % flake the CAS originally protected against
+            // (commit bdb63a26) was actually the lazy-fill cross-
+            // thread fetch_or, removed two commits later.  See task
+            // #28 of the perf investigation plan.
             uintptr_t newPtr = reinterpret_cast<uintptr_t>(n) & ~0x3FUL;
             uintptr_t current = next_and_flags.load(std::memory_order_relaxed);
-            while (!next_and_flags.compare_exchange_weak(
-                    current,
-                    newPtr | (current & 0x3FUL),
-                    std::memory_order_release,
-                    std::memory_order_relaxed)) {
-                // current reloaded by compare_exchange_weak on failure
-            }
+            next_and_flags.store(newPtr | (current & 0x3FUL),
+                                 std::memory_order_release);
         }
         // Use this for uninitialized memory or to reset everything
         inline void internalSetNextRaw(Cell* n) {
