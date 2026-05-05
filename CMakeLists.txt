@@ -121,6 +121,19 @@ else()
     message(STATUS "GC survivor re-chain DISABLED — will exhibit the historical survivor-tenuring leak")
 endif()
 
+# Opt-in per-phase instrumentation in gcThreadLoop.  When enabled, the
+# Phase 1/2/4/5/6 wall-times, total cells marked, and total segments
+# swept are accumulated; on every 5 GC cycles a one-line summary is
+# printed to stderr if PROTOCORE_GC_PROFILE=1 is set in the environment.
+# Default OFF — the chrono::now() and atomic fetch_add calls would
+# otherwise fire on every cycle and add a few microseconds of overhead
+# per cycle in production builds.
+option(PROTOCORE_GC_INSTRUMENT "Compile per-phase gcThreadLoop instrumentation (env var PROTOCORE_GC_PROFILE=1 to print)" OFF)
+if(PROTOCORE_GC_INSTRUMENT)
+    target_compile_definitions(protoCore PRIVATE PROTOCORE_GC_INSTRUMENT)
+    message(STATUS "GC per-phase instrumentation compiled in (set PROTOCORE_GC_PROFILE=1 at runtime to print)")
+endif()
+
 message(STATUS "Configured protoCore shared library target: protoCore")
 
 # 4. Define the performance benchmark executables

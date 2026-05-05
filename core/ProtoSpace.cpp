@@ -16,6 +16,8 @@
 #include <condition_variable>
 #include <atomic>
 #include <cstdint>
+#include <cstdio>
+#include <chrono>
 #include <thread>
 #if defined(__linux__)
 #include <sys/syscall.h>
@@ -74,13 +76,29 @@ namespace proto {
         void gcThreadLoop(ProtoSpace* space) {
             std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             GC_LOCK_TRACE("gcLoop ACQ(init)");
+#ifdef PROTOCORE_GC_INSTRUMENT
+            // Per-phase running totals + cycle count, printed every 5
+            // cycles when env var PROTOCORE_GC_PROFILE is set.  Compile
+            // out by default; enable with cmake -DPROTOCORE_GC_INSTRUMENT=ON.
+            static std::atomic<uint64_t> dbg_total_phase1_us{0};
+            static std::atomic<uint64_t> dbg_total_phase2_us{0};
+            static std::atomic<uint64_t> dbg_total_phase4_us{0};
+            static std::atomic<uint64_t> dbg_total_phase5_us{0};
+            static std::atomic<uint64_t> dbg_total_phase6_us{0};
+            static std::atomic<uint64_t> dbg_total_cells_marked{0};
+            static std::atomic<uint64_t> dbg_total_segments_swept{0};
+            const bool dbg_profile = std::getenv("PROTOCORE_GC_PROFILE") != nullptr;
+#endif
             while (space->state != SPACE_STATE_ENDING) {
                 // Wait for a GC trigger or space ending
-                space->gcCV.wait(lock, [space] { 
-                    return space->gcStarted || space->state == SPACE_STATE_ENDING; 
+                space->gcCV.wait(lock, [space] {
+                    return space->gcStarted || space->state == SPACE_STATE_ENDING;
                 });
                 GC_LOCK_TRACE("gcLoop ACQ(gcStarted)");
                 if (space->state == SPACE_STATE_ENDING) break;
+#ifdef PROTOCORE_GC_INSTRUMENT
+                auto t_phase1_start = std::chrono::steady_clock::now();
+#endif
                 
                 // --- PHASE 1: STOP THE WORLD ---
                 space->stwFlag.store(true);
@@ -95,6 +113,13 @@ namespace proto {
                 });
                 GC_LOCK_TRACE("gcLoop ACQ(parked)");
                 if (space->state == SPACE_STATE_ENDING) break;
+#ifdef PROTOCORE_GC_INSTRUMENT
+                auto t_phase2_start = std::chrono::steady_clock::now();
+                dbg_total_phase1_us.fetch_add(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        t_phase2_start - t_phase1_start).count(),
+                    std::memory_order_relaxed);
+#endif
 
                 // --- PHASE 2: COLLECT ROOTS ---
                 std::vector<const Cell*> workList;
@@ -359,6 +384,13 @@ namespace proto {
 #endif
 
                 DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
+#ifdef PROTOCORE_GC_INSTRUMENT
+                auto t_phase4_start = std::chrono::steady_clock::now();
+                dbg_total_phase2_us.fetch_add(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        t_phase4_start - t_phase2_start).count(),
+                    std::memory_order_relaxed);
+#endif
 
                 // --- PHASE 4: MARK ---
                 //
@@ -421,6 +453,21 @@ namespace proto {
                 space->stopTheWorldCV.notify_all();
                 GC_LOCK_TRACE("gcLoop REL(sweep)");
                 lock.unlock(); // Allow threads to run while we sweep
+#ifdef PROTOCORE_GC_INSTRUMENT
+                auto t_phase5_start = std::chrono::steady_clock::now();
+                dbg_total_phase4_us.fetch_add(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        t_phase5_start - t_phase4_start).count(),
+                    std::memory_order_relaxed);
+                dbg_total_cells_marked.fetch_add(
+                    markedList.size(), std::memory_order_relaxed);
+                {
+                    DirtySegment* s = segmentsToProcess;
+                    uint64_t segCount = 0;
+                    while (s) { segCount++; s = s->next; }
+                    dbg_total_segments_swept.fetch_add(segCount, std::memory_order_relaxed);
+                }
+#endif
 
                 // --- PHASE 5: SWEEP ---
                 DirtySegment* currentSeg = segmentsToProcess;
@@ -524,6 +571,14 @@ namespace proto {
                     currentSeg = nextSeg;
                 }
 
+#ifdef PROTOCORE_GC_INSTRUMENT
+                auto t_phase6_start = std::chrono::steady_clock::now();
+                dbg_total_phase5_us.fetch_add(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        t_phase6_start - t_phase5_start).count(),
+                    std::memory_order_relaxed);
+#endif
+
                 // --- PHASE 6: BULK UNMARK (replaces the pre-mark pass) ---
                 //
                 // Walk the markedList collected in Phase 4 and unmark
@@ -555,6 +610,28 @@ namespace proto {
                         const_cast<Cell*>(m)->unmark();
                     }
                 }
+#ifdef PROTOCORE_GC_INSTRUMENT
+                auto t_phase6_end = std::chrono::steady_clock::now();
+                dbg_total_phase6_us.fetch_add(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        t_phase6_end - t_phase6_start).count(),
+                    std::memory_order_relaxed);
+                if (dbg_profile) {
+                    uint64_t cycles = space->gcCycleCount.load(std::memory_order_relaxed);
+                    if (cycles > 0 && (cycles % 5) == 0) {
+                        std::fprintf(stderr,
+                            "[GC-PROFILE] cycles=%lu  P1=%luus  P2=%luus  P4=%luus  P5=%luus  P6=%luus  marked=%lu  swept_segs=%lu\n",
+                            (unsigned long)cycles,
+                            (unsigned long)dbg_total_phase1_us.load(),
+                            (unsigned long)dbg_total_phase2_us.load(),
+                            (unsigned long)dbg_total_phase4_us.load(),
+                            (unsigned long)dbg_total_phase5_us.load(),
+                            (unsigned long)dbg_total_phase6_us.load(),
+                            (unsigned long)dbg_total_cells_marked.load(),
+                            (unsigned long)dbg_total_segments_swept.load());
+                    }
+                }
+#endif
 
                 GC_LOCK_TRACE("gcLoop ACQ(after-sweep)");
                 lock.lock(); // Re-acquire for next wait
