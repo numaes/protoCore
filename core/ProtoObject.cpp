@@ -247,6 +247,7 @@ namespace proto
         case POINTER_TAG_TUPLE: return context->space->tuplePrototype;
         case POINTER_TAG_TUPLE_ITERATOR: return context->space->tupleIteratorPrototype;
         case POINTER_TAG_STRING: return context->space->stringPrototype;
+        case POINTER_TAG_SYMBOL: return context->space->stringPrototype;
         case POINTER_TAG_STRING_ITERATOR: return context->space->stringIteratorPrototype;
         case POINTER_TAG_SET: return context->space->setPrototype;
         case POINTER_TAG_SET_ITERATOR: return context->space->setIteratorPrototype;
