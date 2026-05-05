@@ -518,10 +518,25 @@ namespace proto {
 
         inline Cell* getNext() const { return reinterpret_cast<Cell*>(next_and_flags.load() & ~0x3FUL); }
         inline void setNext(Cell* n) {
-            uintptr_t current = next_and_flags.load();
-            uintptr_t flags = current & 0x3FUL;
-            // Crucial: Mask 'n' to avoid leaking flags from the successor into 'this'
-            next_and_flags.store((reinterpret_cast<uintptr_t>(n) & ~0x3FUL) | flags);
+            // CAS loop preserves any concurrent flag-bit writes (mark via
+            // fetch_or, unmark via fetch_and, getCellTypeRaw's lazy
+            // type-bit fill via fetch_or).  Without the loop, a
+            // load + store would silently drop a flag-bit write that
+            // landed between the load and the store — symptom-wise,
+            // a marked cell whose mark bit is reset to 0 when sweep
+            // calls setNext on it, which causes the next mark phase
+            // to skip the cell and free its still-live children.
+            uintptr_t newPtr = reinterpret_cast<uintptr_t>(n) & ~0x3FUL;
+            uintptr_t current = next_and_flags.load(std::memory_order_relaxed);
+            while (!next_and_flags.compare_exchange_weak(
+                    current,
+                    newPtr | (current & 0x3FUL),
+                    std::memory_order_release,
+                    std::memory_order_relaxed)) {
+                // current was reloaded by compare_exchange_weak on
+                // failure; loop re-builds the value with whatever
+                // flag bits are now live.
+            }
         }
         // Use this for uninitialized memory or to reset everything
         inline void internalSetNextRaw(Cell* n) {
