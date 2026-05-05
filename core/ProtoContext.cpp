@@ -522,22 +522,30 @@ namespace proto
 
     const ProtoList* ProtoContext::newList()
     {
-        return (new(this) ProtoListImplementation(this, PROTO_NONE, true, nullptr, nullptr))->asProtoList(this);
+        // Empty list lives in the inline form (1 cell).  Subsequent
+        // appendLast keeps it in inline form until the 6th element forces
+        // the AVL representation, matching the form-selection semantics
+        // documented at every mutator trampoline in core/ProtoList.cpp.
+        return (new(this) ProtoListSmallImplementation(this, 0, nullptr))->asProtoList(this);
     }
 
-    const ProtoList* ProtoContext::newSmallListN(unsigned n, const ProtoObject* const* items)
+    const ProtoList* ProtoContext::newList(unsigned n, const ProtoObject* const* items)
     {
-        if (n > ProtoListSmallImplementation::MAX_INLINE) {
-            // Fall back to the AVL builder via newList + appendLast.  Caller
-            // contract is N ≤ MAX_INLINE; this path is defensive only.
-            ProtoContext::CriticalSection cs(this);
-            const ProtoList* result = newList();
-            for (unsigned i = 0; i < n; ++i) {
-                result = result->appendLast(this, items[i]);
-            }
-            return result;
+        if (n <= ProtoListSmallImplementation::MAX_INLINE) {
+            return (new(this) ProtoListSmallImplementation(this, n, items))->asProtoList(this);
         }
-        return (new(this) ProtoListSmallImplementation(this, n, items))->asProtoList(this);
+        // n > 5: produce the AVL form.  Build it in a single critical
+        // section via repeated appendLast over an empty AVL list — every
+        // intermediate is held in a C++ local, no half-built tree leaks
+        // to the GC's view between allocations.
+        ProtoContext::CriticalSection cs(this);
+        const ProtoList* result =
+            (new(this) ProtoListImplementation(this, PROTO_NONE, true, nullptr, nullptr))
+                ->asProtoList(this);
+        for (unsigned i = 0; i < n; ++i) {
+            result = result->appendLast(this, items[i]);
+        }
+        return result;
     }
 
     const ProtoTuple* ProtoContext::newTuple()

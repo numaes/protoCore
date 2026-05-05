@@ -807,12 +807,17 @@ namespace proto
         const ProtoObject* fromTimeDelta(long timedelta);
 
         //- Factory methods for complex types
+        // Empty list — returns the inline-storage form (POINTER_TAG_LIST_SMALL,
+        // size 0).  Subsequent appendLast calls stay in the inline form for
+        // sizes 1..5 and only graduate to the AVL form on overflow.
         const ProtoList* newList();
-        // Single-allocation builder for short ProtoLists (up to 5 elements).
-        // Use whenever the count is known at the call site (interpreter call
-        // dispatch, native method argument packs); the result is functionally
-        // identical to newList() + N appendLast but costs exactly 1 cell.
-        const ProtoList* newSmallListN(unsigned n, const ProtoObject* const* items);
+        // Bulk-construct a list from a count + contiguous source array in
+        // a SINGLE cell allocation when n ≤ 5; for n > 5 it falls back to
+        // the AVL builder.  Use this whenever the count is known at the call
+        // site (interpreter call dispatch, native method argument packs);
+        // the result is functionally identical to newList() + N appendLast
+        // but costs exactly 1 cell instead of 1 + N.
+        const ProtoList* newList(unsigned n, const ProtoObject* const* items);
         const ProtoTuple* newTuple();
         const ProtoTuple* newTuple(const std::vector<const ProtoObject*>& elements);
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);

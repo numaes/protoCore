@@ -32,7 +32,7 @@ protected:
     const ProtoList* small(std::initializer_list<int> ints) {
         std::vector<const ProtoObject*> items;
         for (int v : ints) items.push_back(context->fromInteger(v));
-        return context->newSmallListN(items.size(), items.data());
+        return context->newList(items.size(), items.data());
     }
 
     const ProtoList* avl(std::initializer_list<int> ints) {
@@ -43,7 +43,7 @@ protected:
 };
 
 TEST_F(SmallListTest, EmptySmall) {
-    const ProtoList* l = context->newSmallListN(0, nullptr);
+    const ProtoList* l = context->newList(0, nullptr);
     ASSERT_TRUE(isSmallList(l));
     ASSERT_EQ(l->getSize(context), 0u);
 }
@@ -52,7 +52,7 @@ TEST_F(SmallListTest, SizesZeroToFive) {
     for (unsigned n = 0; n <= MAX; ++n) {
         std::vector<const ProtoObject*> items;
         for (unsigned i = 0; i < n; ++i) items.push_back(context->fromInteger(i + 100));
-        const ProtoList* l = context->newSmallListN(n, items.data());
+        const ProtoList* l = context->newList(n, items.data());
         ASSERT_TRUE(isSmallList(l));
         ASSERT_EQ(l->getSize(context), n);
         for (unsigned i = 0; i < n; ++i) {
@@ -64,7 +64,7 @@ TEST_F(SmallListTest, SizesZeroToFive) {
 TEST_F(SmallListTest, OverflowFallsBackToAvl) {
     std::vector<const ProtoObject*> items;
     for (unsigned i = 0; i < MAX + 1; ++i) items.push_back(context->fromInteger(i));
-    const ProtoList* l = context->newSmallListN(MAX + 1, items.data());
+    const ProtoList* l = context->newList(MAX + 1, items.data());
     ASSERT_TRUE(isAvlList(l)) << "newSmallListN with N>MAX must fall back to AVL";
     ASSERT_EQ(l->getSize(context), MAX + 1);
     for (unsigned i = 0; i < MAX + 1; ++i) {
@@ -162,7 +162,7 @@ TEST_F(SmallListTest, IteratorRoundTrip) {
 }
 
 TEST_F(SmallListTest, IteratorOverEmpty) {
-    const ProtoList* l = context->newSmallListN(0, nullptr);
+    const ProtoList* l = context->newList(0, nullptr);
     const ProtoListIterator* it = l->getIterator(context);
     ASSERT_FALSE(it->hasNext(context));
 }
