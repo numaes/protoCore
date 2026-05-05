@@ -1174,6 +1174,12 @@ namespace proto
 
         ProtoSparseList* threads;
         Cell* freeCells;
+        // Tail pointer for the global freeCells linked list.  Maintained
+        // alongside `freeCells` so getFreeCells can take the entire list in
+        // O(1) when the requested batchSize swallows everything available
+        // (the common case during warmup and after a small sweep). When
+        // freeCells is null, freeCellsTail is also null.
+        Cell* freeCellsTail;
         /** Lock-free stack of dirty segments; GC drains under globalMutex. */
         std::atomic<DirtySegment*> dirtySegments;
         /**

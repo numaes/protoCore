@@ -531,6 +531,10 @@ namespace proto {
                         std::lock_guard<std::recursive_mutex> freeLock(ProtoSpace::globalMutex);
                         batchTail->internalSetNextRaw(space->freeCells);
                         space->freeCells = batchHead;
+                        // Tail-pointer maintenance: when the global list was
+                        // empty, batchTail becomes the new tail. Otherwise
+                        // the existing tail is unchanged because we prepend.
+                        if (!space->freeCellsTail) space->freeCellsTail = batchTail;
                         space->freeCellsCount += batchCount;
                         GC_LOCK_TRACE("gcLoop REL(freeList)");
                     }
@@ -689,6 +693,7 @@ namespace proto {
         survivorStagger(SURVIVOR_STAGGER_DEFAULT),
         gcCycleCount(0),
         freeCells(nullptr),
+        freeCellsTail(nullptr),
         gcStarted(false),
         mainContext(nullptr),
         nextMutableRef(1),
@@ -931,18 +936,43 @@ namespace proto {
         // If we have free cells in the global list, return a batch (do not trigger GC here;
         // otherwise we could wake the GC thread and then leave without parking, causing a deadlock)
         if (this->freeCells) {
+            // Fast path: when the entire pool fits in batchSize, hand it
+            // over via head+tail in O(1) without walking the chain.  Common
+            // during warmup (small pool) and on any cycle where freeCellsCount
+            // happens to drop below the requested batch (multi-thread refill
+            // races, post-OS-fallback short pool, end-of-cycle drain).
+            if (this->freeCellsCount <= batchSize) {
+                Cell* batchHead = this->freeCells;
+                this->freeCells = nullptr;
+                this->freeCellsTail = nullptr;
+                this->freeCellsCount = 0;
+                GC_LOCK_TRACE("getFreeCells REL(return batch fast)");
+                return batchHead;
+            }
+
+            // Chop a batchSize-cell prefix from the head.  The walk is the
+            // dominant cost of this function (linked-list pointer chase
+            // through scattered post-sweep cells); prefetching ahead inside
+            // a single chain is fundamentally limited because the chain
+            // walker itself pays the cache miss to find the next prefetch
+            // target.  The principled fix is bump-pointer cell allocation
+            // (path #30 follow-up) — that turns this whole linear-walk pool
+            // into bump-pointer arenas.
             Cell* batchHead = this->freeCells;
             Cell* current = batchHead;
             int count = 1;
-
-            while (current->getNext() && count < batchSize) {
-                current = current->getNext();
+            while (count < batchSize) {
+                Cell* next = current->getNext();
+                if (!next) break;
+                current = next;
                 count++;
             }
 
             this->freeCells = current->getNext();
             current->setNext(nullptr);
             this->freeCellsCount -= count;
+            // If we drained the chain, clear the tail too.
+            if (!this->freeCells) this->freeCellsTail = nullptr;
             GC_LOCK_TRACE("getFreeCells REL(return batch)");
             return batchHead;
         }
@@ -997,8 +1027,13 @@ namespace proto {
         GC_LOCK_TRACE("getFreeCells ACQ(OS done)");
         this->heapSize += blocksToAllocate;
         if (remainderHead) {
-            reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->internalSetNextRaw(this->freeCells);
+            Cell* remainderTail = reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1]);
+            remainderTail->internalSetNextRaw(this->freeCells);
             this->freeCells = remainderHead;
+            // Tail-pointer maintenance: when the global list was empty,
+            // remainderTail becomes the new tail. Otherwise existing tail
+            // is unchanged because we prepend.
+            if (!this->freeCellsTail) this->freeCellsTail = remainderTail;
             this->freeCellsCount += (blocksToAllocate - batchSize);
         }
         GC_LOCK_TRACE("getFreeCells REL(return OS)");
