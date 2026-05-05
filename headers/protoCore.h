@@ -19,6 +19,7 @@
 namespace proto
 {
     class SymbolTable;  // forward declaration for 64-shard interning table
+    struct MutableValueCacheEntry;  // defined in proto_internal.h
 
     // Forward declarations
     class ProtoStringIterator;
@@ -852,6 +853,16 @@ namespace proto
         Cell* lastAllocatedCell;
         unsigned long allocatedCellsCount;
         Cell* freeCells;
+
+        // Cached pointer to this thread's MutableValueCacheEntry array
+        // (stashed at context construction to short-circuit the
+        // `toImpl(thread) → extension → mutableValueCache` indirection
+        // chain that resolveMutableState would otherwise pay on every
+        // mutable read).  See protoCore/core/ProtoObject.cpp's
+        // resolveMutableState for the validation/refresh discipline.
+        // nullptr when the thread has no extension yet (e.g. early
+        // bootstrap, off-thread alloc with NULL context).
+        MutableValueCacheEntry* mutableValueCache_;
         Cell* pendingRoot;
         std::atomic_flag lock{ATOMIC_FLAG_INIT};
 

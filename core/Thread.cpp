@@ -154,6 +154,10 @@ namespace proto {
         this->extension = new (context) ProtoThreadExtension(context);
         this->context = new ProtoContext(space, nullptr, nullptr, nullptr, args, kwargs);
         this->context->thread = (ProtoThread*)this->asThread(context);
+        // Stash the per-thread mutable-value cache pointer in the
+        // freshly-created context so resolveMutableState's hot path
+        // can reach it with one load (see ProtoObject.cpp).
+        this->context->mutableValueCache_ = this->extension->mutableValueCache;
         // Build the new `space->threads` list OUTSIDE the global mutex.
         //
         // Why: `implSetAt` walks the SparseList and allocates new node
@@ -221,6 +225,10 @@ namespace proto {
         this->extension = new (mainContext) ProtoThreadExtension(mainContext);
         this->context = mainContext;
         this->context->thread = (ProtoThread*)this->asThread(mainContext);
+        // Stash the per-thread mutable-value cache pointer in the
+        // adopted main context so resolveMutableState's hot path can
+        // reach it with one load (see ProtoObject.cpp).
+        this->context->mutableValueCache_ = this->extension->mutableValueCache;
         // Register in space->threads using the same lock-out-of-the-CAS
         // pattern as the spawning constructor.
         unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(mainContext));

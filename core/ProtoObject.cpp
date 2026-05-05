@@ -34,13 +34,17 @@ namespace proto
                                           unsigned long mutable_ref,
                                           ProtoSparseList** outShardRoot,
                                           const ProtoObject** outCurrent) {
-            MutableValueCacheEntry* cache = nullptr;
-            if (context && context->thread) {
-                auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
-                if (threadImpl->extension) {
-                    cache = threadImpl->extension->mutableValueCache;
-                }
-            }
+            // Hot path: pull the cache pointer directly from the
+            // context's stashed slot.  Avoids the
+            // `toImpl(context->thread) → threadImpl->extension →
+            // mutableValueCache` chain (1 toImpl + 2 loads + 2
+            // null-checks) that the previous code paid on EVERY
+            // mutable read.  The slot is populated at context
+            // construction and refreshed by ProtoThreadImplementation
+            // when the extension is first wired up; nullptr in early
+            // bootstrap / off-thread paths, falls into the slow path.
+            MutableValueCacheEntry* cache =
+                context ? context->mutableValueCache_ : nullptr;
             int shard = mutable_ref % ProtoSpace::MUTABLE_ROOT_SHARDS;
             unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
 
@@ -95,11 +99,12 @@ namespace proto
                                         unsigned long mutable_ref,
                                         ProtoSparseList* new_root,
                                         const ProtoObject* new_value) {
-            if (!context || !context->thread) return;
-            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
-            if (!threadImpl->extension || !threadImpl->extension->mutableValueCache) return;
+            // Same stashed-pointer fast-path as resolveMutableState:
+            // skip the toImpl + extension chain, go straight to
+            // context->mutableValueCache_.
+            if (!context || !context->mutableValueCache_) return;
             unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
-            threadImpl->extension->mutableValueCache[idx] = {mutable_ref, new_root, new_value};
+            context->mutableValueCache_[idx] = {mutable_ref, new_root, new_value};
         }
     }
 

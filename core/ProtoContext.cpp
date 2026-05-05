@@ -47,6 +47,7 @@ namespace proto
         ownsSlots_(false),
         lastAllocatedCell(nullptr),
         allocatedCellsCount(0),
+        mutableValueCache_(nullptr),
         returnValue(PROTO_NONE),
         currentFileName(nullptr),
         currentLineNumber(0),
@@ -72,6 +73,23 @@ namespace proto
                 && this->space->rootContext->thread
                 && this->space->mainThreadId == std::this_thread::get_id()) {
             this->thread = this->space->rootContext->thread;
+        }
+
+        // Stash the per-thread mutable-value cache pointer so the
+        // resolveMutableState hot path can reach it with one load
+        // instead of the toImpl + extension + cache chain.  The
+        // pointer is monotonically populated when the thread's
+        // extension is first wired up; if the extension is created
+        // AFTER this context (rare but possible during bootstrap),
+        // resolveMutableState falls into its slow path and the next
+        // context constructed on the thread picks up the pointer.
+        if (this->thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(this->thread);
+            this->mutableValueCache_ = threadImpl->extension
+                ? threadImpl->extension->mutableValueCache
+                : nullptr;
+        } else {
+            this->mutableValueCache_ = nullptr;
         }
         // Step 2: Acquire storage for local variables BEFORE registration.
         // Fast path (externalSlots): caller pre-allocated a stack buffer — zero heap cost.
