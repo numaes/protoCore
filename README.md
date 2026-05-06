@@ -138,7 +138,7 @@ To validate the theoretical performance of the `protoCore` object model and its 
 
 ### Benchmark Results (Low-Nanosecond Attribute Access)
 
-Refreshed on 2026-05-06 — median of 5 runs of `performance/microbenchmark_final.cpp` (10 M iterations per scenario, Release build with `-O3 -DNDEBUG`, single-threaded). The thread-local inline cache (TL-IC) keeps own-attribute lookups in the single-digit-to-low-teens nanosecond range; inherited lookups walk the prototype chain.  May 2026 perf-investigation cycle (paths #2/#3/#4/#6 + task #34 destructor reorder fix) brought every metric back to or below the pre-revert targets.
+Refreshed on 2026-05-06 — median of 5 runs of `performance/microbenchmark_final.cpp` (10 M iterations per scenario, Release build with `-O3 -DNDEBUG`, single-threaded).  May 2026 perf-investigation cycle landed paths #2/#3/#4/#6, task #28 (CAS removal), task #34 (destructor reorder UAF fix), and **task #36 (chunked freelist via GC pre-chunking)** — every microbench metric is at or below the pre-revert May 2026 targets.
 
 | Scenario | Latency (ns/op) | Note |
 | :--- | :--- | :--- |
@@ -146,6 +146,8 @@ Refreshed on 2026-05-06 — median of 5 runs of `performance/microbenchmark_fina
 | **hasAttribute (Hot Cache)** | **~10 ns** | Non-lossy existence check (distinguishes PROTO_NONE). |
 | **getOwnAttributeDirect** | **~5.8 ns** | Direct property access, bypasses inheritance walk. |
 | **Inherited Attribute (10-level)** | **~36.8 ns** | Prototype-chain walk; ~3.7 ns per inheritance level. |
+
+**Allocator path (task #36, chunked freelist):** `ProtoSpace::getFreeCells` dropped from 7.91 % to **0.52 %** of bench CPU on `bench_binary_trees(10)` after sweep started pre-chunking dead cells into 8192-cell `FreeChunk` units.  `getFreeCells` becomes O(1) (one chunk pop) instead of O(N) (linked-list walk to find a cut point).  bench_binary_trees(10) wall-clock: **2.6 s → 2.29 s median (~12 % faster)**.
 
 Auxiliary protoCore microbenchmarks (median of single Release run, see `performance/`):
 
