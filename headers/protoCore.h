@@ -1180,6 +1180,31 @@ namespace proto
         // (the common case during warmup and after a small sweep). When
         // freeCells is null, freeCellsTail is also null.
         Cell* freeCellsTail;
+
+        /**
+         * @brief Pre-chunked freelist (path #5 v2 chunked GC).
+         *
+         * Sweep accumulates dead cells into chunks of CELL_CHUNK_SIZE while
+         * walking segments (negligible extra cost; we already touch every
+         * cell).  At chunk boundary the chunk is published to `freeChunks`.
+         *
+         * `getFreeCells` pops one chunk in O(1) (no linked-list walk to find
+         * a cut point) and returns its head as the thread's refill batch.
+         * The chunk struct itself is recycled to `freeChunkPool` after use.
+         *
+         * `freeCells` remains for the partial / OS-fallback paths; chunks are
+         * the fast path.  Both are protected by the same `globalMutex`.
+         */
+        struct FreeChunk {
+            Cell* head;
+            Cell* tail;
+            unsigned long count;
+            FreeChunk* next;
+        };
+        FreeChunk* freeChunks;
+        FreeChunk* freeChunkPool;
+        static constexpr unsigned long CELL_CHUNK_SIZE = 8192;
+
         /** Lock-free stack of dirty segments; GC drains under globalMutex. */
         std::atomic<DirtySegment*> dirtySegments;
         /**

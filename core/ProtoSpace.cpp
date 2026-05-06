@@ -73,6 +73,41 @@ namespace proto {
             return chain;
         }
 
+        // Acquire a FreeChunk struct (from pool, or fresh allocation).
+        // Caller holds globalMutex.
+        ProtoSpace::FreeChunk* takeFreeChunk(ProtoSpace* space) {
+            if (space->freeChunkPool) {
+                ProtoSpace::FreeChunk* c = space->freeChunkPool;
+                space->freeChunkPool = c->next;
+                return c;
+            }
+            return new ProtoSpace::FreeChunk();
+        }
+
+        // Return a FreeChunk struct to the pool for reuse.  Caller holds globalMutex.
+        void recycleFreeChunk(ProtoSpace* space, ProtoSpace::FreeChunk* chunk) {
+            chunk->head = nullptr;
+            chunk->tail = nullptr;
+            chunk->count = 0;
+            chunk->next = space->freeChunkPool;
+            space->freeChunkPool = chunk;
+        }
+
+        // Publish an accumulated chunk of dead cells to the global freeChunks
+        // list.  Caller MUST hold globalMutex.  The chunk's tail must already
+        // have its `next` pointing at nullptr (terminator).
+        void publishFreeChunk(ProtoSpace* space, Cell* head, Cell* tail, unsigned long count) {
+            if (!head || !tail || count == 0) return;
+            tail->internalSetNextRaw(nullptr);
+            ProtoSpace::FreeChunk* chunk = takeFreeChunk(space);
+            chunk->head = head;
+            chunk->tail = tail;
+            chunk->count = count;
+            chunk->next = space->freeChunks;
+            space->freeChunks = chunk;
+            space->freeCellsCount += count;
+        }
+
         void gcThreadLoop(ProtoSpace* space) {
             std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             GC_LOCK_TRACE("gcLoop ACQ(init)");
@@ -694,6 +729,8 @@ namespace proto {
         gcCycleCount(0),
         freeCells(nullptr),
         freeCellsTail(nullptr),
+        freeChunks(nullptr),
+        freeChunkPool(nullptr),
         gcStarted(false),
         mainContext(nullptr),
         nextMutableRef(1),
