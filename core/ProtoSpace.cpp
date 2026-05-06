@@ -518,6 +518,18 @@ namespace proto {
 #endif
 
                 // --- PHASE 5: SWEEP ---
+                //
+                // Cross-segment chunk accumulator (path #5 v2).  Dead cells
+                // from each segment are chained into a running chunk; when
+                // the chunk reaches CELL_CHUNK_SIZE, it is published to
+                // `space->freeChunks` and a fresh chunk starts.  At the end
+                // of sweep the partial trailing chunk is published with its
+                // actual count.  This converts getFreeCells from an O(N)
+                // walk-and-cut into an O(1) chunk pop.
+                Cell* chunkHead = nullptr;
+                Cell* chunkTail = nullptr;
+                unsigned long chunkCount = 0;
+
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
                     Cell* cell = currentSeg->cellChain;
@@ -562,16 +574,35 @@ namespace proto {
                     }
 
                     if (batchHead) {
-                        GC_LOCK_TRACE("gcLoop ACQ(freeList)");
-                        std::lock_guard<std::recursive_mutex> freeLock(ProtoSpace::globalMutex);
-                        batchTail->internalSetNextRaw(space->freeCells);
-                        space->freeCells = batchHead;
-                        // Tail-pointer maintenance: when the global list was
-                        // empty, batchTail becomes the new tail. Otherwise
-                        // the existing tail is unchanged because we prepend.
-                        if (!space->freeCellsTail) space->freeCellsTail = batchTail;
-                        space->freeCellsCount += batchCount;
-                        GC_LOCK_TRACE("gcLoop REL(freeList)");
+                        // Merge this segment's batch into the running chunk.
+                        // The previous batchTail terminator is overwritten
+                        // when chaining onto the next batch (chunkHead is
+                        // prepended).  Final terminator is set inside
+                        // publishFreeChunk.
+                        if (chunkHead) {
+                            // Prepend: batch's tail points at the previous
+                            // chunkHead; chunkHead becomes batch's head.
+                            // Order doesn't matter for the freelist —
+                            // mutators consume cells one by one regardless.
+                            batchTail->internalSetNextRaw(chunkHead);
+                        } else {
+                            chunkTail = batchTail;
+                        }
+                        chunkHead = batchHead;
+                        chunkCount += batchCount;
+
+                        // If we've crossed the chunk-size threshold, publish.
+                        // Most segments are small (~5.86 cells avg) so this
+                        // typically fires only once per ~1400 segments, well
+                        // below the per-segment lock cost we used to pay.
+                        if (chunkCount >= ProtoSpace::CELL_CHUNK_SIZE) {
+                            GC_LOCK_TRACE("gcLoop ACQ(chunk)");
+                            std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
+                            publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
+                            chunkHead = chunkTail = nullptr;
+                            chunkCount = 0;
+                            GC_LOCK_TRACE("gcLoop REL(chunk)");
+                        }
                     }
 
                     DirtySegment* nextSeg = currentSeg->next;
@@ -621,6 +652,17 @@ namespace proto {
                     }
 #endif
                     currentSeg = nextSeg;
+                }
+
+                // Publish the trailing partial chunk (count < CELL_CHUNK_SIZE).
+                // Common at end of sweep when the last few segments did not
+                // accumulate enough cells to fill a chunk — the chunk is
+                // valid at any size, so we simply hand it over.
+                if (chunkHead) {
+                    GC_LOCK_TRACE("gcLoop ACQ(chunk-tail)");
+                    std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
+                    publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
+                    GC_LOCK_TRACE("gcLoop REL(chunk-tail)");
                 }
 
 #ifdef PROTOCORE_GC_INSTRUMENT
