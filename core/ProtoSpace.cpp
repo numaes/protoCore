@@ -1099,27 +1099,43 @@ namespace proto {
         }
 
         BigCell* bigCellPtr = reinterpret_cast<BigCell*>(newMemory);
+        // Build the entire OS allocation as one chained block; we will
+        // partition it into chunks below.  Cells are CONTIGUOUS in memory
+        // here, so any consumer walking the chain hits the prefetcher's
+        // sequential pattern — bonus locality on top of the chunked
+        // freelist's O(1) refill.
         for (int i = 0; i < blocksToAllocate - 1; ++i) {
             reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
         }
         reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->internalSetNextRaw(nullptr);
+
+        // The first batchSize cells go directly to the calling thread.
         Cell* batchHead = reinterpret_cast<Cell*>(newMemory);
-        Cell* remainderHead = (blocksToAllocate > batchSize) ? reinterpret_cast<Cell*>(&bigCellPtr[batchSize]) : nullptr;
         reinterpret_cast<Cell*>(&bigCellPtr[batchSize - 1])->internalSetNextRaw(nullptr);
 
         lock.lock();
         GC_LOCK_TRACE("getFreeCells ACQ(OS done)");
         this->heapSize += blocksToAllocate;
-        if (remainderHead) {
-            Cell* remainderTail = reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1]);
-            remainderTail->internalSetNextRaw(this->freeCells);
-            this->freeCells = remainderHead;
-            // Tail-pointer maintenance: when the global list was empty,
-            // remainderTail becomes the new tail. Otherwise existing tail
-            // is unchanged because we prepend.
-            if (!this->freeCellsTail) this->freeCellsTail = remainderTail;
-            this->freeCellsCount += (blocksToAllocate - batchSize);
+
+        // The remainder is partitioned into CELL_CHUNK_SIZE chunks so the
+        // next getFreeCells call lands in the O(1) chunked fast path
+        // instead of the legacy flat-freelist walk.  Last partial chunk
+        // (count < CELL_CHUNK_SIZE) is published as-is.
+        int remainderStart = batchSize;
+        while (remainderStart < blocksToAllocate) {
+            int remaining = blocksToAllocate - remainderStart;
+            int chunkSize = (remaining > static_cast<int>(CELL_CHUNK_SIZE))
+                ? static_cast<int>(CELL_CHUNK_SIZE) : remaining;
+            Cell* chunkHead = reinterpret_cast<Cell*>(&bigCellPtr[remainderStart]);
+            Cell* chunkTail = reinterpret_cast<Cell*>(&bigCellPtr[remainderStart + chunkSize - 1]);
+            // Already terminated above for the global last cell; for inner
+            // chunk boundaries, terminate the tail's next.  Cells inside
+            // are contiguous so chain order matches address order.
+            chunkTail->internalSetNextRaw(nullptr);
+            publishFreeChunk(this, chunkHead, chunkTail, static_cast<unsigned long>(chunkSize));
+            remainderStart += chunkSize;
         }
+
         GC_LOCK_TRACE("getFreeCells REL(return OS)");
         return batchHead;
     }
