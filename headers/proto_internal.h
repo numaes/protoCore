@@ -509,10 +509,17 @@ namespace proto {
 
         static void* operator new(size_t size, ProtoContext *context);
 
-        // Flags: bit 0 is Mark
-        inline void mark() { next_and_flags.fetch_or(0x1UL); }
-        inline void unmark() { next_and_flags.fetch_and(~0x1UL); }
-        inline bool isMarked() const { return (next_and_flags.load() & 0x1UL) != 0; }
+        // Flags: bit 0 is Mark.  mark/unmark use memory_order_relaxed
+        // because the GC thread is the only writer to bit 0 (mutators
+        // never touch it after the getCellTypeRaw lazy-fill removal,
+        // commit 51459ce7), and the GC's own phase ordering provides
+        // happens-before for the next read.  isMarked is also relaxed
+        // for symmetry; the caller is the GC thread sweeping a
+        // segment-captured chain whose flag bits this thread itself
+        // wrote earlier in the same cycle.
+        inline void mark() { next_and_flags.fetch_or(0x1UL, std::memory_order_relaxed); }
+        inline void unmark() { next_and_flags.fetch_and(~0x1UL, std::memory_order_relaxed); }
+        inline bool isMarked() const { return (next_and_flags.load(std::memory_order_relaxed) & 0x1UL) != 0; }
 
         inline Cell* getNext() const { return reinterpret_cast<Cell*>(next_and_flags.load() & ~0x3FUL); }
         inline void setNext(Cell* n) {
