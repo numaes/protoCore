@@ -133,9 +133,35 @@ namespace proto
         bool isDate(ProtoContext* context) const;
         bool isTimestamp(ProtoContext* context) const;
         bool isTimeDelta(ProtoContext* context) const;
+        // P6 — tag-only fast paths.  These inline a single 6-bit tag-low
+        // bitwise check for the dominant case where the receiver is a
+        // direct primitive (tag 6 = string, 22 = symbol, 1 = embedded
+        // value such as inline string / small int).  When the receiver
+        // is a wrapper object (tag 0) that delegates type identity via
+        // `__data__`, the slow virtual variant is invoked instead.
+        // Hot callers (interpreter dispatchers, getAttribute auto-intern
+        // probes, hash dispatch in protoPython / protoJS) avoid the
+        // function-call overhead entirely on the common path.
         bool isMethod(ProtoContext* context) const;
         bool isNone(ProtoContext* context) const;
         bool isString(ProtoContext* context) const;
+        // Tag-only fast variant: returns true if the pointer encodes a
+        // string-typed value directly (POINTER_TAG_STRING = 6,
+        // POINTER_TAG_SYMBOL = 22, or EMBEDDED_VALUE with
+        // EMBEDDED_TYPE_INLINE_STRING = 4 in bits 6..9).  Returns false
+        // for wrapper objects (tag 0); callers that need the full
+        // protocol must call isString().
+        static inline bool isStringTagFast(const ProtoObject* o) noexcept {
+            if (!o) return false;
+            uintptr_t p = reinterpret_cast<uintptr_t>(o);
+            unsigned tag = static_cast<unsigned>(p & 0x3F);
+            if (tag == 6 || tag == 22) return true;
+            if (tag == 1) {
+                unsigned emb = static_cast<unsigned>((p >> 6) & 0xF);
+                if (emb == 4) return true;
+            }
+            return false;
+        }
         bool isDouble(ProtoContext* context) const;
         bool isTuple(ProtoContext* context) const;
         bool isSet(ProtoContext* context) const;
