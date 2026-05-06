@@ -147,7 +147,12 @@ Refreshed on 2026-05-06 — median of 5 runs of `performance/microbenchmark_fina
 | **getOwnAttributeDirect** | **~5.8 ns** | Direct property access, bypasses inheritance walk. |
 | **Inherited Attribute (10-level)** | **~36.8 ns** | Prototype-chain walk; ~3.7 ns per inheritance level. |
 
-**Allocator path (task #36, chunked freelist):** `ProtoSpace::getFreeCells` dropped from 7.91 % to **0.52 %** of bench CPU on `bench_binary_trees(10)` after sweep started pre-chunking dead cells into 8192-cell `FreeChunk` units.  `getFreeCells` becomes O(1) (one chunk pop) instead of O(N) (linked-list walk to find a cut point).  bench_binary_trees(10) wall-clock: **2.6 s → 2.29 s median (~12 % faster)**.
+**Allocator path (task #36, chunked freelist):** `ProtoSpace::getFreeCells` dropped from 7.91 % to **0.52 %** of bench CPU on `bench_binary_trees(10)` after sweep started pre-chunking dead cells into 8192-cell `FreeChunk` units.  `getFreeCells` becomes O(1) (one chunk pop) instead of O(N) (linked-list walk to find a cut point).
+
+**Attribute-protocol fast paths (tasks #37 and #39 — protoPython side, May 2026):** the two protoPython-level mirrors of CPython's descriptor / slots / class-shape protocol used to perform 3-5 protoCore probes per `LOAD_ATTR` / `STORE_ATTR` (each one a `hasOwnAttribute` or `getOwnAttributeDirect`).  A new per-class `__pyflags__` SmallInt cache (computed once on first read, stored as an own-attribute on the class) collapses those probes into a single cache hit covering `IS_PYTHON_CLASS`, `HAS_SLOTS`, `HAS_DATA_DESCR` and `HAS_GET_DESCR`.  `OP_LOAD_ATTR`'s descriptor check, `OP_STORE_ATTR`'s slots/descriptor probe, `tryFastGetAttribute`'s descriptor check and `PythonEnvironment::setAttribute`'s MRO walk all now route through the same cached invariants — eliminating between 25 % and 80 % of the protoCore calls per attribute access depending on path.
+
+bench_binary_trees(10) wall-clock: **2.97 s baseline → 2.26 s min, 2.29 s median** (~24 % cumulative across the cycle).
+attr_lookup benchmark: **108 → 81 ms (~26 % faster)**.
 
 Auxiliary protoCore microbenchmarks (median of single Release run, see `performance/`):
 
