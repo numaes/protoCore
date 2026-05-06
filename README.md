@@ -138,14 +138,25 @@ To validate the theoretical performance of the `protoCore` object model and its 
 
 ### Benchmark Results (Low-Nanosecond Attribute Access)
 
-Refreshed on 2026-05-04 — median of 15 runs of `performance/microbenchmark_final.cpp` (10 M iterations per scenario, Release build with `-O3 -DNDEBUG`, single-threaded). The thread-local inline cache (TL-IC) keeps own-attribute lookups in the single-digit-to-low-teens nanosecond range; inherited lookups walk the prototype chain.
+Refreshed on 2026-05-06 — median of 5 runs of `performance/microbenchmark_final.cpp` (10 M iterations per scenario, Release build with `-O3 -DNDEBUG`, single-threaded). The thread-local inline cache (TL-IC) keeps own-attribute lookups in the single-digit-to-low-teens nanosecond range; inherited lookups walk the prototype chain.  May 2026 perf-investigation cycle (paths #2/#3/#4/#6 + task #34 destructor reorder fix) brought every metric back to or below the pre-revert targets.
 
 | Scenario | Latency (ns/op) | Note |
 | :--- | :--- | :--- |
-| **getAttribute (Hot Cache)** | **11.71 ns** | Single-probing TL-IC hit for pre-interned symbols. |
-| **hasAttribute (Hot Cache)** | **9.83 ns** | Non-lossy existence check (distinguishes PROTO_NONE). |
-| **getOwnAttributeDirect** | **6.78 ns** | Direct property access, bypasses inheritance walk. |
-| **Inherited Attribute (10-level)** | **88.98 ns** | Prototype-chain walk; ~9 ns per inheritance level. |
+| **getAttribute (Hot Cache)** | **~7.7 ns** | Single-probing TL-IC hit for pre-interned symbols. |
+| **hasAttribute (Hot Cache)** | **~10 ns** | Non-lossy existence check (distinguishes PROTO_NONE). |
+| **getOwnAttributeDirect** | **~5.8 ns** | Direct property access, bypasses inheritance walk. |
+| **Inherited Attribute (10-level)** | **~36.8 ns** | Prototype-chain walk; ~3.7 ns per inheritance level. |
+
+Auxiliary protoCore microbenchmarks (median of single Release run, see `performance/`):
+
+| Benchmark | Workload | Result |
+| :--- | :--- | :--- |
+| **list_benchmark** | 100 K appends | 112 ms |
+| **sparse_list_benchmark** | 100 K inserts (size 1 K), then access | 150 ms insert / 18 ms access |
+| **string_concat_benchmark** | 10 K rope concats | 13 ms |
+| **immutable_sharing_benchmark** | 1 000 versions × 10 K-element list (structural sharing) | 0.5 ms versioning |
+| **concurrent_append_benchmark** | 4 threads × 10 K appends | 43 ms |
+| **cache_timing_benchmark (simple hit / mutable hit / AVL-1 / AVL-50)** | 10 M ops each | 5.7 / 7.5 / 9.2 / 8.6 ns |
 
 ### Comparative Latency: protoCore vs. Industry Standards
 
@@ -153,11 +164,11 @@ When compared to standard hash-based lookups in high-level languages and standar
 
 | System / Operation | Average Latency | Comparison |
 | :--- | :--- | :--- |
-| **protoCore (TL-IC)** | **~12 ns** | **Reference baseline** |
-| **Python `getattr`** | ~20ns - 70ns | 1.7x - 5.8x slower |
-| **Java `HashMap.get()`** | ~30ns - 100ns | 2.5x - 8.3x slower |
-| **C++ `std::unordered_map`** | ~30ns - 80ns | 2.5x - 6.7x slower |
-| **Main Memory (L3 Miss)** | ~100ns | ~8.3x slower |
+| **protoCore (TL-IC)** | **~7.7 ns** | **Reference baseline** |
+| **Python `getattr`** | ~20ns - 70ns | 2.6x - 9.1x slower |
+| **Java `HashMap.get()`** | ~30ns - 100ns | 3.9x - 13x slower |
+| **C++ `std::unordered_map`** | ~30ns - 80ns | 3.9x - 10.4x slower |
+| **Main Memory (L3 Miss)** | ~100ns | ~13x slower |
 
 ### Architectural Advantages
 
