@@ -151,8 +151,18 @@ Refreshed on 2026-05-06 — median of 5 runs of `performance/microbenchmark_fina
 
 **Attribute-protocol fast paths (tasks #37 and #39 — protoPython side, May 2026):** the two protoPython-level mirrors of CPython's descriptor / slots / class-shape protocol used to perform 3-5 protoCore probes per `LOAD_ATTR` / `STORE_ATTR` (each one a `hasOwnAttribute` or `getOwnAttributeDirect`).  A new per-class `__pyflags__` SmallInt cache (computed once on first read, stored as an own-attribute on the class) collapses those probes into a single cache hit covering `IS_PYTHON_CLASS`, `HAS_SLOTS`, `HAS_DATA_DESCR` and `HAS_GET_DESCR`.  `OP_LOAD_ATTR`'s descriptor check, `OP_STORE_ATTR`'s slots/descriptor probe, `tryFastGetAttribute`'s descriptor check and `PythonEnvironment::setAttribute`'s MRO walk all now route through the same cached invariants — eliminating between 25 % and 80 % of the protoCore calls per attribute access depending on path.
 
-bench_binary_trees(10) wall-clock: **2.97 s baseline → 2.26 s min, 2.29 s median** (~24 % cumulative across the cycle).
+**`isString` cascade elimination (task #42 / P8, May 2026):** ProtoSparseList nodes computed a hash by propagating `v->getHash(ctx)` up the tree at construction.  Inside `getHash`, the wrapper-object protocol called `isString(ctx)` which itself called `getAttribute(literalData)` — a chain walk per SparseList node built.  The hash field was retained for ABI but never read externally; setting it to 0 broke the entire cascade.  Profile delta on `bench_binary_trees(10)`:
+
+  - `isString`:  3.78 % → 0 % (eliminated as hotspot)
+  - `getAttribute`:  14.03 % → 5.90 % (cascade gone)
+  - `protoCore::ProtoObject::isStringTagFast` static inline (P6): replaces the function call at 15+ interpreter sites where the receiver is always a co_names entry (interned).
+
+bench_binary_trees(10) wall-clock (60-run baseline solid measurement):
+  - **Baseline: min=2241  median=2547  q3=2996 ms**
+  - **Post-cycle: min=1700  median=2080  q3=2557 ms** (~18 % median, ~24 % min)
+
 attr_lookup benchmark: **108 → 81 ms (~26 % faster)**.
+list_append_loop: **265 → 234 ms (~12 % faster)**.
 
 Auxiliary protoCore microbenchmarks (median of single Release run, see `performance/`):
 
