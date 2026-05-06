@@ -1002,8 +1002,10 @@ namespace proto {
         std::unique_lock<std::recursive_mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
 
-        // Larger batch when multiple threads run: fewer lock acquisitions per thread.
-        // Use at least 60k so one refill covers typical benchmark chunk (e.g. sum(range(50k))).
+        // Effective batch size — used by the flat-freelist fallback and the
+        // OS-allocation path.  Larger batch when multiple threads run so
+        // each refill covers more allocations and lock acquisition is
+        // amortised across more cells.
         int batchSize = this->blocksPerAllocation;
         if (this->runningThreads > 1) {
             int scaled = this->blocksPerAllocation * static_cast<int>(this->runningThreads.load()) * 4;
@@ -1012,31 +1014,36 @@ namespace proto {
             batchSize = scaled;
         }
 
-        // If we have free cells in the global list, return a batch (do not trigger GC here;
-        // otherwise we could wake the GC thread and then leave without parking, causing a deadlock)
+        // Path #5 v2: chunked freelist.  Sweep pre-chunked dead cells into
+        // CELL_CHUNK_SIZE-sized FreeChunk units; popping one chunk is O(1)
+        // and there is no cell-walk to find a cut point.  Each chunk is a
+        // ready-to-consume linked list with a known count.
+        if (this->freeChunks) {
+            FreeChunk* chunk = this->freeChunks;
+            this->freeChunks = chunk->next;
+            Cell* batchHead = chunk->head;
+            this->freeCellsCount -= static_cast<int>(chunk->count);
+            // Recycle the FreeChunk struct for the next sweep.
+            recycleFreeChunk(this, chunk);
+            GC_LOCK_TRACE("getFreeCells REL(chunk)");
+            return batchHead;
+        }
+
+        // Legacy flat freelist fallback — populated by the per-context
+        // destructor return path (which keeps the original semantics) and
+        // by the OS-allocation overflow below.  When chunks run out, we
+        // hand over whatever remains here.
         if (this->freeCells) {
-            // Fast path: when the entire pool fits in batchSize, hand it
-            // over via head+tail in O(1) without walking the chain.  Common
-            // during warmup (small pool) and on any cycle where freeCellsCount
-            // happens to drop below the requested batch (multi-thread refill
-            // races, post-OS-fallback short pool, end-of-cycle drain).
             if (this->freeCellsCount <= batchSize) {
                 Cell* batchHead = this->freeCells;
                 this->freeCells = nullptr;
                 this->freeCellsTail = nullptr;
                 this->freeCellsCount = 0;
-                GC_LOCK_TRACE("getFreeCells REL(return batch fast)");
+                GC_LOCK_TRACE("getFreeCells REL(flat-all)");
                 return batchHead;
             }
-
-            // Chop a batchSize-cell prefix from the head.  The walk is the
-            // dominant cost of this function (linked-list pointer chase
-            // through scattered post-sweep cells); prefetching ahead inside
-            // a single chain is fundamentally limited because the chain
-            // walker itself pays the cache miss to find the next prefetch
-            // target.  The principled fix is bump-pointer cell allocation
-            // (path #30 follow-up) — that turns this whole linear-walk pool
-            // into bump-pointer arenas.
+            // Walk batchSize prefix.  Cold path (only the destructor return
+            // path lands cells here in steady state).
             Cell* batchHead = this->freeCells;
             Cell* current = batchHead;
             int count = 1;
@@ -1046,13 +1053,11 @@ namespace proto {
                 current = next;
                 count++;
             }
-
             this->freeCells = current->getNext();
             current->setNext(nullptr);
             this->freeCellsCount -= count;
-            // If we drained the chain, clear the tail too.
             if (!this->freeCells) this->freeCellsTail = nullptr;
-            GC_LOCK_TRACE("getFreeCells REL(return batch)");
+            GC_LOCK_TRACE("getFreeCells REL(flat-partial)");
             return batchHead;
         }
 
