@@ -593,7 +593,10 @@ namespace proto
 
     const ProtoSparseList* ProtoContext::newSparseList()
     {
-        return (new(this) ProtoSparseListImplementation(this, 0, PROTO_NONE, nullptr, nullptr, true))->asSparseList(this);
+        // Every fresh sparse list starts as the inline-form Small with all
+        // slots empty (keys[i] == 0).  setAt promotes to the AVL form on
+        // overflow (size > MAX_INLINE) or when the caller stores key 0.
+        return (new(this) ProtoSparseListSmallImplementation(this))->asSparseList(this);
     }
 
     const ProtoSet* ProtoContext::newSet()
@@ -641,7 +644,9 @@ namespace proto
         // ProtoObject::newChild (which already wraps); this is the
         // simpler factory path used everywhere else.
         ProtoContext::CriticalSection cs(this);
-        const auto* attributes = toImpl<const ProtoSparseListImplementation>(newSparseList());
+        // ProtoObjectCell::attributes is now the public ProtoSparseList*
+        // type — pass the empty Small directly without casting.
+        const ProtoSparseList* attributes = newSparseList();
         const ProtoObject* result = (new(this) ProtoObjectCell(this, nullptr, attributes, ref))->asObject(this);
         return result;
     }

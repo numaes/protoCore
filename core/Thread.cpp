@@ -45,11 +45,8 @@ namespace proto {
             unsigned long threadId = reinterpret_cast<uintptr_t>(context->thread);
             while (true) {
                 const ProtoSparseList* oldThreads = context->space->threads;
-                auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
                 const ProtoSparseList* newThreads =
-                    const_cast<ProtoSparseList*>(
-                        threadsImpl->implRemoveAt(context, threadId)
-                                   ->asSparseList(context));
+                    oldThreads->removeAt(context, threadId);
                 std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
                 if (context->space->threads == oldThreads) {
                     context->space->threads = const_cast<ProtoSparseList*>(newThreads);
@@ -185,11 +182,8 @@ namespace proto {
         ProtoContext::CriticalSection cs(context);
         while (true) {
             const ProtoSparseList* oldThreads = space->threads;
-            auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
             const ProtoSparseList* newThreads =
-                const_cast<ProtoSparseList*>(
-                    threadsImpl->implSetAt(context, threadId, threadAsObj)
-                               ->asSparseList(context));
+                oldThreads->setAt(context, threadId, threadAsObj);
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             if (space->threads == oldThreads) {
                 space->threads = const_cast<ProtoSparseList*>(newThreads);
@@ -240,11 +234,8 @@ namespace proto {
         ProtoContext::CriticalSection cs(mainContext);
         while (true) {
             const ProtoSparseList* oldThreads = space->threads;
-            auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
             const ProtoSparseList* newThreads =
-                const_cast<ProtoSparseList*>(
-                    threadsImpl->implSetAt(mainContext, threadId, threadAsObj)
-                               ->asSparseList(mainContext));
+                oldThreads->setAt(mainContext, threadId, threadAsObj);
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             if (space->threads == oldThreads) {
                 space->threads = const_cast<ProtoSparseList*>(newThreads);
@@ -266,11 +257,8 @@ namespace proto {
         unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(this->context));
         while (true) {
             const ProtoSparseList* oldThreads = space->threads;
-            auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(oldThreads);
             const ProtoSparseList* newThreads =
-                const_cast<ProtoSparseList*>(
-                    threadsImpl->implRemoveAt(this->context, threadId)
-                               ->asSparseList(this->context));
+                oldThreads->removeAt(this->context, threadId);
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             if (space->threads == oldThreads) {
                 space->threads = const_cast<ProtoSparseList*>(newThreads);

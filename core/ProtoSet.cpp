@@ -87,8 +87,10 @@ namespace proto {
         const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
         // GC critical section: same rationale as add().
         ProtoContext::CriticalSection cs(context);
-        const auto* new_list = toImpl<const ProtoSparseListImplementation>(current_list)->implRemoveAt(context, value->getHash(context));
-        return (new (context) ProtoSetImplementation(context, new_list->asSparseList(context), (unsigned long)new_list->size))->asProtoSet(context);
+        // Public-API removeAt: dispatches by tag (Small or AVL).  Mirrors
+        // the path used by ProtoSet::add via the public setAt.
+        const ProtoSparseList* new_list = current_list->removeAt(context, value->getHash(context));
+        return (new (context) ProtoSetImplementation(context, new_list, new_list->getSize(context)))->asProtoSet(context);
     }
 
     unsigned long ProtoSet::getSize(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->size; }

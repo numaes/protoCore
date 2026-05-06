@@ -50,6 +50,7 @@ namespace proto {
     class ProtoListSmallImplementation;
     class ProtoListIteratorImplementation;
     class ProtoSparseListImplementation;
+    class ProtoSparseListSmallImplementation;
     class ProtoSparseListIteratorImplementation;
     class ProtoSetImplementation;
     class ProtoSetIteratorImplementation;
@@ -101,6 +102,7 @@ namespace proto {
         const ProtoMethodCell *methodCellImplementation;
         const ProtoObjectCell *objectCellImplementation;
         const ProtoSparseListImplementation *sparseListImplementation;
+        const ProtoSparseListSmallImplementation *sparseListSmallImplementation;
         const ProtoSparseListIteratorImplementation *sparseListIteratorImplementation;
         const ProtoListImplementation *listImplementation;
         const ProtoListSmallImplementation *listSmallImplementation;
@@ -206,6 +208,7 @@ namespace proto {
 #define POINTER_TAG_STRING_LEAF_NODE  23   // StringLeafNode (internal AVL leaf)
 #define POINTER_TAG_STRING_INTERNAL_NODE 24 // StringInternalNode (internal AVL node)
 #define POINTER_TAG_LIST_SMALL          25 // ProtoListSmallImplementation — inline-slot list (size ≤ 5)
+#define POINTER_TAG_SPARSE_LIST_SMALL   26 // ProtoSparseListSmallImplementation — inline (key,value) sparse list (size ≤ 3)
 
 #define EMBEDDED_TYPE_SMALLINT 0
 #define EMBEDDED_TYPE_UNICODE_CHAR 2
@@ -270,6 +273,31 @@ namespace proto {
 
     template<> struct ExpectedTag<const ProtoSparseListImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST; };
     template<> struct ExpectedTag<ProtoSparseListImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST; };
+
+    template<> struct ExpectedTag<const ProtoSparseListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_SMALL; };
+    template<> struct ExpectedTag<ProtoSparseListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_SMALL; };
+
+    /*
+     * Tag-dispatched raw-lookup helper for ProtoSparseList consumers
+     * inside protoCore that need to distinguish "key absent" from "key
+     * present, value is PROTO_NONE".  The public ProtoSparseList::getAt
+     * trampoline maps both cases to PROTO_NONE for caller convenience,
+     * which is wrong for attribute-existence checks (e.g. assigning
+     * `x = None` and then importing `from m import x`).
+     *
+     * Returns:
+     *   - the stored value (possibly PROTO_NONE) when the key is present
+     *   - nullptr when the key is absent
+     *
+     * Mirrors what `ProtoSparseListImplementation::implGetAt` returned
+     * before SmallSparseList existed; pass-through for the AVL form,
+     * dense scan over the inline keys[] for the Small form.  This lives
+     * in the internal header so the call is fully inlinable inside the
+     * shared library.  Defined later in this header (after the impl
+     * classes are visible).
+     */
+    inline const ProtoObject* sparseListGetRaw(
+        ProtoContext* context, const ProtoSparseList* sl, unsigned long offset);
 
     template<> struct ExpectedTag<const ProtoSetImplementation> { static constexpr unsigned long value = POINTER_TAG_SET; };
     template<> struct ExpectedTag<ProtoSetImplementation> { static constexpr unsigned long value = POINTER_TAG_SET; };
@@ -463,7 +491,8 @@ namespace proto {
         TupleDictionary,
         StringLeafNode,
         StringInternalNode,
-        ListSmall
+        ListSmall,
+        SparseListSmall
     };
 
     class Cell {
@@ -628,13 +657,22 @@ namespace proto {
     class ProtoObjectCell : public Cell {
     public:
         const ParentLinkImplementation *parent;
-        const ProtoSparseListImplementation *attributes;
+        // Public-API tagged pointer.  May reference either form of sparse
+        // list (AVL or Small); all accesses go through the trampolines in
+        // ProtoSparseList:: which dispatch by pointer tag.  This is what
+        // lets a fresh ProtoObjectCell whose attributes table holds ≤ 3
+        // entries stay in the single-cell SmallSparseList form, paying
+        // only one Cell allocation per setAttribute instead of the full
+        // AVL ctor + rebalance chain.  Used for all object cells —
+        // closure cells in protoJS (always 1 attribute, the __cv__ slot)
+        // benefit most directly.
+        const ProtoSparseList *attributes;
         const unsigned long mutable_ref;
 
         CellType getType() const override { return CellType::Object; }
 
         ProtoObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
-                        const ProtoSparseListImplementation *attributes, unsigned long mutable_ref);
+                        const ProtoSparseList *attributes, unsigned long mutable_ref);
 
         ~ProtoObjectCell() override = default;
 
@@ -1232,6 +1270,74 @@ namespace proto {
         void processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const override;
     };
 
+    /*
+     * ProtoSparseListSmallImplementation — single-cell inline storage for
+     * sparse lists with up to MAX_INLINE = 3 (key, value) pairs.  Layout:
+     *
+     *   Cell base                   16 B  (vtable + next_and_flags)
+     *   keys[3]   (unsigned long)   24 B
+     *   values[3] (ProtoObject*)    24 B
+     *                              -----
+     *                               64 B  → fits one Cell exactly
+     *
+     * Empty-slot sentinel: values[i] == nullptr.  The keys[i] of an unused
+     * slot is undefined (not read).  Used slots are dense from index 0
+     * within constructor calls but may have holes after removeAt — getSize
+     * counts non-null values.
+     *
+     * Aggregate operations (setAt) PROMOTE to the AVL form when the result
+     * exceeds MAX_INLINE.  removeAt does NOT degrade an AVL back to Small
+     * (intentional: keeps the path simple, AVL is acceptable for any size).
+     *
+     * Read operations (has, getAt, getSize) are O(MAX_INLINE) linear scans
+     * — branchless and L1-resident — so they are faster than the AVL path
+     * for small tables despite the O(N) form, because the AVL costs O(log N)
+     * cache-missed pointer chases.
+     *
+     * Iteration: getIterator on a Small builds a temporary AVL form so the
+     * existing ProtoSparseListIteratorImplementation works unchanged.  This
+     * is acceptable because the closure-cell hot path that motivated this
+     * class never iterates — it only sets the single __cv__ slot.
+     */
+    class ProtoSparseListSmallImplementation final : public Cell {
+    public:
+        static constexpr unsigned MAX_INLINE = 3;
+
+        unsigned long      keys[MAX_INLINE];
+        const ProtoObject* values[MAX_INLINE];   // nullptr = unused slot
+
+        CellType getType() const override { return CellType::SparseListSmall; }
+
+        // Empty Small (all values[i] == nullptr).
+        explicit ProtoSparseListSmallImplementation(ProtoContext *context);
+
+        // Populated Small.  n must be ≤ MAX_INLINE.  Caller-supplied keys/values
+        // are copied verbatim; values[i] == nullptr marks empty slots.
+        ProtoSparseListSmallImplementation(ProtoContext *context, unsigned n,
+                                            const unsigned long *keys,
+                                            const ProtoObject *const *values);
+
+        // O(N) linear scan.
+        unsigned long      implCount() const;            // count non-null values
+        bool               implHas(ProtoContext *context, unsigned long offset) const;
+        const ProtoObject* implGetAt(ProtoContext *context, unsigned long offset) const;
+
+        // Internal helper used by trampolines: returns the i-th used (key,value)
+        // pair in iteration order (key-asc), with `idx` ranging [0..implCount()).
+        // Used by promotion and iterator-builder paths.
+        bool implPairAt(unsigned i, unsigned long *outKey, const ProtoObject **outValue) const;
+
+        // Build an equivalent AVL ProtoSparseListImplementation.  Used on
+        // overflow promotion and on iterator construction.  Single CS at
+        // caller; this does the build only.
+        const ProtoSparseListImplementation *promoteToAVL(ProtoContext *context) const;
+
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        const ProtoSparseList *asSparseList(ProtoContext *context) const;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
     class ProtoSparseListIteratorImplementation final : public Cell {
         friend class ProtoSparseListImplementation;
 
@@ -1463,6 +1569,7 @@ namespace proto {
             ProtoListSmallImplementation listSmallCell;
             ProtoSparseListIteratorImplementation sparseListIteratorCell;
             ProtoSparseListImplementation sparseListCell;
+            ProtoSparseListSmallImplementation sparseListSmallCell;
             ProtoTupleIteratorImplementation tupleIteratorCell;
             ProtoTupleImplementation tupleCell;
             ProtoStringIteratorImplementation stringIteratorCell;
@@ -1488,6 +1595,7 @@ namespace proto {
     static_assert(sizeof(ProtoListSmallImplementation) <= 64, "ProtoListSmallImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListIteratorImplementation) <= 64, "ProtoSparseListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListImplementation) <= 64, "ProtoSparseListImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoSparseListSmallImplementation) <= 64, "ProtoSparseListSmallImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoTupleIteratorImplementation) <= 64, "ProtoTupleIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoTupleImplementation) <= 64, "ProtoTupleImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoStringIteratorImplementation) <= 64, "ProtoStringIteratorImplementation exceeds 64 bytes!");
@@ -1516,6 +1624,21 @@ namespace proto {
         Cell* cellChain;
         DirtySegment* next;
     };
+
+    // Definition of the tag-dispatched raw-lookup helper declared above.
+    // Placed here so both impl classes are fully visible; fully inlinable
+    // since this header is internal to protoCore.
+    inline const ProtoObject* sparseListGetRaw(
+        ProtoContext* context, const ProtoSparseList* sl, unsigned long offset)
+    {
+        if (!sl) return nullptr;
+        ProtoObjectPointer pa{};
+        pa.oid = reinterpret_cast<const ProtoObject*>(sl);
+        if (pa.op.pointer_tag == POINTER_TAG_SPARSE_LIST_SMALL) {
+            return toImpl<const ProtoSparseListSmallImplementation>(sl)->implGetAt(context, offset);
+        }
+        return toImpl<const ProtoSparseListImplementation>(sl)->implGetAt(context, offset);
+    }
 }
 
 #endif //PROTO_INTERNAL_H

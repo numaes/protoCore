@@ -210,21 +210,37 @@ namespace proto {
                     }
                 };
 
-                // 1. Scan Thread Stacks
+                // 1. Scan Thread Stacks.  The threads list may now be in
+                // either form (Small with ≤ 3 entries — typical for the
+                // common 1-3-thread process; AVL otherwise).  Branch on
+                // pointer tag and walk inline pairs for Small, AVL nodes
+                // otherwise.
                 if (space->threads) {
-                    std::vector<const ProtoSparseListImplementation*> stack;
                     const ProtoObject* rootObj = reinterpret_cast<const ProtoObject*>(space->threads);
                     if (ProtoObject::isCellPointer(rootObj)) {
-                        stack.push_back(toImpl<const ProtoSparseListImplementation>(rootObj));
-                    }
-                    while (!stack.empty()) {
-                        const ProtoSparseListImplementation* node = stack.back();
-                        stack.pop_back();
-                        if (!node->isEmpty && node->value && node->value->asThread(space->rootContext)) {
-                            scanContexts(toImpl<const ProtoThreadImplementation>(node->value->asThread(space->rootContext))->context);
+                        ProtoObjectPointer pa{}; pa.oid = rootObj;
+                        if (pa.op.pointer_tag == POINTER_TAG_SPARSE_LIST_SMALL) {
+                            const auto* small = toImpl<const ProtoSparseListSmallImplementation>(rootObj);
+                            for (unsigned i = 0; i < ProtoSparseListSmallImplementation::MAX_INLINE; ++i) {
+                                if (small->keys[i] == 0) continue;
+                                const ProtoObject* v = small->values[i];
+                                if (v && v->asThread(space->rootContext)) {
+                                    scanContexts(toImpl<const ProtoThreadImplementation>(v->asThread(space->rootContext))->context);
+                                }
+                            }
+                        } else {
+                            std::vector<const ProtoSparseListImplementation*> stack;
+                            stack.push_back(toImpl<const ProtoSparseListImplementation>(rootObj));
+                            while (!stack.empty()) {
+                                const ProtoSparseListImplementation* node = stack.back();
+                                stack.pop_back();
+                                if (!node->isEmpty && node->value && node->value->asThread(space->rootContext)) {
+                                    scanContexts(toImpl<const ProtoThreadImplementation>(node->value->asThread(space->rootContext))->context);
+                                }
+                                if (node->previous) stack.push_back(node->previous);
+                                if (node->next) stack.push_back(node->next);
+                            }
                         }
-                        if (node->previous) stack.push_back(node->previous);
-                        if (node->next) stack.push_back(node->next);
                     }
                 }
                 
