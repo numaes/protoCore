@@ -79,6 +79,26 @@ namespace proto
         const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const;
+        /**
+         * Remove an own-attribute from the object.  Mirrors `setAttribute`'s
+         * mutable/immutable contract:
+         *
+         *   - **Immutable** receivers return a new ProtoObject* whose
+         *     attribute table no longer carries `name`.  The original is
+         *     untouched.
+         *   - **Mutable** receivers update the shard root in place via the
+         *     same CAS loop used by `setAttribute` and return `this`.
+         *
+         * If `name` is not present as an OWN attribute (the chain may still
+         * resolve it from a parent), the call is a no-op and returns `this`
+         * without allocating.  Use `hasOwnAttribute` first if you need to
+         * know whether the receiver carried the name.
+         *
+         * Removal is at the OWN level only — parent attributes are NEVER
+         * affected, so `del child.x` on an instance whose class still
+         * defines `x` leaves the class binding intact (CPython semantics).
+         */
+        const ProtoObject* removeAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoSparseList* getAttributes(ProtoContext* context) const;
         const ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
         /**

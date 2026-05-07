@@ -717,6 +717,106 @@ namespace proto
         return result;
     }
 
+    const ProtoObject* ProtoObject::removeAttribute(ProtoContext* context, const ProtoString* name) const {
+        if (!this || !name) return this;
+
+        // Auto-intern the key the same way setAttribute does, so the
+        // SparseList key (Symbol pointer cast to ulong) matches the slot
+        // setAttribute would have written.  A non-interned heap String
+        // produces a different ProtoString* than the interned one, and
+        // would silently miss the entry — turning every del into a no-op.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->intern(
+                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/true);
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
+
+        // Invalidate any cached attribute hit on this thread for (this, name)
+        // — same shape as setAttribute's invalidation path.  Stale cache
+        // entries would resurrect the removed attribute on the next read.
+        if (context->thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+            if (threadImpl->extension) {
+                unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^
+                                            (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
+                if (threadImpl->extension->attributeCache[hash_idx].object == this &&
+                    threadImpl->extension->attributeCache[hash_idx].name == name) {
+                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr};
+                }
+            }
+        }
+
+        if (!proto::isObjectFast(this)) return this;
+        auto* oc = toImpl<ProtoObjectCell>(this);
+
+        // Mutable path: same CAS structure as setAttribute, but the new
+        // attribute table is built via SparseList::removeAt instead of setAt.
+        if (oc->mutable_ref > 0) {
+             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+             ProtoContext::CriticalSection cs(context);
+             int casIteration = 0;
+             while (true) {
+                 ++casIteration;
+
+                 const ProtoObject* currentObjState = this;
+                 ProtoSparseList* oldRoot = nullptr;
+                 const ProtoObject* storedState = nullptr;
+                 resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+                 if (storedState != nullptr) {
+                     currentObjState = storedState;
+                 }
+
+                 if (!proto::isObjectFast(currentObjState)) {
+                     return this;
+                 }
+                 auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+
+                 // No-op fast path: if the name isn't present as OWN, skip
+                 // the allocation+CAS entirely and return `this` unchanged.
+                 // Matches the "no allocation if no change" contract callers
+                 // can rely on for cheap idempotent del.
+                 if (!currentOc->attributes->has(context, reinterpret_cast<uintptr_t>(name))) {
+                     return this;
+                 }
+
+                 const ProtoSparseList* newAttributes =
+                     currentOc->attributes->removeAt(context, reinterpret_cast<uintptr_t>(name));
+
+                 auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
+
+                 const ProtoSparseList* oldRootSL =
+                     (oldRoot == nullptr) ? context->newSparseList()
+                                          : oldRoot;
+                 ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
+                     oldRootSL->setAt(context, oc->mutable_ref, newState));
+                 ProtoSparseList* expected = oldRoot;
+                 if (context->space->mutableRoot[shard].root.compare_exchange_weak(expected, newRoot)) {
+                     refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
+                     break;
+                 }
+                 if ((casIteration & 31) == 0) {
+                     std::this_thread::yield();
+                 }
+             }
+
+             return this;
+        }
+
+        // Immutable path: copy-on-write.  No-op when the name isn't OWN.
+        if (!oc->attributes->has(context, reinterpret_cast<uintptr_t>(name))) {
+            return this;
+        }
+        ProtoContext::CriticalSection cs(context);
+        const ProtoSparseList* newAttributes =
+            oc->attributes->removeAt(context, reinterpret_cast<uintptr_t>(name));
+        const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
+        return result;
+    }
+
     const ProtoObject* ProtoObject::getFirstParent(ProtoContext* context) const {
         if (!proto::isObjectFast(this)) return PROTO_NONE;
         const auto* oc = toImpl<const ProtoObjectCell>(this);
