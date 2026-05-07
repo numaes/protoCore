@@ -599,6 +599,13 @@ namespace proto
         return (new(this) ProtoSparseListSmallImplementation(this))->asSparseList(this);
     }
 
+    const ProtoSparseListImplementation* ProtoContext::newSparseListImpl()
+    {
+        // Empty AVL-form sparse list as a raw C++ pointer. Used by struct
+        // fields whose ABI is "internal" (no public-API tag).
+        return new(this) ProtoSparseListImplementation(this, 0, nullptr, nullptr, nullptr, true);
+    }
+
     const ProtoSet* ProtoContext::newSet()
     {
         // GC critical section: two allocations in a single expression
@@ -607,14 +614,14 @@ namespace proto
         // unspecified, so the freshly allocated SparseList is reachable
         // only via a C++ temporary across the SetImplementation alloc.
         ProtoContext::CriticalSection cs(this);
-        return (new(this) ProtoSetImplementation(this, newSparseList(), 0))->asProtoSet(this);
+        return (new(this) ProtoSetImplementation(this, newSparseListImpl(), 0))->asProtoSet(this);
     }
 
     const ProtoMultiset* ProtoContext::newMultiset()
     {
         // GC critical section: same pattern as newSet().
         ProtoContext::CriticalSection cs(this);
-        return (new(this) ProtoMultisetImplementation(this, newSparseList(), 0))->asProtoMultiset(this);
+        return (new(this) ProtoMultisetImplementation(this, newSparseListImpl(), 0))->asProtoMultiset(this);
     }
 
     const ProtoByteBuffer* ProtoContext::newByteBuffer(const char* data, unsigned long len)
@@ -644,9 +651,10 @@ namespace proto
         // ProtoObject::newChild (which already wraps); this is the
         // simpler factory path used everywhere else.
         ProtoContext::CriticalSection cs(this);
-        // ProtoObjectCell::attributes is now the public ProtoSparseList*
-        // type — pass the empty Small directly without casting.
-        const ProtoSparseList* attributes = newSparseList();
+        // ProtoObjectCell::attributes is a raw ProtoSparseListImplementation*
+        // (internal IMPL pointer) — pass an empty AVL impl directly. No
+        // tag, no public-API handle, no Small-form dispatch.
+        const ProtoSparseListImplementation* attributes = newSparseListImpl();
         const ProtoObject* result = (new(this) ProtoObjectCell(this, nullptr, attributes, ref))->asObject(this);
         return result;
     }

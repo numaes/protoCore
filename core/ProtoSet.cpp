@@ -11,7 +11,7 @@ namespace proto {
 
     ProtoSetImplementation::ProtoSetImplementation(
         ProtoContext* context,
-        const ProtoSparseList* list,
+        const ProtoSparseListImplementation* list,
         unsigned long size
     ) : Cell(context), list(list), size(size)
     {
@@ -19,10 +19,8 @@ namespace proto {
 
     void ProtoSetImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
         if (list) {
-            const Cell* c = reinterpret_cast<const ProtoObject*>(list)->asCell(context);
-            if (c) {
-                method(context, self, c);
-            }
+            // list is a raw IMPL pointer; pass directly to the GC tracer.
+            method(context, self, list);
         }
     }
 
@@ -71,34 +69,34 @@ namespace proto {
     // ProtoSet / ProtoSetIterator external API trampolines
     const ProtoSet* ProtoSet::add(ProtoContext* context, const ProtoObject* value) const {
         const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
-        // GC critical section: setAt allocates a chain of new SparseList
+        // GC critical section: implSetAt allocates a chain of new SparseList
         // nodes that are reachable only via `new_list` (a C++ local)
         // until the wrapping ProtoSetImplementation stitches them in.
         ProtoContext::CriticalSection cs(context);
-        const auto* new_list = current_list->setAt(context, value->getHash(context), value);
-        return (new (context) ProtoSetImplementation(context, new_list, new_list->getSize(context)))->asProtoSet(context);
+        const auto* new_list = current_list->implSetAt(context, value->getHash(context), value);
+        return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
     }
 
     const ProtoObject* ProtoSet::has(ProtoContext* context, const ProtoObject* value) const {
-        return toImpl<const ProtoSetImplementation>(this)->list->has(context, value->getHash(context)) ? PROTO_TRUE : PROTO_FALSE;
+        return toImpl<const ProtoSetImplementation>(this)->list->implHas(context, value->getHash(context)) ? PROTO_TRUE : PROTO_FALSE;
     }
 
     const ProtoSet* ProtoSet::remove(ProtoContext* context, const ProtoObject* value) const {
         const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
         // GC critical section: same rationale as add().
         ProtoContext::CriticalSection cs(context);
-        // Public-API removeAt: dispatches by tag (Small or AVL).  Mirrors
-        // the path used by ProtoSet::add via the public setAt.
-        const ProtoSparseList* new_list = current_list->removeAt(context, value->getHash(context));
-        return (new (context) ProtoSetImplementation(context, new_list, new_list->getSize(context)))->asProtoSet(context);
+        // Direct IMPL removeAt: AVL form only — Small variant cannot
+        // appear in this private slot.
+        const ProtoSparseListImplementation* new_list = current_list->implRemoveAt(context, value->getHash(context));
+        return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
     }
 
     unsigned long ProtoSet::getSize(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->size; }
     const ProtoObject* ProtoSet::asObject(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->implAsObject(context); }
     const ProtoSetIterator* ProtoSet::getIterator(ProtoContext* context) const {
-        const auto* list_iterator = toImpl<const ProtoSetImplementation>(this)->list->getIterator(context);
+        const auto* list_iterator = toImpl<const ProtoSetImplementation>(this)->list->implGetIterator(context);
         if (!list_iterator) return nullptr;
-        return (new (context) ProtoSetIteratorImplementation(context, toImpl<const ProtoSparseListIteratorImplementation>(list_iterator)))->asSetIterator(context);
+        return (new (context) ProtoSetIteratorImplementation(context, list_iterator))->asSetIterator(context);
     }
 
     int ProtoSetIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSetIteratorImplementation>(this)->implHasNext(context); }

@@ -182,6 +182,43 @@ namespace proto {
         } inlineString;
     };
 
+// =====================================================================
+// Pointer tag layout
+// =====================================================================
+//
+// All Cell-derived types and tagged-pointer primitives are identified by
+// the low 6 bits of their handle. Each value below maps 1:1 to a single
+// IMPL class — EXCEPT POINTER_TAG_OBJECT (0), which is shared.
+//
+// Tag 0 (POINTER_TAG_OBJECT) carries SIX distinct cell types:
+//
+//   - ProtoObjectCell        (the user-facing Python/JS object)
+//   - ParentLinkImplementation (prototype-chain link node)
+//   - ProtoThreadExtension   (per-thread auxiliary state)
+//   - ReturnReference        (internal control-flow marker)
+//   - TupleDictionary        (internal tuple-keyed lookup helper)
+//   - Cell base              (the abstract base; never reached at runtime)
+//
+// All six occupy 64-byte-aligned cells, so `(uintptr_t)p & 0x3F == 0`
+// for any of them. **A bare tag check on POINTER_TAG_OBJECT does NOT
+// imply ProtoObjectCell.** Code that needs the distinction must use
+// `isObjectFast(p)` (proto_internal.h:isObjectFast) which combines the
+// tag check with a virtual `getType()` probe.
+//
+// The chain walker in `ProtoObject::getAttribute` and the few other
+// hot paths that call `toImpl<ProtoObjectCell>(p)` directly rely on a
+// narrower invariant: **the chain visits ProtoObjectCells only**, by
+// construction (newChild + addParent only ever produce ParentLinks
+// whose `object` field is a ProtoObjectCell, and getPrototype on
+// non-zero tags returns prototype objects which are themselves
+// ProtoObjectCells). The cost paid for this is one virtual call per
+// chain step skipped. If you add a new code path that produces a
+// non-ProtoObjectCell tag-0 cell reachable from the chain, the
+// invariant breaks and crashes appear in `getAttribute` with random
+// content read at the `attributes` offset (#92's class of bug).
+//
+// Audit reference: tasks/audit/01-layers.md F1.3.
+//
 #define POINTER_TAG_OBJECT 0
 #define POINTER_TAG_EMBEDDED_VALUE 1
 #define POINTER_TAG_LIST 2
@@ -657,22 +694,25 @@ namespace proto {
     class ProtoObjectCell : public Cell {
     public:
         const ParentLinkImplementation *parent;
-        // Public-API tagged pointer.  May reference either form of sparse
-        // list (AVL or Small); all accesses go through the trampolines in
-        // ProtoSparseList:: which dispatch by pointer tag.  This is what
-        // lets a fresh ProtoObjectCell whose attributes table holds ≤ 3
-        // entries stay in the single-cell SmallSparseList form, paying
-        // only one Cell allocation per setAttribute instead of the full
-        // AVL ctor + rebalance chain.  Used for all object cells —
-        // closure cells in protoJS (always 1 attribute, the __cv__ slot)
-        // benefit most directly.
-        const ProtoSparseList *attributes;
+        // Raw IMPL pointer to the AVL-form sparse list. Internal struct
+        // fields in protoCore implementation classes are always raw
+        // C++ pointers to other implementation classes — never tagged
+        // public-API handles. This lets every internal access go through
+        // the IMPL methods directly (`implGetAt`, `implSetAt`,
+        // `implRemoveAt`, `implHas`) with zero tag dispatch and no
+        // toImpl conversions.
+        //
+        // The Small variant of sparse list does not appear here: the
+        // AVL-vs-Small dispatch was a public-API optimisation that
+        // leaked into a private slot and produced inconsistent type
+        // discipline. Object attribute storage is always AVL form.
+        const ProtoSparseListImplementation *attributes;
         const unsigned long mutable_ref;
 
         CellType getType() const override { return CellType::Object; }
 
         ProtoObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
-                        const ProtoSparseList *attributes, unsigned long mutable_ref);
+                        const ProtoSparseListImplementation *attributes, unsigned long mutable_ref);
 
         ~ProtoObjectCell() override = default;
 
@@ -1021,12 +1061,15 @@ namespace proto {
 
     class ProtoSetImplementation : public Cell {
     public:
-        const ProtoSparseList *list;
+        // Raw IMPL pointer (audit/01-layers.md F1.1): the backing
+        // sparse list is always the AVL form; never a tagged public-API
+        // handle in private struct fields.
+        const ProtoSparseListImplementation *list;
         unsigned long size;
 
         CellType getType() const override { return CellType::Set; }
 
-        ProtoSetImplementation(ProtoContext *context, const ProtoSparseList *list, unsigned long size);
+        ProtoSetImplementation(ProtoContext *context, const ProtoSparseListImplementation *list, unsigned long size);
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
 
@@ -1036,12 +1079,13 @@ namespace proto {
 
     class ProtoMultisetImplementation : public Cell {
     public:
-        const ProtoSparseList *list;
+        // Raw IMPL pointer — see ProtoSetImplementation comment.
+        const ProtoSparseListImplementation *list;
         unsigned long size;
 
         CellType getType() const override { return CellType::Multiset; }
 
-        ProtoMultisetImplementation(ProtoContext *context, const ProtoSparseList *list, unsigned long size);
+        ProtoMultisetImplementation(ProtoContext *context, const ProtoSparseListImplementation *list, unsigned long size);
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
 

@@ -126,10 +126,10 @@ namespace proto
     ProtoObjectCell::ProtoObjectCell(
         ProtoContext* context,
         const ParentLinkImplementation* parent,
-        const ProtoSparseList* attributes,
+        const ProtoSparseListImplementation* attributes,
         const unsigned long mutable_ref
     ) : Cell(context), parent(parent),
-        attributes(attributes ? attributes : context->newSparseList()),
+        attributes(attributes ? attributes : context->newSparseListImpl()),
         mutable_ref(mutable_ref)
     {
     }
@@ -202,16 +202,12 @@ namespace proto
             method(context, self, this->parent);
         }
 
-        // Report the attribute list.  `attributes` is a tagged
-        // ProtoSparseList* (public form); convert to its backing Cell*
-        // for the GC tracer.  Both AVL and Small forms inherit from
-        // Cell, so isCellPointer + asCellPointer extracts cleanly.
+        // Report the attribute list. `attributes` is now a raw
+        // ProtoSparseListImplementation* (internal IMPL) — the same
+        // type the GC tracer expects (Cell*-derived). No conversion.
         if (this->attributes)
         {
-            const ProtoObject* asObj = reinterpret_cast<const ProtoObject*>(this->attributes);
-            if (ProtoObject::isCellPointer(asObj)) {
-                method(context, self, ProtoObject::asCellPointer(asObj));
-            }
+            method(context, self, this->attributes);
         }
     }
 
@@ -309,7 +305,7 @@ namespace proto
         // would observe a partial chain as candidate-but-unreachable
         // and sweep would free the SparseList or ParentLink under us.
         ProtoContext::CriticalSection cs(context);
-        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), context->newSparseList(), ref);
+        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), context->newSparseListImpl(), ref);
         const ProtoObject* result = newObject->asObject(context);
         return result;
     }
@@ -517,12 +513,16 @@ namespace proto
             // "not found", so calling `implHas` first would just walk
             // the AVL twice.
             if (!cache_resolved) {
-                // Tag-dispatched raw lookup: returns nullptr for absent
-                // keys, the actual value (which may legitimately be
-                // PROTO_NONE) for present keys.  Critical that we keep
-                // that distinction here — `x = None` followed by
-                // `hasattr(x)` must report TRUE.
-                result = sparseListGetRaw(context, ocValue->attributes, attr_hash);
+                // Direct IMPL access: `attributes` is now a raw
+                // ProtoSparseListImplementation* (AVL form), so the
+                // lookup is a single C++ call into the AVL probe with
+                // no toImpl, no tag dispatch. `implGetAt` returns
+                // nullptr for absent keys and the actual value
+                // (possibly PROTO_NONE) for present keys — the
+                // distinction `x = None` vs `hasattr(x)` is preserved.
+                result = ocValue->attributes
+                    ? ocValue->attributes->implGetAt(context, attr_hash)
+                    : nullptr;
                 if (cache) {
                     // Persist the own-fact (positive OR negative).  A
                     // cached miss prevents the next chain walk from
@@ -668,12 +668,11 @@ namespace proto
                      return this; // Corruption detected or inconsistent state
                  }
                  auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
-                 // Public-API setAt: dispatches by tag.  Small attribute
-                 // tables stay Small until they exceed MAX_INLINE — exactly
-                 // the case for protoJS closure cells (always 1 attr) and
-                 // small Python instance dicts.
-                 const ProtoSparseList* newAttributes =
-                     currentOc->attributes->setAt(context, reinterpret_cast<uintptr_t>(name), value);
+                 // Direct IMPL setAt: returns a new AVL impl pointer
+                 // (raw, untagged), suitable for storage in the next
+                 // ProtoObjectCell's `attributes` field.
+                 const ProtoSparseListImplementation* newAttributes =
+                     currentOc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
 
                  // CRITICAL: newState MUST have mutable_ref = 0 to avoid infinite loop during lookup
                  auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
@@ -711,8 +710,8 @@ namespace proto
         // reachable through this function's return value once both are
         // wired up; sweeping mid-build would orphan them.
         ProtoContext::CriticalSection cs(context);
-        const ProtoSparseList* newAttributes =
-            oc->attributes->setAt(context, (uintptr_t)name, value);
+        const ProtoSparseListImplementation* newAttributes =
+            oc->attributes->implSetAt(context, (uintptr_t)name, value);
         const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         return result;
     }
@@ -779,12 +778,12 @@ namespace proto
                  // the allocation+CAS entirely and return `this` unchanged.
                  // Matches the "no allocation if no change" contract callers
                  // can rely on for cheap idempotent del.
-                 if (!currentOc->attributes->has(context, reinterpret_cast<uintptr_t>(name))) {
+                 if (!currentOc->attributes->implHas(context, reinterpret_cast<uintptr_t>(name))) {
                      return this;
                  }
 
-                 const ProtoSparseList* newAttributes =
-                     currentOc->attributes->removeAt(context, reinterpret_cast<uintptr_t>(name));
+                 const ProtoSparseListImplementation* newAttributes =
+                     currentOc->attributes->implRemoveAt(context, reinterpret_cast<uintptr_t>(name));
 
                  auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
 
@@ -807,12 +806,12 @@ namespace proto
         }
 
         // Immutable path: copy-on-write.  No-op when the name isn't OWN.
-        if (!oc->attributes->has(context, reinterpret_cast<uintptr_t>(name))) {
+        if (!oc->attributes->implHas(context, reinterpret_cast<uintptr_t>(name))) {
             return this;
         }
         ProtoContext::CriticalSection cs(context);
-        const ProtoSparseList* newAttributes =
-            oc->attributes->removeAt(context, reinterpret_cast<uintptr_t>(name));
+        const ProtoSparseListImplementation* newAttributes =
+            oc->attributes->implRemoveAt(context, reinterpret_cast<uintptr_t>(name));
         const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         return result;
     }
@@ -1117,18 +1116,18 @@ namespace proto
         ProtoObjectPointer pa{}; pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return nullptr;
         auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseList* attrs = oc->attributes;
+        const ProtoSparseListImplementation* attrs = oc->attributes;
         if (oc->mutable_ref > 0) {
             const ProtoObject* ss = resolveMutableSnapshot(context, oc->mutable_ref);
             if (ss != nullptr) {
                 attrs = toImpl<const ProtoObjectCell>(ss)->attributes;
             }
         }
-        // Raw lookup preserves the nullptr-for-absent contract this API
-        // already had.  An attribute legitimately set to PROTO_NONE
-        // (Python's `x = None`) returns PROTO_NONE here, not nullptr —
-        // callers that want existence semantics use hasOwnAttribute.
-        return sparseListGetRaw(context, attrs, reinterpret_cast<uintptr_t>(name));
+        // Direct IMPL lookup. Preserves the nullptr-for-absent contract:
+        // an attribute legitimately set to PROTO_NONE (Python's
+        // `x = None`) returns PROTO_NONE here, not nullptr — callers
+        // that want existence semantics use hasOwnAttribute.
+        return attrs ? attrs->implGetAt(context, reinterpret_cast<uintptr_t>(name)) : nullptr;
     }
 
     unsigned long ProtoObject::getHash(ProtoContext* context) const {
@@ -1382,7 +1381,7 @@ namespace proto
                 continue;
             }
             auto oc = toImpl<const ProtoObjectCell>(currentObject);
-            const ProtoSparseList* attributes = oc->attributes;
+            const ProtoSparseListImplementation* attributes = oc->attributes;
 
             // Support for Mutable Objects (cache-fast).  resolveMutableSnapshot
             // never returns a non-Object pointer for a valid mutable_ref, so
@@ -1397,11 +1396,11 @@ namespace proto
                  }
             }
 
-            // Tag-dispatched RAW probe: nullptr means absent, anything
-            // else (including PROTO_NONE) means present.  Without the
-            // raw helper we'd treat `attr = None` as "missing" and
-            // break `from m import None_attr` etc.
-            if (sparseListGetRaw(context, attributes, attr_hash) != nullptr) {
+            // Direct IMPL probe. nullptr means absent; anything else
+            // (including PROTO_NONE) means present. Preserves the
+            // distinction so `attr = None` → `hasattr(x, 'attr')` is
+            // True (vs missing).
+            if (attributes && attributes->implGetAt(context, attr_hash) != nullptr) {
                 return PROTO_TRUE;
             }
 
@@ -1434,7 +1433,7 @@ namespace proto
             return prototype ? prototype->getAttributes(context) : context->newSparseList();
         }
         auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseList* attributes = oc->attributes;
+        const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
@@ -1445,32 +1444,40 @@ namespace proto
             }
         }
 
-        const ProtoSparseList* attrs = attributes;
+        const ProtoSparseListImplementation* attrs = attributes;
         if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
             auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
             if (pl->getType() == CellType::ParentLink) {
                 const ProtoObject* parentObj = pl->getObject(context);
                 if (parentObj) {
+                    // Recurse to the public API form (which other callers
+                    // may also receive); convert back to IMPL for the
+                    // merge loop below by walking via the Iterator API
+                    // (which works on either form via tag dispatch).
                     const ProtoSparseList* parentAttrs = parentObj->getAttributes(context);
                 // Merge parent attributes with own attributes.  GC critical
                 // section: the loop below builds `attrs` incrementally and
-                // every setAt allocates new SparseList nodes; the partial
-                // tree is reachable only via this C++ local until the
-                // final `return`.
+                // every implSetAt allocates new SparseList nodes; the
+                // partial tree is reachable only via this C++ local until
+                // the final `return`.
                 ProtoContext::CriticalSection cs(context);
                 const ProtoSparseListIterator* it = parentAttrs->getIterator(context);
                 while (it && it->hasNext(context)) {
                     unsigned long key = it->nextKey(context);
                     const ProtoObject* value = it->nextValue(context);
-                    if (!attrs->has(context, key)) {
-                        attrs = attrs->setAt(context, key, value);
+                    if (!attrs || attrs->implGetAt(context, key) == nullptr) {
+                        attrs = attrs ? attrs->implSetAt(context, key, value)
+                                      : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
                     }
                     it = const_cast<ProtoSparseListIterator*>(it)->advance(context);
                 }
                 }
             }
         }
-        return attrs;
+        // Convert the IMPL pointer to the public API tagged handle at
+        // the boundary — this is the trampoline that returns to the
+        // user/external callers.
+        return attrs ? attrs->asSparseList(context) : context->newSparseList();
     }
     
     const ProtoSparseList* ProtoObject::getOwnAttributes(ProtoContext* context) const {
@@ -1478,7 +1485,7 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return context->newSparseList();
         auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseList* attributes = oc->attributes;
+        const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
@@ -1487,7 +1494,9 @@ namespace proto
                 attributes = storedOc->attributes;
             }
         }
-        return attributes;
+        // Trampoline boundary: convert the internal IMPL pointer to the
+        // public-API tagged handle.
+        return attributes ? attributes->asSparseList(context) : context->newSparseList();
     }
     
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
@@ -1511,7 +1520,7 @@ namespace proto
 
         if (!proto::isObjectFast(this)) return PROTO_FALSE;
         auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseList* attributes = oc->attributes;
+        const ProtoSparseListImplementation* attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
@@ -1519,10 +1528,10 @@ namespace proto
                 attributes = toImpl<const ProtoObjectCell>(storedState)->attributes;
             }
         }
-        // Raw probe to preserve the existence semantics: an attribute
-        // set to PROTO_NONE is still "present".
+        // Direct IMPL probe — an attribute set to PROTO_NONE is still
+        // "present" (implGetAt returns PROTO_NONE, not nullptr).
         return context->fromBoolean(
-            sparseListGetRaw(context, attributes, reinterpret_cast<uintptr_t>(name)) != nullptr);
+            attributes && attributes->implGetAt(context, reinterpret_cast<uintptr_t>(name)) != nullptr);
     }
     
     const ProtoObject* ProtoObject::divmod(ProtoContext* context, const ProtoObject* other) const {

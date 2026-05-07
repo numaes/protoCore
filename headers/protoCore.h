@@ -40,6 +40,7 @@ namespace proto
     class ProtoList;
     class ProtoListIterator;
     class ProtoSparseList;
+    class ProtoSparseListImplementation;  // raw AVL impl, internal
     class ProtoSparseListIterator;
     class ProtoSet;
     class ProtoSetIterator;
@@ -868,6 +869,13 @@ namespace proto
         const ProtoTuple* newTuple(const std::vector<const ProtoObject*>& elements);
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);
         const ProtoSparseList* newSparseList();
+        // Returns an empty AVL-form sparse list implementation as a raw
+        // C++ pointer. Used for internal struct fields that should not
+        // carry a tag (e.g. ProtoObjectCell::attributes); the public
+        // newSparseList() above returns a Small-form public-API handle
+        // for callers that want the inline-3 optimisation (closures,
+        // Set/Multiset backing).
+        const ProtoSparseListImplementation* newSparseListImpl();
         const ProtoSet* newSet();
         /** Creates a native range iterator over [start, stop) with the given step. */
         const ProtoObject* newRangeIterator(long long start, long long stop, long long step);

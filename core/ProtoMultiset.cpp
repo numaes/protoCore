@@ -11,7 +11,7 @@ namespace proto {
 
     ProtoMultisetImplementation::ProtoMultisetImplementation(
         ProtoContext* context,
-        const ProtoSparseList* list,
+        const ProtoSparseListImplementation* list,
         unsigned long size
     ) : Cell(context), list(list), size(size)
     {
@@ -19,10 +19,8 @@ namespace proto {
 
     void ProtoMultisetImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
         if (list) {
-            const Cell* c = reinterpret_cast<const ProtoObject*>(list)->asCell(context);
-            if (c) {
-                method(context, self, c);
-            }
+            // list is a raw IMPL pointer; pass directly to the GC tracer.
+            method(context, self, list);
         }
     }
 
@@ -73,23 +71,21 @@ namespace proto {
         const auto* impl = toImpl<const ProtoMultisetImplementation>(this);
         const auto* current_list = impl->list;
         unsigned long hash = value->getHash(context);
-        const ProtoObject* existing = current_list->getAt(context, hash);
+        const ProtoObject* existing = current_list->implGetAt(context, hash);
         long long count = (existing && existing != PROTO_NONE) ? existing->asLong(context) : 0;
 
-        // GC critical section: setAt allocates a chain of new SparseList
+        // GC critical section: implSetAt allocates a chain of new SparseList
         // nodes, then the wrapping ProtoMultisetImplementation is
         // allocated.  `new_list` is reachable only via this C++ local
-        // until the wrapping cell stitches it in.  Without the guard a
-        // concurrent STW root scan would miss `new_list` and a sweep
-        // would free its nodes before we returned.
+        // until the wrapping cell stitches it in.
         ProtoContext::CriticalSection cs(context);
-        const auto* new_list = current_list->setAt(context, hash, context->fromInteger(count + 1));
+        const auto* new_list = current_list->implSetAt(context, hash, context->fromInteger(count + 1));
         return (new (context) ProtoMultisetImplementation(context, new_list, impl->size + 1))->asProtoMultiset(context);
     }
 
     const ProtoObject* ProtoMultiset::count(ProtoContext* context, const ProtoObject* value) const {
         const auto* current_list = toImpl<const ProtoMultisetImplementation>(this)->list;
-        const ProtoObject* existing = current_list->getAt(context, value->getHash(context));
+        const ProtoObject* existing = current_list->implGetAt(context, value->getHash(context));
         return (existing && existing != PROTO_NONE) ? existing : context->fromInteger(0);
     }
 
@@ -97,28 +93,25 @@ namespace proto {
         const auto* impl = toImpl<const ProtoMultisetImplementation>(this);
         const auto* current_list = impl->list;
         unsigned long hash = value->getHash(context);
-        const ProtoObject* existing = current_list->getAt(context, hash);
+        const ProtoObject* existing = current_list->implGetAt(context, hash);
         if (!existing || existing == PROTO_NONE) return this;
 
         long long count = existing->asLong(context);
-        // GC critical section: same rationale as add() — `new_list`
-        // lives only in this C++ local across the wrapping
-        // ProtoMultisetImplementation allocation.
         ProtoContext::CriticalSection cs(context);
-        const ProtoSparseList* new_list;
+        const ProtoSparseListImplementation* new_list;
         if (count > 1) {
-             new_list = current_list->setAt(context, hash, context->fromInteger(count - 1));
+             new_list = current_list->implSetAt(context, hash, context->fromInteger(count - 1));
         } else {
-             new_list = current_list->removeAt(context, hash);
+             new_list = current_list->implRemoveAt(context, hash);
         }
         return (new (context) ProtoMultisetImplementation(context, new_list, impl->size - 1))->asProtoMultiset(context);
     }
     unsigned long ProtoMultiset::getSize(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->size; }
     const ProtoObject* ProtoMultiset::asObject(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->implAsObject(context); }
     const ProtoMultisetIterator* ProtoMultiset::getIterator(ProtoContext* context) const {
-        const auto* list_iterator = toImpl<const ProtoMultisetImplementation>(this)->list->getIterator(context);
+        const auto* list_iterator = toImpl<const ProtoMultisetImplementation>(this)->list->implGetIterator(context);
         if (!list_iterator) return nullptr;
-        return (new (context) ProtoMultisetIteratorImplementation(context, toImpl<const ProtoSparseListIteratorImplementation>(list_iterator)))->asMultisetIterator(context);
+        return (new (context) ProtoMultisetIteratorImplementation(context, list_iterator))->asMultisetIterator(context);
     }
 
     int ProtoMultisetIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoMultisetIteratorImplementation>(this)->implHasNext(context); }
