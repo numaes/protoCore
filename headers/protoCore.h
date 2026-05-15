@@ -128,6 +128,27 @@ namespace proto
         int hasParent(ProtoContext* context, const ProtoObject* target) const;
         const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent) const;
         const ProtoObject* addParentInternal(ProtoContext* context, const ProtoObject* newParent) const;
+        /**
+         * @brief Replace the entire parent chain with `newParents`.
+         *
+         * Use this when an embedder needs to mutate the prototype
+         * chain wholesale — e.g. when a user-language `__bases__`
+         * reassignment must drop the old bases entirely instead of
+         * just appending new ones.
+         *
+         * - For an immutable object, returns a freshly-built handle
+         *   sharing the same attributes but with the rebuilt parent
+         *   chain.  The original handle becomes stale.
+         * - For a mutable object, updates the per-shard mutable state
+         *   in place via a CAS loop and returns the SAME handle
+         *   (mirroring `addParent` and `setAttribute`).
+         *
+         * The list is interpreted with index 0 as the immediate
+         * (first) parent, matching `getParents()`'s output order.
+         * Passing an empty or null list clears the parent chain
+         * entirely.
+         */
+        const ProtoObject* setParents(ProtoContext* context, const ProtoList* newParents) const;
         const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 
         //- Execution

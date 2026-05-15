@@ -160,6 +160,45 @@ namespace proto
     }
 
     /**
+     * @brief Replace the parent chain entirely.
+     *
+     * Builds a fresh ParentLink chain from `newParents` in reverse order
+     * (the last list entry becomes the chain tail, the first entry the
+     * chain head — matching getParents()'s emit order), then returns a
+     * new ProtoObjectCell that shares this cell's attributes table but
+     * uses the rebuilt chain.  Mutable-vs-immutable shard CAS happens
+     * in the public ProtoObject::setParents trampoline; this helper is
+     * purely the immutable-shape builder.
+     *
+     * Passing `newParents == nullptr` or an empty list clears the chain
+     * (the resulting cell has no prototype).
+     */
+    const ProtoObjectCell* ProtoObjectCell::setParents(
+        ProtoContext* context, const ProtoList* newParents) const
+    {
+        const ParentLinkImplementation* newChain = nullptr;
+        if (newParents) {
+            unsigned long n = newParents->getSize(context);
+            // Walk right-to-left: getParents() emits in head-first
+            // order, so to reproduce that we attach the LAST entry
+            // first (it becomes the chain tail) and the FIRST entry
+            // last (it becomes the chain head).
+            for (long i = static_cast<long>(n) - 1; i >= 0; --i) {
+                const ProtoObject* p = newParents->getAt(context, static_cast<int>(i));
+                if (!p) continue;
+                newChain = new(context) ParentLinkImplementation(
+                    context, newChain, p);
+            }
+        }
+        return new(context) ProtoObjectCell(
+            context,
+            newChain,
+            this->attributes,
+            0
+        );
+    }
+
+    /**
      * @brief Converts this internal implementation object into its public API handle.
      * This method sets the correct type tag on a `ProtoObjectPointer` union to create
      * a valid `ProtoObject*` that can be returned to the user.
@@ -980,6 +1019,79 @@ namespace proto
         }
 
         return result;
+    }
+
+    /**
+     * @brief Replace the parent chain wholesale.
+     *
+     * For embedders that need true reassignment semantics (e.g. a
+     * Python-level `__bases__` setter) — `addParent` only extends the
+     * chain, which leaves stale ancestors visible to raw chain-walks.
+     *
+     * The trampoline structure mirrors `addParentInternal` /
+     * `setAttribute`:
+     *   - Mutable objects (`mutable_ref > 0`) take the same per-shard
+     *     CAS loop used by mutating writes, returning the SAME handle
+     *     so callers don't need to reseat references.
+     *   - Immutable objects build a fresh ProtoObjectCell with the
+     *     rebuilt chain and return its handle.
+     *
+     * Type tag check on `this` is the only sanity gate — non-cell
+     * pointers (embedded ints/floats/bools) silently no-op like
+     * addParent does.
+     */
+    const ProtoObject* ProtoObject::setParents(ProtoContext* context, const ProtoList* newParents) const {
+        if (!this || !context) return this;
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;
+
+        const auto* oc = toImpl<const ProtoObjectCell>(this);
+
+        if (oc->mutable_ref > 0) {
+            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+            ProtoContext::CriticalSection cs(context);
+            int casIteration = 0;
+            while (true) {
+                ++casIteration;
+
+                const ProtoObject* currentObjState = this;
+                ProtoSparseList* oldRoot = nullptr;
+                const ProtoObject* storedState = nullptr;
+                resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+                if (storedState != nullptr) {
+                    currentObjState = storedState;
+                }
+
+                auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+                auto* newState = currentOc->setParents(context, newParents)->asObject(context);
+
+                const ProtoSparseList* oldRootSL =
+                    (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
+                ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
+                    oldRootSL->setAt(context, oc->mutable_ref, newState));
+                ProtoSparseList* expected = oldRoot;
+                if (context->space->mutableRoot[shard].root.compare_exchange_weak(expected, newRoot)) {
+                    refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
+                    break;
+                }
+                if ((casIteration & 31) == 0) {
+                    std::this_thread::yield();
+                }
+            }
+
+            return this; // mutable: same handle
+        }
+
+        // Immutable branch: build a new ProtoObjectCell with the
+        // rebuilt parent chain.  The chain construction inside
+        // ProtoObjectCell::setParents allocates one
+        // ParentLinkImplementation per entry, then the wrapping
+        // ProtoObjectCell — all reachable through the C++ stack only
+        // until asObject() returns.  Critical section forbids STW
+        // root scan during the build.
+        ProtoContext::CriticalSection cs(context);
+        return oc->setParents(context, newParents)->asObject(context);
     }
 
     int ProtoObject::isCell(ProtoContext* context) const {
