@@ -385,7 +385,26 @@ namespace proto {
     }
 
     unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
-        return reinterpret_cast<uintptr_t>(this);
+        // STRUCT-194: content-based hash.  The previous identity-based
+        // hash (pointer address) returned different values for equal-
+        // content tuples whose elements came from different sources
+        // (e.g. interned literal strings vs `bytes.decode()` results).
+        // Dicts keyed by such tuples lost the value on lookup despite
+        // `in` reporting True.  Mix element hashes with a tuple-specific
+        // seed/multiplier so equal-content tuples hash identically.
+        const ProtoTuple* selfT = this->asProtoTuple(context);
+        if (!selfT) return reinterpret_cast<uintptr_t>(this);
+        unsigned long size = selfT->getSize(context);
+        // FNV-1a-ish mix with a tuple-distinguishing seed so empty
+        // tuple is non-zero and small tuples don't collide with their
+        // string elements.
+        unsigned long h = 0x345678UL ^ (size * 0xa6b3f7UL + 1UL);
+        for (unsigned long i = 0; i < size; ++i) {
+            const ProtoObject* e = selfT->getAt(context, static_cast<int>(i));
+            unsigned long eh = e ? e->getHash(context) : 0UL;
+            h = (h * 1000003UL) ^ eh;
+        }
+        return h;
     }
 
     const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const {
