@@ -792,7 +792,8 @@ namespace proto {
         gcStarted(false),
         mainContext(nullptr),
         nextMutableRef(1),
-        resolutionChain_(nullptr)
+        resolutionChain_(nullptr),
+        rootContext(nullptr)
     {
         // Record the OS thread that created this space.  ProtoContext uses this
         // to auto-inherit the main thread's ProtoThreadImplementation when a
