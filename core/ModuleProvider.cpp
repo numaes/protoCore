@@ -63,7 +63,7 @@ const ProtoObject* FileSystemProvider::tryLoad(const std::string& logicalPath, P
         // held in C++ locals across newObject / addParent / setAttribute
         // calls, each of which allocates.
         ProtoContext::CriticalSection cs(ctx);
-        const ProtoString* pathStr = ProtoString::fromUTF8String(ctx, resolved.c_str());
+        const ProtoString* pathStr = ProtoString::fromUTF8(ctx, resolved.c_str());
         if (!pathStr) return PROTO_NONE;
         const ProtoObject* pathObj = pathStr->asObject(ctx);
         const ProtoObject* module = ctx->newObject(false);
@@ -71,7 +71,7 @@ const ProtoObject* FileSystemProvider::tryLoad(const std::string& logicalPath, P
             module = module->addParent(ctx, ctx->space->objectPrototype);
         }
         if (!module) return PROTO_NONE;
-        const ProtoString* keyPath = ProtoString::fromUTF8String(ctx, "path");
+        const ProtoString* keyPath = ProtoString::fromUTF8(ctx, "path");
         if (!keyPath) return PROTO_NONE;
         module = module->setAttribute(ctx, keyPath, pathObj);
         return module;

@@ -37,7 +37,7 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
             wrapper = wrapper->addParent(ctx, space->objectPrototype);
         }
         if (!wrapper) return PROTO_NONE;
-        const ProtoString* attrName = ProtoString::fromUTF8String(ctx, attrName2create);
+        const ProtoString* attrName = ProtoString::fromUTF8(ctx, attrName2create);
         if (!attrName) return PROTO_NONE;
         wrapper = wrapper->setAttribute(ctx, attrName, cached);
         return wrapper;
@@ -123,7 +123,7 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
     ProtoContext::CriticalSection cs2(ctx);
     const ProtoObject* wrapper = ctx->newObject(false);
     if (!wrapper) return PROTO_NONE;
-    const ProtoString* attrName = ProtoString::fromUTF8String(ctx, attrName2create);
+    const ProtoString* attrName = ProtoString::fromUTF8(ctx, attrName2create);
     if (!attrName) return PROTO_NONE;
     wrapper = wrapper->setAttribute(ctx, attrName, module);
     return wrapper;

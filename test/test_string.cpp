@@ -24,7 +24,7 @@ protected:
     }
 
     const ProtoString* str(const char* s) {
-        return ProtoString::fromUTF8String(c, s);
+        return ProtoString::fromUTF8(c, s);
     }
 };
 
@@ -328,7 +328,7 @@ protected:
     ProtoContext* c = &ctx;
 
     const ProtoString* str(const char* s) {
-        return ProtoString::fromUTF8String(c, s);
+        return ProtoString::fromUTF8(c, s);
     }
 };
 
@@ -533,7 +533,7 @@ TEST_F(StringTest, IteratorMultibyte) {
 
 TEST_F(StringTest, IteratorLargeString) {
     std::string src(200, 'x');
-    auto* s = ProtoString::fromUTF8String(c, src.c_str());
+    auto* s = ProtoString::fromUTF8(c, src.c_str());
     auto* it = const_cast<ProtoStringIterator*>(s->getIterator(c));
     int count = 0;
     while (it->hasNext(c)) {
@@ -572,7 +572,7 @@ TEST_F(StringPublicAPITest, CmpToStringConsistency) {
 // ---- Task 9: createInlineStringUTF8 tests -----------------------------------
 
 TEST_F(StringTest, InlineStringASCII) {
-    auto* s = ProtoString::fromUTF8String(c, "hi");
+    auto* s = ProtoString::fromUTF8(c, "hi");
     auto* obj = reinterpret_cast<const ProtoObject*>(s);
     EXPECT_TRUE(isInlineString(obj));
     std::string out;
@@ -581,13 +581,13 @@ TEST_F(StringTest, InlineStringASCII) {
 }
 
 TEST_F(StringTest, InlineStringMaxSixBytes) {
-    auto* s = ProtoString::fromUTF8String(c, "abcdef");
+    auto* s = ProtoString::fromUTF8(c, "abcdef");
     auto* obj = reinterpret_cast<const ProtoObject*>(s);
     EXPECT_TRUE(isInlineString(obj));
 }
 
 TEST_F(StringTest, SevenBytesNotInline) {
-    auto* s = ProtoString::fromUTF8String(c, "abcdefg");
+    auto* s = ProtoString::fromUTF8(c, "abcdefg");
     auto* obj = reinterpret_cast<const ProtoObject*>(s);
     EXPECT_FALSE(isInlineString(obj));
 }
@@ -626,13 +626,13 @@ TEST_F(SymbolTest, DifferentSymbolsDifferentPointers) {
 TEST_F(SymbolTest, SymbolEqualsStringByContent) {
     // A symbol and a non-interned string with the same content must compare equal.
     auto* sym = ProtoString::createSymbol(c, "hello world!!");
-    auto* str = ProtoString::fromUTF8String(c, "hello world!!");
+    auto* str = ProtoString::fromUTF8(c, "hello world!!");
     EXPECT_EQ(sym->cmp_to_string(c, str), 0);
 }
 
 TEST_F(SymbolTest, NonInternedStringNotSymbol) {
     // A regular (non-interned) string longer than 6 bytes must not be a symbol.
-    auto* str = ProtoString::fromUTF8String(c, "hello world!!");
+    auto* str = ProtoString::fromUTF8(c, "hello world!!");
     auto* obj = reinterpret_cast<const ProtoObject*>(str);
     EXPECT_FALSE(SymbolTable::isSymbol(obj));
 }
@@ -694,7 +694,7 @@ TEST_F(SymbolTest, AutoInternOnSetAttribute) {
     // After setAttribute auto-interns it, a lookup with the matching symbol
     // (POINTER_TAG_SYMBOL) must find the stored value.
     auto* obj = c->newObject();
-    auto* non_interned_key = ProtoString::fromUTF8String(c, "myLongKey");
+    auto* non_interned_key = ProtoString::fromUTF8(c, "myLongKey");
 
     auto* val = c->space->objectPrototype;
     auto* obj2 = obj->setAttribute(c, non_interned_key, val);

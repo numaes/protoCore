@@ -117,7 +117,7 @@ TEST_F(ModuleDiscoveryTest, GetImportModule_ProviderReturnsModule) {
     ASSERT_NE(result, PROTO_NONE);
     ASSERT_NE(result, nullptr);
 
-    const ProtoString* key = ProtoString::fromUTF8String(ctx, "exports");
+    const ProtoString* key = ProtoString::fromUTF8(ctx, "exports");
     ASSERT_NE(key, nullptr);
     const ProtoObject* exports = result->getAttribute(ctx, key);
     ASSERT_NE(exports, PROTO_NONE);
@@ -138,14 +138,14 @@ TEST_F(ModuleDiscoveryTest, GetImportModule_CacheHit) {
     const ProtoObject* second = space.getImportModule(ctx, "cached_mod", "exports");
     ASSERT_NE(second, PROTO_NONE);
 
-    const ProtoString* key = ProtoString::fromUTF8String(ctx, "exports");
+    const ProtoString* key = ProtoString::fromUTF8(ctx, "exports");
     const ProtoObject* exp1 = first->getAttribute(ctx, key);
     const ProtoObject* exp2 = second->getAttribute(ctx, key);
     ASSERT_EQ(exp1, exp2);
 }
 
 TEST_F(ModuleDiscoveryTest, ProtoString_ToUTF8String) {
-    const ProtoString* s = ProtoString::fromUTF8String(ctx, "hello");
+    const ProtoString* s = ProtoString::fromUTF8(ctx, "hello");
     ASSERT_NE(s, nullptr);
     std::string out;
     s->toUTF8String(ctx, out);

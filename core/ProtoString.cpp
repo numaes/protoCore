@@ -918,7 +918,7 @@ namespace proto {
         const unsigned long size = getSize(context);
         if (from < 0) from = 0;
         if (to > static_cast<int>(size)) to = static_cast<int>(size);
-        if (from >= to) return ProtoString::fromUTF8String(context, "");
+        if (from >= to) return ProtoString::fromUTF8(context, "");
         const ProtoObject* root = getRoot(context, self);
         auto [_, right] = strSplit(context, root, static_cast<uint32_t>(from));
         auto [mid, __]  = strSplit(context, right, static_cast<uint32_t>(to - from));
@@ -1013,14 +1013,14 @@ namespace proto {
 
     const ProtoString* ProtoString::splitFirst(ProtoContext* context, int count) const {
         unsigned long size = getSize(context);
-        if (count <= 0) return ProtoString::fromUTF8String(context, "");
+        if (count <= 0) return ProtoString::fromUTF8(context, "");
         if (count >= static_cast<int>(size)) return const_cast<ProtoString*>(this);
         return getSlice(context, 0, count);
     }
 
     const ProtoString* ProtoString::splitLast(ProtoContext* context, int count) const {
         unsigned long size = getSize(context);
-        if (count <= 0) return ProtoString::fromUTF8String(context, "");
+        if (count <= 0) return ProtoString::fromUTF8(context, "");
         if (count >= static_cast<int>(size)) return const_cast<ProtoString*>(this);
         return getSlice(context, static_cast<int>(size) - count, static_cast<int>(size));
     }
@@ -1028,14 +1028,14 @@ namespace proto {
     const ProtoString* ProtoString::removeFirst(ProtoContext* context, int count) const {
         unsigned long size = getSize(context);
         if (count <= 0) return const_cast<ProtoString*>(this);
-        if (count >= static_cast<int>(size)) return ProtoString::fromUTF8String(context, "");
+        if (count >= static_cast<int>(size)) return ProtoString::fromUTF8(context, "");
         return getSlice(context, count, static_cast<int>(size));
     }
 
     const ProtoString* ProtoString::removeLast(ProtoContext* context, int count) const {
         unsigned long size = getSize(context);
         if (count <= 0) return const_cast<ProtoString*>(this);
-        if (count >= static_cast<int>(size)) return ProtoString::fromUTF8String(context, "");
+        if (count >= static_cast<int>(size)) return ProtoString::fromUTF8(context, "");
         return getSlice(context, 0, static_cast<int>(size) - count);
     }
 
@@ -1098,7 +1098,7 @@ namespace proto {
     const ProtoString* ProtoString::multiply(ProtoContext* context, const ProtoObject* count) const {
         if (!count->isInteger(context)) return nullptr;
         long long n = count->asLong(context);
-        if (n <= 0) return ProtoString::fromUTF8String(context, "");
+        if (n <= 0) return ProtoString::fromUTF8(context, "");
         if (n == 1) return const_cast<ProtoString*>(this);
 
         // GC critical section: `result` accumulates rope-concat nodes
@@ -1614,7 +1614,7 @@ namespace proto {
                 utf8 += static_cast<char>(0x80u | (cp & 0x3Fu));
             }
         }
-        return ProtoString::fromUTF8String(context, utf8.c_str());
+        return ProtoString::fromUTF8(context, utf8.c_str());
     }
 
 }

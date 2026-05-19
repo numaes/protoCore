@@ -40,7 +40,7 @@ TEST_F(ContextTest, PositionalArgumentBinding) {
     ASSERT_NE(val_a, PROTO_NONE);
     ASSERT_NE(val_b, PROTO_NONE);
     ASSERT_EQ(val_a->asLong(rootContext), 10);
-    const ProtoString* expected_b = ProtoString::fromUTF8String(rootContext, "hello");
+    const ProtoString* expected_b = ProtoString::fromUTF8(rootContext, "hello");
     ASSERT_EQ(val_b->asString(rootContext)->cmp_to_string(rootContext, expected_b), 0);
 }
 
