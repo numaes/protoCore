@@ -53,6 +53,7 @@ It is designed for developers who need to script complex application behavior, c
 - ✅ **Documentation** - Full API documentation and technical specifications
 - ✅ **protoJS Runtime** - Complete JavaScript runtime built on protoCore (Phase 6 Complete)
 - ✅ **protoPython Runtime** - GIL-free Python 3.14 environment built on protoCore (Phase 6 Complete)
+- ✅ **protoST Runtime** - Actor-native Smalltalk-80 runtime built on protoCore (cooperative yield, DAP debugger)
 
 ### Community & Open Review
 
@@ -61,9 +62,9 @@ Beyond formal audits, this project is officially **open for Community Review and
 We welcome architectural feedback, edge-case identification, and performance critiques. While the core vision is firm, the path to perfection is a collective effort of the "Swarm."
 ---
 
-## The protoCore Ecosystem: protoJS & protoPython
+## The protoCore Ecosystem: protoJS, protoPython & protoST
 
-protoCore serves as the robust foundation for several high-performance runtimes, demonstrating its versatility as a universal object system for the AI-augmented engineering era.
+protoCore serves as the robust foundation for several high-performance runtimes, demonstrating its versatility as a universal object system for the AI-augmented engineering era. Three complete runtimes are built on it today — a JavaScript engine, a GIL-free Python environment, and an actor-native Smalltalk — so whichever one you arrive through, the same core powers all three.
 
 ### 1. protoJS: Elite JavaScript Performance
 **protoJS** is a modern JavaScript runtime built entirely on protoCore. By replacing the standard QuickJS runtime with protoCore's immutability and concurrency primitives, it achieves industry-leading performance.
@@ -81,7 +82,16 @@ protoCore serves as the robust foundation for several high-performance runtimes,
 - ✅ **Zero-Copy Interop** - Massive data transfer via UMD and HPy without overhead
 - ✅ **Phase 6 Complete** - Advanced collection support and smart object unwrapping
 
-**Learn More:** See the [protoJS project](../protoJS/) and [protoPython project](../protoPython/) for complete documentation.
+### 3. protoST: Actor-Native Smalltalk for Digital Twins
+**protoST** is a Smalltalk-80 runtime built on protoCore, designed as a platform for digital twins — any object can become an actor whose messages return futures, modelling physical components as independently scheduled state machines.
+
+**Highlights:**
+- ✅ **Actor Model** - `obj asActor` yields a transparent proxy; messages return Futures combinable with and/or
+- ✅ **Cooperative Yield** - actors awaiting a future release their worker thread; thousands of interdependent actors share a handful of OS threads without thread starvation
+- ✅ **Real Parallelism** - managed `ProtoThread` worker pool over protoCore's GIL-free concurrency
+- ✅ **Tooling From Day One** - interactive REPL and a Debug Adapter Protocol (DAP) debugger for VS Code
+
+**Learn More:** See the [protoJS project](../protoJS/), [protoPython project](../protoPython/), and [protoST project](../protoST/) for complete documentation.
 
 
 ---
@@ -369,9 +379,13 @@ Main documents:
 - **`docs/Structural description/`** — Guides, architecture, tutorials (quick start, building on proto, creating modules, testing)
 - **`docs/TESTING.md`** — Testing (CTest, coverage, CI)
 
-### Real-World Reference Implementation
+### Real-World Reference Implementations
+
+Three complete language runtimes are built on protoCore — each a reference for a different style of embedding:
 
 - **protoJS** - A complete JavaScript runtime built on protoCore, demonstrating production use of all protoCore features. See the [protoJS repository](https://github.com/gamarino/protoJS) for implementation examples and best practices.
+- **protoPython** - A GIL-free Python 3.14 environment, showing protoCore's concurrency model and the HPy / UMD interop paths. See the [protoPython repository](https://github.com/gamarino/protoPython).
+- **protoST** - An actor-native Smalltalk-80 runtime, showing protoCore's threading, per-method contexts, GC root discipline, and embedder-driven cooperative scheduling. See the [protoST repository](https://github.com/gamarino/protoST).
 
 ## Contributing
 
