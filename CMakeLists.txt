@@ -190,7 +190,15 @@ if(COVERAGE)
     endif()
 endif()
 
-# 6. Installation rules for protoCore shared library
+# 6. Installation rules + packaging for protoCore.
+#
+# Guarded to the top-level build only. When protoCore is pulled in via
+# add_subdirectory() by a sibling project (protoPython does this), that
+# project owns packaging — protoCore must NOT inject its own install rules
+# (which would bundle libprotoCore into the sibling's package) or its CPack
+# config. Each sibling instead declares a dependency on protoCore's package.
+if(CMAKE_PROJECT_NAME STREQUAL "protoCore")
+
 set(PROTOCORE_INSTALL_COMPONENT "protoCore")
 install(TARGETS protoCore
     EXPORT protoCoreTargets
@@ -207,6 +215,7 @@ set(CPACK_PACKAGE_VENDOR "numaes")
 set(CPACK_PACKAGE_CONTACT "gamarino@gmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "protoCore - High-Performance Embeddable Dynamic Object System for C++")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_RPM_PACKAGE_LICENSE "MIT")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
@@ -237,6 +246,8 @@ set(CPACK_COMPONENTS_ALL protoCore)
 set(CPACK_COMPONENT_PROTOCORE_DISPLAY_NAME "protoCore runtime")
 set(CPACK_COMPONENT_PROTOCORE_DESCRIPTION "Shared library and public header for embedding")
 include(CPack)
+
+endif()  # CMAKE_PROJECT_NAME STREQUAL "protoCore" — install + packaging
 
 # Optional: custom target to create a clean TGZ with only protoCore (no test frameworks)
 # Copies built library and public header into a staging dir and tars it (avoids install manifest).
