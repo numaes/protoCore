@@ -297,7 +297,11 @@ namespace proto {
     Cell* ProtoThreadImplementation::implAllocCell(ProtoContext* context) {
         if (!this->extension->freeCells) {
             this->implSynchToGC();
-            this->extension->freeCells = this->space->getFreeCells((ProtoThread*)this->asThread(this->context));
+            // getFreeCells takes the context so it can enforce the heap
+            // allocation limit (and identify critical-section / GC-thread
+            // callers that bypass it).  No per-context spinlock is held on
+            // this path, so a GC-wait inside getFreeCells is deadlock-free.
+            this->extension->freeCells = this->space->getFreeCells(context);
         }
 
         if (!this->extension->freeCells) {

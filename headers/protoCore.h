@@ -1179,9 +1179,29 @@ namespace proto
             const ProtoSparseList* kwargs);
 
         //- Memory Management & GC
-        Cell* getFreeCells(const ProtoThread* currentThread);
+        Cell* getFreeCells(ProtoContext* ctx);
         void analyzeUsedCells(Cell* cellsChain);
         void triggerGC();
+
+        /**
+         * @brief Configure the heap allocation watermarks (both in Cells).
+         *
+         * `softCells` — above this, the Cell allocator prefers GC reclamation
+         * over growing the heap (it waits one GC cycle before requesting more
+         * memory from the OS).  `hardCells` — the hard ceiling: `heapSize`
+         * never exceeds it for ordinary mutator allocations; a thread that
+         * would cross it waits for the GC and, if the live working set itself
+         * meets the ceiling, the configured out-of-memory path runs.
+         *
+         * Passing `0` for a limit disables it.  Both `0` (the default) gives
+         * unbounded allocation — behaviour identical to a build with no limit.
+         * `softCells` is clamped to `<= hardCells` when both are non-zero.
+         *
+         * Critical-section allocations and the GC thread bypass the ceiling
+         * (they cannot wait); the resulting overshoot is bounded by their
+         * in-flight working set.
+         */
+        void setHeapLimits(int softCells, int hardCells);
 
         //- Embedder Root Sets
         //
@@ -1347,6 +1367,23 @@ namespace proto
         std::atomic<uint64_t> gcCycleCount;
 
         /**
+         * @brief Cells found reachable by the most recently completed GC
+         * cycle's mark phase (= the authoritative live-set size at that
+         * cycle's snapshot).  Published by the GC thread at end of cycle and
+         * read by getFreeCells() to decide, reliably, whether the heap is
+         * genuinely out of memory: if the live set alone meets `maxHeapSize`,
+         * no further collection can help.
+         */
+        std::atomic<unsigned long> liveCellsLastCycle;
+
+        /**
+         * @brief Notified by the GC thread at the end of every cycle, once the
+         * sweep has published reclaimed Cells to the freelist.  A thread
+         * parked in getFreeCells() waiting for memory wakes here and re-checks.
+         */
+        std::condition_variable_any memoryReclaimedCV;
+
+        /**
          * @brief Returns the current GC cycle counter (relaxed load).
          *
          * Embedders cache cell-pointer-keyed data on the assumption that the
@@ -1379,10 +1416,19 @@ namespace proto
         unsigned int maxAllocatedCellsPerContext;
         int blocksPerAllocation;
         int heapSize;
+        /**
+         * @brief Hard heap ceiling, in Cells.  `heapSize` never exceeds this
+         * for ordinary mutator allocations.  `0` disables the ceiling.
+         * Set via setHeapLimits(); see getFreeCells() for the enforcement.
+         */
         int maxHeapSize;
+        /**
+         * @brief Soft heap watermark, in Cells.  Above it, the Cell allocator
+         * prefers GC reclamation over growing the heap.  `0` disables it.
+         */
+        int softHeapLimit;
         int freeCellsCount;
         unsigned int gcSleepMilliseconds;
-        int blockOnNoMemory;
         std::atomic<TupleDictionary*> tupleRoot;
         void* stringInternMap;
         SymbolTable* symbolTable{};

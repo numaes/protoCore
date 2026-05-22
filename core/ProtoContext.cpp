@@ -369,18 +369,32 @@ namespace proto
         if (this && this->thread) {
             newCell = toImpl<ProtoThreadImplementation>(this->thread)->implAllocCell(this);
         } else if (this) {
+            // Local context pool check, under the per-context spinlock.
             while (lock.test_and_set(std::memory_order_acquire)) {}
-            // Local context pool check
             if (this->freeCells) {
                 newCell = this->freeCells;
                 this->freeCells = newCell->getNext();
-            } else if (this->space) {
-                newCell = this->space->getFreeCells(nullptr);
-                if (newCell) {
-                    this->freeCells = newCell->getNext();
+                lock.clear(std::memory_order_release);
+            } else {
+                // The per-context freelist is empty.  getFreeCells() may park
+                // this thread to wait for GC reclamation (the allocation-limit
+                // path).  It MUST run with the per-context spinlock RELEASED:
+                // the GC's Phase-2 root scan acquires this same `lock` to read
+                // `lastAllocatedCell`, so holding it across a GC-wait would
+                // wedge the collector and deadlock the waiter.  The context is
+                // single-threaded, so `freeCells` is not contended while the
+                // lock is dropped (the GC only ever reads `lastAllocatedCell`
+                // under it, never `freeCells`).
+                lock.clear(std::memory_order_release);
+                if (this->space) {
+                    newCell = this->space->getFreeCells(this);
+                    if (newCell) {
+                        while (lock.test_and_set(std::memory_order_acquire)) {}
+                        this->freeCells = newCell->getNext();
+                        lock.clear(std::memory_order_release);
+                    }
                 }
             }
-            lock.clear(std::memory_order_release);
         } else {
              // Absolute fall back (rare or error)
              int result = posix_memalign(reinterpret_cast<void**>(&newCell), 64, sizeof(BigCell));

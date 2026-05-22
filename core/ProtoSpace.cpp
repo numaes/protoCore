@@ -744,6 +744,15 @@ namespace proto {
                 GC_LOCK_TRACE("gcLoop ACQ(after-sweep)");
                 lock.lock(); // Re-acquire for next wait
                 space->gcStarted = false;
+                // Publish the authoritative live-set size of the cycle just
+                // finished — markedList holds exactly the Cells the mark phase
+                // reached from the roots.  getFreeCells() reads this to decide
+                // reliably whether the heap is genuinely out of memory.  Then
+                // wake any thread parked in getFreeCells() waiting for the
+                // sweep to refill the freelist (allocation-limit path).
+                space->liveCellsLastCycle.store(markedList.size(),
+                                                std::memory_order_relaxed);
+                space->memoryReclaimedCV.notify_all();
                 space->gcCV.notify_all();
             }
         }
@@ -773,9 +782,9 @@ namespace proto {
         blocksPerAllocation(8192),  // Larger default batch to reduce getFreeCells calls during script load (was 1024; 1151 calls observed for multithread benchmark)
         heapSize(0),
         maxHeapSize(0),
+        softHeapLimit(0),
         freeCellsCount(0),
         gcSleepMilliseconds(10),
-        blockOnNoMemory(0),
         tupleRoot(nullptr),
         stringInternMap(nullptr),
         dirtySegments(nullptr),
@@ -783,6 +792,7 @@ namespace proto {
         survivorPen(nullptr),
         survivorStagger(SURVIVOR_STAGGER_DEFAULT),
         gcCycleCount(0),
+        liveCellsLastCycle(0),
         freeCells(nullptr),
         freeCellsTail(nullptr),
         freeChunks(nullptr),
@@ -1013,146 +1023,266 @@ namespace proto {
         return newThreadImpl->asThread(c);
     }
 
-    Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
+    // Wait for the GC to complete a collection cycle, GC-safely.  The caller
+    // holds `lock` (globalMutex).  The waiting thread leaves the stop-the-world
+    // running set — so the GC quorum (parkedThreads >= runningThreads) is
+    // computed without it and it cannot stall a collection — sleeps until a
+    // cycle finishes (or a 50 ms watchdog fires, so a missed notify costs
+    // latency, not a hang), rejoins the running set, and parks at a safepoint
+    // if a stop-the-world began while it slept.  See
+    // docs/superpowers/specs/2026-05-22-allocation-limit-oom-design.md.
+    static void reclaimWaitLocked(ProtoSpace* space,
+                                  std::unique_lock<std::recursive_mutex>& lock,
+                                  ProtoContext* ctx) {
+        const uint64_t startCycle =
+            space->gcCycleCount.load(std::memory_order_relaxed);
+        // Make sure a collection will actually run.
+        if (!space->gcStarted) space->gcStarted = true;
+        space->gcCV.notify_all();
+        // Leave the running set.  A GC already parked on the Phase-1 quorum
+        // must re-evaluate it against the lowered bound, hence the notify.
+        space->runningThreads.fetch_sub(1, std::memory_order_acq_rel);
+        space->gcCV.notify_all();
+        space->memoryReclaimedCV.wait_for(
+            lock, std::chrono::milliseconds(50),
+            [space, startCycle] {
+                return space->gcCycleCount.load(std::memory_order_relaxed)
+                           != startCycle
+                    || space->state == SPACE_STATE_ENDING;
+            });
+        space->runningThreads.fetch_add(1, std::memory_order_acq_rel);
+        // safepoint() re-locks globalMutex and may park on the STW cv.  Running
+        // it while we still hold globalMutex would leave the lock owned across
+        // that park (recursive_mutex drops only one level) and wedge the GC —
+        // release globalMutex around the safepoint.
+        lock.unlock();
+        if (ctx) ctx->safepoint();
+        lock.lock();
+    }
+
+    Cell* ProtoSpace::getFreeCells(ProtoContext* ctx) {
         std::unique_lock<std::recursive_mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
 
-        // Effective batch size — used by the flat-freelist fallback and the
-        // OS-allocation path.  Larger batch when multiple threads run so
-        // each refill covers more allocations and lock acquisition is
-        // amortised across more cells.
-        int batchSize = this->blocksPerAllocation;
-        if (this->runningThreads > 1) {
-            int scaled = this->blocksPerAllocation * static_cast<int>(this->runningThreads.load()) * 4;
-            if (scaled < 60000) scaled = 60000;
-            if (scaled > 65536) scaled = 65536;
-            batchSize = scaled;
-        }
+        const bool isGcThread = this->gcThread &&
+            std::this_thread::get_id() == this->gcThread->get_id();
+        // Critical-section allocations and the GC thread cannot wait for the
+        // collector — a critical section holds a half-built tree in C++ locals
+        // that the GC must not observe as garbage, and blocking the GC thread
+        // deadlocks reclamation — and a contextless caller is not a managed
+        // mutator.  These bypass the heap ceiling and allocate from the OS
+        // unconditionally; the resulting overshoot of maxHeapSize is bounded
+        // by their in-flight working set.  With maxHeapSize == 0 (the default)
+        // the limit is disabled and this whole path is the historical
+        // unbounded allocator, bit-for-bit.
+        const bool limitExempt = this->maxHeapSize <= 0 || isGcThread || !ctx
+            || ctx->criticalSectionDepth > 0;
 
-        // Path #5 v2: chunked freelist.  Sweep pre-chunked dead cells into
-        // CELL_CHUNK_SIZE-sized FreeChunk units; popping one chunk is O(1)
-        // and there is no cell-walk to find a cut point.  Each chunk is a
-        // ready-to-consume linked list with a known count.
-        if (this->freeChunks) {
-            FreeChunk* chunk = this->freeChunks;
-            this->freeChunks = chunk->next;
-            Cell* batchHead = chunk->head;
-            this->freeCellsCount -= static_cast<int>(chunk->count);
-            // Recycle the FreeChunk struct for the next sweep.
-            recycleFreeChunk(this, chunk);
-            GC_LOCK_TRACE("getFreeCells REL(chunk)");
-            return batchHead;
-        }
+        int  oomStrikes      = 0;
+        bool oomCallbackUsed = false;
+        bool softWaited      = false;
 
-        // Legacy flat freelist fallback — populated by the per-context
-        // destructor return path (which keeps the original semantics) and
-        // by the OS-allocation overflow below.  When chunks run out, we
-        // hand over whatever remains here.
-        if (this->freeCells) {
-            if (this->freeCellsCount <= batchSize) {
-                Cell* batchHead = this->freeCells;
-                this->freeCells = nullptr;
-                this->freeCellsTail = nullptr;
-                this->freeCellsCount = 0;
-                GC_LOCK_TRACE("getFreeCells REL(flat-all)");
+        for (;;) {
+            // Effective batch size — larger when multiple threads run so each
+            // refill amortises the lock acquisition over more cells.
+            int batchSize = this->blocksPerAllocation;
+            if (this->runningThreads > 1) {
+                int scaled = this->blocksPerAllocation
+                    * static_cast<int>(this->runningThreads.load()) * 4;
+                if (scaled < 60000) scaled = 60000;
+                if (scaled > 65536) scaled = 65536;
+                batchSize = scaled;
+            }
+
+            // Path #5 v2: chunked freelist — O(1) chunk pop.
+            if (this->freeChunks) {
+                FreeChunk* chunk = this->freeChunks;
+                this->freeChunks = chunk->next;
+                Cell* batchHead = chunk->head;
+                this->freeCellsCount -= static_cast<int>(chunk->count);
+                recycleFreeChunk(this, chunk);
+                GC_LOCK_TRACE("getFreeCells REL(chunk)");
                 return batchHead;
             }
-            // Walk batchSize prefix.  Cold path (only the destructor return
-            // path lands cells here in steady state).
-            Cell* batchHead = this->freeCells;
-            Cell* current = batchHead;
-            int count = 1;
-            while (count < batchSize) {
-                Cell* next = current->getNext();
-                if (!next) break;
-                current = next;
-                count++;
+
+            // Legacy flat freelist fallback — populated by the per-context
+            // destructor return path and by OS-allocation overflow.
+            if (this->freeCells) {
+                if (this->freeCellsCount <= batchSize) {
+                    Cell* batchHead = this->freeCells;
+                    this->freeCells = nullptr;
+                    this->freeCellsTail = nullptr;
+                    this->freeCellsCount = 0;
+                    GC_LOCK_TRACE("getFreeCells REL(flat-all)");
+                    return batchHead;
+                }
+                Cell* batchHead = this->freeCells;
+                Cell* current = batchHead;
+                int count = 1;
+                while (count < batchSize) {
+                    Cell* next = current->getNext();
+                    if (!next) break;
+                    current = next;
+                    count++;
+                }
+                this->freeCells = current->getNext();
+                current->setNext(nullptr);
+                this->freeCellsCount -= count;
+                if (!this->freeCells) this->freeCellsTail = nullptr;
+                GC_LOCK_TRACE("getFreeCells REL(flat-partial)");
+                return batchHead;
             }
-            this->freeCells = current->getNext();
-            current->setNext(nullptr);
-            this->freeCellsCount -= count;
-            if (!this->freeCells) this->freeCellsTail = nullptr;
-            GC_LOCK_TRACE("getFreeCells REL(flat-partial)");
+
+            // No free cells: ask the GC to run a cycle.
+            if (this->gcThread && !isGcThread) {
+                if (!this->gcStarted) {
+                    this->gcStarted = true;
+                    this->gcCV.notify_all();
+                }
+            }
+
+            // Size the OS allocation (unchanged sizing policy).
+            int blocksToAllocate;
+            if (this->runningThreads > 1) {
+                blocksToAllocate = batchSize;
+            } else {
+                blocksToAllocate = this->blocksPerAllocation * 50;
+            }
+            if (blocksToAllocate > kMaxBlocksPerOSAllocation)
+                blocksToAllocate = kMaxBlocksPerOSAllocation;
+
+            // --- Allocation-limit enforcement -------------------------------
+            // Skipped entirely for the exempt callers and when no limit is
+            // set (maxHeapSize == 0) — then the loop falls straight through
+            // to the OS-allocation path, exactly as before this feature.
+            if (!limitExempt) {
+                long headroom = static_cast<long>(this->maxHeapSize)
+                              - static_cast<long>(this->heapSize);
+                if (headroom <= 0) {
+                    // HARD zone: the heap is at its ceiling.  Do not grow —
+                    // wait for the GC to reclaim, then re-check the freelist.
+                    reclaimWaitLocked(this, lock, ctx);
+                    unsigned long live =
+                        this->liveCellsLastCycle.load(std::memory_order_relaxed);
+                    // OOM is genuine only when the live (reachable) set itself
+                    // meets the ceiling — no collection can ever help then.
+                    // The mark phase is the authoritative reachability oracle;
+                    // two consecutive confirming cycles absorb the imprecision
+                    // of cells allocated after a cycle's mark snapshot.
+                    if (static_cast<long>(live) + 1
+                            > static_cast<long>(this->maxHeapSize)) {
+                        if (++oomStrikes >= 2) {
+                            if (!oomCallbackUsed && this->outOfMemoryCallback) {
+                                // Give the embedder one chance to free caches.
+                                oomCallbackUsed = true;
+                                oomStrikes = 0;
+                                lock.unlock();
+                                this->outOfMemoryCallback(ctx);
+                                lock.lock();
+                            } else {
+                                // Confirmed, unrecoverable out of memory.
+                                lock.unlock();
+                                std::fprintf(stderr,
+                                    "protoCore: heap hard limit %d cells "
+                                    "reached; live set %lu cells — out of "
+                                    "memory\n", this->maxHeapSize, live);
+                                std::fflush(stderr);
+                                std::abort();
+                            }
+                        }
+                    } else {
+                        oomStrikes = 0;  // live set fits — reclamation catches up
+                    }
+                    continue;  // re-check the freelist (sweep may have refilled)
+                }
+                if (this->softHeapLimit > 0
+                    && this->heapSize >= this->softHeapLimit
+                    && !softWaited) {
+                    // SOFT zone: prefer reclamation over growth.  Wait one
+                    // cycle, then re-check; grow only if that did not help.
+                    softWaited = true;
+                    reclaimWaitLocked(this, lock, ctx);
+                    continue;
+                }
+                // Clamp the OS request so heapSize never crosses maxHeapSize.
+                if (static_cast<long>(blocksToAllocate) > headroom)
+                    blocksToAllocate = static_cast<int>(headroom);
+                // The partitioning below hands the first `batchSize` cells to
+                // the caller; keep batchSize within the (possibly clamped)
+                // allocation so it never indexes past the block.
+                if (batchSize > blocksToAllocate)
+                    batchSize = blocksToAllocate;
+            }
+
+            // --- OS allocation ----------------------------------------------
+            // Do the expensive posix_memalign + chaining outside the lock so
+            // other threads can make progress.
+            lock.unlock();
+            GC_LOCK_TRACE("getFreeCells REL(OS alloc)");
+
+            Cell* newMemory = nullptr;
+            int result = posix_memalign(reinterpret_cast<void**>(&newMemory),
+                                        64,
+                                        blocksToAllocate * sizeof(BigCell));
+            if (result != 0) {
+                // The OS itself is exhausted — beneath any protoCore ceiling.
+                if (this->outOfMemoryCallback)
+                    this->outOfMemoryCallback(ctx);
+                std::fprintf(stderr,
+                    "protoCore: OS allocation of %d cells failed (result %d) "
+                    "— out of memory\n", blocksToAllocate, result);
+                std::fflush(stderr);
+                std::abort();
+            }
+
+            BigCell* bigCellPtr = reinterpret_cast<BigCell*>(newMemory);
+            // Build the OS allocation as one contiguous chained block.
+            for (int i = 0; i < blocksToAllocate - 1; ++i) {
+                reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(
+                    reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
+            }
+            reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])
+                ->internalSetNextRaw(nullptr);
+
+            // The first batchSize cells go directly to the calling thread.
+            Cell* batchHead = reinterpret_cast<Cell*>(newMemory);
+            reinterpret_cast<Cell*>(&bigCellPtr[batchSize - 1])
+                ->internalSetNextRaw(nullptr);
+
+            lock.lock();
+            GC_LOCK_TRACE("getFreeCells ACQ(OS done)");
+            this->heapSize += blocksToAllocate;
+
+            // Partition the remainder into CELL_CHUNK_SIZE chunks so the next
+            // getFreeCells lands in the O(1) chunked fast path.
+            int remainderStart = batchSize;
+            while (remainderStart < blocksToAllocate) {
+                int remaining = blocksToAllocate - remainderStart;
+                int chunkSize = (remaining > static_cast<int>(CELL_CHUNK_SIZE))
+                    ? static_cast<int>(CELL_CHUNK_SIZE) : remaining;
+                Cell* chunkHead = reinterpret_cast<Cell*>(&bigCellPtr[remainderStart]);
+                Cell* chunkTail = reinterpret_cast<Cell*>(
+                    &bigCellPtr[remainderStart + chunkSize - 1]);
+                chunkTail->internalSetNextRaw(nullptr);
+                publishFreeChunk(this, chunkHead, chunkTail,
+                                 static_cast<unsigned long>(chunkSize));
+                remainderStart += chunkSize;
+            }
+
+            GC_LOCK_TRACE("getFreeCells REL(return OS)");
             return batchHead;
         }
+    }
 
-        // No free cells: trigger GC but DO NOT park. We will allocate from the OS directly
-        // to avoid deadlocks where the gc thread is waiting for STW but some threads are stuck in wait().
-        if (this->gcThread && std::this_thread::get_id() != this->gcThread->get_id()) {
-            if (!this->gcStarted) {
-                this->gcStarted = true;
-                this->gcCV.notify_all();
-            }
-        }
-        // Fall through to OS allocation.
-
-        // No free cells: allocate from OS. Do the expensive work (posix_memalign + chaining)
-        // outside the lock so other threads can make progress; only hold the lock to update
-        // the global free list. Otherwise 4 threads would serialize on one lock for ~50ms+ each.
-        int blocksToAllocate;
-        if (this->runningThreads > 1) {
-            blocksToAllocate = batchSize;
-        } else {
-            int osAllocationMultiplier = 50;
-            blocksToAllocate = this->blocksPerAllocation * osAllocationMultiplier;
-        }
-        if (blocksToAllocate > kMaxBlocksPerOSAllocation)
-            blocksToAllocate = kMaxBlocksPerOSAllocation;
-
-        lock.unlock();
-        GC_LOCK_TRACE("getFreeCells REL(OS alloc)");
-
-        Cell* newMemory = nullptr;
-        int result = posix_memalign(reinterpret_cast<void**>(&newMemory), 64, blocksToAllocate * sizeof(BigCell));
-        if (result != 0) {
-            if (this->outOfMemoryCallback)
-                (this->outOfMemoryCallback(nullptr));
-            if (std::getenv("PROTO_ENV_DIAG")) {
-                std::cerr << "NO MORE MEMORY!!: " << result << std::endl;
-            }
-            exit(-1);
-        }
-
-        BigCell* bigCellPtr = reinterpret_cast<BigCell*>(newMemory);
-        // Build the entire OS allocation as one chained block; we will
-        // partition it into chunks below.  Cells are CONTIGUOUS in memory
-        // here, so any consumer walking the chain hits the prefetcher's
-        // sequential pattern — bonus locality on top of the chunked
-        // freelist's O(1) refill.
-        for (int i = 0; i < blocksToAllocate - 1; ++i) {
-            reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
-        }
-        reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->internalSetNextRaw(nullptr);
-
-        // The first batchSize cells go directly to the calling thread.
-        Cell* batchHead = reinterpret_cast<Cell*>(newMemory);
-        reinterpret_cast<Cell*>(&bigCellPtr[batchSize - 1])->internalSetNextRaw(nullptr);
-
-        lock.lock();
-        GC_LOCK_TRACE("getFreeCells ACQ(OS done)");
-        this->heapSize += blocksToAllocate;
-
-        // The remainder is partitioned into CELL_CHUNK_SIZE chunks so the
-        // next getFreeCells call lands in the O(1) chunked fast path
-        // instead of the legacy flat-freelist walk.  Last partial chunk
-        // (count < CELL_CHUNK_SIZE) is published as-is.
-        int remainderStart = batchSize;
-        while (remainderStart < blocksToAllocate) {
-            int remaining = blocksToAllocate - remainderStart;
-            int chunkSize = (remaining > static_cast<int>(CELL_CHUNK_SIZE))
-                ? static_cast<int>(CELL_CHUNK_SIZE) : remaining;
-            Cell* chunkHead = reinterpret_cast<Cell*>(&bigCellPtr[remainderStart]);
-            Cell* chunkTail = reinterpret_cast<Cell*>(&bigCellPtr[remainderStart + chunkSize - 1]);
-            // Already terminated above for the global last cell; for inner
-            // chunk boundaries, terminate the tail's next.  Cells inside
-            // are contiguous so chain order matches address order.
-            chunkTail->internalSetNextRaw(nullptr);
-            publishFreeChunk(this, chunkHead, chunkTail, static_cast<unsigned long>(chunkSize));
-            remainderStart += chunkSize;
-        }
-
-        GC_LOCK_TRACE("getFreeCells REL(return OS)");
-        return batchHead;
+    void ProtoSpace::setHeapLimits(int softCells, int hardCells) {
+        std::lock_guard<std::recursive_mutex> lock(globalMutex);
+        if (softCells < 0) softCells = 0;
+        if (hardCells < 0) hardCells = 0;
+        // A soft watermark above the hard ceiling is meaningless — clamp it.
+        if (softCells > 0 && hardCells > 0 && softCells > hardCells)
+            softCells = hardCells;
+        this->softHeapLimit = softCells;
+        this->maxHeapSize   = hardCells;
     }
 
     void ProtoSpace::submitYoungGeneration(const Cell* cell) {
