@@ -874,8 +874,14 @@ namespace proto {
 
     // ---- SymbolTable ----------------------------------------------------------
     // 64-shard concurrent interning table. Replaces TupleDictionary for strings.
-    // Strong symbols (from literals) are never collected.
-    // Weak symbols (auto-interned) are removed by GC sweep before cell reclaim.
+    //
+    // Every interned string (symbol) is PERENNIAL: its Cells are allocated with
+    // a null ProtoContext, so they bypass every thread freelist and context
+    // young chain and live for the lifetime of the process. Symbols are
+    // therefore never analysed by the GC's mark/sweep and never participate in
+    // root collection — there is nothing to protect and nothing to evict. A
+    // name, once interned, keeps its canonical pointer forever, which is what
+    // makes pointer-identity symbol comparison sound. See SymbolTable.cpp.
     class SymbolTable {
     public:
         static constexpr int SHARD_COUNT = 64;
@@ -883,7 +889,6 @@ namespace proto {
         struct Bucket {
             uint64_t           content_hash;
             const ProtoObject* symbol;          // POINTER_TAG_SYMBOL pointer
-            bool               is_strong;
             Bucket*            next;
         };
 
@@ -897,16 +902,17 @@ namespace proto {
         SymbolTable()  = default;
         ~SymbolTable();
 
+        // Return the canonical, perennial symbol for `strObj`, interning it on
+        // first sight. The interned string is always built with a null
+        // ProtoContext (see SymbolTable.cpp) — there is deliberately no
+        // "weak"/collectible variant.
         const ProtoObject* intern(ProtoContext* ctx,
-                                   const ProtoObject* strObj,
-                                   bool is_strong = false);
+                                   const ProtoObject* strObj);
 
         // Read-only lookup — returns existing symbol if found, nullptr if not interned.
         // Does NOT insert into the table. Safe to call on hot read paths.
         const ProtoObject* lookupByContent(ProtoContext* ctx,
                                             const ProtoObject* strObj) const;
-
-        void removeWeak(uint64_t content_hash, const ProtoObject* symbol);
 
         static bool isSymbol(const ProtoObject* obj);
 
@@ -916,13 +922,12 @@ namespace proto {
         }
         static bool contentEqual(ProtoContext* ctx,
                                   const ProtoObject* a, const ProtoObject* b);
-        // Build a fresh ProtoStringImplementation with the same content
-        // as `strObj`.  `readCtx` traverses `strObj`; `allocCtx` owns
-        // every new Cell.  Pass `allocCtx = nullptr` for strong-intern
-        // (perpetual) symbols — see SymbolTable.cpp for the rationale.
+        // Build a fresh ProtoStringImplementation with the same content as
+        // `strObj`.  `readCtx` traverses `strObj`; every new Cell is allocated
+        // with a NULL ProtoContext so the resulting symbol is perpetual — see
+        // SymbolTable.cpp for the rationale.
         static const ProtoStringImplementation* normalizeForSymbol(
-            ProtoContext* readCtx, ProtoContext* allocCtx,
-            const ProtoObject* strObj);
+            ProtoContext* readCtx, const ProtoObject* strObj);
     };
 
     // ---- StringLeafNode -------------------------------------------------------

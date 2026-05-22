@@ -1242,7 +1242,7 @@ namespace proto {
                 reinterpret_cast<const uint8_t*>(utf8),
                 len);
         const ProtoObject* str_obj = impl->implAsObject(ctx);
-        const ProtoObject* sym = ctx->space->symbolTable->intern(ctx, str_obj, /*is_strong=*/true);
+        const ProtoObject* sym = ctx->space->symbolTable->intern(ctx, str_obj);
         return reinterpret_cast<const ProtoString*>(sym);
     }
 

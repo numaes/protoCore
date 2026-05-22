@@ -5,9 +5,15 @@
  * own mutex, eliminating the single-mutex bottleneck of TupleDictionary for
  * string lookups.
  *
- * Strong symbols (created by ProtoString::createSymbol) are pinned as GC
- * roots and are never collected. Weak symbols can be removed during GC sweep
- * via removeWeak().
+ * Every interned string (symbol) is PERENNIAL. `intern` builds the canonical
+ * ProtoStringImplementation with a NULL ProtoContext, which routes every Cell
+ * allocation through `posix_memalign` directly: the Cells are never enrolled
+ * in any thread freelist or context young-generation chain, so the GC's
+ * mark/sweep and root collection never see them — they live for the lifetime
+ * of the process. There is no "weak"/collectible symbol variant: a name, once
+ * interned, must keep its canonical pointer forever for pointer-identity
+ * symbol comparison to be sound. See DESIGN.md § "Perpetual allocations via
+ * NULL ProtoContext".
  */
 
 #include "proto_internal.h"
@@ -59,23 +65,22 @@ bool SymbolTable::contentEqual(ProtoContext* ctx,
 // normalizeForSymbol — convert any string representation to a fresh
 // ProtoStringImplementation whose hash reflects its AVL content.
 //
-// `readCtx` is used only for reading from `strObj` (iterating its rope);
-// `allocCtx` is used for the new ProtoStringImplementation and its AVL
-// nodes.  The two are kept distinct so a strong intern can pass
-// `allocCtx = nullptr`, which routes every Cell allocation through
-// `posix_memalign` directly: the resulting Cells are never enrolled in
-// any thread freelist, never appear in a context's young-generation
-// chain, and are therefore invisible to the GC's free-and-recycle
-// machinery — they live for the lifetime of the process.  See
-// DESIGN.md § "Perpetual allocations via NULL ProtoContext".
+// `readCtx` is used only for reading from `strObj` (iterating its rope). The
+// new ProtoStringImplementation and its AVL nodes are ALWAYS allocated with a
+// null ProtoContext: that routes every Cell allocation through
+// `posix_memalign` directly, so the resulting Cells are never enrolled in any
+// thread freelist, never appear in a context's young-generation chain, and
+// are therefore invisible to the GC's free-and-recycle machinery — they live
+// for the lifetime of the process. Every symbol is perennial by construction;
+// see the file header and DESIGN.md § "Perpetual allocations via NULL
+// ProtoContext".
 // ---------------------------------------------------------------------------
 const ProtoStringImplementation* SymbolTable::normalizeForSymbol(
-        ProtoContext* readCtx, ProtoContext* allocCtx,
-        const ProtoObject* strObj) {
+        ProtoContext* readCtx, const ProtoObject* strObj) {
     std::string utf8;
     reinterpret_cast<const ProtoString*>(strObj)->toUTF8String(readCtx, utf8);
     return ProtoStringImplementation::fromUTF8Bytes(
-        allocCtx,
+        /*ctx=*/nullptr,
         reinterpret_cast<const uint8_t*>(utf8.data()),
         utf8.size());
 }
@@ -83,21 +88,15 @@ const ProtoStringImplementation* SymbolTable::normalizeForSymbol(
 // ---------------------------------------------------------------------------
 // intern — return the canonical symbol for strObj, inserting if absent.
 //
-// Allocation (normalizeForSymbol / implAsSymbol) is performed BEFORE acquiring
-// the shard lock to avoid a lock-order inversion with the GC global lock:
-//
-//   Thread A: holds shard.mutex → triggers allocation → waits for globalMutex
-//   GC thread: holds globalMutex → calls removeWeak → waits for shard.mutex
-//              → DEADLOCK
-//
-// The double-checked locking pattern below avoids this by performing all
-// potentially-allocating work outside the critical section.  A re-check
-// inside the lock handles the race where two threads intern the same string
-// concurrently.
+// All potentially-allocating work (normalizeForSymbol / implAsSymbol) is
+// performed BEFORE acquiring the shard lock, so the shard mutex is never held
+// across an allocation. This keeps the shard lock a strict leaf lock — it is
+// never ordered against the GC global lock — and the double-checked-locking
+// re-check inside the critical section handles the race where two threads
+// intern the same string concurrently.
 // ---------------------------------------------------------------------------
 const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
-                                        const ProtoObject* strObj,
-                                        bool is_strong) {
+                                        const ProtoObject* strObj) {
     if (!strObj) return strObj;
 
     ProtoObjectPointer pa{};
@@ -111,18 +110,17 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     // normalizeForSymbol may allocate Cells; doing so without holding
     // shard.mutex prevents the deadlock described above.
     //
-    // Strong symbols are allocated with `allocCtx = nullptr`, which makes
-    // their Cells perpetual (posix_memalign-only, never on any thread
-    // freelist or context young chain).  This is correct because a
-    // strong symbol's identity must outlive every individual context
-    // and thread that ever references it — typical strong symbols are
-    // attribute names, language keywords, and protoCore-side cached
-    // literals — and it removes the per-GC-cycle cost of having to
-    // mark every strong-symbol Cell as a root.  Weak symbols continue
-    // to allocate against `ctx` and follow the normal GC lifetime.
-    ProtoContext* allocCtx = is_strong ? nullptr : ctx;
+    // normalizeForSymbol always builds the interned string with a NULL
+    // ProtoContext, so every symbol's Cells are perpetual: allocated via
+    // posix_memalign, never on any thread freelist or context young chain,
+    // invisible to the GC. A symbol's identity must outlive every individual
+    // context and thread that references it (symbols are attribute names,
+    // language keywords, protoCore-side cached literals), and being perpetual
+    // also removes any per-GC-cycle cost of protecting symbol Cells. The
+    // candidate that loses the insert race below is likewise perpetual — it
+    // simply becomes unreferenced; there is no Cell for the GC to reclaim.
     const ProtoStringImplementation* normalized =
-        normalizeForSymbol(ctx, allocCtx, strObj);
+        normalizeForSymbol(ctx, strObj);
     const ProtoObject* symbol_candidate = reinterpret_cast<const ProtoObject*>(
         normalized->implAsSymbol(ctx));
     uint64_t hash = normalized->implGetHash();
@@ -133,8 +131,7 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
         std::lock_guard<std::mutex> lock(shard.mutex);
 
         // Re-check: another thread may have interned the same string while
-        // we were normalizing above.  If so, return the existing symbol and
-        // let the GC collect symbol_candidate.
+        // we were normalizing above.  If so, return the existing symbol.
         for (Bucket* b = shard.head; b; b = b->next) {
             if (b->content_hash == hash &&
                 contentEqual(ctx, b->symbol, strObj))
@@ -142,7 +139,7 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
         }
 
         // Not found — insert the pre-built candidate.
-        Bucket* bucket = new Bucket{ hash, symbol_candidate, is_strong, shard.head };
+        Bucket* bucket = new Bucket{ hash, symbol_candidate, shard.head };
         shard.head = bucket;
         return symbol_candidate;
     }
@@ -178,24 +175,6 @@ const ProtoObject* SymbolTable::lookupByContent(ProtoContext* ctx,
             return b->symbol;
     }
     return nullptr;
-}
-
-// ---------------------------------------------------------------------------
-// removeWeak — called by GC sweep to evict a collected weak symbol.
-// ---------------------------------------------------------------------------
-void SymbolTable::removeWeak(uint64_t content_hash, const ProtoObject* symbol) {
-    int shard_idx = shardIndex(content_hash);
-    Shard& shard  = shards[shard_idx];
-    std::lock_guard<std::mutex> lock(shard.mutex);
-    Bucket** prev = &shard.head;
-    for (Bucket* b = shard.head; b; b = b->next) {
-        if (b->content_hash == content_hash && b->symbol == symbol && !b->is_strong) {
-            *prev = b->next;
-            delete b;
-            return;
-        }
-        prev = &b->next;
-    }
 }
 
 } // namespace proto

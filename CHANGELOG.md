@@ -3,6 +3,20 @@
 All notable changes to protoCore are documented in this file.
 
 ## [Unreleased] - 2026-05-04
+### Changed
+- **Interned strings are always perennial** — `SymbolTable::intern` now builds
+  every symbol with a null `ProtoContext` unconditionally; the `is_strong`
+  parameter and the never-called `removeWeak()` weak-eviction path are removed.
+  Previously a "weak" symbol could be allocated against a `ProtoContext` and
+  collected by the GC — but every caller already interned strong, so the weak
+  path was dead code, and it was unsound to keep: a perennial symbol whose
+  bucket got evicted would lose its canonical pointer and break pointer-identity
+  symbol comparison. Now, when a symbol is created — or a non-interned string is
+  converted to one — the interned string is allocated outside the GC and lives
+  for the lifetime of the process. No public API change
+  (`ProtoString::createSymbol` is unchanged). See `SymbolTable.cpp` and
+  DESIGN.md § "Perpetual allocations via NULL ProtoContext".
+
 ### Fixed
 - **GC stale-mark bug** — Mark phase set the per-cell mark bit on every reachable
   cell, but Sweep only cleared that bit on cells inside the captured

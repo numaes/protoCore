@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <thread>
+#include <chrono>
 #include <vector>
 #include "protoCore.h"
 #include "proto_internal.h"
@@ -723,4 +724,62 @@ TEST_F(SymbolTest, ConcurrentInternSamePointer) {
     for (int i = 1; i < NTHREADS; ++i)
         EXPECT_EQ(results[0], results[i])
             << "Thread " << i << " got a different pointer";
+}
+
+// ---- Perennial-symbol guarantee --------------------------------------------
+// Every interned string is built by SymbolTable::intern with a null
+// ProtoContext, so its Cells are perpetual: never on a thread freelist or a
+// context young-generation chain, never seen by the GC. The two tests below
+// pin that guarantee — a symbol must outlive both the context that interned
+// it and any number of GC cycles, keeping its canonical pointer and content.
+
+TEST_F(SymbolTest, SymbolOutlivesItsInterningContext) {
+    // 19 bytes — well past the inline-string limit, so this is a real
+    // SymbolTable entry (a heap ProtoStringImplementation), not an inline
+    // string that would be perpetual for the trivial reason of having no Cell.
+    const char* name = "perennialSymbolName";
+    const ProtoString* sym = nullptr;
+    {
+        // Intern the symbol through a short-lived context, then destroy it.
+        proto::ProtoContext tmp{&space};
+        sym = ProtoString::createSymbol(&tmp, name);
+        ASSERT_NE(sym, nullptr);
+        EXPECT_TRUE(SymbolTable::isSymbol(
+            reinterpret_cast<const ProtoObject*>(sym)));
+    }
+    // `tmp` is gone. A context-allocated symbol could have been reclaimed
+    // with it; a perennial one cannot. Re-interning the same name from a
+    // different context must return the identical canonical pointer, and the
+    // content read back through it must be intact.
+    const ProtoString* again = ProtoString::createSymbol(c, name);
+    EXPECT_EQ(sym, again)
+        << "symbol identity lost after its interning context was destroyed";
+    std::string out;
+    again->toUTF8String(c, out);
+    EXPECT_EQ(out, name);
+}
+
+TEST_F(SymbolTest, SymbolSurvivesGcStress) {
+    const char* name = "anotherPerennialName";
+    const ProtoString* sym = ProtoString::createSymbol(c, name);
+    ASSERT_NE(sym, nullptr);
+
+    // Drive many GC cycles with allocation storms in short-lived contexts.
+    for (int i = 0; i < 50; ++i) {
+        proto::ProtoContext sub{&space};
+        for (int j = 0; j < 5000; ++j) sub.newObject(false);
+    }
+    space.triggerGC();
+    for (int i = 0; i < 5; ++i)
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    // The symbol must be untouched by every collection: same canonical
+    // pointer, still a symbol, content intact.
+    const ProtoString* again = ProtoString::createSymbol(c, name);
+    EXPECT_EQ(sym, again) << "symbol pointer changed across GC — not perennial";
+    EXPECT_TRUE(SymbolTable::isSymbol(
+        reinterpret_cast<const ProtoObject*>(again)));
+    std::string out;
+    again->toUTF8String(c, out);
+    EXPECT_EQ(out, name);
 }

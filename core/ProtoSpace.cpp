@@ -308,18 +308,16 @@ namespace proto {
                     }
                 }
 
-                // Strong symbols are NOT scanned here.  As of the
-                // perpetual-allocation refactor (SymbolTable::intern with
-                // is_strong=true now passes a null ProtoContext to the
-                // underlying allocator), strong-symbol Cells are
-                // allocated via posix_memalign directly — they are
-                // never enrolled in any thread freelist or context
-                // young chain, so the GC's mark/sweep machinery never
-                // sees them as candidates and there is nothing to
-                // protect.  Iterating every shard on every GC cycle
-                // would be pure overhead.  Weak symbols still take the
-                // ctx-tracked allocation path and obey the normal
-                // GC lifetime.
+                // Symbols are NOT scanned here.  Every interned string is
+                // perennial: SymbolTable::intern always builds the symbol
+                // with a null ProtoContext, so its Cells are allocated via
+                // posix_memalign directly — never enrolled in any thread
+                // freelist or context young chain.  The GC's mark/sweep
+                // machinery therefore never sees a symbol Cell as a
+                // candidate, there is nothing to protect, and iterating
+                // every SymbolTable shard on every GC cycle would be pure
+                // overhead.  (There is no longer any "weak"/collectible
+                // symbol variant.)
 
                 // Scan all mutableRoot shards so GC traces every live mutable-object snapshot.
                 for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {

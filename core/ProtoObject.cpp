@@ -521,9 +521,9 @@ namespace proto
             // gets a different currentValue → natural cache miss → correct re-lookup.
             //
             // hash_idx uses the name's pointer identity as the hash
-            // component: attribute keys are auto-interned strong symbols
-            // (SymbolTable::intern with is_strong=true), so two names
-            // with the same content always share a pointer.  Avoids the
+            // component: attribute keys are auto-interned (perennial)
+            // symbols (SymbolTable::intern), so two names with the same
+            // content always share a pointer.  Avoids the
             // cross-DSO `name->getHash(context)` call, which on
             // rope-backed symbols re-traverses the tree and was costing
             // ~5 % of CPU per lookup before this change.  Right-shift by
@@ -637,7 +637,7 @@ namespace proto
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
                 const ProtoObject* sym = context->space->symbolTable->intern(
-                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/true);
+                    context, reinterpret_cast<const ProtoObject*>(name));
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
         }
@@ -768,7 +768,7 @@ namespace proto
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
                 const ProtoObject* sym = context->space->symbolTable->intern(
-                    context, reinterpret_cast<const ProtoObject*>(name), /*is_strong=*/true);
+                    context, reinterpret_cast<const ProtoObject*>(name));
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
         }

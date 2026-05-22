@@ -130,7 +130,7 @@ auto* impl = ProtoStringImplementation::fromUTF8Bytes(/*ctx=*/nullptr, bytes, le
 
 The key property is that *the entire reachable subgraph must be allocated null-context too*: a perpetual root that points to a normal GC-managed Cell is a ticking bomb because the GC sees no path to that child and will reclaim it. In practice this is enforced by passing a single `nullptr` through the construction call chain (`fromUTF8Bytes` → `buildAVL` → `new(ctx) ...`), since every allocation site in protoCore takes its `ProtoContext*` as a parameter and forwards it.
 
-The canonical user is `SymbolTable::intern(strObj, is_strong=true)`: every strong symbol — including the implicit auto-intern that `ProtoObject::setAttribute` performs on a non-interned heap String — is allocated null-context. There is no per-cycle GC scan to mark them, and there is no SymbolTable bucket pointing to a Cell that might be reclaimed.
+The canonical user is `SymbolTable::intern`: every interned string (symbol) — including the implicit auto-intern that `ProtoObject::setAttribute` performs on a non-interned heap String — is allocated null-context. There is deliberately no "weak"/collectible symbol variant: a name, once interned, keeps its canonical pointer for the entire lifetime of the process, which is what makes pointer-identity symbol comparison sound. Consequently there is no per-cycle GC scan to mark symbols, and no SymbolTable bucket ever points to a Cell that might be reclaimed.
 
 **When to use it**:
 * The object is a singleton or a member of a closed, source-bounded set (attribute names, language keywords, type prototypes).
@@ -188,7 +188,7 @@ All core collection types in Proto are implemented as persistent, immutable data
 
   * **Tier 1 — Embedded pointer** (`POINTER_TAG_EMBEDDED_VALUE`): strings ≤6 UTF-8 bytes encoded directly in the tagged pointer. Zero heap allocation; pointer equality implies content equality.
 
-  * **Tier 2 — Symbol** (`POINTER_TAG_SYMBOL` = 22): interned strings used as identifiers and attribute keys. Backed by a `ProtoStringImplementation` wrapping a persistent AVL tree. A **64-shard `SymbolTable`** (one `std::mutex` per shard, double-checked locking) guarantees that equal content always returns the same pointer. Strong symbols (created by `createSymbol()` or ProtoSpace literals) are GC roots; weak symbols (auto-interned keys) are evictable via `removeWeak()`. Read-only lookups use the non-inserting `lookupByContent()` path with no allocation or lock side effects.
+  * **Tier 2 — Symbol** (`POINTER_TAG_SYMBOL` = 22): interned strings used as identifiers and attribute keys. Backed by a `ProtoStringImplementation` wrapping a persistent AVL tree. A **64-shard `SymbolTable`** (one `std::mutex` per shard, double-checked locking) guarantees that equal content always returns the same pointer. Every symbol is **perennial**: `intern` always builds it with a null `ProtoContext`, so it is allocated outside the GC entirely — never marked, never swept, never a root, never evicted — and a name keeps its canonical pointer for the lifetime of the process. Read-only lookups use the non-inserting `lookupByContent()` path with no allocation or lock side effects.
 
   * **Tier 3 — String** (`POINTER_TAG_STRING` = 6): non-interned heap strings for general text. Same AVL tree cells as Symbol but not deduplicated.
 
