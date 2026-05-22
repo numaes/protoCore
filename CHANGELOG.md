@@ -2,7 +2,7 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased] - 2026-05-22
+## [1.2.0] - 2026-05-22
 ### Added
 - **`ProtoObject::setAttributeIfEqual` — public attribute compare-and-swap** —
   `setAttributeIfEqual(ctx, name, expected, newValue)` writes `newValue` only
@@ -44,12 +44,6 @@ All notable changes to protoCore are documented in this file.
   - See `DESIGN.md` § "The Heap Allocation Limit and Out-of-Memory Detection"
     and `docs/superpowers/specs/2026-05-22-allocation-limit-oom-design.md`.
 
-### Tests
-- 192/192 protoCore tests pass, including 4 new `AllocationLimit*` tests
-  (hard-limit reclamation, soft limit, `setHeapLimits` validation, and an
-  unrecoverable-OOM death test).
-
-## [Unreleased] - 2026-05-04
 ### Changed
 - **Interned strings are always perennial** — `SymbolTable::intern` now builds
   every symbol with a null `ProtoContext` unconditionally; the `is_strong`
@@ -82,8 +76,11 @@ All notable changes to protoCore are documented in this file.
   `docs/GarbageCollector.md` § "Phase 4a: Pre-mark Unmark Pass".
 
 ### Tests
-- 150/150 protoCore tests pass.
-- protoJS `tree_traversal`: 10/10 stable (was 0/5 crashing).
+- 196/196 protoCore tests pass — including the `AllocationLimit*` suite
+  (hard-limit reclamation, soft limit, `setHeapLimits` validation and an
+  unrecoverable-OOM death test) and the `AttributeCas*` suite (compare-and-swap
+  match / mismatch / absent / immutable, plus an 8-thread no-lost-update
+  concurrency proof).
 
 ## [1.1.0] - 2026-04-02
 ### Added
