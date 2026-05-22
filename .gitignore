@@ -4,13 +4,22 @@ docs/_build/
 proto/debug/
 proto/lib/
 
+# Build directories (build/ was already ignored; build_release/ had been
+# tracked by oversight — the same kind of out-of-tree build output).
+build/
+build_release/
+build_check/
+build_asan/
+build-dbg/
+build_nosurv/
+build_off/
+
 # Test and coverage artifacts
 build/.protoCore_test_results.txt
 build/coverage/
 build/*.info
 build/*.gcno
 build/*.gcda
-build/
 Testing/
 
 # Git worktrees
