@@ -107,6 +107,43 @@ The GC is designed to minimize application pauses.
 *   **Cooperative GC Safepoints**: To ensure the GC can always reach a Stop-The-World (STW) state, long-running loops in embedders (like a bytecode interpreter) should periodically call `ProtoContext::safepoint()`. This is a low-overhead check (relaxed atomic load) that allows the thread to park if a GC cycle is pending. This prevents "GC starvation" where a single CPU-bound thread stalls the entire system.
 *   **Implicit Generational Collection**: The `ProtoContext` object, which represents a function's scope, tracks all new cells allocated within it. When a context is destroyed (i.e., a function returns), it provides its list of newly-allocated cells to the `ProtoSpace`. This acts as a highly efficient, implicit form of generational GC, as most objects are short-lived and can be identified for collection very quickly.
 
+### The Heap Allocation Limit and Out-of-Memory Detection
+
+By default protoCore grows its `Cell` heap without bound — `getFreeCells` keeps
+calling `posix_memalign` and only fails once the OS itself is exhausted. An
+embedder can instead impose a budget with `ProtoSpace::setHeapLimits(softCells,
+hardCells)` (both counted in `Cell`s; `0` disables a limit, the default). The
+feature is fully gated on `maxHeapSize > 0` — with no limit set, the allocator
+is bit-for-bit the historical unbounded path.
+
+*   **Hard ceiling**: `heapSize` (Cells obtained from the OS) never crosses
+    `maxHeapSize`. `getFreeCells` clamps every OS request to the remaining
+    headroom, so at the ceiling a thread keeps running purely on Cells the GC
+    reclaims — reclamation moves Cells from live to free *within* the heap, it
+    does not shrink `heapSize`.
+*   **Soft watermark**: above `softHeapLimit` the allocator does one bounded
+    reclaim-wait before growing, biasing steady state toward reclamation.
+*   **GC-safe waiting**: a thread that must wait for the GC first leaves the
+    running set (`runningThreads--`) so the Stop-The-World quorum is computed
+    without it, then waits on a condition variable with `globalMutex` released.
+    It never pins the quorum. (`ProtoSpace::waitForHeapHeadroom`.)
+*   **Enforced at critical-section boundaries**: a thread inside a critical
+    section (mid tree-build, holding un-anchored cells) must *not* leave the
+    running set — that is what keeps a STW cycle from sweeping its in-flight
+    cells. So the blocking check runs in the `CriticalSection` constructor, at
+    the outermost `0 → 1` depth transition (`ProtoContext::heapLimitCheckpoint`),
+    where the thread holds no half-built tree. An allocation that drains the
+    pool *inside* a critical section may overshoot by at most one OS batch.
+*   **Reliable OOM detection**: out-of-memory is judged by *reclamation*, not by
+    the mark-phase live count — a live context's un-submitted young generation
+    fills the heap without ever entering `markedList`, so a mark-based count
+    would miss it. The GC publishes `reclaimedLastCycle` (Cells swept to the
+    freelist) each cycle; when the heap is at its ceiling and two consecutive
+    completed cycles each reclaim zero Cells, protoCore invokes
+    `outOfMemoryCallback` once (the embedder may free caches) and, if OOM still
+    holds, performs a controlled `std::abort()` with a diagnostic. See
+    `docs/superpowers/specs/2026-05-22-allocation-limit-oom-design.md`.
+
 ### Concurrency Primitives: Recursive Locking
 
 To prevent deadlocks during complex operations (e.g., allocation triggering GC, which then needs to access global metadata), ProtoCore utilizes a **Global Reentrant Mutex** (`globalMutex`).

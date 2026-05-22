@@ -543,6 +543,9 @@ namespace proto {
                 Cell* chunkHead = nullptr;
                 Cell* chunkTail = nullptr;
                 unsigned long chunkCount = 0;
+                // Total cells reclaimed this cycle, across all published
+                // chunks — the out-of-memory signal (see reclaimedLastCycle).
+                unsigned long reclaimedThisCycle = 0;
 
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
@@ -604,6 +607,7 @@ namespace proto {
                         }
                         chunkHead = batchHead;
                         chunkCount += batchCount;
+                        reclaimedThisCycle += batchCount;
 
                         // If we've crossed the chunk-size threshold, publish.
                         // Most segments are small (~5.86 cells avg) so this
@@ -744,12 +748,16 @@ namespace proto {
                 GC_LOCK_TRACE("gcLoop ACQ(after-sweep)");
                 lock.lock(); // Re-acquire for next wait
                 space->gcStarted = false;
-                // Publish the authoritative live-set size of the cycle just
-                // finished — markedList holds exactly the Cells the mark phase
-                // reached from the roots.  getFreeCells() reads this to decide
-                // reliably whether the heap is genuinely out of memory.  Then
-                // wake any thread parked in getFreeCells() waiting for the
-                // sweep to refill the freelist (allocation-limit path).
+                // Publish the cycle's accounting for the heap-limit path:
+                //  * reclaimedLastCycle — cells the sweep returned to the
+                //    freelist; the authoritative out-of-memory signal
+                //    (waitForHeapHeadroom: two zero-reclaim cycles == OOM).
+                //  * liveCellsLastCycle — mark-phase reachable count, used
+                //    only for the OOM abort's diagnostic message.
+                // Then wake any thread parked waiting for the sweep to refill
+                // the freelist (allocation-limit path).
+                space->reclaimedLastCycle.store(reclaimedThisCycle,
+                                                std::memory_order_relaxed);
                 space->liveCellsLastCycle.store(markedList.size(),
                                                 std::memory_order_relaxed);
                 space->memoryReclaimedCV.notify_all();
@@ -793,6 +801,7 @@ namespace proto {
         survivorStagger(SURVIVOR_STAGGER_DEFAULT),
         gcCycleCount(0),
         liveCellsLastCycle(0),
+        reclaimedLastCycle(0),
         freeCells(nullptr),
         freeCellsTail(nullptr),
         freeChunks(nullptr),
@@ -1060,27 +1069,95 @@ namespace proto {
         lock.lock();
     }
 
+    void ProtoSpace::waitForHeapHeadroom(ProtoContext* ctx) {
+        // No limit configured, the GC thread itself, or a contextless caller:
+        // nothing to enforce — these cannot, or need not, wait for the GC.
+        if (this->maxHeapSize <= 0 || !ctx) return;
+        if (this->gcThread &&
+            std::this_thread::get_id() == this->gcThread->get_id()) return;
+
+        std::unique_lock<std::recursive_mutex> lock(globalMutex);
+        int  oomStrikes      = 0;
+        bool oomCallbackUsed = false;
+        uint64_t lastSeenCycle =
+            this->gcCycleCount.load(std::memory_order_relaxed);
+        for (;;) {
+            if (this->state == SPACE_STATE_ENDING) return;
+            // Room left to grow the heap, or recycled cells already waiting in
+            // the freelist — the next allocation can be served without
+            // crossing the ceiling.
+            if (this->heapSize < this->maxHeapSize) return;
+            if (this->freeChunks || this->freeCells) return;
+            // At the ceiling with an empty freelist: let the GC reclaim, then
+            // re-check.  reclaimWaitLocked leaves the running set for the wait
+            // so this thread never stalls the stop-the-world quorum.
+            reclaimWaitLocked(this, lock, ctx);
+            if (this->freeChunks || this->freeCells) return;
+
+            // The freelist is still empty.  Distinguish "no cycle has
+            // completed yet" (reclaimWaitLocked returned on its 50 ms
+            // timeout) from "a cycle completed and reclaimed nothing".  Only
+            // the latter is evidence of out of memory.
+            uint64_t cycle = this->gcCycleCount.load(std::memory_order_relaxed);
+            if (cycle == lastSeenCycle) continue;  // collection still pending
+            lastSeenCycle = cycle;
+
+            // A full cycle completed without refilling the freelist.  OOM is
+            // genuine when the cycle reclaimed nothing: no future cycle can
+            // do better while the live set is unchanged.  Reclamation — not
+            // mark-phase reachability — is the metric, because a live
+            // context's un-submitted young generation fills the heap without
+            // ever entering markedList.  Two consecutive zero-reclaim cycles
+            // confirm it, absorbing a single cycle's timing races.
+            unsigned long reclaimed =
+                this->reclaimedLastCycle.load(std::memory_order_relaxed);
+            if (reclaimed == 0) {
+                if (++oomStrikes >= 2) {
+                    if (!oomCallbackUsed && this->outOfMemoryCallback) {
+                        // Give the embedder one chance to free its caches.
+                        oomCallbackUsed = true;
+                        oomStrikes = 0;
+                        lock.unlock();
+                        this->outOfMemoryCallback(ctx);
+                        lock.lock();
+                    } else {
+                        // Confirmed, unrecoverable out of memory.
+                        unsigned long live = this->liveCellsLastCycle.load(
+                            std::memory_order_relaxed);
+                        lock.unlock();
+                        std::fprintf(stderr,
+                            "protoCore: heap hard limit %d cells reached; "
+                            "live set %lu cells, last cycle reclaimed 0 — "
+                            "out of memory\n", this->maxHeapSize, live);
+                        std::fflush(stderr);
+                        std::abort();
+                    }
+                }
+            } else {
+                oomStrikes = 0;  // the GC freed cells — reclamation works
+            }
+        }
+    }
+
     Cell* ProtoSpace::getFreeCells(ProtoContext* ctx) {
         std::unique_lock<std::recursive_mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
 
         const bool isGcThread = this->gcThread &&
             std::this_thread::get_id() == this->gcThread->get_id();
-        // Critical-section allocations and the GC thread cannot wait for the
-        // collector — a critical section holds a half-built tree in C++ locals
-        // that the GC must not observe as garbage, and blocking the GC thread
-        // deadlocks reclamation — and a contextless caller is not a managed
-        // mutator.  These bypass the heap ceiling and allocate from the OS
-        // unconditionally; the resulting overshoot of maxHeapSize is bounded
-        // by their in-flight working set.  With maxHeapSize == 0 (the default)
-        // the limit is disabled and this whole path is the historical
-        // unbounded allocator, bit-for-bit.
-        const bool limitExempt = this->maxHeapSize <= 0 || isGcThread || !ctx
-            || ctx->criticalSectionDepth > 0;
+        // The GC thread cannot wait on its own collection, and a contextless
+        // caller is not a managed mutator — both bypass the ceiling.  Ordinary
+        // mutator allocations honour it, including those inside a critical
+        // section: the blocking enforcement runs at critical-section
+        // boundaries (ProtoContext::heapLimitCheckpoint), and the OS-request
+        // clamp below keeps heapSize from crossing maxHeapSize regardless.
+        // With maxHeapSize == 0 (the default) the limit is disabled and this
+        // whole path is the historical unbounded allocator, bit-for-bit.
+        const bool limitExempt = this->maxHeapSize <= 0 || isGcThread || !ctx;
 
-        int  oomStrikes      = 0;
-        bool oomCallbackUsed = false;
-        bool softWaited      = false;
+        // One-shot soft-zone wait: the soft watermark biases toward
+        // reclamation once per getFreeCells call, never blocking past it.
+        bool softWaited = false;
 
         for (;;) {
             // Effective batch size — larger when multiple threads run so each
@@ -1159,59 +1236,44 @@ namespace proto {
                 long headroom = static_cast<long>(this->maxHeapSize)
                               - static_cast<long>(this->heapSize);
                 if (headroom <= 0) {
-                    // HARD zone: the heap is at its ceiling.  Do not grow —
-                    // wait for the GC to reclaim, then re-check the freelist.
-                    reclaimWaitLocked(this, lock, ctx);
-                    unsigned long live =
-                        this->liveCellsLastCycle.load(std::memory_order_relaxed);
-                    // OOM is genuine only when the live (reachable) set itself
-                    // meets the ceiling — no collection can ever help then.
-                    // The mark phase is the authoritative reachability oracle;
-                    // two consecutive confirming cycles absorb the imprecision
-                    // of cells allocated after a cycle's mark snapshot.
-                    if (static_cast<long>(live) + 1
-                            > static_cast<long>(this->maxHeapSize)) {
-                        if (++oomStrikes >= 2) {
-                            if (!oomCallbackUsed && this->outOfMemoryCallback) {
-                                // Give the embedder one chance to free caches.
-                                oomCallbackUsed = true;
-                                oomStrikes = 0;
-                                lock.unlock();
-                                this->outOfMemoryCallback(ctx);
-                                lock.lock();
-                            } else {
-                                // Confirmed, unrecoverable out of memory.
-                                lock.unlock();
-                                std::fprintf(stderr,
-                                    "protoCore: heap hard limit %d cells "
-                                    "reached; live set %lu cells — out of "
-                                    "memory\n", this->maxHeapSize, live);
-                                std::fflush(stderr);
-                                std::abort();
-                            }
-                        }
-                    } else {
-                        oomStrikes = 0;  // live set fits — reclamation catches up
+                    // HARD zone: the heap is at its ceiling.
+                    if (ctx->criticalSectionDepth == 0) {
+                        // A depth-0 caller holds no half-built tree, so it may
+                        // block for the GC.  waitForHeapHeadroom returns once
+                        // the freelist refills (or escalates a genuine OOM);
+                        // re-check the freelist afterwards.
+                        lock.unlock();
+                        this->waitForHeapHeadroom(ctx);
+                        lock.lock();
+                        continue;
                     }
-                    continue;  // re-check the freelist (sweep may have refilled)
+                    // Inside a critical section the thread cannot block — that
+                    // would expose a helper's un-anchored cells to a STW
+                    // cycle.  The critical-section entry checkpoint already
+                    // enforced the limit; allow a bounded one-batch overshoot
+                    // to satisfy this in-flight allocation.
+                    blocksToAllocate = batchSize;
+                } else {
+                    if (this->softHeapLimit > 0
+                        && this->heapSize >= this->softHeapLimit
+                        && !softWaited
+                        && ctx->criticalSectionDepth == 0) {
+                        // SOFT zone: prefer reclamation over growth.  Wait one
+                        // cycle, then re-check; grow only if that did not help.
+                        softWaited = true;
+                        reclaimWaitLocked(this, lock, ctx);
+                        continue;
+                    }
+                    // Clamp the OS request so heapSize never crosses
+                    // maxHeapSize.
+                    if (static_cast<long>(blocksToAllocate) > headroom)
+                        blocksToAllocate = static_cast<int>(headroom);
+                    // The partitioning below hands the first `batchSize` cells
+                    // to the caller; keep batchSize within the (possibly
+                    // clamped) allocation so it never indexes past the block.
+                    if (batchSize > blocksToAllocate)
+                        batchSize = blocksToAllocate;
                 }
-                if (this->softHeapLimit > 0
-                    && this->heapSize >= this->softHeapLimit
-                    && !softWaited) {
-                    // SOFT zone: prefer reclamation over growth.  Wait one
-                    // cycle, then re-check; grow only if that did not help.
-                    softWaited = true;
-                    reclaimWaitLocked(this, lock, ctx);
-                    continue;
-                }
-                // Clamp the OS request so heapSize never crosses maxHeapSize.
-                if (static_cast<long>(blocksToAllocate) > headroom)
-                    blocksToAllocate = static_cast<int>(headroom);
-                // The partitioning below hands the first `batchSize` cells to
-                // the caller; keep batchSize within the (possibly clamped)
-                // allocation so it never indexes past the block.
-                if (batchSize > blocksToAllocate)
-                    batchSize = blocksToAllocate;
             }
 
             // --- OS allocation ----------------------------------------------

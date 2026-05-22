@@ -1,17 +1,25 @@
 # Allocation Limit & Reliable Out-of-Memory Detection — Design Spec
 
 **Date:** 2026-05-22
-**Component:** protoCore — Cell allocator (`ProtoSpace::getFreeCells`) + GC loop.
+**Component:** protoCore — Cell allocator (`ProtoSpace::getFreeCells`),
+critical-section boundary (`ProtoContext`), and GC loop.
+
+> **Implementation note.** This spec was revised after implementation. Two
+> design points changed once the code met the GC's actual invariants and are
+> documented here as-built: (1) critical-section allocations are *not* exempt
+> from the ceiling — the limit is enforced at critical-section *boundaries*;
+> (2) out-of-memory is detected from per-cycle *reclamation*, not from the
+> mark-phase live count. The rationale for both is in the relevant sections.
 
 ## Problem
 
 When a thread needs Cells and the freelist is empty, `ProtoSpace::getFreeCells`
 allocates a fresh batch from the OS with `posix_memalign`. This is unbounded:
-protoCore has no enforced ceiling on how much memory it takes. The fields
-`maxHeapSize` and `blockOnNoMemory` exist but are initialised to `0` and read
-nowhere. The only failure handling is "`posix_memalign` returned non-zero" →
-`outOfMemoryCallback` then `exit(-1)` — i.e. protoCore only reacts once the OS
-itself is exhausted, never against a configured budget.
+protoCore has no enforced ceiling on how much memory it takes. The field
+`maxHeapSize` exists but is initialised to `0` and read nowhere. The only
+failure handling is "`posix_memalign` returned non-zero" → `outOfMemoryCallback`
+then process exit — i.e. protoCore only reacts once the OS itself is exhausted,
+never against a configured budget.
 
 The desired behaviour: a configurable ceiling; when a thread's allocation would
 exceed it, the thread waits for the GC to reclaim unreferenced Cells and then
@@ -20,13 +28,12 @@ retries. Two hard sub-problems:
 1. **Waiting without breaking stop-the-world (STW).** protoCore's GC is STW: a
    cycle proceeds only once `parkedThreads >= runningThreads`. A thread blocked
    on a condition variable while still counted in `runningThreads` — but unable
-   to reach a safepoint — pins the quorum forever. `getFreeCells` today
-   side-steps this by *never* parking on the no-memory path (`// DO NOT park`),
-   at the cost of the unbounded OS allocation.
+   to reach a safepoint — pins the quorum forever.
 
 2. **Reliably detecting genuine OOM.** "A GC ran and freed nothing" is not, by
-   itself, proof of OOM — a cycle may race the mutator, or another thread may
-   drop a large graph an instant later. A trustworthy criterion is needed.
+   itself, proof of OOM — a cycle may race the mutator. A trustworthy criterion
+   is needed, and it must not be fooled by live Cells that never enter the
+   mark-phase set (see Problem 2).
 
 ## Design
 
@@ -36,13 +43,12 @@ retries. Two hard sub-problems:
 
 - `softHeapLimit` — above it, the allocator prefers reclamation over growth.
 - `maxHeapSize` (existing field, now wired) — the hard ceiling; `heapSize`
-  never exceeds it for managed mutator allocations.
+  never crosses it for ordinary mutator OS allocations.
 
 `0` means "no limit" for either. With both `0` (the default) behaviour is
 **bit-identical to today** — the entire new path is gated on `maxHeapSize > 0`.
 A new `ProtoSpace::setHeapLimits(int softCells, int hardCells)` sets them with
-validation (`soft <= hard`, non-negative). The dead `blockOnNoMemory` field is
-removed.
+validation (`soft <= hard`, non-negative).
 
 `heapSize` is the quantity capped: it counts Cells obtained from the OS and only
 ever grows via `posix_memalign`. Reclamation does not shrink `heapSize`; it
@@ -50,23 +56,13 @@ moves Cells from "live" to "free" *within* the existing heap — which is exactl
 why, at the ceiling, a thread can keep running on reclaimed Cells without the
 heap growing.
 
-### Three zones (evaluated when the freelist is empty)
-
-Let `headroom = maxHeapSize - heapSize` (`+∞` when `maxHeapSize == 0`).
-
-| Zone | Condition | Behaviour |
-|------|-----------|-----------|
-| Normal | `heapSize < softHeapLimit` | OS-allocate the full batch — unchanged. |
-| Soft | `softHeapLimit <= heapSize`, `headroom > 0` | One bounded reclaim-wait; re-check the freelist; if still empty, OS-allocate a batch **clamped to `headroom`**. The heap grows only when reclamation genuinely cannot keep up. |
-| Hard | `headroom <= 0` | No OS allocation. Reclaim-wait loop until the freelist is served or OOM is confirmed. |
-
-### Problem 1 — GC-safe waiting (`reclaimWait`)
+### Problem 1 — GC-safe waiting (`reclaimWaitLocked`)
 
 A thread that must wait for the GC **leaves the running set** before it sleeps,
 so the STW quorum is computed without it:
 
 ```
-reclaimWait(lock, ctx):                 # `lock` holds globalMutex
+reclaimWaitLocked(space, lock, ctx):        # `lock` holds globalMutex
     startCycle = gcCycleCount
     gcStarted = true ; gcCV.notify_all()        # ensure a cycle will run
     runningThreads.fetch_sub(1)                 # leave the running set
@@ -76,7 +72,7 @@ reclaimWait(lock, ctx):                 # `lock` holds globalMutex
     runningThreads.fetch_add(1)                 # rejoin the running set
     lock.unlock()                               # safepoint MUST run without globalMutex
     ctx->safepoint()                            # park now if an STW began while we slept
-    lock.lock()                                 # re-acquire for the freelist re-check
+    lock.lock()                                 # re-acquire for the caller's re-check
 ```
 
 Key invariants:
@@ -87,130 +83,219 @@ Key invariants:
   releases `globalMutex` for the duration of the sleep, so the GC can run.
 - `globalMutex` is **recursive**, so `safepoint()`'s own lock would re-enter
   it; but `safepoint()`'s STW wait would then release only one recursion level
-  and leave `globalMutex` held — wedging the GC. Therefore `reclaimWait`
+  and leave `globalMutex` held — wedging the GC. Therefore `reclaimWaitLocked`
   explicitly **releases `globalMutex` around `safepoint()`**.
 - The wait is bounded (`wait_for` 50 ms): a missed `notify` costs latency, not a
   hang.
 
-This is the same "blocking safe region" pattern protoST built privately in
-`GcSafeBlocking.h`; this spec puts the mechanism where it belongs — in the
-allocator itself.
+### Where the limit is enforced — critical-section boundaries
 
-### Problem 2 — reliable OOM detection (authoritative, 2-cycle)
+A critical section (`ProtoContext::CriticalSection`, `criticalSectionDepth > 0`)
+guards a tree-builder that holds `Cell*` values in C++ locals across several
+allocations and only attaches them to a GC root with a final atomic publish.
+The cooperative STW poll in `allocCell()`/`safepoint()` deliberately **does not
+park** while the depth is non-zero. That is not an accident of those two
+functions — it is the mechanism that protects the builder: by staying in
+`runningThreads`, the thread keeps the GC from ever reaching its STW quorum
+while a builder is mid-flight, so the builder's un-anchored cells can never be
+observed as garbage.
 
-The GC's **mark phase is the reachability oracle**: after a STW mark, the set of
-marked Cells *is* exactly the set reachable from the roots. The GC already
-collects this set in `markedList`; `markedList.size()` is the authoritative live
-count.
+This rules out the obvious-looking design of waiting for the GC *inside*
+`getFreeCells` when a critical section is open. `reclaimWaitLocked` removes the
+thread from `runningThreads`; doing so mid-builder would let a STW cycle run and
+sweep that builder's not-yet-anchored cells. Object construction
+(`ProtoContext::newObject` and every mutable tree-builder) runs inside a
+critical section, so this is the *common* allocation path — exempting it, as an
+earlier draft proposed, would disable the limit entirely.
 
-At the end of every cycle the GC publishes `liveCellsLastCycle` (=
-`markedList.size()`) and notifies `memoryReclaimedCV`. `gcCycleCount` (existing,
-incremented once per cycle) is the cycle sequence.
+The resolution: enforce the ceiling at the **critical-section boundary**, where
+`criticalSectionDepth` is still `0` and the thread holds no half-built tree and
+is free to park.
 
-A thread in the **Hard** zone runs:
+- `ProtoContext::CriticalSection`'s constructor, when it is the *outermost*
+  section (depth about to go `0 → 1`), calls `ProtoContext::heapLimitCheckpoint()`.
+- `heapLimitCheckpoint()` is a cheap lock-free gate: if no hard limit is set, or
+  `heapSize < maxHeapSize`, it returns after two relaxed loads — the only cost
+  on the hot object-construction path. Otherwise it calls
+  `ProtoSpace::waitForHeapHeadroom()`, which blocks (via `reclaimWaitLocked`)
+  until the GC has freed room or OOM is confirmed.
+- Nested critical sections (depth `> 0`) skip the checkpoint — a builder is
+  mid-flight there.
+
+`getFreeCells` keeps a depth-0 enforcement path too, for any context that
+allocates without ever opening a critical section: when the heap is at the
+ceiling and `criticalSectionDepth == 0`, it calls `waitForHeapHeadroom` and
+retries.
+
+### `getFreeCells` — clamping and bounded overshoot
+
+`getFreeCells` (the OS-allocation path, reached when the freelist is empty)
+enforces the ceiling arithmetically, with no waiting:
+
+| Situation | Behaviour |
+|-----------|-----------|
+| `maxHeapSize == 0`, GC thread, or no context | Exempt — the historical unbounded allocator, bit-for-bit. |
+| `headroom > 0` (`headroom = maxHeapSize - heapSize`) | Clamp the OS request to `headroom`; `heapSize` lands at or below `maxHeapSize`, never above. Soft zone (below) may additionally wait once. |
+| `headroom <= 0`, `criticalSectionDepth == 0` | Call `waitForHeapHeadroom`, then retry the freelist. |
+| `headroom <= 0`, `criticalSectionDepth > 0` | Cannot wait (would expose an in-flight builder). OS-allocate exactly one batch — a bounded overshoot. |
+
+The only way `heapSize` exceeds `maxHeapSize` is the last row: an allocation
+that drains the cell pool *inside* a critical section, when the heap is already
+full. The critical-section entry checkpoint already blocked for the GC, so in
+practice the pool is non-empty there; this row is reached only by a single
+critical section whose own working set exceeds a batch. The overshoot is then
+bounded by that one in-flight working set — and a working set that large cannot
+be fragmented across a GC pause anyway. For all ordinary workloads
+`heapSize <= maxHeapSize` holds exactly.
+
+**Soft zone.** When `softHeapLimit > 0` and `softHeapLimit <= heapSize < maxHeapSize`,
+a depth-0 caller does one bounded `reclaimWaitLocked` (once per `getFreeCells`
+call) before OS-allocating, biasing steady state toward reclamation over
+growth. The soft zone never hard-blocks.
+
+### Problem 2 — reliable OOM detection (reclamation-based, 2-cycle)
+
+The naive metric — the mark phase's live-set size (`markedList.size()`) — is
+**wrong** for this purpose. The young generation of a *live* context is retained
+but is *not* placed in `markedList`: those Cells are reachable (the context
+holds them via `lastAllocatedCell`) yet they were never submitted to
+`dirtySegments`, so the mark phase never enumerates them. A heap filled by a
+long-running method's un-submitted young generation is genuinely out of memory,
+yet a mark-based count would read near-zero and never escalate.
+
+The authoritative metric is **reclamation**: how many Cells a completed GC cycle
+swept back into the freelist.
+
+- The GC sweep accumulates `reclaimedThisCycle` (sum of dead Cells across all
+  published free chunks) and, at end of cycle, publishes it as
+  `ProtoSpace::reclaimedLastCycle`.
+- `gcCycleCount` (existing, one increment per cycle) is the cycle sequence.
+
+`waitForHeapHeadroom` runs:
 
 ```
 strikes = 0 ; oomCallbackUsed = false
+lastSeenCycle = gcCycleCount
 loop:
-    reclaimWait(lock, ctx)
-    re-check the freelist  ->  if it can be served, return the Cells   # success
-    live = liveCellsLastCycle
-    if live + 1 > maxHeapSize:           # the reachable set alone fills the heap
+    if space ending: return
+    if heapSize < maxHeapSize: return            # room to grow
+    if freelist non-empty: return                # cells already available
+    reclaimWaitLocked(lock, ctx)
+    if freelist non-empty: return                # the cycle refilled it -> success
+
+    cycle = gcCycleCount
+    if cycle == lastSeenCycle: continue           # woke on timeout, no cycle yet
+    lastSeenCycle = cycle
+
+    if reclaimedLastCycle == 0:                   # a full cycle freed nothing
         strikes += 1
-        if strikes >= 2:                 # confirmed across 2 consecutive cycles
+        if strikes >= 2:                          # confirmed across 2 cycles
             if not oomCallbackUsed and outOfMemoryCallback:
-                outOfMemoryCallback(ctx) # embedder frees its caches
-                oomCallbackUsed = true ; strikes = 0   # give the freed memory a chance
+                outOfMemoryCallback(ctx)          # embedder frees its caches
+                oomCallbackUsed = true ; strikes = 0
             else:
                 escalate -> controlled abort
     else:
-        strikes = 0                      # live set fits: reclamation will catch up
+        strikes = 0                               # the GC freed cells: reclamation works
 ```
 
 Why this is reliable rather than heuristic:
 
-- If `live < maxHeapSize`, then `maxHeapSize - live` Cells are non-live; after a
-  full cycle they are reclaimed and published to the freelist, so the
-  re-check **will** succeed. The loop cannot spin forever in this case.
-- If `live >= maxHeapSize`, the reachable working set by itself meets or exceeds
-  the budget — no amount of further collection can help. That is genuine OOM.
-- The **2-cycle** confirmation absorbs the one imprecision: Cells allocated
-  after a cycle's mark snapshot are not in that cycle's `liveCellsLastCycle`. A
-  transient over-reading is corrected by the next cycle (whose snapshot is
-  taken later); a real OOM reads `live >= maxHeapSize` every cycle.
+- The escalation path is reached only after `reclaimWaitLocked` returns *and the
+  freelist is still empty* *and* `gcCycleCount` advanced — i.e. a full cycle
+  genuinely completed and refilled nothing. A 50 ms timeout wake with no
+  completed cycle does not count as a strike (the `cycle == lastSeenCycle`
+  guard).
+- A thread blocked here is not running the mutator, so it submits no new
+  garbage. Residual garbage is drained by the first cycle or two; once it is
+  gone, every further cycle reclaims exactly `0`. The **2-cycle** confirmation
+  absorbs that initial draining cycle and any single-cycle timing race.
+- If reclamation can free even one Cell, `strikes` resets — the loop only
+  escalates when collection provably cannot help.
 
 ### Action on confirmed OOM
 
-`outOfMemoryCallback(ctx)` is invoked first (the embedder releases caches);
-one further reclaim cycle then gets a chance to recover. If OOM still holds,
+`outOfMemoryCallback(ctx)` is invoked first (the embedder releases caches); two
+further reclaim cycles then get a chance to recover. If OOM still holds,
 protoCore performs a **controlled abort**: a clear diagnostic to `stderr`
-(`heap hard limit N cells reached; live set M — out of memory`) and a defined
-exit. `allocCell` keeps returning a valid Cell on every other path — no
-`nullptr` propagation, no change to the thousands of allocation call sites.
+(`heap hard limit N cells reached; live set M cells, last cycle reclaimed 0 —
+out of memory`) and `std::abort()`. `allocCell` keeps returning a valid Cell on
+every other path — no `nullptr` propagation, no change to the thousands of
+allocation call sites.
 
-### Critical sections and the GC thread bypass the ceiling
+### The GC thread and contextless callers bypass the ceiling
 
-Two callers cannot wait and must never be blocked by the ceiling:
+Two callers are never blocked by the ceiling:
 
-- The **GC thread** — blocking it deadlocks reclamation. (It allocates its
-  worklists on the C++ heap, not via `getFreeCells`, but the guard is kept
-  explicit.)
-- A thread inside a **critical section** (`ctx->criticalSectionDepth > 0`) — it
-  holds a half-built tree in C++ locals; if it left the running set and a GC
-  cycle ran, the collector would not see those Cells as roots and would free
-  them. It also cannot park.
+- The **GC thread** — blocking it deadlocks reclamation.
+- A **contextless caller** (`ctx == nullptr`) — not a managed GC mutator; it has
+  no critical-section state and cannot participate in the safepoint handshake.
 
-Both **bypass the limit and OS-allocate unconditionally**. The resulting
-overshoot of `maxHeapSize` is bounded by the combined working set of in-flight
-critical sections (a few cells per section — a sparse-list / mutable rebuild is
-`O(log n)` Cells) — small and self-limiting. No separate reserve pool is
-needed; the exemption *is* the reserve.
+Both OS-allocate unconditionally. The GC thread allocates its worklists on the
+C++ heap, not via `getFreeCells`, so this is a guard, not a hot path.
 
 ### `getFreeCells` signature
 
 `getFreeCells(const ProtoThread*)` → `getFreeCells(ProtoContext* ctx)`. The
-`ProtoThread*` parameter is currently unused; the context is needed for the
-critical-section check and for `reclaimWait` / `safepoint`. Both call sites
-(`ProtoContext::implAllocCell`, `ProtoThreadImplementation::implAllocCell`) have
-a context to pass. `ctx == nullptr` (the rare contextless fallback) skips the
-managed path — correct, since a thread with no context is not a GC mutator.
+`ProtoThread*` parameter was unused; the context is needed for the
+critical-section depth check and for `reclaimWaitLocked` / `safepoint`. Both
+call sites (`ProtoContext::implAllocCell`, `ProtoThreadImplementation::implAllocCell`)
+have a context to pass.
 
-## New / changed `ProtoSpace` members
+`ProtoContext::implAllocCell` releases the per-context spinlock around the
+`getFreeCells` call: the GC's Phase-2 root scan acquires that same spinlock to
+read `lastAllocatedCell`, so holding it across a reclaim-wait would wedge the
+collector.
+
+## New / changed members
+
+`ProtoSpace`:
 
 - `int softHeapLimit` — new; soft watermark in Cells, `0` = unlimited.
 - `int maxHeapSize` — existing; now the wired hard ceiling, `0` = unlimited.
-- `std::atomic<unsigned long> liveCellsLastCycle` — new; published per cycle.
+- `std::atomic<unsigned long> reclaimedLastCycle` — new; Cells swept to the
+  freelist by the last completed cycle. The authoritative OOM signal.
+- `std::atomic<unsigned long> liveCellsLastCycle` — new; mark-phase reachable
+  count, used only for the OOM abort's diagnostic message.
 - `std::condition_variable_any memoryReclaimedCV` — new; end-of-cycle wake.
-- `int blockOnNoMemory` — **removed** (dead field).
 - `void setHeapLimits(int softCells, int hardCells)` — new; validated setter.
+- `void waitForHeapHeadroom(ProtoContext*)` — new; the GC-safe blocking wait
+  plus 2-cycle OOM escalation.
 - `Cell* getFreeCells(ProtoContext*)` — signature change.
+
+`ProtoContext`:
+
+- `void heapLimitCheckpoint()` — new; lock-free gate run at every outermost
+  critical-section entry; delegates to `waitForHeapHeadroom` when at the ceiling.
+- `CriticalSection` constructor — now calls `heapLimitCheckpoint()` at the
+  `0 → 1` depth transition.
 
 ## Testing
 
-A new `AllocationLimitTest` fixture (gtest), each test constructing a
-`ProtoSpace` and calling `setHeapLimits` with small values:
+A `AllocationLimitTest` fixture (gtest), each test constructing a `ProtoSpace`
+and calling `setHeapLimits` with small values:
 
-1. **Reclamation under a hard limit** — set a low ceiling, then allocate far
-   more *garbage* than the ceiling in a loop of short-lived contexts. The
-   allocations must all succeed (the GC keeps reclaiming) and `heapSize` must
-   stay at or below `maxHeapSize`. Proves the reclaim-wait works and the heap
-   does not grow past the hard limit.
-2. **Soft watermark damps growth** — with `soft < hard`, a steady-state garbage
-   workload keeps `heapSize` near `softHeapLimit` rather than running to
-   `maxHeapSize`. Proves the soft zone prefers reclamation over growth.
-3. **Genuine OOM is detected** — install an `outOfMemoryCallback` that records
-   it was called, then build a genuinely *retained* graph (rooted, not garbage)
-   larger than the hard ceiling. The callback must fire. The abort path is
-   verified with an `EXPECT_DEATH`-style death test (or the callback returning
-   control and the test asserting the callback ran, to avoid aborting the test
-   binary — see the test file for the exact mechanism).
-4. **Regression** — with no limits set (`0/0`), every existing protoCore test
-   still passes unchanged; `getFreeCells` behaviour is bit-identical.
+1. **Reclamation under a hard limit** — a low ceiling, then a loop of
+   short-lived contexts allocating far more *garbage* than the ceiling. All
+   allocations succeed (the GC keeps reclaiming) and `heapSize` stays `<=`
+   `maxHeapSize`.
+2. **Soft watermark does not hard-block** — with `soft < hard`, a garbage
+   workload still completes and stays within the hard ceiling.
+3. **`setHeapLimits` validation** — a soft watermark above the hard ceiling is
+   clamped; negatives become `0`.
+4. **Genuine OOM is detected** (`AllocationLimitDeathTest`) — an
+   `outOfMemoryCallback` that records (to `stderr`) it was called and frees
+   nothing, plus a workload that retains every allocating context so its Cells
+   can never be reclaimed. The heap fills, consecutive cycles reclaim `0`, the
+   callback fires, and protoCore performs the controlled abort. An
+   `ASSERT_DEATH` matches the callback's marker.
+
+Regression: with no limits set, all pre-existing protoCore tests pass unchanged.
 
 ## Out of scope (follow-ups)
 
-- Exposing `reclaimWait`'s enter/exit-running-set as a public protoCore
-  primitive and having protoST's `GcSafeBlocking.h` forward to it. The mechanism
-  is implemented here inside `getFreeCells`; promoting it to public API and
-  migrating protoST is a separate change.
+- Exposing `reclaimWaitLocked`'s enter/exit-running-set as a public protoCore
+  primitive and having protoST's `GcSafeBlocking.h` forward to it.
 - Per-context or per-thread memory accounting / limits.
+- Mid-critical-section enforcement for a single builder whose working set alone
+  exceeds the heap (currently a bounded one-batch overshoot per pool drain).

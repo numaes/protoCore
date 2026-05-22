@@ -331,6 +331,21 @@ namespace proto
         this->space->parkedThreads--;
     }
 
+    void ProtoContext::heapLimitCheckpoint()
+    {
+        ProtoSpace* sp = this->space;
+        // Fast, lock-free gate.  When no hard heap limit is configured (the
+        // default) or the heap is still below its ceiling there is nothing to
+        // enforce — this is the only cost on the hot object-construction path.
+        // The unsynchronised reads are a heuristic; waitForHeapHeadroom
+        // re-validates the heap state under globalMutex before blocking.
+        if (!sp || sp->maxHeapSize <= 0) return;
+        if (sp->heapSize < sp->maxHeapSize) return;
+        // At the ceiling — block here, at criticalSectionDepth == 0, where the
+        // thread holds no half-built tree and can safely yield to the GC.
+        sp->waitForHeapHeadroom(this);
+    }
+
     /**
      * @brief The core memory allocation function.
      */

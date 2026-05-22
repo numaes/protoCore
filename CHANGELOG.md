@@ -2,6 +2,43 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased] - 2026-05-22
+### Added
+- **Configurable heap allocation limit with reliable OOM detection** — a new
+  `ProtoSpace::setHeapLimits(softCells, hardCells)` lets an embedder cap the
+  `Cell` heap instead of growing it unbounded until the OS is exhausted. Both
+  limits are in `Cell`s; `0` (the default) disables them and the allocator is
+  bit-for-bit the previous unbounded path — the entire feature is gated on
+  `maxHeapSize > 0`.
+  - `getFreeCells` clamps every OS request to the remaining headroom, so
+    `heapSize` never crosses the hard ceiling for ordinary allocations.
+  - A thread that must wait for the GC leaves the running set first
+    (`ProtoSpace::waitForHeapHeadroom` → `reclaimWaitLocked`), so it never
+    stalls the Stop-The-World quorum.
+  - The blocking check runs at outermost critical-section entry
+    (`ProtoContext::heapLimitCheckpoint`, called from the `CriticalSection`
+    constructor): a thread mid tree-build holds un-anchored cells and must stay
+    in the running set, so it cannot wait there. An allocation that drains the
+    cell pool *inside* a critical section may overshoot by at most one OS batch.
+  - OOM is detected from per-cycle *reclamation*: the GC publishes
+    `reclaimedLastCycle`; two consecutive completed cycles that each reclaim
+    zero cells while the heap is at its ceiling are genuine OOM. A mark-phase
+    live count would miss a live context's un-submitted young generation, which
+    fills the heap without entering `markedList`. On confirmed OOM,
+    `outOfMemoryCallback` is invoked once, then protoCore performs a controlled
+    `std::abort()` with a diagnostic.
+  - `getFreeCells(const ProtoThread*)` → `getFreeCells(ProtoContext*)`; new
+    `ProtoSpace` members `softHeapLimit`, `reclaimedLastCycle`,
+    `liveCellsLastCycle`, `memoryReclaimedCV`; new `ProtoContext` method
+    `heapLimitCheckpoint`.
+  - See `DESIGN.md` § "The Heap Allocation Limit and Out-of-Memory Detection"
+    and `docs/superpowers/specs/2026-05-22-allocation-limit-oom-design.md`.
+
+### Tests
+- 192/192 protoCore tests pass, including 4 new `AllocationLimit*` tests
+  (hard-limit reclamation, soft limit, `setHeapLimits` validation, and an
+  unrecoverable-OOM death test).
+
 ## [Unreleased] - 2026-05-04
 ### Changed
 - **Interned strings are always perennial** — `SymbolTable::intern` now builds

@@ -935,6 +935,24 @@ namespace proto
          */
         void safepoint();
 
+        /**
+         * @brief Heap-ceiling checkpoint, run at every outermost critical
+         *        section boundary (see CriticalSection).
+         *
+         * When a hard heap limit is configured (ProtoSpace::setHeapLimits)
+         * and the heap has reached its ceiling, this blocks the calling
+         * thread until the GC reclaims enough cells to proceed — or, if the
+         * live set itself meets the ceiling across two cycles, escalates to
+         * the out-of-memory handling.  It is a no-op when no limit is set.
+         *
+         * It MUST run at criticalSectionDepth == 0: the thread holds no
+         * half-built tree there, so it can leave the running set and let the
+         * GC run.  Blocking inside a critical section would instead let a
+         * stop-the-world cycle reclaim a helper's in-flight, not-yet-anchored
+         * cells.  See ProtoSpace::waitForHeapHeadroom.
+         */
+        void heapLimitCheckpoint();
+
         Cell* lastAllocatedCell;
         unsigned long allocatedCellsCount;
         Cell* freeCells;
@@ -985,7 +1003,16 @@ namespace proto
         class CriticalSection {
         public:
             explicit CriticalSection(ProtoContext* ctx) : ctx_(ctx) {
-                if (ctx_) ctx_->criticalSectionDepth++;
+                if (ctx_) {
+                    // Enforce the heap ceiling only at the outermost section:
+                    // here criticalSectionDepth is still 0, so the thread
+                    // holds no half-built tree and may safely block for the
+                    // GC.  Nested sections (depth > 0) skip the check — a
+                    // helper is mid-construction with un-anchored cells.
+                    if (ctx_->criticalSectionDepth == 0)
+                        ctx_->heapLimitCheckpoint();
+                    ctx_->criticalSectionDepth++;
+                }
             }
             ~CriticalSection() {
                 if (ctx_) ctx_->criticalSectionDepth--;
@@ -1197,11 +1224,30 @@ namespace proto
          * unbounded allocation — behaviour identical to a build with no limit.
          * `softCells` is clamped to `<= hardCells` when both are non-zero.
          *
-         * Critical-section allocations and the GC thread bypass the ceiling
-         * (they cannot wait); the resulting overshoot is bounded by their
-         * in-flight working set.
+         * The GC thread bypasses the ceiling (it cannot wait on itself).
+         * The limit is enforced at critical-section boundaries (see
+         * ProtoContext::heapLimitCheckpoint); an allocation that exhausts the
+         * cell pool *inside* a critical section may overshoot by at most one
+         * OS batch, since it cannot block there.
          */
         void setHeapLimits(int softCells, int hardCells);
+
+        /**
+         * @brief Block until the heap has room to satisfy an allocation, or
+         *        escalate to out-of-memory handling.
+         *
+         * Called from ProtoContext::heapLimitCheckpoint (a critical-section
+         * boundary) and from the depth-0 path of getFreeCells.  When the heap
+         * is at its ceiling with no free cells, it leaves the running set,
+         * waits for the GC to reclaim, and re-checks.  If two consecutive GC
+         * cycles confirm the live set itself meets the ceiling, it invokes
+         * `outOfMemoryCallback` once and then performs a controlled abort.
+         *
+         * A no-op when no hard limit is configured, on the GC thread, or for
+         * a contextless caller.  The caller MUST NOT hold globalMutex and
+         * MUST be at criticalSectionDepth == 0.
+         */
+        void waitForHeapHeadroom(ProtoContext* ctx);
 
         //- Embedder Root Sets
         //
@@ -1368,13 +1414,26 @@ namespace proto
 
         /**
          * @brief Cells found reachable by the most recently completed GC
-         * cycle's mark phase (= the authoritative live-set size at that
-         * cycle's snapshot).  Published by the GC thread at end of cycle and
-         * read by getFreeCells() to decide, reliably, whether the heap is
-         * genuinely out of memory: if the live set alone meets `maxHeapSize`,
-         * no further collection can help.
+         * cycle's mark phase.  Published by the GC thread at end of cycle;
+         * used only for the diagnostic message of the out-of-memory abort.
          */
         std::atomic<unsigned long> liveCellsLastCycle;
+
+        /**
+         * @brief Cells reclaimed (swept into the freelist) by the most
+         * recently completed GC cycle.  Published by the GC thread at end of
+         * cycle.
+         *
+         * This is the authoritative out-of-memory signal for the heap-limit
+         * path (ProtoSpace::waitForHeapHeadroom): once the heap is at its
+         * ceiling, two consecutive completed cycles that each reclaim zero
+         * cells mean no collection can free space — genuine, unrecoverable
+         * OOM.  Reclamation, not mark-phase reachability, is the metric:
+         * retained-but-unmarked cells (a live context's un-submitted young
+         * generation) fill the heap without ever entering `markedList`, so a
+         * mark-based count would under-report and miss that OOM.
+         */
+        std::atomic<unsigned long> reclaimedLastCycle;
 
         /**
          * @brief Notified by the GC thread at the end of every cycle, once the
