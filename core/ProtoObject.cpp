@@ -755,6 +755,108 @@ namespace proto
         return result;
     }
 
+    bool ProtoObject::setAttributeIfEqual(ProtoContext* context, const ProtoString* name,
+                                          const ProtoObject* expected,
+                                          const ProtoObject* newValue) const {
+        if (!this || !name) return false;
+
+        // Auto-intern the key exactly as setAttribute does: the attribute
+        // SparseList is keyed by the Symbol *pointer*, so a non-interned heap
+        // String must be canonicalised first or the key would never match.
+        {
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                const ProtoObject* sym = context->space->symbolTable->intern(
+                    context, reinterpret_cast<const ProtoObject*>(name));
+                name = reinterpret_cast<const ProtoString*>(sym);
+            }
+        }
+
+        if (!proto::isObjectFast(this)) return false;
+        auto* oc = toImpl<ProtoObjectCell>(this);
+
+        // A compare-and-swap on an attribute is only meaningful for a mutable
+        // receiver — an immutable object's attributes can never change, so
+        // the swap can never legitimately succeed.
+        if (oc->mutable_ref == 0) return false;
+
+        // Invalidate this thread's attribute cache for (this, name): a
+        // successful swap changes the resolved value, mirroring setAttribute.
+        if (context->thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+            if (threadImpl->extension) {
+                unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^
+                                            (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
+                if (threadImpl->extension->attributeCache[hash_idx].object == this &&
+                    threadImpl->extension->attributeCache[hash_idx].name == name) {
+                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr};
+                }
+            }
+        }
+
+        const int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+        const unsigned long key = reinterpret_cast<uintptr_t>(name);
+
+        // Same critical-section discipline as setAttribute: every iteration
+        // builds a new attribute tree + ProtoObjectCell + shard SparseList
+        // that are unreachable from any GC root until the final
+        // compare_exchange_weak publishes them.
+        ProtoContext::CriticalSection cs(context);
+        int casIteration = 0;
+        while (true) {
+            ++casIteration;
+
+            // Resolve the live snapshot of this mutable object.
+            const ProtoObject* currentObjState = this;
+            ProtoSparseList* oldRoot = nullptr;
+            const ProtoObject* storedState = nullptr;
+            resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+            if (storedState != nullptr) {
+                currentObjState = storedState;
+            }
+            if (!proto::isObjectFast(currentObjState)) {
+                return false; // inconsistent state — treat as CAS failure
+            }
+            auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+
+            // The current OWN value of `name` (nullptr == attribute absent).
+            const ProtoObject* currentValue = currentOc->attributes
+                ? currentOc->attributes->implGetAt(context, key)
+                : nullptr;
+
+            // Precondition: the attribute must still hold `expected`.  A
+            // mismatch is a genuine concurrent write — report failure so the
+            // caller can re-read and rebuild.  This is checked on every
+            // retry, so a CAS lost to an *unrelated* shard write re-validates
+            // it rather than blindly overwriting.
+            if (currentValue != expected) {
+                return false;
+            }
+
+            // Build the new snapshot with name := newValue.
+            const ProtoSparseListImplementation* newAttributes =
+                currentOc->attributes->implSetAt(context, key, newValue);
+            auto* newState = (new(context) ProtoObjectCell(
+                context, currentOc->parent, newAttributes, 0))->asObject(context);
+
+            const ProtoSparseList* oldRootSL =
+                (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
+            ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
+                oldRootSL->setAt(context, oc->mutable_ref, newState));
+            ProtoSparseList* expectedRoot = oldRoot;
+            if (context->space->mutableRoot[shard].root.compare_exchange_weak(expectedRoot, newRoot)) {
+                refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
+                return true;
+            }
+            // CAS lost to a concurrent shard write; back off occasionally and
+            // retry — the loop re-validates `expected` against the new state.
+            if ((casIteration & 31) == 0) {
+                std::this_thread::yield();
+            }
+        }
+    }
+
     const ProtoObject* ProtoObject::removeAttribute(ProtoContext* context, const ProtoString* name) const {
         if (!this || !name) return this;
 

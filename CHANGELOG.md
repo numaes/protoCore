@@ -4,6 +4,16 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased] - 2026-05-22
 ### Added
+- **`ProtoObject::setAttributeIfEqual` — public attribute compare-and-swap** —
+  `setAttributeIfEqual(ctx, name, expected, newValue)` writes `newValue` only
+  if the receiver's current OWN value for `name` is still pointer-identical to
+  `expected`, returning whether the swap happened. It exposes the shard-root
+  CAS loop that `setAttribute` already runs internally, so an embedder can
+  build a lock-free read-modify-write (e.g. appending to a list held under an
+  attribute) with a CAS-retry loop instead of an external mutex. `expected ==
+  nullptr` means "the attribute is currently absent". Requires a mutable
+  receiver; an immutable receiver is a no-op returning `false`. This is the
+  protoCore primitive that lets protoST drop its per-actor mailbox mutex.
 - **Configurable heap allocation limit with reliable OOM detection** — a new
   `ProtoSpace::setHeapLimits(softCells, hardCells)` lets an embedder cap the
   `Cell` heap instead of growing it unbounded until the OS is exhausted. Both

@@ -81,6 +81,41 @@ namespace proto
         const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const;
         /**
+         * @brief Atomic compare-and-swap on an own-attribute.
+         *
+         * Writes `newValue` to `name` only if the receiver's current OWN
+         * value for `name` is still (pointer-)identical to `expected`, and
+         * reports whether the swap happened. This exposes the shard-root CAS
+         * loop `setAttribute` already runs internally so embedders can build
+         * lock-free read-modify-write sequences (e.g. appending to a list
+         * held under an attribute) without an external mutex:
+         *
+         *     for (;;) {
+         *         old = obj->getOwnAttributeDirect(ctx, key);
+         *         neu = ... derive from old ...;
+         *         if (obj->setAttributeIfEqual(ctx, key, old, neu)) break;
+         *     }
+         *
+         * `expected == nullptr` means "the attribute is currently absent" —
+         * the swap then installs `name` only if no own-value exists yet.
+         *
+         * The comparison is against the OWN attribute value only; parent
+         * (prototype-chain) values are never consulted. Read `expected` with
+         * an own-attribute read (`getOwnAttributeDirect`) so a CAS failure
+         * reflects a genuine concurrent write rather than a chain mismatch.
+         *
+         * Requires a MUTABLE receiver: an immutable object cannot be updated
+         * in place, so the call is a no-op returning `false`. Returns `false`
+         * (without writing) when the receiver is not an object cell.
+         *
+         * @return `true` if `newValue` was installed; `false` if the current
+         *         own-value was not `expected`, or the receiver is immutable
+         *         / not an object.
+         */
+        bool setAttributeIfEqual(ProtoContext* context, const ProtoString* name,
+                                 const ProtoObject* expected,
+                                 const ProtoObject* newValue) const;
+        /**
          * Remove an own-attribute from the object.  Mirrors `setAttribute`'s
          * mutable/immutable contract:
          *
