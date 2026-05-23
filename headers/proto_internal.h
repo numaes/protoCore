@@ -607,10 +607,21 @@ namespace proto {
             next_and_flags.store(newPtr | (current & 0x3FUL),
                                  std::memory_order_release);
         }
-        // Use this for uninitialized memory or to reset everything
+        // Use this for uninitialized memory or to reset everything.
+        // 2026-05-23 night: the store() default is seq_cst which emits
+        // an mfence on x86. Profiling saturation w=8 with `perf record
+        // -e cache-misses` pinpointed this very store inside
+        // getFreeCells's freelist linkage as the #1 cache-miss site
+        // (8 % of samples). The cell being linked is fresh OS memory
+        // that no other thread has ever seen, so relaxed ordering is
+        // sufficient — no other thread can possibly race the write,
+        // and the publish of the chain happens later through a CAS
+        // (mutable shard root) or a plain store (per-thread freelist
+        // head) that carries its own ordering.
         inline void internalSetNextRaw(Cell* n) {
             // Even in raw mode, we should ensure the pointer part is clean if it carries flags
-            next_and_flags.store(reinterpret_cast<uintptr_t>(n) & ~0x3FUL);
+            next_and_flags.store(reinterpret_cast<uintptr_t>(n) & ~0x3FUL,
+                                 std::memory_order_relaxed);
         }
     };
 
