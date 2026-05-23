@@ -730,7 +730,10 @@ namespace proto {
                     std::memory_order_relaxed);
                 if (dbg_profile) {
                     uint64_t cycles = space->gcCycleCount.load(std::memory_order_relaxed);
-                    if (cycles > 0 && (cycles % 5) == 0) {
+                    // 2026-05-23 night: print every cycle (was every 5) to
+                    // catch short benchmarks. Revert before merging if a
+                    // long-running test floods stderr.
+                    if (cycles > 0) {
                         std::fprintf(stderr,
                             "[GC-PROFILE] cycles=%lu  P1=%luus  P2=%luus  P4=%luus  P5=%luus  P6=%luus  marked=%lu  swept_segs=%lu\n",
                             (unsigned long)cycles,
@@ -1210,13 +1213,35 @@ namespace proto {
                 return batchHead;
             }
 
-            // No free cells: ask the GC to run a cycle.
-            if (this->gcThread && !isGcThread) {
-                if (!this->gcStarted) {
-                    this->gcStarted = true;
-                    this->gcCV.notify_all();
-                }
-            }
+            // No free cells. Policy (2026-05-23 night): the clean
+            // reaction is to refill from the OS — that is what
+            // posix_memalign exists for. We do NOT trigger a GC
+            // cycle here. Triggering on every freelist exhaustion,
+            // independent of how full the heap is, was the historical
+            // default but produced a perverse interaction with the
+            // concurrent collector: the GC thread woke up,
+            // immediately entered Phase-1 stop-the-world, and sat
+            // there for the rest of the run because the mutator
+            // workers don't park during a drain (no STW safepoint in
+            // the bytecode dispatch). The Phase-1 barrier never
+            // closed; mark + sweep ran exactly once at the very end
+            // of the run. See
+            // protoST/docs/superpowers/specs/2026-05-23-saturation-experiment.md
+            // for the measurement (Phase-1 waited 2.27 s of a 2.5 s
+            // run at workers=8).
+            //
+            // The GC is now driven exclusively by:
+            //   * the soft/hard cap paths (waitForHeapHeadroom /
+            //     reclaimWaitLocked) — those only kick in when a
+            //     maxHeapSize is configured AND heapSize crosses
+            //     softHeapLimit or maxHeapSize;
+            //   * triggerGC(), the public freeRatio-driven entry
+            //     point that callers can invoke explicitly;
+            //   * ~ProtoSpace, which notifies on shutdown.
+            // With the default maxHeapSize == 0 (no cap), getFreeCells
+            // never triggers — the runtime grows by OS allocations
+            // and the user gets the throughput they paid for. Set a
+            // cap if you want the GC to kick in.
 
             // Size the OS allocation (unchanged sizing policy).
             int blocksToAllocate;
