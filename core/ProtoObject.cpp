@@ -51,7 +51,7 @@ namespace proto
             // Validate cache entry by re-loading the live shard root.
             if (cache && cache[idx].mutable_ref == mutable_ref) {
                 ProtoSparseList* live =
-                    context->space->mutableRoot[shard].root.load(std::memory_order_acquire);
+                    context->space->mutableRoot[shard].root.load(std::memory_order_relaxed);
                 if (live == cache[idx].shard_root) {
                     if (outShardRoot) *outShardRoot = live;
                     if (outCurrent)   *outCurrent   = cache[idx].current_value;
@@ -64,7 +64,7 @@ namespace proto
             // happens to be PROTO_NONE (rare but legal) is not confused
             // with "no such mutable state".
             ProtoSparseList* live =
-                context->space->mutableRoot[shard].root.load(std::memory_order_acquire);
+                context->space->mutableRoot[shard].root.load(std::memory_order_relaxed);
             const ProtoObject* snap = sparseListGetRaw(context, live, mutable_ref);
 
             // Cache the result, INCLUDING the negative case (snap == nullptr).
