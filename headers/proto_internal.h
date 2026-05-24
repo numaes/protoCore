@@ -407,6 +407,30 @@ namespace proto {
 
 
     // The new, safe toImpl implementation (non-const)
+    //
+    // The three tag / alignment / embedded-value checks below are debug
+    // assertions: in any correct program every toImpl<X> call site
+    // already knows the receiver is of kind X (the type system + the
+    // surrounding logic guarantees it). The checks exist to abort early
+    // on programmer-introduced confusion, NOT to validate inputs that
+    // could legitimately be other types.
+    //
+    // In release builds (NDEBUG defined) the checks therefore contribute
+    // nothing but cost. Profiling on `benchmarks/comparable/fib.st`
+    // surfaced `toImpl<ProtoThreadImplementation>` at 5.27 % of total
+    // CPU — each `ProtoContext::allocCell()` runs one, plus several more
+    // per cycle on the GC / context-switch paths. With NDEBUG gating
+    // the function reduces to two loads and an `& ~0x3FUL` mask, which
+    // inlines cleanly into the call site.
+    //
+    // Behaviour change: in release builds, a programmer error that
+    // would have aborted with a diagnostic now silently returns a
+    // wrong-typed pointer that subsequent code will dereference,
+    // crashing or producing garbage. This is the same trade-off the C++
+    // standard makes for `assert` — debug builds catch the error early,
+    // release builds bet that it doesn't happen. Debug builds keep the
+    // diagnostic. Tests run under whatever build type CTest is invoked
+    // against (typically Release for CI, Debug for development).
     template<typename Impl, typename Api>
     inline Impl *toImpl(Api *ptr) {
         if (!ptr || reinterpret_cast<const ProtoObject*>(ptr) == PROTO_NONE) {
@@ -416,6 +440,7 @@ namespace proto {
         ProtoObjectPointer p{};
         p.oid = reinterpret_cast<const ProtoObject*>(ptr); // Cast to const ProtoObject* for union access
 
+#ifndef NDEBUG
         unsigned long actual_tag = p.op.pointer_tag;
         unsigned long expected_tag = ExpectedTag<Impl>::value;
 
@@ -433,10 +458,12 @@ namespace proto {
                       << " for ProtoObject* " << p.oid << "." << std::endl;
             std::abort();
         }
+#endif
 
         // Clear the tag bits (lower 6 bits) to get the raw pointer to the Cell
         uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~0x3FUL;
 
+#ifndef NDEBUG
         // Check for 64-byte alignment (lowest 6 bits should be 0)
         if ((raw_ptr_value & 0x3FUL) != 0) {
             std::cerr << "Error: toImpl conversion resulted in an unaligned pointer for type "
@@ -444,11 +471,13 @@ namespace proto {
                       << ". Expected 64-byte alignment." << std::endl;
             std::abort();
         }
+#endif
 
         return reinterpret_cast<Impl *>(raw_ptr_value);
     }
 
-    // Overload for const pointers
+    // Overload for const pointers — same NDEBUG-gated debug-assert
+    // contract as the non-const overload above.
     template<typename Impl, typename Api>
     inline const Impl *toImpl(const Api *ptr) {
         if (!ptr || reinterpret_cast<const ProtoObject*>(ptr) == PROTO_NONE) {
@@ -458,6 +487,7 @@ namespace proto {
         ProtoObjectPointer p{};
         p.oid = reinterpret_cast<const ProtoObject*>(ptr);
 
+#ifndef NDEBUG
         unsigned long actual_tag = p.op.pointer_tag;
         unsigned long expected_tag = ExpectedTag<const Impl>::value; // Use const Impl for expected tag
 
@@ -483,6 +513,7 @@ namespace proto {
                       << ". Expected 64-byte alignment for tag 0." << std::endl;
             std::abort();
         }
+#endif
 
         // Clear the tag bits (lower 6 bits) to get the raw pointer to the Cell
         uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~0x3FUL;
