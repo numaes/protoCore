@@ -338,6 +338,71 @@ namespace proto {
         }
     }
 
+    // 2026-05-25: unmanaged-region API.
+    //
+    // The thread is about to leave protoCore-managed code (typically for a
+    // blocking OS call: read / write / sleep / poll / network I/O). Bump the
+    // depth counter; if this is the FIRST entry (0 → 1) the thread also
+    // pre-registers as parked in the GC quorum (parkedThreads++), so the
+    // collector can complete a stop-the-world phase without waiting for this
+    // thread to reach a real safepoint. Notify the GC after the counter bump
+    // — it may already have set stwFlag and be waiting on the quorum that
+    // this thread was the missing piece of.
+    //
+    // Nested calls (depth > 1 after increment) do not change parkedThreads —
+    // a single thread can only contribute one slot to the quorum regardless
+    // of how many transitive unmanaged regions it has open.
+    void ProtoThreadImplementation::implGoUnmanaged() {
+        if (!this->extension) {
+            // Early-bootstrap path: the per-thread extension is not yet
+            // wired up. With no extension we have no counter to bump,
+            // and (more importantly) no per-thread arena that the GC
+            // would need to wait for — the unmanaged region is a no-op
+            // until the extension is in place.
+            return;
+        }
+        int prev = this->extension->unmanagedDepth.fetch_add(1, std::memory_order_acq_rel);
+        if (prev == 0) {
+            // First entry: announce this thread as "out".
+            this->space->parkedThreads.fetch_add(1, std::memory_order_acq_rel);
+            // The GC may have been waiting for us — kick the quorum check.
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            this->space->gcCV.notify_all();
+        }
+    }
+
+    // Mirror of implGoUnmanaged. Decrement the counter; if this was the
+    // outermost pair (depth went 1 → 0) the thread re-enters the GC quorum.
+    // If a stop-the-world phase is in progress at that moment, the thread
+    // BLOCKS exactly like a normal safepoint park — it must not touch any
+    // ProtoObject* until the GC's scan finishes.
+    //
+    // Order matters: we decrement parkedThreads first (we are no longer
+    // "out"), THEN if STW is set we re-park properly. The brief window where
+    // parkedThreads dipped is harmless: if the GC was past its quorum check
+    // (i.e. stwFlag set), it is already running and the dip does not affect
+    // it; if the GC was NOT yet past quorum, our re-park immediately
+    // restores the count.
+    void ProtoThreadImplementation::implReturnFromUnmanaged() {
+        if (!this->extension) return;  // mirror implGoUnmanaged's early-bootstrap guard
+        int prev = this->extension->unmanagedDepth.fetch_sub(1, std::memory_order_acq_rel);
+        if (prev == 1) {
+            // Last release: un-park.
+            this->space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
+            // If STW is happening, block as a normal safepoint would.
+            if (this->space->stwFlag.load(std::memory_order_acquire)) {
+                this->space->parkedThreads.fetch_add(1, std::memory_order_acq_rel);
+                {
+                    std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                    this->space->gcCV.notify_all();
+                    this->space->stopTheWorldCV.wait(lock,
+                        [this] { return !this->space->stwFlag.load(); });
+                }
+                this->space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
+            }
+        }
+    }
+
     void ProtoThreadImplementation::implSetCurrentContext(ProtoContext* context) {
         this->context = context;
     }
@@ -381,5 +446,13 @@ namespace proto {
 
     void ProtoThread::synchToGC() {
         toImpl<ProtoThreadImplementation>(this)->implSynchToGC();
+    }
+
+    void ProtoThread::goUnmanaged() {
+        toImpl<ProtoThreadImplementation>(this)->implGoUnmanaged();
+    }
+
+    void ProtoThread::returnFromUnmanaged() {
+        toImpl<ProtoThreadImplementation>(this)->implReturnFromUnmanaged();
     }
 }

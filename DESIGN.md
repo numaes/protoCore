@@ -107,6 +107,94 @@ The GC is designed to minimize application pauses.
 *   **Cooperative GC Safepoints**: To ensure the GC can always reach a Stop-The-World (STW) state, long-running loops in embedders (like a bytecode interpreter) should periodically call `ProtoContext::safepoint()`. This is a low-overhead check (relaxed atomic load) that allows the thread to park if a GC cycle is pending. This prevents "GC starvation" where a single CPU-bound thread stalls the entire system.
 *   **Implicit Generational Collection**: The `ProtoContext` object, which represents a function's scope, tracks all new cells allocated within it. When a context is destroyed (i.e., a function returns), it provides its list of newly-allocated cells to the `ProtoSpace`. This acts as a highly efficient, implicit form of generational GC, as most objects are short-lived and can be identified for collection very quickly.
 
+### Unmanaged regions: blocking OS calls without blocking the GC
+
+A cooperative safepoint poll works only when the calling thread is *running
+managed code*. A thread suspended inside a blocking OS call — `read`,
+`write`, `poll`, `accept`, `sleep`, any syscall that can take arbitrary time
+— cannot reach a safepoint until the syscall returns, and the GC's
+stop-the-world quorum stalls behind it. Without an explicit opt-out, a
+single thread reading from a slow socket can pause every other thread in
+the process for the duration of the read.
+
+protoCore exposes a pair of context-level entry points to handle this:
+
+```cpp
+ctx->goUnmanaged();           // about to enter an OS call
+ssize_t n = ::read(fd, buf, sz);
+ctx->returnFromUnmanaged();   // back from the OS call
+```
+
+Or, idiomatically, via the RAII helper:
+
+```cpp
+{
+    ProtoContext::UnmanagedScope u(ctx);
+    ssize_t n = ::read(fd, buf, sz);
+}   // returnFromUnmanaged() runs on every exit path
+```
+
+**Semantics**:
+
+* `goUnmanaged()` increments a per-thread counter on the thread's
+  `ProtoThreadExtension`. On the outermost (`0 → 1`) transition the thread
+  also pre-registers itself as parked in `parkedThreads`, so the GC's
+  quorum check (`parkedThreads >= runningThreads`) succeeds without
+  waiting for this thread. After the bump, the GC's condition variable
+  is notified — if it was waiting for exactly this thread the wait
+  unblocks immediately.
+
+* `returnFromUnmanaged()` decrements the counter. On the outermost
+  (`1 → 0`) transition the thread releases its parked slot and, if a
+  stop-the-world phase is currently in progress, BLOCKS until it clears
+  — exactly like a normal safepoint park. The returning thread cannot
+  resume touching `ProtoObject*` while the GC is still scanning roots.
+
+* Calls **nest**. A re-entrant unmanaged region (e.g. a syscall inside a
+  callback inside a syscall) increments and decrements the counter; only
+  the outermost pair affects `parkedThreads`.
+
+**Invariants while a thread is unmanaged** (counter > 0):
+
+* The thread MUST NOT touch any `ProtoObject*` value — no reads, writes,
+  allocations, attribute access, dispatch, or method calls into
+  protoCore. The GC may move or reclaim cells without coordinating with
+  the thread. Any pointer held across the unmanaged region is UB on
+  return.
+* The thread MUST NOT call `allocCell`, `setAttribute`, `getAttribute`,
+  or any other protoCore API that would either allocate or read live
+  state.
+* The thread MUST pair every `goUnmanaged()` with a matching
+  `returnFromUnmanaged()`. A missed return leaves the thread out of the
+  GC quorum permanently — does not corrupt anything, but the quorum
+  count will drift off the real running-thread count and STW may
+  trigger "early" (correct, but not the steady-state behaviour).
+* The thread MAY hold local C++ state across the region — strings,
+  integers, file descriptors, anything that is NOT a `ProtoObject*`.
+* The RAII helper `ProtoContext::UnmanagedScope` is the recommended
+  form; it guarantees the matching return runs even if the OS call's
+  surrounding code throws.
+
+**When to use it**:
+
+| Situation | Use `goUnmanaged`? |
+|---|---|
+| `::read` / `::write` on a possibly-blocking fd | **Yes** |
+| `::sleep` / `::nanosleep` | **Yes** |
+| `::poll` / `::epoll_wait` / `::select` | **Yes** |
+| `::accept` on a listening socket | **Yes** |
+| Calling into a third-party C library that may block | **Yes** |
+| A tight CPU loop in user bytecode | No — use `safepoint()` instead |
+| A short, non-blocking syscall (`::getpid`, fast `::write` to memory) | Optional — the overhead probably exceeds the benefit |
+| Inside a protoCore `CriticalSection` (mid tree-build) | **No** — finish the construction first; the contract is that critical sections never block on the GC |
+
+**Implementation note**: the per-thread counter lives on
+`ProtoThreadExtension`, not on `ProtoThreadImplementation` — the latter
+is a 64-byte `Cell` with no remaining budget. The `extension` pointer is
+populated as part of normal thread construction; before the extension
+exists (early bootstrap), `goUnmanaged()` / `returnFromUnmanaged()` are
+no-ops, so embedders need not guard their call sites.
+
 ### The Heap Allocation Limit and Out-of-Memory Detection
 
 By default protoCore grows its `Cell` heap without bound — `getFreeCells` keeps

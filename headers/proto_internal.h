@@ -1180,6 +1180,12 @@ namespace proto {
         Cell* freeCells;
         AttributeCacheEntry* attributeCache;
         MutableValueCacheEntry* mutableValueCache;
+        // 2026-05-25: unmanaged-region depth counter. Lives here rather
+        // than on ProtoThreadImplementation because ProtoThreadImpl is
+        // a 64-byte Cell with no remaining slot. See
+        // ProtoThread::goUnmanaged / returnFromUnmanaged for the
+        // contract.
+        std::atomic<int> unmanagedDepth{0};
 
         CellType getType() const override { return CellType::ThreadExtension; }
 
@@ -1199,6 +1205,12 @@ namespace proto {
         ProtoSpace* space;
         const ProtoList* args;
         const ProtoSparseList* kwargs;
+        // 2026-05-25: unmanaged-region depth counter lives on the
+        // ProtoThreadExtension (heap-allocated, not size-constrained)
+        // rather than here — ProtoThreadImplementation is a 64-byte
+        // Cell and adding the atomic here would overflow that budget.
+        // implGoUnmanaged / implReturnFromUnmanaged access
+        // extension->unmanagedDepth.
 
         ProtoThreadImplementation(ProtoContext *context, const ProtoString* name, ProtoSpace* space, ProtoMethod main, const ProtoList* args, const ProtoSparseList* kwargs);
 
@@ -1221,6 +1233,10 @@ namespace proto {
         const ProtoThread* asThread(ProtoContext* context) const;
         void implSynchToGC();
         void implSetCurrentContext(ProtoContext* context);
+        // 2026-05-25: see ProtoThread::goUnmanaged / returnFromUnmanaged
+        // and the field-level comment on `unmanagedDepth` above.
+        void implGoUnmanaged();
+        void implReturnFromUnmanaged();
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
         unsigned long getHash(ProtoContext* context) const override;

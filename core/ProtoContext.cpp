@@ -331,6 +331,26 @@ namespace proto
         this->space->parkedThreads--;
     }
 
+    // 2026-05-25: thin wrappers around the thread-level unmanaged-region
+    // API (Thread.cpp::implGoUnmanaged / implReturnFromUnmanaged). The
+    // context-level entry points are the API consumers naturally reach for —
+    // every embedder already has a `ProtoContext*` at the point of a
+    // blocking OS call. See ProtoContext::UnmanagedScope (RAII) and the
+    // header documentation for the contract.
+    //
+    // Both are no-ops when the context has no thread (early bootstrap
+    // before ProtoThreadImplementation construction); the embedder need
+    // not guard the call site.
+    void ProtoContext::goUnmanaged() {
+        if (!this || !this->thread) return;
+        toImpl<ProtoThreadImplementation>(this->thread)->implGoUnmanaged();
+    }
+
+    void ProtoContext::returnFromUnmanaged() {
+        if (!this || !this->thread) return;
+        toImpl<ProtoThreadImplementation>(this->thread)->implReturnFromUnmanaged();
+    }
+
     void ProtoContext::heapLimitCheckpoint()
     {
         ProtoSpace* sp = this->space;

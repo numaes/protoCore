@@ -772,9 +772,52 @@ namespace proto
         void setCurrentContext(ProtoContext* context);
         /** Returns the current execution context for this thread. O(1) thread-local read. */
         ProtoContext* getCurrentContext() const;
-        void setManaged();
-        void setUnmanaged();
         void synchToGC();
+
+        /**
+         * @brief Mark the calling thread as ABOUT to enter unmanaged
+         *        code (typically a blocking OS call: `read`, `write`,
+         *        `sleep`, `poll`, network I/O, etc.).
+         *
+         * While the unmanaged counter is > 0, this thread does NOT
+         * participate in the stop-the-world quorum — the GC may run a
+         * collection without waiting for the thread to reach a
+         * safepoint. The thread is treated as "permanently parked" for
+         * the duration of the unmanaged region.
+         *
+         * The contract while unmanaged:
+         *   * The thread MUST NOT touch any `ProtoObject*` value
+         *     (read, write, allocate, dispatch). The GC may run
+         *     concurrently and move / reclaim cells; any pointer the
+         *     thread held becomes UB.
+         *   * Every call MUST be paired with a matching
+         *     `returnFromUnmanaged()`. Calls nest: a re-entrant
+         *     blocking call inside another unmanaged region is fine;
+         *     only the outermost pair changes the thread's GC
+         *     participation.
+         *
+         * After incrementing the counter, this also notifies the GC —
+         * if it was waiting for this very thread to reach the quorum,
+         * the wait can complete immediately.
+         *
+         * Pair with `returnFromUnmanaged()`; in C++ prefer
+         * `ProtoContext::UnmanagedScope` (RAII).
+         */
+        void goUnmanaged();
+
+        /**
+         * @brief Mark the calling thread as RETURNING from unmanaged
+         *        code. Matches an earlier `goUnmanaged()`.
+         *
+         * Decrements the unmanaged counter; on the outermost pair
+         * (counter back to 0) the thread re-joins the GC quorum. If
+         * the GC is currently in a stop-the-world phase, this call
+         * BLOCKS until the STW phase clears — exactly like a normal
+         * safepoint park — so the returning thread cannot resume
+         * touching `ProtoObject*` while a collection is still
+         * scanning roots.
+         */
+        void returnFromUnmanaged();
     };
 
     /**
@@ -969,6 +1012,79 @@ namespace proto
          * `stwFlag`.  Only takes the global mutex if the flag is set.
          */
         void safepoint();
+
+        /**
+         * @brief Enter an unmanaged region on this context's thread.
+         *
+         * Delegates to `thread->goUnmanaged()`. Call this immediately
+         * before a blocking OS call (read / write / sleep / poll /
+         * accept / network I/O / any syscall that may not return for
+         * arbitrary time) and pair with `returnFromUnmanaged()` after
+         * the call returns. While unmanaged, the GC may run a
+         * stop-the-world phase WITHOUT waiting for this thread — the
+         * thread is treated as "permanently parked" for quorum
+         * purposes.
+         *
+         * Invariants while unmanaged:
+         *   * NO `ProtoObject*` access (the GC may move / reclaim cells).
+         *   * No allocation through this context.
+         *   * No `setAttribute` / `getAttribute` / dispatch.
+         *
+         * Calls nest. Prefer the RAII helper `UnmanagedScope` below to
+         * guarantee pairing under exceptions.
+         *
+         * No-op when this context has no thread (early bootstrap).
+         */
+        void goUnmanaged();
+
+        /**
+         * @brief Leave the unmanaged region. Mirror of `goUnmanaged()`.
+         *
+         * Decrements the thread's unmanaged counter; on the outermost
+         * pair (counter back to 0) the thread re-enters the GC
+         * quorum. If a stop-the-world phase is in progress at that
+         * moment, this BLOCKS until it clears — the returning thread
+         * is treated as a normal safepoint park while the GC finishes.
+         *
+         * Failing to call this after a matching `goUnmanaged()` keeps
+         * the thread out of the GC quorum permanently, but does not
+         * corrupt anything; the worst case is that the GC's quorum
+         * count drifts off the real running-thread count.
+         *
+         * No-op when this context has no thread.
+         */
+        void returnFromUnmanaged();
+
+        /**
+         * @brief RAII helper for an unmanaged region.
+         *
+         * Usage:
+         * @code
+         *   {
+         *       ProtoContext::UnmanagedScope u(ctx);
+         *       ssize_t n = ::read(fd, buf, sz);  // OS call; GC may run
+         *   }   // dtor calls returnFromUnmanaged automatically
+         * @endcode
+         *
+         * Guarantees the matching `returnFromUnmanaged()` runs on
+         * every exit path (normal return, exception, early break).
+         * Holds a pointer to the context — must not outlive it.
+         */
+        class UnmanagedScope {
+        public:
+            explicit UnmanagedScope(ProtoContext* c) : ctx_(c) {
+                if (ctx_) ctx_->goUnmanaged();
+            }
+            ~UnmanagedScope() {
+                if (ctx_) ctx_->returnFromUnmanaged();
+            }
+            UnmanagedScope(const UnmanagedScope&) = delete;
+            UnmanagedScope& operator=(const UnmanagedScope&) = delete;
+            UnmanagedScope(UnmanagedScope&& o) noexcept : ctx_(o.ctx_) { o.ctx_ = nullptr; }
+            UnmanagedScope& operator=(UnmanagedScope&&) = delete;
+        private:
+            ProtoContext* ctx_;
+        };
 
         /**
          * @brief Heap-ceiling checkpoint, run at every outermost critical

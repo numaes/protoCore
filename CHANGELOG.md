@@ -2,6 +2,28 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased]
+### Added
+- **Unmanaged-region API for blocking OS calls** — new pair of methods on
+  `ProtoThread` and `ProtoContext`: `goUnmanaged()` /
+  `returnFromUnmanaged()`. Bracket a blocking OS call (`read`, `write`,
+  `poll`, `sleep`, network I/O, third-party C library calls) with this
+  pair and the GC's stop-the-world quorum will NOT wait for that thread
+  to reach a real safepoint — the thread is pre-counted as parked in
+  `ProtoSpace::parkedThreads` for the duration of the region. Without
+  this, a single thread blocked in a slow syscall could pause every
+  other thread in the process behind the GC quorum until the syscall
+  returned. Calls nest (depth counter per thread; outermost pair manages
+  the quorum slot). `returnFromUnmanaged()` blocks if a STW phase is in
+  progress at the moment of return, matching the behaviour of a normal
+  safepoint park. A `ProtoContext::UnmanagedScope` RAII helper
+  guarantees the matching return runs on every exit path including
+  exceptions. The per-thread counter lives on `ProtoThreadExtension`
+  (not on the 64-byte `ProtoThreadImplementation` Cell). See DESIGN.md
+  §"Unmanaged regions: blocking OS calls without blocking the GC" for
+  the full contract — particularly the rule that NO `ProtoObject*`
+  access is permitted while unmanaged.
+
 ## [1.2.0] - 2026-05-22
 ### Added
 - **`ProtoObject::setAttributeIfEqual` — public attribute compare-and-swap** —
