@@ -438,6 +438,167 @@ plan is wrong and we save 6-12 months."**
 
 ---
 
+## 8b. The Ecosystem Maintenance Problem
+
+Section 8a covered what we do not know about the *runtime*. This
+section covers a different — and arguably more dangerous — class of
+unknown: **how the correctness of a concurrent GC is maintained over
+time, across an ecosystem of code that the core team does not
+control**.
+
+This is not a benchmarkable property. It is an organizational and
+social property. It is what ultimately kills concurrent-GC designs
+that pass every technical review.
+
+### How Java/ZGC actually survives this
+
+ZGC has been running in production at Oracle, Cassandra, Netflix, and
+hundreds of other shops for years now. The barrier-correctness story
+is not "Oracle reviews every JNI driver in the world". It is a
+four-layer defence:
+
+1. **API contract**. Native code accesses Java objects through JNI
+   accessor functions (`GetIntField`, `GetObjectField`, …) which
+   themselves contain the barriers. Raw pointer access is gated
+   behind `sun.misc.Unsafe` / `jdk.internal.misc.Unsafe` — explicitly
+   named to discourage use. The contract is "stay inside the API; if
+   you escape, you are on your own."
+
+2. **Pointer coloring** — this is the secret weapon. ZGC uses
+   multi-mapping of virtual addresses with metadata bits encoded in
+   pointer tags (`marked0`, `marked1`, `remapped`). A stale pointer
+   stashed by native code, used after a GC cycle, points to a
+   virtual address that *does not map to the right physical page*.
+   The CPU faults immediately. The fault handler can either repair
+   the pointer transparently or, for genuine violations, surface a
+   loud crash.
+
+   **This converts the failure mode from silent UAF to immediate
+   SIGSEGV.** That is the single most important property ZGC
+   provides on the ecosystem-safety axis. Without it, ZGC would be
+   unmaintainable at scale.
+
+3. **In-tree testing**. Oracle / OpenJDK exhaustively tests its own
+   native code (AWT, NIO, JFR, crypto providers, the GC itself —
+   roughly 500K lines of C/C++) with ZGC active. That is the part
+   the core team owns.
+
+4. **Reactive ecosystem triage**. When Netty 4.1.x exhibits crashes
+   under ZGC, Oracle does not debug Netty. The Netty team debugs it,
+   with Oracle's assistance on runtime questions. The ecosystem
+   absorbs the bug-finding cost — because it can, because workarounds
+   exist (revert to G1), and because the institutional weight of
+   "JVM + Oracle + 25 years" makes the investment worthwhile for
+   library maintainers.
+
+The result: a vast distributed maintenance effort, mediated by API
+contracts and hardware tricks, where the runtime team handles only
+their own code and the ecosystem absorbs the rest. It works, but
+only because every one of those four layers exists.
+
+### Where protoCore stands on each layer
+
+| Layer | Java/ZGC | protoCore today |
+|---|---|---|
+| API contract for extensions | JNI, ~25 years of documentation and habits | None formalized for raw C++ extensions; HPy mediates protoPython, GCBridge mediates protoJS, nothing mediates direct C++ embedders |
+| Hardware trick that converts violations to loud crashes | Pointer coloring (multi-mapping) | **None.** ProtoObject* is a plain pointer to an aligned Cell. A stale pointer after concurrent sweep reads stale data silently. |
+| In-tree test coverage | 500K LOC under continuous testing | Tests cover protoCore + protoJS + protoPython + protoST, but the concurrent-mark interleaving space is not exercised at all |
+| Reactive ecosystem triage | Hundreds of paid maintainers across major libraries | Effectively the project lead. The ecosystem to absorb bugs does not yet exist. |
+
+**The pointer-coloring row is the dangerous one.** Even if every
+other layer were equivalent, the absence of a hardware-level
+violation detector means concurrent-mark bugs in protoCore would
+manifest as silent corruption rather than loud crashes. The Java
+ecosystem survives 25 years of native-code drift partly because
+the runtime literally cannot be silently violated — the CPU enforces
+correctness. protoCore would have to enforce correctness through
+code review alone, against an ecosystem that does not yet exist and
+which would grow with no institutional protection.
+
+### Specific failure modes we would inherit
+
+When a third-party C++ extension to protoCore eventually exists,
+the following patterns become silent bugs under concurrent mark:
+
+- Stashing a `ProtoObject*` in a C++ static or heap-allocated
+  registry not tracked by `ProtoRootSet`. Today this is documented
+  as wrong but works most of the time; under concurrent mark it
+  becomes a UAF whenever the GC cycle completes between stash and
+  use.
+- Spawning a `std::thread` and passing it a `ProtoObject*` without
+  registering the thread with protoCore. Today protoCore does not
+  see this thread (so STW does not wait for it, which is fine);
+  under concurrent mark, the GC may sweep the referenced Cell while
+  the thread holds the pointer.
+- Caching a pointer inside an `UnmanagedScope` and dereferencing it
+  after returning to managed. This is *already* forbidden by the
+  contract, but today it is a "probably works" violation; under
+  concurrent mark it becomes a guaranteed UAF if the GC cycles
+  through that Cell during the scope.
+- Using `ProtoExternalPointer` finalizers that access other
+  `ProtoObject*` instances. Finalizers run in unspecified contexts;
+  under concurrent mark, the references they hold may be
+  mid-collection.
+
+Each of these is fixable in code review *if* the reviewer knows to
+look for it *and* if the violation is in the core team's own code.
+Neither condition holds at scale.
+
+### Possible mitigations — none free
+
+1. **Mandate `ProtoObject*` access only through accessor functions**
+   (analogous to JNI). Forbid raw field access. Cost: massive API
+   surface change, breaks every existing protoCore extension,
+   probably ~15-30% performance regression on hot paths because
+   accessor functions cannot be inlined across the C++ boundary as
+   freely as raw pointers can. This is a different language, in
+   effect.
+
+2. **Add a software equivalent of pointer coloring.** Embed a
+   "color" in the low bits of `ProtoObject*` (since Cells are 64-byte
+   aligned, low 6 bits are free). On every barrier-going access,
+   check the color matches the current GC epoch; mismatched means
+   stale, fault loudly. Cost: every accessor function (or every
+   user-side access) pays the color check. Loses some of the
+   "one-function barrier" elegance the design relies on. Closer to
+   ZGC's read-barrier model but in software.
+
+3. **Forbid concurrent mark entirely while the ecosystem is small.**
+   The current STW design is in fact the best fit for protoCore's
+   maturity level. Once there is a real ecosystem and real users
+   pushing the boundary, the ecosystem itself becomes the triage
+   capacity needed to support a riskier GC design. Until then,
+   keep the simpler model.
+
+The third option is, today, the only honest answer.
+
+### What this section adds to the decision framework
+
+Beyond what Section 10 already requires (workload demonstration,
+prototype measurement, deterministic test harness, code-path audit),
+implementing concurrent mark would also require:
+
+- A formalized API contract for C++ extensions, with clear rules
+  about pointer lifetimes and barrier obligations.
+- A hardware-or-software mechanism to convert violations of that
+  contract into loud failures rather than silent corruption.
+- A triage capacity — paid maintainers, an active user base,
+  reproducible bug-report infrastructure — sufficient to handle the
+  ecosystem-discovered bugs that will inevitably surface.
+
+The first two are engineering work. The third is something the
+project either has or does not. Today protoCore does not, and
+**that alone is sufficient reason to keep the current STW design.**
+
+The technical attractiveness of concurrent mark is real. The
+organizational prerequisites to ship it safely are not yet in place.
+This is not a flaw of protoCore — it is the default state of any
+small project. ZGC required Oracle. Shenandoah required Red Hat.
+Concurrent GC has a institutional-scale floor below which it is not
+safely deployable.
+
+---
+
 ## 9. Open Questions for Future Investigation
 
 1. **Mark queue design**: per-thread MPSC queues drained by the GC
