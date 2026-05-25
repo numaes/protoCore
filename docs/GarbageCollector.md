@@ -106,3 +106,22 @@ The GC is mostly automatic. However, threads must be "managed" by `ProtoSpace` t
 // Example of manual synchronization if needed
 thread->synchToGC();
 ```
+
+## Future Research: Eliminating STW Entirely
+
+The current design uses a short cooperative STW phase for root snapshot
+finalization. A separate research note —
+[STW_ELIMINATION_RESEARCH.md](./STW_ELIMINATION_RESEARCH.md) — explores
+whether structural immutability would allow protoCore to run a fully
+concurrent mark-sweep with no global pause at all.
+
+That note is explicitly marked **research only, not approved for
+implementation**. It documents a subtle tricolor-invariant race that
+breaks naive concurrent marking even on a per-thread-arena design, and
+the minimum viable recipe (handshake + single-slot write barrier +
+allocation barrier) that would close it. The silent-failure mode of
+concurrent GC bugs is severe enough that the analysis recommends
+keeping the current STW design until a real user workload demonstrates
+the pause is the bottleneck.
+
+Read that note before considering any change to the GC's pause model.
