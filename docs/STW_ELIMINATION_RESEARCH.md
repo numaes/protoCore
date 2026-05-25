@@ -1,4 +1,4 @@
-# Research Note — Eliminating the Stop-The-World GC Pause
+# Research Note — Bounding the Stop-The-World GC Pause
 
 > **Status: RESEARCH ONLY — not approved for implementation.**
 >
@@ -12,6 +12,16 @@
 > Read this before considering any concurrent-mark work. The traps
 > described here are subtle and the consequences of getting them wrong
 > are silent use-after-free in production.
+>
+> **Honesty disclaimer.** An earlier draft of this note used phrases
+> like "zero STW" and "fully concurrent with zero coordination". That was
+> overstated. No production GC achieves true zero pause — ZGC,
+> Shenandoah, and Go all retain short residual pauses for root snapshot
+> initiation, mark fixpoint detection, and thread handshakes. Their real
+> achievement is decoupling pause time from heap size and root-set size,
+> not eliminating it. The recipe sketched here would land in the same
+> category: shorter, bounded pauses — not zero. Section 12 lists what we
+> explicitly **do not know** about the design.
 
 ---
 
@@ -26,13 +36,22 @@ slowest *running* thread reaching its next allocation safepoint.
 
 In practice this gives < 1 ms pauses on typical workloads — a very good
 result for a general-purpose runtime. The question this note explores:
-**can we eliminate even that short STW phase and run the GC fully
-concurrently with all mutators?**
+**can we restructure the GC so that the residual pause time is bounded
+independently of heap size, root-set size, and thread count — landing in
+the same category as ZGC / Shenandoah / Go?**
 
-The attraction is obvious. Fully concurrent GC means:
-- True parallel mark-sweep with zero coordination cost on mutators
-- p99 latency independent of heap size or root set size
-- A genuine differentiator vs. CLR/JVM/V8 for hard-realtime workloads
+Note the framing. Not "zero STW" — no production GC achieves that. The
+realistic target is:
+
+- Pause time **O(1)** in heap size, root-set size, and thread count
+  (today our cooperative quorum is O(running threads × time to reach
+  next safepoint), which is small in absolute terms but not bounded by
+  design).
+- Most mutator work runs concurrently with collection, including
+  the bulk of marking, sweeping, and freelist refill.
+- Residual pauses remain — for initial root scan, mark termination
+  detection, thread-list synchronization, and finalization — but each
+  one is a fixed-cost operation, not a scan over user data.
 
 The cost, as this note documents, is non-trivial and the failure mode is
 catastrophic. Hence: research, not implementation.
@@ -159,12 +178,19 @@ void Object::swapInternal(SparseList* newSL) {
 }
 ```
 
-This is a Dijkstra-style incremental-update barrier. Cost:
+This is a Dijkstra-style incremental-update barrier. Cost estimates
+(**not measured on protoCore — extrapolated from similar systems and
+microarchitectural reasoning; could be wrong by a factor of 2-5 either
+direction**):
 
-- GC inactive (~95% of wall time): one relaxed load, well-predicted
-  branch. ~1-2 ns. Negligible.
-- GC active: one atomic store to a thread-local mark queue. ~10-20 ns.
-  Only during the mark window, only on real `setAttribute` calls.
+- GC inactive (~95% of wall time): one relaxed load + well-predicted
+  branch. Roughly ~1-2 ns on a modern x86. Could be worse under cache
+  pressure or branch-prediction failure in real workloads. We have not
+  measured this.
+- GC active: one atomic push to a thread-local mark queue.
+  Roughly ~10-20 ns. Subject to queue contention if mutators outpace
+  the collector; the practical upper bound depends on queue design and
+  mutator-vs-collector ratio, neither of which we have characterized.
 
 **The architectural payoff of immutability is not the elimination of
 write barriers — it is their compression to a single audit-able choke
@@ -175,28 +201,74 @@ argument fits on one page.
 
 ### 5.3 Allocation Barrier
 
-Cells allocated during mark are marked black at construction time. They
-cannot be reachable from anything outside the allocating thread until
-they are explicitly published (via field installation, message send,
-return value, etc.), so it is safe to assume them live for the duration
-of the current GC cycle.
+Cells allocated during mark are marked black at construction time. The
+*assumption* is: a Cell cannot be reachable from anything outside the
+allocating thread until it is explicitly published (via field
+installation, message send, return value, etc.), so it is safe to
+treat it as live for the duration of the current GC cycle.
 
-This is a trivial change to `new(ctx) Cell` — set the mark bit in the
-header inline. Cost: one store. Already on the allocation hot path,
-already touching the header.
+This assumption needs to be verified against every code path that
+constructs a Cell:
 
-### Combined Invariant
+- Normal `new(ctx) Cell` from interpreter/native: clearly safe.
+- FFI/HPy paths in protoPython: a native extension could in principle
+  expose a freshly-allocated Cell via a non-Proto mechanism before
+  publication. Needs audit.
+- QuickJS bridge in protoJS: GCBridge already mediates this, but the
+  exact invariants need to be re-checked under concurrent mark.
+- ProtoExternalPointer construction and adoption: needs audit.
+- Any path that hands a Cell to a `std::thread` or thread pool worker
+  outside the protoCore-managed set: needs explicit handling.
 
-With (5.1) + (5.2) + (5.3) all in place, the tricolor invariant holds:
+If any of these paths can publish a Cell without going through a
+barrier that the GC observes, the allocation barrier is unsound. We
+have not done this audit.
+
+Mechanically, this is a one-store change to `new(ctx) Cell` — set the
+mark bit in the header inline. Already on the allocation hot path,
+already touching the header. The cost is trivial. The correctness
+argument is not.
+
+### Combined Invariant — and Its Limits
+
+With (5.1) + (5.2) + (5.3) all in place, the tricolor invariant holds
+*for the cells in the heap*:
 
 - No black-to-white edge can exist: either the write barrier promotes
   the target to gray (5.2), or the target was born black (5.3), or the
   target's owning thread will be scanned (5.1).
 - The mark queue is non-empty as long as graph mutation introduces new
-  references, and empty when the graph reaches a fixed point — the
-  natural termination condition.
+  references, and empty when the graph reaches a fixed point.
 
-Sweep can then run concurrently with no further coordination.
+What is **not** eliminated:
+
+- **Initial root snapshot.** Before mark can start, the GC must
+  publish "mark active = true, epoch = N" and ensure every thread
+  observes that publication before it touches the write barrier path.
+  This requires a memory-fence handshake with every active thread —
+  a short, fixed-cost synchronization that is not strictly zero. ZGC
+  pays this as a sub-microsecond fence; we would pay similar.
+
+- **Termination detection.** Determining that the mark queue is
+  globally empty across N thread-local queues is a distributed
+  termination problem. The naïve solution (one global atomic counter
+  of "queued items") is a contention hotspot. The sophisticated
+  solutions (Dijkstra-Scholten, Mattern's four-counter, wave
+  propagation) have non-trivial constant factors. The pragmatic
+  shortcut is to admit a *short* final-mark STW to confirm fixpoint —
+  bounded by the mark queue size, not by heap size. This is what most
+  real concurrent collectors actually do, including ZGC. It is not
+  zero pause.
+
+- **Sweep coordination.** Sweep is in principle concurrent because
+  inmutable Cells can be safely freed when no live mark reaches them.
+  But the freelist refill path (per-thread arena getting fresh
+  blocks) coordinates with the global free pool — another point
+  where contention can spike.
+
+Calling the result "STW-free" would be inaccurate. Calling it
+"pause time bounded by O(thread count) rather than O(heap size)"
+is accurate.
 
 ---
 
@@ -204,20 +276,35 @@ Sweep can then run concurrently with no further coordination.
 
 If implemented correctly:
 
-- **Zero global STW.** Pause time becomes O(1) regardless of heap size,
-  root set size, or thread count.
-- **No worst-case scaling cliff** as `MAX_THREADS` grows. Currently a
-  64-thread system has 64 cooperative safepoints to drain on every
-  major collection; with this design that drains in parallel with no
-  coordination point.
-- **Realtime-friendly.** A hard-realtime audio thread, game frame
-  thread, or financial tick processor can run with bounded latency
-  inside the same protoCore process as a heavy batch worker.
+- **Pause time decoupled from heap size and root-set size.** Today's
+  cooperative-quorum STW is bounded by the slowest running thread
+  reaching its next allocation safepoint, which is small in absolute
+  terms (sub-ms typical) but is not architecturally bounded — a
+  pathological loop without allocations could in principle extend it.
+  Under the proposed design, residual pauses are fixed-cost
+  operations (root snapshot fence, termination fixpoint) that do not
+  scan user data. This is the same category of guarantee that ZGC and
+  Shenandoah provide.
 
-This is a *genuine* differentiator vs. every mainstream runtime
-except ZGC/Shenandoah/Go — and unlike those, it costs us *one*
-instrumented function instead of write-barrier injection across the
-whole compiler.
+- **Better scaling at high thread counts.** Currently a 64-thread
+  system has 64 cooperative safepoints to coordinate on every
+  collection; the cost grows roughly linearly. Under the proposed
+  design that coordination is amortized — mutators run mostly
+  uninhibited, and the GC drains its mark queues in parallel.
+
+- **Realtime-friendlier — but not realtime.** A thread with strict
+  latency requirements (audio frame, game tick) could run with
+  better-bounded tail latency inside a protoCore process that is also
+  doing heavy batch work. It still pays the residual pauses; "hard
+  realtime" remains the domain of non-GC'd runtimes.
+
+Compared to ZGC / Shenandoah / Go, the *qualitative* result is
+similar — bounded pauses decoupled from heap size. The protoCore
+advantage is **implementation surface**: the write barrier lives in
+one C++ function (`Object::swapInternal`) rather than being injected
+by the compiler into every field write site. This is a real
+maintainability win, but it is not a different category of
+performance guarantee.
 
 ---
 
@@ -271,6 +358,86 @@ interleaving.
 
 ---
 
+## 8a. What We Don't Know
+
+This is the section that matters most. The design above is a sketch
+informed by knowledge of how ZGC, Shenandoah, Go, and the multi-core
+OCaml GC work. It is **not** based on measurements of protoCore or
+on a prototype. Before any of this is implemented, the following
+unknowns must be characterized:
+
+1. **The actual cost of the write barrier on `setAttribute`.**
+   The "~1-2 ns when inactive" estimate is from microarchitectural
+   reasoning. Real workloads have cache pressure, branch-prediction
+   misses, and surrounding-code interactions that could change this
+   by a factor of 2-5. **We have not measured.** A prototype must be
+   built and benchmarked on representative workloads (protoPython
+   geomean benchmarks, protoJS test262, protoST mt100k) before any
+   commitment.
+
+2. **Mark queue contention under realistic mutator load.** A single
+   shared queue is a contention nightmare. Per-thread queues are
+   simpler but introduce termination-detection complexity. The right
+   choice depends on `setAttribute`-rate × `mark window` density,
+   which we have not measured.
+
+3. **Termination-detection cost in practice.** The literature offers
+   several algorithms (Dijkstra-Scholten, four-counter, wave); each
+   has constant factors. The cost of the pragmatic shortcut
+   ("short final-mark STW") depends on mark queue depth at fixpoint,
+   which depends on mutator behavior — also unmeasured.
+
+4. **Whether the "born during mark = black" assumption holds across
+   every code path.** Section 5.3 lists the audit surface. Until
+   that audit is done, the assumption is unverified.
+
+5. **The interaction with `UnmanagedScope`.** A thread that enters
+   `UnmanagedScope`, performs a syscall, returns, and only *then*
+   touches a stale `ProtoObject*` it held before the scope — that is
+   already forbidden by the contract, but under concurrent mark a
+   *correct* unmanaged scope still raises subtler questions: does the
+   write barrier need to fire when the thread returns to managed and
+   resumes graph mutation? Probably not (any newly created references
+   would go through the barrier), but the argument has not been
+   formalized.
+
+6. **The interaction with thread-local arena freelists.** The current
+   per-thread arena allocator interacts with the global free pool via
+   `getFreeCells`. Under concurrent sweep, the global free pool is
+   being mutated by the GC while threads are pulling from it. The
+   lock-free coordination here is non-trivial and has not been
+   designed.
+
+7. **Worst-case behavior at high thread counts (64+, 256+ cores).**
+   We have not stress-tested even the current STW design at these
+   counts beyond what fits in CI. The proposed design has more
+   coordination points; whether they degrade gracefully or
+   pathologically is unknown.
+
+8. **Memory overhead.** Cells born black during mark stay black until
+   the next cycle, even if they become garbage immediately. This
+   wastes memory proportional to allocation rate × mark window
+   duration. The actual cost depends on workload — unmeasured.
+
+9. **The cost of getting it wrong.** A bug in concurrent mark
+   manifests as use-after-free, typically far in space and time from
+   the actual race. We have no estimate of mean-time-to-detection in
+   our test infrastructure. ZGC took multiple years and many JDK
+   releases to stabilize; we have far fewer engineering resources.
+
+10. **Whether the structural-sharing patterns in real protoCore
+    workloads create hot Cells** that become contention points on
+    the mark queue. A widely-shared prototype object mutated
+    frequently under concurrent mark is a worst case. Unmeasured.
+
+**The proper response to this list is not "we'll figure it out
+during implementation". It is "build the deterministic test
+harness and measure the inactive-path cost on a prototype first;
+if the numbers do not survive contact with reality, the entire
+plan is wrong and we save 6-12 months."**
+
+---
+
 ## 9. Open Questions for Future Investigation
 
 1. **Mark queue design**: per-thread MPSC queues drained by the GC
@@ -280,7 +447,12 @@ interleaving.
 2. **Termination detection**: distributed termination of mark across N
    thread queues is its own subfield. Dijkstra-Scholten? Mattern's
    four-counter? Or simpler: quiesce all threads briefly at the end
-   (admitting a *tiny* STW to confirm mark fixpoint)?
+   (admitting a short final-mark STW to confirm fixpoint) — this is
+   what ZGC and Shenandoah actually do in practice, and it is the most
+   honest baseline assumption. The "purely concurrent termination"
+   variants are theoretically elegant but their constant factors at
+   real thread counts and queue depths are not well-characterized in
+   the literature, let alone in protoCore-shaped workloads.
 
 3. **Allocation pressure during mark**: cells born black during mark
    stay black until the next cycle, even if they become garbage
@@ -311,37 +483,69 @@ Before anyone starts implementing this:
    strict frame budgets? If no such workload exists, stop here.
 
 2. **Quantify the current STW**: measure p50/p99/p999 pause times on
-   that workload. If p999 < frame budget, stop here.
+   that workload. If p999 < frame budget, stop here. Remember: the
+   proposed design does not promise zero pause, only better-bounded
+   pause. If the current p999 is already within budget, the proposed
+   design buys nothing.
 
-3. **Prototype 5.2 only** — write barrier on the single mutable slot.
-   Measure the inactive-path cost. If it exceeds ~2%, the entire plan
-   is too expensive and the priorities are wrong elsewhere.
+3. **Prototype 5.2 only** — write barrier on the single mutable slot,
+   in inactive mode. Measure the inactive-path cost on
+   `setAttribute`-heavy workloads (protoPython class instantiation,
+   protoJS object construction, protoST message dispatch). If it
+   exceeds ~2% geomean, the entire plan is too expensive and the
+   priorities are wrong elsewhere.
 
-4. **Build the deterministic concurrent-mark test harness first.**
+4. **Complete the code-path audit from Section 5.3.** Every Cell
+   construction site must be verified to either go through the
+   allocation barrier or be provably unreachable from outside the
+   allocating thread until explicit publication. Until this audit is
+   done, the design is not even sound on paper.
+
+5. **Build the deterministic concurrent-mark test harness first.**
    Not the implementation. The harness. If you cannot demonstrate that
    you can reproducibly trigger the race in section 4 with the *current*
    GC under instrumentation, you are not yet ready to write the fix.
+   ZGC has model-checking infrastructure for exactly this reason — we
+   would need analogous tooling.
 
-5. Only then proceed with the full design.
+6. **Only then proceed with the full design.**
 
 ---
 
 ## 11. Conclusion
 
-Concurrent GC without STW is achievable in protoCore, and the
-single-mutable-slot architecture gives it a genuinely simpler
-correctness story than any mainstream runtime. The recipe is known
-(handshake + write barrier + allocation barrier). The cost is real but
-bounded.
+A GC with pause time decoupled from heap size — in the same category
+as ZGC, Shenandoah, and Go — is plausibly achievable in protoCore.
+The single-mutable-slot architecture gives the write barrier a
+genuinely simpler correctness story than any mainstream runtime can
+offer: one C++ function instead of a compiler pass.
+
+But "plausibly achievable" is doing a lot of work in that sentence,
+and Section 8a lists what we don't know. The recipe is *sketched*,
+not verified. The cost numbers are *estimated*, not measured. The
+correctness argument covers the heap cells but residual pauses
+remain (root snapshot fence, termination fixpoint, freelist refill
+coordination) — and those are inherent, not engineering laziness.
+
+What we should *not* claim, in either documentation or marketing,
+is "zero STW" or "pause-free GC". No production runtime achieves
+that. The honest claim, if this is ever implemented and validated,
+is "pause time bounded by O(thread count), independent of heap
+size or root-set size, with single-function write-barrier surface."
 
 The reason this is research and not a plan is the **silent-failure
-mode**. The current STW design is correct by construction. Replacing it
-with a concurrent design that is "almost correct" is strictly worse
-than the current state. Until there is both (a) a demonstrated workload
-need and (b) a verifiable correctness story with deterministic tests,
-the right answer is to keep the current GC.
+mode**. The current STW design is correct by construction. Replacing
+it with a concurrent design that is "almost correct" is strictly
+worse than the current state. Until there is (a) a demonstrated
+workload need, (b) a verifiable correctness story with deterministic
+tests, (c) measured cost numbers from a prototype, and
+(d) the code-path audits from Section 5.3 completed — the right
+answer is to keep the current GC.
 
-Save this analysis. Revisit when a workload demands it.
+Save this analysis. Revisit when a workload demands it. Approach
+with humility: the engineering history of concurrent garbage
+collection is littered with the silent crashes of designs that
+"looked correct".
 
 ---
 
@@ -351,3 +555,7 @@ Save this analysis. Revisit when a workload demands it.
 *Status when written: STW + cooperative quorum + UnmanagedScope across
 all three runtimes (protoST, protoPython, protoJS) is in place and
 producing sub-millisecond pauses.*
+*Revision 2026-05-25 (same day): corrected the "zero STW" claim
+throughout — no production GC achieves zero pause; the realistic
+target is bounded, decoupled pause time. Added Section 8a making
+explicit what is unmeasured and unverified.*

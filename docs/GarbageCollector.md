@@ -107,21 +107,29 @@ The GC is mostly automatic. However, threads must be "managed" by `ProtoSpace` t
 thread->synchToGC();
 ```
 
-## Future Research: Eliminating STW Entirely
+## Future Research: Bounding the STW Pause
 
 The current design uses a short cooperative STW phase for root snapshot
 finalization. A separate research note —
 [STW_ELIMINATION_RESEARCH.md](./STW_ELIMINATION_RESEARCH.md) — explores
-whether structural immutability would allow protoCore to run a fully
-concurrent mark-sweep with no global pause at all.
+whether structural immutability would allow protoCore to bound the
+pause time independently of heap size and root-set size, landing in
+the same category as ZGC, Shenandoah, and Go.
+
+Note: "bound", not "eliminate". No production GC achieves zero pause.
+The realistic target — and what the note actually argues for — is
+decoupling pause time from scale, while accepting that fixed-cost
+residual pauses (root snapshot initiation, mark termination, freelist
+coordination) remain.
 
 That note is explicitly marked **research only, not approved for
 implementation**. It documents a subtle tricolor-invariant race that
-breaks naive concurrent marking even on a per-thread-arena design, and
-the minimum viable recipe (handshake + single-slot write barrier +
-allocation barrier) that would close it. The silent-failure mode of
-concurrent GC bugs is severe enough that the analysis recommends
-keeping the current STW design until a real user workload demonstrates
-the pause is the bottleneck.
+breaks naive concurrent marking even on a per-thread-arena design, the
+minimum viable recipe (handshake + single-slot write barrier +
+allocation barrier) that would close it, and — most importantly — a
+list of unmeasured assumptions and unverified code paths. The
+silent-failure mode of concurrent GC bugs is severe enough that the
+analysis recommends keeping the current STW design until a real user
+workload demonstrates the pause is the bottleneck.
 
 Read that note before considering any change to the GC's pause model.
