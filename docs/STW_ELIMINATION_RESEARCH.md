@@ -673,7 +673,143 @@ Before anyone starts implementing this:
 
 ---
 
-## 11. Conclusion
+## 11. The Deepest Argument for Keeping STW: A Static Root Discipline
+
+Sections 8a and 8b enumerated runtime unknowns and ecosystem
+fragility. But the strongest argument against concurrent mark in
+protoCore is none of those. It is structural, and it follows from the
+immutability of Cells.
+
+### The danger is not mutation. The danger is root visibility.
+
+protoCore Cells are immutable. The single mutable slot
+(`Object::internal_ptr`) discussed earlier is real but secondary —
+it is not where most concurrent-GC bugs originate.
+
+The actual hazard, in any tracing GC, is this: **a transient
+reference held only in a non-root location while the collector
+decides what is reachable**. If a `ProtoObject*` lives only in a
+C++ local variable, a CPU register, or a function argument that
+has not yet been stored into a root-visible slot, the GC does not
+see it. If the GC sweeps while that transient is in flight, the
+referenced Cell is freed. The next dereference is use-after-free.
+
+This is not a protoCore-specific problem. It is the founding
+hazard of every tracing GC ever built. The discipline that
+neutralizes it — *root your transients before crossing into code
+that may collect* — is the discipline behind JNI's local
+references, CPython's `Py_INCREF`/`Py_DECREF`, Lua's stack-based
+API, OCaml's `CAMLparam`/`CAMLlocal` macros, V8's `HandleScope`,
+and HPy's `Tracker`.
+
+### What STW gives the extension author: a static contract
+
+In the current STW design, the discipline is reduced to a single
+auditable rule:
+
+> **Before any call into protoCore code that may allocate, ensure
+> every transient `ProtoObject*` you hold is reachable from a
+> root the GC sees** — typically a `ProtoContext` automatic local
+> or an attribute of an already-rooted object.
+
+That's it. That is the entire contract.
+
+It works because **GC can only run at safepoints**, and safepoints
+are at locations the author already knows: anywhere allocation may
+happen. The author plans for those points by storing transients in
+the `ProtoContext`'s automatic-locals area, which the GC's root scan
+traverses. Between safepoints, transient `ProtoObject*` values may
+live freely in C++ registers, locals, function arguments — the GC
+will not look there, and the GC cannot fire there.
+
+Two consequences follow:
+
+1. **Code that does not touch protoCore needs zero discipline.**
+   A C function calling `memcpy`, `sin`, `gettimeofday`, or any
+   external library that does not interact with the protoCore
+   runtime cannot trigger GC. No transients to root. Nothing to
+   audit. This is *most* of the C code in any nontrivial extension.
+
+2. **Code that does touch protoCore has a small, statically
+   auditable rule.** The reviewer asks: "is every protoCore call in
+   this function preceded by storing transients into ProtoContext
+   locals?" That is a yes/no question answerable by reading the
+   function in isolation. No need to reason about timing, thread
+   counts, or GC-cycle interleaving.
+
+### What concurrent mark destroys: the static contract itself
+
+If the GC can run at any instruction — concurrently with mutator
+execution — then the rule "root before calls that may allocate"
+becomes meaningless, because *every* instruction is potentially a
+GC-active window. A transient living in a C++ register between two
+operations could be freed in the gap between those operations, even
+though no protoCore code is being called between them.
+
+The only way to recover correctness is to mediate every access:
+
+- Read barriers on every dereference (ZGC's load barrier model)
+- Or accessor functions that own the rooting (JNI's
+  `GetObjectField` model)
+- Or per-access handle scopes (V8's `HandleScope` model)
+
+Each one of these is a *different language* for extension authors.
+The simple "root before protoCore calls" rule is gone. In its
+place: every operation on a `ProtoObject*` is now a call into a
+gated, instrumented function. Performance suffers, ergonomics
+suffer, and the audit surface explodes from "calls into protoCore"
+to "every line of code that touches a ProtoObject*".
+
+Write barriers (Section 5.2) are part of the cost. But they are
+the *symptom*, not the disease. The disease is the loss of the
+static contract.
+
+### The architectural symmetry
+
+protoCore's design choices form a coherent whole:
+
+- **Immutable Cells** eliminate write barriers — except at the
+  one mutable slot.
+- **Per-thread arenas** localize allocation contention.
+- **Cooperative STW with quorum** turns "concurrent execution +
+  GC" into a series of mutator-safe intervals separated by short,
+  bounded synchronizations.
+- **`UnmanagedScope`** lets a thread cleanly opt out of the quorum
+  during syscalls, with the contract that no `ProtoObject*` is
+  touched while opted out.
+
+Together, these give extension authors the simplest GC contract
+in any general-purpose runtime: "root before protoCore calls;
+don't touch ProtoObject* while in `UnmanagedScope`". Two rules.
+Both auditable in isolation. Both enforceable by code review.
+
+Concurrent mark would preserve immutability, preserve per-thread
+arenas, even preserve the `UnmanagedScope` API. But it would
+**destroy the static root-discipline contract**, which is the
+foundation that makes the rest usable.
+
+### The reframing of the entire research note
+
+Sections 5 through 10 of this document analyzed concurrent mark
+as if the question were "can we build it correctly?" The answer
+is: yes, with effort, with humility, with verification
+infrastructure protoCore does not yet have.
+
+This section asks a different question: "even if we built it
+correctly, what would we lose?" The answer is: **the simplest
+GC contract any tracing runtime has ever offered to its
+extension authors**. That contract is not an accident. It is a
+direct consequence of the immutable-Cell + STW combination. Break
+either side, and the contract goes with it.
+
+The first question is about engineering effort. The second
+question is about API consequences that the engineering does
+not show on a benchmark. The second question is the one this
+project should weigh.
+
+---
+
+## 12. Conclusion
 
 A GC with pause time decoupled from heap size — in the same category
 as ZGC, Shenandoah, and Go — is plausibly achievable in protoCore.
