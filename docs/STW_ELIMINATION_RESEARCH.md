@@ -673,6 +673,66 @@ Before anyone starts implementing this:
 
 ---
 
+## 10a. The Road Not Taken: BEAM-Style Heap Isolation
+
+A reader familiar with Erlang or Elixir will notice that BEAM
+(Erlang's runtime) solves the entire concurrent-GC problem in a way
+that this note does not even consider as an option. It is worth
+explaining why.
+
+BEAM gives each process (its lightweight thread) **its own private
+heap**, and **copies** every value sent between processes through a
+message. Because no two processes ever share a pointer to the same
+heap object, each process can collect its own heap independently,
+with zero global coordination, no STW across processes, and no need
+for write barriers. The GC is per-process, not per-runtime. The
+worst-case pause time is bounded by *a single process's* heap size,
+which is typically kilobytes.
+
+This is genuinely elegant — and it is a different language.
+
+The trade BEAM makes is that **every cross-process value is
+duplicated**. Sending a 10 MB binary to another process either
+copies 10 MB, or (in the modern optimization) heap-allocates a
+reference-counted handle that is *not* GC-managed at all. There is
+no structural sharing across processes. There cannot be — that is
+precisely what makes the per-process GC sound.
+
+protoCore made the opposite choice as a foundational property.
+Structural sharing across threads is not an optimization, it is the
+semantic model: a `ProtoList` constructed on thread T1 and referenced
+from thread T17 is one list, not two; modifications return a new
+version that shares almost all of its structure with the original
+regardless of which thread does the modifying. This is what makes
+`runInThread` cheap, what makes the protoST actor model not pay
+serialization cost, and what makes protoPython's GIL-free design
+viable at all.
+
+**Reverting to BEAM-style isolation would not change the GC. It would
+change the language semantics.** Every cross-thread send would copy.
+Every shared prototype would have to be duplicated or special-cased.
+Every immutable Cell — currently a freely-shared resource — would
+become a per-thread artifact that other threads cannot see. The
+performance characteristics, memory footprint, and programming model
+all change.
+
+That cost is paid in the application layer, not at the GC. It is
+much harder to measure but much harder to undo. BEAM exists because
+its designers chose to pay that cost upfront, in the name of fault
+isolation and concurrent GC simplicity. protoCore exists because its
+designer chose the opposite. Neither is wrong; they are different
+projects.
+
+The point of mentioning this here is not to argue against BEAM, but
+to preempt a recurring proposal. Anyone reading this note in the
+future who thinks "could we just do what Erlang does?" should
+understand that the answer is *yes, but you would be building a
+different runtime*. The STW-vs-concurrent discussion in this
+document assumes that structural sharing across threads is preserved,
+because that property is the project's starting axiom.
+
+---
+
 ## 11. The Deepest Argument for Keeping STW: A Static Root Discipline
 
 Sections 8a and 8b enumerated runtime unknowns and ecosystem
