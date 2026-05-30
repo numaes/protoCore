@@ -319,9 +319,31 @@ namespace proto {
                 // overhead.  (There is no longer any "weak"/collectible
                 // symbol variant.)
 
-                // Scan all mutableRoot shards so GC traces every live mutable-object snapshot.
+                // Phase 2 — capture the mutable-shard snapshot under STW.
+                //
+                // This is the formal "snapshot at the beginning" for the
+                // concurrent mark that follows.  Workers are parked here
+                // (Phase 1 quorum reached), so each per-shard load is
+                // atomic by construction — no fence beyond `acquire` is
+                // required.  Post-STW the workers will resume and may
+                // CAS-swap shard roots freely; the marker never reads
+                // the live table again, only this snapshot.
+                //
+                // Each shard root is also pushed to workList so mark
+                // traces the entire mutable graph as it existed at STW
+                // time.  The graph reachable from the snapshot is fully
+                // immutable (every Cell field is const-qualified after
+                // construction), so the marker walks a frozen view.
+                //
+                // Cost: O(MUTABLE_ROOT_SHARDS) atomic reads, ~2 KB store.
+                // Independent of heap size or live-object count.  No write
+                // barriers anywhere in the runtime — the snapshot replaces
+                // them.  See docs/STW_ELIMINATION_RESEARCH.md § 13.
                 for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
-                    if (auto* r = space->mutableRoot[s].root.load()) addRootObj(reinterpret_cast<const ProtoObject*>(r));
+                    ProtoSparseList* r =
+                        space->mutableRoot[s].root.load(std::memory_order_acquire);
+                    space->gcMutableSnapshot[s] = r;
+                    if (r) addRootObj(reinterpret_cast<const ProtoObject*>(r));
                 }
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
@@ -433,6 +455,44 @@ namespace proto {
 #endif
 
                 DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
+
+                // --- PHASE 3: RESUME THE WORLD ---
+                //
+                // The STW window closes HERE — before the mark phase, not
+                // after it.  Mark now runs concurrent with user threads,
+                // safely, because:
+                //
+                //   1. The mutable-shard snapshot captured in Phase 2
+                //      (gcMutableSnapshot[]) gives the marker a frozen
+                //      view of every reachable mutable.  Workers may CAS
+                //      mutableRoot[s] freely; the marker never reads the
+                //      live table.
+                //
+                //   2. Every Cell field traced by processReferences is
+                //      const-qualified after construction.  Workers
+                //      cannot mutate the fields the marker reads.
+                //
+                //   3. The mark bit on Cell::next_and_flags is touched
+                //      ONLY by the GC thread.  Workers never call
+                //      mark() / unmark() / isMarked().
+                //
+                //   4. segmentsToProcess was exchange()d atomically
+                //      above; new dirty segments submitted by workers
+                //      post-STW go to a fresh space->dirtySegments and
+                //      survive to the next cycle.
+                //
+                //   5. New cells allocated by workers post-STW live in
+                //      their per-context young chain, never in this
+                //      cycle's segmentsToProcess — sweep does not see
+                //      them.
+                //
+                // The change is described in detail in
+                // docs/GarbageCollector.md § "Concurrent Mark Without
+                // Barriers" and docs/STW_ELIMINATION_RESEARCH.md § 13.
+                space->stwFlag.store(false);
+                space->stopTheWorldCV.notify_all();
+                GC_LOCK_TRACE("gcLoop REL(mark)");
+                lock.unlock(); // Mark, sweep, and bulk-unmark all run unlocked.
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase4_start = std::chrono::steady_clock::now();
                 dbg_total_phase2_us.fetch_add(
@@ -441,7 +501,7 @@ namespace proto {
                     std::memory_order_relaxed);
 #endif
 
-                // --- PHASE 4: MARK ---
+                // --- PHASE 4: MARK (concurrent with mutators) ---
                 //
                 // Sweep only clears mark bits on cells inside
                 // segmentsToProcess; cells outside that set (young
@@ -510,11 +570,10 @@ namespace proto {
                     }
                 }
 
-                // --- PHASE 3 (delayed): RESUME THE WORLD ---
-                space->stwFlag.store(false);
-                space->stopTheWorldCV.notify_all();
-                GC_LOCK_TRACE("gcLoop REL(sweep)");
-                lock.unlock(); // Allow threads to run while we sweep
+                // Phase 3 (Resume The World) already happened above —
+                // BEFORE the mark loop, not after.  Mark ran concurrent
+                // with the mutators using gcMutableSnapshot.  Sweep
+                // below continues to run unlocked, as it always did.
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase5_start = std::chrono::steady_clock::now();
                 dbg_total_phase4_us.fetch_add(
@@ -722,6 +781,22 @@ namespace proto {
                         const_cast<Cell*>(m)->unmark();
                     }
                 }
+
+                // --- PHASE 7: CLEAR MUTABLE SNAPSHOT ---
+                //
+                // The snapshot was the formal mark-time dereference
+                // table for THIS cycle only.  Clear all entries so the
+                // next cycle's Phase 2 starts from a known nullptr
+                // baseline, and so any stray GC-side read of the table
+                // outside a cycle observes nullptr instead of a stale
+                // shard root.
+                //
+                // Safe to run unlocked (same regime as the bulk-unmark
+                // loop above): only the GC thread reads or writes the
+                // snapshot table.
+                for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
+                    space->gcMutableSnapshot[s] = nullptr;
+                }
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase6_end = std::chrono::steady_clock::now();
                 dbg_total_phase6_us.fetch_add(
@@ -916,9 +991,15 @@ namespace proto {
 
         // Initialize all mutableRoot shards to an empty SparseList.
         // Each shard holds objects with mutable_ref % MUTABLE_ROOT_SHARDS == shard_index.
+        // Also zero the per-cycle GC snapshot of the shard table; the snapshot
+        // is populated under STW at every Phase 2 and cleared at the end of
+        // every cycle, so steady-state it is always nullptr outside the cycle.
+        // The constructor-time zero just guarantees the well-defined initial
+        // state on the first cycle.
         for (int s = 0; s < MUTABLE_ROOT_SHARDS; ++s) {
             auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);
             this->mutableRoot[s].root.store(const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext)));
+            this->gcMutableSnapshot[s] = nullptr;
         }
         
         symbolTable = new SymbolTable();

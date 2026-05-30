@@ -1460,6 +1460,34 @@ namespace proto
             char _pad[64 - sizeof(std::atomic<ProtoSparseList*>)];
         };
         alignas(64) MutableShardSlot mutableRoot[MUTABLE_ROOT_SHARDS];
+
+        /**
+         * @brief Per-cycle snapshot of mutableRoot, captured atomically at STW.
+         *
+         * Consumed by the concurrent mark phase.  Workers continue to CAS
+         * mutableRoot post-STW; the snapshot is unaffected.  The snapshot is
+         * the formal mark-time dereference table: any GC code path that needs
+         * to resolve a mutable_ref to its STW-time current value during mark
+         * MUST read this table, never mutableRoot[].root.load().
+         *
+         * Lifecycle: captured at STW Phase 2 (gcThreadLoop).  Cleared at the
+         * end of the GC cycle.  Outside that window all entries are nullptr.
+         *
+         * Size: MUTABLE_ROOT_SHARDS pointers (256 * 8 = 2 KB).  Independent
+         * of heap size or live-object count.  Cache-friendly: fits in 32
+         * cache lines.
+         *
+         * Why no atomics: written only by the GC thread under STW (workers
+         * parked), read only by the GC thread during mark (no other thread
+         * reads it).  Plain pointers are sufficient.
+         *
+         * See docs/GarbageCollector.md § "Concurrent Mark Without Barriers"
+         * and docs/STW_ELIMINATION_RESEARCH.md § 13 for the rationale of
+         * snapshot-replaces-barrier in protoCore's concentrated-mutability
+         * design.
+         */
+        ProtoSparseList* gcMutableSnapshot[MUTABLE_ROOT_SHARDS];
+
         std::atomic<unsigned long> nextMutableRef;
 
         // --- Maquinaria Interna (Público por ahora) ---

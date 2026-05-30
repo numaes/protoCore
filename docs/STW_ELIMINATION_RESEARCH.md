@@ -1,17 +1,24 @@
 # Research Note — Bounding the Stop-The-World GC Pause
 
-> **Status: RESEARCH ONLY — not approved for implementation.**
+> **Status: PARTIALLY IMPLEMENTED.**
 >
-> This document captures an architectural exploration. It is a path to
-> *investigate*, not a plan to *build*. The current STW design with a
-> cooperative quorum + `UnmanagedScope` is correct, well-understood, and
-> already achieves sub-millisecond pauses on realistic workloads. Replacing
-> it is a high-risk change that should only be undertaken when a concrete
-> user workload demonstrates that the current design is the bottleneck.
+> One specific step described in this note — moving the mark phase
+> OUT of the Stop-The-World window via a per-cycle snapshot of the
+> mutable-shard table — **is now implemented and tested** as of
+> 2026-05-30.  See § 13 below and
+> [`GarbageCollector.md`](./GarbageCollector.md) § "Concurrent Mark
+> Without Barriers" for the as-built design.  The implementation
+> closed the no-barrier path that §§ 5-6 of this note had concluded
+> required Dijkstra or SATB write barriers; § 13 explains why that
+> conclusion was conditioned on an assumption (dispersed mutability)
+> that does not hold in protoCore.
 >
-> Read this before considering any concurrent-mark work. The traps
-> described here are subtle and the consequences of getting them wrong
-> are silent use-after-free in production.
+> The broader directions in this note — fully eliminating residual
+> pauses, parallel root scan, ZGC-style colored references — remain
+> **research only, not approved for implementation**.  Read this
+> before considering further concurrent-mark work.  The traps
+> described here are subtle and the consequences of getting them
+> wrong are silent use-after-free in production.
 >
 > **Honesty disclaimer.** An earlier draft of this note used phrases
 > like "zero STW" and "fully concurrent with zero coordination". That was
@@ -906,6 +913,115 @@ collection is littered with the silent crashes of designs that
 
 ---
 
+## 13. Update 2026-05-30 — Snapshot-at-STW Closes the No-Barrier Path
+
+The conclusion in §§ 5-6 — that concurrent mark requires a Dijkstra
+incremental-update or SATB-by-mutation write barrier — was implicitly
+conditioned on a single assumption: **mutability dispersed across the
+heap**.  In a runtime where every object slot can be CAS'd at any
+time, the marker has no choice but to coordinate with every mutator
+on every write.
+
+**protoCore's architecture violates that assumption deliberately.**
+All mutability is concentrated in `MUTABLE_ROOT_SHARDS = 256` shards.
+Every mutating write goes through
+`space->mutableRoot[mutable_ref % 256].compare_exchange_weak(...)`.
+Cells themselves are immutable; the only state that can change is the
+shard root pointer.
+
+**A snapshot of those 256 shard roots is a complete snapshot of all
+mutability in the system.**  It is takeable in 256 atomic reads under
+STW, ~2 KB of storage, independent of heap size or live-object count.
+With that snapshot:
+
+  - The marker only ever consults `gcMutableSnapshot[]`, never the
+    live `mutableRoot[]`.
+  - The graph reachable through the snapshot is fully immutable
+    (every Cell field is `const`-qualified after construction).
+  - Workers may CAS-swap shards freely; the marker is oblivious.
+  - No per-mutation overhead anywhere in the runtime — the snapshot
+    replaces the barrier.
+
+This is **SATB-by-snapshot** instead of SATB-by-barrier.  The classical
+collectors (G1, Shenandoah, ZGC) materialize the snapshot incrementally
+via per-write barrier traffic; protoCore materializes it once upfront
+in a tiny table.  Same logical correctness; dramatically simpler
+mechanism; the trade-off is *floating garbage bounded by one cycle*
+(objects that died post-STW survive this cycle, reclaimed next).
+
+### What this changes about the analysis in §§ 4–6
+
+**§ 4 "The Race That Breaks Naïve Concurrent Mark"** — the race
+construction is still correct.  What changes is the solution space:
+the snapshot table closes the race at the source (the marker never
+reads the live shard), so the Dijkstra write barrier on shard CAS
+sketched in § 5.2 is **not** the only viable mechanism.
+
+**§ 5.1 "Thread Lifecycle Handshake"** — still required for root
+collection.  The STW handshake at the start of every cycle continues
+to capture per-thread roots atomically.
+
+**§ 5.2 "Write Barrier on the One Mutable Slot"** — **NOT required**.
+The snapshot replaces it.  Per-CAS cost is zero.
+
+**§ 5.3 "Allocation Barrier"** — **not required for the snapshot
+discipline**.  Post-STW allocations land in per-thread arenas / young
+chains, which are outside this cycle's `segmentsToProcess` and
+therefore not candidates for sweep.  The existing young-chain
+discipline (§ 11) carries the entire weight here.
+
+**§ 6 "What This Buys You"** — the win is now realized in part: mark
+runs outside STW, sweep already did.  Residual STW pause is
+O(threads + 256), independent of heap size or live-object count.
+
+**§ 11 "The Deepest Argument for Keeping STW: A Static Root
+Discipline"** — **fully preserved**.  The snapshot mechanism does not
+change the contract for extension authors.  The two rules from § 11
+(pin transients in `ProtoContext` locals before any safepoint;
+never mutate Cell fields outside the shard table) are exactly the
+rules the snapshot mechanism relies on for soundness.  Embedders see
+the same simple, auditable invariant.
+
+### Cost
+- 2 KB snapshot per cycle, captured under STW in microseconds.
+- Floating garbage bounded by one cycle.
+- STW pause is O(threads + 256), independent of heap size.
+- ZERO per-mutation overhead.
+
+### What this DOES NOT close
+
+The broader concerns this note raised remain research:
+
+- **Fully eliminating residual STW pauses.**  The handshake +
+  per-thread root scan + snapshot capture is still a STW window,
+  even if its duration is bounded.  Eliminating it entirely
+  requires parallel root scan or safepoint-driven incremental
+  root collection — both substantial changes not addressed by
+  the snapshot.
+- **ZGC-style colored references.**  Not pursued.  protoCore's
+  immutability + snapshot discipline closes the same correctness
+  problem without the hardware-coloring complexity.
+- **The ecosystem maintenance problem (§ 8b).**  Still relevant for
+  any future barrier-based design.  Not relevant for the
+  snapshot-only mark implemented here, because there is no barrier
+  for an extension author to forget.
+- **Multi-thread parallel mark.**  Not addressed.  The marker is
+  still single-threaded, just concurrent with mutators.
+
+### As-built
+- Implemented in `core/ProtoSpace.cpp` (snapshot capture in Phase 2;
+  Phase 3 resume moved before Phase 4 mark; snapshot cleared in
+  new Phase 7) and `headers/protoCore.h` (new
+  `gcMutableSnapshot[MUTABLE_ROOT_SHARDS]` field on `ProtoSpace`).
+- Tested in `test/ConcurrentMarkSafetyTests.cpp`
+  (`ConcurrentMarkSafety.MutationDuringMarkPreservesValues` and
+  `ConcurrentMarkSafety.NoLostMutableReferences`).
+- Cross-referenced in
+  [`GarbageCollector.md`](./GarbageCollector.md) §
+  "Concurrent Mark Without Barriers".
+
+---
+
 *Document originated from design discussion 2026-05-25.*
 *Author of the race construction: project lead.*
 *Author of the document: collaborator notes.*
@@ -916,3 +1032,11 @@ producing sub-millisecond pauses.*
 throughout — no production GC achieves zero pause; the realistic
 target is bounded, decoupled pause time. Added Section 8a making
 explicit what is unmeasured and unverified.*
+*Revision 2026-05-30: added § 13 documenting the snapshot-at-STW
+implementation that closes the no-barrier path for concurrent mark.
+The conclusion in §§ 5-6 that "barriers are inevitable" was
+conditioned on dispersed mutability — protoCore's concentrated
+mutability in N shards allows snapshot-replaces-barrier instead.
+Status banner updated from "RESEARCH ONLY" to "PARTIALLY
+IMPLEMENTED": the mark-out-of-STW step is built and tested; the
+broader STW elimination remains research.*
