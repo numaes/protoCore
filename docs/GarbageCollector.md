@@ -372,32 +372,56 @@ size" means concretely.
 
 ### Comparison with other production GCs
 
-| GC | Typical pause | Decoupling mechanism | Per-write cost |
-|---|---|---|---|
-| **protoCore (post-snapshot)** | **30–250 μs** | **snapshot of 256 shard roots; immutable Cells** | **zero** |
-| ZGC (Java) | 100 μs – 1 ms | concurrent mark + relocation + load barriers + multi-mapping (colored pointers) | load barrier on every read |
-| Shenandoah (Java) | 100 μs – 1 ms | concurrent mark + Brooks pointers + concurrent compaction | indirection + write barrier |
-| Go | 100 μs – 1 ms | tricolor concurrent mark + hybrid (Yuasa + Dijkstra) write barrier | hybrid write barrier |
-| G1 (Java) | 10–100 ms | regional, evacuation-pause | SATB write barrier |
-| CMS (Java, deprecated) | 10s of ms | concurrent mark + remark STW | SATB write barrier |
-| V8 / SpiderMonkey | 1–10 ms | generational + incremental + concurrent | write barrier |
+The four columns map the **whole trade-off**, not just the pause.
+Every system in the table pays a non-trivial cost somewhere — at the
+pause, at every memory access, or in what the runtime is allowed to
+look like.  Reading the rows left-to-right gives the visible win
+(typical pause); reading them right-to-left gives what the system
+gave up to get it.
 
-protoCore lands in the **same latency category as ZGC, Shenandoah, and
-Go** (the three lowest-pause production runtimes), but achieves it with
-a substantially simpler mechanism:
+| GC | Typical pause | Decoupling mechanism | Per-access cost | Architectural constraint |
+|---|---|---|---|---|
+| **protoCore (post-snapshot)** | **30–250 μs** | **snapshot of 256 shard roots; immutable Cells** | **zero** | **all mutability routed through `MUTABLE_ROOT_SHARDS` shards (no per-Cell mutable slots; Cells are `const`-only after construction)** |
+| ZGC (Java) | 100 μs – 1 ms | concurrent mark + relocation + load barriers + multi-mapping (colored pointers) | load barrier on every reference read | 64-bit multi-mapped virtual address space; JVM-specific; difficult to embed |
+| Shenandoah (Java) | 100 μs – 1 ms | concurrent mark + Brooks pointers + concurrent compaction | indirection + write barrier on every reference | +1 forwarding word per object (Brooks pointer); every dereference pays one indirection |
+| Go | 100 μs – 1 ms | tricolor concurrent mark + hybrid (Yuasa + Dijkstra) write barrier | hybrid write barrier on every pointer store | compiler-emitted barriers; runtime not separable from Go semantics; not embeddable as a library |
+| G1 (Java) | 10–100 ms | regional, evacuation-pause | SATB write barrier on every pointer store | regional layout; objects > ½ region bypass the collector ("humongous"), creating permanent old-gen pressure |
+| CMS (Java, deprecated) | 10s of ms | concurrent mark + remark STW | SATB write barrier on every pointer store | heap fragmentation (no compaction); deprecated upstream |
+| V8 / SpiderMonkey | 1–10 ms | generational + incremental + concurrent | write barrier on every pointer store | tightly coupled to JS object model + tiered compiler; not a general-purpose GC |
 
-- **No load barriers** (unlike ZGC).
-- **No Brooks forwarding pointers** (unlike Shenandoah).
-- **No hybrid write barrier** (unlike Go).
-- **No multi-mapping or colored pointer tricks** (unlike ZGC).
-- **No per-write coordination of any kind**.
+Reading the table:
 
-The price paid for the simplicity is the architectural constraint that
-**all mutability must be routed through the `MUTABLE_ROOT_SHARDS`
-shard table**.  In exchange the snapshot mechanism replaces every per-
-write barrier with a 256-pointer table-copy under STW, taken once per
-cycle.  See § "Concurrent Mark Without Barriers" above and
-[`STW_ELIMINATION_RESEARCH.md`](./STW_ELIMINATION_RESEARCH.md) § 13.
+- **Rows 5-7 (G1, CMS, V8)** — classic SATB + write barrier. Mature,
+  well-understood, widely deployed.  Pause does not scale below the
+  ~ms range because mark runs partly under STW (G1, CMS) or because
+  fragmentation forces evacuation passes.
+- **Rows 2-4 (ZGC, Shenandoah, Go)** — the modern low-pause band.
+  All three buy sub-ms pause by paying **at every memory access**
+  (load barriers, forwarding indirection, hybrid barriers).  The
+  cost shifts from "occasional ms-scale pause" to "small constant
+  added to every read or write".  All three also impose runtime-
+  level constraints (Brooks header, multi-mapping, compiler
+  integration) that make them difficult or impossible to embed.
+- **Row 1 (protoCore)** — same pause band as ZGC/Shenandoah/Go, but
+  with the per-access cost held at zero.  The cost is paid **once,
+  at language-design time**: the runtime cannot have mutable slots
+  per object; all mutability lives in `MUTABLE_ROOT_SHARDS` shards.
+  Once that constraint is accepted, the snapshot mechanism makes
+  every other GC mechanism (write barriers, load barriers,
+  forwarding pointers, colored pointers) unnecessary.
+
+The table is not "protoCore is better than X".  It is "protoCore makes
+a different trade".  The pause-time win is real and measurable; the
+constraint it costs is also real.  Runtimes that need per-object
+mutable slots (a typical Java/C# semantics) cannot accept protoCore's
+constraint and would not implement this design.  Runtimes that can
+route mutability through a small shard table (protoCore, the proto*
+language runtimes built on it, any embedder willing to adopt the
+discipline) get the simpler mechanism.
+
+See § "Concurrent Mark Without Barriers" above and
+[`STW_ELIMINATION_RESEARCH.md`](./STW_ELIMINATION_RESEARCH.md) § 13
+for the architectural argument in full.
 
 ### Real-time positioning
 
