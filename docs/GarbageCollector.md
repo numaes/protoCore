@@ -73,17 +73,36 @@ While the world is stopped, the GC:
 1. Scans every thread's context chain for roots (automatic locals, closure
    locals, return value, pending root, young-chain outgoing references).
 2. Adds the per-process global roots (prototypes, root object, resolution
-   chain, embedder-registered `ProtoRootSet` instances, the tuple interner,
-   the string interner).
+   chain, embedder-registered `ProtoRootSet` instances).
 3. **Captures the mutable-shard snapshot** —
    `gcMutableSnapshot[s] = mutableRoot[s].root.load(acquire)` for each
    shard — and pushes each non-null shard root onto the worklist as a
    root.  This is the formal "snapshot at the beginning" that lets mark
    run concurrent.
-4. Drains the lock-free `dirtySegments` stack into a local
+4. Adds the **tuple interner root** (single push of `space->tupleRoot`).
+   The AVL traversal happens in Phase 4 mark, NOT here — `TupleDictionary
+   ::processReferences` already traces `key / previous / next`, so the
+   mark phase reaches every interned tuple naturally.  Walking the tree
+   under STW would be redundant O(N_interned_tuples) work for no gain.
+5. Drains the lock-free `dirtySegments` stack into a local
    `segmentsToProcess` snapshot via atomic exchange.  Segments pushed by
    workers after this exchange are not in this cycle's snapshot and
    survive to the next cycle.
+
+**Not scanned during Phase 2:**
+
+- **`SymbolTable` (canonical interned strings, 64 shards).**  Every
+  interned string is **perennial**: `SymbolTable::intern` allocates with
+  a null `ProtoContext`, so symbol Cells live via `posix_memalign`
+  directly — never in a freelist, never in a context young chain.  The
+  GC's mark/sweep machinery never sees a symbol Cell as a candidate,
+  there is nothing to protect, and iterating every shard on every cycle
+  would be pure overhead.  See `SymbolTable` in `headers/proto_internal.h`.
+- **`stringInternMap` (legacy, dead).**  Existed for content-keyed string
+  dedup; abandoned because `computeContentHash` walks the entire rope
+  O(N), making `s += 'x'` loops O(N²).  `internString()` is no longer
+  called from any path (verified by grep).  The field stays for ABI
+  stability but is held empty and never iterated by the GC.
 
 **Important.** The cells in each context's young chain are NOT promoted or
 marked themselves during Phase 2 — only the objects they reference are

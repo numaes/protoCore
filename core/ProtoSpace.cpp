@@ -285,28 +285,33 @@ namespace proto {
                     }
                 }
 
-                // Scan Tuple Interner Tree
-                auto scanTupleInternTree = [&](auto self, const TupleDictionary* node) -> void {
-                    if (!node) return;
-                    if (node->key) addRootObj(reinterpret_cast<const ProtoObject*>(node->key));
-                    if (node->previous) self(self, node->previous);
-                    if (node->next) self(self, node->next);
-                    // The node itself is a Cell, it must be added to workList to be reachable/marked
-                    if (reinterpret_cast<uintptr_t>(node) & 1) { std::cerr << "CRITICAL TAGGED node: " << node << "\n"; std::abort(); } workList.push_back(node);
-                };
-                scanTupleInternTree(scanTupleInternTree, space->tupleRoot.load());
-
-                // Scan String Interner Map
-                if (space->stringInternMap) {
-                    auto* internSet = static_cast<StringInternSet*>(space->stringInternMap);
-                    for (const ProtoStringImplementation* sImpl : *internSet) {
-                        if (sImpl) {
-                            if (reinterpret_cast<uintptr_t>(sImpl) & 1) { std::cerr << "CRITICAL TAGGED sImpl: " << sImpl << "\n"; std::abort(); } workList.push_back(sImpl);
-                            // Also ensure its dependencies are marked (though sImpl->processReferences should handle it,
-                            // we add it to workList so it's marked as a root).
-                        }
+                // Tuple Interner Root.  Push ONLY the root pointer; mark
+                // traces the AVL tree concurrently via
+                // TupleDictionary::processReferences (which already follows
+                // key / previous / next).  Walking the tree here, under
+                // STW, would be redundant work — every node and every
+                // tuple key the walk reaches is also reachable from the
+                // root by following processReferences.  Keeping the
+                // walk in mark moves O(N_interned_tuples) work out of
+                // the STW window.
+                if (TupleDictionary* tRoot = space->tupleRoot.load()) {
+                    if (reinterpret_cast<uintptr_t>(tRoot) & 1) {
+                        std::cerr << "CRITICAL TAGGED tupleRoot: " << tRoot << "\n";
+                        std::abort();
                     }
+                    workList.push_back(tRoot);
                 }
+
+                // stringInternMap is intentionally NOT scanned.  The map
+                // is held empty for the lifetime of the process:
+                // internString() is dead code (never called from any
+                // current path — see core/ProtoString.cpp lines 290 and
+                // 1195 for why interning was abandoned), and the
+                // canonical symbol table is SymbolTable, whose entries
+                // are perennial and also not scanned (see comment
+                // above).  Scanning an always-empty set was pure GC
+                // overhead.  The map infrastructure is left in place
+                // (no ABI change) but never iterated.
 
                 // Symbols are NOT scanned here.  Every interned string is
                 // perennial: SymbolTable::intern always builds the symbol
