@@ -497,6 +497,197 @@ Ordered by what would maximize the chance of even being tried:
 
 ---
 
+## 4. protoCore as Portable Runtime Substrate for Alternative Languages
+
+**Status:** Conceptual framing identified. No outreach attempted.
+**Captured:** 2026-05-30.
+
+### The framing
+
+protoCore was built as the foundation for three specific language runtimes
+(protoJS, protoPython, protoST). The implicit framing was: "protoCore is the
+shared engine these three runtimes are built on".
+
+A broader framing is also true and worth holding in mind:
+
+> protoCore is a portable runtime substrate that any language could be built
+> on, providing a coherent concurrent GC, immutable collections with
+> structural sharing, lock-free threading, and a prototype-based object
+> model. The three current frontends are demonstrations of the substrate,
+> not the substrate's reason for existing.
+
+Under this framing, the three current frontends are existence proofs that
+the substrate can host very different language semantics (JavaScript's
+prototype chains, Python's MRO, Smalltalk's message dispatch) with the same
+underlying engine. That same substrate is available to anyone building a
+fourth language — or porting an existing one.
+
+### Historical precedent: the .NET CLR
+
+The closest historical parallel is the .NET Common Language Runtime. The CLR
+was explicitly designed top-down as a multi-language substrate: any language
+that compiles to IL and respects the Common Type System could interoperate
+with any other. C#, VB.NET, F#, ManagedC++, IronPython, IronRuby, and others
+all shared types, garbage collection, threading, and tooling.
+
+What worked, in practice:
+
+- Types defined in one language were directly usable from another, with no
+  marshalling or wrapper layer.
+- Tooling investment (profiler, debugger, JIT, package manager) amortized
+  across the language family.
+- The substrate enforced a useful discipline: design decisions had to make
+  sense for more than one language, which kept the substrate honest.
+
+What did not work as advertised:
+
+- One language (C#) became dominant, and the "any language" promise faded
+  to marketing. Most production .NET code is C#.
+- The dynamic-language ports (IronPython, IronRuby) never reached parity
+  with their native implementations and eventually stalled.
+- Cross-language debugging remained more painful than single-language.
+
+Lessons applicable to protoCore:
+
+1. **The multi-language interop story is real but secondary.** Most users
+   will work in one language at a time. Interop is a nice property but not
+   the headline feature.
+
+2. **The substrate value extends beyond interop.** Shared tooling, shared
+   optimization work (improvements help all frontends), shared mental
+   model — these matter even if no one uses two languages in the same
+   project.
+
+3. **One frontend has to lead.** .NET had C#. protoCore currently has its
+   attention divided across protoJS / protoPython / protoST. None has
+   reached "the language you adopt protoCore for". This is a strategic gap
+   the multi-language framing makes visible.
+
+4. **Multi-frontend pressure keeps the substrate honest.** If only one
+   frontend exists, the substrate tends to leak that frontend's
+   assumptions. Pressure from a second, structurally different frontend
+   catches those leaks. protoCore already benefits from this: hosting
+   JavaScript, Python, and Smalltalk simultaneously has demanded more
+   generality than any one would.
+
+### Candidate target languages
+
+Ranked by cultural fit (technical fit is uniformly good — protoCore's C ABI
+plus precise object model makes binding from almost any language feasible):
+
+| Language | Cultural fit | Notes |
+|---|---|---|
+| **Roc** | strongest | Pure-functional, immutable-first, structural sharing, opportunistic mutation. Philosophically aligned end to end. Currently uses refcount; protoCore could be a natural alternative or complement. Small but technically sophisticated community. |
+| **Odin** | strong | Pragmatic about runtime helpers; less dogmatic than Zig. Comfortable with library substrate plus explicit allocators. |
+| **Nim** | strong | Already supports multiple GC backends (ORC, ARC, mark-and-sweep). Adding protoCore as another backend fits the existing model directly. |
+| **Vale** | strong-but-niche | Explicitly designed around memory-model innovation. Creator publishes extensively on alternatives to Rust's ownership. Audience for protoCore as a comparative reference even if not direct adoption. |
+| **Zig** | technically perfect, culturally complicated | Comptime plus C interop make binding trivial. But Zig's identity is "no runtime, no GC, explicit allocators". Adoption would require careful positioning as "opt-in library for specific concurrency-heavy modules, allocator inspectable like any other Zig allocator". |
+| **Carbon** | unclear | Google's experimental C++ successor. Technically plausible but adoption process is controlled and opaque. Not a near-term vector. |
+
+### Why bindings, not ports
+
+The cost discipline matters. A port of protoCore to a target language means:
+
+- Reimplementing concurrent GC, structural sharing, cell layout, all of it
+- Every protoCore improvement must be re-ported
+- Two parallel codebases drift; bug fixes need to land in both
+- The cost is on the same order as building protoCore in the first place
+
+A C-ABI binding means:
+
+- A stable C header exposing the protoCore API
+- One binding layer per target language (idiomatic wrapper around the C
+  ABI), maintained by the target community
+- protoCore stays a single codebase
+- All improvements propagate to all frontends automatically
+
+This requires only one investment from protoCore itself: a stable C ABI
+with documented semantics. Every binding is then a target-community
+project, not a protoCore-maintainer project.
+
+This is the discipline Lua taught the industry: a small portable core with
+a clean C API gets embedded everywhere; a complex C++ API with templates
+and inheritance gets embedded nowhere.
+
+### Coupling with § 3 (C++ application audience)
+
+The two sections describe related but distinct outreach vectors:
+
+- **§ 3** targets developers writing applications in C++ today, using
+  protoCore as a library inside conventional codebases.
+- **§ 4** targets implementers of alternative languages, using protoCore as
+  the runtime substrate beneath their language.
+
+Sequencing matters. The most plausible order:
+
+1. Land the safepoint contract work from § 1.
+2. Build the C++ ergonomic wrappers and outreach package from § 3.
+3. Accumulate 2-3 documented C++ application use cases.
+4. Only then approach alternative-language communities — at which point the
+   conversation is "this substrate has independent traction in C++, here is
+   what your language could gain by adopting it" rather than "an academic
+   project author proposes you adopt his library".
+
+The C++ adoption from § 3 is the validation that makes the conversation in
+§ 4 credible. Without it, § 4 is two unproven things hoping to validate
+each other, which historically does not work.
+
+### Risks and limits
+
+- **The pairing risk.** Two things with adoption problems together do not
+  add up to one thing without an adoption problem. Combined branding only
+  works if at least one side has independent momentum. Hence the
+  sequencing above.
+
+- **Asymmetry of decision authority.** The protoCore author cannot decide
+  unilaterally that a language will adopt protoCore. The target
+  community decides. The protoCore side can offer; it cannot impose.
+
+- **Cultural fit is binary.** Several technically excellent candidates
+  (notably Zig) have cultural commitments that make adoption unlikely
+  regardless of technical merit. Pursuing a poor cultural fit wastes
+  effort on both sides.
+
+- **The maintenance cost of stable C ABI is real.** Once a C ABI is
+  committed to, breaking it breaks every binding. This is a long-term
+  obligation, not a one-time cost.
+
+### What this is NOT
+
+- **Not a near-term project.** This framing is documented to be remembered
+  when the time is right, not to be acted on now. The C++ outreach
+  from § 3 is the prerequisite.
+
+- **Not a commitment to support every language that asks.** Bindings are
+  community projects; protoCore commits to the C ABI, not to each binding.
+
+- **Not a claim that interop is the killer feature.** Per the .NET
+  lessons, interop is a nice property but rarely the reason a language
+  is adopted. The reason is the unique capability — sub-ms concurrent GC
+  with structural sharing and zero hot-path overhead — that protoCore
+  brings to whatever language hosts it.
+
+### Open questions before any action
+
+1. **Is the current C API surface stable enough to commit as the binding
+   substrate?** Probably not yet. Stabilizing it is itself a project, and
+   should be done before encouraging any binding work in any language.
+
+2. **Which one frontend should "lead" in the .NET sense?** protoJS,
+   protoPython, and protoST are currently peers. If multi-language outreach
+   were ever to start, having one of them serve as the reference example
+   ("this is what a mature protoCore-based language looks like") would
+   help. Picking which one is partly a technical question (which is most
+   complete) and partly a strategic one (which has the widest potential
+   audience).
+
+3. **Is there a candidate frontend community willing to have an exploratory
+   conversation now?** Not to commit, just to look. A single honest
+   reaction from a Roc or Nim core contributor would be more informative
+   than weeks of internal speculation.
+
+---
+
 ## How to use this file
 
 Add entries when an idea is sufficiently developed to capture but not yet
