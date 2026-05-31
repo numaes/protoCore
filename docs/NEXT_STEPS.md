@@ -317,6 +317,186 @@ further reduction. Revisit only if measurement shows the counter check is
 
 ---
 
+## 3. C++ Application Developer Audience
+
+**Status:** Identified as untapped audience. No outreach work started.
+**Captured:** 2026-05-30.
+
+### The observation
+
+protoCore has been built and documented primarily for runtime authors — the
+people building protoJS, protoPython, protoST on top of it. The existing
+public API, the headers, the docs, and the examples all assume that audience.
+
+A second audience is plausible but not currently addressed: **C++ application
+developers** who would use protoCore as a library inside otherwise-conventional
+C++ codebases, not as a foundation for a new language runtime.
+
+### What protoCore offers that this audience would value
+
+| Property | Idiomatic C++ today | protoCore advantage |
+|---|---|---|
+| Immutable collections with structural sharing | hand-rolled, or `immer` | Complete coherent set (`ProtoList`, `ProtoTuple`, `ProtoString`, `ProtoSparseList`, `ProtoSet`) with shared semantics |
+| Concurrent GC sub-ms pause | `shared_ptr` + manual cycle management | Handles cycles correctly; no atomic refcount on every copy |
+| GIL-free threading | `std::thread` + manual locks | Per-thread allocator, cooperative root scan, no global contention |
+| Hot path with no overhead | (raw C++ default) | Matched — no performance ceded for GC guarantees |
+| Dynamic object model | multiple inheritance + RTTI | Prototype-based with faster attribute lookup than `dynamic_cast` chains |
+
+The structural pitch the C++ developer needs to hear: **"no barriers" is a
+real property, not a marketing claim**. The hot path is as fast as raw C++.
+This is the differentiator from every other GC available to C++ today.
+
+### Realistic target users, ranked by adoption probability
+
+1. **High-concurrency systems with complex shared data** — game servers,
+   simulators, message brokers, scene-graph engines, IDE backends. Today
+   they juggle `shared_ptr` plus lock-free queues plus hand-rolled
+   structural sharing. protoCore offers the complete stack.
+
+2. **Functional-style C++ practitioners** — small but active community
+   (users of `immer`, `hana`, readers of Bartosz Milewski). protoCore gives
+   them more than `immer` does (allocator plus GC plus threading plus object
+   model) in one coherent package.
+
+3. **In-memory databases and embedded query engines** — structural sharing
+   plus concurrent reads is exactly what an MVCC store wants. Currently
+   built on much lower-level primitives.
+
+4. **Research and academia** — distributed-systems experiments, alternative
+   runtimes, papers needing a manageable substrate. ITBA may be an
+   instance of this case.
+
+5. **Long-lived embedded server-side software** — where accumulated
+   `shared_ptr` cycle leaks become real production pain. protoCore reclaims
+   them.
+
+### Gap analysis — what blocks adoption today
+
+The current API was designed for runtime authors, not application
+developers. The concrete missing pieces:
+
+| Gap | Effort | Impact |
+|---|---|---|
+| RAII wrappers around `ProtoContext` and root management | low | high — C++ devs expect this |
+| Range-based-for adapters (`begin()` / `end()`) on immutable collections | low | high |
+| "C++ application developer's guide" doc, separate from the runtime-builder docs | medium | critical |
+| Examples: small concurrent HTTP server, in-memory KV store, graph processor | medium | critical — no clear "hello world" means no trials |
+| Benchmark suite against `immer` plus `std::shared_ptr` on real C++ workloads | medium | medium — C++ devs ask for numbers |
+| Header-only or single-header amalgamated build for drop-in use | low-medium | high — reduces friction to near zero |
+| Documented safepoint contract for raw C++ users (when `lineCheckpoint`, when not) | medium | high — the work in § 1 above becomes a published API rather than internal folklore |
+
+None of these require changes to protoCore core. All are packaging,
+documentation, and ergonomic-wrapper work.
+
+### Positioning
+
+NOT "replace std:: with protoCore". Instead:
+
+> For the parts of your C++ application that are highly concurrent and
+> manipulate complex shared data structures, protoCore provides a substrate
+> combining structural sharing, sub-ms concurrent GC, and zero hot-path
+> overhead. The rest of your code continues to use std::.
+
+Framing as a **library used alongside std::**, not as a replacement for the
+C++ memory model, lowers the psychological barrier significantly.
+
+### Anticipated objections and responses
+
+These will come from any serious C++ audience. Each needs a prepared answer:
+
+1. **"GC in C++ means Boehm, I'll pass."**
+   Boehm is conservative; protoCore is precise. Sub-ms pause vs Boehm's
+   pause profile. Show side-by-side numbers.
+
+2. **"I already have `shared_ptr`."**
+   `shared_ptr` does not handle cycles; its atomic refcount dominates in
+   highly-shared code; it does not provide immutable persistent data
+   structures. Different problem.
+
+3. **"`immer` already exists."**
+   `immer` provides the collections, not the memory model, not the
+   threading model, not the object model. protoCore is the coherent stack.
+
+4. **"Single-author runtime with no traction — I can't depend on that."**
+   Legitimate. Addressed over time through public usage cases, academic
+   citations, and a committed maintenance roadmap. ITBA involvement helps.
+
+5. **"My code runs on a platform where I don't want a runtime."**
+   protoCore is portable (standard C++20, no exotic dependencies) but is
+   not a microcontroller library. Accept the scope.
+
+### Pedagogical angle
+
+Relevant given the ITBA context. As an object of study, protoCore
+simultaneously teaches:
+
+- Concurrent GC design (real, not a toy)
+- Persistent immutable data structures (AVL, ropes, hash arrays)
+- Lock-free programming (CAS, atomic ordering, memory fences)
+- Cache-aware design (64-byte cells, false sharing, per-thread arenas)
+- Alternative object models (prototype-based, dynamic dispatch without
+  v-tables)
+- Compiler and OS coordination (safepoints, signals, virtual memory)
+
+This is essentially the syllabus of an advanced "Language Implementation" or
+"Runtime Systems" course, with real production-targeted code rather than
+academic examples. For ITBA specifically, this educational value may be
+comparable to or greater than the "library for applications" angle.
+
+### Minimum viable outreach package
+
+Ordered by what would maximize the chance of even being tried:
+
+1. **Single-header ergonomic wrapper** (~500 lines):
+   - RAII `Context` wrapper around `ProtoContext`
+   - Range-based-for adapters on collections
+   - `PROTO_SAFEPOINT()` macro emitting `safepointTick()`
+   - Smart-pointer-style holder types where they make sense without
+     contradicting the GC model
+
+2. **Three small examples** (<200 lines each, with a README per example):
+   - Concurrent in-memory KV store
+   - Scene graph with parallel traversal
+   - Multi-threaded graph BFS over a shared immutable graph
+
+3. **Application-developer-oriented README at the repo root** — "what is
+   it, why might you care, how to start in five minutes". Distinct from
+   the current README which is runtime-builder oriented. The current README
+   moves to `docs/RUNTIME_AUTHORS.md` or similar.
+
+### What this is NOT
+
+- **Not a pivot away from the language-runtime audience.** The language
+  runtimes remain the primary validation that protoCore's design works at
+  scale; the C++ application audience is additive.
+
+- **Not a commitment to maintain a wider API surface forever.** The
+  ergonomic wrappers can stay thin and stable while the underlying API
+  evolves.
+
+- **Not a marketing project.** The pedagogical and structural arguments are
+  the only durable ones. Any outreach that reads as promotion will be
+  correctly dismissed by the audience.
+
+### Open questions before starting
+
+1. **Is the maintenance cost of supporting a second audience acceptable?**
+   Every public API surface added is a backward-compatibility obligation.
+   Start small (the single-header wrapper) and only expand based on
+   demonstrated demand.
+
+2. **Are there committed early users?** ITBA may provide them through
+   student projects. Other channels are speculative. Without at least one
+   real user willing to give feedback, the outreach package is built blind.
+
+3. **Does the safepoint contract from § 1 above need to be implemented
+   FIRST?** Probably yes for the C++ application case, because application
+   developers writing tight loops without going through allocations will hit
+   the quorum-wait problem more visibly than language frontends do (which
+   tend to allocate frequently). The two work items may be coupled.
+
+---
+
 ## How to use this file
 
 Add entries when an idea is sufficiently developed to capture but not yet
