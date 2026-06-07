@@ -217,6 +217,45 @@ already calls the right target) and L1-miss rate at 0.02 % (the
 working set fits in L1).  Either change would need a different
 workload to justify.
 
+**TL-IC cache-key hash improvement (same digression):** the per-thread
+attribute cache hash used to be `(currentValue ^ (name >> 4)) % 1024`.
+Since `ProtoObject` cells are 64-byte aligned, the low 6 bits of
+`currentValue` are always zero — they cancelled 6 of the 10 mask bits,
+leaving only ~4 useful bits of `currentValue` selecting the slot.  A
+standalone distribution probe on a 250-object × 4-attr workload
+confirmed the loss: only **64 unique slots out of 1024 used** for
+1000 entries.  Shifting `currentValue` by 6 first
+(`((currentValue >> 6) ^ (name >> 4)) % 1024`) lifts that to **256
+unique slots** at zero extra cost (just an extra `shr` per lookup).
+A Knuth-multiplier variant (`(name >> 6) * 0x9E3779B1`) reached **756
+unique slots** in the model but the runtime `IMUL` cost outweighed
+the better distribution on real pointer patterns.
+
+`perf stat -r 10`, pinned to one CPU:
+
+| Bench / Hash form | OLD `obj ^ (n>>4)` | **v1 `(obj>>6) ^ (n>>4)`** | v3 Knuth multiplier |
+| :--- | ---: | ---: | ---: |
+| **hash_quality (500 obj × 20 K, fits cache)** | 586.9 M cyc (σ 4.23 %), IPC 2.82 | **493.3 M cyc (σ 0.58 %), IPC 3.39** | 495.7 M cyc (σ 1.81 %), IPC 3.41 |
+| **object_access (1000 obj × 10 K, 99.99 % hit)** | 25.75 B cyc (σ 1.39 %), IPC 2.31 | **24.05 B cyc (σ 0.30 %), IPC 2.47** | 24.44 B cyc (σ 0.50 %), IPC 2.43 |
+
+v1 wins on every metric, run-to-run variance drops 4–7×, and zero
+extra hardware cost.  The `MutableValueCache` hash is *not* modified
+— that cache is indexed by the integer `mutable_ref` directly, so the
+optimisation does not apply there.
+
+**Negative result documented:** padding `MutableValueCacheEntry`
+from 24 → 32 bytes (the symmetrical move) **increased** cycles by
+5.3 % and L1 misses by 6.6 % on a dedicated mutable-heavy bench.
+Why: that cache is indexed by `mutable_ref % 1024`, accessed nearly
+sequentially in this workload — the hardware prefetcher already
+streams it, so there was no split-line problem to solve, and the
+extra 8 KB merely displaced useful AttributeCache lines.  Change
+reverted.  Lesson: symmetric struct layout does not imply
+symmetric impact — each cache must be evaluated against its own
+access pattern.  Commit `41dd2448` keeps the benchmark and the
+measurement so future maintainers don't re-explore the same dead
+end.
+
 Auxiliary protoCore microbenchmarks (median of single Release run, see `performance/`):
 
 | Benchmark | Workload | Result |
