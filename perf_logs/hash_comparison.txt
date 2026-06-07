@@ -1,0 +1,30 @@
+# Hash key variants — perf stat -r 10, taskset -c 2, build_release O3
+# Three forms tested:
+#   OLD: (obj  ^ (name >> 4)) % 1024
+#   v1 : ((obj >> 6) ^ (name >> 4)) % 1024     (shift obj past 6 aligned-zero bits)
+#   v3 : ((obj >> 6) ^ ((name >> 6) * 0x9E3779B1)) % 1024  (Knuth multiplier on name)
+
+== hash_quality_benchmark (500 obj × 20000 passes × 1 attr; working set fits cache) ==
+  OLD : cycles=586.9M (sigma 4.23%), IPC=2.82, wall=0.183 s
+  v1  : cycles=493.3M (sigma 0.58%), IPC=3.39, wall=0.128 s   ← -16.0% cycles
+  v3  : cycles=495.7M (sigma 1.81%), IPC=3.41, wall=0.135 s
+
+== object_access_benchmark (1000 obj × 10000 reads, working set fits cache, 99.99% hit) ==
+  OLD : cycles=25.747B (sigma 1.39%), IPC=2.31, wall=7.83 s
+  v1  : cycles=24.048B (sigma 0.30%), IPC=2.47, wall=6.30 s   ← -6.6% cycles
+  v3  : cycles=24.435B (sigma 0.50%), IPC=2.43, wall=6.61 s
+
+== Conclusion ==
+v1 wins on every metric:
+  * Fewer cycles than both OLD and v3 across both workloads.
+  * Higher IPC.
+  * Lower run-to-run variance (sigma improves 4-7x vs OLD on the shift-sensitive bench).
+v3's multiplier costs more than the extra distribution buys back.
+
+== Standalone hash distribution probe (250 obj × 4 attrs = 1000 entries vs 1024 slots) ==
+  OLD : 64 unique slots / 1000 entries  (6 %)
+  v1  : 256 unique slots / 1000 entries (25 %)
+  v3  : 756 unique slots / 1000 entries (74 %)
+The runtime workloads do NOT realise v3's standalone distribution win —
+real (obj, name) pointer patterns differ enough from the modelled
+contiguous-cell layout that v3's extra IMUL does not amortise.

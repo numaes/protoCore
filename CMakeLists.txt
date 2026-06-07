@@ -271,3 +271,10 @@ add_custom_target(package_protocore_only
 
 # 8. User-friendly message on completion
 message(STATUS "protoCore project configured successfully. Use 'cmake --build <build_dir>' to build protoCore, 'ctest' to run tests, and 'cpack' for packaging.")
+
+add_executable(cache_pressure_benchmark performance/cache_pressure_benchmark.cpp)
+target_link_libraries(cache_pressure_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: cache_pressure_benchmark")
+
+add_executable(hash_quality_benchmark performance/hash_quality_benchmark.cpp)
+target_link_libraries(hash_quality_benchmark PRIVATE protoCore)

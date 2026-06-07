@@ -11,6 +11,33 @@
 #include "../headers/proto_internal.h"
 #include <thread>
 
+#ifdef PROTO_CACHE_STATS
+#include <atomic>
+#include <cstdio>
+#include <cstdlib>
+namespace proto {
+    std::atomic<unsigned long> protoCacheStats_hits{0};
+    std::atomic<unsigned long> protoCacheStats_collisions{0};
+    std::atomic<unsigned long> protoCacheStats_coldMisses{0};
+    namespace {
+        struct ProtoCacheStatsDumper {
+            ~ProtoCacheStatsDumper() {
+                unsigned long h = protoCacheStats_hits.load();
+                unsigned long c = protoCacheStats_collisions.load();
+                unsigned long m = protoCacheStats_coldMisses.load();
+                unsigned long total = h + c + m;
+                std::fprintf(stderr,
+                    "[proto-cache-stats] lookups=%lu hits=%lu collisions=%lu coldMisses=%lu hitRate=%.2f%% collisionRate=%.2f%%\n",
+                    total, h, c, m,
+                    total ? (100.0 * h / total) : 0.0,
+                    total ? (100.0 * c / total) : 0.0);
+            }
+        };
+        static ProtoCacheStatsDumper s_dumper;
+    }
+}
+#endif
+
 namespace proto
 {
     namespace {
@@ -533,7 +560,7 @@ namespace proto
             bool cache_resolved = false;
             const proto::ProtoObject* result = nullptr;
             if (cache) {
-                hash_idx = (reinterpret_cast<uintptr_t>(currentValue) ^
+                hash_idx = ((reinterpret_cast<uintptr_t>(currentValue) >> 6) ^
                               (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (cache[hash_idx].object == currentValue && cache[hash_idx].name == name) {
                     // Hit.  Cache stores OWN-attribute facts only:
@@ -542,6 +569,15 @@ namespace proto
                     // Either way, this step is resolved without an AVL probe.
                     result = cache[hash_idx].result;
                     cache_resolved = true;
+#ifdef PROTO_CACHE_STATS
+                    ++protoCacheStats_hits;
+#endif
+                } else {
+#ifdef PROTO_CACHE_STATS
+                    // Occupied with different key → collision; empty → cold miss.
+                    if (cache[hash_idx].object != nullptr) ++protoCacheStats_collisions;
+                    else ++protoCacheStats_coldMisses;
+#endif
                 }
             }
 
@@ -646,7 +682,7 @@ namespace proto
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
-                unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^
+                unsigned long hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
@@ -786,7 +822,7 @@ namespace proto
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
-                unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^
+                unsigned long hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
@@ -881,7 +917,7 @@ namespace proto
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
-                unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^
+                unsigned long hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
