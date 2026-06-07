@@ -1,0 +1,27 @@
+--- Object Access Benchmark ---
+Objects: 1000, Accesses per object: 10000
+Checksum verified.
+Total access time: 8.96815 s
+--------------------------
+--- Object Access Benchmark ---
+Objects: 1000, Accesses per object: 10000
+Checksum verified.
+Total access time: 8.83115 s
+--------------------------
+--- Object Access Benchmark ---
+Objects: 1000, Accesses per object: 10000
+Checksum verified.
+Total access time: 8.64084 s
+--------------------------
+
+ Performance counter stats for './build_release/object_access_benchmark' (3 runs):
+
+    24.528.214.628      cycles                                                                  ( +-  0,18% )
+    59.480.364.418      instructions                     #    2,42  insn per cycle              ( +-  0,00% )
+    17.926.992.570      branches                                                                ( +-  0,00% )
+        23.661.312      branch-misses                    #    0,13% of all branches             ( +-  0,10% )
+    18.688.608.070      L1-dcache-loads                                                         ( +-  0,00% )
+         4.547.209      L1-dcache-load-misses            #    0,02% of all L1-dcache accesses   ( +-  1,64% )
+
+            8,8255 +- 0,0948 seconds time elapsed  ( +-  1,07% )
+
