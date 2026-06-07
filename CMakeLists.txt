@@ -153,6 +153,10 @@ add_executable(object_access_benchmark performance/object_access_benchmark.cpp)
 target_link_libraries(object_access_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: object_access_benchmark")
 
+add_executable(mutable_access_benchmark performance/mutable_access_benchmark.cpp)
+target_link_libraries(mutable_access_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: mutable_access_benchmark")
+
 add_executable(sparse_list_benchmark performance/sparse_list_benchmark.cpp)
 target_link_libraries(sparse_list_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: sparse_list_benchmark")
