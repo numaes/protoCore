@@ -181,6 +181,42 @@ bench_binary_trees(10) wall-clock (60-run baseline solid measurement):
 attr_lookup benchmark: **108 → 81 ms (~26 % faster)**.
 list_append_loop: **265 → 234 ms (~12 % faster)**.
 
+**TL-IC entry padding (digression, 2026-06-06):** `AttributeCacheEntry`
+went from 24 to 32 bytes.  Two motivations, both verified via
+`objdump` before/after on `libprotoCore.so`:
+
+  1. **Indexing collapses to one shift.**  A 24-byte stride forces the
+     compiler to emit a LEA chain — `lea (%rax,%rax,2)` then
+     `lea (%r15,%rax,8)` — to compute `&cache[idx]`.  At 32 bytes it
+     becomes a single `shl $0x5, %rbx` + `add`.
+  2. **No split-line loads.**  64-byte cache lines hold exactly two
+     32-byte entries; no entry crosses a line boundary.  Allocation
+     moved from `std::malloc` (16-byte guarantee) to
+     `std::aligned_alloc(64, ...)`.
+
+`perf stat -r 10` on `object_access_benchmark` (1000 objects × 10 K
+attribute reads = 10 M `getAttribute` hits, single CPU pinned):
+
+| Metric              | Before (24B)        | After (32B)         | Δ        |
+| :---                | :---                | :---                | :---     |
+| **Wall-time**       | 7.384 ± 0.216 s     | **6.673 ± 0.032 s** | **-9.6 %**  |
+| **Cycles**          | 25.16 B (σ 1.36 %)  | **24.26 B** (σ 0.23 %) | **-3.6 %**  |
+| Instructions        | 59.46 B             | 59.46 B             | ≈ 0      |
+| **IPC**             | 2.36                | **2.45**            | **+3.8 %**  |
+| **L1 dcache misses**| 3.98 M (σ 7.68 %)   | **2.90 M** (σ 2.10 %) | **-27.1 %** |
+
+Instructions are essentially identical (the change is pure
+addressing-mode), so the cycles improvement is microarchitectural:
+fewer split-line loads + a shorter address-of-entry dependency
+chain.  Memory cost: 8 KB extra per thread.
+
+Two related proposals (devirtualize `Cell::getType()`, speculative
+prefetch in the AVL walk) were **rejected by the baseline data**
+before any code change: branch-miss rate sat at 0.13 % (the BTB
+already calls the right target) and L1-miss rate at 0.02 % (the
+working set fits in L1).  Either change would need a different
+workload to justify.
+
 Auxiliary protoCore microbenchmarks (median of single Release run, see `performance/`):
 
 | Benchmark | Workload | Result |
