@@ -63,10 +63,17 @@ namespace proto {
 
     ProtoThreadExtension::ProtoThreadExtension(ProtoContext* context)
         : Cell(context), osThread(nullptr), freeCells(nullptr) {
+        // Allocate the attribute cache aligned to a 64-byte cache line so
+        // that the 32-byte AttributeCacheEntry pair always lands within
+        // one line — no split-line loads on lookups.  malloc only
+        // guarantees 16-byte alignment; std::aligned_alloc requires the
+        // request size to be a multiple of the alignment (a C11
+        // requirement it inherits), which holds here because
+        // THREAD_CACHE_DEPTH * 32 is a multiple of 64 for any depth >= 2.
         this->attributeCache = static_cast<AttributeCacheEntry*>(
-            std::malloc(THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry)));
+            std::aligned_alloc(64, THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry)));
         for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
-            this->attributeCache[i] = {nullptr, nullptr, nullptr};
+            this->attributeCache[i] = {nullptr, nullptr, nullptr, nullptr};
         }
         this->mutableValueCache = static_cast<MutableValueCacheEntry*>(
             std::malloc(MUTABLE_VALUE_CACHE_DEPTH * sizeof(MutableValueCacheEntry)));

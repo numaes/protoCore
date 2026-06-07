@@ -574,7 +574,7 @@ namespace proto
                     // traces all three slots of every cache entry as
                     // GC roots so neither object, name, nor result
                     // can be reclaimed while the entry is live.
-                    cache[hash_idx] = {currentValue, result, name};
+                    cache[hash_idx] = {currentValue, result, name, nullptr};
                 }
             }
             if (result != nullptr) {
@@ -650,7 +650,7 @@ namespace proto
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
-                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr};
+                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr, nullptr};
                 }
             }
         }
@@ -790,7 +790,7 @@ namespace proto
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
-                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr};
+                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr, nullptr};
                 }
             }
         }
@@ -885,7 +885,7 @@ namespace proto
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
-                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr};
+                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr, nullptr};
                 }
             }
         }

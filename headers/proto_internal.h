@@ -1149,11 +1149,21 @@ namespace proto {
         void processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const override;
     };
 
+    // Padded to 32 bytes so:
+    //   1. The address-of-entry computation collapses to a single SHL ,5
+    //      (vs. the 3-LEA chain that 24 bytes forces — lea (%rax,%rax,2)
+    //      followed by lea (%r15,%rax,8)).
+    //   2. Two entries fit in one 64-byte cache line; no entry crosses a
+    //      line boundary, eliminating split-line loads on the hit path.
+    // The padding field is intentionally unused; it stays nullptr.
     struct AttributeCacheEntry {
         const ProtoObject* object;
         const ProtoObject* result;
         const ProtoString* name;
+        const void*        _pad_reserved;
     };
+    static_assert(sizeof(AttributeCacheEntry) == 32,
+                  "AttributeCacheEntry must be 32 bytes for SHL-indexable hot path");
 
     /**
      * @brief Per-thread cache entry for mutable-object snapshot resolution.
