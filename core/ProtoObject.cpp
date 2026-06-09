@@ -301,6 +301,11 @@ namespace proto
                  auto* pl = toImpl<const ParentLinkImplementation>(oc->parent);
                  if (pl->getType() == CellType::ParentLink) return pl->getObject(context);
             }
+            // The objectPrototype is the root of the chain: returning it
+            // here would loop back into itself.  All other parentless
+            // cells fall through to objectPrototype as the conventional
+            // root.
+            if (this == context->space->objectPrototype) return nullptr;
             return context->space->objectPrototype;
         }
         case POINTER_TAG_EMBEDDED_VALUE:
@@ -346,7 +351,8 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return PROTO_NONE;
         auto* oc = toImpl<const ProtoObjectCell>(this);
-        return (new(context) ProtoObjectCell(context, oc->parent, oc->attributes, 0))->asObject(context);
+        unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
+        return (new(context) ProtoObjectCell(context, oc->parent, oc->attributes, ref))->asObject(context);
     }
 
     const ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const

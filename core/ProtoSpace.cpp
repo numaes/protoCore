@@ -962,7 +962,12 @@ namespace proto {
         this->unicodeCharPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->listPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->sparseListPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
-        this->objectPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        // Mutable so embedders (protoJS Object.prototype, protoPython
+        // object.__class__, etc.) can install methods and accept user-
+        // level setattr without forking the identity on every write.
+        // The cell still serves as the root of the prototype chain; it
+        // is allocated through the root context so the GC tracks it.
+        this->objectPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(true));
         this->tuplePrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->stringPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->setPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
