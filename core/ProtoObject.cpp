@@ -481,6 +481,16 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                // EXPERIMENT (2026-06-16): when PROTOCORE_TRUST_SYMBOLS=1
+                // is set, treat a STRING-tagged name as definitely-absent
+                // — the embedder contract is "always pass a SYMBOL".  This
+                // lets us measure how much the defensive lookupByContent
+                // costs and reveal embedder sites that violate the
+                // contract (they will read back PROTO_NONE and tests will
+                // fail).  Without the env var, behaviour is unchanged.
+                static const bool s_trust =
+                    std::getenv("PROTOCORE_TRUST_SYMBOLS") != nullptr;
+                if (s_trust) return PROTO_NONE;
                 const ProtoObject* sym = context->space->symbolTable->lookupByContent(
                     context, reinterpret_cast<const ProtoObject*>(name));
                 if (!sym) return PROTO_NONE;
@@ -1680,6 +1690,9 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                static const bool s_trust =
+                    std::getenv("PROTOCORE_TRUST_SYMBOLS") != nullptr;
+                if (s_trust) return PROTO_FALSE;
                 const ProtoObject* sym = context->space->symbolTable->lookupByContent(
                     context, reinterpret_cast<const ProtoObject*>(name));
                 if (!sym) return PROTO_FALSE;
@@ -1843,6 +1856,9 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                static const bool s_trust =
+                    std::getenv("PROTOCORE_TRUST_SYMBOLS") != nullptr;
+                if (s_trust) return PROTO_FALSE;
                 const ProtoObject* sym = context->space->symbolTable->lookupByContent(
                     context, reinterpret_cast<const ProtoObject*>(name));
                 if (!sym) return PROTO_FALSE;
