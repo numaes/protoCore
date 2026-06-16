@@ -531,6 +531,20 @@ namespace proto
          * circuit content comparison when both sides are symbols.
          */
         bool isSymbol() const;
+        /**
+         * @brief Returns true for inline-string-tagged pointers.
+         *
+         * Short ASCII strings (≤ INLINE_STRING_MAX_BYTES bytes) are
+         * packed directly into the tagged pointer.  Same content
+         * always packs to the same pointer value regardless of how
+         * it was created, so an inline string IS pointer-identity
+         * canonical and behaves like a symbol for keying / lookup
+         * purposes.  Embedders that maintain a symbol fast-path for
+         * attribute keys should short-circuit on this AND `isSymbol`
+         * to skip a redundant intern round-trip.  Cheap pointer-tag
+         * read; no allocation, no GC interaction.
+         */
+        bool isInlineString() const;
 
         //- Accessors
         const ProtoObject* getAt(ProtoContext* context, int index) const;
