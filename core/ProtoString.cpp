@@ -885,7 +885,7 @@ namespace proto {
 
     unsigned long ProtoString::getSize(ProtoContext* context) const {
         auto* self = reinterpret_cast<const ProtoObject*>(this);
-        if (::proto::isInlineString(self)) {
+        if (isInlineString(self)) {
             unsigned long bc = inlineStringByteCount(self);
             unsigned long chars = 0;
             for (unsigned long i = 0; i < bc; ) {
@@ -943,17 +943,9 @@ namespace proto {
         return p.op.pointer_tag == POINTER_TAG_SYMBOL;
     }
 
-    bool ProtoString::isInlineString() const {
-        // Qualify with `::proto::` so name lookup picks the free function
-        // (defined at namespace scope in this file) and not this member
-        // — without the qualifier the compiler would recurse infinitely
-        // into the same method.
-        return ::proto::isInlineString(reinterpret_cast<const ProtoObject*>(this));
-    }
-
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
         auto* self = reinterpret_cast<const ProtoObject*>(this);
-        if (::proto::isInlineString(self)) return self;
+        if (isInlineString(self)) return self;
         // For both POINTER_TAG_STRING and POINTER_TAG_SYMBOL the tagged pointer
         // already IS the canonical object handle — return it directly.
         ProtoObjectPointer pa{}; pa.oid = self;
@@ -1074,7 +1066,7 @@ namespace proto {
     }
 
     const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const {
-        if (::proto::isInlineString(reinterpret_cast<const ProtoObject*>(this)))
+        if (isInlineString(reinterpret_cast<const ProtoObject*>(this)))
             return (new (context) ProtoStringIteratorImplementation(context, reinterpret_cast<const ProtoObject*>(this), 0))->asProtoStringIterator(context);
         return getImpl(reinterpret_cast<const ProtoObject*>(this))->implGetIterator(context)->asProtoStringIterator(context);
     }
@@ -1265,7 +1257,7 @@ namespace proto {
     }
 
     unsigned long ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
-    const Cell* ProtoString::asCell(ProtoContext* context) const { return ::proto::isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : getImpl(reinterpret_cast<const ProtoObject*>(this)); }
+    const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : getImpl(reinterpret_cast<const ProtoObject*>(this)); }
     const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
         auto* self     = reinterpret_cast<const ProtoObject*>(this);
         auto* otherObj = reinterpret_cast<const ProtoObject*>(other);
