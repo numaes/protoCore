@@ -295,7 +295,7 @@ namespace proto {
         // ProtoString::createSymbol; ad-hoc ropes do not need dedup
         // because comparisons (==/===, sort, hash-table key) walk
         // content via ProtoObject::compare and getHash returns the
-        // O(1) cached subtree_hash.  Skipping the intern saves the
+        // structure-independent content hash.  Skipping the intern saves the
         // global mutex, the rope-walk hash, and the unbounded-growth
         // intern set.
         return pendingStr->implAsObject(ctx);
@@ -534,11 +534,13 @@ namespace proto {
 
     unsigned long getProtoStringHash(ProtoContext* context, const ProtoObject* o) {
         if (isInlineString(o)) {
-            unsigned long h = 0;
-            const unsigned long len = inlineStringLength(o);
+            // Same FNV-1a over the UTF-8 bytes as computeContentHash: a short
+            // string is inline or heap-backed depending on how it was built.
+            const unsigned long len = inlineStringByteCount(o);
+            uint8_t bytes[INLINE_STRING_MAX_BYTES];
             for (unsigned long i = 0; i < len; ++i)
-                h = (h * 31UL) + static_cast<unsigned long>(inlineStringCharAt(o, static_cast<int>(i)));
-            return h;
+                bytes[i] = inlineStringByte(o, i);
+            return fnv1a(bytes, len);
         }
         return getImpl(o)->getHash(context);
     }
@@ -754,7 +756,11 @@ namespace proto {
     }
 
     uint64_t ProtoStringImplementation::implGetHash() const {
-        return StringInternalNode::subtreeHash(avl_root);
+        // The content hash, not the cached subtree_hash: subtree_hash mixes
+        // child hashes, so equal content split differently by concatenation
+        // hashed differently, and hash-keyed lookups (sparse lists, tuple
+        // hashes, protoPython dicts) missed equal strings.
+        return computeContentHash(avl_root);
     }
 
     const ProtoObject* ProtoStringImplementation::implAsObject(ProtoContext* /*ctx*/) const {

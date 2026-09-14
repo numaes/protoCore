@@ -118,6 +118,27 @@ TEST_F(StringTest, ConcatenatedStringComparesEqualToDirect) {
     EXPECT_EQ(ab->asObject(ctx)->compare(ctx, directString), 0);
 }
 
+TEST_F(StringTest, EqualContentHashesEqualWhateverTheRepresentation) {
+    // Hash-keyed lookups compare only getHash, so equal strings must hash
+    // equally however their rope was split by concatenation.
+    std::string text(120, 'q');
+    text += "tail-0123456789";
+    const ProtoObject* literal = ctx->fromUTF8String(text.c_str());
+    const ProtoString* head = ctx->fromUTF8String(text.substr(0, 37).c_str())->asString(ctx);
+    const ProtoString* tail = ctx->fromUTF8String(text.substr(37).c_str())->asString(ctx);
+    const ProtoObject* built = head->appendLast(ctx, tail)->asObject(ctx);
+    ASSERT_EQ(built->compare(ctx, literal), 0);
+    EXPECT_EQ(built->getHash(ctx), literal->getHash(ctx));
+
+    // A short non-ASCII string: heap-backed when created directly, but a
+    // concatenation that fits is stored inline.
+    const ProtoObject* direct = ctx->fromUTF8String("h\xc3\xa9llo");
+    const ProtoObject* joined = ctx->fromUTF8String("h\xc3\xa9")->asString(ctx)
+        ->appendLast(ctx, ctx->fromUTF8String("llo")->asString(ctx))->asObject(ctx);
+    ASSERT_EQ(joined->compare(ctx, direct), 0);
+    EXPECT_EQ(joined->getHash(ctx), direct->getHash(ctx));
+}
+
 // ===== StringAVLTest ========================================================
 // Tests for the new AVL-based string implementation.
 // These tests use internal classes directly via proto_internal.h.
