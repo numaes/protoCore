@@ -915,7 +915,7 @@ namespace proto {
     };
 
     // ---- SymbolTable ----------------------------------------------------------
-    // 64-shard concurrent interning table. Replaces TupleDictionary for strings.
+    // 64-shard concurrent interning table for strings.
     //
     // Every interned string (symbol) is PERENNIAL: its Cells are allocated with
     // a null ProtoContext, so they bypass every thread freelist and context
@@ -970,6 +970,79 @@ namespace proto {
         // SymbolTable.cpp for the rationale.
         static const ProtoStringImplementation* normalizeForSymbol(
             ProtoContext* readCtx, const ProtoObject* strObj);
+    };
+
+    // ---- TupleInterner --------------------------------------------------------
+    // Canonicalizes tuples: tuples built from the same element pointers are the
+    // same object. Every tuple node goes through it — leaves and the internal
+    // nodes of large tuples, whose slots hold already-canonical children — so
+    // node equality is shallow: same size and identical slot pointers.
+    //
+    // 64 shards, each with its own hash index behind its own mutex. The mutex
+    // is a leaf lock: no Cell is allocated while it is held.
+    //
+    // Interned tuples are PERENNIAL, like symbols: entries are never removed.
+    // Unlike a symbol, a tuple references heap objects, so the table is a GC
+    // root. Entries live in append-only chunks that never move; GC Phase 2
+    // records each shard's published entry count under STW and the concurrent
+    // mark walks exactly those entries while mutators keep appending (an entry
+    // is fully written before it is published). A tuple interned after that
+    // snapshot is a young cell of the context that created it, protected by
+    // that context until the next cycle's snapshot covers it.
+    class TupleInterner {
+    public:
+        static constexpr int SHARD_COUNT = 64;
+        static constexpr size_t CHUNK_SIZE = 256;
+
+        struct Entry {
+            uint64_t                        hash;
+            const ProtoTupleImplementation* tuple;
+            Entry*                          chain;   // hash-index chain, shard mutex
+        };
+
+        struct Chunk {
+            Entry               entries[CHUNK_SIZE];
+            std::atomic<Chunk*> next{nullptr};
+        };
+
+        struct Shard {
+            std::mutex          mutex;
+            Entry**             buckets = nullptr;   // shard mutex
+            size_t              bucketCount = 0;     // shard mutex
+            std::atomic<Chunk*> first{nullptr};
+            Chunk*              last = nullptr;      // shard mutex
+            std::atomic<size_t> published{0};
+            size_t              gcCaptured = 0;      // GC thread only
+        };
+
+        Shard shards[SHARD_COUNT];
+
+        TupleInterner() = default;
+        ~TupleInterner();
+        TupleInterner(const TupleInterner&) = delete;
+        TupleInterner& operator=(const TupleInterner&) = delete;
+
+        // The canonical tuple node for these TUPLE_SIZE slots and size; the
+        // node is allocated only the first time it is seen.
+        const ProtoTupleImplementation* intern(ProtoContext* context,
+                                               const ProtoObject** slots,
+                                               unsigned long size);
+
+        // GC Phase 2 (STW): record each shard's published entry count.
+        void captureForGC();
+
+        // GC mark: visit every tuple recorded by the last captureForGC().
+        void forEachCaptured(void* user, void (*visit)(void* user, const Cell* tuple)) const;
+
+        // Number of interned tuple nodes.
+        size_t size() const;
+
+    private:
+        static uint64_t hashSlots(const ProtoObject** slots, unsigned long size);
+        static Entry* find(const Shard& shard, uint64_t hash,
+                           const ProtoObject** slots, unsigned long size);
+        static void insertLocked(Shard& shard, uint64_t hash,
+                                 const ProtoTupleImplementation* tuple);
     };
 
     // ---- StringLeafNode -------------------------------------------------------
@@ -1672,20 +1745,6 @@ namespace proto {
         unsigned long getHash(ProtoContext* context) const override;
     };
 
-    class TupleDictionary : public Cell {
-    public:
-        CellType getType() const override { return CellType::TupleDictionary; }
-        const ProtoTupleImplementation* key;
-        TupleDictionary* previous;
-        TupleDictionary* next;
-        int height;
-
-        TupleDictionary(ProtoContext* context, const ProtoTupleImplementation* key, TupleDictionary* previous, TupleDictionary* next);
-        void finalize(ProtoContext* context) const;
-        void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
-        const ProtoObject* implAsObject(ProtoContext* context) const override;
-    };
-
     class BigCell final {
         union {
             char byteData[64] = {};
@@ -1710,7 +1769,6 @@ namespace proto {
             DoubleImplementation doubleCell;
             ProtoSetIteratorImplementation setIteratorCell;
             ProtoMultisetIteratorImplementation multisetIteratorCell;
-            TupleDictionary tupleDictionary;
         };
     };
 
@@ -1736,7 +1794,6 @@ namespace proto {
     static_assert(sizeof(DoubleImplementation) <= 64, "DoubleImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSetIteratorImplementation) <= 64, "ProtoSetIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMultisetIteratorImplementation) <= 64, "ProtoMultisetIteratorImplementation exceeds 64 bytes!");
-    static_assert(sizeof(TupleDictionary) <= 64, "TupleDictionary exceeds 64 bytes!");
 
     // UMD: internal implementation called by ProtoSpace::getImportModule
     const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context, const char* logicalPath, const char* attrName2create);

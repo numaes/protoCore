@@ -285,22 +285,12 @@ namespace proto {
                     }
                 }
 
-                // Tuple Interner Root.  Push ONLY the root pointer; mark
-                // traces the AVL tree concurrently via
-                // TupleDictionary::processReferences (which already follows
-                // key / previous / next).  Walking the tree here, under
-                // STW, would be redundant work — every node and every
-                // tuple key the walk reaches is also reachable from the
-                // root by following processReferences.  Keeping the
-                // walk in mark moves O(N_interned_tuples) work out of
-                // the STW window.
-                if (TupleDictionary* tRoot = space->tupleRoot.load()) {
-                    if (reinterpret_cast<uintptr_t>(tRoot) & 1) {
-                        std::cerr << "CRITICAL TAGGED tupleRoot: " << tRoot << "\n";
-                        std::abort();
-                    }
-                    workList.push_back(tRoot);
-                }
+                // Tuple interner.  Interned tuples are perennial and the
+                // table is a root.  Record only each shard's published
+                // entry count here — O(shards) under STW; mark (Phase 4)
+                // walks those entries outside the STW window while
+                // mutators keep appending.  See TupleInterner.
+                if (space->tupleInterner) space->tupleInterner->captureForGC();
 
                 // stringInternMap is intentionally NOT scanned.  The map
                 // is held empty for the lifetime of the process:
@@ -498,6 +488,13 @@ namespace proto {
                 space->stopTheWorldCV.notify_all();
                 GC_LOCK_TRACE("gcLoop REL(mark)");
                 lock.unlock(); // Mark, sweep, and bulk-unmark all run unlocked.
+
+                // Interned tuples recorded by Phase 2 are roots.
+                if (space->tupleInterner) {
+                    space->tupleInterner->forEachCaptured(&workList, [](void* user, const Cell* tuple) {
+                        static_cast<std::vector<const Cell*>*>(user)->push_back(tuple);
+                    });
+                }
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase4_start = std::chrono::steady_clock::now();
                 dbg_total_phase2_us.fetch_add(
@@ -902,6 +899,9 @@ namespace proto {
         // caches without requiring each runtime to pass rootContext explicitly.
         this->mainThreadId = std::this_thread::get_id();
 
+        // The tuple interner must exist before the first tuple is built.
+        this->tupleInterner = new TupleInterner();
+
         // Per-context GC threshold: env var override, fall back to default.
         // Only consumed when PROTOCORE_GC_REINCLUDE_SURVIVORS is enabled, but
         // initialised unconditionally so the field is well-defined.
@@ -1058,6 +1058,8 @@ namespace proto {
         freeStringInternMap(this);
         delete symbolTable;
         symbolTable = nullptr;
+        delete tupleInterner;
+        tupleInterner = nullptr;
 
         // Drain DirtySegment lists (live, free pool, and survivor pen)
         // and free the underlying heap nodes.  GC thread is already

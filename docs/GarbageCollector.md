@@ -79,11 +79,13 @@ While the world is stopped, the GC:
    shard — and pushes each non-null shard root onto the worklist as a
    root.  This is the formal "snapshot at the beginning" that lets mark
    run concurrent.
-4. Adds the **tuple interner root** (single push of `space->tupleRoot`).
-   The AVL traversal happens in Phase 4 mark, NOT here — `TupleDictionary
-   ::processReferences` already traces `key / previous / next`, so the
-   mark phase reaches every interned tuple naturally.  Walking the tree
-   under STW would be redundant O(N_interned_tuples) work for no gain.
+4. Records the **tuple interner snapshot**: `TupleInterner::captureForGC`
+   stores each of its 64 shards' published entry count (O(shards)).
+   Interned tuples are perennial and the table is a root, but the entries
+   are pushed in Phase 4 mark, NOT here — they live in append-only chunks
+   that never move, so mark walks exactly the captured entries while
+   mutators keep interning.  A tuple interned after the snapshot is a
+   young cell of its creating context and protected by it.
 5. Drains the lock-free `dirtySegments` stack into a local
    `segmentsToProcess` snapshot via atomic exchange.  Segments pushed by
    workers after this exchange are not in this cycle's snapshot and
@@ -355,7 +357,7 @@ behaviour can be reasoned about quantitatively.
 | Global roots (~30 prototypes + literalData symbols) | < 1 μs | constant | O(1) |
 | **`mutableRoot[256]` snapshot** | **< 1 μs** | constant | **O(256) atomic loads, 32 cache lines** |
 | Embedder root sets | < 50 μs typical | number of pinned objects | O(num\_pins) |
-| **Tuple interner** | **< 1 μs** | constant | **single push of `tupleRoot`; AVL walk in mark, not STW** |
+| **Tuple interner** | **< 1 μs** | constant | **O(64) published-count reads; entries walked in mark, not STW** |
 | **`SymbolTable`** (canonical interned strings) | **0** | n/a | **perennial — never scanned** |
 | **`stringInternMap`** (legacy, dead) | **0** | n/a | **not iterated; field retained for ABI** |
 | `dirtySegments.exchange()` | < 1 μs | constant | O(1) atomic |

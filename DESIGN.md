@@ -329,10 +329,10 @@ All core collection types in Proto are implemented as persistent, immutable data
 
   * **Auto-interning**: `setAttribute` automatically interns non-interned String keys (tag 6 → Symbol). Attribute lookup methods (`getAttribute`, `hasAttribute`) use `SymbolTable::lookupByContent()` with no insertion side effects.
 
-* **`ProtoTuple`**: Implemented as a rope of small, fixed-size leaf arrays forming a persistent AVL tree. `ProtoString` no longer uses tuples internally; tuple interning is managed by a separate global `tupleRoot` dictionary (BST).
+* **`ProtoTuple`**: Implemented as a rope of small, fixed-size leaf arrays forming a persistent AVL tree. `ProtoString` no longer uses tuples internally; tuples are interned by `TupleInterner`, so tuples built from the same elements are the same object.
 
 * **Interning summary**:
-  * **Tuples**: global `tupleRoot` dictionary (BST).
+  * **Tuples**: `TupleInterner` (64-shard hash table keyed by size and slot pointers, per-shard mutex). Interned tuples are perennial; the table is a GC root whose entries mark walks outside the STW window.
   * **Symbols**: `SymbolTable` (64-shard hash table, per-shard mutex).
   * **Inline Strings**: pointer equality is content equality — no interning table needed.
 

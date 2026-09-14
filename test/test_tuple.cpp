@@ -1,4 +1,8 @@
 #include <gtest/gtest.h>
+#include <chrono>
+#include <mutex>
+#include <thread>
+#include <vector>
 #include "../headers/protoCore.h"
 
 // Test fixture for ProtoTuple tests
@@ -97,4 +101,103 @@ TEST_F(TupleTest, TupleHas) {
     ASSERT_TRUE(tuple->has(context, ten));
     ASSERT_TRUE(tuple->has(context, twenty));
     ASSERT_FALSE(tuple->has(context, ninety));
+}
+
+namespace {
+
+const proto::ProtoTuple* pair(proto::ProtoContext* ctx, const proto::ProtoObject* a, const proto::ProtoObject* b) {
+    return ctx->newTupleFromList(ctx->newList()->appendLast(ctx, a)->appendLast(ctx, b));
+}
+
+// triggerGC() starts a cycle only under heap pressure, and the stop-the-world
+// quorum needs this thread to park, so request each cycle directly and reach
+// safepoints until it completes (as GCSurvivorRechainTests does).
+void runGcCycles(proto::ProtoSpace* space, int cycles) {
+    proto::ProtoContext* ctx = space->rootContext;
+    for (int i = 0; i < cycles; ++i) {
+        {
+            std::lock_guard<std::recursive_mutex> lock(proto::ProtoSpace::globalMutex);
+            space->gcStarted = true;
+            space->gcCV.notify_all();
+        }
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
+        while (space->gcStarted.load() && std::chrono::steady_clock::now() < deadline) {
+            ctx->safepoint();
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        // gcStarted is cleared before sweep finishes; give sweep room.
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+}
+
+}  // namespace
+
+TEST_F(TupleTest, InterningManyDistinctTuplesIsNotQuadratic) {
+    // The interner was a binary search tree that was never rebalanced, walked
+    // twice per tuple under the global mutex. Tuples whose element pointers
+    // grow (small integers in order) degenerated it into a linked list, so
+    // interning N distinct tuples took O(N^2) time.
+    constexpr int kTuples = 100000;
+    const proto::ProtoObject* tag = context->fromUTF8String("k");
+    const proto::ProtoTuple* first = pair(context, context->fromInteger(0), tag);
+    const auto start = std::chrono::steady_clock::now();
+    for (int i = 1; i < kTuples; ++i) {
+        pair(context, context->fromInteger(i), tag);
+    }
+    const double seconds =
+        std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
+    EXPECT_LT(seconds, 30.0) << "interning " << kTuples << " distinct tuples took " << seconds << " s";
+    EXPECT_EQ(pair(context, context->fromInteger(0), tag), first);
+    EXPECT_EQ(pair(context, context->fromInteger(kTuples - 1), tag),
+              pair(context, context->fromInteger(kTuples - 1), tag));
+}
+
+TEST_F(TupleTest, InternedTuplesArePerennialAndKeepTheirElementsAlive) {
+    // Interned tuples are never collected: the interner is a GC root. A tuple
+    // and the heap objects it references outlive the context that built them,
+    // and building the tuple again returns the same object.
+    const proto::ProtoObject* element = nullptr;
+    const proto::ProtoTuple* tuple = nullptr;
+    {
+        proto::ProtoContext scratch{space};
+        element = scratch.newList()->appendLast(&scratch, scratch.fromInteger(4242))->asObject(&scratch);
+        tuple = pair(&scratch, element, scratch.fromInteger(7));
+    }
+    // The scratch context's cells are collection candidates now: only the
+    // interner references the tuple, and only the tuple references `element`.
+    runGcCycles(space, 3);
+    // Reuse whatever the GC freed, so a collected element would be overwritten.
+    for (int i = 0; i < 20000; ++i) {
+        context->newList()->appendLast(context, context->fromInteger(-1));
+    }
+    ASSERT_EQ(element->asList(context)->getSize(context), 1u);
+    EXPECT_EQ(element->asList(context)->getAt(context, 0)->asLong(context), 4242);
+    EXPECT_EQ(pair(context, element, context->fromInteger(7)), tuple);
+}
+
+TEST_F(TupleTest, ConcurrentInterningYieldsOneObjectPerTuple) {
+    // Threads interning the same tuples at the same time, in opposite orders,
+    // must all get one object per distinct tuple.
+    constexpr int kThreads = 4;
+    constexpr int kKeys = 20000;
+    const proto::ProtoObject* tag = context->fromUTF8String("t");
+    std::vector<std::vector<const proto::ProtoTuple*>> results(
+        kThreads, std::vector<const proto::ProtoTuple*>(kKeys, nullptr));
+    std::vector<std::thread> workers;
+    for (int t = 0; t < kThreads; ++t) {
+        workers.emplace_back([&, t]() {
+            proto::ProtoContext threadCtx{space};
+            for (int n = 0; n < kKeys; ++n) {
+                const int k = (t % 2 == 0) ? n : kKeys - 1 - n;
+                results[t][k] = pair(&threadCtx, threadCtx.fromInteger(k), tag);
+            }
+        });
+    }
+    for (auto& worker : workers) worker.join();
+    for (int k = 0; k < kKeys; ++k) {
+        for (int t = 1; t < kThreads; ++t) {
+            ASSERT_EQ(results[t][k], results[0][k]) << "tuple " << k << " was interned twice";
+        }
+        ASSERT_EQ(results[0][k]->getAt(context, 0)->asLong(context), k);
+    }
 }

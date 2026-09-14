@@ -42,7 +42,7 @@ The library implements persistent data structures to support efficient copy-on-w
     *   **Symbol** (`POINTER_TAG_SYMBOL`): interned via a 64-shard `SymbolTable` (per-shard mutexes). Equal content always returns the same pointer, enabling O(1) equality for attribute keys and identifiers.
     *   **String** (`POINTER_TAG_STRING`): non-interned, heap-allocated. Backed by a persistent AVL tree (`StringLeafNode` / `StringInternalNode`). All operations compose from `strConcat` (O(log N)) and `strSplit` (O(log N)); full traversal is O(N) via byte-offset iterator.
 *   **Balanced Trees**: Used for `ProtoList`, `ProtoSparseList`, and heap `ProtoString` to guarantee O(log N) structural operations.
-*   **Interning**: Tuples are interned via the global `tupleRoot` dictionary (BST). Strings are interned as Symbols via the `SymbolTable`. Embedded (inline) strings need no interning — pointer equality is content equality by construction.
+*   **Interning**: Tuples are interned via `TupleInterner`, a 64-shard hash table whose entries are perennial GC roots. Strings are interned as Symbols via the `SymbolTable`. Embedded (inline) strings need no interning — pointer equality is content equality by construction.
 *   **Sets & Multisets**: Implemented efficiently over hash-mapped SparseLists (Multisets use value counts).
 
 ## 3. Codebase Structure

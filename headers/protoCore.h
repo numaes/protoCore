@@ -19,6 +19,7 @@
 namespace proto
 {
     class SymbolTable;  // forward declaration for 64-shard interning table
+    class TupleInterner;  // forward declaration for the tuple interning table
     struct MutableValueCacheEntry;  // defined in proto_internal.h
 
     // Forward declarations
@@ -1667,9 +1668,12 @@ namespace proto
         int softHeapLimit;
         int freeCellsCount;
         unsigned int gcSleepMilliseconds;
+        // Unused: the tuple interner is `tupleInterner`. Kept, like
+        // stringInternMap, so the ProtoSpace layout does not change.
         std::atomic<TupleDictionary*> tupleRoot;
         void* stringInternMap;
         SymbolTable* symbolTable{};
+        TupleInterner* tupleInterner{};
         std::atomic<bool> mutableLock;
         std::atomic<bool> threadsLock;
         std::atomic<bool> gcLock;

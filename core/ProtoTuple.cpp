@@ -6,54 +6,142 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <algorithm>
 #include <cstring>
 
 namespace proto {
 
-    namespace {
-        int getBalance(const TupleDictionary* node) {
-            if (!node) return 0;
-            return (node->next ? node->height : 0) - (node->previous ? node->height : 0);
+    //=========================================================================
+    // TupleInterner
+    //=========================================================================
+
+    TupleInterner::~TupleInterner() {
+        for (Shard& shard : shards) {
+            delete[] shard.buckets;
+            Chunk* chunk = shard.first.load(std::memory_order_relaxed);
+            while (chunk) {
+                Chunk* next = chunk->next.load(std::memory_order_relaxed);
+                delete chunk;
+                chunk = next;
+            }
         }
     }
 
-    TupleDictionary::TupleDictionary(
-        ProtoContext* context,
-        const ProtoTupleImplementation* key,
-        TupleDictionary* previous,
-        TupleDictionary* next
-    ): Cell(context), key(key), previous(previous), next(next) {
-        height = 1 + std::max(
-            (this->previous ? this->previous->height : 0),
-            (this->next ? this->next->height : 0)
-        );
+    uint64_t TupleInterner::hashSlots(const ProtoObject** slots, unsigned long size) {
+        // Tuple nodes are equal when their size and slot pointers are equal, so
+        // hash exactly that: mix each pointer, then avalanche (pointers share
+        // their alignment bits, and the shard index takes the high bits).
+        uint64_t h = 0x9E3779B97F4A7C15ULL ^ static_cast<uint64_t>(size);
+        for (int i = 0; i < TUPLE_SIZE; ++i) {
+            h ^= static_cast<uint64_t>(reinterpret_cast<uintptr_t>(slots[i]));
+            h *= 0xFF51AFD7ED558CCDULL;
+            h ^= h >> 32;
+        }
+        h ^= h >> 33;
+        h *= 0xC4CEB9FE1A85EC53ULL;
+        h ^= h >> 33;
+        return h;
     }
 
-    void TupleDictionary::finalize(ProtoContext* context) const {
+    TupleInterner::Entry* TupleInterner::find(const Shard& shard, uint64_t hash,
+                                             const ProtoObject** slots, unsigned long size) {
+        if (!shard.buckets) return nullptr;
+        for (Entry* e = shard.buckets[hash & (shard.bucketCount - 1)]; e; e = e->chain) {
+            if (e->hash == hash && e->tuple->actual_size == size &&
+                std::memcmp(e->tuple->slot, slots, TUPLE_SIZE * sizeof(ProtoObject*)) == 0) {
+                return e;
+            }
+        }
+        return nullptr;
     }
 
-    void TupleDictionary::processReferences(
-        ProtoContext* context,
-        void* self,
-        void (*method)(
-            ProtoContext* context,
-            void* self,
-            const Cell* cell
-        )
-    ) const {
-        if (this->key) {
-            method(context, self, this->key);
+    void TupleInterner::insertLocked(Shard& shard, uint64_t hash, const ProtoTupleImplementation* tuple) {
+        const size_t count = shard.published.load(std::memory_order_relaxed);
+        // Keep the load factor at most 1. Entries never move: growing the index
+        // rebuilds only the bucket array and the entries' chain links, which the
+        // GC never reads.
+        if (count + 1 > shard.bucketCount) {
+            const size_t newBucketCount = shard.bucketCount ? shard.bucketCount * 2 : 16;
+            Entry** fresh = new Entry*[newBucketCount]();
+            size_t remaining = count;
+            for (Chunk* c = shard.first.load(std::memory_order_relaxed); c && remaining;
+                 c = c->next.load(std::memory_order_relaxed)) {
+                const size_t n = std::min(remaining, CHUNK_SIZE);
+                for (size_t i = 0; i < n; ++i) {
+                    Entry& e = c->entries[i];
+                    Entry*& head = fresh[e.hash & (newBucketCount - 1)];
+                    e.chain = head;
+                    head = &e;
+                }
+                remaining -= n;
+            }
+            delete[] shard.buckets;
+            shard.buckets = fresh;
+            shard.bucketCount = newBucketCount;
         }
-        if (this->previous) {
-            method(context, self, this->previous);
+        const size_t index = count % CHUNK_SIZE;
+        if (index == 0) {
+            Chunk* chunk = new Chunk();
+            if (shard.last) shard.last->next.store(chunk, std::memory_order_release);
+            else shard.first.store(chunk, std::memory_order_release);
+            shard.last = chunk;
         }
-        if (this->next) {
-            method(context, self, this->next);
+        Entry& entry = shard.last->entries[index];
+        entry.hash = hash;
+        entry.tuple = tuple;
+        Entry*& head = shard.buckets[hash & (shard.bucketCount - 1)];
+        entry.chain = head;
+        head = &entry;
+        // Publish last: the GC walks only published entries.
+        shard.published.store(count + 1, std::memory_order_release);
+    }
+
+    const ProtoTupleImplementation* TupleInterner::intern(ProtoContext* context,
+                                                         const ProtoObject** slots,
+                                                         unsigned long size) {
+        const uint64_t hash = hashSlots(slots, size);
+        Shard& shard = shards[hash >> 58];
+        {
+            std::lock_guard<std::mutex> lock(shard.mutex);
+            if (const Entry* e = find(shard, hash, slots, size)) return e->tuple;
+        }
+        // First sight. Allocate outside the shard lock (an allocation may reach
+        // a GC safepoint), then insert unless another thread interned an equal
+        // tuple meanwhile; a losing candidate is ordinary garbage. The new node
+        // is a young cell of `context`, protected by it until the table
+        // snapshot of a later GC cycle covers the entry.
+        const ProtoTupleImplementation* candidate =
+            new(context) ProtoTupleImplementation(context, slots, size);
+        std::lock_guard<std::mutex> lock(shard.mutex);
+        if (const Entry* e = find(shard, hash, slots, size)) return e->tuple;
+        insertLocked(shard, hash, candidate);
+        return candidate;
+    }
+
+    void TupleInterner::captureForGC() {
+        for (Shard& shard : shards) {
+            shard.gcCaptured = shard.published.load(std::memory_order_acquire);
         }
     }
 
-    const ProtoObject* TupleDictionary::implAsObject(ProtoContext* context) const {
-        return PROTO_NONE;
+    void TupleInterner::forEachCaptured(void* user, void (*visit)(void* user, const Cell* tuple)) const {
+        for (const Shard& shard : shards) {
+            size_t remaining = shard.gcCaptured;
+            for (const Chunk* c = shard.first.load(std::memory_order_acquire); c && remaining;
+                 c = c->next.load(std::memory_order_acquire)) {
+                const size_t n = std::min(remaining, CHUNK_SIZE);
+                for (size_t i = 0; i < n; ++i) visit(user, c->entries[i].tuple);
+                remaining -= n;
+            }
+        }
+    }
+
+    size_t TupleInterner::size() const {
+        size_t total = 0;
+        for (const Shard& shard : shards) {
+            total += shard.published.load(std::memory_order_acquire);
+        }
+        return total;
     }
 
 
@@ -124,7 +212,12 @@ namespace proto {
     //=========================================================================
 
     namespace {
-        const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoTupleImplementation* newTuple);
+        // Every tuple node is canonicalized by the space's TupleInterner; null
+        // `slots` is the empty tuple.
+        const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoObject** slots, unsigned long size) {
+            static const ProtoObject* noSlots[TUPLE_SIZE] = {nullptr};
+            return context->space->tupleInterner->intern(context, slots ? slots : noSlots, size);
+        }
 
         const ProtoTupleImplementation* fromListRecursive(
             ProtoContext* context,
@@ -134,7 +227,7 @@ namespace proto {
         ) {
             const unsigned long count = end - start;
             if (count == 0) {
-                return internTuple(context, new(context) ProtoTupleImplementation(context, nullptr, 0UL));
+                return internTuple(context, nullptr, 0UL);
             }
 
             if (count <= TUPLE_SIZE) {
@@ -142,7 +235,7 @@ namespace proto {
                 for (unsigned long i = 0; i < count; ++i) {
                     data[i] = list->getAt(context, start + i);
                 }
-                return internTuple(context, new(context) ProtoTupleImplementation(context, data, count));
+                return internTuple(context, data, count);
             }
 
             const unsigned long chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
@@ -158,7 +251,7 @@ namespace proto {
                     indirect_handles[i] = child_impl->implAsObject(context);
                 }
             }
-            return internTuple(context, new(context) ProtoTupleImplementation(context, indirect_handles, count));
+            return internTuple(context, indirect_handles, count);
         }
 
         const ProtoTupleImplementation* fromVectorRecursive(
@@ -169,7 +262,7 @@ namespace proto {
         ) {
             const unsigned long count = end - start;
             if (count == 0) {
-                return internTuple(context, new(context) ProtoTupleImplementation(context, nullptr, 0UL));
+                return internTuple(context, nullptr, 0UL);
             }
 
             if (count <= TUPLE_SIZE) {
@@ -177,7 +270,7 @@ namespace proto {
                 for (unsigned long i = 0; i < count; ++i) {
                     data[i] = vec[start + i];
                 }
-                return internTuple(context, new(context) ProtoTupleImplementation(context, data, count));
+                return internTuple(context, data, count);
             }
 
             const unsigned long chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
@@ -193,117 +286,21 @@ namespace proto {
                     indirect_handles[i] = child_impl->implAsObject(context);
                 }
             }
-            return internTuple(context, new(context) ProtoTupleImplementation(context, indirect_handles, count));
-        }
-    }
-
-    namespace {
-        // Compare two tuples for identity equality of their contents
-        int compareTuples(ProtoContext* context, const ProtoTupleImplementation* t1, const ProtoTupleImplementation* t2) {
-            if (t1 == t2) return 0;
-            
-            static thread_local std::vector<std::pair<const ProtoTupleImplementation*, const ProtoTupleImplementation*>> recursionStack;
-            for (const auto& pair : recursionStack) {
-                if ((pair.first == t1 && pair.second == t2) || (pair.first == t2 && pair.second == t1)) {
-                    return 0; // Assume equal for recursive cycle
-                }
-            }
-            recursionStack.push_back({t1, t2});
-            
-            unsigned long s1 = t1->implGetSize(context);
-            unsigned long s2 = t2->implGetSize(context);
-            if (s1 < s2) { recursionStack.pop_back(); return -1; }
-            if (s1 > s2) { recursionStack.pop_back(); return 1; }
-
-            for (unsigned long i = 0; i < s1; ++i) {
-                const ProtoObject* o1 = t1->implGetAt(context, i);
-                const ProtoObject* o2 = t2->implGetAt(context, i);
-                if (o1 < o2) { recursionStack.pop_back(); return -1; }
-                if (o1 > o2) { recursionStack.pop_back(); return 1; }
-            }
-            recursionStack.pop_back();
-            return 0;
-        }
-
-        const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoTupleImplementation* newTuple) {
-            ProtoSpace* space = context->space;
-            
-            // Fast path: search existing tuples under lock.
-            {
-                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-                TupleDictionary* current = space->tupleRoot.load();
-                while (current) {
-                    int cmp = compareTuples(context, newTuple, current->key);
-                    if (cmp == 0) {
-                        return current->key; // Found existing tuple
-                    }
-                    if (cmp < 0) {
-                        current = current->previous;
-                    } else {
-                        current = current->next;
-                    }
-                }
-            }
-
-            // Not found, insert new node using an allocation that might GC
-            TupleDictionary* newNode = new(context) TupleDictionary(context, newTuple, nullptr, nullptr);
-            context->pendingRoot = newNode;
-            
-            // Reacquire lock to link the node, checking if someone else inserted it meanwhile
-            {
-                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-                TupleDictionary* current = space->tupleRoot.load();
-                TupleDictionary* parent = nullptr;
-                
-                while (current) {
-                    int cmp = compareTuples(context, newTuple, current->key);
-                    if (cmp == 0) {
-                        // Someone else inserted it! We leak the `newNode` as garbage, but we won't memory leak thanks to GC.
-                        context->pendingRoot = nullptr;
-                        return current->key; 
-                    }
-                    parent = current;
-                    if (cmp < 0) {
-                        current = current->previous;
-                    } else {
-                        current = current->next;
-                    }
-                }
-                
-                if (!parent) {
-                    space->tupleRoot.store(newNode);
-                } else {
-                    int cmp = compareTuples(context, newTuple, parent->key);
-                    if (cmp < 0) {
-                        parent->previous = newNode;
-                    } else {
-                        parent->next = newNode;
-                    }
-                }
-            }
-            context->pendingRoot = nullptr;
-            return newTuple;
+            return internTuple(context, indirect_handles, count);
         }
     }
 
     const ProtoTupleImplementation* ProtoTupleImplementation::tupleFromList(ProtoContext* context, const ProtoListImplementation* list) {
-        // GC critical section: fromListRecursive builds a tree of
-        // ProtoTupleImplementation cells; rawTuple is held in this C++
-        // local across internTuple, which itself walks the tuple
-        // interner tree (allocating new TupleDictionary nodes on miss).
+        // GC critical section: fromListRecursive allocates the tuple nodes
+        // bottom-up; each finished child is held in a C++ local while its
+        // parent is interned.
         ProtoContext::CriticalSection cs(context);
-        const ProtoTupleImplementation* rawTuple = fromListRecursive(context, list->asProtoList(context), 0, list->size);
-        const ProtoTupleImplementation* internedTuple = internTuple(context, rawTuple);
-        // If interned came back different, rawTuple is redundant (garbage) but not easily deletable here due to GC.
-        // It will be collected eventually as it's not referenced by anyone.
-        return internedTuple;
+        return fromListRecursive(context, list->asProtoList(context), 0, list->size);
     }
 
     const ProtoTupleImplementation* ProtoTupleImplementation::tupleFromVector(ProtoContext* context, const std::vector<const ProtoObject*>& source) {
         ProtoContext::CriticalSection cs(context);
-        const ProtoTupleImplementation* rawTuple = fromVectorRecursive(context, source, 0, source.size());
-        const ProtoTupleImplementation* internedTuple = internTuple(context, rawTuple);
-        return internedTuple;
+        return fromVectorRecursive(context, source, 0, source.size());
     }
 
     const ProtoTupleImplementation* ProtoTupleImplementation::tupleConcat(ProtoContext* context, const ProtoObject* left, const ProtoObject* right, unsigned long totalSize) {
