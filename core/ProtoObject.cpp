@@ -9,6 +9,10 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <string>
 #include <thread>
 
 #ifdef PROTO_CACHE_STATS
@@ -1543,7 +1547,12 @@ namespace proto
         if (pa.op.pointer_tag == POINTER_TAG_DOUBLE) {
             return toImpl<const DoubleImplementation>(this)->doubleValue;
         } else if (isInteger(context)) {
-            return static_cast<double>(asLong(context));
+            if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) return static_cast<double>(asLong(context));
+            // A LargeInteger may not fit a long long (asLong throws), so
+            // convert through its decimal digits; out of range becomes ±inf.
+            std::string digits;
+            Integer::toString(context, this, 10)->toUTF8String(context, digits);
+            return std::strtod(digits.c_str(), nullptr);
         }
         // If it's not a double or an integer, throw an error.
         if (context->space && context->space->invalidConversionCallback)
@@ -1611,10 +1620,38 @@ namespace proto
         bool thisIsNum = this->isDouble(context) || this->isInteger(context);
         bool otherIsNum = other->isDouble(context) || other->isInteger(context);
         if (thisIsNum && otherIsNum) {
-            if (this->isDouble(context) || other->isDouble(context)) {
+            if (this->isDouble(context) && other->isDouble(context)) {
                 double d1 = this->asDouble(context);
                 double d2 = other->asDouble(context);
                 return (d1 < d2) ? -1 : (d1 > d2) ? 1 : 0;
+            }
+            if (this->isDouble(context) || other->isDouble(context)) {
+                // Integer vs double, compared exactly: converting the integer
+                // to double rounds above 2^53 (2**70 + 1 compared equal to
+                // 2.0**70) and threw for integers beyond long long. Compare
+                // the integer with floor(d) as integers instead.
+                const bool thisIsDouble = this->isDouble(context);
+                const double d = thisIsDouble ? this->asDouble(context) : other->asDouble(context);
+                const ProtoObject* integer = thisIsDouble ? other : this;
+                int c;
+                if (std::isnan(d)) {
+                    c = 0;
+                } else if (std::isinf(d)) {
+                    c = d > 0 ? -1 : 1;
+                } else {
+                    const double floored = std::floor(d);
+                    const ProtoObject* flooredInt;
+                    if (floored >= -9.2e18 && floored <= 9.2e18) {
+                        flooredInt = Integer::fromLong(context, static_cast<long long>(floored));
+                    } else {
+                        char digits[400];
+                        std::snprintf(digits, sizeof(digits), "%.0f", floored);
+                        flooredInt = Integer::fromString(context, digits, 10);
+                    }
+                    c = Integer::compare(context, integer, flooredInt);
+                    if (c == 0 && d > floored) c = -1;
+                }
+                return thisIsDouble ? -c : c;
             }
             return Integer::compare(context, this, other);
         }

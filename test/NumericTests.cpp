@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
+#include <cmath>
 #include <limits>
 #include <sstream>
 #include <bitset>
@@ -125,6 +126,49 @@ TEST_F(NumericTest, MixedTypeArithmetic) {
     const proto::ProtoObject* result2 = d->add(context, i);
     ASSERT_TRUE(result2->isDouble(context));
     ASSERT_DOUBLE_EQ(result2->asDouble(context), 12.5);
+}
+
+TEST_F(NumericTest, LargeIntegerHashCoversAllDigits) {
+    // Hashing only the lowest 64-bit digit gave every multiple of 2^64 the
+    // same hash, so hash-keyed structures kept only one of 2^64, 2^65, 2^70.
+    const proto::ProtoObject* two64 = context->fromLong(1LL << 60)->multiply(context, context->fromLong(16));
+    const proto::ProtoObject* two65 = two64->multiply(context, context->fromLong(2));
+    const proto::ProtoObject* two70 = two64->multiply(context, context->fromLong(64));
+    EXPECT_NE(two64->getHash(context), two65->getHash(context));
+    EXPECT_NE(two65->getHash(context), two70->getHash(context));
+    // Equal values built differently hash equally.
+    EXPECT_EQ(context->fromString("18446744073709551616", 10)->getHash(context), two64->getHash(context));
+    EXPECT_EQ(context->fromString("1180591620717411303424", 10)->getHash(context), two70->getHash(context));
+}
+
+TEST_F(NumericTest, AsDoubleOfLargeInteger) {
+    // asDouble went through asLong and threw for integers beyond long long.
+    const proto::ProtoObject* two70 = context->fromString("1180591620717411303424", 10);
+    EXPECT_DOUBLE_EQ(two70->asDouble(context), std::ldexp(1.0, 70));
+    const proto::ProtoObject* negTwo64 = context->fromString("-18446744073709551616", 10);
+    EXPECT_DOUBLE_EQ(negTwo64->asDouble(context), -std::ldexp(1.0, 64));
+}
+
+TEST_F(NumericTest, CompareIntegerWithDoubleIsExact) {
+    // Integer vs double used to convert the integer to double: it threw
+    // beyond long long and rounded above 2^53.
+    const proto::ProtoObject* two70 = context->fromString("1180591620717411303424", 10);
+    const proto::ProtoObject* two70plus1 = context->fromString("1180591620717411303425", 10);
+    const proto::ProtoObject* d70 = context->fromDouble(std::ldexp(1.0, 70));
+    EXPECT_EQ(two70->compare(context, d70), 0);
+    EXPECT_EQ(d70->compare(context, two70), 0);
+    EXPECT_EQ(two70plus1->compare(context, d70), 1);
+    EXPECT_EQ(d70->compare(context, two70plus1), -1);
+
+    const proto::ProtoObject* two53plus1 = context->fromLong((1LL << 53) + 1);
+    EXPECT_EQ(two53plus1->compare(context, context->fromDouble(std::ldexp(1.0, 53))), 1);
+
+    EXPECT_EQ(context->fromLong(3)->compare(context, context->fromDouble(3.5)), -1);
+    EXPECT_EQ(context->fromLong(4)->compare(context, context->fromDouble(3.5)), 1);
+    EXPECT_EQ(context->fromLong(-4)->compare(context, context->fromDouble(-3.5)), -1);
+    EXPECT_EQ(context->fromLong(3)->compare(context, context->fromDouble(3.0)), 0);
+    EXPECT_EQ(two70->compare(context, context->fromDouble(std::numeric_limits<double>::infinity())), -1);
+    EXPECT_EQ(two70->compare(context, context->fromDouble(-std::numeric_limits<double>::infinity())), 1);
 }
 
 TEST_F(NumericTest, DivisionAndErrorHandling) {

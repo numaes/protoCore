@@ -74,8 +74,20 @@ namespace proto
      * or MurmurHash across all digits would provide better distribution.
      */
     unsigned long LargeIntegerImplementation::getHash(ProtoContext* context) const {
-        // A simple hash is sufficient for now. The sign is mixed in.
-        return is_negative ? ~digits[0] : digits[0];
+        // Hash every digit of every chunk. Hashing only digits[0] gave every
+        // multiple of 2^64 the same hash, so 2**64, 2**65 and 2**70 collided
+        // and hash-keyed structures kept only one of them. The representation
+        // is canonical (fromTempBignum normalizes the magnitude and zeroes the
+        // unused digits of the last chunk), so equal values hash equally.
+        uint64_t h = is_negative ? 0x9E3779B97F4A7C15ULL : 0x6A09E667F3BCC909ULL;
+        for (const LargeIntegerImplementation* chunk = this; chunk; chunk = chunk->next) {
+            for (int i = 0; i < DIGIT_COUNT; ++i) {
+                h ^= chunk->digits[i];
+                h *= 0xFF51AFD7ED558CCDULL;
+                h ^= h >> 32;
+            }
+        }
+        return static_cast<unsigned long>(h);
     }
 
     void LargeIntegerImplementation::finalize(ProtoContext* context) const {
