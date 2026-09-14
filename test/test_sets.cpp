@@ -76,6 +76,31 @@ TEST_F(SetTest, RemoveNonExistent) {
     ASSERT_EQ(set->getSize(context), 1);
 }
 
+TEST_F(SetTest, ExplicitHashKeysElementsByTheCallersHash) {
+    // A runtime that treats 1 and 1.0 as one element stores both under the same hash.
+    const proto::ProtoObject* one = context->fromInteger(1);
+    const proto::ProtoObject* oneFloat = context->fromDouble(1.0);
+    const unsigned long h = one->getHash(context);
+
+    const proto::ProtoSet* set = context->newSet()->addWithHash(context, h, one);
+    ASSERT_EQ(set->getSize(context), 1);
+    ASSERT_TRUE(set->hasHash(context, h));
+    ASSERT_FALSE(set->hasHash(context, h + 1));
+
+    set = set->addWithHash(context, h, oneFloat);
+    ASSERT_EQ(set->getSize(context), 1);
+    const proto::ProtoSetIterator* it = set->getIterator(context);
+    ASSERT_TRUE(it->hasNext(context));
+    ASSERT_EQ(it->nextHash(context), h);
+    ASSERT_EQ(it->next(context), oneFloat);
+
+    const proto::ProtoSet* unchanged = set->removeHash(context, h + 1);
+    ASSERT_EQ(unchanged, set);
+    set = set->removeHash(context, h);
+    ASSERT_EQ(set->getSize(context), 0);
+    ASSERT_FALSE(set->hasHash(context, h));
+}
+
 // --- Multiset Tests ---
 
 class MultisetTest : public ::testing::Test {

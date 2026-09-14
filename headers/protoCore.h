@@ -659,6 +659,8 @@ namespace proto
         const ProtoObject* next(ProtoContext* context) const;
         const ProtoSetIterator* advance(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
+        //! The hash the element next() returns is stored under (see ProtoSet::addWithHash).
+        unsigned long nextHash(ProtoContext* context) const;
     };
 
     /**
@@ -682,6 +684,24 @@ namespace proto
          * @brief Returns a new set with the given value removed.
          */
         const ProtoSet* remove(ProtoContext* context, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns a new set with `value` stored under `hash`, replacing any element with that hash.
+         * @details add/has/remove key elements by ProtoObject::getHash. A language whose equality
+         * differs (Python makes 1, 1.0 and True one element, and honours __hash__) supplies its own
+         * hash through these variants; a set must then be accessed with one hash function only.
+         */
+        const ProtoSet* addWithHash(ProtoContext* context, unsigned long hash, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns true if an element is stored under `hash`.
+         */
+        bool hasHash(ProtoContext* context, unsigned long hash) const;
+
+        /**
+         * @brief Returns a new set without the element stored under `hash` (the same set if absent).
+         */
+        const ProtoSet* removeHash(ProtoContext* context, unsigned long hash) const;
 
         /**
          * @brief Returns the number of unique elements in the set.

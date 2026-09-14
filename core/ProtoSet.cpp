@@ -91,6 +91,27 @@ namespace proto {
         return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
     }
 
+    const ProtoSet* ProtoSet::addWithHash(ProtoContext* context, unsigned long hash, const ProtoObject* value) const {
+        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
+        // GC critical section: same rationale as add().
+        ProtoContext::CriticalSection cs(context);
+        const auto* new_list = current_list->implSetAt(context, hash, value);
+        return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
+    }
+
+    bool ProtoSet::hasHash(ProtoContext* context, unsigned long hash) const {
+        return toImpl<const ProtoSetImplementation>(this)->list->implHas(context, hash);
+    }
+
+    const ProtoSet* ProtoSet::removeHash(ProtoContext* context, unsigned long hash) const {
+        const auto* impl = toImpl<const ProtoSetImplementation>(this);
+        if (!impl->list->implHas(context, hash)) return this;
+        // GC critical section: same rationale as add().
+        ProtoContext::CriticalSection cs(context);
+        const ProtoSparseListImplementation* new_list = impl->list->implRemoveAt(context, hash);
+        return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
+    }
+
     unsigned long ProtoSet::getSize(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->size; }
     const ProtoObject* ProtoSet::asObject(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->implAsObject(context); }
     const ProtoSetIterator* ProtoSet::getIterator(ProtoContext* context) const {
@@ -108,4 +129,9 @@ namespace proto {
         return (new (context) ProtoSetIteratorImplementation(context, advanced))->asSetIterator(context);
     }
     const ProtoObject* ProtoSetIterator::asObject(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoSetIteratorImplementation>(this)->implAsObject(context); }
+    unsigned long ProtoSetIterator::nextHash(ProtoContext* context) const {
+        if (!this) return 0;
+        const auto* impl = toImpl<const ProtoSetIteratorImplementation>(this);
+        return impl->iterator ? impl->iterator->implNextKey() : 0;
+    }
 }
