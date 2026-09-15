@@ -104,14 +104,9 @@ TEST(GCHeapGrowthTriggerTest, GarbageWithoutHeapLimitStartsCyclesAndBoundsHeap) 
     const uint64_t cycles = space.getGCCycleCount() - cyclesBefore;
     const long grown = static_cast<long>(space.heapSize) - base;
 
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-    // gcCycleCount advances only in builds with the survivor re-chain.
     EXPECT_GE(cycles, 3u)
         << "no automatic GC cycles without a heap limit: the collector never "
            "ran while " << kTotalCells << " cells of garbage were allocated";
-#else
-    (void) cycles;
-#endif
     // The heap never shrinks, so its final size is its peak.  Bounded means
     // well below the cells allocated; unbounded growth reaches kTotalCells.
     EXPECT_LT(grown, kTotalCells / 4)
@@ -157,9 +152,6 @@ TEST(GCHeapGrowthTriggerTest, GrowthPercentZeroDisablesAutomaticCycles) {
 // under stop-the-world and reclaim zero cells.  Once garbage is submitted (a
 // short-lived context is destroyed), the pending budget starts a cycle.
 TEST(GCHeapGrowthTriggerTest, SpentBudgetWaitsForSubmittedGarbage) {
-#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
-    GTEST_SKIP() << "gcCycleCount advances only with PROTOCORE_GC_REINCLUDE_SURVIVORS";
-#else
     ScopedEnv growth("PROTOCORE_GC_GROWTH_PERCENT", nullptr);
     ScopedEnv budget("PROTOCORE_GC_MIN_BUDGET_CELLS", "65536");
     // Keep safepoint() from submitting the keeper's young chain.
@@ -186,7 +178,6 @@ TEST(GCHeapGrowthTriggerTest, SpentBudgetWaitsForSubmittedGarbage) {
     }
     EXPECT_GE(space.getGCCycleCount() - cyclesStart, 1u)
         << "submitted garbage did not start the pending cycle";
-#endif
 }
 
 // Malformed or out-of-range pacing variables fall back to the defaults.
@@ -209,9 +200,6 @@ TEST(GCHeapGrowthTriggerTest, InvalidEnvironmentValuesFallBackToDefaults) {
 // collections are spaced by at least retained x growth% cells of allocation,
 // so a big live heap does not make the collector run back to back.
 TEST(GCHeapGrowthTriggerTest, AllocationBudgetScalesWithRetainedCells) {
-#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
-    GTEST_SKIP() << "gcCycleCount advances only with PROTOCORE_GC_REINCLUDE_SURVIVORS";
-#else
     ScopedEnv growth("PROTOCORE_GC_GROWTH_PERCENT", nullptr);   // 100%
     ScopedEnv budget("PROTOCORE_GC_MIN_BUDGET_CELLS", "65536");
     ProtoSpace space;
@@ -243,5 +231,4 @@ TEST(GCHeapGrowthTriggerTest, AllocationBudgetScalesWithRetainedCells) {
     EXPECT_GE(budgetCells, kRetainedCells)
         << "budget " << budgetCells << " cells is not proportional to the "
         << kRetainedCells << " retained cells (growth 100%)";
-#endif
 }

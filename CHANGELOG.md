@@ -109,6 +109,13 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **The GC cycle counter advances in every build configuration** — the only
+  increment of `gcCycleCount` sat inside the `PROTOCORE_GC_REINCLUDE_SURVIVORS`
+  block, so with `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` `getGCCycleCount()`
+  stayed at zero and heap-limit reclamation waits, which wait for the counter
+  to advance, never saw a cycle complete. The counter is now incremented for
+  every cycle; the survivor re-chain still uses the same cycle number to decide
+  fold cycles. The heap-growth trigger tests now run in both configurations.
 - **GC cycles start from allocation when no heap limit is set** — without a
   hard heap limit (the default), nothing started a collection unless the
   embedder called `triggerGC()`, and no embedder in the ecosystem did, so the

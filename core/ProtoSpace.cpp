@@ -467,8 +467,11 @@ namespace proto {
                 // With stagger > 1, only every Nth cycle folds; survivors
                 // skip mark/sweep cost in the meantime, at the price of
                 // delayed reclamation by up to N cycles.
+                // Count every cycle, whatever the survivor configuration:
+                // getGCCycleCount() and heap-limit reclamation waits read it.
+                [[maybe_unused]] const uint64_t newCycle =
+                    space->gcCycleCount.fetch_add(1, std::memory_order_relaxed) + 1;
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                const uint64_t newCycle = space->gcCycleCount.fetch_add(1, std::memory_order_relaxed) + 1;
                 const unsigned int stagger = space->survivorStagger ? space->survivorStagger : 1;
                 const bool foldThisCycle = ((newCycle % stagger) == 0);
                 if (foldThisCycle) {
