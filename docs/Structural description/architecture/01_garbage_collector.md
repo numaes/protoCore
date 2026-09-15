@@ -19,10 +19,11 @@ The collector does not move cells, so a cell keeps its address until it is recla
 
 The GC thread sleeps until a cycle is requested. According to the trigger sources documented in `core/ProtoSpace.cpp`, a cycle is requested:
 
-- when `ProtoSpace::triggerGC()` is called and fewer than 20% of the heap's cells are free;
-- when a heap limit is configured with `ProtoSpace::setHeapLimits` and an allocating thread must wait for memory to be reclaimed.
+- when no hard heap limit is configured (the default), the cells handed out by `getFreeCells` since the previous cycle reach the allocation budget, `max(PROTOCORE_GC_MIN_BUDGET_CELLS, retained cells × PROTOCORE_GC_GROWTH_PERCENT / 100)`, and contexts have submitted garbage since then (a destroyed context, or a safepoint threshold submission). The defaults are 1,048,576 cells (64 MiB) and 100%. A workload with a constant live set therefore keeps a bounded heap, and `PROTOCORE_GC_GROWTH_PERCENT=0` disables this trigger;
+- when a heap limit is configured with `ProtoSpace::setHeapLimits` and an allocating thread must wait for memory to be reclaimed;
+- when `ProtoSpace::triggerGC()` is called and fewer than 20% of the heap's cells are free.
 
-With no heap limit (the default), allocation does not start collections by itself: `getFreeCells` grows the heap with memory from the operating system instead.
+A requested cycle begins only when every running thread has parked. A loop whose allocations all run inside critical sections, such as repeated `newObject` calls, never parks by itself and must call `ProtoContext::safepoint()`. [GarbageCollector.md](../../GarbageCollector.md) describes how the budget is computed.
 
 ## The Stop-the-World Phase
 

@@ -17,7 +17,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 |------|-------|
 | Version | 1.2.0 |
 | Status | Open for review; not production ready |
-| Test suite | 216 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-15 |
+| Test suite | 221 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-15 |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
@@ -26,6 +26,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 - **Inline small sparse lists** *(May 2026)*: `ProtoSparseListSmallImplementation` stores up to three (key, value) pairs in a single 64-byte cell; larger sparse lists use the AVL form. The public `ProtoSparseList` API is unchanged.
 - **GC survivor re-chain and per-context submission** *(May 2026, on by default)*: cells that survive a sweep are examined again in later cycles, and a context hands its young cells to the collector once its allocation count crosses `ProtoSpace::maxAllocatedCellsPerContext` (default 10,000 cells, overridable with the `PROTOCORE_GC_CONTEXT_THRESHOLD` environment variable). The CMake option `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` disables it. Design: [2026-05-03-gc-survivor-rechain.md](docs/archive/design-specs/2026-05-03-gc-survivor-rechain.md).
 - **`ProtoContext::CriticalSection`**: an RAII guard that defers stop-the-world parking while a thread holds newly allocated cells that are not yet attached to a GC root.
+- **Collection paced by allocation** *(September 2026)*: without a heap limit, a GC cycle starts once the cells handed out since the previous cycle reach `max(PROTOCORE_GC_MIN_BUDGET_CELLS, retained cells × PROTOCORE_GC_GROWTH_PERCENT / 100)` and contexts have submitted garbage since then. The defaults are 1,048,576 cells (64 MiB) and 100%, and `PROTOCORE_GC_GROWTH_PERCENT=0` turns the trigger off. Before this change, the heap of a program with no limit grew without bound unless the embedder called `triggerGC()`. Long-running loops must call `ProtoContext::safepoint()` so that a requested cycle can stop the world. See [docs/GarbageCollector.md](docs/GarbageCollector.md) § "Memory Allocation".
 - **Heap allocation limit** *(May 2026)*: `ProtoSpace::setHeapLimits(softCells, hardCells)` bounds the heap and enables out-of-memory detection based on reclamation. Design: [2026-05-22-allocation-limit-oom-design.md](docs/archive/design-specs/2026-05-22-allocation-limit-oom-design.md).
 - **`getAttribute` returns `PROTO_NONE` for missing attributes** *(May 2026)*; `nullptr` signals invalid input. An attribute can also hold `PROTO_NONE`, so use `hasAttribute` or `hasOwnAttribute` to test for presence.
 - **Public inline SmallInt helpers** *(April 2026)*: `proto::isSmallInt`, `proto::asSmallInt`, `proto::smallIntInRange` and `proto::makeSmallInt` in `protoCore.h` let embedders handle SmallInt arithmetic without calling into the shared library.

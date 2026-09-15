@@ -280,11 +280,51 @@ authors must follow at the root side.
 ## Memory Allocation
 
 - Threads request batches of cells from `ProtoSpace` (`getFreeCells`).
-- Allocation alone does not start a collection unless a heap limit is
-  configured with `ProtoSpace::setHeapLimits`.  Without a limit (the
-  default), a cycle starts when `ProtoSpace::triggerGC()` is called and
-  fewer than 20% of the heap's cells are free; the comment on the GC
-  trigger sources in `core/ProtoSpace.cpp` lists every path.
+- **When a cycle starts.**  Without a hard heap limit (the default),
+  allocation paces collection.  `getFreeCells` charges every batch it
+  hands to a thread, from the freelist or from the OS, against an
+  allocation budget, and requests a cycle through the ordinary
+  `gcStarted` / `gcCV` wake-up once the cells handed out since the
+  previous cycle's stop-the-world snapshot reach it and the mutators have
+  submitted garbage candidates since that snapshot.  Candidates are
+  pending `dirtySegments` from destroyed contexts or safepoint threshold
+  submissions.  Cells still owned by a live context's young generation are
+  never candidates.  A cycle started with nothing submitted could only
+  re-scan them under stop-the-world, so the request waits for the next
+  submission.  At the end of every cycle the budget is recomputed as
+
+      budget   = max(gcMinBudgetCells, retained × gcGrowthPercent / 100)
+      retained = heapSize − freeCellsCount − cells handed out during the cycle
+
+  `retained` counts the cells the cycle found occupied and could not
+  return to the freelist.  Cells handed out while the cycle ran are
+  excluded, because counting them would make the budget grow with the
+  cycle's duration.  The budget is proportional to retained cells, not
+  to `heapSize`, which never shrinks.  Collection work therefore stays
+  proportional to allocation.  A workload with a constant live set keeps
+  a bounded heap: in a scratch measurement that allocated 257 million
+  cells of garbage with 1,000 live strings, the heap stayed at 3.9
+  million cells (240 MiB) across 102 cycles.  Without the trigger it
+  grew to 257 million cells (15.3 GiB).  The check runs only on the
+  refill path, once per batch, never per allocated cell.
+  - `PROTOCORE_GC_GROWTH_PERCENT` (default `100`, range `0`–`10000`) sets
+    `gcGrowthPercent`.  `0` disables automatic cycles; collection then
+    starts only through `triggerGC()`, which was the behaviour before
+    this trigger existed.
+  - `PROTOCORE_GC_MIN_BUDGET_CELLS` (default `1048576` cells, 64 MiB)
+    sets the floor `gcMinBudgetCells`, so a program that allocates less
+    than this never collects.
+  - With a hard heap limit (`setHeapLimits`, `maxHeapSize > 0`) the
+    trigger is inactive: the limit's reclaim-wait path starts cycles when
+    `heapSize` reaches the soft watermark or the ceiling.
+  - `ProtoSpace::triggerGC()` also requests a cycle, but only when fewer
+    than 20% of the heap's cells are on the global freelists.
+  - A requested cycle can only begin once every running thread parks.
+    Threads park at a depth-0 allocation (polled every 64 cells), at
+    `ProtoContext::safepoint()`, or inside an unmanaged region.  A thread
+    whose allocations all happen inside critical sections (every
+    `newObject` call, for example) never parks on its own.  Its loop must
+    call `safepoint()`, or the cycle waits in the stop-the-world handshake.
 - **Concurrent Allocation**: threads can continue to allocate memory from
   the OS (growing the heap) even if a GC cycle is currently running.
   This ensures that a high allocation rate does not stall the entire
@@ -324,9 +364,11 @@ long critical sections when chaining cells under the global lock.
 
 ## How to use
 
-Collection runs on the GC thread; embedders request cycles with
-`triggerGC()` or configure a heap limit (see "Memory Allocation"
-above).  Threads must be "managed" by
+Collection runs on the GC thread.  Allocation starts cycles on its own
+(see "Memory Allocation" above); embedders can additionally request
+cycles with `triggerGC()` or bound the heap with `setHeapLimits`.
+Long-running loops should call `ProtoContext::safepoint()` so that a
+requested cycle can stop the world.  Threads must be "managed" by
 `ProtoSpace` to participate in the STW protocol.  Use `ProtoThread` and
 its synchronization methods to ensure proper GC behavior in custom
 threading scenarios.
@@ -335,7 +377,10 @@ threading scenarios.
 // Explicit synchronization if needed
 thread->synchToGC();
 
-// Request a cycle: one starts when fewer than 20% of heap cells are free
+// Poll the stop-the-world flag from a long-running loop (e.g. every 64 opcodes)
+ctx->safepoint();
+
+// Request a cycle explicitly: one starts when fewer than 20% of heap cells are free
 space.triggerGC();
 
 // Wrap a long blocking syscall so it does not stall the STW quorum
