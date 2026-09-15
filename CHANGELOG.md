@@ -23,6 +23,152 @@ All notable changes to protoCore are documented in this file.
   §"Unmanaged regions: blocking OS calls without blocking the GC" for
   the full contract — particularly the rule that NO `ProtoObject*`
   access is permitted while unmanaged.
+- **Caller-supplied element hash for `ProtoSet`** — `ProtoSet::addWithHash`,
+  `hasHash` and `removeHash` take the hash explicitly, and
+  `ProtoSetIterator::nextHash` returns the hash an element is stored under,
+  so set operations (union, intersection, subset tests) can combine sets
+  without hashing elements again. This lets a runtime whose equality differs
+  from protoCore's use `ProtoSet`: in Python, `1`, `1.0` and `True` are one
+  set element and a class's `__hash__` decides membership. A set must be
+  accessed through one hash function only.
+- **`PROTOCORE_TRUST_SYMBOLS` environment variable (experimental)** — when the
+  variable is set (to any value), `getAttribute`, `hasAttribute` and
+  `hasOwnAttribute` no longer resolve a non-interned string name through
+  `SymbolTable::lookupByContent`; they report the attribute as absent. It is a
+  measurement aid for embedders that always pass interned symbols: on the
+  protoJS standard benchmark suite it reduced times by 4–22%, while call sites
+  that pass non-interned names read back `PROTO_NONE` and take slower fallback
+  paths. Write paths (`setAttribute`, `setAttributeIfEqual`,
+  `deleteAttribute`) still intern string names. The default behaviour is
+  unchanged.
+- **Attribute-cache benchmarks and statistics** — new benchmark targets
+  `hash_quality_benchmark`, `cache_pressure_benchmark` and
+  `mutable_access_benchmark`, and optional instrumentation of the attribute
+  cache (hits, collisions and cold misses, printed at exit) compiled in only
+  when `PROTO_CACHE_STATS` is defined.
+
+### Changed
+- **Concurrent mark via a per-cycle mutable-shard snapshot** — the GC mark
+  phase now runs outside the stop-the-world window, concurrently with mutator
+  threads. During root collection the collector loads each of the 256
+  mutable-shard roots into the new `ProtoSpace::gcMutableSnapshot[]` table,
+  and the marker consults only that snapshot. Because every mutation goes
+  through a shard-root compare-and-swap and cell fields are immutable after
+  construction, the snapshot takes the place of a write barrier: mutators pay
+  no per-write cost. The pause is bounded by root collection plus the 2 KB
+  snapshot capture, independent of heap size and live-object count; floating
+  garbage survives at most one extra cycle. Mark bits are now cleared by a
+  bulk unmark over the marked list after sweep (Phase 6), replacing the
+  pre-mark unmark pass introduced in 1.2.0, and Phase 7 clears the snapshot.
+  Root collection also no longer iterates the unused `stringInternMap`, and
+  interned tuples are traced by the concurrent mark instead of inside the
+  pause. See `docs/GarbageCollector.md` § "Concurrent Mark Without Barriers".
+- **`ProtoSpace` layout** — `ProtoSpace` gains the `gcMutableSnapshot[]` table
+  and a `tupleInterner` pointer. Embedders built against 1.2.0 must be
+  rebuilt; no source change is required.
+- **No GC trigger on free-list exhaustion without a heap limit** —
+  `getFreeCells` refills from the OS without waking the collector. With no
+  heap limit configured (the default), collections are started by
+  `triggerGC()` and at shutdown; configured soft and hard limits drive
+  collections as before. Previously every exhaustion woke the collector, which
+  then waited in the stop-the-world quorum for threads that never reached a
+  safepoint: in a protoST actor benchmark with 8 workers it waited 2.27 s of a
+  2.49 s run and swept once, at the end.
+- **`toImpl` debug checks are compiled out of release builds** — the
+  embedded-value tag, expected-tag and 64-byte alignment checks in `toImpl<>`
+  now run only when `NDEBUG` is not defined, so release builds reduce the
+  conversion to a null check and a mask. In a release build, a wrong-typed
+  conversion that used to abort with a diagnostic is now undefined behaviour.
+  The protoST `fib` benchmark went from about 500 ms to about 440 ms (median).
+- **Install and packaging rules only in a top-level build** — when protoCore
+  is included through `add_subdirectory()`, its install and CPack rules no
+  longer run as part of the parent project's package. The RPM package license
+  is declared as MIT.
+- **Documentation restructure** — design specifications moved to
+  `docs/archive/design-specs/` and the step-by-step implementation plans were
+  deleted; five dated analyses moved to `docs/archive/` with a banner stating
+  that their "production ready" assessment is superseded; `DOCUMENTATION.md`
+  and `docs/README.md` are now indexes of the current documentation.
+  `docs/GarbageCollector.md` documents the concurrent mark, the anatomy of the
+  stop-the-world pause and a comparison with other production collectors, and
+  `docs/STW_ELIMINATION_RESEARCH.md` records the research on bounding the
+  pause. The README lists protoClojure and protoCpp in the ecosystem.
+- **Repository hygiene** — build trees, in-source CMake and test outputs,
+  static libraries and benchmark executables, generated Doxygen XML, a Python
+  virtualenv, performance logs, IDE settings and unreferenced media files are
+  no longer tracked and are ignored by `.gitignore`.
+
+### Removed
+- `ProtoThread::setManaged()` / `setUnmanaged()` — declared but never
+  implemented and without callers; superseded by the unmanaged-region API.
+- The unmaintained Sphinx documentation site (`docs/conf.py`, the `.rst`
+  pages, `docs/Makefile`, `docs/make.bat` and the Doxyfiles under `docs/`).
+  API reference generation uses the root `Doxyfile`. Guides and tutorials that
+  described APIs and tools that do not exist were removed as well.
+
+### Fixed
+- **String hashes depend on content, not rope shape** — `getHash` on a heap
+  string returned a cached hash that mixed its children's hashes, so equal
+  content split differently by concatenation hashed differently (a 47-byte
+  literal and the same text built as 37 + 10 bytes). Every structure keyed by
+  `getHash` missed equal strings, including sparse lists and tuple hashes.
+  Heap strings now hash with the structure-independent FNV-1a content hash
+  that string interning already uses, and inline strings use the same FNV-1a
+  over their bytes, so a string hashes the same whether it is inline or
+  heap-backed.
+- **`LargeInteger` hashing covers every digit** — the hash used only the
+  lowest digit, so every multiple of 2^64 collided and hash-keyed structures
+  kept a single entry for 2^64, 2^65 and 2^70.
+- **`ProtoObject::asDouble` on large integers** — no longer throws for a
+  `LargeInteger` beyond the range of `long long`; the value is converted
+  through its decimal digits, and out-of-range values become ±infinity.
+- **Exact integer/double comparison** — `ProtoObject::compare` converted the
+  integer to `double`, which threw beyond `long long` and rounded above 2^53
+  (`2**70 + 1` compared equal to `2.0**70`). The integer is now compared with
+  `floor(d)` as integers. NaN compares as before; ±infinity is handled
+  explicitly.
+- **`objectPrototype` is mutable** — `ProtoSpace::objectPrototype` was created
+  immutable, so the first `setAttribute` on it returned a new object and left
+  every previously stored reference stale (in protoJS,
+  `Object.prototype.foo = 1` was silently lost). `getPrototype` on
+  `objectPrototype` itself now returns `nullptr` instead of looping back to
+  itself, and `ProtoObject::clone(ctx, true)` now returns a mutable clone (the
+  flag was ignored). Across ten protoJS test262 families, passing tests went
+  from 8397 to 8451 of 9823.
+
+### Performance
+- **Tuple interning uses a sharded hash table** — the interner was a binary
+  search tree under `ProtoSpace::globalMutex` that never rebalanced and, keyed
+  by allocation-ordered pointers, degenerated into a linked list walked twice
+  per tuple creation. `TupleInterner` uses 64 shards, each with its own hash
+  index and a mutex that is never held across an allocation; lookup runs
+  before allocation. Interned tuples remain perennial. Interning 100,000
+  distinct tuples timed out after 120 s before and now takes 0.03 s, as does
+  the 4-thread concurrent test (previously 82 s).
+- **`getOwnAttributeDirect` consults the attribute cache** — it resolved the
+  mutable snapshot and then walked the attribute tree on every call; it now
+  checks the per-thread `(snapshot, name)` attribute cache first, like
+  `getAttribute`. No behavioural change.
+- **Better attribute-cache slot distribution** — cell pointers are 64-byte
+  aligned, so their low 6 bits are always zero; the cache index now shifts
+  them out. `object_access_benchmark` used 6.6% fewer cycles and
+  `hash_quality_benchmark` 16% fewer.
+- **Attribute-cache entries padded to 32 bytes** — two entries now fit in one
+  64-byte cache line and the table is allocated 64-byte aligned, at a cost of
+  8 KB per thread. `object_access_benchmark` used 3.6% fewer cycles with 27%
+  fewer L1 data-cache misses.
+
+### Tests
+- New suites and cases: `ConcurrentMarkSafety` (mutation during mark, no lost
+  mutable references), `UnmanagedRegionTest` (six cases), three `TupleTest`
+  interning cases, `StringTest.EqualContentHashesEqualWhateverTheRepresentation`,
+  `SetTest.ExplicitHashKeysElementsByTheCallersHash` and three `NumericTest`
+  cases for large-integer hashing, conversion and comparison.
+- `SwarmTest.OneMillionConcats` and `SwarmTest.LargeRopeIndexAccess` are
+  enabled again (the rope GC failures they were disabled for no longer
+  reproduce), and `SwarmTest.LargeRopeIndexAccessUnderHeapPressure` builds a
+  large rope under a tight heap limit so reclamation runs during
+  construction.
 
 ## [1.2.0] - 2026-05-22
 ### Added
@@ -77,8 +223,8 @@ All notable changes to protoCore are documented in this file.
   symbol comparison. Now, when a symbol is created — or a non-interned string is
   converted to one — the interned string is allocated outside the GC and lives
   for the lifetime of the process. No public API change
-  (`ProtoString::createSymbol` is unchanged). See `SymbolTable.cpp` and
-  DESIGN.md § "Perpetual allocations via NULL ProtoContext".
+  (`ProtoString::createSymbol` is unchanged). See `core/SymbolTable.cpp` and
+  DESIGN.md § "Mechanism A — Perpetual allocation via `ProtoContext* = nullptr`".
 
 ### Fixed
 - **GC stale-mark bug** — Mark phase set the per-cell mark bit on every reachable
@@ -94,8 +240,9 @@ All notable changes to protoCore are documented in this file.
 - **Fix** — Added a pre-mark unmark pass that walks the live graph from all
   roots and clears the mark bit on every reachable cell before Phase 4 begins.
   Cost is `O(reachable cells)`, comparable to Mark itself, in exchange for a
-  clean tricolor invariant at the start of every cycle. See
-  `docs/GarbageCollector.md` § "Phase 4a: Pre-mark Unmark Pass".
+  clean tricolor invariant at the start of every cycle. This pass was later
+  replaced by the bulk unmark of the concurrent mark (see the concurrent mark
+  entry above); its `docs/GarbageCollector.md` section no longer exists.
 
 ### Tests
 - 196/196 protoCore tests pass — including the `AllocationLimit*` suite
@@ -108,7 +255,7 @@ All notable changes to protoCore are documented in this file.
 ### Added
 - **Performance Benchmarking Suite**: Integrated micro-benchmarks for List, SparseList, Object Access, and String Concatenation into the CMake build system.
 - **JIT Impact Analysis**: Comprehensive performance grounding for the "Mechanism over Policy" strategy, validating structural sharing efficiency and identifying attribute lookup bottlenecks.
-- **String Handling Refactor**: Introduced **Inline Strings** (up to 7 characters) stored directly in `ProtoObject*` tagged pointers.
+- **String Handling Refactor**: Introduced **Inline Strings** (up to 6 UTF-8 bytes) stored directly in `ProtoObject*` tagged pointers.
 - Optimized hybrid data model for `ProtoString` (Inline + Rope).
 - Enhanced `RopeCharacterIterator` and `ProtoStringIteratorImplementation` for performance.
 - Direct bitwise comparison and hashing for inline strings.
