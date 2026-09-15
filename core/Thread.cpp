@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <cstring>
 #include <iostream>
 
 namespace proto {
@@ -80,6 +81,29 @@ namespace proto {
         for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
             this->mutableValueCache[i] = {0, nullptr, nullptr};
         }
+        // The caches start empty, so they are "cleared" as of the current
+        // cycle.  A new thread therefore does not clear again on its first
+        // park exit unless a stop-the-world completes after this point.
+        this->lastClearedEpoch = (context && context->space)
+            ? context->space->gcCycleCount.load(std::memory_order_relaxed)
+            : 0;
+    }
+
+    void ProtoThreadExtension::clearCachesAfterStopTheWorld(const ProtoSpace* space) {
+        // Called only by the owning thread, on its way out of a stop-the-world
+        // wait; never on the lookup path.  gcCycleCount advances only under
+        // stop-the-world, while every thread that could touch these caches is
+        // parked or unmanaged, so a mismatch means a stop-the-world completed
+        // since the last clear and any entry may name a cell that the cycle's
+        // sweep frees and reuses.  An all-zero entry never matches a lookup
+        // (object == nullptr, mutable_ref == 0).
+        const uint64_t epoch = space->gcCycleCount.load(std::memory_order_relaxed);
+        if (epoch == this->lastClearedEpoch) return;
+        std::memset(static_cast<void*>(this->attributeCache), 0,
+                    THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry));
+        std::memset(static_cast<void*>(this->mutableValueCache), 0,
+                    MUTABLE_VALUE_CACHE_DEPTH * sizeof(MutableValueCacheEntry));
+        this->lastClearedEpoch = epoch;
     }
 
     ProtoThreadExtension::~ProtoThreadExtension() {
@@ -104,34 +128,16 @@ namespace proto {
             const Cell* cell
             )
     ) const {
-        // The owning thread rewrites these slots at any time, so every slot
-        // is loaded exactly once: asCellPointer returns nullptr for null and
-        // embedded values, and a slot that changes after the load cannot
-        // turn a tested cell pointer into a reported nullptr.
-        for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
-            if (const Cell* c = ProtoObject::asCellPointer(this->attributeCache[i].object)) {
-                method(context, self, c);
-            }
-            if (const Cell* c = ProtoObject::asCellPointer(this->attributeCache[i].result)) {
-                method(context, self, c);
-            }
-            if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name))) {
-                method(context, self, c);
-            }
-        }
-        // Trace MutableValueCache entries as GC roots: the cached shard_root and current_value
-        // must not be reclaimed while still referenced by a live cache entry.
-        if (this->mutableValueCache) {
-            for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
-                if (this->mutableValueCache[i].mutable_ref == 0) continue;
-                if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->mutableValueCache[i].shard_root))) {
-                    method(context, self, c);
-                }
-                if (const Cell* c = ProtoObject::asCellPointer(this->mutableValueCache[i].current_value)) {
-                    method(context, self, c);
-                }
-            }
-        }
+        // Nothing to report.  The per-thread attributeCache and
+        // mutableValueCache are NOT GC roots, and the marker never reads them
+        // (their owning thread rewrites them at any time).  The owning thread
+        // clears both caches when it resumes after a stop-the-world
+        // (clearCachesAfterStopTheWorld), before its next lookup, so no entry
+        // can be used after a cell it names could have been freed.  The
+        // mutables tree stays the single registry of mutable state.
+        (void) context;
+        (void) self;
+        (void) method;
     }
 
     const ProtoObject* ProtoThreadExtension::implAsObject(ProtoContext* context) const {
@@ -342,6 +348,9 @@ namespace proto {
                 this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
             }
             this->space->parkedThreads--;
+            // Resumed after a stop-the-world: drop this thread's cache entries
+            // before the next lookup (the caches are not GC roots).
+            if (this->extension) this->extension->clearCachesAfterStopTheWorld(this->space);
         }
     }
 
@@ -407,6 +416,11 @@ namespace proto {
                 }
                 this->space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
             }
+            // Back in managed code.  While unmanaged the thread counted as
+            // parked, so whole cycles may have completed without it: drop its
+            // cache entries before its next lookup if a stop-the-world
+            // happened (the caches are not GC roots).
+            this->extension->clearCachesAfterStopTheWorld(this->space);
         }
     }
 

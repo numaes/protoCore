@@ -247,12 +247,11 @@ survive cycle N and are freed in cycle N+1 (with
 `PROTOCORE_GC_REINCLUDE_SURVIVORS`; with `survivorStagger > 1`, on the next
 fold).
 
-**Per-thread caches.**  A thread's mutable value cache entry holds the shard
-root that was current when the entry was filled, and the collector traces it
-so that address cannot be reused while the entry exists.  An entry filled
-before a release therefore keeps the older root, and the released states in
-it, alive until the thread reuses that slot (1024 entries per thread).
-Threads replace entries as they read and write other mutables.
+**Per-thread caches.**  The per-thread caches are not GC roots, and each
+thread clears them when it resumes after a stop-the-world (see "Concurrent
+Mark Without Barriers", point 7).  An entry that names a released state or an
+older shard root therefore keeps nothing alive: the state is freed in the next
+cycle regardless of what the caches held.
 
 **Without survivor re-inclusion.**  With
 `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` a cell that survives one cycle is
@@ -345,12 +344,21 @@ never reads the live `mutableRoot` table again during this cycle.
    not see them.
 6. Mutable shard CAS by workers is invisible to the marker (snapshot
    discipline).
-7. The per-thread `attributeCache` and `mutableValueCache` are an
-   exception to point 1.  Their owning threads rewrite the entries at any
-   time, and the concurrent mark traces them through
-   `ProtoThreadExtension::processReferences`.  Each slot is loaded once
-   and reported only when it holds a cell, and the mark loop skips null
-   work-list entries.
+7. The per-thread `attributeCache` and `mutableValueCache` are not GC
+   roots, and the marker never reads them
+   (`ProtoThreadExtension::processReferences` reports nothing from them),
+   so their owning threads may rewrite entries at any time without racing
+   the mark.  Instead, **each thread clears both of its caches when it
+   resumes after a stop-the-world**, before it can look anything up again:
+   on leaving the allocation poll's park, `safepoint()`, `synchToGC()`, a
+   heap-headroom wait, and on returning from an unmanaged region
+   (`ProtoThreadExtension::clearCachesAfterStopTheWorld`, which clears only
+   when `gcCycleCount` changed since the thread's last clear).  A thread
+   inside a critical section delays the stop-the-world, so it cannot miss a
+   clear.  Every entry a lookup can see was therefore written after the last
+   stop-the-world: the cells it names were marked or young then, and none is
+   freed or reused before the next stop-the-world clears the entry.  The
+   lookup path itself does no extra work.
 
 ### Cost
 - **STW pause:** O(threads × stack depth + root-set pins + 256),
@@ -473,7 +481,10 @@ long critical sections when chaining cells under the global lock.
   the cached entry is considered valid only while the cached
   `shard_root` pointer still equals the current shard root pointer; any
   CAS on the shard naturally invalidates stale entries on the next
-  lookup.
+  lookup.  Neither per-thread cache is a GC root: each thread clears
+  both of its caches when it resumes after a stop-the-world (point 7 of
+  "Concurrent Mark Without Barriers"), which is what makes the
+  pointer comparison safe against a freed and reused address.
 - **Bit-Marking**: efficient marking using the low bit of aligned
   pointers in the cell chain.
 - **Atomic References**: thread-safe `mutable_ref` generation using an

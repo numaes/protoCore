@@ -513,13 +513,13 @@ namespace proto
             }
         }
 
-        // Attribute Cache Setup.  ProtoThreadExtension::processReferences
-        // pins every (object, result, name) entry as a GC root, so the
-        // pointers in the cache cannot dangle: the cells they reference
-        // stay alive, and the arena cannot recycle their addresses while
-        // the cache holds them.  No GC-cycle invalidation is needed —
-        // entries are naturally retired by hash-slot eviction on later
-        // misses.
+        // Attribute Cache Setup.  The cache is NOT a GC root.  The owning
+        // thread clears it when it resumes after every stop-the-world
+        // (ProtoThreadExtension::clearCachesAfterStopTheWorld), so every
+        // entry seen here was written after the last stop-the-world: its
+        // cells were marked or young then, and none can be freed or its
+        // address reused before the next stop-the-world clears the entry.
+        // The loop below has no park point.
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);

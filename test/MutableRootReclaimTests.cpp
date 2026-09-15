@@ -91,20 +91,6 @@ void countPayloadFinalized(void*) {
     gPayloadsFinalized.fetch_add(1, std::memory_order_relaxed);
 }
 
-// Replaces every entry of the calling thread's mutable value cache.  The
-// collector traces each entry's shard root, which keeps a cached root's
-// address from being reused while the entry exists.  An entry filled before
-// a release therefore keeps the pre-release shard root, and the states in
-// it, alive until its slot is reused.  Workloads replace entries as they
-// touch other mutables; the test does it explicitly with one read of each
-// of MUTABLE_VALUE_CACHE_DEPTH consecutive fresh mutables.
-void replaceMutableValueCacheEntries(ProtoSpace& space, ProtoContext* ctx, const ProtoString* key) {
-    ProtoContext scratch(&space, ctx, nullptr, nullptr, nullptr, nullptr);
-    for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
-        (void) scratch.newObject(true)->getAttribute(&scratch, key);
-    }
-}
-
 }  // namespace
 
 // Mutables written and dropped before the first cycle lose their entries in
@@ -169,9 +155,10 @@ TEST(MutableRootReclaim, ObjectsReferencedByDroppedMutablesAreCollected) {
     ASSERT_TRUE(runGcCycle(space, ctx));
     EXPECT_EQ(countEntries(space, ctx, refs), 0u);
 
-    // The writes above filled this thread's mutable value cache with
-    // pre-release shard roots; replace those entries (see the helper).
-    replaceMutableValueCacheEntries(space, ctx, key);
+    // The writes above filled this thread's mutable value cache with entries
+    // naming pre-release shard roots and states.  The caches are not GC roots
+    // and this thread cleared them when it resumed from the cycle above, so
+    // they keep nothing alive: no step is needed here.
 
     // Cycle 2 collects the states and payloads; cycle 3 absorbs timing.
     ASSERT_TRUE(runGcCycle(space, ctx));

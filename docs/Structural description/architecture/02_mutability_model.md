@@ -27,7 +27,9 @@ This lock-free path covers updates of mutable objects. Other runtime structures,
 
 ## Reading Mutable State
 
-Each thread keeps a 1024-entry mutable value cache (`MUTABLE_VALUE_CACHE_DEPTH`). An entry records a `mutable_ref`, the shard root seen when the entry was filled, and the resolved state. A lookup loads the shard root again; if it is still the same pointer, the cached state is returned without searching the sparse list. A successful update to the shard installs a new root pointer, which invalidates every cached entry for that shard on its next lookup, so threads need no invalidation messages. The collector traces the cache entries, so a cached shard root cannot be freed and its address reused while the entry exists.
+Each thread keeps a 1024-entry mutable value cache (`MUTABLE_VALUE_CACHE_DEPTH`). An entry records a `mutable_ref`, the shard root seen when the entry was filled, and the resolved state. A lookup loads the shard root again; if it is still the same pointer, the cached state is returned without searching the sparse list. A successful update to the shard installs a new root pointer, which invalidates every cached entry for that shard on its next lookup, so threads need no invalidation messages.
+
+The caches are not garbage collector roots: the collector never reads them. Instead, each thread empties its own caches when it resumes after the collector has stopped the world, before it can look anything up again. So every entry a lookup sees was written after the last stop-the-world, and a cell it names cannot be freed or have its address reused before the next stop-the-world empties the entry. Because the caches keep nothing alive, the states of mutable objects that are no longer reachable are freed even if a thread's cache still names them.
 
 ## Interaction with the Garbage Collector
 

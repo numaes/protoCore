@@ -1261,8 +1261,14 @@ namespace proto {
      * by any thread (including this one) replaces shard_root and naturally invalidates
      * stale entries on the next lookup.
      *
-     * Both shard_root and current_value are GC roots: ProtoThreadExtension::processReferences
-     * traces them so the GC cannot reclaim a snapshot still referenced by a cached entry.
+     * Neither per-thread cache is a GC root: ProtoThreadExtension::processReferences does
+     * not trace them.  Instead the owning thread clears both caches after every
+     * stop-the-world, when it leaves the park (see
+     * ProtoThreadExtension::clearCachesAfterStopTheWorld), before it can look anything up
+     * again.  Every entry a lookup can see was therefore written after the last
+     * stop-the-world, so its pointers were marked at that stop-the-world or allocated
+     * after it, and none of them is freed or reused before the next stop-the-world, which
+     * clears the entry first.  The lookup path is unchanged.
      */
     struct MutableValueCacheEntry {
         unsigned long       mutable_ref;     // 0 = empty entry
@@ -1282,6 +1288,22 @@ namespace proto {
         // ProtoThread::goUnmanaged / returnFromUnmanaged for the
         // contract.
         std::atomic<int> unmanagedDepth{0};
+        // GC cycle count (ProtoSpace::gcCycleCount) at which this thread last
+        // cleared its caches.  Written and read only by the owning thread, on
+        // the way out of a stop-the-world wait; never on the lookup path.
+        uint64_t lastClearedEpoch = 0;
+
+        /**
+         * @brief Clears both per-thread caches if a stop-the-world completed
+         *        since they were last cleared.
+         *
+         * Called by the owning thread every time it resumes from a
+         * stop-the-world wait: the allocation poll's park, safepoint(),
+         * synchToGC(), the return from an unmanaged region, and the end of a
+         * heap-headroom wait.  Compares lastClearedEpoch with gcCycleCount and,
+         * only when it changed, zeroes both tables and records the new count.
+         */
+        void clearCachesAfterStopTheWorld(const ProtoSpace* space);
 
         CellType getType() const override { return CellType::ThreadExtension; }
 

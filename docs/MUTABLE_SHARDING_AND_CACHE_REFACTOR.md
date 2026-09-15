@@ -242,12 +242,29 @@ This means:
 > its `mutable_ref`; after sweep the GC thread removes the recorded refs
 > shard by shard, with one compare-and-swap per shard, allocating through its
 > own context `ProtoSpace::gcContext`. The entry disappears in the cycle that
-> collects the handle, and the state is freed in the next cycle. A cached
-> `shard_root` filled before a release keeps that older root, and the
-> released states in it, alive until its slot is reused, as described above.
-> With `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` a handle that survives a cycle
-> is never collected, so its entry is never released. See
+> collects the handle, and the state is freed in the next cycle. With
+> `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` a handle that survives a cycle is
+> never collected, so its entry is never released. See
 > [GarbageCollector.md](GarbageCollector.md) § "Phase 5b".
+>
+> **Current code (September 2026): the caches are no longer GC roots.**
+> - **What changed.** The resolution in § 3.3.2 (trace `shard_root` and
+>   `current_value`) is superseded by the clearing described as optional in
+>   § 3.3.3. `ProtoThreadExtension::processReferences` reports nothing from
+>   either cache. Each thread clears both of its caches when it resumes after
+>   a stop-the-world: on leaving the allocation poll's park, `safepoint()`,
+>   `synchToGC()` or a heap-headroom wait, and on returning from an unmanaged
+>   region. A per-thread "last cleared" copy of `gcCycleCount` makes the clear
+>   happen once per cycle.
+> - **Why it is sound.** Every entry a lookup sees was written after the last
+>   stop-the-world, so its `shard_root` and `current_value` were marked or
+>   young then, and cannot be freed or reused before the next stop-the-world
+>   clears the entry.
+> - **Cost.** The entry layout (24 and 32 bytes) and the lookup path are
+>   unchanged; the only cost is the clear, once per cycle per thread.
+> - **What it removes.** A cached old shard root kept a whole old version of
+>   the shard alive. After the entry release above, that pinned released
+>   states: 256,581 cells in a 1,000,000-object probe.
 
 #### 3.3.3 Invalidation at STW boundaries
 

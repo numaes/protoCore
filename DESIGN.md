@@ -371,6 +371,7 @@ Every `ProtoThread` carries a 1024-entry `MutableValueCacheEntry` table. This sh
 *   **Key**: `mutable_ref`.
 *   **Validation**: The cache stores the `shard_root` pointer at the time of caching. A lookup reloads the current atomic `shard_root`; if it still matches the cached pointer, the `current_value` snapshot is returned in $O(1)$.
 *   **Self-Healing**: If another thread CASes the shard root, the pointer equality check fails, forcing an authoritative AVL lookup and a cache refresh.
+*   **Not GC roots**: Neither per-thread cache is traced by the collector. Each thread clears both of its caches when it resumes after a stop-the-world (leaving the allocation poll's park, `safepoint()`, `synchToGC()` or a heap-headroom wait, or returning from an unmanaged region), so every entry a lookup sees was written after the last stop-the-world and names only cells that were marked or young then. The lookup path is unchanged. See [docs/GarbageCollector.md](docs/GarbageCollector.md) § "Concurrent Mark Without Barriers", point 7.
 
 ### Tier 2: Attribute Cache (Resolution & Inheritance)
 A 1024-entry `AttributeCacheEntry` table (`THREAD_CACHE_DEPTH`) accelerates attribute lookups. In `getAttribute`, an entry records an own-attribute fact for one object state: the value the object owns for a name, or that it does not own that name. A hit avoids the AVL search of that object during the lookup.

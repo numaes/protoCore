@@ -17,7 +17,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 |------|-------|
 | Version | 1.2.0 |
 | Status | Open for review; not production ready |
-| Test suite | 244 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-15 |
+| Test suite | 249 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-15 |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
@@ -98,7 +98,7 @@ When protoCore is part of your CMake build (for example through `add_subdirector
     *   **Tagged pointers**: small integers (signed 54-bit `SmallInt`), booleans, Unicode characters and inline strings of up to 6 UTF-8 bytes are stored directly in the 64-bit `ProtoObject*` handle, without heap allocation.
     *   **Transparent promotion**: values outside these ranges are promoted to heap objects (`LargeInteger`, `Double`, or strings backed by a persistent AVL tree).
     *   **64-byte cells**: heap objects live in 64-byte `Cell`s allocated with 64-byte alignment, the cache-line size of common CPUs, so each cell occupies exactly one cache line.
-    *   **Per-thread caches**: each thread has a 1024-entry attribute cache, read without locks, and a 1024-entry mutable value cache whose hits are validated with a single atomic load of the shard root.
+    *   **Per-thread caches**: each thread has a 1024-entry attribute cache, read without locks, and a 1024-entry mutable value cache whose hits are validated with a single atomic load of the shard root. Neither cache is a GC root: each thread clears its caches when it resumes after a stop-the-world, so they keep no garbage alive.
 
 3.  **Concurrent garbage collector with a snapshot of mutable state**: a dedicated GC thread runs mark, sweep and bulk unmark concurrently with application threads. protoCore routes all mutable state through `MUTABLE_ROOT_SHARDS = 256` shards, so the stop-the-world phase captures the roots and a 256-pointer snapshot of the shard table, and no write barriers are needed. [docs/GarbageCollector.md](docs/GarbageCollector.md) breaks the pause into its components and estimates 30–250 μs for typical workloads; these are per-component estimates, not measured percentiles.
 

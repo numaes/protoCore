@@ -360,6 +360,13 @@ namespace proto
             GC_LOCK_TRACE("safepoint STW REL");
         }
         this->space->parkedThreads--;
+        // Resumed after a stop-the-world: drop this thread's cache entries
+        // before the next lookup (the caches are not GC roots).
+        if (this->thread) {
+            if (auto* ext = toImpl<ProtoThreadImplementation>(this->thread)->extension) {
+                ext->clearCachesAfterStopTheWorld(this->space);
+            }
+        }
     }
 
     // 2026-05-25: thin wrappers around the thread-level unmanaged-region
@@ -430,6 +437,13 @@ namespace proto
                 GC_LOCK_TRACE("allocCell STW REL");
             }
             this->space->parkedThreads--;
+            // Resumed after a stop-the-world: drop this thread's cache entries
+            // before the next lookup (the caches are not GC roots).
+            if (this->thread) {
+                if (auto* ext = toImpl<ProtoThreadImplementation>(this->thread)->extension) {
+                    ext->clearCachesAfterStopTheWorld(this->space);
+                }
+            }
         }
 
         Cell* newCell = nullptr;

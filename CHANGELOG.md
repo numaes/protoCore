@@ -134,6 +134,82 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **The per-thread caches are no longer GC roots.**
+
+  **Problem.** `ProtoThreadExtension::processReferences` traced every
+  `AttributeCacheEntry` (object, result, name) and every
+  `MutableValueCacheEntry` (shard_root, current_value) in the concurrent
+  mark. A cached old shard root kept a whole old version of its shard alive.
+  After mutables-tree entries started being released, that kept released
+  states alive: a probe that writes and drops 1,000,000 mutable objects kept
+  256,581 cells live after settling, against 437 for an immutable control. The
+  marker also read slots that their owning threads rewrite concurrently.
+
+  **Change (maintainer's option Q).**
+  - The caches are no longer traced.
+  - Each thread clears both of its caches when it resumes after a
+    stop-the-world, before it can look anything up again. It does so when it
+    leaves the allocation poll's park, `ProtoContext::safepoint()`,
+    `ProtoThread::synchToGC()` or a heap-headroom wait, and when it returns
+    from an unmanaged region.
+  - A per-thread copy of `gcCycleCount`
+    (`ProtoThreadExtension::lastClearedEpoch`) limits the clear to once per
+    cycle.
+  - Parking itself does not change: when threads park, the stop-the-world
+    quorum and what runs under stop-the-world are unchanged. Only what a
+    thread does right after it resumes changes.
+  - Entry layouts and lookup paths are unchanged.
+
+  **Why it is sound.** Every entry a lookup sees was written after the last
+  stop-the-world, so the cells it names were marked or young then, and none is
+  freed or has its address reused before the next stop-the-world clears the
+  entry. A thread inside a critical section delays the stop-the-world, so it
+  cannot miss a clear.
+
+  **Note for embedders.** A value read from shared mutable state and held in
+  C++ across allocations was sometimes kept alive, incidentally, by the
+  reading thread's own cache entry. That is no longer the case. The existing
+  rule applies unchanged: root such values or keep them inside a critical
+  section.
+
+  **ABI change.** `ProtoThreadExtension` (internal) uses its last free 8 bytes
+  for `lastClearedEpoch`, and stays within its 64-byte cell. Embedders must
+  rebuild.
+
+  **Tests.** New `test/ThreadCacheClearTests.cpp`:
+  - both caches are empty once their owner resumes from a cycle;
+  - new objects at reused addresses never get a stale cached attribute;
+  - a thread returning from an unmanaged region across cycles has its caches
+    cleared;
+  - a thread whose heap-headroom wait spans a cycle has its caches cleared.
+
+  `ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark` now checks that the
+  marker never reads the caches.
+
+  **Measured.** A probe that writes and drops 1,000,000 mutable objects now
+  settles at 437 live cells, equal to the immutable control, with no cache
+  refresh of any kind; it settled at 256,581 before. Maximum RSS 107 MB.
+
+  Hot paths are unchanged. `perf stat -r 5` instructions, the same binaries
+  run against the library at `e0793341` and against this commit:
+
+  | Benchmark | e0793341 | this commit | Change |
+  |---|---:|---:|---:|
+  | `microbenchmark_final` | 8,704,375,885 | 8,703,402,870 | −0.01% |
+  | `mutable_access_benchmark` | 17,048,728,009 | 17,045,648,828 | −0.02% |
+  | `cache_timing_benchmark` | 4,627,674,728 | 4,626,199,150 | −0.03% |
+  | `hash_quality_benchmark` | 1,692,479,243 | 1,694,592,140 | +0.12% |
+  | `object_access_benchmark` | 60,376,632,041 | 60,377,961,373 | +0.00% |
+  | protoPython `attr_lookup` | 18,282,758,398 | 18,277,865,604 | −0.03% |
+  | protoPython `richards_lite` | 240,453,130 | 240,306,415 | −0.06% |
+  | protoClojure `fib` | 4,835,137,649 | 4,832,224,960 | −0.06% |
+  | protoST `attr_lookup` | 692,787,317 | 689,030,577 | −0.54% |
+
+  Instruction stddev is at most 0.09% on every row.
+
+  **Cost of the clear.** One clear of both tables (57,344 bytes) takes about
+  800 ns. In a probe with 16 threads and forced cycles under a heap limit, 16
+  cycles produced 248 clears, about 0.2 ms of a 1,183 ms run.
 - **Per-thread refill batches are sized to the heap limit.**
 
   **Cause.** A thread allocates from a private freelist that `getFreeCells`

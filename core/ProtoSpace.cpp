@@ -1453,6 +1453,14 @@ namespace proto {
         if (ctx && ctx->thread) {
             // The thread's park-only entry.
             ctx->thread->synchToGC();
+            // A whole cycle may have run while this thread was out of the
+            // running set, with no stop-the-world left to park for when it
+            // returns, so synchToGC's own clear may not have run: drop this
+            // thread's cache entries if a stop-the-world completed (the caches
+            // are not GC roots).  A context without a thread has no caches.
+            if (auto* ext = toImpl<ProtoThreadImplementation>(ctx->thread)->extension) {
+                ext->clearCachesAfterStopTheWorld(space);
+            }
         } else if (ctx && space->stwFlag.load() &&
                    !(space->gcThread && std::this_thread::get_id() == space->gcThread->get_id())
                    && ctx->criticalSectionDepth == 0) {

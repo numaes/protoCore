@@ -194,12 +194,14 @@ TEST(ConcurrentMarkSafety, NoLostMutableReferences) {
 }
 
 // The per-thread attribute and mutable-value caches are rewritten by their
-// owning thread at any time, and the concurrent mark traces them through
-// ProtoThreadExtension::processReferences.  A collector that reads a cache
-// slot twice (once to test for a cell pointer, once to convert it) can
-// observe a cell on the first read and nullptr or an embedded value on the
-// second, and then pushes nullptr on its work list.  Popping it crashed the
-// mark loop (SIGSEGV at address 0x8).
+// owning thread at any time.  They are not GC roots: ProtoThreadExtension::
+// processReferences reports nothing from them, and each thread clears its own
+// caches when it resumes after a stop-the-world, so the concurrent mark never
+// reads a cache slot.  This test keeps flipping slots while cycles run, as a
+// regression check that the marker does not read the caches.  Historically
+// the marker traced them, and a slot that changed between two reads of the
+// same slot made it push nullptr on its work list, which crashed the mark
+// loop (SIGSEGV at address 0x8).
 //
 // The helper thread below writes the main thread's caches directly.  Its
 // writes deliberately model the owner thread's own cache updates (cache
