@@ -232,7 +232,7 @@ namespace proto
     }
 
     void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (ProtoObject::isCellPointer(value)) method(context, self, ProtoObject::asCellPointer(value));
+        if (const Cell* c = ProtoObject::asCellPointer(value)) method(context, self, c);
         if (previous) {
             method(context, self, previous);
         }
@@ -397,9 +397,8 @@ namespace proto
             // keys[i] == 0 marks an empty slot; values[i] is also nullptr
             // there per the construction contract.  Skip empties.
             if (keys[i] == 0) continue;
-            const ProtoObject* v = values[i];
-            if (ProtoObject::isCellPointer(v)) {
-                method(context, self, ProtoObject::asCellPointer(v));
+            if (const Cell* c = ProtoObject::asCellPointer(values[i])) {
+                method(context, self, c);
             }
         }
     }

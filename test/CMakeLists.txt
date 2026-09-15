@@ -30,6 +30,11 @@ target_link_libraries(proto_tests PRIVATE protoCore gtest gtest_main)
 if(PROTOCORE_GC_REINCLUDE_SURVIVORS)
     target_compile_definitions(proto_tests PRIVATE PROTOCORE_GC_REINCLUDE_SURVIVORS)
 endif()
+# Same for the GC instrumentation: diagnostics that abort only in
+# instrumented builds are asserted with death tests there.
+if(PROTOCORE_GC_INSTRUMENT)
+    target_compile_definitions(proto_tests PRIVATE PROTOCORE_GC_INSTRUMENT)
+endif()
 
 # Coverage instrumentation when COVERAGE=ON (set in parent CMakeLists.txt)
 if(COVERAGE AND DEFINED COVERAGE_FLAGS)

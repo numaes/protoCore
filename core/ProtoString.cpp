@@ -685,14 +685,14 @@ namespace proto {
     ) const {
         // Mark the root string object.
         if (this->base && !isInlineString(this->base)) {
-            const Cell* c = this->base->asCell(context);
-            if (c && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(c))) {
-                method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(c)));
+            if (const Cell* c = this->base->asCell(context)) {
+                method(context, self, c);
             }
         }
         // Mark the cached leaf so the GC does not collect it while the iterator is live.
-        if (this->currentLeaf) {
-            method(context, self, this->currentLeaf);
+        // currentLeaf is advanced in place by the iterator, so load it once.
+        if (const Cell* leaf = this->currentLeaf) {
+            method(context, self, leaf);
         }
     }
 
@@ -821,8 +821,8 @@ namespace proto {
         void* self,
         void (*method)(ProtoContext*, void*, const Cell*)
     ) const {
-        if (avl_root && ProtoObject::isCellPointer(avl_root)) {
-            method(context, self, ProtoObject::asCellPointer(avl_root));
+        if (const Cell* c = ProtoObject::asCellPointer(avl_root)) {
+            method(context, self, c);
         }
     }
 
@@ -1364,10 +1364,10 @@ namespace proto {
 
     void StringInternalNode::processReferences(ProtoContext* context, void* self,
                                                void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (left && ProtoObject::isCellPointer(left))
-            method(context, self, ProtoObject::asCellPointer(left));
-        if (right && ProtoObject::isCellPointer(right))
-            method(context, self, ProtoObject::asCellPointer(right));
+        if (const Cell* c = ProtoObject::asCellPointer(left))
+            method(context, self, c);
+        if (const Cell* c = ProtoObject::asCellPointer(right))
+            method(context, self, c);
     }
 
     // =========================================================================

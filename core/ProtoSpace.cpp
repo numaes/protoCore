@@ -108,6 +108,76 @@ namespace proto {
             space->freeCellsCount += count;
         }
 
+        const char* cellTypeName(CellType type) {
+            switch (type) {
+                case CellType::None: return "None";
+                case CellType::Object: return "Object";
+                case CellType::List: return "List";
+                case CellType::Tuple: return "Tuple";
+                case CellType::String: return "String";
+                case CellType::SparseList: return "SparseList";
+                case CellType::Method: return "Method";
+                case CellType::ExternalPointer: return "ExternalPointer";
+                case CellType::ExternalBuffer: return "ExternalBuffer";
+                case CellType::Thread: return "Thread";
+                case CellType::LargeInteger: return "LargeInteger";
+                case CellType::Double: return "Double";
+                case CellType::Set: return "Set";
+                case CellType::Multiset: return "Multiset";
+                case CellType::MethodCell: return "MethodCell";
+                case CellType::SparseListIterator: return "SparseListIterator";
+                case CellType::ListIterator: return "ListIterator";
+                case CellType::TupleIterator: return "TupleIterator";
+                case CellType::StringIterator: return "StringIterator";
+                case CellType::RangeIterator: return "RangeIterator";
+                case CellType::SetIterator: return "SetIterator";
+                case CellType::MultisetIterator: return "MultisetIterator";
+                case CellType::ReturnReference: return "ReturnReference";
+                case CellType::ParentLink: return "ParentLink";
+                case CellType::ThreadExtension: return "ThreadExtension";
+                case CellType::ByteBuffer: return "ByteBuffer";
+                case CellType::TupleDictionary: return "TupleDictionary";
+                case CellType::StringLeafNode: return "StringLeafNode";
+                case CellType::StringInternalNode: return "StringInternalNode";
+                case CellType::ListSmall: return "ListSmall";
+                case CellType::SparseListSmall: return "SparseListSmall";
+            }
+            return "unknown";
+        }
+
+        // Push a child that `parent->processReferences` reported onto the
+        // mark work list.  Called from the GC thread only.
+        //
+        // A reported child is never nullptr: every implementation loads each
+        // reference field once and reports it only when
+        // ProtoObject::asCellPointer yields a cell.  A null here therefore
+        // means a broken implementation.  Instrumented and debug builds stop
+        // and name the reporting cell's type, so the offender is identified
+        // instead of masked; other builds push it, and the work-list pop
+        // skips null entries.
+        inline void pushReportedReference(std::vector<const Cell*>* workList,
+                                          const Cell* parent,
+                                          const Cell* ref,
+                                          const char* phase) {
+            if (reinterpret_cast<uintptr_t>(ref) & 1) {
+                std::cerr << "CRITICAL TAGGED POINTER (" << phase << "): " << ref
+                          << " from parent " << parent
+                          << " type " << (int)parent->getType() << std::endl;
+                std::abort();
+            }
+#if defined(PROTOCORE_GC_INSTRUMENT) || !defined(NDEBUG)
+            if (!ref) {
+                std::fprintf(stderr,
+                    "protoCore GC: null reference reported by a cell of type %d (%s) at %p during %s\n",
+                    static_cast<int>(parent->getType()), cellTypeName(parent->getType()),
+                    static_cast<void*>(const_cast<Cell*>(parent)), phase);
+                std::fflush(stderr);
+                std::abort();
+            }
+#endif
+            workList->push_back(ref);
+        }
+
         // Collection pacing without a heap limit (see ProtoSpace::gcGrowthPercent).
         //
         // Charge `cells` handed to a thread by getFreeCells against the
@@ -261,8 +331,7 @@ namespace proto {
                                 state.parent = scanCell;
                                 scanCell->processReferences(space->rootContext, &state, [](ProtoContext* ctx, void* self, const Cell* ref) {
                                     auto* s = static_cast<GCLambdaState*>(self);
-                                    if (reinterpret_cast<uintptr_t>(ref) & 1) { std::cerr << "CRITICAL TAGGED POINTER 2 (Y): " << ref << " from parent " << s->parent << " type " << (int)s->parent->getType() << std::endl; std::abort(); }
-                                    s->wl->push_back(ref);
+                                    pushReportedReference(s->wl, s->parent, ref, s->phase);
                                 });
                                 scanCell = scanCell->getNext();
                             }
@@ -500,11 +569,7 @@ namespace proto {
                             pst.parent = scanCell;
                             scanCell->processReferences(space->rootContext, &pst, [](ProtoContext* ctx, void* self, const Cell* ref) {
                                 auto* s = static_cast<PenScanState*>(self);
-                                if (reinterpret_cast<uintptr_t>(ref) & 1) {
-                                    std::cerr << "CRITICAL TAGGED POINTER (pen): " << ref << " from parent " << s->parent << " type " << (int)s->parent->getType() << std::endl;
-                                    std::abort();
-                                }
-                                s->wl->push_back(ref);
+                                pushReportedReference(s->wl, s->parent, ref, "Phase2(pen)");
                             });
                             scanCell = scanCell->getNext();
                         }
@@ -612,6 +677,11 @@ namespace proto {
                 while (!workList.empty()) {
                     const Cell* cell = workList.back();
                     workList.pop_back();
+                    // The single filter for null work-list entries, whatever
+                    // pushed them: a root holding a tagged null (non-embedded
+                    // tag, no pointer bits) or, in builds that do not abort on
+                    // it, a null child reported by processReferences.
+                    if (!cell) continue;
                     // Prefetch the NEXT cell to be popped — the mark
                     // phase, like sweep, is a pointer-chasing loop
                     // where each iteration loads
@@ -632,11 +702,7 @@ namespace proto {
                         struct GCLambdaState { std::vector<const Cell*>* wl; const Cell* parent; } state = {&workList, cell};
                         cell->processReferences(space->rootContext, &state, [](ProtoContext* ctx, void* self, const Cell* ref) {
                             auto* s = static_cast<GCLambdaState*>(self);
-                            if (reinterpret_cast<uintptr_t>(ref) & 1) {
-                                std::cerr << "CRITICAL TAGGED POINTER 2: " << ref << " from parent " << s->parent << " type " << (int)s->parent->getType() << std::endl;
-                                std::abort();
-                            }
-                            s->wl->push_back(ref);
+                            pushReportedReference(s->wl, s->parent, ref, "Phase4(mark)");
                         });
                     }
                 }

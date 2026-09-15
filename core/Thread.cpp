@@ -104,15 +104,19 @@ namespace proto {
             const Cell* cell
             )
     ) const {
+        // The owning thread rewrites these slots at any time, so every slot
+        // is loaded exactly once: asCellPointer returns nullptr for null and
+        // embedded values, and a slot that changes after the load cannot
+        // turn a tested cell pointer into a reported nullptr.
         for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
-            if (ProtoObject::isCellPointer(this->attributeCache[i].object)) {
-                method(context, self, ProtoObject::asCellPointer(this->attributeCache[i].object));
+            if (const Cell* c = ProtoObject::asCellPointer(this->attributeCache[i].object)) {
+                method(context, self, c);
             }
-            if (ProtoObject::isCellPointer(this->attributeCache[i].result)) {
-                method(context, self, ProtoObject::asCellPointer(this->attributeCache[i].result));
+            if (const Cell* c = ProtoObject::asCellPointer(this->attributeCache[i].result)) {
+                method(context, self, c);
             }
-            if (ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name))) {
-                method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name)));
+            if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name))) {
+                method(context, self, c);
             }
         }
         // Trace MutableValueCache entries as GC roots: the cached shard_root and current_value
@@ -120,12 +124,11 @@ namespace proto {
         if (this->mutableValueCache) {
             for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
                 if (this->mutableValueCache[i].mutable_ref == 0) continue;
-                const ProtoObject* sr = reinterpret_cast<const ProtoObject*>(this->mutableValueCache[i].shard_root);
-                if (ProtoObject::isCellPointer(sr)) {
-                    method(context, self, ProtoObject::asCellPointer(sr));
+                if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->mutableValueCache[i].shard_root))) {
+                    method(context, self, c);
                 }
-                if (ProtoObject::isCellPointer(this->mutableValueCache[i].current_value)) {
-                    method(context, self, ProtoObject::asCellPointer(this->mutableValueCache[i].current_value));
+                if (const Cell* c = ProtoObject::asCellPointer(this->mutableValueCache[i].current_value)) {
+                    method(context, self, c);
                 }
             }
         }

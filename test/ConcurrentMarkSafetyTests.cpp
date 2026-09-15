@@ -18,6 +18,8 @@
 #include "../headers/proto_internal.h"
 #include <atomic>
 #include <chrono>
+#include <cstdlib>
+#include <string>
 #include <thread>
 #include <vector>
 
@@ -28,6 +30,29 @@ namespace {
 const ProtoString* sym(ProtoContext* ctx, const char* s) {
     return ProtoString::createSymbol(ctx, s);
 }
+
+// Sets (or, with value == nullptr, unsets) an environment variable for the
+// lifetime of the guard.  The GC pacing variables are read only by the
+// ProtoSpace constructor.
+class ScopedEnv {
+public:
+    ScopedEnv(const char* name, const char* value) : name_(name) {
+        if (const char* old = std::getenv(name)) {
+            hadOld_ = true;
+            old_ = old;
+        }
+        if (value) setenv(name, value, 1);
+        else unsetenv(name);
+    }
+    ~ScopedEnv() {
+        if (hadOld_) setenv(name_, old_.c_str(), 1);
+        else unsetenv(name_);
+    }
+private:
+    const char* name_;
+    bool hadOld_ = false;
+    std::string old_;
+};
 
 }  // namespace
 
@@ -191,4 +216,78 @@ TEST(ConcurrentMarkSafety, NoLostMutableReferences) {
     EXPECT_EQ(brokenChain.load(), 0u)
         << "mutable reference chain must remain readable across concurrent "
            "mark cycles — snapshot must root the m1->m2->m3 graph";
+}
+
+// The per-thread attribute and mutable-value caches are rewritten by their
+// owning thread at any time.  A collector that reads a cache slot twice
+// (once to test for a cell pointer, once to convert it) can observe a cell
+// on the first read and nullptr or an embedded value on the second, and
+// then pushes nullptr on its work list.  Popping it crashed the mark loop
+// (SIGSEGV at address 0x8, within about 25 ms of this test on dbc12c89).
+//
+// The helper thread below writes the main thread's caches directly.  Its
+// writes deliberately model the owner thread's own cache updates (cache
+// fills with a cell result, negative cache entries with nullptr, evictions),
+// at a rate that makes the race window observable.  Surviving is the
+// assertion; the cycle count proves the collector actually ran.
+TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
+    ScopedEnv budget("PROTOCORE_GC_MIN_BUDGET_CELLS", "4096");
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    ASSERT_NE(root->thread, nullptr);
+    ProtoThreadExtension* ext = toImpl<ProtoThreadImplementation>(root->thread)->extension;
+    ASSERT_NE(ext, nullptr);
+
+    const ProtoObject* cellValue = space.objectPrototype;
+    ProtoSparseList* shardRoot = space.mutableRoot[0].root.load();
+
+    // 0: flip attributeCache[i].result, 1: flip mutableValueCache[i], 2: stop.
+    std::atomic<int> phase{0};
+    std::thread flipper([&]() {
+        bool toCell = true;
+        int current;
+        while ((current = phase.load(std::memory_order_relaxed)) != 2) {
+            for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
+                if (current == 0) {
+                    ext->attributeCache[i].result = toCell ? cellValue : nullptr;
+                } else {
+                    // mutable_ref i + 1 never matches its slot index, so the
+                    // owner's lookups never hit these entries.
+                    ext->mutableValueCache[i] = {static_cast<unsigned long>(i + 1), shardRoot,
+                                                 toCell ? cellValue : PROTO_NONE};
+                }
+            }
+            toCell = !toCell;
+        }
+    });
+
+    const uint64_t cyclesStart = space.getGCCycleCount();
+    for (int p = 0; p < 2; ++p) {
+        phase.store(p, std::memory_order_relaxed);
+        const uint64_t phaseStart = space.getGCCycleCount();
+        const auto phaseEnd = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+        while (std::chrono::steady_clock::now() < phaseEnd &&
+               space.getGCCycleCount() - phaseStart < 500) {
+            // Garbage in a short-lived context: destroying it submits the
+            // young generation, and the 4096-cell budget starts a cycle on
+            // nearly every refill.  Safepoints let the cycles stop the world.
+            ProtoContext sub(&space, root, nullptr, nullptr, nullptr, nullptr);
+            for (int j = 0; j < 4096; ++j) {
+                (void) sub.newObject(false);
+                if ((j & 0x3F) == 0) sub.safepoint();
+            }
+        }
+    }
+    phase.store(2, std::memory_order_relaxed);
+    flipper.join();
+
+    for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
+        ext->attributeCache[i] = {nullptr, nullptr, nullptr, nullptr};
+    }
+    for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
+        ext->mutableValueCache[i] = {0, nullptr, nullptr};
+    }
+
+    EXPECT_GE(space.getGCCycleCount() - cyclesStart, 100u)
+        << "too few collection cycles ran for the test to exercise the race";
 }

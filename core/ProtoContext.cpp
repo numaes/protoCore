@@ -781,8 +781,8 @@ namespace proto
 
     void ReturnReference::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
     {
-        if (returnValue && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(returnValue))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(returnValue)));
+        if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(returnValue))) {
+            method(context, self, c);
         }
     }
 

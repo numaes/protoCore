@@ -214,12 +214,12 @@ namespace proto {
     }
 
     void ProtoListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (ProtoObject::isCellPointer(value)) method(context, self, ProtoObject::asCellPointer(value));
-        if (previousNode && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(previousNode))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(previousNode)));
+        if (const Cell* c = ProtoObject::asCellPointer(value)) method(context, self, c);
+        if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(previousNode))) {
+            method(context, self, c);
         }
-        if (nextNode && ProtoObject::isCellPointer(reinterpret_cast<const ProtoObject*>(nextNode))) {
-            method(context, self, ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(nextNode)));
+        if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(nextNode))) {
+            method(context, self, c);
         }
     }
 
@@ -296,9 +296,8 @@ namespace proto {
         void (*method)(ProtoContext*, void*, const Cell*)) const
     {
         for (unsigned long i = 0; i < size; ++i) {
-            const ProtoObject* v = slots[i];
-            if (ProtoObject::isCellPointer(v)) {
-                method(context, self, ProtoObject::asCellPointer(v));
+            if (const Cell* c = ProtoObject::asCellPointer(slots[i])) {
+                method(context, self, c);
             }
         }
     }
@@ -407,8 +406,8 @@ namespace proto {
     }
 
     void ProtoListIteratorImplementation::processReferences(ProtoContext* context, void* callback_data, void (*callback)(ProtoContext*, void*, const Cell*)) const {
-        if (ProtoObject::isCellPointer(base)) {
-            callback(context, callback_data, ProtoObject::asCellPointer(base));
+        if (const Cell* c = ProtoObject::asCellPointer(base)) {
+            callback(context, callback_data, c);
         }
     }
 

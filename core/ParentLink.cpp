@@ -65,16 +65,11 @@ std::mutex dbg_mutex;
             method(context, self, this->parent);
         }
 
-        // Report the prototype object this link represents.
-        if (this->object) {
-            if (reinterpret_cast<uintptr_t>(this->object) & 1) {
-                std::cerr << "BINGO! Tagged pointer in this->object: " << this->object 
-                          << " isCellPointer=" << ProtoObject::isCellPointer(this->object) << "\n";
-            }
-        }
-        if (this->object && ProtoObject::isCellPointer(this->object))
+        // Report the prototype object this link represents.  Read the field
+        // once: asCellPointer returns nullptr for null and embedded values.
+        if (const Cell* c = ProtoObject::asCellPointer(this->object))
         {
-            method(context, self, ProtoObject::asCellPointer(this->object));
+            method(context, self, c);
         }
     }
 

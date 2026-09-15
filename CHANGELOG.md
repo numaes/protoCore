@@ -109,6 +109,22 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **The collector no longer dereferences a null work-list entry** — the
+  concurrent mark crashed with a segmentation fault at address 0x8 (reading
+  `Cell::next_and_flags` of a null `Cell*`, `gcThreadLoop+0xdf8`), seen as
+  0.2–0.3 % of protoPython runs with `PROTOCORE_GC_MIN_BUDGET_CELLS=4096`.
+  `ProtoThreadExtension::processReferences` read every per-thread cache slot
+  twice, once for `ProtoObject::isCellPointer` and once for `asCellPointer`,
+  while the owning thread kept rewriting the slot; a slot that changed to
+  `nullptr` or an embedded value between the two reads was reported as a null
+  child and pushed on the work list. Every `processReferences` implementation
+  now loads each reference field once (`if (const Cell* c =
+  ProtoObject::asCellPointer(field)) method(ctx, self, c);`), which also stops
+  a tagged null (a non-embedded tag with no pointer bits) from being reported.
+  The mark loop skips null entries at its single pop site, which also covers
+  roots holding a tagged null. In builds with `PROTOCORE_GC_INSTRUMENT` or
+  without `NDEBUG`, a `processReferences` that reports `nullptr` aborts with a
+  message naming the reporting cell's type.
 - **The GC cycle counter advances in every build configuration** — the only
   increment of `gcCycleCount` sat inside the `PROTOCORE_GC_REINCLUDE_SURVIVORS`
   block, so with `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` `getGCCycleCount()`
@@ -191,6 +207,15 @@ All notable changes to protoCore are documented in this file.
   fewer L1 data-cache misses.
 
 ### Tests
+- `ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark` flips the main
+  thread's attribute-cache and mutable-value-cache slots between a cell and a
+  non-cell from a helper thread while cycles run every few thousand cells; it
+  crashed within about 25 ms before the null work-list fix.
+  `GCMark.NullReferenceIsSkipped` pins a tagged null in a root set (it crashed
+  before the fix), and
+  `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
+  instrumented and debug builds name a cell type whose `processReferences`
+  reports `nullptr`.
 - `GCHeapGrowthTriggerTest` (five cases): with no heap limit, garbage
   allocation with a constant live set starts cycles and keeps the heap bounded
   without collecting live objects. The main case failed before the fix with 0
